@@ -1,0 +1,33 @@
+$version: "2"
+
+namespace com.unison
+
+/// Withdraw funds from the self-contribution pool only.
+/// Cannot withdraw from the others-contribution pool.
+@http(method: "POST", uri: "/accounts/{account_id}/withdrawals", code: 201)
+operation Withdraw {
+    input := {
+        @required
+        @httpLabel
+        account_id: String
+
+        @required
+        amount: Money
+
+        idempotency_key: String
+    }
+
+    output := {
+        @required
+        account_id: String
+
+        @required
+        amount: Money
+    }
+
+    errors: [
+        AccountNotFoundError
+        AccountNotActiveError
+        InsufficientFundsError
+    ]
+}

@@ -1,0 +1,109 @@
+$version: "2"
+
+namespace com.unison
+
+/// Monetary amount in the smallest currency unit (e.g., paise for INR).
+long Money
+
+/// ISO 8601 date-time.
+@timestampFormat("date-time")
+timestamp DateTime
+
+/// Transaction type.
+@enum([
+    {
+        value: "deposit"
+        name: "DEPOSIT"
+    }
+    {
+        value: "payment"
+        name: "PAYMENT"
+    }
+    {
+        value: "withdrawal"
+        name: "WITHDRAWAL"
+    }
+])
+string TransactionType
+
+/// Transaction status.
+@enum([
+    {
+        value: "pending"
+        name: "PENDING"
+    }
+    {
+        value: "posted"
+        name: "POSTED"
+    }
+    {
+        value: "voided"
+        name: "VOIDED"
+    }
+    {
+        value: "settled"
+        name: "SETTLED"
+    }
+])
+string TransactionStatus
+
+/// Pool type indicating the source of funds.
+@enum([
+    {
+        value: "self"
+        name: "SELF_POOL"
+    }
+    {
+        value: "others"
+        name: "OTHERS_POOL"
+    }
+])
+string PoolType
+
+/// Transaction direction.
+@enum([
+    {
+        value: "inbound"
+        name: "INBOUND"
+    }
+    {
+        value: "outbound"
+        name: "OUTBOUND"
+    }
+])
+string TransactionDirection
+
+/// Funding source type for deposits.
+@enum([
+    {
+        value: "trust"
+        name: "TRUST"
+    }
+    {
+        value: "third_party"
+        name: "THIRD_PARTY"
+    }
+])
+string FundingType
+
+/// Account status.
+enum Status {
+    ACTIVE
+    FROZEN
+    CLOSED
+}
+
+/// KYC tier level.
+enum KycTier {
+    MINIMUM
+    FULL
+}
+
+/// Standard error structure.
+structure ErrorResponse {
+    @required
+    error: String
+
+    @required
+    message: String
+}
