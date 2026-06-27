@@ -1,5 +1,21 @@
 package com.example.smithy.markdown;
 
+import java.util.TreeSet;
+
+import software.amazon.smithy.build.FileManifest;
+import software.amazon.smithy.build.PluginContext;
+import software.amazon.smithy.model.Model;
+import software.amazon.smithy.model.knowledge.TopDownIndex;
+import software.amazon.smithy.model.node.ObjectNode;
+import software.amazon.smithy.model.shapes.MemberShape;
+import software.amazon.smithy.model.shapes.OperationShape;
+import software.amazon.smithy.model.shapes.ServiceShape;
+import software.amazon.smithy.model.shapes.ShapeId;
+import software.amazon.smithy.model.shapes.StructureShape;
+import software.amazon.smithy.model.traits.DocumentationTrait;
+import software.amazon.smithy.model.traits.HttpTrait;
+import software.amazon.smithy.model.traits.RequiredTrait;
+
 public final class MarkdownGenerator {
 	private final Model model;
 	private final ServiceShape service;
@@ -72,5 +88,16 @@ public final class MarkdownGenerator {
 		}
 		out.append("\n");
 	}
-	// writeShapes() omitted for brevity — same pattern over structures, enums, etc.
+
+	private void writeShapes(StringBuilder out) {
+		out.append("## Shapes\n\n");
+		for (StructureShape struct : new TreeSet<>(model.getStructureShapes())) {
+			out.append("### ").append(struct.getId().getName()).append("\n\n");
+			struct.getTrait(DocumentationTrait.class)
+					.ifPresent(t -> out.append(t.getValue()).append("\n\n"));
+			if (!struct.getAllMembers().isEmpty()) {
+				writeMembers(out, struct);
+			}
+		}
+	}
 }

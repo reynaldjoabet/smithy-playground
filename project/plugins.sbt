@@ -1,1 +1,2 @@
 addSbtPlugin("com.disneystreaming.smithy4s" % "smithy4s-sbt-codegen" % "0.19.2")
+addSbtPlugin("org.scalameta" % "sbt-scalafmt" % "2.6.1")

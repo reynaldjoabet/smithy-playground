@@ -1,9 +1,9 @@
 import Dependencies.*
 
-scalaVersion := "3.3.7"
+scalaVersion := "3.3.8"
 version := "0.1.0-SNAPSHOT"
 
-ThisBuild / javacOptions ++= Seq("--release", "17", "--release", "21")
+ThisBuild / javacOptions ++= Seq("--release", "17")
 
 val smithyVersion = "1.58.0"
 
@@ -37,48 +37,8 @@ val commonDependencies: Seq[ModuleID] = Seq(
 )
 
 lazy val root = rootProject
-  .aggregate(
-    `smithy-payments-api`,
-    `smithy-payments-impl`,
-    `smithy-openapi-playground`,
-    `smithy-identity-api`,
-    `smithy-ledger-api`
-  )
   .settings(
     name := "smithy-playground",
     libraryDependencies += munit % Test,
     libraryDependencies ++= commonDependencies
   )
-
-lazy val `smithy-payments-api` = (project in file("smithy-payments-api"))
-  .settings(
-    name := "smithy-payments-api",
-    libraryDependencies ++= commonDependencies
-  )
-
-lazy val `smithy-payments-impl` = (project in file("smithy-payments-impl"))
-  .settings(
-    name := "smithy-payments-impl",
-    libraryDependencies ++= commonDependencies
-  )
-  .dependsOn(`smithy-payments-api`)
-
-lazy val `smithy-openapi-playground` =
-  (project in file("smithy-openapi-playground"))
-    .settings(
-      name := "smithy-openapi-playground",
-      libraryDependencies ++= commonDependencies
-    )
-
-lazy val `smithy-identity-api` = (project in file("smithy-identity-api"))
-  .settings(
-    name := "smithy-identity-api",
-    libraryDependencies ++= commonDependencies
-  )
-
-lazy val `smithy-ledger-api` = (project in file("smithy-ledger-api"))
-  .settings(
-    name := "smithy-ledger-api",
-    libraryDependencies ++= commonDependencies
-  )
-// See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.
