@@ -651,3 +651,18 @@ The `PluginContext` gives you the model, the configured service shape, the outpu
 
 A `SymbolProvider`. This maps each ShapeId to a Symbol representing its target-language identity — the type name, the namespace/module, and the dependencies needed to use it. You implement toSymbol(Shape) and Smithy's framework calls it whenever the generator needs to refer to a shape. Reserved-word handling, naming conventions (PascalCase vs snake_case), and disambiguation all live here.
 A `SymbolWriter`. Smithy provides language-specific extensions (`TypeScriptWriter`, `RustWriter`, etc., from the official codegen libraries; or you subclass the generic `SymbolWriter` for a new language). It tracks imports automatically: when you write `$T` referencing a Symbol, the writer records the import and emits it at file top
+
+
+In modern versions of SLF4J, the framework utilizes the standard `Java java.util.ServiceLoader` mechanism.
+
+- The Core: The `slf4j-api` JAR contains a request for a service provider called `org.slf4j.spi.SLF4JServiceProvider`
+
+- The Binding JAR: When you choose a logging engine, you include its specific SLF4J binding artifact in your dependencies (for example, `logback-classic `or `log4j-slf4j-impl`).
+
+- The Metadata: Inside that binding JAR, there is a hidden directory called `META-INF/services/org.slf4j.spi.SLF4JServiceProvider`. Inside this file is a single line of text pointing to the concrete implementation class (e.g., `ch.qos.logback.classic.spi.LogbackServiceProvider`).
+
+- The Discovery: When your application starts up and calls `LoggerFactory.getLogger`, `SLF4J` scans the classpath, looks for that `META-INF` file, instantiates the engine it finds, and routes all future log calls to it
+
+"Java Service Provider Interface SPI [...] is used throughout the Smithy reference implementation as a plugin system."
+
+While SLF4J uses SPI to swap out the underlying logging engine, Smithy uses SPI to swap out or add code generators, protocols, validators, and custom traits.
