@@ -51,7 +51,7 @@ object SmithyToScalaCodegen {
       val shapes: Map[String, Shape] =
         if (shapesNode != null && !shapesNode.isNull) {
           shapesNode
-            .fields()
+            .properties()
             .asScala
             .foldLeft(Map.empty[String, Shape]) { (acc, entry) =>
               val id = entry.getKey()
@@ -61,7 +61,7 @@ object SmithyToScalaCodegen {
               val members: Map[String, Member] = if (shapeNode.has("members")) {
                 shapeNode
                   .get("members")
-                  .fields()
+                  .properties()
                   .asScala
                   .foldLeft(Map.empty[String, Member]) {
                     (memberAcc, memberEntry) =>
@@ -81,7 +81,7 @@ object SmithyToScalaCodegen {
                 if (shapeNode.has("values")) {
                   shapeNode
                     .get("values")
-                    .fields()
+                    .properties()
                     .asScala
                     .foldLeft(Map.empty[String, EnumValue]) {
                       (valueAcc, valueEntry) =>
@@ -188,7 +188,7 @@ object SmithyToScalaCodegen {
 
   def writeFile(path: String, content: String): Unit = {
     Files.createDirectories(Paths.get(path).getParent)
-    Files.write(Paths.get(path), content.getBytes)
+    Files.write(Paths.get(path), content.getBytes): Unit
   }
 
   @main def run(modelPath: String, outputDir: String): Unit = {

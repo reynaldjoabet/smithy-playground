@@ -3,7 +3,27 @@ import Dependencies.*
 scalaVersion := "3.3.8"
 version := "0.1.0-SNAPSHOT"
 
-ThisBuild / javacOptions ++= Seq("--release", "17")
+ThisBuild / semanticdbEnabled := true
+
+ThisBuild / scalacOptions := Seq(
+  "-encoding",
+  "UTF-8",
+  "-no-indent",
+  "-deprecation",
+  "-feature",
+  "-unchecked",
+  "-source:3.3",
+  "-java-output-version:17",
+  "-Werror",
+  "-Wvalue-discard",
+  "-Wnonunit-statement",
+  "-Xlint:all",
+  "-Ysafe-init",
+  "-Xcheck-macros",
+  "-Xmax-inlines:64"
+)
+
+Global / onChangedBuildSource := ReloadOnSourceChanges
 
 val smithyVersion = "1.72.0"
 
