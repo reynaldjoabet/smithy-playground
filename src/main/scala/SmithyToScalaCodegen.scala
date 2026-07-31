@@ -1,14 +1,15 @@
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Paths
+
 import scala.io.Source
 import scala.util.Using
 
-/** Generates Scala 3 case classes from Smithy model.json
+/**
+  * Generates Scala 3 case classes from Smithy model.json
   *
-  * Usage: scala SmithyToScalaCodegen.scala <path-to-model.json> <output-dir>
-  * scala SmithyToScalaCodegen.scala target/smithy/output/model.json
-  * src/main/scala/generated
+  * Usage: scala SmithyToScalaCodegen.scala <path-to-model.json> <output-dir> scala
+  * SmithyToScalaCodegen.scala target/smithy/output/model.json src/main/scala/generated
   */
 
 case class Shape(
@@ -44,8 +45,8 @@ object SmithyToScalaCodegen {
       import com.fasterxml.jackson.databind.{ObjectMapper, JsonNode}
       import scala.jdk.CollectionConverters.*
 
-      val mapper = new ObjectMapper()
-      val root: JsonNode = mapper.readTree(json)
+      val mapper               = new ObjectMapper()
+      val root: JsonNode       = mapper.readTree(json)
       val shapesNode: JsonNode = root.get("shapes")
 
       val shapes: Map[String, Shape] =
@@ -54,8 +55,8 @@ object SmithyToScalaCodegen {
             .properties()
             .asScala
             .foldLeft(Map.empty[String, Shape]) { (acc, entry) =>
-              val id = entry.getKey()
-              val shapeNode = entry.getValue()
+              val id                = entry.getKey()
+              val shapeNode         = entry.getValue()
               val shapeType: String = shapeNode.get("type").asText()
 
               val members: Map[String, Member] = if (shapeNode.has("members")) {
@@ -63,15 +64,14 @@ object SmithyToScalaCodegen {
                   .get("members")
                   .properties()
                   .asScala
-                  .foldLeft(Map.empty[String, Member]) {
-                    (memberAcc, memberEntry) =>
-                      val name = memberEntry.getKey()
-                      val memberNode = memberEntry.getValue()
-                      val target: String = memberNode.get("target").asText()
-                      val required: Boolean = memberNode.has(
-                        "required"
-                      ) && memberNode.get("required").asBoolean()
-                      memberAcc + (name -> Member(target, required))
+                  .foldLeft(Map.empty[String, Member]) { (memberAcc, memberEntry) =>
+                    val name              = memberEntry.getKey()
+                    val memberNode        = memberEntry.getValue()
+                    val target: String    = memberNode.get("target").asText()
+                    val required: Boolean = memberNode.has(
+                      "required"
+                    ) && memberNode.get("required").asBoolean()
+                    memberAcc + (name -> Member(target, required))
                   }
               } else {
                 Map.empty[String, Member]
@@ -83,12 +83,11 @@ object SmithyToScalaCodegen {
                     .get("values")
                     .properties()
                     .asScala
-                    .foldLeft(Map.empty[String, EnumValue]) {
-                      (valueAcc, valueEntry) =>
-                        val name = valueEntry.getKey()
-                        val valueNode = valueEntry.getValue()
-                        val target: String = valueNode.get("target").asText()
-                        valueAcc + (name -> EnumValue(target))
+                    .foldLeft(Map.empty[String, EnumValue]) { (valueAcc, valueEntry) =>
+                      val name           = valueEntry.getKey()
+                      val valueNode      = valueEntry.getValue()
+                      val target: String = valueNode.get("target").asText()
+                      valueAcc + (name -> EnumValue(target))
                     }
                 } else {
                   Map.empty[String, EnumValue]
@@ -116,21 +115,21 @@ object SmithyToScalaCodegen {
 
   def generateScalaClass(shape: Shape, smithyModel: SmithyModel): String = {
     shape.`type` match {
-      case "structure" => generateStructure(shape, smithyModel)
-      case "enum"      => generateEnum(shape)
-      case "list"      => generateList(shape, smithyModel)
-      case "map"       => generateMap(shape, smithyModel)
+      case "structure"                                          => generateStructure(shape, smithyModel)
+      case "enum"                                               => generateEnum(shape)
+      case "list"                                               => generateList(shape, smithyModel)
+      case "map"                                                => generateMap(shape, smithyModel)
       case "string" | "integer" | "long" | "boolean" | "double" => ""
-      case _ => s"// Unsupported shape type: ${shape.`type`}"
+      case _                                                    => s"// Unsupported shape type: ${shape.`type`}"
     }
   }
 
   private def generateStructure(shape: Shape, model: SmithyModel): String = {
     val className = extractClassName(shape.id)
-    val fields = shape.members
+    val fields    = shape.members
       .map { case (name, member) =>
-        val scalaType = resolveType(member.target, model)
-        val optional = if (member.required) "" else "Option["
+        val scalaType     = resolveType(member.target, model)
+        val optional      = if (member.required) "" else "Option["
         val optionalClose = if (member.required) "" else "]"
         s"  $name: $optional$scalaType$optionalClose"
       }
@@ -145,7 +144,7 @@ object SmithyToScalaCodegen {
 
   private def generateEnum(shape: Shape): String = {
     val className = extractClassName(shape.id)
-    val values = shape.values.keys
+    val values    = shape.values.keys
       .map { v =>
         s"  case ${v.toUpperCase}"
       }
@@ -165,9 +164,8 @@ object SmithyToScalaCodegen {
     }
   }
 
-  private def generateMap(shape: Shape, model: SmithyModel): String = {
+  private def generateMap(shape: Shape, model: SmithyModel): String =
     s"type ${extractClassName(shape.id)} = Map[String, Any]"
-  }
 
   private def resolveType(target: String, model: SmithyModel): String = {
     target match {
@@ -182,9 +180,8 @@ object SmithyToScalaCodegen {
     }
   }
 
-  private def extractClassName(shapeId: String): String = {
+  private def extractClassName(shapeId: String): String =
     shapeId.split("#").last.split("\\$").last
-  }
 
   def writeFile(path: String, content: String): Unit = {
     Files.createDirectories(Paths.get(path).getParent)
