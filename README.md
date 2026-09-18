@@ -666,3 +666,10 @@ In modern versions of SLF4J, the framework utilizes the standard `Java java.util
 "Java Service Provider Interface SPI [...] is used throughout the Smithy reference implementation as a plugin system."
 
 While SLF4J uses SPI to swap out the underlying logging engine, Smithy uses SPI to swap out or add code generators, protocols, validators, and custom traits.
+
+Certificate Manager You can use Certificate Manager (ACM) to manage SSL/TLS certificates for your Amazon Web Services-based websites and applications.
+
+cognito-identity-provider
+Amazon Cognito Identity Providerin repo
+
+With the Amazon Cognito user pools API, you can configure user pools and authenticate users. To authenticate users from third-party identity providers (IdPs) in this API, you can link IdP users to native user profiles

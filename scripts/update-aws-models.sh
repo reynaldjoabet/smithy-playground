@@ -28,6 +28,10 @@ SERVICES=(
     "cognito-identity:cognito-identity"
     "cognito-identity-provider:cognito-identity-provider"
     "identitystore:identitystore"
+    # Certificates & key storage
+    "acm:acm"
+    "cloudhsm:cloudhsm"
+    "cloudhsm-v2:cloudhsm-v2"
     # Databases
     "dynamodb:dynamodb"
     "dynamodb-streams:dynamodb-streams"
