@@ -673,3 +673,30 @@ cognito-identity-provider
 Amazon Cognito Identity Providerin repo
 
 With the Amazon Cognito user pools API, you can configure user pools and authenticate users. To authenticate users from third-party identity providers (IdPs) in this API, you can link IdP users to native user profiles
+
+
+## Fory
+
+Apache Fory™ is a blazingly fast multi-language serialization framework powered by jit and zero-copy. 
+
+- `fory-scala` — Scala-aware serializers for the binary path
+
+- `fory-json-scala` — Scala-aware codecs for the JSON path
+
+For genuinely large payloads use the incremental decoders instead, which bound each value: `newArrayStreamDecoder(elementType, maxValueBytes)` and `newNdjsonStreamDecoder(...) `
+
+Everything funnels through `ForyJsonException extends ForyException` (unchecked). Map it to 400, never 500
+
+
+Reuse the resulting `ForyJson` instance. It is immutable and thread-safe after construction.
+Use `ForyJsonScala.builder().writeLongAsString(true)` to emit Scala `Long` values, including
+declared collection and map values, `Option[Long]`, `Long`-backed value classes, and Java Long-like
+wrappers as quoted decimal strings. Readers accept both quoted and unquoted integer tokens.
+Use `ScalaTypeRef` when a parameterized declaration contains `Long` because normal JVM signatures
+can erase Scala value-type arguments to `Object`.
+
+
+A case class may be declared at the top level, or inside an `object` at any nesting depth, as long
+as every enclosing scope is itself an `object`. A case class enclosed by a `class`, a trait, or a
+method is rejected for both reading and writing, because Fory cannot reach the enclosing instance
+or the companion it needs to rebuild the value.
