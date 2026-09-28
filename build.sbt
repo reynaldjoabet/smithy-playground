@@ -29,7 +29,7 @@ val commonDependencies: Seq[ModuleID] = Seq(
   "com.fasterxml.jackson.core"    % "jackson-databind"     % "2.22.3",
   "com.fasterxml.jackson.core"    % "jackson-core"         % "2.22.3",
   "com.fasterxml.jackson.core"    % "jackson-annotations"  % "2.22",
-  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.22.3",
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.22.3.1",
   // Smithy core
   "software.amazon.smithy" % "smithy-model"         % smithyVersion,
   "software.amazon.smithy" % "smithy-codegen-core"  % smithyVersion,
