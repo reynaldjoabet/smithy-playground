@@ -69,7 +69,7 @@ val commonDependencies: Seq[ModuleID] = Seq(
 )
 
 val fory =
-  Seq("org.apache.fory" %% "fory-json-scala" % "1.7.5", "org.apache.fory" %% "fory-scala" % "1.7.5")
+  Seq("org.apache.fory" %% "fory-json-scala" % "1.7.6", "org.apache.fory" %% "fory-scala" % "1.7.6")
 
 val jackson = Seq(
   "tools.jackson.core"    % "jackson-databind"     % "3.2.3",
