@@ -1,6 +1,6 @@
 import Dependencies.*
 
-ThisBuild / scalaVersion := "3.9.0"
+ThisBuild / scalaVersion := "3.10.0"
 ThisBuild / version      := "0.1.0-SNAPSHOT"
 
 ThisBuild / crossScalaVersions := Seq("3.3.8", "3.9.0")
@@ -69,7 +69,7 @@ val commonDependencies: Seq[ModuleID] = Seq(
 )
 
 val fory =
-  Seq("org.apache.fory" %% "fory-json-scala" % "1.7.6", "org.apache.fory" %% "fory-scala" % "1.7.6")
+  Seq("org.apache.fory" %% "fory-json-scala" % "1.7.7", "org.apache.fory" %% "fory-scala" % "1.7.7")
 
 val jackson = Seq(
   "tools.jackson.core"    % "jackson-databind"     % "3.2.3",
