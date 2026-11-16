@@ -77,7 +77,7 @@ val jackson = Seq(
 lazy val root = rootProject
   .settings(
     name                 := "smithy-playground",
-    libraryDependencies  += munit % Test,
+    libraryDependencies  += munit      % Test,
     libraryDependencies  += "dev.zio" %% "zio-blocks-smithy" % "0.0.56",
     libraryDependencies ++= commonDependencies ++ jackson ++ fory
   )

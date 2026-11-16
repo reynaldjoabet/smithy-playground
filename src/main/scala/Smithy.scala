@@ -8,7 +8,7 @@ import scala.io.Source
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 
-object Smithy  {
+object Smithy {
 
   println("Smithy is running!")
 
