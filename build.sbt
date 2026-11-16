@@ -26,10 +26,10 @@ Global / onChangedBuildSource := ReloadOnSourceChanges
 val smithyVersion = "1.74.0"
 
 val commonDependencies: Seq[ModuleID] = Seq(
-  "com.fasterxml.jackson.core"    % "jackson-databind"     % "2.22.4",
-  "com.fasterxml.jackson.core"    % "jackson-core"         % "2.22.4",
-  "com.fasterxml.jackson.core"    % "jackson-annotations"  % "2.22",
-  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.22.4",
+  "com.fasterxml.jackson.core"    % "jackson-databind"     % "2.23.0",
+  "com.fasterxml.jackson.core"    % "jackson-core"         % "2.23.0",
+  "com.fasterxml.jackson.core"    % "jackson-annotations"  % "2.23",
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.23.0",
   // Smithy core
   "software.amazon.smithy" % "smithy-model"         % smithyVersion,
   "software.amazon.smithy" % "smithy-codegen-core"  % smithyVersion,
@@ -69,11 +69,11 @@ val commonDependencies: Seq[ModuleID] = Seq(
 )
 
 val fory =
-  Seq("org.apache.fory" %% "fory-json-scala" % "1.7.7", "org.apache.fory" %% "fory-scala" % "1.7.7")
+  Seq("org.apache.fory" %% "fory-json-scala" % "1.7.8", "org.apache.fory" %% "fory-scala" % "1.7.8")
 
 val jackson = Seq(
-  "tools.jackson.core"    % "jackson-databind"     % "3.2.4",
-  "tools.jackson.module" %% "jackson-module-scala" % "3.2.4"
+  "tools.jackson.core"    % "jackson-databind"     % "3.3.0",
+  "tools.jackson.module" %% "jackson-module-scala" % "3.3.0"
 )
 
 lazy val root = rootProject
