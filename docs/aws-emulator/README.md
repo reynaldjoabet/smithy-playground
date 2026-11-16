@@ -35,6 +35,11 @@
 | [Amazon Elastic Kubernetes Service](eks.md) | `restJson1` |
 | [Amazon Elastic Container Service](ecs.md) | `awsJson1_1` |
 | [Amazon Elastic Container Registry](ecr.md) | `awsJson1_1` |
+| [AWS CloudHSM](cloudhsm-v2.md) | `awsJson1_1` |
+| [AWS CloudHSM Classic](cloudhsm.md) | `awsJson1_1` |
+| [Amazon Cognito User Pools](cognito-identity-provider.md) | `awsJson1_1` |
+| [Amazon Cognito Identity Pools](cognito-identity.md) | `awsJson1_1` |
+| [AWS Network Firewall](network-firewall.md) | `awsJson1_0` |
 
 
 ## How the emulator is built
