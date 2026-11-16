@@ -1,9 +1,9 @@
 import Dependencies.*
 
-ThisBuild / scalaVersion := "3.10.0"
+ThisBuild / scalaVersion := "3.9.0"
 ThisBuild / version      := "0.1.0-SNAPSHOT"
 
-ThisBuild / crossScalaVersions := Seq("3.3.8", "3.9.0")
+ThisBuild / crossScalaVersions := Seq("3.3.9", "3.9.0")
 
 ThisBuild / scalacOptions := Seq(
   "-encoding",
@@ -63,9 +63,7 @@ val commonDependencies: Seq[ModuleID] = Seq(
   "software.amazon.smithy" % "smithy-openapi-traits"         % smithyVersion,
   "software.amazon.smithy" % "smithy-aws-apigateway-openapi" % smithyVersion,
   // Smithy documentation generator
-  "software.amazon.smithy" % "smithy-docgen" % smithyVersion,
-  // BOM: POM-only, carries no classpath entries of its own
-  ("software.amazon.smithy" % "smithy-bom" % smithyVersion).pomOnly()
+  "software.amazon.smithy" % "smithy-docgen" % smithyVersion
 )
 
 val fory =
@@ -80,5 +78,6 @@ lazy val root = rootProject
   .settings(
     name                 := "smithy-playground",
     libraryDependencies  += munit % Test,
+    libraryDependencies  += "dev.zio" %% "zio-blocks-smithy" % "0.0.56",
     libraryDependencies ++= commonDependencies ++ jackson ++ fory
   )

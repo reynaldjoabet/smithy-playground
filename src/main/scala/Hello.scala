@@ -1,7 +1,7 @@
 package example
 
 import java.io.{FileDescriptor, FileInputStream, FileOutputStream}
-object Hello extends Greeting with App {
+object Hello extends Greeting {
 
   println(greeting)
 
