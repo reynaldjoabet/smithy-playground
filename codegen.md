@@ -320,61 +320,61 @@ The Runtime/Framework is the library that generated code depends on to function.
 └──────────────────────────────────────────────────────┘
           │
           ▼
-┌──────────────────────────────────────────────────────┐
-│          DirectedCodegen (orchestrator)              │
-│                                                      │
-│  Walks the model systematically:                     │
-│                                                      │
-│  1. generateService(ServiceShape)                    │
+┌───────────────────────────────────────────────────────┐
+│          DirectedCodegen (orchestrator)               │
+│                                                       │
+│  Walks the model systematically:                      │
+│                                                       │
+│  1. generateService(ServiceShape)                     │
 │     → emit: service client class, configuration       │
-│                                                      │
-│  2. for each operation:                              │
-│     generateOperation(OperationShape)                │
-│     → emit: request/response types, handler method   │
-│                                                      │
-│  3. for each structure (in closure):                 │
-│     generateStructure(StructureShape)                │
-│     → emit: data class/record                        │
-│                                                      │
-│  4. for each union:                                  │
-│     generateUnion(UnionShape)                        │
-│     → emit: discriminated union / sealed class       │
-│                                                      │
-│  5. for each enum:                                   │
-│     generateEnum(StringShape + @enum)                │
-│     → emit: enum type                                │
-│                                                      │
-│  6. for each error:                                  │
-│     generateError(StructureShape + @error)           │
-│     → emit: error/exception class                    │
-│                                                      │
-│  7. customizeBeforeIntegrations()                    │
-│  8. runIntegrations() ← auth, endpoint, retry logic  │
-│  9. customizeAfterIntegrations()                     │
-│                                                      │
-└──────────────────────────────────────────────────────┘
+│                                                       │
+│  2. for each operation:                               │
+│     generateOperation(OperationShape)                 │
+│     → emit: request/response types, handler method    │
+│                                                       │
+│  3. for each structure (in closure):                  │
+│     generateStructure(StructureShape)                 │
+│     → emit: data class/record                         │
+│                                                       │
+│  4. for each union:                                   │
+│     generateUnion(UnionShape)                         │
+│     → emit: discriminated union / sealed class        │
+│                                                       │
+│  5. for each enum:                                    │
+│     generateEnum(StringShape + @enum)                 │
+│     → emit: enum type                                 │
+│                                                       │
+│  6. for each error:                                   │
+│     generateError(StructureShape + @error)            │
+│     → emit: error/exception class                     │
+│                                                       │
+│  7. customizeBeforeIntegrations()                     │
+│  8. runIntegrations() ← auth, endpoint, retry logic   │
+│  9. customizeAfterIntegrations()                      │
+│                                                       │
+└───────────────────────────────────────────────────────┘
           │
           ▼
-┌──────────────────────────────────────────────────────┐
-│          SymbolProvider (name mapping)               │
-│                                                      │
-│  Translates Smithy names → target language names:    │
-│                                                      │
-│  toMemberName("client_namespace") → "clientNamespace"│
-│  toSymbol(ShapeId) → Symbol {                        │
-│      name: "ClientNamespace",                        │
-│      namespace: "unison.identitymanagement",   │
+┌───────────────────────────────────────────────────────┐
+│          SymbolProvider (name mapping)                │
+│                                                       │
+│  Translates Smithy names → target language names:     │
+│                                                       │
+│  toMemberName("client_namespace") → "clientNamespace" │
+│  toSymbol(ShapeId) → Symbol {                         │
+│      name: "ClientNamespace",                         │
+│      namespace: "unison.identitymanagement",          │
 │      definitionFile: "models/ClientNamespace.cs"      │
-│  }                                                   │
-│                                                      │
-│  Each language codegen has its own SymbolProvider    │
-│  that handles naming conventions:                    │
-│    TypeScript: camelCase members, PascalCase types   │
-│    Python: snake_case members, PascalCase types      │
-│    Go: exported PascalCase, unexported camelCase     │
-│    C#: PascalCase everything, _ prefix for fields      │
-│                                                      │
-└──────────────────────────────────────────────────────┘
+│  }                                                    │
+│                                                       │
+│  Each language codegen has its own SymbolProvider     │
+│  that handles naming conventions:                     │
+│    TypeScript: camelCase members, PascalCase types    │
+│    Python: snake_case members, PascalCase types       │
+│    Go: exported PascalCase, unexported camelCase      │
+│    C#: PascalCase everything, _ prefix for fields     │
+│                                                       │
+└───────────────────────────────────────────────────────┘
           │
           ▼
 ┌──────────────────────────────────────────────────────┐
