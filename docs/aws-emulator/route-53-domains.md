@@ -343,7 +343,7 @@ date: Mon, 16 Nov 2026 12:05:33 GMT
 
 Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
 
-Of 35 operations, 2 accepted the placeholder call, 25 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 35 operations, 3 accepted the placeholder call, 19 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AcceptDomainTransferFromAnotherAwsAccount
 
@@ -554,6 +554,8 @@ content-type: application/x-amz-json-1.1
 
 This operation removes the transfer lock on the domain (specifically the clientTransferProhibited status) to allow domain transfers.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 X-Amz-Target: Route53Domains_v20140515.DisableDomainTransferLock
@@ -564,16 +566,16 @@ X-Amz-Target: Route53Domains_v20140515.DisableDomainTransferLock
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 
 {
-  "__type": "NotImplemented",
-  "message": "operation DisableDomainTransferLock is scaffolded but not implemented in this emulator"
+  "__type": "InvalidInput",
+  "message": "Value 'example' at 'domainName' failed to satisfy constraint: Member must be a domain name of one label under a top-level domain, where every label is made up of letters, digits and interior hyphens"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidInput`: the placeholder values failed the operation's input validation.
 
 ### DisassociateDelegationSignerFromDomain
 
@@ -655,6 +657,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 For operations that require confirmation that the email address for the registrant contact is valid, such as registering a new domain, this operation returns information about whether the registrant contact has responded.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 X-Amz-Target: Route53Domains_v20140515.GetContactReachabilityStatus
@@ -663,16 +667,16 @@ X-Amz-Target: Route53Domains_v20140515.GetContactReachabilityStatus
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 
 {
-  "__type": "NotImplemented",
-  "message": "operation GetContactReachabilityStatus is scaffolded but not implemented in this emulator"
+  "__type": "InvalidInput",
+  "message": "Invalid request. Problems: Domain name cannot be blank"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidInput`: the placeholder values failed the operation's input validation.
 
 ### GetDomainDetail
 
@@ -728,6 +732,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 The GetDomainSuggestions operation returns a list of suggested domain names.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 X-Amz-Target: Route53Domains_v20140515.GetDomainSuggestions
@@ -740,16 +746,16 @@ X-Amz-Target: Route53Domains_v20140515.GetDomainSuggestions
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 
 {
-  "__type": "NotImplemented",
-  "message": "operation GetDomainSuggestions is scaffolded but not implemented in this emulator"
+  "__type": "InvalidInput",
+  "message": "Value 'example' at 'domainName' failed to satisfy constraint: Member must be a domain name of one label under a top-level domain, where every label is made up of letters, digits and interior hyphens"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidInput`: the placeholder values failed the operation's input validation.
 
 ### GetOperationDetail
 
@@ -841,6 +847,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Lists the following prices for either all the TLDs supported by Route 53, or the specified TLD: Registration Transfer Owner change Renewal Restoration The prices that ListPrices returns are the standard rates for a TLD.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 X-Amz-Target: Route53Domains_v20140515.ListPrices
@@ -849,20 +857,39 @@ X-Amz-Target: Route53Domains_v20140515.ListPrices
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 
 {
-  "__type": "NotImplemented",
-  "message": "operation ListPrices is scaffolded but not implemented in this emulator"
-}
+  "Prices": [
+    {
+      "Name": "ai",
+      "RegistrationPrice": {
+        "Price": 110.0,
+        "Currency": "USD",
+        "PriceType": "STANDARD"
+      },
+      "TransferPrice": {
+        "Price": 110.0,
+        "Currency": "USD",
+        "PriceType": "STANDARD"
+      },
+      "RenewalPrice": {
+        "Price": 110.0,
+        "Currency": "USD",
+        "PriceType": "STANDARD"
+      },
+      "ChangeOwnershipPrice": {
+… (712 more lines)
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### ListTagsForDomain
 
 This operation returns all of the tags that are associated with the specified domain.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -874,16 +901,16 @@ X-Amz-Target: Route53Domains_v20140515.ListTagsForDomain
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 
 {
-  "__type": "NotImplemented",
-  "message": "operation ListTagsForDomain is scaffolded but not implemented in this emulator"
+  "__type": "InvalidInput",
+  "message": "Value 'example' at 'domainName' failed to satisfy constraint: Member must be a domain name of one label under a top-level domain, where every label is made up of letters, digits and interior hyphens"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidInput`: the placeholder values failed the operation's input validation.
 
 ### PushDomain
 
@@ -1202,6 +1229,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 This operation adds or updates tags for a specified domain.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 X-Amz-Target: Route53Domains_v20140515.UpdateTagsForDomain
@@ -1212,16 +1241,16 @@ X-Amz-Target: Route53Domains_v20140515.UpdateTagsForDomain
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 
 {
-  "__type": "NotImplemented",
-  "message": "operation UpdateTagsForDomain is scaffolded but not implemented in this emulator"
+  "__type": "InvalidInput",
+  "message": "Value 'example' at 'domainName' failed to satisfy constraint: Member must be a domain name of one label under a top-level domain, where every label is made up of letters, digits and interior hyphens"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidInput`: the placeholder values failed the operation's input validation.
 
 ### ViewBilling
 

@@ -306,7 +306,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
 
 Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`) are left out here; the walkthrough shows them in full.
 
-Of 73 operations, 3 accepted the placeholder call, 10 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 73 operations, 4 accepted the placeholder call, 9 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### BatchUpdateRule
 
@@ -1567,22 +1567,22 @@ x-amzn-errortype: ValidationException
 
 Lists the service networks owned by or shared with this account.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 GET /servicenetworks HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: application/json
-x-amzn-errortype: NotImplemented
 
 {
-  "__type": "NotImplemented",
-  "message": "operation ListServiceNetworks is scaffolded but not implemented in this emulator"
+  "items": []
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### ListServices
 

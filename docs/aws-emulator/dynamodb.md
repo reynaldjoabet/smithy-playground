@@ -587,7 +587,7 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
 
 Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
 
-Of 58 operations, 9 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 60 operations, 10 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error. `ListBulkOperations` and `StartBulkPutItems` are new in the service model as of emulator 1.0.595 and were captured on 2026-11-24.
 
 ### BatchExecuteStatement
 
@@ -1453,6 +1453,30 @@ content-type: application/x-amz-json-1.0
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
 
+### ListBulkOperations
+
+Returns summary information about the bulk operations of the account and Region, most recently started first.
+
+*New in the service model as of emulator 1.0.595 (captured 2026-11-24).*
+
+```http
+POST / HTTP/1.1
+X-Amz-Target: DynamoDB_20120810.ListBulkOperations
+
+{}
+```
+
+```http
+HTTP/1.1 200 OK
+content-type: application/x-amz-json-1.0
+
+{
+  "BulkOperationsSummaryList": []
+}
+```
+
+Accepted: the emulator answered `200 OK` even with placeholder values.
+
 ### ListContributorInsights
 
 Returns a list of ContributorInsightsSummary for a table and all its global secondary indexes.
@@ -1776,6 +1800,37 @@ content-type: application/x-amz-json-1.0
 ```
 
 `400` `ValidationException`: the placeholder values failed the operation's input validation.
+
+### StartBulkPutItems
+
+Starts a bulk operation that writes the items of the request into an existing table.
+
+*New in the service model as of emulator 1.0.595 (captured 2026-11-24).*
+
+```http
+POST / HTTP/1.1
+X-Amz-Target: DynamoDB_20120810.StartBulkPutItems
+
+{
+  "TableName": "example",
+  "InputS3Configuration": {
+    "S3Bucket": "example"
+  },
+  "ClientToken": "c126dac7-919d-4483-91ed-d80f5d24b7c6"
+}
+```
+
+```http
+HTTP/1.1 400 Bad Request
+content-type: application/x-amz-json-1.0
+
+{
+  "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
+  "message": "Requested resource not found: Table: example not found"
+}
+```
+
+`400` `ResourceNotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### TagResource
 

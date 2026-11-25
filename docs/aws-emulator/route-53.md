@@ -354,31 +354,33 @@ date: Mon, 16 Nov 2026 12:15:52 GMT
 
 Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`) are left out here; the walkthrough shows them in full.
 
-Of 71 operations, 15 accepted the placeholder call, 8 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 71 operations, 16 accepted the placeholder call, 2 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### ActivateKeySigningKey
 
 Activates a key-signing key (KSK) so that it can be used for signing by DNSSEC.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST /2013-04-01/keysigningkey/example/example/activate HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: application/xml
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ActivateKeySigningKey is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>NoSuchKeySigningKey</Code>
+    <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>a76fa9c1-ad32-de04-ccfa-06a72bdfd5f3</RequestId>
+  <RequestId>9e0a90da-bb83-21cb-3593-08b508cbf82b</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `NoSuchKeySigningKey`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### AssociateVPCWithHostedZone
 
@@ -647,6 +649,8 @@ content-type: application/xml
 
 Creates a configuration for DNS query logging.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST /2013-04-01/queryloggingconfig HTTP/1.1
 Content-Type: application/xml
@@ -659,20 +663,20 @@ Content-Type: application/xml
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: application/xml
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation CreateQueryLoggingConfig is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>NoSuchHostedZone</Code>
+    <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>0e4c25ea-86f1-86ec-04f3-fcf96f7e683a</RequestId>
+  <RequestId>c452a213-61fd-544d-a6cc-0337772810c4</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `NoSuchHostedZone`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### CreateReusableDelegationSet
 
@@ -959,25 +963,27 @@ content-type: application/xml
 
 Deletes a configuration for DNS query logging.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 DELETE /2013-04-01/queryloggingconfig/example HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: application/xml
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DeleteQueryLoggingConfig is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>NoSuchQueryLoggingConfig</Code>
+    <Message>The query logging configuration does not exist.</Message>
   </Error>
-  <RequestId>ffcaa383-9662-99bb-94b3-94b402a104f1</RequestId>
+  <RequestId>a93fa375-aaeb-3e26-4731-893a8b7e644c</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `NoSuchQueryLoggingConfig`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### DeleteReusableDelegationSet
 
@@ -1451,25 +1457,27 @@ content-type: application/xml
 
 Gets information about a specified configuration for DNS query logging.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 GET /2013-04-01/queryloggingconfig/example HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: application/xml
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation GetQueryLoggingConfig is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>NoSuchQueryLoggingConfig</Code>
+    <Message>The query logging configuration does not exist.</Message>
   </Error>
-  <RequestId>834c804c-1e57-d7fb-f905-cd8206ecc255</RequestId>
+  <RequestId>1b6af74c-2da8-922e-d9cb-3f1b4b9384cb</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `NoSuchQueryLoggingConfig`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### GetReusableDelegationSet
 
@@ -1791,25 +1799,22 @@ content-type: application/xml
 
 Lists the configurations for DNS query logging that are associated with the current Amazon Web Services account or the configuration that is associated with a specified hosted zone.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 GET /2013-04-01/queryloggingconfig HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: application/xml
 
-<ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
-  <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ListQueryLoggingConfigs is scaffolded but not implemented in this emulator</Message>
-  </Error>
-  <RequestId>2c4a020c-3dfb-502a-54f6-c48d28ab1115</RequestId>
-</ErrorResponse>
+<ListQueryLoggingConfigsResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
+  <QueryLoggingConfigs/>
+</ListQueryLoggingConfigsResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### ListResourceRecordSets
 
@@ -1971,25 +1976,27 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Gets information about the traffic policy instances that you created in a specified hosted zone.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 GET /2013-04-01/trafficpolicyinstances/hostedzone?id=example HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: application/xml
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ListTrafficPolicyInstancesByHostedZone is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>NoSuchHostedZone</Code>
+    <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>c7995e8d-e866-8200-6a4c-93caab14c7af</RequestId>
+  <RequestId>71bc5b10-a31c-9a82-92cb-e440d9606262</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `NoSuchHostedZone`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ListTrafficPolicyInstancesByPolicy
 

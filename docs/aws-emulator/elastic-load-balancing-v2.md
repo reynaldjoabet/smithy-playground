@@ -448,7 +448,7 @@ date: Mon, 16 Nov 2026 12:08:37 GMT
 
 Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
 
-Of 51 operations, 9 accepted the placeholder call, 5 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 51 operations, 9 accepted the placeholder call, 1 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AddListenerCertificates
 
@@ -512,6 +512,8 @@ content-type: text/xml
 
 Adds the specified revocation file to the specified trust store.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -521,20 +523,20 @@ Action=AddTrustStoreRevocations
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation AddTrustStoreRevocations is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>TrustStoreNotFound</Code>
+    <Message>Trust store ARN 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
   </Error>
-  <RequestId>93e2b5f2-2e50-4ef7-93fa-933e9f09dc9d</RequestId>
+  <RequestId>30e0fdeb-6a20-47ce-ab89-f21d30f578f7</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `TrustStoreNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### CreateListener
 
@@ -1318,6 +1320,8 @@ content-type: text/xml
 
 Describes the revocation files in use by the specified trust store or revocation files.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1327,20 +1331,20 @@ Action=DescribeTrustStoreRevocations
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DescribeTrustStoreRevocations is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>TrustStoreNotFound</Code>
+    <Message>Trust store ARN 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
   </Error>
-  <RequestId>900fc3b8-e045-4f2d-b238-1407e77a2332</RequestId>
+  <RequestId>163f7fb5-ba26-40c5-93bb-ba2592a5eeb4</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `TrustStoreNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### DescribeTrustStores
 
@@ -1429,6 +1433,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Retrieves the specified revocation file.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1439,20 +1445,20 @@ Action=GetTrustStoreRevocationContent
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation GetTrustStoreRevocationContent is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>TrustStoreNotFound</Code>
+    <Message>Trust store ARN 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
   </Error>
-  <RequestId>17206e2b-2da0-4cff-b08e-1c706abc7642</RequestId>
+  <RequestId>a2823ba2-109a-45fd-978f-0e6996871af1</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `TrustStoreNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ModifyCapacityReservation
 
@@ -1802,6 +1808,8 @@ content-type: text/xml
 
 Removes the specified revocation file from the specified trust store.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1812,20 +1820,20 @@ Action=RemoveTrustStoreRevocations
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation RemoveTrustStoreRevocations is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>TrustStoreNotFound</Code>
+    <Message>Trust store ARN 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
   </Error>
-  <RequestId>39fb585c-ef1b-4ee3-be7f-f40491320f05</RequestId>
+  <RequestId>e2fda997-f8a0-47e5-ac8e-8ba3acd7a7d3</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `TrustStoreNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### SetIpAddressType
 

@@ -544,7 +544,7 @@ date: Mon, 16 Nov 2026 12:44:08 GMT
 
 Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
 
-Of 85 operations, 3 accepted the placeholder call, 40 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 85 operations, 3 accepted the placeholder call, 39 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AcceptNetworkFirewallTransitGatewayAttachment
 
@@ -2409,6 +2409,8 @@ content-type: application/x-amz-json-1.0
 
 Modifies the flag, ChangeProtection , which indicates whether it is possible to change the firewall.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 X-Amz-Target: NetworkFirewall_20201112.UpdateFirewallPolicyChangeProtection
@@ -2419,16 +2421,16 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateFirewallPolicyChangeProtection
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
 
 {
-  "__type": "NotImplemented",
-  "message": "operation UpdateFirewallPolicyChangeProtection is scaffolded but not implemented in this emulator"
+  "__type": "InvalidRequestException",
+  "Message": "At least one of FirewallName or FirewallArn must be set"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidRequestException`: the placeholder values failed the operation's input validation.
 
 ### UpdateLoggingConfiguration
 

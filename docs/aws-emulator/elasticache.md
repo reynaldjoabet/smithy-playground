@@ -409,7 +409,7 @@ date: Mon, 16 Nov 2026 12:05:34 GMT
 
 Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
 
-Of 77 operations, 20 accepted the placeholder call, 4 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 77 operations, 20 accepted the placeholder call, 1 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AddTagsToResource
 
@@ -557,6 +557,8 @@ content-type: text/xml
 
 Creates a copy of an existing serverless cache’s snapshot.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -567,20 +569,20 @@ Action=CopyServerlessCacheSnapshot
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation CopyServerlessCacheSnapshot is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ServerlessCacheSnapshotNotFoundFault</Code>
+    <Message>Source serverless cache snapshot does not exist.</Message>
   </Error>
-  <RequestId>59d64f0e-5577-46e4-98d7-1eb615f3132a</RequestId>
+  <RequestId>39c141c0-8689-4f95-b8a5-eaccdcf0f44f</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `ServerlessCacheSnapshotNotFoundFault`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### CopySnapshot
 
@@ -1162,6 +1164,8 @@ content-type: text/xml
 
 Deletes an existing replication group.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1171,20 +1175,20 @@ Action=DeleteReplicationGroup
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DeleteReplicationGroup is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ReplicationGroupNotFoundFault</Code>
+    <Message>Specified replication group does not exist</Message>
   </Error>
-  <RequestId>f755b690-b8fb-426a-9f94-1a785b7ee257</RequestId>
+  <RequestId>d825d910-a891-47bf-80e8-996172dc4bae</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `ReplicationGroupNotFoundFault`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### DeleteServerlessCache
 
@@ -1218,6 +1222,8 @@ content-type: text/xml
 
 Deletes an existing serverless cache snapshot.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1227,20 +1233,20 @@ Action=DeleteServerlessCacheSnapshot
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DeleteServerlessCacheSnapshot is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ServerlessCacheSnapshotNotFoundFault</Code>
+    <Message>Serverless cache snapshot with specified name does not exists.</Message>
   </Error>
-  <RequestId>932d247a-55d7-4128-8a68-f261bc8144fb</RequestId>
+  <RequestId>2e503795-bd5a-4a0f-bbf3-ae75920cf444</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `ServerlessCacheSnapshotNotFoundFault`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### DeleteSnapshot
 

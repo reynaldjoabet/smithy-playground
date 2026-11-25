@@ -274,7 +274,7 @@ date: Mon, 16 Nov 2026 12:08:37 GMT
 
 Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
 
-Of 29 operations, 3 accepted the placeholder call, 5 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 29 operations, 3 accepted the placeholder call, 4 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AddTags
 
@@ -898,6 +898,8 @@ content-type: text/xml
 
 Removes the specified Availability Zones from the set of Availability Zones for the specified load balancer in EC2-Classic or a default VPC.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -908,20 +910,20 @@ Action=DisableAvailabilityZonesForLoadBalancer
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DisableAvailabilityZonesForLoadBalancer is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>LoadBalancerNotFound</Code>
+    <Message>There is no ACTIVE Load Balancer named 'example'</Message>
   </Error>
-  <RequestId>c093b427-a31b-43bb-ba2d-919e10fac009</RequestId>
+  <RequestId>5ed57b03-ca1a-4c96-a604-a838ad4a1c9b</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `LoadBalancerNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### EnableAvailabilityZonesForLoadBalancer
 

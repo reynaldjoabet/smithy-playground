@@ -466,7 +466,7 @@ date: Mon, 16 Nov 2026 12:05:54 GMT
 
 Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`) are left out here; the walkthrough shows them in full.
 
-Of 70 operations, 5 accepted the placeholder call, 2 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 70 operations, 5 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### ActivateCertificateAuthority
 
@@ -1705,43 +1705,49 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Lists the Fargate profiles associated with the specified cluster in your Amazon Web Services account in the specified Amazon Web Services Region.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 GET /clusters/example/fargate-profiles HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: application/json
-x-amzn-errortype: NotImplemented
+x-amzn-errortype: ResourceNotFoundException
 
 {
-  "__type": "NotImplemented",
-  "message": "operation ListFargateProfiles is scaffolded but not implemented in this emulator"
+  "__type": "ResourceNotFoundException",
+  "clusterName": "example",
+  "message": "No cluster found for name: example."
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `ResourceNotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ListIdentityProviderConfigs
 
 Lists the identity provider configurations for your cluster.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 GET /clusters/example/identity-provider-configs HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: application/json
-x-amzn-errortype: NotImplemented
+x-amzn-errortype: ResourceNotFoundException
 
 {
-  "__type": "NotImplemented",
-  "message": "operation ListIdentityProviderConfigs is scaffolded but not implemented in this emulator"
+  "__type": "ResourceNotFoundException",
+  "clusterName": "example",
+  "message": "No cluster found for name: example."
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `ResourceNotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ListInsights
 

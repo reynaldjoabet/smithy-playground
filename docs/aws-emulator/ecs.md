@@ -609,7 +609,7 @@ date: Mon, 16 Nov 2026 12:05:34 GMT
 
 Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
 
-Of 88 operations, 21 accepted the placeholder call, 14 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 88 operations, 21 accepted the placeholder call, 11 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AssociateGatewayWithCluster
 
@@ -922,6 +922,8 @@ content-type: application/x-amz-json-1.1
 
 Deletes the specified capacity provider.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteCapacityProvider
@@ -932,16 +934,16 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteCapacityProvider
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 
 {
-  "__type": "NotImplemented",
-  "message": "operation DeleteCapacityProvider is scaffolded but not implemented in this emulator"
+  "__type": "ClientException",
+  "message": "Failed to get info for provided CapacityProvider"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ClientException`.
 
 ### DeleteCluster
 
@@ -2251,6 +2253,8 @@ content-type: application/x-amz-json-1.1
 
 Create or update an attribute on an Amazon ECS resource.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.PutAttributes
@@ -2265,16 +2269,16 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.PutAttributes
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 
 {
-  "__type": "NotImplemented",
-  "message": "operation PutAttributes is scaffolded but not implemented in this emulator"
+  "__type": "ClusterNotFoundException",
+  "message": "Cluster not found."
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ClusterNotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### PutClusterCapacityProviders
 
@@ -2630,6 +2634,8 @@ content-type: application/x-amz-json-1.1
 
 Modifies the parameters for a capacity provider.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateCapacityProvider
@@ -2640,16 +2646,16 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateCapacityProvider
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 
 {
-  "__type": "NotImplemented",
-  "message": "operation UpdateCapacityProvider is scaffolded but not implemented in this emulator"
+  "__type": "InvalidParameterException",
+  "message": "either autoScalingGroupProvider or managedInstancesProvider must be specified"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterException`: the placeholder values failed the operation's input validation.
 
 ### UpdateCluster
 

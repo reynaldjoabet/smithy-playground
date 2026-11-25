@@ -435,7 +435,7 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
 
 Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
 
-Of 180 operations, 34 accepted the placeholder call, 14 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 180 operations, 35 accepted the placeholder call, 4 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AcceptDelegationRequest
 
@@ -1182,6 +1182,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Deactivates the specified MFA device and removes it from association with the user name for which it was originally enabled.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1191,20 +1193,20 @@ Action=DeactivateMFADevice
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DeactivateMFADevice is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>NoSuchEntity</Code>
+    <Message>MFA Device with serial number example00 does not exist.</Message>
   </Error>
-  <RequestId>da401c79-c457-44b0-b987-822d968264df</RequestId>
+  <RequestId>ba18e7d1-a56b-462e-8df6-19638597bd1f</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### DeleteAccessKey
 
@@ -1598,6 +1600,8 @@ content-type: text/xml
 
 Deletes the specified SSH public key.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1608,20 +1612,20 @@ Action=DeleteSSHPublicKey
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DeleteSSHPublicKey is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>NoSuchEntity</Code>
+    <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>840aa3c8-cb3b-4369-b946-812bdc050ca4</RequestId>
+  <RequestId>259b317b-aaf5-4d37-b4e0-90b2ae77ac64</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### DeleteServerCertificate
 
@@ -1822,6 +1826,8 @@ content-type: text/xml
 
 Deletes a virtual MFA device.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1831,20 +1837,20 @@ Action=DeleteVirtualMFADevice
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DeleteVirtualMFADevice is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>NoSuchEntity</Code>
+    <Message>MFA Device with serial number example00 does not exist.</Message>
   </Error>
-  <RequestId>b870f663-23a1-4952-9aca-1e9a64c002b9</RequestId>
+  <RequestId>9868a807-83bc-4af4-9f8c-1ed34ac78d0f</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### DetachGroupPolicy
 
@@ -3496,6 +3502,8 @@ content-type: text/xml
 
 Lists the tags that are attached to the specified IAM virtual multi-factor authentication (MFA) device.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -3505,24 +3513,26 @@ Action=ListMFADeviceTags
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ListMFADeviceTags is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>NoSuchEntity</Code>
+    <Message>MFA Device with serial number example00 does not exist.</Message>
   </Error>
-  <RequestId>bad3d414-2878-41d8-a17f-a7f19b95c78b</RequestId>
+  <RequestId>6cbe6f3c-f6ee-4325-b3fd-4cabf5b8e42f</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ListMFADevices
 
 Lists the MFA devices for an IAM user.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -3532,20 +3542,21 @@ Action=ListMFADevices
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml
 
-<ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ListMFADevices is scaffolded but not implemented in this emulator</Message>
-  </Error>
-  <RequestId>621329e9-187f-4328-a6a3-dab6be40b915</RequestId>
-</ErrorResponse>
+<ListMFADevicesResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
+  <ListMFADevicesResult>
+    <MFADevices/>
+    <IsTruncated>false</IsTruncated>
+  </ListMFADevicesResult>
+  <ResponseMetadata>
+    <RequestId>18974012-bd8b-44b0-8773-f852987d31c2</RequestId>
+  </ResponseMetadata>
+</ListMFADevicesResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### ListOpenIDConnectProviderTags
 
@@ -4491,6 +4502,8 @@ content-type: text/xml
 
 Synchronizes the specified MFA device with its IAM resource object on the Amazon Web Services servers.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -4503,24 +4516,26 @@ Action=ResyncMFADevice
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ResyncMFADevice is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>NoSuchEntity</Code>
+    <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>ccf33e9e-6c2b-4c5f-b845-6af0549be93b</RequestId>
+  <RequestId>2d2fd6a2-3575-4c7a-831c-fcfec86fb0fe</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### SendDelegationToken
 
 Sends the exchange token for an accepted delegation request.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -4531,20 +4546,20 @@ Action=SendDelegationToken
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation SendDelegationToken is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>NoSuchEntity</Code>
+    <Message>Delegation request not found: example000000000</Message>
   </Error>
-  <RequestId>ea5668fa-7791-42ca-844a-8a7532cc0239</RequestId>
+  <RequestId>835b65dc-f96e-4560-aea8-d63319f780ab</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### SetDefaultPolicyVersion
 
@@ -4694,6 +4709,8 @@ content-type: text/xml
 
 Adds one or more tags to an IAM virtual multi-factor authentication (MFA) device.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -4705,20 +4722,20 @@ Action=TagMFADevice
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation TagMFADevice is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>NoSuchEntity</Code>
+    <Message>MFA Device with serial number example00 does not exist.</Message>
   </Error>
-  <RequestId>382f3de4-579b-4d4e-b84e-fc7081f1de0b</RequestId>
+  <RequestId>29772c58-61b8-4d4d-87b0-e3920b45d5a2</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### TagOpenIDConnectProvider
 
@@ -4933,6 +4950,8 @@ content-type: text/xml
 
 Removes the specified tags from the IAM virtual multi-factor authentication (MFA) device.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -4943,20 +4962,20 @@ Action=UntagMFADevice
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation UntagMFADevice is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>NoSuchEntity</Code>
+    <Message>MFA Device with serial number example00 does not exist.</Message>
   </Error>
-  <RequestId>89bd8def-6926-42f1-9f15-21116aa4157a</RequestId>
+  <RequestId>214d160d-6a95-4a06-bb36-cf0404260075</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### UntagOpenIDConnectProvider
 
@@ -5417,6 +5436,8 @@ content-type: text/xml
 
 Sets the status of an IAM user's SSH public key to active or inactive.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -5428,20 +5449,20 @@ Action=UpdateSSHPublicKey
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation UpdateSSHPublicKey is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>NoSuchEntity</Code>
+    <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>e6c69bdb-05f2-4efe-ada8-d1cb9bd8fc0a</RequestId>
+  <RequestId>2e92069a-46cc-4481-afe8-301cfad2a2a9</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### UpdateServerCertificate
 

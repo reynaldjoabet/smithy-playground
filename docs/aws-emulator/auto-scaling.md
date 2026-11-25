@@ -437,11 +437,13 @@ date: Mon, 16 Nov 2026 12:09:17 GMT
 
 Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
 
-Of 68 operations, 13 accepted the placeholder call, 32 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 68 operations, 15 accepted the placeholder call, 2 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AttachInstances
 
 Attaches one or more EC2 instances to the specified Auto Scaling group.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -452,20 +454,20 @@ Action=AttachInstances
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation AttachInstances is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - AutoScalingGroup: example not found</Message>
   </Error>
-  <RequestId>3abc122c-a704-4f0e-a81a-ec9cb64d22c4</RequestId>
+  <RequestId>c5ebd126-b0f8-46da-a375-b51e2e2579f7</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### AttachLoadBalancerTargetGroups
 
@@ -500,6 +502,8 @@ content-type: text/xml
 
 This API operation is superseded by AttachTrafficSources , which can attach multiple traffic sources types.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -510,24 +514,26 @@ Action=AttachLoadBalancers
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation AttachLoadBalancers is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>90311f76-19e8-4f06-b3ad-5dc57027ec1c</RequestId>
+  <RequestId>f9fb7d57-2684-44d3-a691-e8abd77e7763</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### AttachTrafficSources
 
 Attaches one or more traffic sources to the specified Auto Scaling group.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -539,24 +545,26 @@ Action=AttachTrafficSources
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation AttachTrafficSources is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>7ffff6f7-0acb-458f-87bb-6c35ecc725b2</RequestId>
+  <RequestId>e28ec8a2-b45f-4ca8-8483-c995e5823333</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### BatchDeleteScheduledAction
 
 Deletes one or more scheduled actions for the specified Auto Scaling group.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -568,24 +576,26 @@ Action=BatchDeleteScheduledAction
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation BatchDeleteScheduledAction is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
   </Error>
-  <RequestId>7b9069cf-6e17-4ecd-b09a-5d6a0654dbe8</RequestId>
+  <RequestId>104bb305-fdfd-486a-a0fc-1bd757477bf4</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### BatchPutScheduledUpdateGroupAction
 
 Creates or updates one or more scheduled scaling actions for an Auto Scaling group.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -597,20 +607,20 @@ Action=BatchPutScheduledUpdateGroupAction
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation BatchPutScheduledUpdateGroupAction is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>9a73018d-476b-4f96-aa4d-37e13abc4f73</RequestId>
+  <RequestId>906409b6-713a-40c0-abaf-d3cc61b36c4c</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### CancelInstanceRefresh
 
@@ -644,6 +654,8 @@ content-type: text/xml
 
 Completes the lifecycle action for the specified token or instance with the specified result.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -655,20 +667,20 @@ Action=CompleteLifecycleAction
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation CompleteLifecycleAction is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>'LifecycleActionResult' must be one of: CONTINUE, ABANDON</Message>
   </Error>
-  <RequestId>87d8e0d4-dbd5-4fca-ad4e-f6bae43ad6df</RequestId>
+  <RequestId>4fb9c51a-03b9-4aad-a02f-3304d87bdd91</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### CreateAutoScalingGroup
 
@@ -732,6 +744,8 @@ content-type: text/xml
 
 Creates or updates tags for the specified Auto Scaling group.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -741,20 +755,20 @@ Action=CreateOrUpdateTags
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation CreateOrUpdateTags is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>866dcefd-b7a2-40cb-9cd6-adc90f10db40</RequestId>
+  <RequestId>ddb882a0-df57-4ab1-8f37-d1426ec449f5</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DeleteAutoScalingGroup
 
@@ -874,6 +888,8 @@ content-type: text/xml
 
 Deletes the specified scaling policy.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -883,24 +899,26 @@ Action=DeletePolicy
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DeletePolicy is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>The AutoScaling Group name is required when specifying a policy by its name</Message>
   </Error>
-  <RequestId>9fb0dced-ffb8-435b-89ea-ce588d00d116</RequestId>
+  <RequestId>e064ab7f-52c2-4df3-a97e-255c60ecea07</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DeleteScheduledAction
 
 Deletes the specified scheduled action.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -912,24 +930,26 @@ Action=DeleteScheduledAction
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DeleteScheduledAction is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
   </Error>
-  <RequestId>72643bf8-9f52-4a3c-9995-9b4dec5f2a63</RequestId>
+  <RequestId>1233f1da-ef86-4ec6-b8b7-5ecd6c2dd3ce</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DeleteTags
 
 Deletes the specified tags.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -940,24 +960,26 @@ Action=DeleteTags
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DeleteTags is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>930e3892-cf1e-409b-95f5-4d6c73256114</RequestId>
+  <RequestId>9d5df158-f93c-4b1f-aa1b-33c22184bb9f</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DeleteWarmPool
 
 Deletes the warm pool for the specified Auto Scaling group.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -968,20 +990,20 @@ Action=DeleteWarmPool
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DeleteWarmPool is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - No such Auto Scaling group: example</Message>
   </Error>
-  <RequestId>356a0427-1cd1-4ad9-8474-a253fa3c7e28</RequestId>
+  <RequestId>73ed09ce-ab09-4f6c-b5be-3af2fd67419e</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DescribeAccountLimits
 
@@ -1114,6 +1136,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values. See [the 
 
 Gets information about the Auto Scaling instances in the account and Region.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1122,20 +1146,20 @@ Action=DescribeAutoScalingInstances
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml
 
-<ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
-  <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DescribeAutoScalingInstances is scaffolded but not implemented in this emulator</Message>
-  </Error>
-  <RequestId>03ad9c54-e1b9-4bf9-8ef7-40566e1e5b5b</RequestId>
-</ErrorResponse>
+<DescribeAutoScalingInstancesResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
+  <DescribeAutoScalingInstancesResult>
+    <AutoScalingInstances/>
+  </DescribeAutoScalingInstancesResult>
+  <ResponseMetadata>
+    <RequestId>95250a84-48a3-40bd-a18c-4c64027d96f4</RequestId>
+  </ResponseMetadata>
+</DescribeAutoScalingInstancesResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeAutoScalingNotificationTypes
 
@@ -1317,6 +1341,8 @@ content-type: text/xml
 
 This API operation is superseded by DescribeTrafficSources , which can describe multiple traffic sources types.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1326,20 +1352,20 @@ Action=DescribeLoadBalancers
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DescribeLoadBalancers is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - Could not find Auto Scaling group named 'example'</Message>
   </Error>
-  <RequestId>3069be12-9823-4e02-b0ad-4508a3d8aeb8</RequestId>
+  <RequestId>b589068b-4469-494c-9e14-a995d4ca0974</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DescribeMetricCollectionTypes
 
@@ -1506,6 +1532,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Gets information about the scheduled actions that haven't run or that have not reached their end time.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1514,20 +1542,20 @@ Action=DescribeScheduledActions
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml
 
-<ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
-  <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DescribeScheduledActions is scaffolded but not implemented in this emulator</Message>
-  </Error>
-  <RequestId>6468f946-8e24-4e80-8aa4-f25f074da392</RequestId>
-</ErrorResponse>
+<DescribeScheduledActionsResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
+  <DescribeScheduledActionsResult>
+    <ScheduledUpdateGroupActions/>
+  </DescribeScheduledActionsResult>
+  <ResponseMetadata>
+    <RequestId>8410a9a6-8224-44dc-9fd0-6770e3ac85b2</RequestId>
+  </ResponseMetadata>
+</DescribeScheduledActionsResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeTags
 
@@ -1596,6 +1624,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Gets information about the traffic sources for the specified Auto Scaling group.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1605,20 +1635,20 @@ Action=DescribeTrafficSources
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DescribeTrafficSources is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - Could not find Auto Scaling group named 'example'</Message>
   </Error>
-  <RequestId>f26ec229-6918-49b7-902e-3f2ce1bd8b7b</RequestId>
+  <RequestId>6837bdb9-d576-4cb1-be56-90f8592fc7b8</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DescribeWarmPool
 
@@ -1652,6 +1682,8 @@ content-type: text/xml
 
 Removes one or more instances from the specified Auto Scaling group.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1662,20 +1694,20 @@ Action=DetachInstances
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DetachInstances is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
   </Error>
-  <RequestId>382ce3bb-4d47-4926-9108-cd518e8ff4ee</RequestId>
+  <RequestId>5bf2d0e1-c826-4f40-8da2-57ee7d14d2ca</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DetachLoadBalancerTargetGroups
 
@@ -1710,6 +1742,8 @@ content-type: text/xml
 
 This API operation is superseded by DetachTrafficSources , which can detach multiple traffic sources types.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1720,24 +1754,26 @@ Action=DetachLoadBalancers
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DetachLoadBalancers is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>8db323aa-bd43-492c-948a-7a641f435920</RequestId>
+  <RequestId>9b4e370f-67ab-491c-89ab-9eed7f56fccd</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DetachTrafficSources
 
 Detaches one or more traffic sources from the specified Auto Scaling group.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -1749,24 +1785,26 @@ Action=DetachTrafficSources
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DetachTrafficSources is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>c202ff92-99a1-40e6-8ae4-e68579918641</RequestId>
+  <RequestId>17aaee95-fc77-4615-b6c2-23303fb63b62</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DisableMetricsCollection
 
 Disables group metrics collection for the specified Auto Scaling group.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -1777,24 +1815,26 @@ Action=DisableMetricsCollection
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DisableMetricsCollection is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>Group example not found</Message>
   </Error>
-  <RequestId>b7857384-3c6d-4c4f-a64f-a4e7324573f3</RequestId>
+  <RequestId>9550510e-9498-431e-8345-e0f173c0e39c</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### EnableMetricsCollection
 
 Enables group metrics collection for the specified Auto Scaling group.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -1806,24 +1846,26 @@ Action=EnableMetricsCollection
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation EnableMetricsCollection is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>Group example not found</Message>
   </Error>
-  <RequestId>1fb786f4-c879-42b1-a33d-47283866f757</RequestId>
+  <RequestId>0d588393-6707-4886-9f01-b942d65e429b</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### EnterStandby
 
 Moves the specified instances into the standby state.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -1835,24 +1877,26 @@ Action=EnterStandby
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation EnterStandby is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
   </Error>
-  <RequestId>3c3d1dce-b3eb-4ed9-9817-d7dac910d19b</RequestId>
+  <RequestId>17432d14-d938-4aeb-8d7e-a5a60c9422cd</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### ExecutePolicy
 
 Executes the specified policy.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -1863,24 +1907,26 @@ Action=ExecutePolicy
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ExecutePolicy is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>The AutoScaling Group name is required when specifying a policy by its name</Message>
   </Error>
-  <RequestId>efbf8878-23e9-45b4-8801-ad7d101eb1c5</RequestId>
+  <RequestId>9d31d319-3e9d-4087-aa25-9020676987b4</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### ExitStandby
 
 Moves the specified instances out of the standby state.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -1891,24 +1937,26 @@ Action=ExitStandby
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ExitStandby is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
   </Error>
-  <RequestId>33d83a54-f106-408c-b3a0-4bc690de63ac</RequestId>
+  <RequestId>7c07fc73-9db8-404a-872a-892b819dcc7d</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### GetPredictiveScalingForecast
 
 Retrieves the forecast data for a predictive scaling policy.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -1917,29 +1965,31 @@ Action=GetPredictiveScalingForecast
 &Version=2011-01-01
 &AutoScalingGroupName=example
 &PolicyName=example
-&StartTime=2026-11-16T12%3A11%3A24Z
-&EndTime=2026-11-16T12%3A11%3A24Z
+&StartTime=2026-11-24T01%3A44%3A41Z
+&EndTime=2026-11-24T01%3A44%3A41Z
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation GetPredictiveScalingForecast is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>Given end time must be after start time</Message>
   </Error>
-  <RequestId>558a852e-1197-4e27-8b0f-bd762f0eb811</RequestId>
+  <RequestId>f263da02-ac67-4361-807d-d1cd7f9ea1c9</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### LaunchInstances
 
 Launches a specified number of instances in an Auto Scaling group.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -1952,20 +2002,20 @@ Action=LaunchInstances
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation LaunchInstances is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup not found - No such Auto Scaling group: example</Message>
   </Error>
-  <RequestId>d6dbf8c1-917b-4103-9de1-72dd695cbd55</RequestId>
+  <RequestId>baaf2b2f-87b9-45ad-8a1a-fe3a1eb9cb30</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### PutAccountSetting
 
@@ -2088,6 +2138,8 @@ content-type: text/xml
 
 Creates or updates a scheduled scaling action for an Auto Scaling group.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -2098,20 +2150,20 @@ Action=PutScheduledUpdateGroupAction
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation PutScheduledUpdateGroupAction is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>8897727f-c0c2-4ed7-bdc6-4e75c4ca0ad2</RequestId>
+  <RequestId>6de6feb5-c649-4ffd-af05-e674531e338b</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### PutWarmPool
 
@@ -2145,6 +2197,8 @@ content-type: text/xml
 
 Records a heartbeat for the lifecycle action associated with the specified token or instance.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -2155,24 +2209,26 @@ Action=RecordLifecycleActionHeartbeat
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation RecordLifecycleActionHeartbeat is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>No Lifecycle Action found because no token or instance ID is provided</Message>
   </Error>
-  <RequestId>c27390ba-a012-4920-91ab-0519f3717703</RequestId>
+  <RequestId>10bdaf94-341b-4034-bb86-f2c31c83b4df</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### ResumeProcesses
 
 Resumes the specified suspended auto scaling processes, or all suspended process, for the specified Auto Scaling group.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -2183,20 +2239,20 @@ Action=ResumeProcesses
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ResumeProcesses is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - no such group: example</Message>
   </Error>
-  <RequestId>e1c668b2-a4d6-42b1-8838-c8fddf990d29</RequestId>
+  <RequestId>fff5fec1-b83f-4c40-9f17-ea7ca514dcb7</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### RollbackInstanceRefresh
 
@@ -2259,6 +2315,8 @@ content-type: text/xml
 
 Sets the health status of the specified instance.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -2269,20 +2327,20 @@ Action=SetInstanceHealth
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation SetInstanceHealth is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>Valid instance health states are: [Healthy, Unhealthy].</Message>
   </Error>
-  <RequestId>46e4d271-d161-4541-b004-a55f034f30d2</RequestId>
+  <RequestId>96529a59-b267-4558-8b1a-64fac8b6e714</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### SetInstanceProtection
 
@@ -2346,6 +2404,8 @@ content-type: text/xml
 
 Suspends the specified auto scaling processes, or all processes, for the specified Auto Scaling group.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -2355,20 +2415,20 @@ Action=SuspendProcesses
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation SuspendProcesses is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>AutoScalingGroup name not found - no such group: example</Message>
   </Error>
-  <RequestId>50e78258-057f-47d5-bb58-99498d728ddb</RequestId>
+  <RequestId>11b998e9-0a1a-4c04-b5e1-3d20932b60ba</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### TerminateInstanceInAutoScalingGroup
 

@@ -323,18 +323,20 @@ date: Mon, 16 Nov 2026 12:10:58 GMT
 
 Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`) are left out here; the walkthrough shows them in full.
 
-Of 46 operations, 3 accepted the placeholder call, 38 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 46 operations, 8 accepted the placeholder call, 26 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### CreateDeployment
 
 Creates a deployment.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST /deployments HTTP/1.1
 Content-Type: application/json
 
 {
-  "clientToken": "93acc306-8cc4-4391-9518-091425a55330",
+  "clientToken": "4b150168-77dd-49f0-b381-c8905acbbe5d",
   "deploymentName": "example",
   "deploymentConfiguration": {
     "enableCrossAccountVisibility": false
@@ -353,17 +355,24 @@ Content-Type: application/json
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: NotImplemented
+x-amzn-errortype: ValidationException
 
 {
-  "__type": "NotImplemented",
-  "message": "operation CreateDeployment is scaffolded but not implemented in this emulator"
+  "__type": "ValidationException",
+  "message": "associatedPolicyList policyIdentifier must be an Amazon Resource Name of 20 to 1010 characters, but \"example\" is not one",
+  "reason": "FIELD_VALIDATION_FAILED",
+  "fieldList": [
+    {
+      "name": "associatedPolicyList",
+      "message": "associatedPolicyList policyIdentifier must be an Amazon Resource Name of 20 to 1010 characters, but \"example\" is not one"
+    }
+  ]
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationException`: the placeholder values failed the operation's input validation.
 
 ### CreateDeploymentSnapshot
 
@@ -467,12 +476,14 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Creates a rule.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST /rules HTTP/1.1
 Content-Type: application/json
 
 {
-  "clientToken": "1d85af3b-efab-447a-92ee-5828c8f70d41",
+  "clientToken": "9e3e718e-e8b4-4bce-9248-0858b3580eef",
   "ruleName": "example",
   "firewallType": "WAF",
   "ruleType": "CONFIGURATION",
@@ -481,17 +492,26 @@ Content-Type: application/json
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 201 Created
 content-type: application/json
-x-amzn-errortype: NotImplemented
 
 {
-  "__type": "NotImplemented",
-  "message": "operation CreateRule is scaffolded but not implemented in this emulator"
+  "ruleId": "7fcbe1a1aa5ee1268a8baccb042532381",
+  "ruleArn": "arn:aws:network-security-manager:us-east-1:000000000000:rule/7fcbe1a1aa5ee1268a8baccb042532381",
+  "ruleName": "example",
+  "firewallType": "WAF",
+  "ruleType": "CONFIGURATION",
+  "configuration": {},
+  "status": "ACTIVE",
+  "version": "1",
+  "updateToken": "faae2b05-8597-4bd7-b089-dca98512f3c1",
+  "isSnapshot": false,
+  "hasPublishedVersion": true,
+  "updatedAt": "2026-11-24T01:44:53.252952Z"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `201 Created` even with placeholder values.
 
 ### CreateRuleSnapshot
 
@@ -523,12 +543,14 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Creates a scope.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST /scopes HTTP/1.1
 Content-Type: application/json
 
 {
-  "clientToken": "f13355fb-2fe8-47dd-9944-2825488871b3",
+  "clientToken": "30393cbb-019e-48fc-a13b-ff43207a1401",
   "scopeName": "example",
   "scopeConfiguration": {
     "resourceScopes": {
@@ -539,17 +561,28 @@ Content-Type: application/json
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 201 Created
 content-type: application/json
-x-amzn-errortype: NotImplemented
 
 {
-  "__type": "NotImplemented",
-  "message": "operation POST /scopes is not implemented in this emulator"
+  "scopeId": "0d2624465b45bb3cde090764620edcf61",
+  "scopeArn": "arn:aws:network-security-manager:us-east-1:000000000000:scope/0d2624465b45bb3cde090764620edcf61",
+  "scopeName": "example",
+  "scopeConfiguration": {
+    "resourceScopes": {
+      "key": {}
+    }
+  },
+  "status": "ACTIVE",
+  "version": "1",
+  "updateToken": "adb73e77-860d-4d3a-9443-6955bd377687",
+  "isSnapshot": false,
+  "hasPublishedVersion": true,
+  "updatedAt": "2026-11-24T01:44:53.339832Z"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `201 Created` even with placeholder values.
 
 ### CreateScopeSnapshot
 
@@ -581,12 +614,14 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Creates a template.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST /templates HTTP/1.1
 Content-Type: application/json
 
 {
-  "clientToken": "4404d30d-6ca0-4f34-8795-13bc58b36a06",
+  "clientToken": "a698db72-af68-45ed-8df1-17dc2c15a847",
   "templateName": "example",
   "associatedRuleList": [
     {
@@ -598,17 +633,24 @@ Content-Type: application/json
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: NotImplemented
+x-amzn-errortype: ValidationException
 
 {
-  "__type": "NotImplemented",
-  "message": "operation CreateTemplate is scaffolded but not implemented in this emulator"
+  "__type": "ValidationException",
+  "message": "associatedRuleList ruleIdentifier must be an Amazon Resource Name of 20 to 1010 characters, but \"example\" is not one",
+  "reason": "FIELD_VALIDATION_FAILED",
+  "fieldList": [
+    {
+      "name": "associatedRuleList",
+      "message": "associatedRuleList ruleIdentifier must be an Amazon Resource Name of 20 to 1010 characters, but \"example\" is not one"
+    }
+  ]
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationException`: the placeholder values failed the operation's input validation.
 
 ### CreateTemplateSnapshot
 
@@ -697,22 +739,25 @@ Accepted: the emulator answered `204 No Content` even with placeholder values. S
 
 Deletes the specified rule.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 DELETE /rules/example HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: NotImplemented
+x-amzn-errortype: ValidationException
 
 {
-  "__type": "NotImplemented",
-  "message": "operation DeleteRule is scaffolded but not implemented in this emulator"
+  "__type": "ValidationException",
+  "message": "ruleIdentifier must be the resource's ARN.",
+  "reason": "FIELD_VALIDATION_FAILED"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationException`: the placeholder values failed the operation's input validation.
 
 ### DeleteScope
 
@@ -739,22 +784,18 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Deletes the specified template.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 DELETE /templates/example HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 204 No Content
 content-type: application/json
-x-amzn-errortype: NotImplemented
-
-{
-  "__type": "NotImplemented",
-  "message": "operation DeleteTemplate is scaffolded but not implemented in this emulator"
-}
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `204 No Content` even with placeholder values.
 
 ### GenerateRuleConfiguration
 
@@ -810,22 +851,26 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Retrieves the details of the specified deployment, including coverage information and any warnings.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 GET /deployments/example HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: application/json
-x-amzn-errortype: NotImplemented
+x-amzn-errortype: ResourceNotFoundException
 
 {
-  "__type": "NotImplemented",
-  "message": "operation GetDeployment is scaffolded but not implemented in this emulator"
+  "__type": "ResourceNotFoundException",
+  "message": "The requested resource was not found.",
+  "resourceId": "example",
+  "resourceType": "Deployment"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `ResourceNotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### GetPolicy
 
@@ -854,64 +899,75 @@ x-amzn-errortype: ResourceNotFoundException
 
 Retrieves the details of the specified rule.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 GET /rules/example HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: NotImplemented
+x-amzn-errortype: ValidationException
 
 {
-  "__type": "NotImplemented",
-  "message": "operation GetRule is scaffolded but not implemented in this emulator"
+  "__type": "ValidationException",
+  "message": "ruleIdentifier must be the resource's ARN.",
+  "reason": "FIELD_VALIDATION_FAILED"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationException`: the placeholder values failed the operation's input validation.
 
 ### GetScope
 
 Retrieves the details of the specified scope.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 GET /scopes/example HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: application/json
-x-amzn-errortype: NotImplemented
+x-amzn-errortype: ResourceNotFoundException
 
 {
-  "__type": "NotImplemented",
-  "message": "operation GET /scopes/example is not implemented in this emulator"
+  "__type": "ResourceNotFoundException",
+  "message": "The requested resource was not found.",
+  "resourceId": "example",
+  "resourceType": "Scope"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `ResourceNotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### GetTemplate
 
 Retrieves the details of the specified template.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 GET /templates/example HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: application/json
-x-amzn-errortype: NotImplemented
+x-amzn-errortype: ResourceNotFoundException
 
 {
-  "__type": "NotImplemented",
-  "message": "operation GetTemplate is scaffolded but not implemented in this emulator"
+  "__type": "ResourceNotFoundException",
+  "message": "The requested resource was not found.",
+  "resourceId": "example",
+  "resourceType": "Template"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `ResourceNotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ListAdminAccounts
 
@@ -980,22 +1036,22 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Lists the deployments in the account.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 GET /deployments HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: application/json
-x-amzn-errortype: NotImplemented
 
 {
-  "__type": "NotImplemented",
-  "message": "operation ListDeployments is scaffolded but not implemented in this emulator"
+  "deployments": []
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### ListPolicies
 
@@ -1221,22 +1277,22 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Lists the templates in the account.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 GET /templates HTTP/1.1
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: application/json
-x-amzn-errortype: NotImplemented
 
 {
-  "__type": "NotImplemented",
-  "message": "operation ListTemplates is scaffolded but not implemented in this emulator"
+  "templates": []
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### PutAdminAccount
 

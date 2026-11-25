@@ -711,7 +711,7 @@ date: Mon, 16 Nov 2026 12:05:33 GMT
 
 Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
 
-Of 807 operations, 199 accepted the placeholder call, 216 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 807 operations, 207 accepted the placeholder call, 135 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AcceptAddressTransfer
 
@@ -949,6 +949,8 @@ content-type: text/xml;charset=UTF-8
 
 Accept a VPC peering connection request.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -958,21 +960,21 @@ Action=AcceptVpcPeeringConnection
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation AcceptVpcPeeringConnection is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidVpcPeeringConnectionID.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000000a</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000001</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidVpcPeeringConnectionID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### AdvertiseByoipCidr
 
@@ -1062,35 +1064,39 @@ content-type: text/xml;charset=UTF-8
 
 Allocate a CIDR from an IPAM pool.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
 Action=AllocateIpamPoolCidr
 &Version=2016-11-15
 &IpamPoolId=example
-&ClientToken=fb56d414-6ad9-447b-8d41-47902ba0320d
+&ClientToken=e0676ac4-9dbe-4fe3-aefe-ecb2041868ff
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation AllocateIpamPoolCidr is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidIpamPoolId.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000000d</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000002</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidIpamPoolId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### ApplySecurityGroupsToClientVpnTargetNetwork
 
 Applies a security group to the association between the target network and the Client VPN endpoint.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -1103,21 +1109,21 @@ Action=ApplySecurityGroupsToClientVpnTargetNetwork
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ApplySecurityGroupsToClientVpnTargetNetwork is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidClientVpnEndpointId.NotFound</Code>
+      <Message>Endpoint example does not exist</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000000e</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000003</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidClientVpnEndpointId.NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### AssignIpv6Addresses
 
@@ -1152,6 +1158,8 @@ content-type: text/xml;charset=UTF-8
 
 Assigns the specified secondary private IP addresses to the specified network interface.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1161,25 +1169,27 @@ Action=AssignPrivateIpAddresses
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation AssignPrivateIpAddresses is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidNetworkInterfaceId.Malformed</Code>
+      <Message>The interface ID 'example' is malformed</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000010</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000004</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidNetworkInterfaceId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### AssignPrivateNatGatewayAddress
 
 Assigns private IPv4 addresses to a private NAT gateway.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -1190,21 +1200,21 @@ Action=AssignPrivateNatGatewayAddress
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation AssignPrivateNatGatewayAddress is scaffolded but not implemented in this emulator</Message>
+      <Code>MissingParameter</Code>
+      <Message>Either 'privateIpAddress' or 'privateIpAddressCount' must be specified</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000011</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000005</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `MissingParameter`: the placeholder values failed the operation's input validation.
 
 ### AssociateAddress
 
@@ -1268,6 +1278,8 @@ content-type: text/xml;charset=UTF-8
 
 Initiates a request to assign billing of the unused capacity of a shared Capacity Reservation to a consumer account that is consolidated under the same Amazon Web Services organizations payer account.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1278,21 +1290,21 @@ Action=AssociateCapacityReservationBillingOwner
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation AssociateCapacityReservationBillingOwner is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidCapacityReservationId.Malformed</Code>
+      <Message>Capacity Reservation ID 'example' is malformed</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000014</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000006</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidCapacityReservationId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### AssociateClientVpnTargetNetwork
 
@@ -2022,6 +2034,8 @@ content-type: text/xml;charset=UTF-8
 
 Adds an ingress authorization rule to a Client VPN endpoint.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -2029,25 +2043,25 @@ Action=AuthorizeClientVpnIngress
 &Version=2016-11-15
 &ClientVpnEndpointId=example
 &TargetNetworkCidr=example
-&ClientToken=4e2843d0-e68e-4977-8057-9378e69a5fcf
+&ClientToken=95ab9094-eedd-48ad-80ce-9314a7a61c3a
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation AuthorizeClientVpnIngress is scaffolded but not implemented in this emulator</Message>
+      <Code>MissingParameter</Code>
+      <Message>The request must contain the parameter accessGroupId</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000002d</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000008</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `MissingParameter`: the placeholder values failed the operation's input validation.
 
 ### AuthorizeSecurityGroupEgress
 
@@ -2552,33 +2566,35 @@ content-type: text/xml;charset=UTF-8
 
 Initiates an AMI copy operation.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
 Action=CopyImage
 &Version=2016-11-15
-&ClientToken=18f52fca-6c58-4067-b85b-1563441b06ac
+&ClientToken=87a35e7f-78b4-4b8f-883e-d59b64172717
 &Name=example
 &SourceImageId=example
 &SourceRegion=example
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation CopyImage is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidParameterValue</Code>
+      <Message>Region name 'example' is invalid.</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000003e</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000000b</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### CopySnapshot
 
@@ -3038,6 +3054,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Creates a default subnet with a size /20 IPv4 CIDR block in the specified Availability Zone in your default VPC.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -3046,21 +3064,21 @@ Action=CreateDefaultSubnet
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation CreateDefaultSubnet is scaffolded but not implemented in this emulator</Message>
+      <Code>MissingParameter</Code>
+      <Message>Either availabilityZone or availabilityZoneId must be specified, but not both</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000004b</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000000d</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `MissingParameter`: the placeholder values failed the operation's input validation.
 
 ### CreateDefaultVpc
 
@@ -3154,6 +3172,8 @@ content-type: text/xml;charset=UTF-8
 
 [IPv6 only] Creates an egress-only internet gateway for your VPC.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -3163,21 +3183,21 @@ Action=CreateEgressOnlyInternetGateway
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation CreateEgressOnlyInternetGateway is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidVpcId.Malformed</Code>
+      <Message>The vpc ID 'example' is malformed</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000004f</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000000e</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidVpcId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### CreateFleet
 
@@ -3700,30 +3720,34 @@ content-type: text/xml;charset=UTF-8
 
 Creates an IPAM resource discovery.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
 Action=CreateIpamResourceDiscovery
 &Version=2016-11-15
-&ClientToken=63185666-4428-4f6d-86ea-15ceaa138366
+&ClientToken=6f7b2995-7cbc-4ccb-a608-75d5c2e4d90d
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml;charset=UTF-8
 
-<Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
-  <Errors>
-    <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation CreateIpamResourceDiscovery is scaffolded but not implemented in this emulator</Message>
-    </Error>
-  </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000005f</RequestID>
-</Response>
+<CreateIpamResourceDiscoveryResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
+  <ipamResourceDiscovery xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
+    <ownerId>000000000000</ownerId>
+    <ipamResourceDiscoveryId>ipam-res-disco-000000000000000a7</ipamResourceDiscoveryId>
+    <ipamResourceDiscoveryArn>arn:aws:ec2::000000000000:ipam-resource-discovery/ipam-res-disco-000000000000000a7</ipamResourceDiscoveryArn>
+    <ipamResourceDiscoveryRegion>us-east-1</ipamResourceDiscoveryRegion>
+    <operatingRegionSet>
+      <item>
+        <regionName>us-east-1</regionName>
+      </item>
+… (8 more lines)
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### CreateIpamRoutingPolicyRegistration
 
@@ -4962,6 +4986,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Creates a Traffic Mirror filter rule.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -4973,25 +4999,25 @@ Action=CreateTrafficMirrorFilterRule
 &RuleAction=accept
 &DestinationCidrBlock=example
 &SourceCidrBlock=example
-&ClientToken=d64f73eb-7a3f-4d22-bdff-7f86d976edc4
+&ClientToken=647a9050-5d7b-48c8-ae10-2ea41729f797
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation CreateTrafficMirrorFilterRule is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidParameterValue</Code>
+      <Message>Value (example) for parameter destinationCidrBlock is invalid. This is not a valid CIDR block.</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000082</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000014</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### CreateTrafficMirrorSession
 
@@ -6249,6 +6275,8 @@ content-type: text/xml;charset=UTF-8
 
 Deletes an egress-only internet gateway.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -6258,21 +6286,21 @@ Action=DeleteEgressOnlyInternetGateway
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DeleteEgressOnlyInternetGateway is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidGatewayID.NotFound</Code>
+      <Message>The eigw ID 'example' does not exist</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000000aa</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000017</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidGatewayID.NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### DeleteFleets
 
@@ -7211,6 +7239,8 @@ content-type: text/xml;charset=UTF-8
 
 Deletes the specified network insights analysis.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -7220,21 +7250,21 @@ Action=DeleteNetworkInsightsAnalysis
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DeleteNetworkInsightsAnalysis is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidParameterValue</Code>
+      <Message>NetworkInsightsAnalysisId (example) is not valid</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000000ca</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000001d</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### DeleteNetworkInsightsPath
 
@@ -7960,6 +7990,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Deletes the specified Connect attachment.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -7969,21 +8001,21 @@ Action=DeleteTransitGatewayConnect
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DeleteTransitGatewayConnect is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidTransitGatewayAttachmentID.Malformed</Code>
+      <Message>Invalid Transit Gateway Attachment id.</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000000e3</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000021</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidTransitGatewayAttachmentID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### DeleteTransitGatewayConnectPeer
 
@@ -8047,6 +8079,8 @@ content-type: text/xml;charset=UTF-8
 
 Deletes an entry from a transit gateway metering policy.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -8057,21 +8091,21 @@ Action=DeleteTransitGatewayMeteringPolicyEntry
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DeleteTransitGatewayMeteringPolicyEntry is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidTransitGatewayMeteringPolicyIdMalformedException</Code>
+      <Message>The transit-gateway-metering-policy ID 'example' is malformed</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000000e6</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000022</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidTransitGatewayMeteringPolicyIdMalformedException`: the placeholder values failed the operation's input validation.
 
 ### DeleteTransitGatewayMulticastDomain
 
@@ -8106,6 +8140,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Deletes a transit gateway peering attachment.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -8115,25 +8151,27 @@ Action=DeleteTransitGatewayPeeringAttachment
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DeleteTransitGatewayPeeringAttachment is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidTransitGatewayAttachmentID.Malformed</Code>
+      <Message>Invalid Transit Gateway Attachment id.</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000000e8</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000024</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidTransitGatewayAttachmentID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### DeleteTransitGatewayPolicyTable
 
 Deletes the specified transit gateway policy table.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -8144,21 +8182,21 @@ Action=DeleteTransitGatewayPolicyTable
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DeleteTransitGatewayPolicyTable is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidTransitGatewayPolicyTableId.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000000e9</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000025</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidTransitGatewayPolicyTableId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### DeleteTransitGatewayPolicyTableEntry
 
@@ -8606,6 +8644,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Deletes the specified VPC endpoint service configurations.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -8615,21 +8655,23 @@ Action=DeleteVpcEndpointServiceConfigurations
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml;charset=UTF-8
 
-<Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
-  <Errors>
-    <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DeleteVpcEndpointServiceConfigurations is scaffolded but not implemented in this emulator</Message>
-    </Error>
-  </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000000f9</RequestID>
-</Response>
+<DeleteVpcEndpointServiceConfigurationsResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
+  <unsuccessful>
+    <item xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
+      <error>
+        <code>InvalidVpcEndpointServiceId.Malformed</code>
+        <message>Invalid id: "example"</message>
+      </error>
+      <resourceId>example</resourceId>
+    </item>
+  </unsuccessful>
+… (2 more lines)
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DeleteVpcEndpoints
 
@@ -8666,6 +8708,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Deletes a VPC peering connection.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -8675,21 +8719,21 @@ Action=DeleteVpcPeeringConnection
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DeleteVpcPeeringConnection is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidVpcPeeringConnectionID.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000000fa</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000029</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidVpcPeeringConnectionID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### DeleteVpnConcentrator
 
@@ -9240,6 +9284,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Describes the associations for one or more application status checks.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -9248,21 +9294,17 @@ Action=DescribeApplicationStatusCheckAssociations
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml;charset=UTF-8
 
-<Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
-  <Errors>
-    <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DescribeApplicationStatusCheckAssociations is scaffolded but not implemented in this emulator</Message>
-    </Error>
-  </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000107</RequestID>
-</Response>
+<DescribeApplicationStatusCheckAssociationsResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
+  <associationSet/>
+  <tagSet/>
+  <requestId>8f659417-61b7-4b37-adb8-edd0668e967f</requestId>
+</DescribeApplicationStatusCheckAssociationsResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeApplicationStatusChecks
 
@@ -9751,6 +9793,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Describes the authorization rules for a specified Client VPN endpoint.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -9760,21 +9804,21 @@ Action=DescribeClientVpnAuthorizationRules
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DescribeClientVpnAuthorizationRules is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidClientVpnEndpointId.NotFound</Code>
+      <Message>Endpoint example does not exist</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000010c</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000002e</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidClientVpnEndpointId.NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### DescribeClientVpnConnections
 
@@ -10019,6 +10063,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Describes your egress-only internet gateways.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -10027,21 +10073,16 @@ Action=DescribeEgressOnlyInternetGateways
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml;charset=UTF-8
 
-<Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
-  <Errors>
-    <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DescribeEgressOnlyInternetGateways is scaffolded but not implemented in this emulator</Message>
-    </Error>
-  </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000110</RequestID>
-</Response>
+<DescribeEgressOnlyInternetGatewaysResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
+  <egressOnlyInternetGatewaySet/>
+  <requestId>f092dfbe-fddc-4be4-848f-9bb4663924bc</requestId>
+</DescribeEgressOnlyInternetGatewaysResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeElasticGpus
 
@@ -10727,6 +10768,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Describes the credit option for CPU usage of the specified burstable performance instances.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -10735,21 +10778,16 @@ Action=DescribeInstanceCreditSpecifications
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml;charset=UTF-8
 
-<Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
-  <Errors>
-    <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DescribeInstanceCreditSpecifications is scaffolded but not implemented in this emulator</Message>
-    </Error>
-  </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000011b</RequestID>
-</Response>
+<DescribeInstanceCreditSpecificationsResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
+  <instanceCreditSpecificationSet/>
+  <requestId>0e37da71-e09e-41b5-9d02-439e62a67f0f</requestId>
+</DescribeInstanceCreditSpecificationsResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeInstanceEventNotificationAttributes
 
@@ -10804,6 +10842,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Describes the AMI that was used to launch an instance, even if the AMI is deprecated, deregistered, made private (no longer public or shared with your account), or not allowed.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -10812,21 +10852,16 @@ Action=DescribeInstanceImageMetadata
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml;charset=UTF-8
 
-<Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
-  <Errors>
-    <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DescribeInstanceImageMetadata is scaffolded but not implemented in this emulator</Message>
-    </Error>
-  </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000011c</RequestID>
-</Response>
+<DescribeInstanceImageMetadataResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
+  <instanceImageMetadataSet/>
+  <requestId>0ad2b1e4-4fb4-45a9-a051-0be868e76632</requestId>
+</DescribeInstanceImageMetadataResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeInstanceSqlHaHistoryStates
 
@@ -10901,6 +10936,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Describes a tree-based hierarchy that represents the physical host placement of your EC2 instances within an Availability Zone or Local Zone.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -10909,21 +10946,16 @@ Action=DescribeInstanceTopology
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml;charset=UTF-8
 
-<Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
-  <Errors>
-    <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DescribeInstanceTopology is scaffolded but not implemented in this emulator</Message>
-    </Error>
-  </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000011d</RequestID>
-</Response>
+<DescribeInstanceTopologyResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
+  <instanceSet/>
+  <requestId>173c901c-585f-4649-8897-74a4c266de46</requestId>
+</DescribeInstanceTopologyResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeInstanceTypeOfferings
 
@@ -12626,6 +12658,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Describes the specified attribute of the specified snapshot.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -12636,25 +12670,27 @@ Action=DescribeSnapshotAttribute
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DescribeSnapshotAttribute is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidSnapshotID.Malformed</Code>
+      <Message>Value ( example ) for parameter SNAPSHOT is invalid. </Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000128</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000039</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidSnapshotID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### DescribeSnapshotTierStatus
 
 Describes the storage tier status of one or more Amazon EBS snapshots.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -12664,21 +12700,16 @@ Action=DescribeSnapshotTierStatus
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml;charset=UTF-8
 
-<Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
-  <Errors>
-    <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DescribeSnapshotTierStatus is scaffolded but not implemented in this emulator</Message>
-    </Error>
-  </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000129</RequestID>
-</Response>
+<DescribeSnapshotTierStatusResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
+  <snapshotTierStatusSet/>
+  <requestId>04949523-b661-4019-a606-748f39da59e3</requestId>
+</DescribeSnapshotTierStatusResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeSnapshots
 
@@ -12771,31 +12802,33 @@ content-type: text/xml;charset=UTF-8
 
 Describes the events for the specified Spot Fleet request during the specified time.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
 Action=DescribeSpotFleetRequestHistory
 &Version=2016-11-15
 &SpotFleetRequestId=example
-&StartTime=2026-11-16T12%3A11%3A33Z
+&StartTime=2026-11-24T01%3A44%3A45Z
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DescribeSpotFleetRequestHistory is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidSpotFleetRequestId.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000012c</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000003a</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidSpotFleetRequestId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### DescribeSpotFleetRequests
 
@@ -14136,6 +14169,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Removes a watermark from the specified AMI.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -14146,21 +14181,21 @@ Action=DetachImageWatermark
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DetachImageWatermark is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidAMIID.Malformed</Code>
+      <Message>The image ID 'example' is malformed</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000136</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000040</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidAMIID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### DetachInternetGateway
 
@@ -14586,6 +14621,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Cancels the deprecation of the specified AMI.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -14595,21 +14632,21 @@ Action=DisableImageDeprecation
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DisableImageDeprecation is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidAMIID.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000143</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000042</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidAMIID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### DisableImageDeregistrationProtection
 
@@ -14951,31 +14988,33 @@ content-type: text/xml;charset=UTF-8
 
 Disassociates an application status check from instances or tags .
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
 Action=DisassociateApplicationStatusCheck
 &Version=2016-11-15
 &ApplicationStatusCheckId=example
-&ClientToken=f577f25d-85ff-46e8-93c0-2108b863dc6f
+&ClientToken=bef91c74-c640-4363-8225-be5c60b3e533
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DisassociateApplicationStatusCheck is scaffolded but not implemented in this emulator</Message>
+      <Code>MissingParameter</Code>
+      <Message>You must specify either TargetTagAssociations or InstanceIds</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000014e</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000047</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `MissingParameter`: the placeholder values failed the operation's input validation.
 
 ### DisassociateCapacityReservationBillingOwner
 
@@ -15189,6 +15228,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Disassociates secondary Elastic IP addresses (EIPs) from a public NAT gateway.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -15199,21 +15240,21 @@ Action=DisassociateNatGatewayAddress
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DisassociateNatGatewayAddress is scaffolded but not implemented in this emulator</Message>
+      <Code>NatGatewayMalformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000156</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000004c</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `NatGatewayMalformed`: the placeholder values failed the operation's input validation.
 
 ### DisassociateRouteServer
 
@@ -15398,6 +15439,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Disassociates a resource attachment from a transit gateway route table.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -15408,21 +15451,21 @@ Action=DisassociateTransitGatewayRouteTable
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation DisassociateTransitGatewayRouteTable is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidRouteTableId.Malformed</Code>
+      <Message>Invalid Transit Gateway Route Table id example.</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000015d</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000004f</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidRouteTableId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### DisassociateTrunkInterface
 
@@ -15541,30 +15584,32 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Suppresses application status checks for the specified instances.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
 Action=EnableApplicationStatusCheckSuppression
 &Version=2016-11-15
-&ClientToken=214efd77-4e17-4d44-b29b-50d7b82b70d6
+&ClientToken=2793c412-1931-4111-9fda-00b5ef8a109f
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation EnableApplicationStatusCheckSuppression is scaffolded but not implemented in this emulator</Message>
+      <Code>MissingParameter</Code>
+      <Message>The request must contain the parameter InstanceId</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000161</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000051</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `MissingParameter`: the placeholder values failed the operation's input validation.
 
 ### EnableAwsNetworkPerformanceMetricSubscription
 
@@ -15757,31 +15802,33 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Enables deprecation of the specified AMI at the specified date and time.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
 Action=EnableImageDeprecation
 &Version=2016-11-15
 &ImageId=example
-&DeprecateAt=2026-11-16T12%3A11%3A33Z
+&DeprecateAt=2026-11-24T01%3A44%3A46Z
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation EnableImageDeprecation is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidAMIID.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000166</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000053</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidAMIID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### EnableImageDeregistrationProtection
 
@@ -16212,6 +16259,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Downloads the contents of the Client VPN endpoint configuration file for the specified Client VPN endpoint.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -16221,21 +16270,21 @@ Action=ExportClientVpnClientConfiguration
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ExportClientVpnClientConfiguration is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidClientVpnEndpointId.NotFound</Code>
+      <Message>Endpoint example does not exist</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000173</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000005b</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidClientVpnEndpointId.NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ExportImage
 
@@ -16303,6 +16352,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Exports the client configuration for a Verified Access instance.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -16312,21 +16363,21 @@ Action=ExportVerifiedAccessInstanceClientConfiguration
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ExportVerifiedAccessInstanceClientConfiguration is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidVerifiedAccessInstanceId.NotFound</Code>
+      <Message>The verified-access-instance ID 'example' does not exist</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000176</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000005d</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidVerifiedAccessInstanceId.NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### GetActiveVpnTunnelStatus
 
@@ -17090,6 +17141,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 A binary representation of the UEFI variable store.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -17099,21 +17152,21 @@ Action=GetInstanceUefiData
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation GetInstanceUefiData is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidInstanceID.Malformed</Code>
+      <Message>The instance ID 'example' is malformed</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000018a</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000064</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidInstanceID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### GetIpamAddressHistory
 
@@ -17269,6 +17322,8 @@ content-type: text/xml;charset=UTF-8
 
 Retrieves Autonomous System Numbers (ASNs) registered with an internet registry for an IPAM internet registry association.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -17278,25 +17333,27 @@ Action=GetIpamInternetRegistryAssociationAsns
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation GetIpamInternetRegistryAssociationAsns is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidIpamInternetRegistryAssociationId.Malformed</Code>
+      <Message>The ipam-internet-registry-association ID 'example' is malformed</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000190</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000067</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidIpamInternetRegistryAssociationId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### GetIpamInternetRegistryAssociationCidrs
 
 Retrieves IP address CIDRs registered with an internet registry for an IPAM internet registry association.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -17307,21 +17364,21 @@ Action=GetIpamInternetRegistryAssociationCidrs
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation GetIpamInternetRegistryAssociationCidrs is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidIpamInternetRegistryAssociationId.Malformed</Code>
+      <Message>The ipam-internet-registry-association ID 'example' is malformed</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000191</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000068</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidIpamInternetRegistryAssociationId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### GetIpamPolicyAllocationRules
 
@@ -17385,6 +17442,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Get a list of all the CIDR allocations in an IPAM pool.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -17394,21 +17453,21 @@ Action=GetIpamPoolAllocations
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation GetIpamPoolAllocations is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidIpamPoolId.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000194</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000006b</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidIpamPoolId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### GetIpamPoolCidrs
 
@@ -17676,6 +17735,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Retrieves the configuration data of the specified instance.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -17685,21 +17746,21 @@ Action=GetLaunchTemplateData
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation GetLaunchTemplateData is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidInstanceID.Malformed</Code>
+      <Message>The instance ID 'example' is malformed</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000019e</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000073</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidInstanceID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### GetManagedPrefixListAssociations
 
@@ -18128,6 +18189,8 @@ content-type: text/xml;charset=UTF-8
 
 Lists the route tables to which the specified resource attachment propagates routes.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -18137,21 +18200,21 @@ Action=GetTransitGatewayAttachmentPropagations
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation GetTransitGatewayAttachmentPropagations is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidTransitGatewayAttachmentID.Malformed</Code>
+      <Message>Invalid Transit Gateway Attachment id.</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001aa</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000075</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidTransitGatewayAttachmentID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### GetTransitGatewayMeteringPolicyEntries
 
@@ -18360,6 +18423,8 @@ content-type: text/xml;charset=UTF-8
 
 Get the Verified Access policy associated with the endpoint.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -18369,25 +18434,27 @@ Action=GetVerifiedAccessEndpointPolicy
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation GetVerifiedAccessEndpointPolicy is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidVerifiedAccessEndpointId.NotFound</Code>
+      <Message>The verified-access-endpoint ID 'example' does not exist</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001b2</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000077</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidVerifiedAccessEndpointId.NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### GetVerifiedAccessEndpointTargets
 
 Gets the targets for the specified network CIDR endpoint for Verified Access.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -18398,25 +18465,27 @@ Action=GetVerifiedAccessEndpointTargets
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation GetVerifiedAccessEndpointTargets is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidVerifiedAccessEndpointId.NotFound</Code>
+      <Message>The verified-access-endpoint ID 'example' does not exist</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001b3</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000078</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidVerifiedAccessEndpointId.NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### GetVerifiedAccessGroupPolicy
 
 Shows the contents of the Verified Access policy associated with the group.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -18427,21 +18496,21 @@ Action=GetVerifiedAccessGroupPolicy
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation GetVerifiedAccessGroupPolicy is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidVerifiedAccessGroupId.NotFound</Code>
+      <Message>The verified-access-group ID 'example' does not exist</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001b4</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000079</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidVerifiedAccessGroupId.NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### GetVpcResourcesBlockingEncryptionEnforcement
 
@@ -19171,6 +19240,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Modifies the specified attribute of the specified Amazon FPGA Image (AFI).
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -19180,21 +19251,21 @@ Action=ModifyFpgaImageAttribute
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyFpgaImageAttribute is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidFpgaImageID.Malformed</Code>
+      <Message>Image ID 'example' is invalid.</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001ca</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000086</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidFpgaImageID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### ModifyHosts
 
@@ -19436,6 +19507,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Modifies the credit option for CPU usage on a running or stopped burstable performance instance.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -19445,25 +19518,27 @@ Action=ModifyInstanceCreditSpecification
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyInstanceCreditSpecification is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidParameterValue</Code>
+      <Message>The CpuCredits parameter requires a value of either Standard or Unlimited. Change the value and try again.</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001d3</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000008a</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### ModifyInstanceEventStartTime
 
 Modifies the start time for a scheduled Amazon EC2 instance event.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -19472,25 +19547,25 @@ Action=ModifyInstanceEventStartTime
 &Version=2016-11-15
 &InstanceId=example
 &InstanceEventId=example
-&NotBefore=2026-11-16T12%3A11%3A33Z
+&NotBefore=2026-11-24T01%3A44%3A47Z
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyInstanceEventStartTime is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidInstanceID.Malformed</Code>
+      <Message>The instance ID 'example' is malformed</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001d4</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000008b</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidInstanceID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### ModifyInstanceEventWindow
 
@@ -19525,6 +19600,8 @@ content-type: text/xml;charset=UTF-8
 
 Modifies the recovery behavior of your instance to disable simplified automatic recovery or set the recovery behavior to default.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -19534,21 +19611,21 @@ Action=ModifyInstanceMaintenanceOptions
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyInstanceMaintenanceOptions is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidInstanceID.Malformed</Code>
+      <Message>The instance ID 'example' is malformed</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001d6</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000008c</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidInstanceID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### ModifyInstanceMetadataDefaults
 
@@ -19611,6 +19688,8 @@ content-type: text/xml;charset=UTF-8
 
 Change the configuration of the network performance options for an existing instance.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -19621,25 +19700,27 @@ Action=ModifyInstanceNetworkPerformanceOptions
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyInstanceNetworkPerformanceOptions is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidInstanceID.Malformed</Code>
+      <Message>The instance ID 'example' is malformed</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001d9</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000008d</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidInstanceID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### ModifyInstancePlacement
 
 Modifies the placement attributes for a specified instance.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -19650,21 +19731,21 @@ Action=ModifyInstancePlacement
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyInstancePlacement is scaffolded but not implemented in this emulator</Message>
+      <Code>MissingParameter</Code>
+      <Message>The request must contain at least one of the parameters affinity, hostId, tenancy or groupName</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001da</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000008e</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `MissingParameter`: the placeholder values failed the operation's input validation.
 
 ### ModifyIpam
 
@@ -19730,6 +19811,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Modify the configurations of an IPAM pool.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -19739,21 +19822,21 @@ Action=ModifyIpamPool
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyIpamPool is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidIpamPoolId.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001dd</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000090</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidIpamPoolId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### ModifyIpamPoolAllocation
 
@@ -19788,6 +19871,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Modifies an IPAM prefix list resolver.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -19797,25 +19882,27 @@ Action=ModifyIpamPrefixListResolver
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyIpamPrefixListResolver is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidIpamPrefixListResolverId.NotFound</Code>
+      <Message>The ipam-prefix-list-resolver ID 'example' does not exist</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001df</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000092</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidIpamPrefixListResolverId.NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ModifyIpamPrefixListResolverTarget
 
 Modifies an IPAM prefix list resolver target.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -19823,25 +19910,25 @@ POST / HTTP/1.1
 Action=ModifyIpamPrefixListResolverTarget
 &Version=2016-11-15
 &IpamPrefixListResolverTargetId=example
-&ClientToken=0b42dcc2-3ffd-4f0c-b1ad-e3a08a0376d4
+&ClientToken=54a34eeb-5100-465e-a217-12ad24cf70fd
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyIpamPrefixListResolverTarget is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidIpamPrefixListResolverTargetId.NotFound</Code>
+      <Message>The ipam-prefix-list-resolver-target ID 'example' does not exist</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001e0</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000093</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidIpamPrefixListResolverTargetId.NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ModifyIpamResourceCidr
 
@@ -20112,6 +20199,8 @@ content-type: text/xml;charset=UTF-8
 
 Modifies the options for instance hostnames for the specified instance.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -20121,25 +20210,27 @@ Action=ModifyPrivateDnsNameOptions
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyPrivateDnsNameOptions is scaffolded but not implemented in this emulator</Message>
+      <Code>UnknownResource</Code>
+      <Message>User (000000000000) does not own a resource example .</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001e9</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000097</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `UnknownResource`.
 
 ### ModifyPublicIpDnsNameOptions
 
 Modify public hostname options for a network interface.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -20151,21 +20242,21 @@ Action=ModifyPublicIpDnsNameOptions
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyPublicIpDnsNameOptions is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidNetworkInterfaceId.Malformed</Code>
+      <Message>The network-interface ID 'example' is malformed</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001ea</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000098</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidNetworkInterfaceId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### ModifyReservedInstances
 
@@ -20260,6 +20351,8 @@ content-type: text/xml;charset=UTF-8
 
 Adds or removes permission settings for the specified snapshot.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -20269,25 +20362,27 @@ Action=ModifySnapshotAttribute
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifySnapshotAttribute is scaffolded but not implemented in this emulator</Message>
+      <Code>MissingParameter</Code>
+      <Message>The request must contain the parameter CreateVolumePermission</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001ee</RequestID>
+  <RequestID>00000000-0000-0000-0000-000000000099</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `MissingParameter`: the placeholder values failed the operation's input validation.
 
 ### ModifySnapshotTier
 
 Archives an Amazon EBS snapshot.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -20298,25 +20393,27 @@ Action=ModifySnapshotTier
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifySnapshotTier is scaffolded but not implemented in this emulator</Message>
+      <Code>MissingParameter</Code>
+      <Message>The request must include the StorageTier parameter. Add the required parameter and retry the request.</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001ef</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000009a</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `MissingParameter`: the placeholder values failed the operation's input validation.
 
 ### ModifySpotFleetRequest
 
 Modifies the specified Spot Fleet request.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -20327,21 +20424,21 @@ Action=ModifySpotFleetRequest
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifySpotFleetRequest is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidSpotFleetRequestId.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001f0</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000009b</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidSpotFleetRequestId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### ModifySubnetAttribute
 
@@ -20376,6 +20473,8 @@ content-type: text/xml;charset=UTF-8
 
 Allows or restricts mirroring network services.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -20385,21 +20484,21 @@ Action=ModifyTrafficMirrorFilterNetworkServices
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyTrafficMirrorFilterNetworkServices is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidTrafficMirrorFilterId.NotFound</Code>
+      <Message>example does not exist</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001f2</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000009c</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidTrafficMirrorFilterId.NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ModifyTrafficMirrorFilterRule
 
@@ -20492,6 +20591,8 @@ content-type: text/xml;charset=UTF-8
 
 Modifies a transit gateway metering policy.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -20501,21 +20602,21 @@ Action=ModifyTransitGatewayMeteringPolicy
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyTransitGatewayMeteringPolicy is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidTransitGatewayMeteringPolicyIdMalformedException</Code>
+      <Message>The transit-gateway-metering-policy ID 'example' is malformed</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001f6</RequestID>
+  <RequestID>00000000-0000-0000-0000-00000000009f</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidTransitGatewayMeteringPolicyIdMalformedException`: the placeholder values failed the operation's input validation.
 
 ### ModifyTransitGatewayPolicyTableEntry
 
@@ -20551,6 +20652,8 @@ content-type: text/xml;charset=UTF-8
 
 Modifies a reference (route) to a prefix list in a specified transit gateway route table.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -20561,25 +20664,27 @@ Action=ModifyTransitGatewayPrefixListReference
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyTransitGatewayPrefixListReference is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidRouteTableId.Malformed</Code>
+      <Message>Invalid Transit Gateway Route Table id example.</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001f8</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000a0</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidRouteTableId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### ModifyTransitGatewayVpcAttachment
 
 Modifies the specified VPC attachment.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -20590,21 +20695,21 @@ Action=ModifyTransitGatewayVpcAttachment
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyTransitGatewayVpcAttachment is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidTransitGatewayAttachmentID.Malformed</Code>
+      <Message>Invalid Transit Gateway Attachment id.</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001f9</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000a1</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidTransitGatewayAttachmentID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### ModifyVerifiedAccessEndpoint
 
@@ -20640,35 +20745,39 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Modifies the specified Amazon Web Services Verified Access endpoint policy.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
 Action=ModifyVerifiedAccessEndpointPolicy
 &Version=2016-11-15
 &VerifiedAccessEndpointId=example
-&ClientToken=2e2c004c-3fc6-4251-af7c-f144ca9b7278
+&ClientToken=7b47ce75-bc1c-4fab-9fdc-7ba2ee27d4bc
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyVerifiedAccessEndpointPolicy is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidVerifiedAccessEndpointId.NotFound</Code>
+      <Message>The verified-access-endpoint ID 'example' does not exist</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001fb</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000a3</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidVerifiedAccessEndpointId.NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ModifyVerifiedAccessGroup
 
 Modifies the specified Amazon Web Services Verified Access group configuration.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -20676,25 +20785,25 @@ POST / HTTP/1.1
 Action=ModifyVerifiedAccessGroup
 &Version=2016-11-15
 &VerifiedAccessGroupId=example
-&ClientToken=49ac3c1f-d185-416f-8b63-da1e5f138b57
+&ClientToken=ba648082-56a7-42ac-9d7d-1df6bc6d4747
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyVerifiedAccessGroup is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidVerifiedAccessGroupId.NotFound</Code>
+      <Message>The verified-access-group ID 'example' does not exist</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-0000000001fc</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000a4</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidVerifiedAccessGroupId.NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ModifyVerifiedAccessGroupPolicy
 
@@ -20791,31 +20900,33 @@ content-type: text/xml;charset=UTF-8
 
 Modifies the configuration of the specified Amazon Web Services Verified Access trust provider.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
 Action=ModifyVerifiedAccessTrustProvider
 &Version=2016-11-15
 &VerifiedAccessTrustProviderId=example
-&ClientToken=f083dfd0-9663-43c6-b798-6a797d06e60a
+&ClientToken=597f8372-2b6b-46df-be93-a53afc12aa31
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyVerifiedAccessTrustProvider is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidVerifiedAccessTrustProviderId.NotFound</Code>
+      <Message>VerifiedAccessTrustProvider example does not exist</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000200</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000a6</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidVerifiedAccessTrustProviderId.NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ModifyVolume
 
@@ -21087,6 +21198,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Modifies the attributes of the specified VPC endpoint service configuration.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -21096,21 +21209,21 @@ Action=ModifyVpcEndpointServiceConfiguration
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ModifyVpcEndpointServiceConfiguration is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidVpcEndpointServiceId.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000209</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000a9</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidVpcEndpointServiceId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### ModifyVpcEndpointServicePayerResponsibility
 
@@ -21686,6 +21799,8 @@ content-type: text/xml;charset=UTF-8
 
 Purchases a Reserved Instance for use with your account.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -21696,21 +21811,21 @@ Action=PurchaseReservedInstancesOffering
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation PurchaseReservedInstancesOffering is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidParameterValue</Code>
+      <Message>Invalid value 'ReservedInstancesOfferingId' for example.</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000021d</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000b3</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### PurchaseScheduledInstances
 
@@ -21980,6 +22095,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Rejects a transit gateway peering attachment request.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -21989,21 +22106,21 @@ Action=RejectTransitGatewayPeeringAttachment
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation RejectTransitGatewayPeeringAttachment is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidTransitGatewayAttachmentID.Malformed</Code>
+      <Message>Invalid Transit Gateway Attachment id.</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000227</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000b9</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidTransitGatewayAttachmentID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### RejectTransitGatewayVpcAttachment
 
@@ -22038,6 +22155,8 @@ content-type: text/xml;charset=UTF-8
 
 Rejects VPC endpoint connection requests to your VPC endpoint service.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -22048,25 +22167,27 @@ Action=RejectVpcEndpointConnections
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation RejectVpcEndpointConnections is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidVpcEndpointServiceId.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000229</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000ba</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidVpcEndpointServiceId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### RejectVpcPeeringConnection
 
 Rejects a VPC peering connection request.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -22077,21 +22198,21 @@ Action=RejectVpcPeeringConnection
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation RejectVpcPeeringConnection is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidVpcPeeringConnectionID.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000022a</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000bb</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidVpcPeeringConnectionID.Malformed`: the placeholder values failed the operation's input validation.
 
 ### ReleaseAddress
 
@@ -22332,6 +22453,8 @@ content-type: text/xml;charset=UTF-8
 
 Replaces an existing route within a route table in a VPC.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -22341,25 +22464,27 @@ Action=ReplaceRoute
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ReplaceRoute is scaffolded but not implemented in this emulator</Message>
+      <Code>MissingParameter</Code>
+      <Message>The request must contain either the parameter destinationCidrBlock, destinationIpv6CidrBlock or destinationPrefixListId</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000231</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000be</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `MissingParameter`: the placeholder values failed the operation's input validation.
 
 ### ReplaceRouteTableAssociation
 
 Changes the route table associated with a given subnet, internet gateway, or virtual private gateway in a VPC.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -22371,21 +22496,21 @@ Action=ReplaceRouteTableAssociation
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ReplaceRouteTableAssociation is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidRouteTableAssociationId.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000232</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000bf</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidRouteTableAssociationId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### ReplaceTransitGatewayRoute
 
@@ -22716,6 +22841,8 @@ content-type: text/xml;charset=UTF-8
 
 Resets permission settings for the specified snapshot.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -22726,21 +22853,21 @@ Action=ResetSnapshotAttribute
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation ResetSnapshotAttribute is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidParameterValue</Code>
+      <Message>Unrecognized attribute.</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000023e</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000c4</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### RestoreAddressToClassic
 
@@ -22804,6 +22931,8 @@ content-type: text/xml;charset=UTF-8
 
 Restores the entries from a previous version of a managed prefix list to a new version of the prefix list.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -22815,21 +22944,21 @@ Action=RestoreManagedPrefixListVersion
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation RestoreManagedPrefixListVersion is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidPrefixListId.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000241</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000c6</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidPrefixListId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### RestoreSnapshotFromRecycleBin
 
@@ -22922,6 +23051,8 @@ content-type: text/xml;charset=UTF-8
 
 Removes an ingress authorization rule from a Client VPN endpoint.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -22932,21 +23063,21 @@ Action=RevokeClientVpnIngress
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation RevokeClientVpnIngress is scaffolded but not implemented in this emulator</Message>
+      <Code>MissingParameter</Code>
+      <Message>The request must contain the parameter accessGroupId</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000245</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000c8</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `MissingParameter`: the placeholder values failed the operation's input validation.
 
 ### RevokeSecurityGroupEgress
 
@@ -23307,6 +23438,8 @@ content-type: text/xml;charset=UTF-8
 
 Initiates the verification process to prove that the service provider owns the private DNS name domain for the endpoint service.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -23316,21 +23449,21 @@ Action=StartVpcEndpointServicePrivateDnsVerification
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation StartVpcEndpointServicePrivateDnsVerification is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidVpcEndpointServiceId.Malformed</Code>
+      <Message>Invalid id: "example"</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000252</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000cb</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidVpcEndpointServiceId.Malformed`: the placeholder values failed the operation's input validation.
 
 ### StopInstances
 
@@ -23481,6 +23614,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Unassigns secondary private IPv4 addresses from a private NAT gateway.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -23491,21 +23626,21 @@ Action=UnassignPrivateNatGatewayAddress
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation UnassignPrivateNatGatewayAddress is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidParameterValue</Code>
+      <Message>Invalid value 'example' for privateIpAddress. It must be an IPv4 address</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-000000000258</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000ce</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### UnlockSnapshot
 
@@ -23598,31 +23733,33 @@ content-type: text/xml;charset=UTF-8
 
 Updates the Organizations access setting for EC2 Capacity Manager.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
 Action=UpdateCapacityManagerOrganizationsAccess
 &Version=2016-11-15
 &OrganizationsAccess=false
-&ClientToken=6b56463b-7bd2-48dc-aea5-aa6e34284247
+&ClientToken=71c678e1-81c8-43e8-93d1-f170ff4b7753
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml;charset=UTF-8
 
 <Response xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <Errors>
     <Error>
-      <Code>NotImplemented</Code>
-      <Message>operation UpdateCapacityManagerOrganizationsAccess is scaffolded but not implemented in this emulator</Message>
+      <Code>InvalidParameterValue</Code>
+      <Message>Capacity Manager doesn't have organizations access enabled.</Message>
     </Error>
   </Errors>
-  <RequestID>00000000-0000-0000-0000-00000000025c</RequestID>
+  <RequestID>00000000-0000-0000-0000-0000000000d0</RequestID>
 </Response>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### UpdateInterruptibleCapacityReservationAllocation
 

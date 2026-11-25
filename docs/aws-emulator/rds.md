@@ -535,7 +535,7 @@ date: Mon, 16 Nov 2026 12:10:22 GMT
 
 Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
 
-Of 168 operations, 31 accepted the placeholder call, 39 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 168 operations, 34 accepted the placeholder call, 18 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AddRoleToDBCluster
 
@@ -1071,6 +1071,8 @@ content-type: text/xml
 
 Creates a new custom endpoint and associates it with an Amazon Aurora DB cluster.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1082,20 +1084,20 @@ Action=CreateDBClusterEndpoint
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation CreateDBClusterEndpoint is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>InvalidParameterValue</Code>
+    <Message>invalid value 'example' for EndpointType: must be one of READER, WRITER, ANY</Message>
   </Error>
-  <RequestId>68180cc4-f27e-4d32-924d-b1f9e47e30ca</RequestId>
+  <RequestId>ebb37816-7437-4146-bd4e-9075168afabc</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### CreateDBClusterParameterGroup
 
@@ -1709,6 +1711,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Deletes a custom endpoint and removes it from an Amazon Aurora DB cluster.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1718,20 +1722,20 @@ Action=DeleteDBClusterEndpoint
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DeleteDBClusterEndpoint is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>DBClusterEndpointNotFoundFault</Code>
+    <Message>DBClusterEndpoint example not found</Message>
   </Error>
-  <RequestId>385e991e-461d-4850-ae1a-d2ab4b8769f9</RequestId>
+  <RequestId>1f8349cf-04ed-43c4-8978-368663fa44d0</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `DBClusterEndpointNotFoundFault`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### DeleteDBClusterParameterGroup
 
@@ -1821,6 +1825,8 @@ content-type: text/xml
 
 Deletes automated backups using the DbiResourceId value of the source DB instance or the Amazon Resource Name (ARN) of the automated backups.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -1829,20 +1835,20 @@ Action=DeleteDBInstanceAutomatedBackup
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DeleteDBInstanceAutomatedBackup is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>InvalidParameterCombination</Code>
+    <Message>DbiResourceId must be specified when DBInstanceAutomatedBackupsArn isn't specified</Message>
   </Error>
-  <RequestId>7f346f26-dfb5-4d01-997d-3ac6647d70f6</RequestId>
+  <RequestId>f48a45c2-86ad-48c1-8dc8-0a477ec7235a</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterCombination`: the placeholder values failed the operation's input validation.
 
 ### DeleteDBParameterGroup
 
@@ -2384,6 +2390,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Returns information about backtracks for a DB cluster.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -2393,24 +2401,26 @@ Action=DescribeDBClusterBacktracks
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DescribeDBClusterBacktracks is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>DBClusterNotFoundFault</Code>
+    <Message>DBCluster example not found.</Message>
   </Error>
-  <RequestId>7ffe8e53-77d8-4303-9cf1-85da61a3b904</RequestId>
+  <RequestId>b3980371-c686-425b-87fa-c63a3d3e4569</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `DBClusterNotFoundFault`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### DescribeDBClusterEndpoints
 
 Returns information about endpoints for an Amazon Aurora DB cluster.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -2420,20 +2430,20 @@ Action=DescribeDBClusterEndpoints
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml
 
-<ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
-  <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DescribeDBClusterEndpoints is scaffolded but not implemented in this emulator</Message>
-  </Error>
-  <RequestId>fecce358-46d2-405b-af00-73dd1e25f931</RequestId>
-</ErrorResponse>
+<DescribeDBClusterEndpointsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
+  <DescribeDBClusterEndpointsResult>
+    <DBClusterEndpoints/>
+  </DescribeDBClusterEndpointsResult>
+  <ResponseMetadata>
+    <RequestId>98e5ec25-5d09-42d0-aea2-8601696e1545</RequestId>
+  </ResponseMetadata>
+</DescribeDBClusterEndpointsResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeDBClusterParameterGroups
 
@@ -2616,6 +2626,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Displays backups for both current and deleted instances.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -2624,20 +2636,20 @@ Action=DescribeDBInstanceAutomatedBackups
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml
 
-<ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
-  <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DescribeDBInstanceAutomatedBackups is scaffolded but not implemented in this emulator</Message>
-  </Error>
-  <RequestId>0cfe2e17-20cd-455c-9bbf-b64ca46f0a22</RequestId>
-</ErrorResponse>
+<DescribeDBInstanceAutomatedBackupsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
+  <DescribeDBInstanceAutomatedBackupsResult>
+    <DBInstanceAutomatedBackups/>
+  </DescribeDBInstanceAutomatedBackupsResult>
+  <ResponseMetadata>
+    <RequestId>26a2368f-7c91-4d7b-bbc6-90599f66d498</RequestId>
+  </ResponseMetadata>
+</DescribeDBInstanceAutomatedBackupsResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeDBInstances
 
@@ -2833,6 +2845,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Returns information about DB proxy endpoints.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -2841,20 +2855,20 @@ Action=DescribeDBProxyEndpoints
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml
 
-<ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
-  <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DescribeDBProxyEndpoints is scaffolded but not implemented in this emulator</Message>
-  </Error>
-  <RequestId>903aa866-b210-407e-a2a1-165be33aacf0</RequestId>
-</ErrorResponse>
+<DescribeDBProxyEndpointsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
+  <DescribeDBProxyEndpointsResult>
+    <DBProxyEndpoints/>
+  </DescribeDBProxyEndpointsResult>
+  <ResponseMetadata>
+    <RequestId>f103baaa-4b05-4caa-ab0d-0aeda0ef522b</RequestId>
+  </ResponseMetadata>
+</DescribeDBProxyEndpointsResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeDBProxyTargetGroups
 
@@ -2997,6 +3011,8 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Returns a list of DB snapshot attribute names and values for a manual DB snapshot.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -3006,20 +3022,20 @@ Action=DescribeDBSnapshotAttributes
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DescribeDBSnapshotAttributes is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>DBSnapshotNotFound</Code>
+    <Message>DBSnapshot not found: example</Message>
   </Error>
-  <RequestId>e0895536-6ac3-48cb-8e36-9f5ac29c681d</RequestId>
+  <RequestId>f69da5cb-eaa3-461a-bbad-60cd621de669</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `DBSnapshotNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### DescribeDBSnapshotTenantDatabases
 
@@ -3819,6 +3835,8 @@ content-type: text/xml
 
 Changes the audit policy state of a database activity stream to either locked (default) or unlocked.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -3827,20 +3845,20 @@ Action=ModifyActivityStream
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ModifyActivityStream is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>InvalidParameterValue</Code>
+    <Message>The parameter ResourceArn must be provided and must not be blank.</Message>
   </Error>
-  <RequestId>6517a18c-eed4-458c-b23b-c18b901487ee</RequestId>
+  <RequestId>a3af58b9-6afb-4992-bea4-d24d2d9df67e</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### ModifyCertificates
 
@@ -3986,6 +4004,8 @@ content-type: text/xml
 
 Modifies the properties of an endpoint in an Amazon Aurora DB cluster.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -3995,20 +4015,20 @@ Action=ModifyDBClusterEndpoint
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ModifyDBClusterEndpoint is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>InvalidParameterCombination</Code>
+    <Message>No modifications were requested</Message>
   </Error>
-  <RequestId>6af7304f-2316-4ae0-9d33-2bd94c6b0a0b</RequestId>
+  <RequestId>bb5a4475-6e51-4ec2-925d-46513c12148a</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterCombination`: the placeholder values failed the operation's input validation.
 
 ### ModifyDBClusterParameterGroup
 
@@ -4298,6 +4318,8 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Adds an attribute and values to, or removes an attribute and values from, a manual DB snapshot.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -4308,20 +4330,20 @@ Action=ModifyDBSnapshotAttribute
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ModifyDBSnapshotAttribute is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ValidationException</Code>
+    <Message>invalid value 'example' for AttributeName: the only valid value is 'restore'</Message>
   </Error>
-  <RequestId>cac4188b-835b-4330-9955-f51ad0fec371</RequestId>
+  <RequestId>aad89408-b9bf-4ad3-8b5e-09c79e096670</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationException`: the placeholder values failed the operation's input validation.
 
 ### ModifyDBSubnetGroup
 
@@ -4412,6 +4434,8 @@ content-type: text/xml
 
 Modifies a zero-ETL integration with Amazon Redshift.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -4421,20 +4445,20 @@ Action=ModifyIntegration
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ModifyIntegration is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>InvalidParameterCombination</Code>
+    <Message>No modifications were requested</Message>
   </Error>
-  <RequestId>07ac8a99-149b-4c4b-9088-c12509243f8e</RequestId>
+  <RequestId>63c14836-598e-428b-b767-3976d4ab5b5b</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterCombination`: the placeholder values failed the operation's input validation.
 
 ### ModifyOptionGroup
 
@@ -4468,6 +4492,8 @@ content-type: text/xml
 
 Modifies an existing tenant database in a DB instance.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -4478,20 +4504,20 @@ Action=ModifyTenantDatabase
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ModifyTenantDatabase is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>DBInstanceNotFound</Code>
+    <Message>DBInstance not found: example</Message>
   </Error>
-  <RequestId>7b6cde45-c94b-4a66-a3c9-2f75b5107bad</RequestId>
+  <RequestId>1737753e-ae52-47ef-aa28-3cc011aebf9e</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `DBInstanceNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### PromoteReadReplica
 
@@ -4896,6 +4922,8 @@ content-type: text/xml
 
 Creates an Amazon Aurora DB cluster from MySQL data stored in an Amazon S3 bucket.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -4911,20 +4939,20 @@ Action=RestoreDBClusterFromS3
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation RestoreDBClusterFromS3 is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>InvalidParameterCombination</Code>
+    <Message>You can't restore to example from an S3 backup of example.</Message>
   </Error>
-  <RequestId>81b099f3-a7f1-429b-acfb-0e91a0840edf</RequestId>
+  <RequestId>e3854f2c-21d2-4d00-83bf-67217ef45a6c</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterCombination`: the placeholder values failed the operation's input validation.
 
 ### RestoreDBClusterFromSnapshot
 
@@ -4960,6 +4988,8 @@ content-type: text/xml
 
 Restores a DB cluster to an arbitrary point in time.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -4969,20 +4999,20 @@ Action=RestoreDBClusterToPointInTime
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation RestoreDBClusterToPointInTime is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>InvalidParameterCombination</Code>
+    <Message>either SourceDBClusterIdentifier or SourceDbClusterResourceId must be specified: a point-in-time restore reads a source DB cluster</Message>
   </Error>
-  <RequestId>7e74eb0f-c1dc-4db5-9e96-7323fa4e063f</RequestId>
+  <RequestId>63d864a9-9877-49e0-b755-9fc354497a0c</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterCombination`: the placeholder values failed the operation's input validation.
 
 ### RestoreDBInstanceFromDBSnapshot
 
@@ -5016,6 +5046,8 @@ content-type: text/xml
 
 Amazon Relational Database Service (Amazon RDS) supports importing MySQL databases by using backup files.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -5031,24 +5063,26 @@ Action=RestoreDBInstanceFromS3
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation RestoreDBInstanceFromS3 is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>InvalidParameterCombination</Code>
+    <Message>You can't restore to example from an S3 backup of example.</Message>
   </Error>
-  <RequestId>2b5cca14-b43e-4dc1-adbe-c3b5a97ac4b6</RequestId>
+  <RequestId>811c0ad2-c41d-4c06-8139-68f8291d1ebc</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterCombination`: the placeholder values failed the operation's input validation.
 
 ### RestoreDBInstanceToPointInTime
 
 Restores a DB instance to an arbitrary point in time.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -5059,20 +5093,20 @@ Action=RestoreDBInstanceToPointInTime
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation RestoreDBInstanceToPointInTime is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>InvalidParameterCombination</Code>
+    <Message>If UseLatestRestoreTime is not true, the RestoreTime parameter must be specified.</Message>
   </Error>
-  <RequestId>7073634d-b4f5-4431-934e-d9f0ec152a03</RequestId>
+  <RequestId>b417b3b8-fb93-4205-97bd-ed28e0a9bb16</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterCombination`: the placeholder values failed the operation's input validation.
 
 ### RevokeDBSecurityGroupIngress
 
@@ -5192,6 +5226,8 @@ content-type: text/xml
 
 Enables replication of automated backups to a different Amazon Web Services Region.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -5201,20 +5237,20 @@ Action=StartDBInstanceAutomatedBackupsReplication
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation StartDBInstanceAutomatedBackupsReplication is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>InvalidParameterValue</Code>
+    <Message>The parameter SourceDBInstanceArn must name the ARN of a DB instance; got arn:aws:rds:us-east-1:000000000000:example/example.</Message>
   </Error>
-  <RequestId>5914f8e5-a43b-4118-aea9-f2fd48bb798f</RequestId>
+  <RequestId>29d6170d-695a-4315-8f7e-0d59a7a4f085</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### StartExportTask
 
@@ -5336,6 +5372,8 @@ content-type: text/xml
 
 Stops automated backup replication for a DB instance.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -5345,24 +5383,26 @@ Action=StopDBInstanceAutomatedBackupsReplication
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation StopDBInstanceAutomatedBackupsReplication is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>InvalidParameterValue</Code>
+    <Message>The parameter SourceDBInstanceArn must name the ARN of a DB instance; got arn:aws:rds:us-east-1:000000000000:example/example.</Message>
   </Error>
-  <RequestId>09930c4e-f58b-47ea-9e00-e80b58cb4ca9</RequestId>
+  <RequestId>7a1e3ea2-7640-46d1-8909-78aba40054b2</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### SwitchoverBlueGreenDeployment
 
 Switches over a blue/green deployment.
+
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
 
 ```http
 POST / HTTP/1.1
@@ -5373,20 +5413,20 @@ Action=SwitchoverBlueGreenDeployment
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation SwitchoverBlueGreenDeployment is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>InvalidParameterValue</Code>
+    <Message>Invalid blue-green deployment identifier: example</Message>
   </Error>
-  <RequestId>e455befc-7ed0-43f9-adca-36d4feb54e0f</RequestId>
+  <RequestId>ac7e46bf-dd12-424a-9201-e2f68f7971e8</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### SwitchoverGlobalCluster
 
@@ -5421,6 +5461,8 @@ content-type: text/xml
 
 Switches over an Oracle standby database in an Oracle Data Guard environment, making it the new primary database.
 
+*Implemented as of emulator 1.0.595 (captured 2026-11-24).*
+
 ```http
 POST / HTTP/1.1
 
@@ -5430,20 +5472,20 @@ Action=SwitchoverReadReplica
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation SwitchoverReadReplica is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>DBInstanceNotFound</Code>
+    <Message>The DB instance wasn't found: example.</Message>
   </Error>
-  <RequestId>5d7d5040-3efd-47ee-89f6-cd0f32571d23</RequestId>
+  <RequestId>99afcb7d-07c7-41d5-9dea-c20832060489</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `DBInstanceNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ## How it works
 
