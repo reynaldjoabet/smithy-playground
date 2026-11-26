@@ -1,0 +1,159 @@
+package smithyscala.codegen
+
+import java.nio.file.Files
+
+import scala.jdk.CollectionConverters.*
+
+import software.amazon.smithy.build.SmithyBuild
+import software.amazon.smithy.build.model.SmithyBuildConfig
+import software.amazon.smithy.model.Model
+import software.amazon.smithy.model.node.Node
+import software.amazon.smithy.model.shapes.ShapeId
+
+class ScalaClientGeneratorSpec extends munit.FunSuite {
+
+  private val idl =
+    """$version: "2"
+      |namespace example.weather
+      |
+      |use smithy.protocols#rpcv2Json
+      |
+      |@rpcv2Json
+      |service Weather {
+      |    version: "2026-11-26"
+      |    operations: [GetForecast, Ping]
+      |}
+      |
+      |@paginated(inputToken: "token", outputToken: "next", items: "days", pageSize: "size")
+      |operation GetForecast {
+      |    input := {
+      |        @required
+      |        city: String
+      |        size: Integer
+      |        token: String
+      |        units: Units = "METRIC"
+      |        detail: Detail = 1
+      |    }
+      |    output := {
+      |        days: Days
+      |        next: String
+      |        @required
+      |        type: Kind
+      |    }
+      |    errors: [Busy]
+      |}
+      |
+      |operation Ping {}
+      |
+      |enum Units {
+      |    METRIC
+      |    IMPERIAL
+      |}
+      |
+      |intEnum Detail {
+      |    LOW = 1
+      |    HIGH = 2
+      |}
+      |
+      |@sparse
+      |list Days { member: Day }
+      |
+      |structure Day {
+      |    @timestampFormat("date-time")
+      |    date: Timestamp
+      |    copy: String
+      |}
+      |
+      |union Kind {
+      |    sunny: Unit
+      |    rain: Integer
+      |}
+      |
+      |@error("server")
+      |@retryable(throttling: true)
+      |structure Busy {
+      |    message: String
+      |}
+      |""".stripMargin
+
+  private lazy val model: Model =
+    Model.assembler().discoverModels().addUnparsedModel("weather.smithy", idl).assemble().unwrap()
+
+  private lazy val files: Map[String, String] =
+    ScalaClientGenerator.generate(model, ShapeId.from("example.weather#Weather"), "gen.weather")
+
+  private def src(name: String): String = files.getOrElse(s"gen/weather/$name.scala", fail(s"no $name.scala in ${files.keys}"))
+
+  test("one file per shape, plus the client") {
+    assertEquals(
+      files.keySet.map(_.stripPrefix("gen/weather/")),
+      Set("Busy", "Day", "Days", "Detail", "GetForecastInput", "GetForecastOutput", "Kind", "Units", "WeatherClient")
+        .map(_ + ".scala")
+    )
+  }
+
+  test("required, optional and default members") {
+    val s = src("GetForecastInput")
+    assert(s.contains("city: java.lang.String,"), s)
+    assert(s.contains("size: scala.Option[scala.Int] = scala.None"), s)
+    assert(s.contains("units: Units = Units.fromValue(\"METRIC\")"), s)
+    assert(s.contains("detail: Detail = Detail.fromValue(1)"), s)
+  }
+
+  test("names that clash with Scala keywords or case class members are escaped") {
+    assert(src("GetForecastOutput").contains("`type`: Kind"))
+    assert(src("Day").contains("copy_ : scala.Option[java.lang.String]"))
+  }
+
+  test("runtime traits are carried in the schema") {
+    assert(src("Day").contains("rt.Traits(\"smithy.api#timestampFormat\" -> \"date-time\")"))
+    assert(src("Days").contains("rt.Traits(\"smithy.api#sparse\" -> \"\")"))
+    assert(src("Busy").contains("\"smithy.api#retryable\" -> \"throttling\""))
+  }
+
+  test("sparse lists hold options; unions get Unit cases and an unknown case") {
+    assert(src("Days").contains("type Days = scala.collection.immutable.List[scala.Option[Day]]"))
+    val k = src("Kind")
+    assert(k.contains("  case Sunny\n"), k)
+    assert(k.contains("  case Rain(value: scala.Int)"), k)
+    assert(k.contains("case UnknownMember(name: java.lang.String)"), k)
+  }
+
+  test("errors extend ServiceException and say whether they're retryable") {
+    val b = src("Busy")
+    assert(b.contains("extends rt.ServiceException(rt.ShapeId(\"example.weather\", \"Busy\"), message.orNull, \"server\")"), b)
+    assert(b.contains("override def smithyThrottling: scala.Boolean = true"), b)
+  }
+
+  test("the client: protocol, Unit input, paginator") {
+    val c = src("WeatherClient")
+    assert(c.contains("rt.ProtocolInfo.RpcV2Json"), c)
+    assert(c.contains("def ping(): scala.Unit"), c)
+    assert(c.contains("def getForecastPaginator(input: GetForecastInput)"), c)
+    assert(c.contains("in.copy(token = scala.Some(t))"), c)
+  }
+
+  test("services without a supported protocol are rejected with the reason") {
+    val restJson = Model.assembler().discoverModels()
+      .addUnparsedModel("r.smithy", "$version: \"2\"\nnamespace x\nuse aws.protocols#restJson1\n@restJson1\nservice S {}\n")
+      .assemble().unwrap()
+    val e = intercept[UnsupportedOperationException](ScalaClientGenerator.generate(restJson, ShapeId.from("x#S"), "x"))
+    assert(e.getMessage.contains("aws.protocols#restJson1"), e.getMessage)
+  }
+
+  test("runs as a smithy-build plugin") {
+    val out = Files.createTempDirectory("scala-client-codegen")
+    val config = SmithyBuildConfig.builder()
+      .version("1.0")
+      .outputDirectory(out.toString)
+      .plugins(Map[String, software.amazon.smithy.model.node.ObjectNode](
+        "scala-client-codegen" -> Node.objectNode()
+          .withMember("service", "example.weather#Weather")
+          .withMember("package", "gen.weather")
+      ).asJava)
+      .build()
+    val result = new SmithyBuild().config(config).model(model).build()
+    val written = result.allArtifacts().iterator().asScala.map(_.getFileName.toString).toSet
+    assert(written.contains("WeatherClient.scala"), written)
+  }
+}

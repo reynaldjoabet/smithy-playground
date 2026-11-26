@@ -79,3 +79,47 @@ lazy val root = rootProject
     libraryDependencies  += "dev.zio" %% "zio-blocks-smithy" % "0.0.56",
     libraryDependencies ++= commonDependencies ++ jackson ++ fory
   )
+
+// ---------------------------------------------------------------------------------------------
+// A Smithy client generator for Scala 3 (see docs/smithy/scala-client.md)
+// ---------------------------------------------------------------------------------------------
+
+// The runtime that generated clients run on: schemas, the JSON codec, protocols, SigV4,
+// the HTTP transport and the retry pipeline.
+lazy val clientRuntime = project
+  .in(file("modules/client-runtime"))
+  .settings(
+    name                := "smithy-scala-client-runtime",
+    libraryDependencies ++= Seq(
+      "com.fasterxml.jackson.core" % "jackson-core"     % "2.23.0",
+      "com.fasterxml.jackson.core" % "jackson-databind" % "2.23.0",
+      munit                        % Test
+    )
+  )
+
+// The generator: reads a Smithy model and writes Scala sources for one service.
+lazy val clientCodegen = project
+  .in(file("modules/client-codegen"))
+  .settings(
+    name                := "smithy-scala-client-codegen",
+    libraryDependencies ++= Seq(
+      "software.amazon.smithy" % "smithy-model"           % smithyVersion,
+      "software.amazon.smithy" % "smithy-build"           % smithyVersion,
+      "software.amazon.smithy" % "smithy-aws-traits"      % smithyVersion,
+      "software.amazon.smithy" % "smithy-aws-iam-traits"  % smithyVersion,
+      "software.amazon.smithy" % "smithy-aws-endpoints"   % smithyVersion,
+      "software.amazon.smithy" % "smithy-rules-engine"    % smithyVersion,
+      "software.amazon.smithy" % "smithy-waiters"         % smithyVersion,
+      "software.amazon.smithy" % "smithy-protocol-traits" % smithyVersion,
+      munit                    % Test
+    )
+  )
+
+// Generated SQS and DynamoDB clients (regenerate with scripts/generate-scala-clients.sh).
+lazy val clientExample = project
+  .in(file("modules/client-example"))
+  .dependsOn(clientRuntime)
+  .settings(
+    name                := "smithy-scala-client-example",
+    libraryDependencies += munit % Test
+  )
