@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `elasticache`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `elasticache`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `DescribeCacheClusters`:
 
@@ -39,9 +39,9 @@ A subnet group says which subnets the cache nodes may be placed in.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
+X-Amz-Date: 20261126T182958Z
 Content-Length: 227
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateCacheSubnetGroup
 &Version=2015-02-02
@@ -57,7 +57,7 @@ Action=CreateCacheSubnetGroup
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 1129
-date: Mon, 16 Nov 2026 12:05:33 GMT
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <CreateCacheSubnetGroupResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <CreateCacheSubnetGroupResult>
@@ -92,7 +92,7 @@ date: Mon, 16 Nov 2026 12:05:33 GMT
     </CacheSubnetGroup>
   </CreateCacheSubnetGroupResult>
   <ResponseMetadata>
-    <RequestId>877f32cc-d622-4e16-a139-a6df7004a837</RequestId>
+    <RequestId>dc5f9e47-4aea-4abe-9c12-2ad28b0ffdec</RequestId>
   </ResponseMetadata>
 </CreateCacheSubnetGroupResponse>
 ```
@@ -107,9 +107,9 @@ The cluster starts in `creating`.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
+X-Amz-Date: 20261126T182958Z
 Content-Length: 164
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateCacheCluster
 &Version=2015-02-02
@@ -125,37 +125,44 @@ Action=CreateCacheCluster
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 1272
-date: Mon, 16 Nov 2026 12:05:33 GMT
+content-length: 1799
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <CreateCacheClusterResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <CreateCacheClusterResult>
     <CacheCluster xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
       <CacheClusterId>docs-demo-redis</CacheClusterId>
-      <ConfigurationEndpoint>
-        <Address>127.0.0.1</Address>
-        <Port>42115</Port>
-      </ConfigurationEndpoint>
+      <ClientDownloadLandingPage>https://console.aws.amazon.com/elasticache/home#client-download:</ClientDownloadLandingPage>
       <CacheNodeType>cache.t3.micro</CacheNodeType>
       <Engine>redis</Engine>
-      <EngineVersion>7.1</EngineVersion>
+      <EngineVersion>7.1.0</EngineVersion>
       <CacheClusterStatus>creating</CacheClusterStatus>
       <NumCacheNodes>1</NumCacheNodes>
       <PreferredAvailabilityZone>us-east-1a</PreferredAvailabilityZone>
-      <CacheClusterCreateTime>2026-11-16T12:05:33.495341Z</CacheClusterCreateTime>
+      <CacheClusterCreateTime>2026-11-26T18:29:58.851358Z</CacheClusterCreateTime>
       <PreferredMaintenanceWindow>sun:23:00-mon:01:30</PreferredMaintenanceWindow>
+      <PendingModifiedValues></PendingModifiedValues>
+      <CacheSecurityGroups></CacheSecurityGroups>
       <CacheParameterGroup>
         <CacheParameterGroupName>default.redis7</CacheParameterGroupName>
         <ParameterApplyStatus>in-sync</ParameterApplyStatus>
+        <CacheNodeIdsToReboot></CacheNodeIdsToReboot>
       </CacheParameterGroup>
       <CacheSubnetGroupName>docs-demo</CacheSubnetGroupName>
+      <AutoMinorVersionUpgrade>true</AutoMinorVersionUpgrade>
       <SnapshotRetentionLimit>0</SnapshotRetentionLimit>
       <AuthTokenEnabled>false</AuthTokenEnabled>
+      <TransitEncryptionEnabled>false</TransitEncryptionEnabled>
+      <AtRestEncryptionEnabled>false</AtRestEncryptionEnabled>
       <ARN>arn:aws:elasticache:us-east-1:000000000000:cluster:docs-demo-redis</ARN>
+      <ReplicationGroupLogDeliveryEnabled>false</ReplicationGroupLogDeliveryEnabled>
+      <LogDeliveryConfigurations></LogDeliveryConfigurations>
+      <NetworkType>ipv4</NetworkType>
+      <IpDiscovery>ipv4</IpDiscovery>
     </CacheCluster>
   </CreateCacheClusterResult>
   <ResponseMetadata>
-    <RequestId>95352d7d-1d02-4994-bd0e-3a6e2e2f2dcb</RequestId>
+    <RequestId>85bf6fde-2e43-4cf8-84e3-04b7d80db49d</RequestId>
   </ResponseMetadata>
 </CreateCacheClusterResponse>
 ```
@@ -170,9 +177,9 @@ Poll until `available`. The node's endpoint is a local address and port the emul
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
+X-Amz-Date: 20261126T182958Z
 Content-Length: 101
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeCacheClusters
 &Version=2015-02-02
@@ -185,52 +192,46 @@ Action=DescribeCacheClusters
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 1691
-date: Mon, 16 Nov 2026 12:05:34 GMT
+content-length: 1842
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <DescribeCacheClustersResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeCacheClustersResult>
     <CacheClusters>
       <CacheCluster xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
         <CacheClusterId>docs-demo-redis</CacheClusterId>
-        <ConfigurationEndpoint>
-          <Address>127.0.0.1</Address>
-          <Port>42115</Port>
-        </ConfigurationEndpoint>
+        <ClientDownloadLandingPage>https://console.aws.amazon.com/elasticache/home#client-download:</ClientDownloadLandingPage>
         <CacheNodeType>cache.t3.micro</CacheNodeType>
         <Engine>redis</Engine>
-        <EngineVersion>7.1</EngineVersion>
-        <CacheClusterStatus>available</CacheClusterStatus>
+        <EngineVersion>7.1.0</EngineVersion>
+        <CacheClusterStatus>creating</CacheClusterStatus>
         <NumCacheNodes>1</NumCacheNodes>
         <PreferredAvailabilityZone>us-east-1a</PreferredAvailabilityZone>
-        <CacheClusterCreateTime>2026-11-16T12:05:33.495341Z</CacheClusterCreateTime>
+        <CacheClusterCreateTime>2026-11-26T18:29:58.851358Z</CacheClusterCreateTime>
         <PreferredMaintenanceWindow>sun:23:00-mon:01:30</PreferredMaintenanceWindow>
+        <PendingModifiedValues></PendingModifiedValues>
+        <CacheSecurityGroups></CacheSecurityGroups>
         <CacheParameterGroup>
           <CacheParameterGroupName>default.redis7</CacheParameterGroupName>
           <ParameterApplyStatus>in-sync</ParameterApplyStatus>
+          <CacheNodeIdsToReboot></CacheNodeIdsToReboot>
         </CacheParameterGroup>
         <CacheSubnetGroupName>docs-demo</CacheSubnetGroupName>
-        <CacheNodes>
-          <CacheNode>
-            <CacheNodeId>0001</CacheNodeId>
-            <CacheNodeStatus>available</CacheNodeStatus>
-            <CacheNodeCreateTime>2026-11-16T12:05:33.495341Z</CacheNodeCreateTime>
-            <Endpoint>
-              <Address>127.0.0.1</Address>
-              <Port>42115</Port>
-            </Endpoint>
-            <ParameterGroupStatus>in-sync</ParameterGroupStatus>
-            <CustomerAvailabilityZone>us-east-1a</CustomerAvailabilityZone>
-          </CacheNode>
-        </CacheNodes>
+        <AutoMinorVersionUpgrade>true</AutoMinorVersionUpgrade>
         <SnapshotRetentionLimit>0</SnapshotRetentionLimit>
         <AuthTokenEnabled>false</AuthTokenEnabled>
+        <TransitEncryptionEnabled>false</TransitEncryptionEnabled>
+        <AtRestEncryptionEnabled>false</AtRestEncryptionEnabled>
         <ARN>arn:aws:elasticache:us-east-1:000000000000:cluster:docs-demo-redis</ARN>
+        <ReplicationGroupLogDeliveryEnabled>false</ReplicationGroupLogDeliveryEnabled>
+        <LogDeliveryConfigurations></LogDeliveryConfigurations>
+        <NetworkType>ipv4</NetworkType>
+        <IpDiscovery>ipv4</IpDiscovery>
       </CacheCluster>
     </CacheClusters>
   </DescribeCacheClustersResult>
   <ResponseMetadata>
-    <RequestId>fd9f489b-239f-43c3-bcce-c76b1f8eac19</RequestId>
+    <RequestId>88251d24-4391-4f5f-a333-833eb5ba9a9f</RequestId>
   </ResponseMetadata>
 </DescribeCacheClustersResponse>
 ```
@@ -245,9 +246,9 @@ An unknown id answers `CacheClusterNotFound`.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
+X-Amz-Date: 20261126T182958Z
 Content-Length: 67
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeCacheClusters
 &Version=2015-02-02
@@ -259,9 +260,9 @@ Action=DescribeCacheClusters
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
-x-amzn-requestid: 3bd30b62-3218-4e37-904c-1c4be62426e4
+x-amzn-requestid: 982c9d82-0c07-48b9-a18e-d5a0b365d404
 content-length: 261
-date: Mon, 16 Nov 2026 12:05:34 GMT
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -269,7 +270,7 @@ date: Mon, 16 Nov 2026 12:05:34 GMT
     <Code>CacheClusterNotFound</Code>
     <Message>CacheCluster not found: nope</Message>
   </Error>
-  <RequestId>3bd30b62-3218-4e37-904c-1c4be62426e4</RequestId>
+  <RequestId>982c9d82-0c07-48b9-a18e-d5a0b365d404</RequestId>
 </ErrorResponse>
 ```
 
@@ -283,9 +284,9 @@ Deletion moves the cluster to `deleting`.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
+X-Amz-Date: 20261126T183001Z
 Content-Length: 75
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteCacheCluster
 &Version=2015-02-02
@@ -297,37 +298,48 @@ Action=DeleteCacheCluster
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 1272
-date: Mon, 16 Nov 2026 12:05:34 GMT
+content-length: 1896
+date: Thu, 26 Nov 2026 18:30:01 GMT
 
 <DeleteCacheClusterResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DeleteCacheClusterResult>
     <CacheCluster xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
       <CacheClusterId>docs-demo-redis</CacheClusterId>
       <ConfigurationEndpoint>
-        <Address>127.0.0.1</Address>
-        <Port>42115</Port>
+        <Address>127.0.165.221</Address>
+        <Port>42461</Port>
       </ConfigurationEndpoint>
+      <ClientDownloadLandingPage>https://console.aws.amazon.com/elasticache/home#client-download:</ClientDownloadLandingPage>
       <CacheNodeType>cache.t3.micro</CacheNodeType>
       <Engine>redis</Engine>
-      <EngineVersion>7.1</EngineVersion>
+      <EngineVersion>7.1.0</EngineVersion>
       <CacheClusterStatus>deleting</CacheClusterStatus>
       <NumCacheNodes>1</NumCacheNodes>
       <PreferredAvailabilityZone>us-east-1a</PreferredAvailabilityZone>
-      <CacheClusterCreateTime>2026-11-16T12:05:33.495341Z</CacheClusterCreateTime>
+      <CacheClusterCreateTime>2026-11-26T18:29:58.851358Z</CacheClusterCreateTime>
       <PreferredMaintenanceWindow>sun:23:00-mon:01:30</PreferredMaintenanceWindow>
+      <PendingModifiedValues></PendingModifiedValues>
+      <CacheSecurityGroups></CacheSecurityGroups>
       <CacheParameterGroup>
         <CacheParameterGroupName>default.redis7</CacheParameterGroupName>
         <ParameterApplyStatus>in-sync</ParameterApplyStatus>
+        <CacheNodeIdsToReboot></CacheNodeIdsToReboot>
       </CacheParameterGroup>
       <CacheSubnetGroupName>docs-demo</CacheSubnetGroupName>
+      <AutoMinorVersionUpgrade>true</AutoMinorVersionUpgrade>
       <SnapshotRetentionLimit>0</SnapshotRetentionLimit>
       <AuthTokenEnabled>false</AuthTokenEnabled>
+      <TransitEncryptionEnabled>false</TransitEncryptionEnabled>
+      <AtRestEncryptionEnabled>false</AtRestEncryptionEnabled>
       <ARN>arn:aws:elasticache:us-east-1:000000000000:cluster:docs-demo-redis</ARN>
+      <ReplicationGroupLogDeliveryEnabled>false</ReplicationGroupLogDeliveryEnabled>
+      <LogDeliveryConfigurations></LogDeliveryConfigurations>
+      <NetworkType>ipv4</NetworkType>
+      <IpDiscovery>ipv4</IpDiscovery>
     </CacheCluster>
   </DeleteCacheClusterResult>
   <ResponseMetadata>
-    <RequestId>0e65e3d0-3cfe-4184-a33b-d33d3021df80</RequestId>
+    <RequestId>627b672a-0e83-4364-838e-bd4b4c301309</RequestId>
   </ResponseMetadata>
 </DeleteCacheClusterResponse>
 ```
@@ -342,9 +354,9 @@ Poll until the cluster is gone, so the subnet group is free.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
+X-Amz-Date: 20261126T183004Z
 Content-Length: 78
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeCacheClusters
 &Version=2015-02-02
@@ -356,9 +368,9 @@ Action=DescribeCacheClusters
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
-x-amzn-requestid: 96cb1177-b25a-443c-ad66-b68c49176ec5
+x-amzn-requestid: 26d614de-d5d0-41cb-b6c9-f59a9fa6af5e
 content-length: 272
-date: Mon, 16 Nov 2026 12:05:34 GMT
+date: Thu, 26 Nov 2026 18:30:04 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -366,7 +378,7 @@ date: Mon, 16 Nov 2026 12:05:34 GMT
     <Code>CacheClusterNotFound</Code>
     <Message>CacheCluster not found: docs-demo-redis</Message>
   </Error>
-  <RequestId>96cb1177-b25a-443c-ad66-b68c49176ec5</RequestId>
+  <RequestId>26d614de-d5d0-41cb-b6c9-f59a9fa6af5e</RequestId>
 </ErrorResponse>
 ```
 
@@ -380,9 +392,9 @@ Remove the subnet group.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
+X-Amz-Date: 20261126T183004Z
 Content-Length: 79
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteCacheSubnetGroup
 &Version=2015-02-02
@@ -395,21 +407,21 @@ Action=DeleteCacheSubnetGroup
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 279
-date: Mon, 16 Nov 2026 12:05:34 GMT
+date: Thu, 26 Nov 2026 18:30:04 GMT
 
 <DeleteCacheSubnetGroupResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
-  <DeleteCacheSubnetGroupResult/>
+  <DeleteCacheSubnetGroupResult></DeleteCacheSubnetGroupResult>
   <ResponseMetadata>
-    <RequestId>64fc38b5-e088-4f3d-b16d-403614b90d5e</RequestId>
+    <RequestId>524882fa-e265-4fce-a7ce-3b3d97554687</RequestId>
   </ResponseMetadata>
 </DeleteCacheSubnetGroupResponse>
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
-Of 77 operations, 20 accepted the placeholder call, 1 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
+Of 77 operations, 18 accepted the placeholder call, 1 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AddTagsToResource
 
@@ -417,6 +429,11 @@ A tag is a key-value pair where the key and value are case-sensitive.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183004Z
+Content-Length: 64
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AddTagsToResource
 &Version=2015-02-02
@@ -426,15 +443,18 @@ Action=AddTagsToResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 4c4bd8ea-7a8e-4832-88af-b27a9c1d7d1f
+content-length: 234
+date: Thu, 26 Nov 2026 18:30:04 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterValue</Code>
     <Message>The parameter Tags must be provided.</Message>
   </Error>
-  <RequestId>61ebde84-a94c-4f15-8a11-02b66ff2ac33</RequestId>
+  <RequestId>4c4bd8ea-7a8e-4832-88af-b27a9c1d7d1f</RequestId>
 </ErrorResponse>
 ```
 
@@ -446,6 +466,11 @@ Allows network ingress to a cache security group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183004Z
+Content-Length: 152
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AuthorizeCacheSecurityGroupIngress
 &Version=2015-02-02
@@ -457,6 +482,9 @@ Action=AuthorizeCacheSecurityGroupIngress
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 67550e45-8dcc-4535-bd47-0461c3c435e7
+content-length: 317
+date: Thu, 26 Nov 2026 18:30:04 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -464,7 +492,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Use of cache security groups is not permitted in this API version for your account.</Message>
   </Error>
-  <RequestId>e8afe9b6-9ae8-4022-bd5c-b8aa4be620a8</RequestId>
+  <RequestId>67550e45-8dcc-4535-bd47-0461c3c435e7</RequestId>
 </ErrorResponse>
 ```
 
@@ -476,6 +504,11 @@ Apply the service update.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183004Z
+Content-Length: 74
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=BatchApplyUpdateAction
 &Version=2015-02-02
@@ -485,6 +518,9 @@ Action=BatchApplyUpdateAction
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 048b8d1b-9001-456f-a458-0d70b4ee20cd
+content-length: 340
+date: Thu, 26 Nov 2026 18:30:04 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -492,7 +528,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>CacheClusterIds or ReplicationGroupIds must name at least one resource to apply service update example to.</Message>
   </Error>
-  <RequestId>9be4c3d1-475b-4a25-801c-d879ddfe6c08</RequestId>
+  <RequestId>048b8d1b-9001-456f-a458-0d70b4ee20cd</RequestId>
 </ErrorResponse>
 ```
 
@@ -504,6 +540,11 @@ Stop the service update.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183004Z
+Content-Length: 73
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=BatchStopUpdateAction
 &Version=2015-02-02
@@ -513,6 +554,9 @@ Action=BatchStopUpdateAction
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 2f58f827-56d3-4ed3-a073-60fa520f98c0
+content-length: 339
+date: Thu, 26 Nov 2026 18:30:04 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -520,7 +564,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>CacheClusterIds or ReplicationGroupIds must name at least one resource to stop service update example on.</Message>
   </Error>
-  <RequestId>bfc72e09-3b71-454a-956e-a0d8f3e2f99f</RequestId>
+  <RequestId>2f58f827-56d3-4ed3-a073-60fa520f98c0</RequestId>
 </ErrorResponse>
 ```
 
@@ -532,6 +576,11 @@ Completes the migration of data.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CompleteMigration
 &Version=2015-02-02
@@ -540,6 +589,9 @@ Action=CompleteMigration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 1716d9bd-00f5-46ae-bd6d-f6a5e233bfc2
+content-length: 336
+date: Thu, 26 Nov 2026 18:30:04 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -547,7 +599,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Either ReplicationGroupId or ServerlessCacheName must be provided to name the target of the migration.</Message>
   </Error>
-  <RequestId>e7745464-2be0-4725-b034-4b72c23a5cce</RequestId>
+  <RequestId>1716d9bd-00f5-46ae-bd6d-f6a5e233bfc2</RequestId>
 </ErrorResponse>
 ```
 
@@ -561,6 +613,11 @@ Creates a copy of an existing serverless cache’s snapshot.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 137
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CopyServerlessCacheSnapshot
 &Version=2015-02-02
@@ -571,6 +628,9 @@ Action=CopyServerlessCacheSnapshot
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 63de5f4b-bbb5-4f98-92df-6048ae3dc6be
+content-length: 297
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -578,7 +638,7 @@ content-type: text/xml
     <Code>ServerlessCacheSnapshotNotFoundFault</Code>
     <Message>Source serverless cache snapshot does not exist.</Message>
   </Error>
-  <RequestId>39c141c0-8689-4f95-b8a5-eaccdcf0f44f</RequestId>
+  <RequestId>63de5f4b-bbb5-4f98-92df-6048ae3dc6be</RequestId>
 </ErrorResponse>
 ```
 
@@ -590,6 +650,11 @@ Makes a copy of an existing snapshot.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 92
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CopySnapshot
 &Version=2015-02-02
@@ -600,6 +665,9 @@ Action=CopySnapshot
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 7893cc79-5dd5-499d-b4da-44c3c3f59c8a
+content-length: 270
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -607,7 +675,7 @@ content-type: text/xml
     <Code>SnapshotNotFoundFault</Code>
     <Message>Snapshot with name example not found</Message>
   </Error>
-  <RequestId>7c12a782-dd48-4298-b5d2-19df1ca4accb</RequestId>
+  <RequestId>7893cc79-5dd5-499d-b4da-44c3c3f59c8a</RequestId>
 </ErrorResponse>
 ```
 
@@ -619,6 +687,11 @@ Creates a cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateCacheCluster
 &Version=2015-02-02
@@ -628,28 +701,30 @@ Action=CreateCacheCluster
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 1684
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <CreateCacheClusterResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <CreateCacheClusterResult>
     <CacheCluster xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
       <CacheClusterId>example</CacheClusterId>
-      <ConfigurationEndpoint>
-        <Address>127.0.0.1</Address>
-        <Port>45509</Port>
-      </ConfigurationEndpoint>
+      <ClientDownloadLandingPage>https://console.aws.amazon.com/elasticache/home#client-download:</ClientDownloadLandingPage>
       <Engine>redis</Engine>
-      <EngineVersion>7.1</EngineVersion>
+      <EngineVersion>7.1.0</EngineVersion>
       <CacheClusterStatus>creating</CacheClusterStatus>
       <NumCacheNodes>1</NumCacheNodes>
       <PreferredAvailabilityZone>us-east-1a</PreferredAvailabilityZone>
-      <CacheClusterCreateTime>2026-11-16T12:11:29.301631Z</CacheClusterCreateTime>
+      <CacheClusterCreateTime>2026-11-26T18:30:05.006049Z</CacheClusterCreateTime>
       <PreferredMaintenanceWindow>sun:23:00-mon:01:30</PreferredMaintenanceWindow>
+      <PendingModifiedValues></PendingModifiedValues>
+      <CacheSecurityGroups></CacheSecurityGroups>
       <CacheParameterGroup>
         <CacheParameterGroupName>default.redis7</CacheParameterGroupName>
         <ParameterApplyStatus>in-sync</ParameterApplyStatus>
+        <CacheNodeIdsToReboot></CacheNodeIdsToReboot>
       </CacheParameterGroup>
-      <SnapshotRetentionLimit>0</SnapshotRetentionLimit>
-… (8 more lines)
+      <AutoMinorVersionUpgrade>true</AutoMinorVersionUpgrade>
+… (15 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values. See [the walkthrough](#2-createcachecluster) for a successful call.
@@ -660,6 +735,11 @@ Creates a new Amazon ElastiCache cache parameter group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 137
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateCacheParameterGroup
 &Version=2015-02-02
@@ -671,6 +751,9 @@ Action=CreateCacheParameterGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: b4f70786-d251-40be-b174-4a4209578aa2
+content-length: 306
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -678,7 +761,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>CacheParameterGroupFamily example is not a valid parameter group family.</Message>
   </Error>
-  <RequestId>8056997f-ea08-401b-88f2-6233b6bc3800</RequestId>
+  <RequestId>b4f70786-d251-40be-b174-4a4209578aa2</RequestId>
 </ErrorResponse>
 ```
 
@@ -690,6 +773,11 @@ Creates a new cache security group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 101
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateCacheSecurityGroup
 &Version=2015-02-02
@@ -700,6 +788,9 @@ Action=CreateCacheSecurityGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 2ac01e42-1ba7-42ca-95ca-f9ec6e17af7a
+content-length: 317
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -707,7 +798,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Use of cache security groups is not permitted in this API version for your account.</Message>
   </Error>
-  <RequestId>995160c9-5452-4423-adc0-25107954d506</RequestId>
+  <RequestId>2ac01e42-1ba7-42ca-95ca-f9ec6e17af7a</RequestId>
 </ErrorResponse>
 ```
 
@@ -719,6 +810,11 @@ Creates a new cache subnet group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 150
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateCacheSubnetGroup
 &Version=2015-02-02
@@ -730,6 +826,9 @@ Action=CreateCacheSubnetGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: ad4d5306-6525-4b4e-8454-7474f582d89e
+content-length: 279
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -737,7 +836,7 @@ content-type: text/xml
     <Code>InvalidSubnet</Code>
     <Message>Invalid value example for SubnetIds: not a subnet id.</Message>
   </Error>
-  <RequestId>a79cf3f8-7dbc-4547-9d42-2c03749c8863</RequestId>
+  <RequestId>ad4d5306-6525-4b4e-8454-7474f582d89e</RequestId>
 </ErrorResponse>
 ```
 
@@ -749,6 +848,11 @@ Global Datastore offers fully managed, fast, reliable and secure cross-region re
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 127
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateGlobalReplicationGroup
 &Version=2015-02-02
@@ -759,14 +863,17 @@ Action=CreateGlobalReplicationGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 6bcfda05-d8c0-48d3-ac0a-544887bd6f7c
+content-length: 289
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
     <Type>Sender</Type>
     <Code>ReplicationGroupNotFoundFault</Code>
-    <Message>Replication group 'example' not found</Message>
+    <Message>Replication group &apos;example&apos; not found</Message>
   </Error>
-  <RequestId>5e90912e-5fa6-4bc0-a71c-e4208d3c18c3</RequestId>
+  <RequestId>6bcfda05-d8c0-48d3-ac0a-544887bd6f7c</RequestId>
 </ErrorResponse>
 ```
 
@@ -778,6 +885,11 @@ Creates a Valkey or Redis OSS (cluster mode disabled) or a Valkey or Redis OSS (
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 111
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateReplicationGroup
 &Version=2015-02-02
@@ -788,13 +900,17 @@ Action=CreateReplicationGroup
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 2036
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <CreateReplicationGroupResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <CreateReplicationGroupResult>
     <ReplicationGroup xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
       <ReplicationGroupId>example</ReplicationGroupId>
       <Description>example</Description>
+      <GlobalReplicationGroupInfo></GlobalReplicationGroupInfo>
       <Status>creating</Status>
+      <PendingModifiedValues></PendingModifiedValues>
       <MemberClusters>
         <ClusterId>example-001</ClusterId>
       </MemberClusters>
@@ -804,12 +920,10 @@ content-type: text/xml
           <Status>creating</Status>
           <PrimaryEndpoint>
             <Address>127.0.0.1</Address>
-            <Port>42339</Port>
+            <Port>40803</Port>
           </PrimaryEndpoint>
-          <NodeGroupMembers>
-            <NodeGroupMember>
-              <CacheClusterId>example-001</CacheClusterId>
-… (28 more lines)
+          <ReaderEndpoint>
+… (38 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -820,6 +934,11 @@ Creates a serverless cache.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 90
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateServerlessCache
 &Version=2015-02-02
@@ -830,6 +949,9 @@ Action=CreateServerlessCache
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: d1c53a6b-b432-4cb3-884e-7d7fdcdf766e
+content-length: 285
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -837,7 +959,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Specified engine does not support serverless cache.</Message>
   </Error>
-  <RequestId>2ceb8708-1fc5-4129-96bb-90601e0d2b44</RequestId>
+  <RequestId>d1c53a6b-b432-4cb3-884e-7d7fdcdf766e</RequestId>
 </ErrorResponse>
 ```
 
@@ -849,6 +971,11 @@ This API creates a copy of an entire ServerlessCache at a specific moment in tim
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 119
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateServerlessCacheSnapshot
 &Version=2015-02-02
@@ -859,6 +986,9 @@ Action=CreateServerlessCacheSnapshot
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 4d6ca86c-96d5-4772-a766-87a0e17467fd
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -866,7 +996,7 @@ content-type: text/xml
     <Code>ServerlessCacheNotFoundFault</Code>
     <Message>Serverless cache with name example not found.</Message>
   </Error>
-  <RequestId>91c27103-5cd9-402a-b89c-3c537a98755f</RequestId>
+  <RequestId>4d6ca86c-96d5-4772-a766-87a0e17467fd</RequestId>
 </ErrorResponse>
 ```
 
@@ -878,6 +1008,11 @@ Creates a copy of an entire cluster or replication group at a specific moment in
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateSnapshot
 &Version=2015-02-02
@@ -887,6 +1022,9 @@ Action=CreateSnapshot
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 006cf5d8-b8bf-446a-a624-41cc0229628d
+content-length: 367
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -894,7 +1032,7 @@ content-type: text/xml
     <Code>InvalidParameterCombination</Code>
     <Message>Either CacheClusterId or ReplicationGroupId must be specified: a snapshot is taken of an existing cluster or replication group.</Message>
   </Error>
-  <RequestId>aed378e6-0c11-4be1-ae69-8ea13fbad182</RequestId>
+  <RequestId>006cf5d8-b8bf-446a-a624-41cc0229628d</RequestId>
 </ErrorResponse>
 ```
 
@@ -906,6 +1044,11 @@ For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 104
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateUser
 &Version=2015-02-02
@@ -918,6 +1061,9 @@ Action=CreateUser
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 7d07deeb-93ea-444e-a58e-1c1b96942c80
+content-length: 301
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -925,7 +1071,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Access control options are available for Redis version 6.0 onwards.</Message>
   </Error>
-  <RequestId>01ae8d09-c107-4801-b0d3-48aec7d03958</RequestId>
+  <RequestId>7d07deeb-93ea-444e-a58e-1c1b96942c80</RequestId>
 </ErrorResponse>
 ```
 
@@ -937,6 +1083,11 @@ For Valkey engine version 7.2 onwards and Redis OSS 6.0 to 7.1: Creates a user g
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 76
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateUserGroup
 &Version=2015-02-02
@@ -947,6 +1098,9 @@ Action=CreateUserGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 65b169ce-ed28-4bd5-b876-9548598865e7
+content-length: 301
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -954,7 +1108,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Access control options are available for Redis version 6.0 onwards.</Message>
   </Error>
-  <RequestId>76bce913-36b3-4db9-9752-f420583d472c</RequestId>
+  <RequestId>65b169ce-ed28-4bd5-b876-9548598865e7</RequestId>
 </ErrorResponse>
 ```
 
@@ -966,6 +1120,11 @@ Decreases the number of node groups in a Global datastore
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 141
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DecreaseNodeGroupsInGlobalReplicationGroup
 &Version=2015-02-02
@@ -977,6 +1136,9 @@ Action=DecreaseNodeGroupsInGlobalReplicationGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: bc640717-36e6-4dc9-a176-288875691947
+content-length: 408
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -984,7 +1146,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid value false for ApplyImmediately: this emulator applies a Global datastore change at once, and the GlobalReplicationGroup shape has no member to report a pending one.</Message>
   </Error>
-  <RequestId>50678c7a-c613-4e84-b9e9-f0ad1fc6b0ab</RequestId>
+  <RequestId>bc640717-36e6-4dc9-a176-288875691947</RequestId>
 </ErrorResponse>
 ```
 
@@ -996,6 +1158,11 @@ Dynamically decreases the number of replicas in a Valkey or Redis OSS (cluster m
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 96
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DecreaseReplicaCount
 &Version=2015-02-02
@@ -1006,6 +1173,9 @@ Action=DecreaseReplicaCount
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: a861a953-708b-4604-a4c3-0faff4d28db9
+content-length: 326
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -1013,7 +1183,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid value false for ApplyImmediately: ApplyImmediately=False is not currently supported.</Message>
   </Error>
-  <RequestId>3a4de0ff-88a2-4956-8643-f84dfdc19fc4</RequestId>
+  <RequestId>a861a953-708b-4604-a4c3-0faff4d28db9</RequestId>
 </ErrorResponse>
 ```
 
@@ -1025,6 +1195,11 @@ Deletes a previously provisioned cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteCacheCluster
 &Version=2015-02-02
@@ -1034,14 +1209,17 @@ Action=DeleteCacheCluster
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: aaa07da9-cb76-4812-a298-b38a88422db1
+content-length: 413
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidCacheClusterState</Code>
-    <Message>Cache cluster example is in creating state, not available.</Message>
+    <Message>Can only delete cache clusters with state in: available, failed, incompatible-parameters, incompatible-network, restore-failed, recovering. Cluster example has state: creating.</Message>
   </Error>
-  <RequestId>f080c18c-81a1-4494-8b4b-1a0efa283ac0</RequestId>
+  <RequestId>aaa07da9-cb76-4812-a298-b38a88422db1</RequestId>
 </ErrorResponse>
 ```
 
@@ -1053,6 +1231,11 @@ Deletes the specified cache parameter group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 83
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteCacheParameterGroup
 &Version=2015-02-02
@@ -1062,6 +1245,9 @@ Action=DeleteCacheParameterGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: a12b5493-0139-403a-b277-e61608a6af5a
+content-length: 277
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -1069,7 +1255,7 @@ content-type: text/xml
     <Code>CacheParameterGroupNotFound</Code>
     <Message>CacheParameterGroupnot found: example</Message>
   </Error>
-  <RequestId>c279657b-de0d-4e97-b60c-15415fa0b9b7</RequestId>
+  <RequestId>a12b5493-0139-403a-b277-e61608a6af5a</RequestId>
 </ErrorResponse>
 ```
 
@@ -1081,6 +1267,11 @@ Deletes a cache security group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 81
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteCacheSecurityGroup
 &Version=2015-02-02
@@ -1090,6 +1281,9 @@ Action=DeleteCacheSecurityGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 0b9b5c7b-3b7c-425a-80fa-ea52f2665c4b
+content-length: 317
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -1097,7 +1291,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Use of cache security groups is not permitted in this API version for your account.</Message>
   </Error>
-  <RequestId>a5601b8b-1fd1-4cb3-ae2a-951291c0b6d9</RequestId>
+  <RequestId>0b9b5c7b-3b7c-425a-80fa-ea52f2665c4b</RequestId>
 </ErrorResponse>
 ```
 
@@ -1109,6 +1303,11 @@ Deletes a cache subnet group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteCacheSubnetGroup
 &Version=2015-02-02
@@ -1118,6 +1317,9 @@ Action=DeleteCacheSubnetGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 94b39823-41c0-4ab1-997f-fcf7e14dfebb
+content-length: 284
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -1125,7 +1327,7 @@ content-type: text/xml
     <Code>CacheSubnetGroupNotFoundFault</Code>
     <Message>Cache Subnet Group example does not exist.</Message>
   </Error>
-  <RequestId>76e24aba-7935-4dd6-b66f-4fe7c92e56e0</RequestId>
+  <RequestId>94b39823-41c0-4ab1-997f-fcf7e14dfebb</RequestId>
 </ErrorResponse>
 ```
 
@@ -1137,6 +1339,11 @@ Deleting a Global datastore is a two-step process: First, you must DisassociateG
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 123
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteGlobalReplicationGroup
 &Version=2015-02-02
@@ -1147,6 +1354,9 @@ Action=DeleteGlobalReplicationGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 46fea0c2-4b75-469b-b163-bc8eba090f3c
+content-length: 282
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -1154,7 +1364,7 @@ content-type: text/xml
     <Code>GlobalReplicationGroupNotFoundFault</Code>
     <Message>Global Replication Group not found</Message>
   </Error>
-  <RequestId>475151bd-9ae5-4051-a2f5-b5f4eb4f8bc1</RequestId>
+  <RequestId>46fea0c2-4b75-469b-b163-bc8eba090f3c</RequestId>
 </ErrorResponse>
 ```
 
@@ -1168,6 +1378,11 @@ Deletes an existing replication group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteReplicationGroup
 &Version=2015-02-02
@@ -1175,20 +1390,23 @@ Action=DeleteReplicationGroup
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 66e49481-aa6c-4e5d-93d8-50797c17e371
+content-length: 305
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
     <Type>Sender</Type>
-    <Code>ReplicationGroupNotFoundFault</Code>
-    <Message>Specified replication group does not exist</Message>
+    <Code>InvalidReplicationGroupState</Code>
+    <Message>Cache cluster example-001 is not in a valid state to be deleted.</Message>
   </Error>
-  <RequestId>d825d910-a891-47bf-80e8-996172dc4bae</RequestId>
+  <RequestId>66e49481-aa6c-4e5d-93d8-50797c17e371</RequestId>
 </ErrorResponse>
 ```
 
-`404` `ReplicationGroupNotFoundFault`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `InvalidReplicationGroupState`: the placeholder values failed the operation's input validation.
 
 ### DeleteServerlessCache
 
@@ -1196,6 +1414,11 @@ Deletes a specified existing serverless cache.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteServerlessCache
 &Version=2015-02-02
@@ -1205,6 +1428,9 @@ Action=DeleteServerlessCache
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 6a7e78ba-054e-4961-bb29-0213fdd7b2ee
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -1212,7 +1438,7 @@ content-type: text/xml
     <Code>ServerlessCacheNotFoundFault</Code>
     <Message>Serverless cache with name example not found.</Message>
   </Error>
-  <RequestId>873b1841-0cff-495f-9f96-45acc96f0ada</RequestId>
+  <RequestId>6a7e78ba-054e-4961-bb29-0213fdd7b2ee</RequestId>
 </ErrorResponse>
 ```
 
@@ -1226,6 +1452,11 @@ Deletes an existing serverless cache snapshot.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 91
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteServerlessCacheSnapshot
 &Version=2015-02-02
@@ -1235,6 +1466,9 @@ Action=DeleteServerlessCacheSnapshot
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 6e1608a4-ff24-44eb-b7c7-6325c007f365
+content-length: 311
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -1242,7 +1476,7 @@ content-type: text/xml
     <Code>ServerlessCacheSnapshotNotFoundFault</Code>
     <Message>Serverless cache snapshot with specified name does not exists.</Message>
   </Error>
-  <RequestId>2e503795-bd5a-4a0f-bbf3-ae75920cf444</RequestId>
+  <RequestId>6e1608a4-ff24-44eb-b7c7-6325c007f365</RequestId>
 </ErrorResponse>
 ```
 
@@ -1254,6 +1488,11 @@ Deletes an existing snapshot.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteSnapshot
 &Version=2015-02-02
@@ -1263,6 +1502,9 @@ Action=DeleteSnapshot
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: f81845d4-92b1-479d-a8ad-1be022ff91ce
+content-length: 270
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -1270,7 +1512,7 @@ content-type: text/xml
     <Code>SnapshotNotFoundFault</Code>
     <Message>Snapshot with name example not found</Message>
   </Error>
-  <RequestId>858629fa-570d-4afd-ada1-831633ef9edf</RequestId>
+  <RequestId>f81845d4-92b1-479d-a8ad-1be022ff91ce</RequestId>
 </ErrorResponse>
 ```
 
@@ -1282,6 +1524,11 @@ For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteUser
 &Version=2015-02-02
@@ -1291,6 +1538,9 @@ Action=DeleteUser
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: e2fea380-eb5e-4904-aef7-7815e04dbbd6
+content-length: 248
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -1298,7 +1548,7 @@ content-type: text/xml
     <Code>UserNotFound</Code>
     <Message>User example not found.</Message>
   </Error>
-  <RequestId>524bbc43-408c-4e5d-8f65-af06f362a49a</RequestId>
+  <RequestId>e2fea380-eb5e-4904-aef7-7815e04dbbd6</RequestId>
 </ErrorResponse>
 ```
 
@@ -1310,6 +1560,11 @@ For Valkey engine version 7.2 onwards and Redis OSS 6.0 onwards: Deletes a user 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteUserGroup
 &Version=2015-02-02
@@ -1319,6 +1574,9 @@ Action=DeleteUserGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: f88cfeb5-4e4c-429e-8d75-e7abee402650
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -1326,7 +1584,7 @@ content-type: text/xml
     <Code>UserGroupNotFound</Code>
     <Message>User group example not found.</Message>
   </Error>
-  <RequestId>ed7482a8-8839-4e70-9452-ce3e40edf778</RequestId>
+  <RequestId>f88cfeb5-4e4c-429e-8d75-e7abee402650</RequestId>
 </ErrorResponse>
 ```
 
@@ -1338,6 +1596,11 @@ Returns information about all provisioned clusters if no cluster identifier is s
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeCacheClusters
 &Version=2015-02-02
@@ -1346,28 +1609,30 @@ Action=DescribeCacheClusters
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 3147
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeCacheClustersResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeCacheClustersResult>
     <CacheClusters>
       <CacheCluster xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
         <CacheClusterId>example</CacheClusterId>
-        <ConfigurationEndpoint>
-          <Address>127.0.0.1</Address>
-          <Port>45509</Port>
-        </ConfigurationEndpoint>
+        <ClientDownloadLandingPage>https://console.aws.amazon.com/elasticache/home#client-download:</ClientDownloadLandingPage>
         <Engine>redis</Engine>
-        <EngineVersion>7.1</EngineVersion>
-        <CacheClusterStatus>available</CacheClusterStatus>
+        <EngineVersion>7.1.0</EngineVersion>
+        <CacheClusterStatus>creating</CacheClusterStatus>
         <NumCacheNodes>1</NumCacheNodes>
         <PreferredAvailabilityZone>us-east-1a</PreferredAvailabilityZone>
-        <CacheClusterCreateTime>2026-11-16T12:11:29.301631Z</CacheClusterCreateTime>
+        <CacheClusterCreateTime>2026-11-26T18:30:05.006049Z</CacheClusterCreateTime>
         <PreferredMaintenanceWindow>sun:23:00-mon:01:30</PreferredMaintenanceWindow>
+        <PendingModifiedValues></PendingModifiedValues>
+        <CacheSecurityGroups></CacheSecurityGroups>
         <CacheParameterGroup>
           <CacheParameterGroupName>default.redis7</CacheParameterGroupName>
           <ParameterApplyStatus>in-sync</ParameterApplyStatus>
+          <CacheNodeIdsToReboot></CacheNodeIdsToReboot>
         </CacheParameterGroup>
-… (35 more lines)
+… (46 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values. See [the walkthrough](#3-describecacheclusters) for a successful call.
@@ -1378,6 +1643,11 @@ Returns a list of the available cache engines and their versions.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeCacheEngineVersions
 &Version=2015-02-02
@@ -1386,6 +1656,8 @@ Action=DescribeCacheEngineVersions
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 7575
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeCacheEngineVersionsResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeCacheEngineVersionsResult>
@@ -1407,7 +1679,7 @@ content-type: text/xml
       <CacheEngineVersion>
         <Engine>memcached</Engine>
         <EngineVersion>1.4.24</EngineVersion>
-… (220 more lines)
+… (150 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -1418,6 +1690,11 @@ Returns a list of cache parameter group descriptions.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeCacheParameterGroups
 &Version=2015-02-02
@@ -1426,6 +1703,8 @@ Action=DescribeCacheParameterGroups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 8132
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeCacheParameterGroupsResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeCacheParameterGroupsResult>
@@ -1458,6 +1737,11 @@ Returns the detailed parameter list for a particular cache parameter group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 81
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeCacheParameters
 &Version=2015-02-02
@@ -1467,6 +1751,9 @@ Action=DescribeCacheParameters
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: df8274c1-febb-4cf5-a6a3-298361b77c50
+content-length: 277
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -1474,7 +1761,7 @@ content-type: text/xml
     <Code>CacheParameterGroupNotFound</Code>
     <Message>CacheParameterGroupnot found: example</Message>
   </Error>
-  <RequestId>30bcad57-fb2a-4dee-84a4-6039d09fd431</RequestId>
+  <RequestId>df8274c1-febb-4cf5-a6a3-298361b77c50</RequestId>
 </ErrorResponse>
 ```
 
@@ -1486,6 +1773,11 @@ Returns a list of cache security group descriptions.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeCacheSecurityGroups
 &Version=2015-02-02
@@ -1494,6 +1786,9 @@ Action=DescribeCacheSecurityGroups
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: d201a04c-1635-475f-b27d-049ef265c458
+content-length: 317
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -1501,7 +1796,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Use of cache security groups is not permitted in this API version for your account.</Message>
   </Error>
-  <RequestId>ec1fa29e-239d-4b48-ab21-8cdc4b225d51</RequestId>
+  <RequestId>d201a04c-1635-475f-b27d-049ef265c458</RequestId>
 </ErrorResponse>
 ```
 
@@ -1513,6 +1808,11 @@ Returns a list of cache subnet group descriptions.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeCacheSubnetGroups
 &Version=2015-02-02
@@ -1521,13 +1821,15 @@ Action=DescribeCacheSubnetGroups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 330
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeCacheSubnetGroupsResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeCacheSubnetGroupsResult>
-    <CacheSubnetGroups/>
+    <CacheSubnetGroups></CacheSubnetGroups>
   </DescribeCacheSubnetGroupsResult>
   <ResponseMetadata>
-    <RequestId>d976a51d-ea9d-4487-a3cb-20f307416b47</RequestId>
+    <RequestId>14b2173e-1332-48c1-b9da-c8d8f65980a0</RequestId>
   </ResponseMetadata>
 </DescribeCacheSubnetGroupsResponse>
 ```
@@ -1540,6 +1842,11 @@ Returns the default engine and system parameter information for the specified ca
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 91
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeEngineDefaultParameters
 &Version=2015-02-02
@@ -1549,6 +1856,9 @@ Action=DescribeEngineDefaultParameters
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 623869a5-6eb4-4920-8625-f022c36f217e
+content-length: 306
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -1556,7 +1866,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>CacheParameterGroupFamily example is not a valid parameter group family.</Message>
   </Error>
-  <RequestId>90b0d321-d202-4be1-a113-04e45156d836</RequestId>
+  <RequestId>623869a5-6eb4-4920-8625-f022c36f217e</RequestId>
 </ErrorResponse>
 ```
 
@@ -1568,6 +1878,11 @@ Returns events related to clusters, cache security groups, and cache parameter g
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 40
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeEvents
 &Version=2015-02-02
@@ -1576,6 +1891,8 @@ Action=DescribeEvents
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 1460
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeEventsResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeEventsResult>
@@ -1583,21 +1900,21 @@ content-type: text/xml
       <Event xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
         <SourceIdentifier>example</SourceIdentifier>
         <SourceType>replication-group</SourceType>
-        <Message>Replication group status changed from creating to available</Message>
-        <Date>2026-11-16T12:11:29.820329Z</Date>
-      </Event>
-      <Event>
-        <SourceIdentifier>example-001</SourceIdentifier>
-        <SourceType>cache-cluster</SourceType>
-        <Message>Cache cluster status changed from creating to available</Message>
-        <Date>2026-11-16T12:11:29.820329Z</Date>
+        <Message>Replication group created</Message>
+        <Date>2026-11-26T18:30:05.016832Z</Date>
       </Event>
       <Event>
         <SourceIdentifier>example</SourceIdentifier>
         <SourceType>cache-cluster</SourceType>
-        <Message>Cache cluster status changed from creating to available</Message>
-        <Date>2026-11-16T12:11:29.801631Z</Date>
-… (49 more lines)
+        <Message>Cache cluster created</Message>
+        <Date>2026-11-26T18:30:05.006049Z</Date>
+      </Event>
+      <Event>
+        <SourceIdentifier>docs-demo</SourceIdentifier>
+        <SourceType>cache-subnet-group</SourceType>
+        <Message>Cache subnet group deleted</Message>
+        <Date>2026-11-26T18:30:04.985569Z</Date>
+… (25 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -1608,6 +1925,11 @@ Returns information about a particular global replication group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 57
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeGlobalReplicationGroups
 &Version=2015-02-02
@@ -1616,13 +1938,15 @@ Action=DescribeGlobalReplicationGroups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 366
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeGlobalReplicationGroupsResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeGlobalReplicationGroupsResult>
-    <GlobalReplicationGroups/>
+    <GlobalReplicationGroups></GlobalReplicationGroups>
   </DescribeGlobalReplicationGroupsResult>
   <ResponseMetadata>
-    <RequestId>aa761378-b5d9-466e-9a1f-dee0fc02b23b</RequestId>
+    <RequestId>633f9a70-9a02-4e57-857a-e52a98e9fc5e</RequestId>
   </ResponseMetadata>
 </DescribeGlobalReplicationGroupsResponse>
 ```
@@ -1635,6 +1959,11 @@ Returns information about a particular replication group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeReplicationGroups
 &Version=2015-02-02
@@ -1643,6 +1972,8 @@ Action=DescribeReplicationGroups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 2087
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeReplicationGroupsResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeReplicationGroupsResult>
@@ -1650,21 +1981,21 @@ content-type: text/xml
       <ReplicationGroup xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
         <ReplicationGroupId>example</ReplicationGroupId>
         <Description>example</Description>
-        <Status>available</Status>
+        <GlobalReplicationGroupInfo></GlobalReplicationGroupInfo>
+        <Status>creating</Status>
+        <PendingModifiedValues></PendingModifiedValues>
         <MemberClusters>
           <ClusterId>example-001</ClusterId>
         </MemberClusters>
         <NodeGroups>
           <NodeGroup>
             <NodeGroupId>0001</NodeGroupId>
-            <Status>available</Status>
+            <Status>creating</Status>
             <PrimaryEndpoint>
               <Address>127.0.0.1</Address>
-              <Port>42339</Port>
+              <Port>40803</Port>
             </PrimaryEndpoint>
-            <NodeGroupMembers>
-              <NodeGroupMember>
-… (34 more lines)
+… (40 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -1675,6 +2006,11 @@ Returns information about reserved cache nodes for this account, or about a spec
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeReservedCacheNodes
 &Version=2015-02-02
@@ -1683,13 +2019,15 @@ Action=DescribeReservedCacheNodes
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 336
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeReservedCacheNodesResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeReservedCacheNodesResult>
-    <ReservedCacheNodes/>
+    <ReservedCacheNodes></ReservedCacheNodes>
   </DescribeReservedCacheNodesResult>
   <ResponseMetadata>
-    <RequestId>5def4b40-bd52-422c-b2da-c2a71afd048a</RequestId>
+    <RequestId>f516e429-2ec3-460b-985c-570cd4a85cf6</RequestId>
   </ResponseMetadata>
 </DescribeReservedCacheNodesResponse>
 ```
@@ -1702,6 +2040,11 @@ Lists available reserved cache node offerings.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeReservedCacheNodesOfferings
 &Version=2015-02-02
@@ -1710,10 +2053,12 @@ Action=DescribeReservedCacheNodesOfferings
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 56263
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeReservedCacheNodesOfferingsResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeReservedCacheNodesOfferingsResult>
-    <Marker>6d656d6361636865647c63616368652e74332e6d6963726f7c303039343630383030307c4e6f20557066726f6e74</Marker>
+    <Marker>6d656d6361636865647c63616368652e72352e6c617267657c303039343630383030307c4e6f20557066726f6e74</Marker>
     <ReservedCacheNodesOfferings>
       <ReservedCacheNodesOffering xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
         <ReservedCacheNodesOfferingId>8728fb22-5596-2ba6-28fa-e97a5e001d35</ReservedCacheNodesOfferingId>
@@ -1742,6 +2087,11 @@ Returns information about serverless cache snapshots.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 58
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeServerlessCacheSnapshots
 &Version=2015-02-02
@@ -1750,13 +2100,15 @@ Action=DescribeServerlessCacheSnapshots
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 372
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeServerlessCacheSnapshotsResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeServerlessCacheSnapshotsResult>
-    <ServerlessCacheSnapshots/>
+    <ServerlessCacheSnapshots></ServerlessCacheSnapshots>
   </DescribeServerlessCacheSnapshotsResult>
   <ResponseMetadata>
-    <RequestId>748cd95c-a690-453d-a805-c263091bd1bb</RequestId>
+    <RequestId>78ba6faa-b730-47fe-83f2-158304ad8218</RequestId>
   </ResponseMetadata>
 </DescribeServerlessCacheSnapshotsResponse>
 ```
@@ -1769,6 +2121,11 @@ Returns information about a specific serverless cache.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 50
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeServerlessCaches
 &Version=2015-02-02
@@ -1777,13 +2134,15 @@ Action=DescribeServerlessCaches
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 324
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeServerlessCachesResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeServerlessCachesResult>
-    <ServerlessCaches/>
+    <ServerlessCaches></ServerlessCaches>
   </DescribeServerlessCachesResult>
   <ResponseMetadata>
-    <RequestId>2365145b-5e29-4cfd-a7ac-3a8b5d77c4c4</RequestId>
+    <RequestId>0856d654-2c32-4397-a9c0-f51da8326c52</RequestId>
   </ResponseMetadata>
 </DescribeServerlessCachesResponse>
 ```
@@ -1796,6 +2155,11 @@ Returns details of the service updates
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 48
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeServiceUpdates
 &Version=2015-02-02
@@ -1804,18 +2168,20 @@ Action=DescribeServiceUpdates
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 7739
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeServiceUpdatesResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeServiceUpdatesResult>
     <ServiceUpdates>
       <ServiceUpdate xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
         <ServiceUpdateName>elasticache-memcached-security-update-001</ServiceUpdateName>
-        <ServiceUpdateReleaseDate>2026-05-20T12:05:33.443297Z</ServiceUpdateReleaseDate>
-        <ServiceUpdateEndDate>2026-09-17T12:05:33.443297Z</ServiceUpdateEndDate>
+        <ServiceUpdateReleaseDate>2024-02-13T00:00:00Z</ServiceUpdateReleaseDate>
+        <ServiceUpdateEndDate>2024-06-12T00:00:00Z</ServiceUpdateEndDate>
         <ServiceUpdateSeverity>critical</ServiceUpdateSeverity>
-        <ServiceUpdateRecommendedApplyByDate>2026-06-19T12:05:33.443297Z</ServiceUpdateRecommendedApplyByDate>
+        <ServiceUpdateRecommendedApplyByDate>2024-03-14T00:00:00Z</ServiceUpdateRecommendedApplyByDate>
         <ServiceUpdateStatus>expired</ServiceUpdateStatus>
-        <ServiceUpdateDescription>A critical security update for memcached 1.6.22.</ServiceUpdateDescription>
+        <ServiceUpdateDescription>Addresses a critical security issue in the cache engine. Applying this update replaces the engine binary the nodes run; it does not change the engine version the cluster is configured with.</ServiceUpdateDescription>
         <ServiceUpdateType>security-update</ServiceUpdateType>
         <Engine>memcached</Engine>
         <EngineVersion>1.6.22</EngineVersion>
@@ -1824,7 +2190,7 @@ content-type: text/xml
       </ServiceUpdate>
       <ServiceUpdate>
         <ServiceUpdateName>elasticache-memcached-security-update-002</ServiceUpdateName>
-        <ServiceUpdateReleaseDate>2026-11-09T12:05:33.443297Z</ServiceUpdateReleaseDate>
+        <ServiceUpdateReleaseDate>2025-09-09T00:00:00Z</ServiceUpdateReleaseDate>
 … (101 more lines)
 ```
 
@@ -1836,6 +2202,11 @@ Returns information about cluster or replication group snapshots.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeSnapshots
 &Version=2015-02-02
@@ -1844,13 +2215,15 @@ Action=DescribeSnapshots
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 282
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeSnapshotsResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeSnapshotsResult>
-    <Snapshots/>
+    <Snapshots></Snapshots>
   </DescribeSnapshotsResult>
   <ResponseMetadata>
-    <RequestId>a14eba08-9162-41bf-a99a-017a4da5114c</RequestId>
+    <RequestId>2fae418d-02d4-4cbc-bab0-89c4aa495a4d</RequestId>
   </ResponseMetadata>
 </DescribeSnapshotsResponse>
 ```
@@ -1863,6 +2236,11 @@ Returns details of the update actions
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeUpdateActions
 &Version=2015-02-02
@@ -1871,6 +2249,8 @@ Action=DescribeUpdateActions
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 10455
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeUpdateActionsResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeUpdateActionsResult>
@@ -1878,15 +2258,15 @@ content-type: text/xml
       <UpdateAction xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
         <CacheClusterId>example</CacheClusterId>
         <ServiceUpdateName>elasticache-redis-oss-v6-eol-cache-clusters</ServiceUpdateName>
-        <ServiceUpdateReleaseDate>2026-09-17T12:05:33.443297Z</ServiceUpdateReleaseDate>
+        <ServiceUpdateReleaseDate>2025-04-15T00:00:00Z</ServiceUpdateReleaseDate>
         <ServiceUpdateSeverity>important</ServiceUpdateSeverity>
         <ServiceUpdateStatus>available</ServiceUpdateStatus>
-        <ServiceUpdateRecommendedApplyByDate>2027-03-16T12:05:33.443297Z</ServiceUpdateRecommendedApplyByDate>
+        <ServiceUpdateRecommendedApplyByDate>2039-01-01T00:00:00Z</ServiceUpdateRecommendedApplyByDate>
         <ServiceUpdateType>engine-major-version-update</ServiceUpdateType>
-        <UpdateActionAvailableDate>2026-11-16T12:11:29.301631Z</UpdateActionAvailableDate>
+        <UpdateActionAvailableDate>2026-11-26T18:30:05.006049Z</UpdateActionAvailableDate>
         <UpdateActionStatus>not-applied</UpdateActionStatus>
         <NodesUpdated>0/1</NodesUpdated>
-        <UpdateActionStatusModifiedDate>2026-11-16T12:11:29.301631Z</UpdateActionStatusModifiedDate>
+        <UpdateActionStatusModifiedDate>2026-11-26T18:30:05.006049Z</UpdateActionStatusModifiedDate>
         <SlaMet>n/a</SlaMet>
         <EstimatedUpdateTime>15 minutes</EstimatedUpdateTime>
         <Engine>redis</Engine>
@@ -1903,6 +2283,11 @@ Returns a list of user groups.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 44
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeUserGroups
 &Version=2015-02-02
@@ -1911,13 +2296,15 @@ Action=DescribeUserGroups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 288
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeUserGroupsResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeUserGroupsResult>
-    <UserGroups/>
+    <UserGroups></UserGroups>
   </DescribeUserGroupsResult>
   <ResponseMetadata>
-    <RequestId>2683d4c9-dc14-4e0d-9cfb-c9fcfe481f69</RequestId>
+    <RequestId>a25c2f45-c574-4e6e-8b33-a8ccef4c4ce0</RequestId>
   </ResponseMetadata>
 </DescribeUserGroupsResponse>
 ```
@@ -1930,6 +2317,11 @@ Returns a list of users.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 39
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeUsers
 &Version=2015-02-02
@@ -1938,6 +2330,8 @@ Action=DescribeUsers
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 676
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DescribeUsersResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <DescribeUsersResult>
@@ -1949,7 +2343,7 @@ content-type: text/xml
         <Engine>redis</Engine>
         <MinimumEngineVersion>6.0</MinimumEngineVersion>
         <AccessString>on ~* &amp;* +@all</AccessString>
-        <UserGroupIds/>
+        <UserGroupIds></UserGroupIds>
         <Authentication>
           <Type>no-password</Type>
         </Authentication>
@@ -1958,7 +2352,7 @@ content-type: text/xml
     </Users>
   </DescribeUsersResult>
   <ResponseMetadata>
-    <RequestId>82a59dfe-3147-4590-909a-cd3a4ec77c9e</RequestId>
+    <RequestId>2bddf6c8-0e04-4a25-8688-270d657a0daa</RequestId>
 … (2 more lines)
 ```
 
@@ -1970,17 +2364,25 @@ Remove a secondary cluster from the Global datastore using the Global datastore 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 157
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DisassociateGlobalReplicationGroup
 &Version=2015-02-02
-&GlobalReplicationGroupId=example
-&ReplicationGroupId=example
-&ReplicationGroupRegion=example
+&GlobalReplicationGroupId=docs-demo
+&ReplicationGroupId=docs-demo
+&ReplicationGroupRegion=docs-demo
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 28c62e46-b51f-4b63-a3f2-e2e8cde689ac
+content-length: 282
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -1988,7 +2390,7 @@ content-type: text/xml
     <Code>GlobalReplicationGroupNotFoundFault</Code>
     <Message>Global Replication Group not found</Message>
   </Error>
-  <RequestId>5749d46f-850e-444f-913d-776a0e32e610</RequestId>
+  <RequestId>28c62e46-b51f-4b63-a3f2-e2e8cde689ac</RequestId>
 </ErrorResponse>
 ```
 
@@ -2000,16 +2402,24 @@ Provides the functionality to export the serverless cache snapshot data to Amazo
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 116
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ExportServerlessCacheSnapshot
 &Version=2015-02-02
-&ServerlessCacheSnapshotName=example
-&S3BucketName=example
+&ServerlessCacheSnapshotName=docs-demo
+&S3BucketName=docs-demo
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 26a48d78-da84-43d8-92ff-b6284dd7e57e
+content-length: 311
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2017,7 +2427,7 @@ content-type: text/xml
     <Code>ServerlessCacheSnapshotNotFoundFault</Code>
     <Message>Serverless cache snapshot with specified name does not exists.</Message>
   </Error>
-  <RequestId>c85c7496-920d-47a3-ab61-fd5a59d388af</RequestId>
+  <RequestId>26a48d78-da84-43d8-92ff-b6284dd7e57e</RequestId>
 </ErrorResponse>
 ```
 
@@ -2029,17 +2439,25 @@ Used to failover the primary region to a secondary region.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 151
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=FailoverGlobalReplicationGroup
 &Version=2015-02-02
-&GlobalReplicationGroupId=example
-&PrimaryRegion=example
-&PrimaryReplicationGroupId=example
+&GlobalReplicationGroupId=docs-demo
+&PrimaryRegion=docs-demo
+&PrimaryReplicationGroupId=docs-demo
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 82f6933c-a891-4604-985d-ad3d7d61d60d
+content-length: 282
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2047,7 +2465,7 @@ content-type: text/xml
     <Code>GlobalReplicationGroupNotFoundFault</Code>
     <Message>Global Replication Group not found</Message>
   </Error>
-  <RequestId>4d6816d9-1754-4123-a49d-21668928d16b</RequestId>
+  <RequestId>82f6933c-a891-4604-985d-ad3d7d61d60d</RequestId>
 </ErrorResponse>
 ```
 
@@ -2059,10 +2477,15 @@ Increase the number of node groups in the Global datastore
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 143
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=IncreaseNodeGroupsInGlobalReplicationGroup
 &Version=2015-02-02
-&GlobalReplicationGroupId=example
+&GlobalReplicationGroupId=docs-demo
 &NodeGroupCount=1
 &ApplyImmediately=false
 ```
@@ -2070,6 +2493,9 @@ Action=IncreaseNodeGroupsInGlobalReplicationGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 94f1e0b5-5221-4cce-bfba-82bce45b841b
+content-length: 408
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2077,7 +2503,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid value false for ApplyImmediately: this emulator applies a Global datastore change at once, and the GlobalReplicationGroup shape has no member to report a pending one.</Message>
   </Error>
-  <RequestId>2eb10e11-a12d-4614-a1e8-87c750e1383a</RequestId>
+  <RequestId>94f1e0b5-5221-4cce-bfba-82bce45b841b</RequestId>
 </ErrorResponse>
 ```
 
@@ -2089,16 +2515,24 @@ Dynamically increases the number of replicas in a Valkey or Redis OSS (cluster m
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 98
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=IncreaseReplicaCount
 &Version=2015-02-02
-&ReplicationGroupId=example
+&ReplicationGroupId=docs-demo
 &ApplyImmediately=false
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: af31ea04-2376-4977-a5b0-c10fad1992d9
+content-length: 326
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2106,7 +2540,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid value false for ApplyImmediately: ApplyImmediately=False is not currently supported.</Message>
   </Error>
-  <RequestId>3c8ea87b-a930-4ee5-b1d0-29e01b8b88e5</RequestId>
+  <RequestId>af31ea04-2376-4977-a5b0-c10fad1992d9</RequestId>
 </ErrorResponse>
 ```
 
@@ -2118,6 +2552,11 @@ Lists all available node types that you can scale with your cluster's replicatio
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 58
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListAllowedNodeTypeModifications
 &Version=2015-02-02
@@ -2126,6 +2565,9 @@ Action=ListAllowedNodeTypeModifications
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: f9184e39-3d78-4954-9531-ddd724986d26
+content-length: 302
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2133,7 +2575,7 @@ content-type: text/xml
     <Code>InvalidParameterCombination</Code>
     <Message>Either CacheClusterId or ReplicationGroupId must be specified.</Message>
   </Error>
-  <RequestId>85642aa3-1014-4ed3-83ac-a8b94b3a6fb0</RequestId>
+  <RequestId>f9184e39-3d78-4954-9531-ddd724986d26</RequestId>
 </ErrorResponse>
 ```
 
@@ -2145,15 +2587,23 @@ Lists all tags currently on a named resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 68
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListTagsForResource
 &Version=2015-02-02
-&ResourceName=example
+&ResourceName=docs-demo
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 622a7499-eb00-4ca5-a6e9-14bbc3cd39a1
+content-length: 267
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2161,7 +2611,7 @@ content-type: text/xml
     <Code>InvalidARN</Code>
     <Message>Input ARN string does not have 7 components.</Message>
   </Error>
-  <RequestId>101f6aee-6fe6-4cad-b88d-07f1aa463855</RequestId>
+  <RequestId>622a7499-eb00-4ca5-a6e9-14bbc3cd39a1</RequestId>
 </ErrorResponse>
 ```
 
@@ -2173,40 +2623,35 @@ Modifies the settings for a cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 69
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyCacheCluster
 &Version=2015-02-02
-&CacheClusterId=example
+&CacheClusterId=docs-demo
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: bfb32993-4281-424c-bc07-49cca08d5d0e
+content-length: 266
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<ModifyCacheClusterResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
-  <ModifyCacheClusterResult>
-    <CacheCluster xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
-      <CacheClusterId>example</CacheClusterId>
-      <ConfigurationEndpoint>
-        <Address>127.0.0.1</Address>
-        <Port>45509</Port>
-      </ConfigurationEndpoint>
-      <Engine>redis</Engine>
-      <EngineVersion>7.1</EngineVersion>
-      <CacheClusterStatus>available</CacheClusterStatus>
-      <NumCacheNodes>1</NumCacheNodes>
-      <PreferredAvailabilityZone>us-east-1a</PreferredAvailabilityZone>
-      <CacheClusterCreateTime>2026-11-16T12:11:29.301631Z</CacheClusterCreateTime>
-      <PreferredMaintenanceWindow>sun:23:00-mon:01:30</PreferredMaintenanceWindow>
-      <CacheParameterGroup>
-        <CacheParameterGroupName>default.redis7</CacheParameterGroupName>
-        <ParameterApplyStatus>in-sync</ParameterApplyStatus>
-      </CacheParameterGroup>
-      <CacheNodes>
-… (21 more lines)
+<ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
+  <Error>
+    <Type>Sender</Type>
+    <Code>CacheClusterNotFound</Code>
+    <Message>CacheCluster not found: docs-demo</Message>
+  </Error>
+  <RequestId>bfb32993-4281-424c-bc07-49cca08d5d0e</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`404` `CacheClusterNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ModifyCacheParameterGroup
 
@@ -2214,24 +2659,32 @@ Modifies the parameters of a cache parameter group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 85
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyCacheParameterGroup
 &Version=2015-02-02
-&CacheParameterGroupName=example
+&CacheParameterGroupName=docs-demo
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 107f6fbb-c958-462c-9338-8a83dee65810
+content-length: 249
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterValue</Code>
     <Message>The parameter ParameterNameValues must be provided.</Message>
   </Error>
-  <RequestId>71d35590-62ef-4f7c-aac0-e671f4295b13</RequestId>
+  <RequestId>107f6fbb-c958-462c-9338-8a83dee65810</RequestId>
 </ErrorResponse>
 ```
 
@@ -2243,23 +2696,31 @@ Modifies an existing cache subnet group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 79
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyCacheSubnetGroup
 &Version=2015-02-02
-&CacheSubnetGroupName=example
+&CacheSubnetGroupName=docs-demo
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: d6236944-34da-4dc7-ad18-488d9fe78465
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
     <Type>Sender</Type>
     <Code>CacheSubnetGroupNotFoundFault</Code>
-    <Message>Cache Subnet Group example does not exist.</Message>
+    <Message>Cache Subnet Group docs-demo does not exist.</Message>
   </Error>
-  <RequestId>c40aed2e-708e-4314-8528-4b124596ee7f</RequestId>
+  <RequestId>d6236944-34da-4dc7-ad18-488d9fe78465</RequestId>
 </ErrorResponse>
 ```
 
@@ -2271,16 +2732,24 @@ Modifies the settings for a Global datastore.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 112
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyGlobalReplicationGroup
 &Version=2015-02-02
-&GlobalReplicationGroupId=example
+&GlobalReplicationGroupId=docs-demo
 &ApplyImmediately=false
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: d2a36690-c499-46dd-81b2-1fe2285d6080
+content-length: 408
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2288,7 +2757,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid value false for ApplyImmediately: this emulator applies a Global datastore change at once, and the GlobalReplicationGroup shape has no member to report a pending one.</Message>
   </Error>
-  <RequestId>1005b2b9-d64f-45fe-877f-cead5a1bf557</RequestId>
+  <RequestId>d2a36690-c499-46dd-81b2-1fe2285d6080</RequestId>
 </ErrorResponse>
 ```
 
@@ -2300,40 +2769,35 @@ Modifies the settings for a replication group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyReplicationGroup
 &Version=2015-02-02
-&ReplicationGroupId=example
+&ReplicationGroupId=docs-demo
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: d7adc4bb-1539-4d51-aa02-605987966184
+content-length: 291
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<ModifyReplicationGroupResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
-  <ModifyReplicationGroupResult>
-    <ReplicationGroup xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
-      <ReplicationGroupId>example</ReplicationGroupId>
-      <Description>example</Description>
-      <Status>available</Status>
-      <MemberClusters>
-        <ClusterId>example-001</ClusterId>
-      </MemberClusters>
-      <NodeGroups>
-        <NodeGroup>
-          <NodeGroupId>0001</NodeGroupId>
-          <Status>available</Status>
-          <PrimaryEndpoint>
-            <Address>127.0.0.1</Address>
-            <Port>42339</Port>
-          </PrimaryEndpoint>
-          <NodeGroupMembers>
-            <NodeGroupMember>
-              <CacheClusterId>example-001</CacheClusterId>
-… (32 more lines)
+<ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
+  <Error>
+    <Type>Sender</Type>
+    <Code>ReplicationGroupNotFoundFault</Code>
+    <Message>Replication group &apos;docs-demo&apos; not found</Message>
+  </Error>
+  <RequestId>d7adc4bb-1539-4d51-aa02-605987966184</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`404` `ReplicationGroupNotFoundFault`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ModifyReplicationGroupShardConfiguration
 
@@ -2341,10 +2805,15 @@ Modifies a replication group's shards (node groups) by allowing you to add shard
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 135
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyReplicationGroupShardConfiguration
 &Version=2015-02-02
-&ReplicationGroupId=example
+&ReplicationGroupId=docs-demo
 &NodeGroupCount=1
 &ApplyImmediately=false
 ```
@@ -2352,6 +2821,9 @@ Action=ModifyReplicationGroupShardConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 0a63f8a5-d8fc-4b13-9dc3-7d15228a1f4f
+content-length: 366
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2359,7 +2831,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid value false for ApplyImmediately: the shard reconfiguration process begins immediately, so the only permitted value is true.</Message>
   </Error>
-  <RequestId>ba945e20-3cfb-4892-ac0b-e1eb1f9f16b1</RequestId>
+  <RequestId>0a63f8a5-d8fc-4b13-9dc3-7d15228a1f4f</RequestId>
 </ErrorResponse>
 ```
 
@@ -2371,23 +2843,31 @@ This API modifies the attributes of a serverless cache.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyServerlessCache
 &Version=2015-02-02
-&ServerlessCacheName=example
+&ServerlessCacheName=docs-demo
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 2099d539-77a0-4003-a8fd-3feccdb612bf
+content-length: 288
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
     <Type>Sender</Type>
     <Code>ServerlessCacheNotFoundFault</Code>
-    <Message>Serverless cache with name example not found.</Message>
+    <Message>Serverless cache with name docs-demo not found.</Message>
   </Error>
-  <RequestId>7a2b6d34-7710-4b38-8974-55f49a104ab7</RequestId>
+  <RequestId>2099d539-77a0-4003-a8fd-3feccdb612bf</RequestId>
 </ErrorResponse>
 ```
 
@@ -2399,15 +2879,23 @@ Changes user password(s) and/or access string.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyUser
 &Version=2015-02-02
-&UserId=example
+&UserId=docs-demo
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: a6d0fb6f-506a-465b-a055-2150a7ba584b
+content-length: 375
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2415,7 +2903,7 @@ content-type: text/xml
     <Code>InvalidParameterCombination</Code>
     <Message>No modifications were requested: name AccessString, AppendAccessString, Engine, Passwords, NoPasswordRequired or an AuthenticationMode.</Message>
   </Error>
-  <RequestId>19798239-f490-4994-b5a8-bb949bffdd2c</RequestId>
+  <RequestId>a6d0fb6f-506a-465b-a055-2150a7ba584b</RequestId>
 </ErrorResponse>
 ```
 
@@ -2427,15 +2915,23 @@ Changes the list of users that belong to the user group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 63
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyUserGroup
 &Version=2015-02-02
-&UserGroupId=example
+&UserGroupId=docs-demo
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: f01389ab-1b6d-4442-b2ea-f6e8db25802f
+content-length: 318
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2443,7 +2939,7 @@ content-type: text/xml
     <Code>InvalidParameterCombination</Code>
     <Message>No modifications were requested: name Engine, UserIdsToAdd or UserIdsToRemove.</Message>
   </Error>
-  <RequestId>a239548b-d71c-42eb-a39d-8dd3ff6e7170</RequestId>
+  <RequestId>f01389ab-1b6d-4442-b2ea-f6e8db25802f</RequestId>
 </ErrorResponse>
 ```
 
@@ -2455,24 +2951,32 @@ Prepares the serverless cache for data migration by validating the configuration
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 72
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PrepareMigration
 &Version=2015-02-02
-&ServerlessCacheName=example
+&ServerlessCacheName=docs-demo
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 79846378-b84b-4a03-916a-c1ebbbb0743b
+content-length: 254
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterValue</Code>
     <Message>The parameter CustomerNodeEndpointList must be provided.</Message>
   </Error>
-  <RequestId>80be22d7-8e60-4a4f-a678-3dbd4ecdafa5</RequestId>
+  <RequestId>79846378-b84b-4a03-916a-c1ebbbb0743b</RequestId>
 </ErrorResponse>
 ```
 
@@ -2484,23 +2988,31 @@ Allows you to purchase a reserved cache node offering.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 99
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PurchaseReservedCacheNodesOffering
 &Version=2015-02-02
-&ReservedCacheNodesOfferingId=example
+&ReservedCacheNodesOfferingId=docs-demo
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 41313bb3-ca97-4e94-804d-9f1b56688ce5
+content-length: 296
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
     <Type>Sender</Type>
     <Code>ReservedCacheNodesOfferingNotFound</Code>
-    <Message>ReservedCacheNodesOfferingId example not found.</Message>
+    <Message>ReservedCacheNodesOfferingId docs-demo not found.</Message>
   </Error>
-  <RequestId>e80f2311-4998-42d5-baa4-084af6655ffb</RequestId>
+  <RequestId>41313bb3-ca97-4e94-804d-9f1b56688ce5</RequestId>
 </ErrorResponse>
 ```
 
@@ -2512,16 +3024,24 @@ Redistribute slots to ensure uniform distribution across existing shards in the 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 122
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RebalanceSlotsInGlobalReplicationGroup
 &Version=2015-02-02
-&GlobalReplicationGroupId=example
+&GlobalReplicationGroupId=docs-demo
 &ApplyImmediately=false
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: be9e8fab-2155-427c-936b-1d01471ff87f
+content-length: 408
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2529,7 +3049,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid value false for ApplyImmediately: this emulator applies a Global datastore change at once, and the GlobalReplicationGroup shape has no member to report a pending one.</Message>
   </Error>
-  <RequestId>be57a6a4-0697-4408-ae14-dbc44a5cf44b</RequestId>
+  <RequestId>be9e8fab-2155-427c-936b-1d01471ff87f</RequestId>
 </ErrorResponse>
 ```
 
@@ -2541,28 +3061,36 @@ Reboots some, or all, of the cache nodes within a provisioned cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 114
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RebootCacheCluster
 &Version=2015-02-02
-&CacheClusterId=example
-&CacheNodeIdsToReboot.CacheNodeId.1=example
+&CacheClusterId=docs-demo
+&CacheNodeIdsToReboot.CacheNodeId.1=docs-demo
 ```
 
 ```http
-HTTP/1.1 400 Bad Request
+HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: ee854da2-114c-4ab2-88e2-a9018491f136
+content-length: 266
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
     <Type>Sender</Type>
-    <Code>ValidationException</Code>
-    <Message>Invalid value example for CacheNodeIdsToReboot: cache cluster example has no such cache node.</Message>
+    <Code>CacheClusterNotFound</Code>
+    <Message>CacheCluster not found: docs-demo</Message>
   </Error>
-  <RequestId>4e7dbbe3-6fb1-43fe-a1fd-05fdd58ad4a3</RequestId>
+  <RequestId>ee854da2-114c-4ab2-88e2-a9018491f136</RequestId>
 </ErrorResponse>
 ```
 
-`400` `ValidationException`: the placeholder values failed the operation's input validation.
+`404` `CacheClusterNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### RemoveTagsFromResource
 
@@ -2570,16 +3098,24 @@ Removes the tags identified by the TagKeys list from the named resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 98
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RemoveTagsFromResource
 &Version=2015-02-02
-&ResourceName=example
-&TagKeys.member.1=example
+&ResourceName=docs-demo
+&TagKeys.member.1=docs-demo
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: e0b6dfa0-531c-4927-9f2a-536b37dcbe55
+content-length: 267
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2587,7 +3123,7 @@ content-type: text/xml
     <Code>InvalidARN</Code>
     <Message>Input ARN string does not have 7 components.</Message>
   </Error>
-  <RequestId>63602752-3963-48e8-9a94-27db0532bdf2</RequestId>
+  <RequestId>e0b6dfa0-531c-4927-9f2a-536b37dcbe55</RequestId>
 </ErrorResponse>
 ```
 
@@ -2599,15 +3135,23 @@ Modifies the parameters of a cache parameter group to the engine or system defau
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 84
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ResetCacheParameterGroup
 &Version=2015-02-02
-&CacheParameterGroupName=example
+&CacheParameterGroupName=docs-demo
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 8a48bdf9-b71d-49dd-b017-cc27ad66c5f6
+content-length: 335
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2615,7 +3159,7 @@ content-type: text/xml
     <Code>InvalidParameterCombination</Code>
     <Message>ParameterNameValues must name at least one parameter to reset when ResetAllParameters is false.</Message>
   </Error>
-  <RequestId>d8594b03-88d4-4b1f-83c6-712129c95b19</RequestId>
+  <RequestId>8a48bdf9-b71d-49dd-b017-cc27ad66c5f6</RequestId>
 </ErrorResponse>
 ```
 
@@ -2627,17 +3171,25 @@ Revokes ingress from a cache security group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 155
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RevokeCacheSecurityGroupIngress
 &Version=2015-02-02
-&CacheSecurityGroupName=example
-&EC2SecurityGroupName=example
-&EC2SecurityGroupOwnerId=example
+&CacheSecurityGroupName=docs-demo
+&EC2SecurityGroupName=docs-demo
+&EC2SecurityGroupOwnerId=docs-demo
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: b3bd6d6e-743c-4c86-9e34-70d71a97c148
+content-length: 317
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2645,7 +3197,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Use of cache security groups is not permitted in this API version for your account.</Message>
   </Error>
-  <RequestId>484845b5-e9ea-4967-a5c5-257550e9f244</RequestId>
+  <RequestId>b3bd6d6e-743c-4c86-9e34-70d71a97c148</RequestId>
 </ErrorResponse>
 ```
 
@@ -2657,6 +3209,11 @@ Starts the migration of data.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 40
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=StartMigration
 &Version=2015-02-02
@@ -2665,6 +3222,9 @@ Action=StartMigration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: cd144b6b-4af7-4fc7-bab9-98159cf38ff0
+content-length: 336
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2672,7 +3232,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Either ReplicationGroupId or ServerlessCacheName must be provided to name the target of the migration.</Message>
   </Error>
-  <RequestId>f772cc93-4cef-4aa9-9efa-499ff7878f63</RequestId>
+  <RequestId>cd144b6b-4af7-4fc7-bab9-98159cf38ff0</RequestId>
 </ErrorResponse>
 ```
 
@@ -2684,15 +3244,23 @@ Stops an ongoing data sync between the source and the serverless cache.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 69
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=StopMigration
 &Version=2015-02-02
-&ServerlessCacheName=example
+&ServerlessCacheName=docs-demo
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: c92d6424-98a6-4e49-96d5-5e1d084d83b1
+content-length: 303
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
@@ -2700,7 +3268,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation StopMigration is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>79dc2311-ecd1-4ad2-a22f-9025db61d0c6</RequestId>
+  <RequestId>c92d6424-98a6-4e49-96d5-5e1d084d83b1</RequestId>
 </ErrorResponse>
 ```
 
@@ -2712,28 +3280,36 @@ Represents the input of a TestFailover operation which tests automatic failover 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 81
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=TestFailover
 &Version=2015-02-02
-&ReplicationGroupId=example
+&ReplicationGroupId=docs-demo
 &NodeGroupId=1
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 216ab5aa-02e9-48ec-993d-3f4309ecc486
+content-length: 285
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="http://elasticache.amazonaws.com/doc/2015-02-02/">
   <Error>
     <Type>Sender</Type>
-    <Code>NodeGroupNotFoundFault</Code>
-    <Message>Node group 1 not found in replication group example.</Message>
+    <Code>ReplicationGroupNotFoundFault</Code>
+    <Message>Replication group docs-demo does not exist.</Message>
   </Error>
-  <RequestId>1d76b4bd-79a5-4f04-8e3f-b4f75ee4e477</RequestId>
+  <RequestId>216ab5aa-02e9-48ec-993d-3f4309ecc486</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NodeGroupNotFoundFault`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`404` `ReplicationGroupNotFoundFault`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### TestMigration
 
@@ -2741,24 +3317,32 @@ Async API to test connection between source and target replication group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 68
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticache/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=TestMigration
 &Version=2015-02-02
-&ReplicationGroupId=example
+&ReplicationGroupId=docs-demo
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 9866f408-76fe-4f51-8639-8956fa10ab65
+content-length: 254
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterValue</Code>
     <Message>The parameter CustomerNodeEndpointList must be provided.</Message>
   </Error>
-  <RequestId>b67cd934-b93a-4fad-85dc-2182a353ba18</RequestId>
+  <RequestId>9866f408-76fe-4f51-8639-8956fa10ab65</RequestId>
 </ErrorResponse>
 ```
 

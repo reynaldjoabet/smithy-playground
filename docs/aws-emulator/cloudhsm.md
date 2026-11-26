@@ -11,7 +11,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `cloudhsm`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `cloudhsm`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListHsms`:
 
@@ -42,9 +42,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.CreateHsm
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124456Z
-Content-Length: 209
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182733Z
+Content-Length: 158
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SubnetId": "subnet-00000000000000007",
@@ -60,7 +60,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cl
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 content-length: 219
-date: Mon, 16 Nov 2026 12:44:56 GMT
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "ValidationException",
@@ -79,9 +79,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.CreateHsm
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124456Z
-Content-Length: 200
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182733Z
+Content-Length: 149
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SubnetId": "subnet-0a1b2c3d",
@@ -97,10 +97,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cl
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 65
-date: Mon, 16 Nov 2026 12:44:56 GMT
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
-  "HsmArn": "arn:aws:cloudhsm:us-east-1:000000000000:hsm-00000002"
+  "HsmArn": "arn:aws:cloudhsm:us-east-1:000000000000:hsm-00000001"
 }
 ```
 
@@ -115,12 +115,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.DescribeHsm
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124456Z
-Content-Length: 66
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182733Z
+Content-Length: 65
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "HsmArn": "arn:aws:cloudhsm:us-east-1:000000000000:hsm-00000002"
+  "HsmArn": "arn:aws:cloudhsm:us-east-1:000000000000:hsm-00000001"
 }
 ```
 
@@ -129,26 +129,26 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cl
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 583
-date: Mon, 16 Nov 2026 12:44:56 GMT
+content-length: 539
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
-  "HsmArn": "arn:aws:cloudhsm:us-east-1:000000000000:hsm-00000002",
+  "HsmArn": "arn:aws:cloudhsm:us-east-1:000000000000:hsm-00000001",
   "Status": "PENDING",
   "AvailabilityZone": "us-east-1f",
-  "EniId": "eni-00000002",
-  "EniIp": "10.0.0.3",
+  "EniId": "eni-00000001",
+  "EniIp": "10.0.0.2",
   "SubscriptionType": "PRODUCTION",
-  "SubscriptionStartDate": "1794833096",
+  "SubscriptionStartDate": "1795717653",
   "VpcId": "vpc-6e347ebc",
   "SubnetId": "subnet-0a1b2c3d",
   "IamRoleArn": "arn:aws:iam::000000000000:role/CloudHSMRole",
-  "SerialNumber": "100000000002",
+  "SerialNumber": "100000000001",
   "VendorName": "SafeNet Inc.",
   "HsmType": "safenet-luna-sa-7000",
   "SoftwareVersion": "5.3.13",
   "SshPublicKey": "<redacted>",
-  "SshKeyLastUpdated": "1794833096",
+  "SshKeyLastUpdated": "1795717653",
   "Partitions": []
 }
 ```
@@ -164,9 +164,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.ListHsms
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124456Z
+X-Amz-Date: 20261126T182733Z
 Content-Length: 2
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -177,11 +177,11 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cl
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 68
-date: Mon, 16 Nov 2026 12:44:56 GMT
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "HsmList": [
-    "arn:aws:cloudhsm:us-east-1:000000000000:hsm-00000002"
+    "arn:aws:cloudhsm:us-east-1:000000000000:hsm-00000001"
   ]
 }
 ```
@@ -197,12 +197,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.DeleteHsm
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124456Z
-Content-Length: 66
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182733Z
+Content-Length: 65
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "HsmArn": "arn:aws:cloudhsm:us-east-1:000000000000:hsm-00000002"
+  "HsmArn": "arn:aws:cloudhsm:us-east-1:000000000000:hsm-00000001"
 }
 ```
 
@@ -212,7 +212,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cl
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 20
-date: Mon, 16 Nov 2026 12:44:56 GMT
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "Status": "DELETED"
@@ -230,12 +230,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.DescribeHsm
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124456Z
-Content-Length: 66
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182733Z
+Content-Length: 65
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "HsmArn": "arn:aws:cloudhsm:us-east-1:000000000000:hsm-00000002"
+  "HsmArn": "arn:aws:cloudhsm:us-east-1:000000000000:hsm-00000001"
 }
 ```
 
@@ -245,7 +245,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cl
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 content-length: 112
-date: Mon, 16 Nov 2026 12:44:56 GMT
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "CloudHsmServiceException",
@@ -256,7 +256,7 @@ date: Mon, 16 Nov 2026 12:44:56 GMT
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 20 operations, 1 accepted the placeholder call, 9 answer `501 NotImplemented`, and the rest refused it with a modelled error.
 
@@ -266,7 +266,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.AddTagsToResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 121
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:cloudhsm:us-east-1:000000000000:example/example",
@@ -282,6 +287,8 @@ X-Amz-Target: CloudHsmFrontendService.AddTagsToResource
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 118
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "NotImplemented",
@@ -297,7 +304,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.CreateHapg
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 19
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Label": "example"
@@ -307,6 +319,8 @@ X-Amz-Target: CloudHsmFrontendService.CreateHapg
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 111
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "NotImplemented",
@@ -322,7 +336,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.CreateHsm
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 105
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SubnetId": "example",
@@ -335,6 +354,8 @@ X-Amz-Target: CloudHsmFrontendService.CreateHsm
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 382
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "ValidationException",
@@ -350,7 +371,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.CreateLunaClient
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 618
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Certificate": "example00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
@@ -360,6 +386,8 @@ X-Amz-Target: CloudHsmFrontendService.CreateLunaClient
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 117
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "NotImplemented",
@@ -375,7 +403,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.DeleteHapg
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "HapgArn": "example"
@@ -385,6 +418,8 @@ X-Amz-Target: CloudHsmFrontendService.DeleteHapg
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 249
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "ValidationException",
@@ -400,7 +435,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.DeleteHsm
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 20
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "HsmArn": "example"
@@ -410,6 +450,8 @@ X-Amz-Target: CloudHsmFrontendService.DeleteHsm
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 247
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "ValidationException",
@@ -425,7 +467,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.DeleteLunaClient
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClientArn": "example"
@@ -435,6 +482,8 @@ X-Amz-Target: CloudHsmFrontendService.DeleteLunaClient
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "ValidationException",
@@ -450,7 +499,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.DescribeHapg
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "HapgArn": "example"
@@ -460,6 +514,8 @@ X-Amz-Target: CloudHsmFrontendService.DescribeHapg
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 249
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "ValidationException",
@@ -475,7 +531,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.DescribeHsm
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -483,6 +544,8 @@ X-Amz-Target: CloudHsmFrontendService.DescribeHsm
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 127
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -499,7 +562,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.DescribeLunaClient
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -507,6 +575,8 @@ X-Amz-Target: CloudHsmFrontendService.DescribeLunaClient
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 119
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "NotImplemented",
@@ -522,7 +592,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.GetConfig
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 68
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClientArn": "example",
@@ -536,6 +611,8 @@ X-Amz-Target: CloudHsmFrontendService.GetConfig
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 441
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "ValidationException",
@@ -551,7 +628,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.ListAvailableZones
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -559,6 +641,8 @@ X-Amz-Target: CloudHsmFrontendService.ListAvailableZones
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 119
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "NotImplemented",
@@ -574,7 +658,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.ListHapgs
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -582,6 +671,8 @@ X-Amz-Target: CloudHsmFrontendService.ListHapgs
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 110
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "NotImplemented",
@@ -597,7 +688,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.ListHsms
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -605,6 +701,8 @@ X-Amz-Target: CloudHsmFrontendService.ListHsms
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 14
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "HsmList": []
@@ -619,7 +717,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.ListLunaClients
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -627,6 +730,8 @@ X-Amz-Target: CloudHsmFrontendService.ListLunaClients
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 116
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "NotImplemented",
@@ -642,7 +747,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.ListTagsForResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 73
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:cloudhsm:us-east-1:000000000000:example/example"
@@ -652,6 +762,8 @@ X-Amz-Target: CloudHsmFrontendService.ListTagsForResource
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 120
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "NotImplemented",
@@ -667,7 +779,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.ModifyHapg
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "HapgArn": "example"
@@ -677,6 +794,8 @@ X-Amz-Target: CloudHsmFrontendService.ModifyHapg
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 249
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "ValidationException",
@@ -692,7 +811,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.ModifyHsm
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 20
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "HsmArn": "example"
@@ -702,6 +826,8 @@ X-Amz-Target: CloudHsmFrontendService.ModifyHsm
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 247
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "ValidationException",
@@ -717,7 +843,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.ModifyLunaClient
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 640
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClientArn": "example",
@@ -728,6 +859,8 @@ X-Amz-Target: CloudHsmFrontendService.ModifyLunaClient
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "ValidationException",
@@ -743,7 +876,12 @@ This is documentation for AWS CloudHSM Classic .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: CloudHsmFrontendService.RemoveTagsFromResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 98
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:cloudhsm:us-east-1:000000000000:example/example",
@@ -756,6 +894,8 @@ X-Amz-Target: CloudHsmFrontendService.RemoveTagsFromResource
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 123
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "NotImplemented",

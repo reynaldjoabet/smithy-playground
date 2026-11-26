@@ -9,7 +9,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `vpc-lattice`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `vpc-lattice`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListServices`:
 
@@ -35,9 +35,9 @@ A service network groups services that can reach each other.
 POST /servicenetworks HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 100
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Content-Length: 95
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "f3c5b99c-ce22-4f9e-9e81-8f51f99afb14",
@@ -52,12 +52,12 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/vp
 HTTP/1.1 201 Created
 content-type: application/json
 content-length: 190
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "id": "sn-0eaa5491166cdc11c",
+  "id": "sn-00b00e9acc7d23dae",
   "name": "docs-demo-net",
-  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:servicenetwork/sn-0eaa5491166cdc11c",
+  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:servicenetwork/sn-00b00e9acc7d23dae",
   "sharingConfig": {
     "enabled": true
   },
@@ -75,9 +75,9 @@ The service's DNS entry is the emulator's own address, `127.0.0.1:9297`, rather 
 POST /services HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 100
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Content-Length: 95
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "fbb979e1-eb95-4f2e-982f-d4cd17687603",
@@ -91,19 +91,19 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/vp
 ```http
 HTTP/1.1 201 Created
 content-type: application/json
-content-length: 287
-date: Mon, 16 Nov 2026 12:10:17 GMT
+content-length: 282
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "id": "svc-0aa32501b0ac5598b",
-  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:service/svc-0aa32501b0ac5598b",
+  "id": "svc-09acc9f6690b7d5fc",
+  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:service/svc-09acc9f6690b7d5fc",
   "name": "docs-demo-svc",
   "status": "CREATE_IN_PROGRESS",
   "authType": "NONE",
   "idleTimeoutSeconds": 60,
   "dnsEntry": {
-    "domainName": "127.0.0.1:9297",
-    "hostedZoneId": "Z8JWM8MX7LT582KXGTKJ"
+    "domainName": "127.0.0.1",
+    "hostedZoneId": "Z75XN9V3URQW92UXEHSC"
   }
 }
 ```
@@ -118,14 +118,14 @@ Associating places the service in the network; the association starts in `CREATE
 POST /servicenetworkserviceassociations HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 153
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Content-Length: 148
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "31c048b4-855e-4c9c-b3d1-8d676ad9af3b",
-  "serviceIdentifier": "svc-0aa32501b0ac5598b",
-  "serviceNetworkIdentifier": "sn-0eaa5491166cdc11c"
+  "serviceIdentifier": "svc-09acc9f6690b7d5fc",
+  "serviceNetworkIdentifier": "sn-00b00e9acc7d23dae"
 }
 ```
 
@@ -134,17 +134,17 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/vp
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
-content-length: 276
-date: Mon, 16 Nov 2026 12:10:17 GMT
+content-length: 271
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "id": "snsa-0458b4c8bd2829ce6",
+  "id": "snsa-0536714c13de2d461",
   "status": "CREATE_IN_PROGRESS",
-  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:servicenetworkserviceassociation/snsa-0458b4c8bd2829ce6",
+  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:servicenetworkserviceassociation/snsa-0536714c13de2d461",
   "createdBy": "000000000000",
   "dnsEntry": {
-    "domainName": "127.0.0.1:9297",
-    "hostedZoneId": "Z8JWM8MX7LT582KXGTKJ"
+    "domainName": "127.0.0.1",
+    "hostedZoneId": "Z75XN9V3URQW92UXEHSC"
   }
 }
 ```
@@ -156,10 +156,10 @@ The association and its status.
 **Request**
 
 ```http
-GET /servicenetworkserviceassociations?serviceNetworkIdentifier=sn-0eaa5491166cdc11c HTTP/1.1
+GET /servicenetworkserviceassociations?serviceNetworkIdentifier=sn-00b00e9acc7d23dae HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -167,26 +167,26 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/vp
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
-content-length: 663
-date: Mon, 16 Nov 2026 12:10:17 GMT
+content-length: 659
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "items": [
     {
-      "id": "snsa-0458b4c8bd2829ce6",
+      "id": "snsa-0536714c13de2d461",
       "status": "CREATE_IN_PROGRESS",
-      "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:servicenetworkserviceassociation/snsa-0458b4c8bd2829ce6",
+      "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:servicenetworkserviceassociation/snsa-0536714c13de2d461",
       "createdBy": "000000000000",
-      "createdAt": "2026-11-16T12:10:17.57622Z",
-      "serviceId": "svc-0aa32501b0ac5598b",
+      "createdAt": "2026-11-26T18:30:52.213163Z",
+      "serviceId": "svc-09acc9f6690b7d5fc",
       "serviceName": "docs-demo-svc",
-      "serviceArn": "arn:aws:vpc-lattice:us-east-1:000000000000:service/svc-0aa32501b0ac5598b",
-      "serviceNetworkId": "sn-0eaa5491166cdc11c",
+      "serviceArn": "arn:aws:vpc-lattice:us-east-1:000000000000:service/svc-09acc9f6690b7d5fc",
+      "serviceNetworkId": "sn-00b00e9acc7d23dae",
       "serviceNetworkName": "docs-demo-net",
-      "serviceNetworkArn": "arn:aws:vpc-lattice:us-east-1:000000000000:servicenetwork/sn-0eaa5491166cdc11c",
+      "serviceNetworkArn": "arn:aws:vpc-lattice:us-east-1:000000000000:servicenetwork/sn-00b00e9acc7d23dae",
       "dnsEntry": {
-        "domainName": "127.0.0.1:9297",
-        "hostedZoneId": "Z8JWM8MX7LT582KXGTKJ"
+        "domainName": "127.0.0.1",
+        "hostedZoneId": "Z75XN9V3URQW92UXEHSC"
       }
     }
   ]
@@ -200,10 +200,10 @@ A service that is still associated cannot be deleted: 409 `ConflictException`.
 **Request**
 
 ```http
-DELETE /services/svc-0aa32501b0ac5598b HTTP/1.1
+DELETE /services/svc-09acc9f6690b7d5fc HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -213,12 +213,12 @@ HTTP/1.1 409 Conflict
 content-type: application/json
 x-amzn-errortype: ConflictException
 content-length: 179
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ConflictException",
-  "message": "Service svc-0aa32501b0ac5598b has one or more associated service networks.",
-  "resourceId": "svc-0aa32501b0ac5598b",
+  "message": "Service svc-09acc9f6690b7d5fc has one or more associated service networks.",
+  "resourceId": "svc-09acc9f6690b7d5fc",
   "resourceType": "SERVICE"
 }
 ```
@@ -230,10 +230,10 @@ Remove the association ...
 **Request**
 
 ```http
-DELETE /servicenetworkserviceassociations/snsa-0458b4c8bd2829ce6 HTTP/1.1
+DELETE /servicenetworkserviceassociations/snsa-0536714c13de2d461 HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -242,12 +242,12 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/vp
 HTTP/1.1 200 OK
 content-type: application/json
 content-length: 168
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "id": "snsa-0458b4c8bd2829ce6",
+  "id": "snsa-0536714c13de2d461",
   "status": "DELETE_IN_PROGRESS",
-  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:servicenetworkserviceassociation/snsa-0458b4c8bd2829ce6"
+  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:servicenetworkserviceassociation/snsa-0536714c13de2d461"
 }
 ```
 
@@ -258,10 +258,10 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
 **Request**
 
 ```http
-DELETE /services/svc-0aa32501b0ac5598b HTTP/1.1
+DELETE /services/svc-09acc9f6690b7d5fc HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -270,11 +270,11 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/vp
 HTTP/1.1 200 OK
 content-type: application/json
 content-length: 164
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "id": "svc-0aa32501b0ac5598b",
-  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:service/svc-0aa32501b0ac5598b",
+  "id": "svc-09acc9f6690b7d5fc",
+  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:service/svc-09acc9f6690b7d5fc",
   "name": "docs-demo-svc",
   "status": "DELETE_IN_PROGRESS"
 }
@@ -287,10 +287,10 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
 **Request**
 
 ```http
-DELETE /servicenetworks/sn-0eaa5491166cdc11c HTTP/1.1
+DELETE /servicenetworks/sn-00b00e9acc7d23dae HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -299,14 +299,14 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/vp
 HTTP/1.1 204 No Content
 content-type: application/json
 content-length: 2
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
-Of 73 operations, 4 accepted the placeholder call, 9 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
+Of 73 operations, 9 accepted the placeholder call, 3 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.629* answered `501` in 1.0.595. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### BatchUpdateRule
 
@@ -315,6 +315,10 @@ Updates the listener rules in a batch.
 ```http
 PATCH /services/example0000000000/listeners/example0000000000000/rules HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "rules": [
@@ -329,6 +333,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 874
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -345,6 +351,10 @@ Enables access logs to be sent to Amazon CloudWatch, Amazon S3, and Amazon Kines
 ```http
 POST /accesslogsubscriptions HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 172
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "bd8fbd89-5d44-4754-bf22-70c8eaff07a7",
@@ -357,6 +367,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 387
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -373,6 +385,10 @@ Creates a listener for a service.
 ```http
 POST /services/example0000000000/listeners HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 182
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "name": "example",
@@ -394,6 +410,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 581
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -407,9 +425,15 @@ x-amzn-errortype: ValidationException
 
 Creates a resource configuration.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST /resourceconfigurations HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 86
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "name": "example",
@@ -419,25 +443,38 @@ Content-Type: application/json
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 201 Created
 content-type: application/json
-x-amzn-errortype: NotImplemented
+content-length: 289
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "__type": "NotImplemented",
-  "message": "operation CreateResourceConfiguration is scaffolded but not implemented in this emulator"
+  "id": "rcfg-09e157269bdc6458c",
+  "name": "example",
+  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:resourceconfiguration/rcfg-09e157269bdc6458c",
+  "type": "GROUP",
+  "protocol": "TCP",
+  "status": "CREATE_IN_PROGRESS",
+  "allowAssociationToShareableServiceNetwork": false,
+  "createdAt": 1795717852.225236
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `201 Created` even with placeholder values.
 
 ### CreateResourceGateway
 
 A resource gateway is a point of ingress into the VPC where a resource resides.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST /resourcegateways HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "c7cb806d-2bf4-4c74-9c1d-850ef12233be",
@@ -446,17 +483,20 @@ Content-Type: application/json
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 201 Created
 content-type: application/json
-x-amzn-errortype: NotImplemented
+content-length: 166
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "__type": "NotImplemented",
-  "message": "operation CreateResourceGateway is scaffolded but not implemented in this emulator"
+  "name": "example",
+  "id": "rgw-0807a147116c8d0bc",
+  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:resourcegateway/rgw-0807a147116c8d0bc",
+  "status": "CREATE_IN_PROGRESS"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `201 Created` even with placeholder values.
 
 ### CreateRule
 
@@ -465,6 +505,10 @@ Creates a listener rule.
 ```http
 POST /services/example0000000000/listeners/example0000000000000/rules HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 195
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "name": "example",
@@ -489,6 +533,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 845
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -505,6 +551,10 @@ Creates a service.
 ```http
 POST /services HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "3d2ea71c-16d1-42aa-a381-10497ca20fa3",
@@ -515,17 +565,19 @@ Content-Type: application/json
 ```http
 HTTP/1.1 201 Created
 content-type: application/json
+content-length: 276
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "id": "svc-018ccb64459ca3c56",
-  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:service/svc-018ccb64459ca3c56",
+  "id": "svc-0b60181ef23d09d25",
+  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:service/svc-0b60181ef23d09d25",
   "name": "example",
   "status": "CREATE_IN_PROGRESS",
   "authType": "NONE",
   "idleTimeoutSeconds": 60,
   "dnsEntry": {
-    "domainName": "127.0.0.1:9297",
-    "hostedZoneId": "ZWG4NHY68BNSRIQ0DHTH"
+    "domainName": "127.0.0.1",
+    "hostedZoneId": "ZO1967O49886DAG26BSV"
   }
 }
 ```
@@ -539,6 +591,10 @@ Creates a service network.
 ```http
 POST /servicenetworks HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "71a3ffb6-92b3-4eac-aa48-cfe7ba7ef630",
@@ -549,11 +605,13 @@ Content-Type: application/json
 ```http
 HTTP/1.1 201 Created
 content-type: application/json
+content-length: 184
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "id": "sn-01205dfb8484b7fc8",
+  "id": "sn-06af534787b315aac",
   "name": "example",
-  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:servicenetwork/sn-01205dfb8484b7fc8",
+  "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:servicenetwork/sn-06af534787b315aac",
   "sharingConfig": {
     "enabled": true
   },
@@ -570,6 +628,10 @@ Associates the specified service network with the specified resource configurati
 ```http
 POST /servicenetworkresourceassociations HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 148
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "00cd4e92-d522-4dd3-a548-40ffbb399d3c",
@@ -582,6 +644,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 334
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -598,6 +662,10 @@ Associates the specified service with the specified service network.
 ```http
 POST /servicenetworkserviceassociations HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 131
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "f9d41755-b730-4642-903b-6725dd6d5058",
@@ -610,6 +678,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 533
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -626,6 +696,10 @@ Associates a VPC with a service network.
 ```http
 POST /servicenetworkvpcassociations HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 117
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "a2a0fa95-b8f8-43ae-b5cd-6612fdd64d66",
@@ -638,6 +712,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 221
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -654,6 +730,10 @@ Creates a target group.
 ```http
 POST /targetgroups HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 83
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "name": "example",
@@ -666,6 +746,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 279
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -688,12 +770,17 @@ Deletes the specified access log subscription.
 
 ```http
 DELETE /accesslogsubscriptions/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 329
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -709,12 +796,17 @@ Deletes the specified auth policy.
 
 ```http
 DELETE /authpolicy/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 387
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -730,12 +822,17 @@ Deletes the specified domain verification.
 
 ```http
 DELETE /domainverifications/example0000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 327
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -751,12 +848,17 @@ Deletes the specified listener.
 
 ```http
 DELETE /services/example0000000000/listeners/example0000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 573
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -772,12 +874,17 @@ Deletes the specified resource configuration.
 
 ```http
 DELETE /resourceconfigurations/example0000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 334
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -793,12 +900,17 @@ Disassociates the resource configuration from the resource VPC endpoint.
 
 ```http
 DELETE /resourceendpointassociations/example00000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 345
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -814,12 +926,17 @@ Deletes the specified resource gateway.
 
 ```http
 DELETE /resourcegateways/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 317
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -835,12 +952,17 @@ Deletes the specified resource policy.
 
 ```http
 DELETE /resourcepolicy/example0000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 344
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -856,12 +978,17 @@ Deletes a listener rule.
 
 ```http
 DELETE /services/example0000000000/listeners/example0000000000000/rules/example0000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 859
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -877,12 +1004,17 @@ Deletes a service.
 
 ```http
 DELETE /services/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 301
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -898,12 +1030,17 @@ Deletes a service network.
 
 ```http
 DELETE /servicenetworks/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 303
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -919,12 +1056,17 @@ Deletes the association between a service network and a resource configuration.
 
 ```http
 DELETE /servicenetworkresourceassociations/example000000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 360
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -940,12 +1082,17 @@ Deletes the association between a service and a service network.
 
 ```http
 DELETE /servicenetworkserviceassociations/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 353
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -961,12 +1108,17 @@ Disassociates the VPC from the service network.
 
 ```http
 DELETE /servicenetworkvpcassociations/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 345
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -982,12 +1134,17 @@ Deletes a target group.
 
 ```http
 DELETE /targetgroups/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 307
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1004,6 +1161,10 @@ Deregisters the specified targets from the specified target group.
 ```http
 POST /targetgroups/example0000000000/deregistertargets HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 30
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "targets": [
@@ -1018,6 +1179,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 307
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1033,12 +1196,17 @@ Retrieves information about the specified access log subscription.
 
 ```http
 GET /accesslogsubscriptions/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 329
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1054,12 +1222,17 @@ Retrieves information about the auth policy for the specified service or service
 
 ```http
 GET /authpolicy/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 387
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1075,12 +1248,17 @@ Retrieves information about a domain verification.ß
 
 ```http
 GET /domainverifications/example0000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 327
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1096,12 +1274,17 @@ Retrieves information about the specified listener for the specified service.
 
 ```http
 GET /services/example0000000000/listeners/example0000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 573
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1117,12 +1300,17 @@ Retrieves information about the specified resource configuration.
 
 ```http
 GET /resourceconfigurations/example0000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 334
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1138,12 +1326,17 @@ Retrieves information about the specified resource gateway.
 
 ```http
 GET /resourcegateways/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 317
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1159,12 +1352,17 @@ Retrieves information about the specified resource policy.
 
 ```http
 GET /resourcepolicy/example0000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 344
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1180,12 +1378,17 @@ Retrieves information about the specified listener rules.
 
 ```http
 GET /services/example0000000000/listeners/example0000000000000/rules/example0000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 859
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1201,12 +1404,17 @@ Retrieves information about the specified service.
 
 ```http
 GET /services/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 301
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1222,12 +1430,17 @@ Retrieves information about the specified service network.
 
 ```http
 GET /servicenetworks/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 303
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1243,12 +1456,17 @@ Retrieves information about the specified association between a service network 
 
 ```http
 GET /servicenetworkresourceassociations/example000000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 360
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1264,12 +1482,17 @@ Retrieves information about the specified association between a service network 
 
 ```http
 GET /servicenetworkserviceassociations/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 353
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1285,12 +1508,17 @@ Retrieves information about the specified association between a service network 
 
 ```http
 GET /servicenetworkvpcassociations/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 345
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1306,12 +1534,17 @@ Retrieves information about the specified target group.
 
 ```http
 GET /targetgroups/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 307
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1327,12 +1560,17 @@ Lists the access log subscriptions for the specified service network or service.
 
 ```http
 GET /accesslogsubscriptions?resourceIdentifier=example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 387
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1348,12 +1586,17 @@ Lists the domain verifications.
 
 ```http
 GET /domainverifications HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 124
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "NotImplemented",
@@ -1369,12 +1612,17 @@ Lists the listeners for the specified service.
 
 ```http
 GET /services/example0000000000/listeners HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 301
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1388,22 +1636,38 @@ x-amzn-errortype: ValidationException
 
 Lists the resource configurations owned by or shared with this account.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 GET /resourceconfigurations HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: application/json
-x-amzn-errortype: NotImplemented
+content-length: 293
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "__type": "NotImplemented",
-  "message": "operation ListResourceConfigurations is scaffolded but not implemented in this emulator"
+  "items": [
+    {
+      "id": "rcfg-09e157269bdc6458c",
+      "name": "example",
+      "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:resourceconfiguration/rcfg-09e157269bdc6458c",
+      "type": "GROUP",
+      "status": "CREATE_IN_PROGRESS",
+      "amazonManaged": false,
+      "createdAt": 1795717852.225236,
+      "lastUpdatedAt": 1795717852.225236
+    }
+  ]
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### ListResourceEndpointAssociations
 
@@ -1411,12 +1675,17 @@ Lists the associations for the specified VPC endpoint.
 
 ```http
 GET /resourceendpointassociations?resourceConfigurationIdentifier=example0000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 334
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1430,22 +1699,36 @@ x-amzn-errortype: ValidationException
 
 Lists the resource gateways that you own or that were shared with you.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 GET /resourcegateways HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: application/json
-x-amzn-errortype: NotImplemented
+content-length: 248
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "__type": "NotImplemented",
-  "message": "operation ListResourceGateways is scaffolded but not implemented in this emulator"
+  "items": [
+    {
+      "name": "example",
+      "id": "rgw-0807a147116c8d0bc",
+      "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:resourcegateway/rgw-0807a147116c8d0bc",
+      "status": "CREATE_IN_PROGRESS",
+      "createdAt": 1795717852.2265832,
+      "lastUpdatedAt": 1795717852.2265832
+    }
+  ]
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### ListRules
 
@@ -1453,12 +1736,17 @@ Lists the rules for the specified listener.
 
 ```http
 GET /services/example0000000000/listeners/example0000000000000/rules HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 573
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1472,22 +1760,27 @@ x-amzn-errortype: ValidationException
 
 Lists the associations between a service network and a resource configuration.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 GET /servicenetworkresourceassociations HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: application/json
-x-amzn-errortype: NotImplemented
+content-length: 12
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "__type": "NotImplemented",
-  "message": "operation ListServiceNetworkResourceAssociations is scaffolded but not implemented in this emulator"
+  "items": []
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### ListServiceNetworkServiceAssociations
 
@@ -1495,12 +1788,17 @@ Lists the associations between a service network and a service.
 
 ```http
 GET /servicenetworkserviceassociations HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 325
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1525,22 +1823,36 @@ x-amzn-errortype: ValidationException
 
 Lists the associations between a service network and a VPC.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 GET /servicenetworkvpcassociations HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: NotImplemented
+x-amzn-errortype: ValidationException
+content-length: 235
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "__type": "NotImplemented",
-  "message": "operation ListServiceNetworkVpcAssociations is scaffolded but not implemented in this emulator"
+  "__type": "ValidationException",
+  "message": "either serviceNetworkIdentifier or vpcIdentifier must be provided",
+  "reason": "fieldValidationFailed",
+  "fieldList": [
+    {
+      "name": "serviceNetworkIdentifier",
+      "message": "provide this or vpcIdentifier"
+    }
+  ]
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `ValidationException`: the placeholder values failed the operation's input validation.
 
 ### ListServiceNetworkVpcEndpointAssociations
 
@@ -1548,12 +1860,17 @@ Lists the associations between a service network and a VPC endpoint.
 
 ```http
 GET /servicenetworkvpcendpointassociations?serviceNetworkIdentifier=example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 303
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1571,14 +1888,30 @@ Lists the service networks owned by or shared with this account.
 
 ```http
 GET /servicenetworks HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 336
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "items": []
+  "items": [
+    {
+      "id": "sn-06af534787b315aac",
+      "name": "example",
+      "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:servicenetwork/sn-06af534787b315aac",
+      "createdAt": "2026-11-26T18:30:52.229488Z",
+      "lastUpdatedAt": "2026-11-26T18:30:52.229488Z",
+      "numberOfAssociatedVPCs": 0,
+      "numberOfAssociatedServices": 0,
+      "numberOfAssociatedResourceConfigurations": 0
+    }
+  ]
 }
 ```
 
@@ -1590,23 +1923,28 @@ Lists the services owned by the caller account or shared with the caller account
 
 ```http
 GET /services HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 334
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "items": [
     {
-      "id": "svc-018ccb64459ca3c56",
+      "id": "svc-0b60181ef23d09d25",
       "name": "example",
-      "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:service/svc-018ccb64459ca3c56",
-      "createdAt": "2026-11-16T12:11:24.954321Z",
-      "lastUpdatedAt": "2026-11-16T12:11:24.954321Z",
+      "arn": "arn:aws:vpc-lattice:us-east-1:000000000000:service/svc-0b60181ef23d09d25",
+      "createdAt": "2026-11-26T18:30:52.228656Z",
+      "lastUpdatedAt": "2026-11-26T18:30:52.228656Z",
       "dnsEntry": {
-        "domainName": "127.0.0.1:9297",
-        "hostedZoneId": "ZWG4NHY68BNSRIQ0DHTH"
+        "domainName": "127.0.0.1",
+        "hostedZoneId": "ZO1967O49886DAG26BSV"
       },
       "status": "CREATE_IN_PROGRESS"
     }
@@ -1622,12 +1960,17 @@ Lists the tags for the specified resource.
 
 ```http
 GET /tags/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 276
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1643,12 +1986,17 @@ Lists your target groups.
 
 ```http
 GET /targetgroups HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 117
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "NotImplemented",
@@ -1664,12 +2012,17 @@ Lists the targets for the target group.
 
 ```http
 POST /targetgroups/example0000000000/listtargets HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 307
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1686,6 +2039,10 @@ Creates or updates the auth policy.
 ```http
 PUT /authpolicy/example0000000000 HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 20
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "policy": "example"
@@ -1696,6 +2053,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 387
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1712,6 +2071,10 @@ Attaches a resource-based permission policy to a service or service network.
 ```http
 PUT /resourcepolicy/example0000000000000 HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 20
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "policy": "example"
@@ -1722,6 +2085,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 344
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1738,6 +2103,10 @@ Registers the targets with the target group.
 ```http
 POST /targetgroups/example0000000000/registertargets HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 30
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "targets": [
@@ -1752,6 +2121,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 307
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1768,6 +2139,10 @@ Starts the domain verification process for a custom domain name.
 ```http
 POST /domainverifications HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "3e5a001c-8cdd-4fa8-81d9-8114ff2c5d25",
@@ -1779,6 +2154,8 @@ Content-Type: application/json
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 124
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "NotImplemented",
@@ -1795,6 +2172,10 @@ Adds the specified tags to the specified resource.
 ```http
 POST /tags/example HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 26
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "tags": {
@@ -1807,6 +2188,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 276
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1822,12 +2205,17 @@ Removes the specified tags from the specified resource.
 
 ```http
 DELETE /tags/example?tagKeys=example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 276
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1844,6 +2232,10 @@ Updates the specified access log subscription.
 ```http
 PATCH /accesslogsubscriptions/example0000000000 HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 78
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "destinationArn": "arn:aws:vpclattice:us-east-1:000000000000:example/example"
@@ -1854,6 +2246,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 329
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1870,6 +2264,10 @@ Updates the specified listener for the specified service.
 ```http
 PATCH /services/example0000000000/listeners/example0000000000000 HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 94
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "defaultAction": {
@@ -1888,6 +2286,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 852
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1903,12 +2303,17 @@ Updates the specified resource configuration.
 
 ```http
 PATCH /resourceconfigurations/example0000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 334
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1924,12 +2329,17 @@ Updates the specified resource gateway.
 
 ```http
 PATCH /resourcegateways/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 317
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1945,12 +2355,17 @@ Updates a specified rule for the listener.
 
 ```http
 PATCH /services/example0000000000/listeners/example0000000000000/rules/example0000000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 859
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1966,12 +2381,17 @@ Updates the specified service.
 
 ```http
 PATCH /services/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 301
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1988,6 +2408,10 @@ Updates the specified service network.
 ```http
 PATCH /servicenetworks/example HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 19
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "authType": "NONE"
@@ -1998,6 +2422,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 303
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -2013,12 +2439,17 @@ Updates the service network and VPC association.
 
 ```http
 PATCH /servicenetworkvpcassociations/example0000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 345
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -2035,6 +2466,10 @@ Updates the specified target group.
 ```http
 PATCH /targetgroups/example0000000000 HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 18
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/vpc-lattice/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "healthCheck": {}
@@ -2045,6 +2480,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 307
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",

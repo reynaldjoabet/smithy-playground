@@ -11,7 +11,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `ecr`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `ecr`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `DescribeRepositories`:
 
@@ -42,9 +42,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.CreateRepository
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
-Content-Length: 122
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Content-Length: 116
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "docs-demo/app",
@@ -60,16 +60,16 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 365
-date: Mon, 16 Nov 2026 12:05:34 GMT
+content-length: 391
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "repository": {
     "repositoryArn": "arn:aws:ecr:us-east-1:000000000000:repository/docs-demo/app",
     "registryId": "000000000000",
     "repositoryName": "docs-demo/app",
-    "repositoryUri": "127.0.0.1:9297/docs-demo/app",
-    "createdAt": 1794830734.063,
+    "repositoryUri": "000000000000.dkr.ecr.us-east-1.localhost/docs-demo/app",
+    "createdAt": 1795717753.325,
     "imageTagMutability": "IMMUTABLE",
     "imageScanningConfiguration": {
       "scanOnPush": true
@@ -92,9 +92,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutLifecyclePolicy
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
-Content-Length: 265
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Content-Length: 262
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "docs-demo/app",
@@ -108,7 +108,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 276
-date: Mon, 16 Nov 2026 12:05:34 GMT
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "registryId": "000000000000",
@@ -128,9 +128,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeRepositories
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
-Content-Length: 38
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Content-Length: 37
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryNames": [
@@ -144,8 +144,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 369
-date: Mon, 16 Nov 2026 12:05:34 GMT
+content-length: 395
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "repositories": [
@@ -153,8 +153,8 @@ date: Mon, 16 Nov 2026 12:05:34 GMT
       "repositoryArn": "arn:aws:ecr:us-east-1:000000000000:repository/docs-demo/app",
       "registryId": "000000000000",
       "repositoryName": "docs-demo/app",
-      "repositoryUri": "127.0.0.1:9297/docs-demo/app",
-      "createdAt": 1794830734.063,
+      "repositoryUri": "000000000000.dkr.ecr.us-east-1.localhost/docs-demo/app",
+      "createdAt": 1795717753.325,
       "imageTagMutability": "IMMUTABLE",
       "imageScanningConfiguration": {
         "scanOnPush": true
@@ -178,9 +178,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetAuthorizationToken
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
+X-Amz-Date: 20261126T182913Z
 Content-Length: 2
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -191,13 +191,13 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 1073
-date: Mon, 16 Nov 2026 12:05:34 GMT
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "authorizationData": [
     {
       "authorizationToken": "<redacted>",
-      "expiresAt": 1794873934.089,
+      "expiresAt": 1795760953.329,
       "proxyEndpoint": "https://127.0.0.1:9297"
     }
   ]
@@ -215,9 +215,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeImages
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
-Content-Length: 35
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Content-Length: 34
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "docs-demo/app"
@@ -230,7 +230,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 19
-date: Mon, 16 Nov 2026 12:05:34 GMT
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "imageDetails": []
@@ -248,9 +248,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeleteRepository
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
-Content-Length: 50
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "docs-demo/app",
@@ -263,16 +263,16 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 365
-date: Mon, 16 Nov 2026 12:05:34 GMT
+content-length: 391
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "repository": {
     "repositoryArn": "arn:aws:ecr:us-east-1:000000000000:repository/docs-demo/app",
     "registryId": "000000000000",
     "repositoryName": "docs-demo/app",
-    "repositoryUri": "127.0.0.1:9297/docs-demo/app",
-    "createdAt": 1794830734.063,
+    "repositoryUri": "000000000000.dkr.ecr.us-east-1.localhost/docs-demo/app",
+    "createdAt": 1795717753.325,
     "imageTagMutability": "IMMUTABLE",
     "imageScanningConfiguration": {
       "scanOnPush": true
@@ -295,9 +295,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeRepositories
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
-Content-Length: 38
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Content-Length: 37
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryNames": [
@@ -312,7 +312,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 content-length: 147
-date: Mon, 16 Nov 2026 12:05:34 GMT
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -322,7 +322,7 @@ date: Mon, 16 Nov 2026 12:05:34 GMT
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 58 operations, 13 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error.
 
@@ -332,7 +332,12 @@ Checks the availability of one or more image layers in a repository.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.BatchCheckLayerAvailability
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 55
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -345,6 +350,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.BatchCheckLayerAvailability
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -360,7 +367,12 @@ Deletes a list of specified images within a repository.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.BatchDeleteImage
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 44
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -373,6 +385,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.BatchDeleteImage
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -388,7 +402,12 @@ Gets detailed information for an image.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.BatchGetImage
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 44
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -401,6 +420,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.BatchGetImage
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -416,7 +437,12 @@ Gets the scanning configuration for one or more repositories.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.BatchGetRepositoryScanningConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryNames": [
@@ -428,6 +454,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.BatchGetRepositoryScanningCon
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 147
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "scanningConfigurations": [],
@@ -449,7 +477,12 @@ Informs Amazon ECR that the image layer upload has completed for a specified reg
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.CompleteLayerUpload
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 76
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -463,10 +496,12 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.CompleteLayerUpload
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 386
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
-  "message": "Invalid parameter at 'uploadId' failed to satisfy constraint: 'must satisfy regular expression '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''; Invalid parameter at 'layerDigest' failed to satisfy constraint: 'must satisfy regular expression '[a-zA-Z0-9-_+.]+:[a-fA-F0-9]+''"
+  "message": "Invalid parameter at 'uploadId' failed to satisfy constraint: 'Member must satisfy regular expression pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'; Invalid parameter at 'layerDigest' failed to satisfy constraint: 'Member must satisfy regular expression pattern: [a-zA-Z0-9-_+.]+:[a-fA-F0-9]+'"
 }
 ```
 
@@ -478,7 +513,12 @@ Creates a pull through cache rule.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.CreatePullThroughCacheRule
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 65
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ecrRepositoryPrefix": "example",
@@ -489,10 +529,12 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.CreatePullThroughCacheRule
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 159
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "UnsupportedUpstreamRegistryException",
-  "message": "upstreamRegistryUrl 'example' names no supported upstream registry; specify upstreamRegistry"
+  "message": "The upstream registry URL example is invalid. Specify a valid upstream registry URL and try again"
 }
 ```
 
@@ -504,7 +546,12 @@ Creates a repository.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.CreateRepository
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example"
@@ -514,14 +561,16 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.CreateRepository
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 372
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "repository": {
     "repositoryArn": "arn:aws:ecr:us-east-1:000000000000:repository/example",
     "registryId": "000000000000",
     "repositoryName": "example",
-    "repositoryUri": "127.0.0.1:9297/example",
-    "createdAt": 1794831090.56,
+    "repositoryUri": "000000000000.dkr.ecr.us-east-1.localhost/example",
+    "createdAt": 1795717753.339,
     "imageTagMutability": "MUTABLE",
     "imageScanningConfiguration": {
       "scanOnPush": false
@@ -541,7 +590,12 @@ Creates a repository creation template.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.CreateRepositoryCreationTemplate
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "prefix": "example",
@@ -554,6 +608,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.CreateRepositoryCreationTempl
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 247
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "registryId": "000000000000",
@@ -566,8 +622,8 @@ content-type: application/x-amz-json-1.1
     "appliedFor": [
       "REPLICATION"
     ],
-    "createdAt": 1794831090.564,
-    "updatedAt": 1794831090.564
+    "createdAt": 1795717753.339,
+    "updatedAt": 1795717753.339
   }
 }
 ```
@@ -580,7 +636,12 @@ Deletes the lifecycle policy associated with the specified repository.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeleteLifecyclePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example"
@@ -590,6 +651,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeleteLifecyclePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 167
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "LifecyclePolicyNotFoundException",
@@ -605,7 +668,12 @@ Deletes a pull through cache rule.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeletePullThroughCacheRule
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 33
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ecrRepositoryPrefix": "example"
@@ -615,6 +683,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeletePullThroughCacheRule
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 175
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "PullThroughCacheRuleNotFoundException",
@@ -630,7 +700,12 @@ Deletes the registry permissions policy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeleteRegistryPolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -638,6 +713,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeleteRegistryPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 126
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RegistryPolicyNotFoundException",
@@ -653,7 +730,12 @@ Deletes a repository.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeleteRepository
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example"
@@ -663,14 +745,16 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeleteRepository
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 372
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "repository": {
     "repositoryArn": "arn:aws:ecr:us-east-1:000000000000:repository/example",
     "registryId": "000000000000",
     "repositoryName": "example",
-    "repositoryUri": "127.0.0.1:9297/example",
-    "createdAt": 1794831090.56,
+    "repositoryUri": "000000000000.dkr.ecr.us-east-1.localhost/example",
+    "createdAt": 1795717753.339,
     "imageTagMutability": "MUTABLE",
     "imageScanningConfiguration": {
       "scanOnPush": false
@@ -690,7 +774,12 @@ Deletes a repository creation template.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeleteRepositoryCreationTemplate
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 20
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "prefix": "example"
@@ -700,6 +789,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeleteRepositoryCreationTempl
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 247
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "registryId": "000000000000",
@@ -712,8 +803,8 @@ content-type: application/x-amz-json-1.1
     "appliedFor": [
       "REPLICATION"
     ],
-    "createdAt": 1794831090.564,
-    "updatedAt": 1794831090.564
+    "createdAt": 1795717753.339,
+    "updatedAt": 1795717753.339
   }
 }
 ```
@@ -726,7 +817,12 @@ Deletes the repository policy associated with the specified repository.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeleteRepositoryPolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example"
@@ -736,6 +832,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeleteRepositoryPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -751,7 +849,12 @@ Deletes the registry's signing configuration.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeleteSigningConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -759,6 +862,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeleteSigningConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 142
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "SigningConfigurationNotFoundException",
@@ -774,7 +879,12 @@ Removes a principal from the pull time update exclusion list for a registry.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeregisterPullTimeUpdateExclusion
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 26
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "principalArn": "example"
@@ -784,6 +894,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DeregisterPullTimeUpdateExclu
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 242
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -799,7 +911,12 @@ Returns the replication status for a specified image.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeImageReplicationStatus
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 41
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -810,6 +927,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeImageReplicationStatu
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -825,7 +944,12 @@ Returns the scan findings for the specified image.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeImageScanFindings
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 41
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -836,6 +960,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeImageScanFindings
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -851,7 +977,12 @@ Returns the signing status for a specified image.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeImageSigningStatus
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 41
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -862,6 +993,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeImageSigningStatus
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -877,7 +1010,12 @@ Returns metadata about the images in a repository.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeImages
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example"
@@ -887,6 +1025,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeImages
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -902,7 +1042,12 @@ Returns the pull through cache rules for a registry.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribePullThroughCacheRules
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -910,6 +1055,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribePullThroughCacheRules
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 28
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "pullThroughCacheRules": []
@@ -924,7 +1071,12 @@ Describes the settings for a registry.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeRegistry
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -932,6 +1084,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeRegistry
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 69
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "registryId": "000000000000",
@@ -949,7 +1103,12 @@ Describes image repositories in a registry.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeRepositories
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -957,6 +1116,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeRepositories
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 19
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "repositories": []
@@ -971,7 +1132,12 @@ Returns details about the repository creation templates in a registry.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeRepositoryCreationTemplates
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -979,6 +1145,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.DescribeRepositoryCreationTem
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 62
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "registryId": "000000000000",
@@ -994,7 +1162,12 @@ Retrieves the account setting value for the specified setting name.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetAccountSetting
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 18
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "name": "example"
@@ -1004,6 +1177,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetAccountSetting
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 148
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1019,7 +1194,12 @@ Retrieves an authorization token.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetAuthorizationToken
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1027,12 +1207,14 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetAuthorizationToken
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 1073
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "authorizationData": [
     {
       "authorizationToken": "<redacted>",
-      "expiresAt": 1794874290.615,
+      "expiresAt": 1795760953.356,
       "proxyEndpoint": "https://127.0.0.1:9297"
     }
   ]
@@ -1047,7 +1229,12 @@ Retrieves the pre-signed Amazon S3 download URL corresponding to an image layer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetDownloadUrlForLayer
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -1058,10 +1245,12 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetDownloadUrlForLayer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 195
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
-  "message": "Invalid parameter at 'layerDigest' failed to satisfy constraint: 'must satisfy regular expression '[a-zA-Z0-9-_+.]+:[a-fA-F0-9]+''"
+  "message": "Invalid parameter at 'layerDigest' failed to satisfy constraint: 'Member must satisfy regular expression pattern: [a-zA-Z0-9-_+.]+:[a-fA-F0-9]+'"
 }
 ```
 
@@ -1073,7 +1262,12 @@ Retrieves the lifecycle policy for the specified repository.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetLifecyclePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example"
@@ -1083,6 +1277,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetLifecyclePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -1098,7 +1294,12 @@ Retrieves the results of the lifecycle policy preview request for the specified 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetLifecyclePolicyPreview
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example"
@@ -1108,6 +1309,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetLifecyclePolicyPreview
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -1123,7 +1326,12 @@ Retrieves the permissions policy for a registry.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetRegistryPolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1131,6 +1339,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetRegistryPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 126
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RegistryPolicyNotFoundException",
@@ -1146,7 +1356,12 @@ Retrieves the scanning configuration for a registry.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetRegistryScanningConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1154,6 +1369,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetRegistryScanningConfigurat
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 85
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "registryId": "000000000000",
@@ -1172,7 +1389,12 @@ Retrieves the repository policy for the specified repository.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetRepositoryPolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example"
@@ -1182,6 +1404,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetRepositoryPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -1197,7 +1421,12 @@ Retrieves the registry's signing configuration, which defines rules for automati
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetSigningConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1205,6 +1434,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.GetSigningConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 142
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "SigningConfigurationNotFoundException",
@@ -1220,7 +1451,12 @@ Notifies Amazon ECR that you intend to upload an image layer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.InitiateLayerUpload
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example"
@@ -1230,6 +1466,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.InitiateLayerUpload
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -1245,7 +1483,12 @@ Lists the artifacts associated with a specified subject image.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.ListImageReferrers
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 66
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -1258,6 +1501,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.ListImageReferrers
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -1273,7 +1518,12 @@ Lists all the image IDs for the specified repository.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.ListImages
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example"
@@ -1283,6 +1533,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.ListImages
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -1298,7 +1550,12 @@ Lists the IAM principals that are excluded from having their image pull times re
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.ListPullTimeUpdateExclusions
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1306,6 +1563,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.ListPullTimeUpdateExclusions
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 31
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "pullTimeUpdateExclusions": []
@@ -1320,7 +1579,12 @@ List the tags for an Amazon ECR resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.ListTagsForResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 68
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "resourceArn": "arn:aws:ecr:us-east-1:000000000000:example/example"
@@ -1330,6 +1594,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.ListTagsForResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 213
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1345,7 +1611,12 @@ Allows you to change the basic scan type version or registry policy scope.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutAccountSetting
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 36
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "name": "example",
@@ -1356,6 +1627,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutAccountSetting
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 148
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1371,7 +1644,12 @@ Creates or updates the image manifest and tags associated with an image.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutImage
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -1382,6 +1660,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutImage
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -1397,7 +1677,12 @@ The PutImageScanningConfiguration API is being deprecated, in favor of specifyin
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutImageScanningConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 60
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -1408,6 +1693,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutImageScanningConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -1423,7 +1710,12 @@ Updates the image tag mutability settings for the specified repository.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutImageTagMutability
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 59
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -1434,6 +1726,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutImageTagMutability
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -1449,7 +1743,12 @@ Creates or updates the lifecycle policy for the specified repository.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutLifecyclePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 153
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -1460,6 +1759,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutLifecyclePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 208
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1475,7 +1776,12 @@ Creates or updates the permissions policy for your registry.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutRegistryPolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "policyText": "example"
@@ -1485,6 +1791,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutRegistryPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 149
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1500,7 +1808,12 @@ Creates or updates the scanning configuration for your private registry.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutRegistryScanningConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1508,6 +1821,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutRegistryScanningConfigurat
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 65
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "registryScanningConfiguration": {
@@ -1525,7 +1840,12 @@ Creates or updates the replication configuration for a registry.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutReplicationConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 62
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "replicationConfiguration": {
@@ -1543,6 +1863,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutReplicationConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 198
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1558,7 +1880,12 @@ Creates or updates the registry's signing configuration, which defines rules for
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutSigningConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 68
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "signingConfiguration": {
@@ -1574,6 +1901,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.PutSigningConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 177
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1589,7 +1918,12 @@ Adds an IAM principal to the pull time update exclusion list for a registry.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.RegisterPullTimeUpdateExclusion
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 26
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "principalArn": "example"
@@ -1599,6 +1933,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.RegisterPullTimeUpdateExclusi
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 242
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1614,7 +1950,12 @@ Applies a repository policy to the specified repository to control access permis
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.SetRepositoryPolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -1625,6 +1966,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.SetRepositoryPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -1640,7 +1983,12 @@ Starts a basic image vulnerability scan.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.StartImageScan
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 41
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -1651,6 +1999,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.StartImageScan
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -1666,7 +2016,12 @@ Starts a preview of a lifecycle policy for the specified repository.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.StartLifecyclePolicyPreview
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example"
@@ -1676,6 +2031,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.StartLifecyclePolicyPreview
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -1691,7 +2048,12 @@ Adds specified tags to a resource with the specified ARN.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.TagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 113
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "resourceArn": "arn:aws:ecr:us-east-1:000000000000:example/example",
@@ -1707,6 +2069,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.TagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 213
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1722,7 +2086,12 @@ Deletes specified tags from a resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.UntagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 90
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "resourceArn": "arn:aws:ecr:us-east-1:000000000000:example/example",
@@ -1735,6 +2104,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.UntagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 213
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1750,7 +2121,12 @@ Transitions an image between storage classes.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.UpdateImageStorageClass
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 73
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -1762,6 +2138,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.UpdateImageStorageClass
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 141
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "RepositoryNotFoundException",
@@ -1777,7 +2155,12 @@ Updates an existing pull through cache rule.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.UpdatePullThroughCacheRule
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 33
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ecrRepositoryPrefix": "example"
@@ -1787,6 +2170,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.UpdatePullThroughCacheRule
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 175
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "PullThroughCacheRuleNotFoundException",
@@ -1802,7 +2187,12 @@ Updates an existing repository creation template.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.UpdateRepositoryCreationTemplate
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 20
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "prefix": "example"
@@ -1812,6 +2202,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.UpdateRepositoryCreationTempl
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 155
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "TemplateNotFoundException",
@@ -1827,7 +2219,12 @@ Uploads an image layer part to Amazon ECR.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.UploadLayerPart
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 115
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "repositoryName": "example",
@@ -1841,10 +2238,12 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.UploadLayerPart
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 240
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
-  "message": "Invalid parameter at 'uploadId' failed to satisfy constraint: 'must satisfy regular expression '[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}''"
+  "message": "Invalid parameter at 'uploadId' failed to satisfy constraint: 'Member must satisfy regular expression pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$'"
 }
 ```
 
@@ -1856,7 +2255,12 @@ Validates an existing pull through cache rule for an upstream registry that requ
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.ValidatePullThroughCacheRule
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 33
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecr/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ecrRepositoryPrefix": "example"
@@ -1866,6 +2270,8 @@ X-Amz-Target: AmazonEC2ContainerRegistry_V20150921.ValidatePullThroughCacheRule
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 175
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "PullThroughCacheRuleNotFoundException",

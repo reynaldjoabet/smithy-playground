@@ -11,7 +11,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `dynamodb`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `dynamodb`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListTables`:
 
@@ -42,9 +42,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.CreateTable
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120453Z
-Content-Length: 307
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182755Z
+Content-Length: 286
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AttributeDefinitions": [
@@ -77,10 +77,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dy
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: 3PF9DA3IKXUC1G2WUFFST7QBO7DS72GYYI9NQLZT5B7CC4AQT03U
-x-amz-crc32: 1383107083
-content-length: 1001
-date: Mon, 16 Nov 2026 12:04:53 GMT
+x-amzn-requestid: 3YUN2XOZMK1ETOU1657C6HP917CQIB124332WH3LGY2A5M531M9V
+x-amz-crc32: 4278653480
+content-length: 933
+date: Thu, 26 Nov 2026 18:27:55 GMT
 
 {
   "TableDescription": {
@@ -106,7 +106,7 @@ date: Mon, 16 Nov 2026 12:04:53 GMT
       }
     ],
     "TableStatus": "CREATING",
-    "CreationDateTime": 1794830693.1,
+    "CreationDateTime": 1795717675.695,
     "ProvisionedThroughput": {
       "NumberOfDecreasesToday": 0,
       "ReadCapacityUnits": 0,
@@ -115,19 +115,15 @@ date: Mon, 16 Nov 2026 12:04:53 GMT
     "TableSizeBytes": 0,
     "ItemCount": 0,
     "TableArn": "arn:aws:dynamodb:us-east-1:000000000000:table/Orders",
-    "TableId": "45f46f05-7c04-4e0e-9617-d1e62251a194",
+    "TableId": "4f45f341-c0fe-40a0-9ae8-0812a0a11007",
     "BillingModeSummary": {
       "BillingMode": "PAY_PER_REQUEST",
-      "LastUpdateToPayPerRequestDateTime": 1794830693.1
+      "LastUpdateToPayPerRequestDateTime": 1795717675.695
     },
     "DeletionProtectionEnabled": false,
-    "OnDemandThroughput": {
-      "MaxReadRequestUnits": -1,
-      "MaxWriteRequestUnits": -1
-    },
     "TableThroughputModeSummary": {
       "TableThroughputMode": "PAY_PER_REQUEST",
-      "LastUpdateToPayPerRequestDateTime": 1794830693.1
+      "LastUpdateToPayPerRequestDateTime": 1795717675.695
     },
     "WarmThroughput": {
       "ReadUnitsPerSecond": 12000,
@@ -149,9 +145,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeTable
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120453Z
-Content-Length: 23
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182755Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "Orders"
@@ -163,10 +159,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dy
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: HKCSR9IB4F09NZ92ZMWJBXOO8ARBSMEFVDOQXVUKD7QLVH1QADP1
-x-amz-crc32: 3348757818
-content-length: 988
-date: Mon, 16 Nov 2026 12:04:56 GMT
+x-amzn-requestid: ILOWONPD7ALGCFJKF4RDDDDT21BQWRYGKJT9LRSRFXOHHC1UNDMZ
+x-amz-crc32: 985675484
+content-length: 920
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "Table": {
@@ -192,7 +188,7 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
       }
     ],
     "TableStatus": "ACTIVE",
-    "CreationDateTime": 1794830693.1,
+    "CreationDateTime": 1795717675.695,
     "ProvisionedThroughput": {
       "NumberOfDecreasesToday": 0,
       "ReadCapacityUnits": 0,
@@ -201,19 +197,15 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
     "TableSizeBytes": 0,
     "ItemCount": 0,
     "TableArn": "arn:aws:dynamodb:us-east-1:000000000000:table/Orders",
-    "TableId": "45f46f05-7c04-4e0e-9617-d1e62251a194",
+    "TableId": "4f45f341-c0fe-40a0-9ae8-0812a0a11007",
     "BillingModeSummary": {
       "BillingMode": "PAY_PER_REQUEST",
-      "LastUpdateToPayPerRequestDateTime": 1794830693.1
+      "LastUpdateToPayPerRequestDateTime": 1795717675.695
     },
     "DeletionProtectionEnabled": false,
-    "OnDemandThroughput": {
-      "MaxReadRequestUnits": -1,
-      "MaxWriteRequestUnits": -1
-    },
     "TableThroughputModeSummary": {
       "TableThroughputMode": "PAY_PER_REQUEST",
-      "LastUpdateToPayPerRequestDateTime": 1794830693.1
+      "LastUpdateToPayPerRequestDateTime": 1795717675.695
     },
     "WarmThroughput": {
       "ReadUnitsPerSecond": 12000,
@@ -235,9 +227,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.PutItem
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
-Content-Length: 135
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182758Z
+Content-Length: 121
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "Orders",
@@ -263,10 +255,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dy
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: B88EWPMQ21SOJW773N4N5SF9GW0KQEC97WK7LI3FMLX1CJ7POFP9
+x-amzn-requestid: HAYAB4Y5KWQ8XHRAE5APDO4MQXB4NLWAR3O6F8BOBWVCB2H2I3XL
 x-amz-crc32: 2745614147
 content-length: 2
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {}
 ```
@@ -282,9 +274,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.GetItem
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
-Content-Length: 109
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182758Z
+Content-Length: 99
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "Orders",
@@ -305,24 +297,24 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dy
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: OV0CDISTJWJMSR73KQ6SRW2WXP9PJMJBXUPL94YMG8LI6D0FK7PH
-x-amz-crc32: 2258453908
+x-amzn-requestid: XBAS6CKY6JA88G0VAKRYT6GH8F0B22X1J2SOTN44H92EMTA7POGJ
+x-amz-crc32: 159231099
 content-length: 99
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "Item": {
     "CustomerId": {
       "S": "c-1"
     },
-    "Status": {
-      "S": "NEW"
+    "OrderId": {
+      "S": "o-1"
     },
     "Total": {
       "N": "42.5"
     },
-    "OrderId": {
-      "S": "o-1"
+    "Status": {
+      "S": "NEW"
     }
   }
 }
@@ -339,9 +331,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.UpdateItem
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
-Content-Length: 248
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182758Z
+Content-Length: 229
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "Orders",
@@ -371,24 +363,24 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dy
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: DOYX160F02TO6B4MUK2UY90KSR6AT97OMJEQH07UREMNB29SFJCL
-x-amz-crc32: 205197486
+x-amzn-requestid: 7J2FRE92U0ZOH2B4Z1M23KA6T1A06ET4XQUY35DHLOTGZ0QUCVBW
+x-amz-crc32: 3152424532
 content-length: 109
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "Attributes": {
     "CustomerId": {
       "S": "c-1"
     },
-    "Status": {
-      "S": "SHIPPED"
+    "OrderId": {
+      "S": "o-1"
     },
     "Total": {
       "N": "42.5"
     },
-    "OrderId": {
-      "S": "o-1"
+    "Status": {
+      "S": "SHIPPED"
     }
   }
 }
@@ -405,9 +397,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.Query
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
-Content-Length: 119
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182758Z
+Content-Length: 112
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "Orders",
@@ -425,10 +417,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dy
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: IL46VDW8TLG21U7OV8FKAANQWP70A07Q2QYNUBBD8J1L7OJH0VSC
-x-amz-crc32: 3617416326
+x-amzn-requestid: YK41UDSGC7ZDHWX8VHM5U1PEA5S5P5G4DHGPIED9PKX33TE1J5X5
+x-amz-crc32: 4040226390
 content-length: 133
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "Items": [
@@ -436,14 +428,14 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
       "CustomerId": {
         "S": "c-1"
       },
-      "Status": {
-        "S": "SHIPPED"
+      "OrderId": {
+        "S": "o-1"
       },
       "Total": {
         "N": "42.5"
       },
-      "OrderId": {
-        "S": "o-1"
+      "Status": {
+        "S": "SHIPPED"
       }
     }
   ],
@@ -463,9 +455,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.PutItem
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
-Content-Length: 142
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182758Z
+Content-Length: 132
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "Orders",
@@ -486,10 +478,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: V5I9DXXL7PK3QZE8G5ZK7SLQBS1YBJDYSQWB3UQXKIJ9DGV0V8Z0
+x-amzn-requestid: 8ZQQV9ZSN9H3JW386S086O8J7EX7X5WWL8IOH0OMGWYMY0BGN2NQ
 x-amz-crc32: 396270901
 content-length: 120
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ConditionalCheckFailedException",
@@ -508,9 +500,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DeleteTable
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
-Content-Length: 23
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182758Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "Orders"
@@ -522,10 +514,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dy
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: 08J3DVA5NAXZ7FMEQ8JW07FCIRH9JACVJZZILWJ6WM1XKXRFSW8K
-x-amz-crc32: 1389551042
-content-length: 1001
-date: Mon, 16 Nov 2026 12:04:56 GMT
+x-amzn-requestid: X837H36IIQ38EJ955TI24ZIDPUA3QEBN5QMCM6J1LDYDA7UEJQVO
+x-amz-crc32: 1356879560
+content-length: 933
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "TableDescription": {
@@ -551,7 +543,7 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
       }
     ],
     "TableStatus": "DELETING",
-    "CreationDateTime": 1794830693.1,
+    "CreationDateTime": 1795717675.695,
     "ProvisionedThroughput": {
       "NumberOfDecreasesToday": 0,
       "ReadCapacityUnits": 0,
@@ -560,19 +552,15 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
     "TableSizeBytes": 0,
     "ItemCount": 0,
     "TableArn": "arn:aws:dynamodb:us-east-1:000000000000:table/Orders",
-    "TableId": "45f46f05-7c04-4e0e-9617-d1e62251a194",
+    "TableId": "4f45f341-c0fe-40a0-9ae8-0812a0a11007",
     "BillingModeSummary": {
       "BillingMode": "PAY_PER_REQUEST",
-      "LastUpdateToPayPerRequestDateTime": 1794830693.1
+      "LastUpdateToPayPerRequestDateTime": 1795717675.695
     },
     "DeletionProtectionEnabled": false,
-    "OnDemandThroughput": {
-      "MaxReadRequestUnits": -1,
-      "MaxWriteRequestUnits": -1
-    },
     "TableThroughputModeSummary": {
       "TableThroughputMode": "PAY_PER_REQUEST",
-      "LastUpdateToPayPerRequestDateTime": 1794830693.1
+      "LastUpdateToPayPerRequestDateTime": 1795717675.695
     },
     "WarmThroughput": {
       "ReadUnitsPerSecond": 12000,
@@ -585,7 +573,7 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 60 operations, 10 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error. `ListBulkOperations` and `StartBulkPutItems` are new in the service model as of emulator 1.0.595 and were captured on 2026-11-24.
 
@@ -595,7 +583,12 @@ This operation allows you to perform batch reads or writes on data stored in Dyn
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.BatchExecuteStatement
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 40
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Statements": [
@@ -609,6 +602,10 @@ X-Amz-Target: DynamoDB_20120810.BatchExecuteStatement
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: FWSA38QA37HWV3RM55N743CY6DTJ8AW20L4EMMU9QQOX12URTG2I
+x-amz-crc32: 2050133913
+content-length: 141
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "Responses": [
@@ -630,7 +627,12 @@ The BatchGetItem operation returns the attributes of one or more items from one 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.BatchGetItem
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 59
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "RequestItems": {
@@ -650,6 +652,10 @@ X-Amz-Target: DynamoDB_20120810.BatchGetItem
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: HKUJ5OYKBHIH41J6HCMCS7K4OCPJPY8B4GHR150XZJCXH890VZ7R
+x-amz-crc32: 3737639027
+content-length: 112
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -665,7 +671,12 @@ The BatchWriteItem operation puts or deletes multiple items in one or more table
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.BatchWriteItem
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 29
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "RequestItems": {
@@ -679,6 +690,10 @@ X-Amz-Target: DynamoDB_20120810.BatchWriteItem
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: 7W2L9OWJM66NOOQ7IIORC1LBRRSYK4JH1RQAK8XDXL7UQVY7ESLE
+x-amz-crc32: 3737639027
+content-length: 112
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -694,7 +709,12 @@ Creates a backup for an existing table.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.CreateBackup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 46
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example",
@@ -705,6 +725,10 @@ X-Amz-Target: DynamoDB_20120810.CreateBackup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: NCZUBIA0N2A71QWZQWAUBMLKGLUUPW0PCLDUK1CYOTCS48IT9RF0
+x-amz-crc32: 79288739
+content-length: 105
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#TableNotFoundException",
@@ -720,7 +744,12 @@ Creates a global table from an existing table.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.CreateGlobalTable
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "GlobalTableName": "example",
@@ -733,10 +762,14 @@ X-Amz-Target: DynamoDB_20120810.CreateGlobalTable
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: 81F9LJB59MUCCBZNPM5GNJ658O4B0UWV7N3HHZOZPRUFQR0SSUT6
+x-amz-crc32: 3046658788
+content-length: 275
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
-  "message": "Global tables version 2017.11.29 (Legacy) is no longer supported. Use global tables version 2019.11.21 (Current) instead."
+  "__type": "com.amazon.coral.validate#ValidationException",
+  "message": "One or more parameter values were invalid: DynamoDB global tables version 2017.11.29 is not supported. We recommend using DynamoDB global tables version 2019.11.21, instead of version 2017.11.29 (Legacy)."
 }
 ```
 
@@ -748,7 +781,12 @@ The CreateTable operation adds a new table to your account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.CreateTable
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example"
@@ -758,10 +796,14 @@ X-Amz-Target: DynamoDB_20120810.CreateTable
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: A3AHZ06DH7WXXP639C5WKNCGESROEQX7LCGYVO1N80NX1YCLN9CO
+x-amz-crc32: 4251507980
+content-length: 209
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
-  "message": "KeySchema is required and must declare a HASH key attribute"
+  "__type": "com.amazon.coral.validate#ValidationException",
+  "message": "One or more parameter values were invalid: ReadCapacityUnits and WriteCapacityUnits must both be specified when BillingMode is PROVISIONED"
 }
 ```
 
@@ -773,7 +815,12 @@ Deletes an existing backup of a table.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DeleteBackup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "BackupArn": "arn:aws:dynamodb:us-east-1:000000000000:example/example"
@@ -783,9 +830,13 @@ X-Amz-Target: DynamoDB_20120810.DeleteBackup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: 7IHPHIH6FCAGI5JQPRE1GLSE73JHGEVG06PDYEGQQQ987G4D59M9
+x-amz-crc32: 2621702438
+content-length: 89
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
+  "__type": "com.amazon.coral.validate#ValidationException",
   "message": "Invalid Backup ARN"
 }
 ```
@@ -798,7 +849,12 @@ Deletes a single item in a table by primary key.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DeleteItem
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example",
@@ -813,6 +869,10 @@ X-Amz-Target: DynamoDB_20120810.DeleteItem
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: GD9I807VRT6K881NWBPN7EENXDLNL9E2852LHPM2S7MF5NAQZSY8
+x-amz-crc32: 3737639027
+content-length: 112
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -828,7 +888,12 @@ Deletes the resource-based policy attached to the resource, which can be a table
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DeleteResourcePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 73
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:dynamodb:us-east-1:000000000000:example/example"
@@ -838,10 +903,14 @@ X-Amz-Target: DynamoDB_20120810.DeleteResourcePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: UR7AX4LGM8HMFFE3CPY3HBA4UZQYEHIIMDXOGSW2GYTS7AVHF2MZ
+x-amz-crc32: 1287011363
+content-length: 214
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
-  "message": "One or more parameter values were invalid: Invalid resource arn provided, only table or stream is accepted. Provided resource arn: arn:aws:dynamodb:us-east-1:000000000000:example/example"
+  "__type": "com.amazon.coral.validate#ValidationException",
+  "message": "One or more parameter values were invalid: Provided Arn is not a DynamoDB resource arn: arn:aws:dynamodb:us-east-1:000000000000:example/example"
 }
 ```
 
@@ -853,7 +922,12 @@ The DeleteTable operation deletes a table and all of its items.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DeleteTable
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example"
@@ -863,6 +937,10 @@ X-Amz-Target: DynamoDB_20120810.DeleteTable
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: N6F0ITKVG84UPHBNTBA6USO6O6MXMB9DQDMH9TOYQRA5EZ64NKG8
+x-amz-crc32: 203954860
+content-length: 138
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -878,7 +956,12 @@ Describes an existing backup of a table.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeBackup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "BackupArn": "arn:aws:dynamodb:us-east-1:000000000000:example/example"
@@ -888,9 +971,13 @@ X-Amz-Target: DynamoDB_20120810.DescribeBackup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: X9JMTRIS3NXVV1IFOL4B4Q98TAJYD2MWXD6FBZ8CP1JJ5T6JRIP7
+x-amz-crc32: 2621702438
+content-length: 89
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
+  "__type": "com.amazon.coral.validate#ValidationException",
   "message": "Invalid Backup ARN"
 }
 ```
@@ -903,7 +990,12 @@ Checks the status of continuous backups and point in time recovery on the specif
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeContinuousBackups
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example"
@@ -913,6 +1005,10 @@ X-Amz-Target: DynamoDB_20120810.DescribeContinuousBackups
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: W3EG65521ZAW534RXDJPV77EE56B7YFHNNUI2EXC9MNBSLL3Q9O3
+x-amz-crc32: 79288739
+content-length: 105
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#TableNotFoundException",
@@ -928,7 +1024,12 @@ Returns information about contributor insights for a given table or global secon
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeContributorInsights
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example"
@@ -938,6 +1039,10 @@ X-Amz-Target: DynamoDB_20120810.DescribeContributorInsights
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: 4OK610U26MGJMDVUXRCMPSJMU51UK4M5BZNZDHHNRH5N049J8D0W
+x-amz-crc32: 203954860
+content-length: 138
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -953,7 +1058,12 @@ Returns the regional endpoint information.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeEndpoints
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -961,11 +1071,15 @@ X-Amz-Target: DynamoDB_20120810.DescribeEndpoints
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: 81B36I16MD9UWH2S9CJ47IIWW1XLGZ1BAK5155W1JP4JZJ2U09BI
+x-amz-crc32: 338333978
+content-length: 72
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "Endpoints": [
     {
-      "Address": "dynamodb.us-east-1.localhost:9297",
+      "Address": "127.0.0.1:9297",
       "CachePeriodInMinutes": 1440
     }
   ]
@@ -980,7 +1094,12 @@ Describes an existing table export.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeExport
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ExportArn": "arn:aws:dynamodb:us-east-1:000000000000:example/example"
@@ -990,9 +1109,13 @@ X-Amz-Target: DynamoDB_20120810.DescribeExport
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: SV3MRTTZSTYVNM04M452DH1X67V57L81WO6KEY3BTL3LD7YY2J6C
+x-amz-crc32: 3214887545
+content-length: 181
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
+  "__type": "com.amazon.coral.validate#ValidationException",
   "message": "Invalid ExportArn: Invalid ExportArn provided as input arn:aws:dynamodb:us-east-1:000000000000:example/example"
 }
 ```
@@ -1005,7 +1128,12 @@ Returns information about the specified global table.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeGlobalTable
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 29
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "GlobalTableName": "example"
@@ -1015,10 +1143,14 @@ X-Amz-Target: DynamoDB_20120810.DescribeGlobalTable
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: PWEJW5HJ7EG94KQ6LQGVVUYFRQG0HV6EUGITT1S80P7UGWWUQGJM
+x-amz-crc32: 1707832236
+content-length: 160
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#GlobalTableNotFoundException",
-  "message": "Global table not found: example"
+  "message": "Global table not found: Global table with name: 'example' does not exist."
 }
 ```
 
@@ -1030,7 +1162,12 @@ Describes Region-specific settings for a global table.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeGlobalTableSettings
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 29
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "GlobalTableName": "example"
@@ -1040,10 +1177,14 @@ X-Amz-Target: DynamoDB_20120810.DescribeGlobalTableSettings
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: 2BU7VUJD3PBNDEBDW8NLCHREDEGE0YEE2QY1UFUVNVUS85E2QZG0
+x-amz-crc32: 2610105866
+content-length: 136
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#GlobalTableNotFoundException",
-  "message": "Global table not found: example"
+  "message": "Global table with name: 'example' does not exist."
 }
 ```
 
@@ -1055,7 +1196,12 @@ Represents the properties of the import.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeImport
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ImportArn": "arn:aws:dynamodb:us-east-1:000000000000:example/example"
@@ -1065,9 +1211,13 @@ X-Amz-Target: DynamoDB_20120810.DescribeImport
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: UDL990GWY6325O8HPL0M1GF0OGZXGH2VQWLKC0KN4BHGBRBSTXI5
+x-amz-crc32: 1971534971
+content-length: 181
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
+  "__type": "com.amazon.coral.validate#ValidationException",
   "message": "Invalid ImportArn: Invalid ImportArn provided as input arn:aws:dynamodb:us-east-1:000000000000:example/example"
 }
 ```
@@ -1080,7 +1230,12 @@ Returns information about the status of Kinesis streaming.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeKinesisStreamingDestination
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example"
@@ -1090,6 +1245,10 @@ X-Amz-Target: DynamoDB_20120810.DescribeKinesisStreamingDestination
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: REMIB8R24E3GBG5L9KG7Q4F42UVCN3X2L55LVSTRI1SQUI3M5WP8
+x-amz-crc32: 203954860
+content-length: 138
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -1105,7 +1264,12 @@ Returns the current provisioned-capacity quotas for your Amazon Web Services acc
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeLimits
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1113,6 +1277,10 @@ X-Amz-Target: DynamoDB_20120810.DescribeLimits
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: GMHGVSWO5DN2ETDGWEILBFC3PWQHH0TL7RL5B2F324BDP5N5FBRD
+x-amz-crc32: 3062975651
+content-length: 143
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "AccountMaxReadCapacityUnits": 80000,
@@ -1130,7 +1298,12 @@ Returns information about the table, including the current status of the table, 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeTable
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example"
@@ -1140,6 +1313,10 @@ X-Amz-Target: DynamoDB_20120810.DescribeTable
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: I0XXMC4QH4919BK6YLMYTBY3GJ649KZSQJWPDWWJIAVGZPB8Z7NZ
+x-amz-crc32: 203954860
+content-length: 138
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -1155,7 +1332,12 @@ Describes auto scaling settings across replicas of the global table at once.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeTableReplicaAutoScaling
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example"
@@ -1165,10 +1347,14 @@ X-Amz-Target: DynamoDB_20120810.DescribeTableReplicaAutoScaling
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: VFWGW8H92YB2AOVMM7KVB9OM3W80GXVQKTM8KF1ARTB9MP41X927
+x-amz-crc32: 312258189
+content-length: 133
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
-  "message": "Requested resource not found: Table: example not found"
+  "message": "Global table with name: 'example' does not exist."
 }
 ```
 
@@ -1180,7 +1366,12 @@ Gives a description of the Time to Live (TTL) status on the specified table.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeTimeToLive
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example"
@@ -1190,6 +1381,10 @@ X-Amz-Target: DynamoDB_20120810.DescribeTimeToLive
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: ZAJXZ7TXV0Z6AKB3O98M94LYRE48W5RVK4V70SU9WLRCFC7IDGKF
+x-amz-crc32: 203954860
+content-length: 138
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -1205,7 +1400,12 @@ Stops replication from the DynamoDB table to the Kinesis data stream.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DisableKinesisStreamingDestination
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 93
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example",
@@ -1216,6 +1416,10 @@ X-Amz-Target: DynamoDB_20120810.DisableKinesisStreamingDestination
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: F2XVTW9CCENQDGW8SRUFIFO8ZIDAKDDWS4DPWM0VKO66S73XDKYF
+x-amz-crc32: 203954860
+content-length: 138
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -1231,7 +1435,12 @@ Starts table data replication to the specified Kinesis data stream at a timestam
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.EnableKinesisStreamingDestination
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 93
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example",
@@ -1242,6 +1451,10 @@ X-Amz-Target: DynamoDB_20120810.EnableKinesisStreamingDestination
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: RE0MLH5ECK3E5BOGCIR0H1C8D0UG5WAHEXT7M7YK7B4Z09JERGM6
+x-amz-crc32: 203954860
+content-length: 138
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -1257,7 +1470,12 @@ This operation allows you to perform reads and singleton writes on data stored i
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.ExecuteStatement
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Statement": "example"
@@ -1267,9 +1485,13 @@ X-Amz-Target: DynamoDB_20120810.ExecuteStatement
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: KJ3N0R29PL60GZ8ZL0JKD9WKMSFT0NH8ISO5WXZ4XMZS3SZHHNLN
+x-amz-crc32: 4234718714
+content-length: 147
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
+  "__type": "com.amazon.coral.validate#ValidationException",
   "message": "Statement wasn't well formed, can't be processed: Expected data manipulation"
 }
 ```
@@ -1282,7 +1504,12 @@ This operation allows you to perform transactional reads or writes on data store
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.ExecuteTransaction
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 108
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TransactStatements": [
@@ -1297,9 +1524,13 @@ X-Amz-Target: DynamoDB_20120810.ExecuteTransaction
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: P0HG9318TSNW109F7OG44BE5S53QZ6UBFD6UCT5AJMUXG9YFQG9S
+x-amz-crc32: 3727717423
+content-length: 191
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
+  "__type": "com.amazon.coral.validate#ValidationException",
   "message": "Validation failed in TransactStatements[0]: Statement wasn't well formed, can't be processed: Expected data manipulation"
 }
 ```
@@ -1312,7 +1543,12 @@ Exports table data to an S3 bucket.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.ExportTableToPointInTime
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 144
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableArn": "arn:aws:dynamodb:us-east-1:000000000000:example/example",
@@ -1324,9 +1560,13 @@ X-Amz-Target: DynamoDB_20120810.ExportTableToPointInTime
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: YQ7P50IJSPLLF8KTADYS1SWH7OPZP0QYAA3KPW88Y1RVUEIB8TLG
+x-amz-crc32: 4217040713
+content-length: 179
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
+  "__type": "com.amazon.coral.validate#ValidationException",
   "message": "Invalid TableArn: Invalid TableArn provided as input arn:aws:dynamodb:us-east-1:000000000000:example/example"
 }
 ```
@@ -1339,7 +1579,12 @@ The GetItem operation returns a set of attributes for the item with the given pr
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.GetItem
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example",
@@ -1354,6 +1599,10 @@ X-Amz-Target: DynamoDB_20120810.GetItem
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: QVM3OOA4G87BT7V4ZCEJ6CURP2UOO5NZ5KEA6PMGZL9H1TCISR67
+x-amz-crc32: 3737639027
+content-length: 112
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -1369,7 +1618,12 @@ Returns the resource-based policy document attached to the resource, which can b
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.GetResourcePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 73
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:dynamodb:us-east-1:000000000000:example/example"
@@ -1379,10 +1633,14 @@ X-Amz-Target: DynamoDB_20120810.GetResourcePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: CZ19KGTTHF65VOUSQ8XCC3NX2CO6PUBTUEEPVHAP1WOVZFJOGCCD
+x-amz-crc32: 1287011363
+content-length: 214
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
-  "message": "One or more parameter values were invalid: Invalid resource arn provided, only table or stream is accepted. Provided resource arn: arn:aws:dynamodb:us-east-1:000000000000:example/example"
+  "__type": "com.amazon.coral.validate#ValidationException",
+  "message": "One or more parameter values were invalid: Provided Arn is not a DynamoDB resource arn: arn:aws:dynamodb:us-east-1:000000000000:example/example"
 }
 ```
 
@@ -1394,7 +1652,12 @@ Imports table data from an S3 bucket.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.ImportTable
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 444
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClientToken": "091dc31e-9ae9-4182-9fbb-a9f9933d37bd",
@@ -1416,20 +1679,23 @@ X-Amz-Target: DynamoDB_20120810.ImportTable
         "KeyType": "HASH"
       }
     ]
-… (2 more lines)
+… (1 more lines)
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: QT1PYD5ESXTM5IG70LJTULK2A3OO5YQSBXIZLO8D1SNBF7HBJMX2
+x-amz-crc32: 3948637019
+content-length: 60
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
-  "message": "One or more parameter values were invalid: ProvisionedThroughput must be specified when BillingMode is PROVISIONED"
+  "__type": "com.amazon.coral.service#SerializationException"
 }
 ```
 
-`400` `ValidationException`: the placeholder values failed the operation's input validation.
+`400` `SerializationException`.
 
 ### ListBackups
 
@@ -1437,7 +1703,12 @@ List DynamoDB backups that are associated with an Amazon Web Services account an
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.ListBackups
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1445,6 +1716,10 @@ X-Amz-Target: DynamoDB_20120810.ListBackups
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: Q5PQEJYYXS19FHRF4CI3JSYKC66EQ7N8JAQ8KTK6PII7U0OFQGDX
+x-amz-crc32: 1411314939
+content-length: 22
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "BackupSummaries": []
@@ -1461,7 +1736,12 @@ Returns summary information about the bulk operations of the account and Region,
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.ListBulkOperations
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1469,6 +1749,10 @@ X-Amz-Target: DynamoDB_20120810.ListBulkOperations
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: D01A9HZ01VTPRT1SLWT1JLNUJC8EL5S19P8OT78U8PGE8XY9VW61
+x-amz-crc32: 3356066316
+content-length: 32
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "BulkOperationsSummaryList": []
@@ -1483,7 +1767,12 @@ Returns a list of ContributorInsightsSummary for a table and all its global seco
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.ListContributorInsights
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1491,6 +1780,10 @@ X-Amz-Target: DynamoDB_20120810.ListContributorInsights
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: T4FONXH2BXLWYAVQ5AWRC30GY7AI8M1PNTPG65D5X061QBWCV4SN
+x-amz-crc32: 2686160312
+content-length: 35
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "ContributorInsightsSummaries": []
@@ -1505,7 +1798,12 @@ Lists completed exports within the past 90 days, in reverse alphanumeric order o
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.ListExports
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1513,6 +1811,10 @@ X-Amz-Target: DynamoDB_20120810.ListExports
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: A9HQOWL2QLA4QNC6Y7KFTXMANPRNAUL1J6OA8JY8ILPZW34LKQS5
+x-amz-crc32: 3102986012
+content-length: 22
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "ExportSummaries": []
@@ -1527,7 +1829,12 @@ Lists all global tables that have a replica in the specified Region.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.ListGlobalTables
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1535,6 +1842,10 @@ X-Amz-Target: DynamoDB_20120810.ListGlobalTables
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: QRCQMZQY4JWYRAIAV8X89V7UECXWJ5XY6LVL6A4ELI0VELBM514A
+x-amz-crc32: 72925925
+content-length: 19
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "GlobalTables": []
@@ -1549,7 +1860,12 @@ Lists completed imports within the past 90 days.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.ListImports
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1557,6 +1873,10 @@ X-Amz-Target: DynamoDB_20120810.ListImports
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: Q7TU7N0X9XPA01IFQ1NT8C05AQG3YE0ZDEN2HXUTMYOFLH828QAI
+x-amz-crc32: 2490712219
+content-length: 24
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "ImportSummaryList": []
@@ -1571,7 +1891,12 @@ Returns an array of table names associated with the current account and endpoint
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.ListTables
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1579,9 +1904,15 @@ X-Amz-Target: DynamoDB_20120810.ListTables
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: 0V6O3I5FZ5D52O75ZKA19552Q5R8ML57928GFJUZCLIUDQ47HN86
+x-amz-crc32: 1848568431
+content-length: 25
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "TableNames": []
+  "TableNames": [
+    "Orders"
+  ]
 }
 ```
 
@@ -1593,7 +1924,12 @@ List all tags on an Amazon DynamoDB resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.ListTagsOfResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 73
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:dynamodb:us-east-1:000000000000:example/example"
@@ -1603,9 +1939,13 @@ X-Amz-Target: DynamoDB_20120810.ListTagsOfResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: I8OT70R9UBOPH1Y6VZ50BVPSCKF2WNF4SV25MLMW6KV1P31L72ZE
+x-amz-crc32: 3530764421
+content-length: 182
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
+  "__type": "com.amazon.coral.validate#ValidationException",
   "message": "Invalid TableArn: Invalid ResourceArn provided as input arn:aws:dynamodb:us-east-1:000000000000:example/example"
 }
 ```
@@ -1618,7 +1958,12 @@ Creates a new item, or replaces an old item with a new item.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.PutItem
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example",
@@ -1633,6 +1978,10 @@ X-Amz-Target: DynamoDB_20120810.PutItem
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: WC5KPLTLGJQW53CWHVLM7LCJ6ZDK3X89GYGDHB5PH7JTD8KISG0J
+x-amz-crc32: 3737639027
+content-length: 112
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -1648,7 +1997,12 @@ Attaches a resource-based policy document to the resource, which can be a table 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.PutResourcePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 92
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:dynamodb:us-east-1:000000000000:example/example",
@@ -1659,10 +2013,14 @@ X-Amz-Target: DynamoDB_20120810.PutResourcePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: 78R2SMPVYDAZYYE9EWDEW1ZHPRMP6IJEANLO0OTHSPXHFH6AG1T1
+x-amz-crc32: 1287011363
+content-length: 214
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
-  "message": "One or more parameter values were invalid: Invalid resource arn provided, only table or stream is accepted. Provided resource arn: arn:aws:dynamodb:us-east-1:000000000000:example/example"
+  "__type": "com.amazon.coral.validate#ValidationException",
+  "message": "One or more parameter values were invalid: Provided Arn is not a DynamoDB resource arn: arn:aws:dynamodb:us-east-1:000000000000:example/example"
 }
 ```
 
@@ -1674,7 +2032,12 @@ You must provide the name of the partition key attribute and a single value for 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.Query
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example"
@@ -1684,9 +2047,13 @@ X-Amz-Target: DynamoDB_20120810.Query
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: F14FDRM5RFRBOQDHHJPAQMP1OKKJFZYTX8Y45TUP3K1DF6X39TM5
+x-amz-crc32: 2570445832
+content-length: 165
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
+  "__type": "com.amazon.coral.validate#ValidationException",
   "message": "Either the KeyConditions or KeyConditionExpression parameter must be specified in the request."
 }
 ```
@@ -1699,7 +2066,12 @@ Creates a new table from an existing backup.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.RestoreTableFromBackup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 99
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TargetTableName": "example",
@@ -1710,9 +2082,13 @@ X-Amz-Target: DynamoDB_20120810.RestoreTableFromBackup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: RSIZEEGHVQ72KNJCD138VZO8W2H4Q3RMDAUCVBMS9S9UUH1EWVLQ
+x-amz-crc32: 2621702438
+content-length: 89
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
+  "__type": "com.amazon.coral.validate#ValidationException",
   "message": "Invalid Backup ARN"
 }
 ```
@@ -1725,7 +2101,12 @@ Restores the specified table to the specified point in time within EarliestResto
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.RestoreTableToPointInTime
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 29
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TargetTableName": "example"
@@ -1735,9 +2116,13 @@ X-Amz-Target: DynamoDB_20120810.RestoreTableToPointInTime
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: P2TM48PAWL8GBU5YLQ01XJ2JHCXERWWBJJCHMOE95A1VYPUJU6V8
+x-amz-crc32: 2258547525
+content-length: 172
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
+  "__type": "com.amazon.coral.validate#ValidationException",
   "message": "One or more parameter values were invalid: either SourceTableName or SourceTableArn must be specified"
 }
 ```
@@ -1750,7 +2135,12 @@ The Scan operation returns one or more items and item attributes by accessing ev
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.Scan
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example"
@@ -1760,6 +2150,10 @@ X-Amz-Target: DynamoDB_20120810.Scan
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: Z3IVP5OR01LQGGJ6SUGRX3IHNEXIE84YY2FQLI2UGA3FFF958VQ0
+x-amz-crc32: 3737639027
+content-length: 112
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -1775,7 +2169,12 @@ Performs a vector similarity search on a vector index associated with an Amazon 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.SearchVectors
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 87
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example",
@@ -1792,10 +2191,14 @@ X-Amz-Target: DynamoDB_20120810.SearchVectors
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: 4B4H5R4YT09X0M3YRM88VHN59XZ534YT8DXOUPY80P8AYNM2DQSR
+x-amz-crc32: 1514290548
+content-length: 190
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
-  "message": "1 validation error detected: Value at 'searchVector' failed to satisfy constraint: Member must hold only numbers, each a 32-bit IEEE-754 floating point value"
+  "__type": "com.amazon.coral.validate#ValidationException",
+  "message": "Search vector contains invalid values. All values in the search vector must be a 32-bit floating-point number attribute"
 }
 ```
 
@@ -1809,7 +2212,12 @@ Starts a bulk operation that writes the items of the request into an existing ta
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.StartBulkPutItems
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 122
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example",
@@ -1823,14 +2231,18 @@ X-Amz-Target: DynamoDB_20120810.StartBulkPutItems
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: MV89QSHVDXS5W97RLUPMVYHZK2LXGT8RU5HVBLONPLWAAX40OPPC
+x-amz-crc32: 3595763353
+content-length: 191
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
-  "message": "Requested resource not found: Table: example not found"
+  "__type": "com.amazon.coral.validate#ValidationException",
+  "message": "1 validation error detected: Value null at 'outputS3Configuration' failed to satisfy constraint: Member must not be null"
 }
 ```
 
-`400` `ResourceNotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationException`: the placeholder values failed the operation's input validation.
 
 ### TagResource
 
@@ -1838,7 +2250,12 @@ Associate a set of tags with an Amazon DynamoDB resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.TagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 118
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:dynamodb:us-east-1:000000000000:example/example",
@@ -1854,9 +2271,13 @@ X-Amz-Target: DynamoDB_20120810.TagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: KCU3SMAE6FXC8KCRSZPC0SA5SV0YEBLL0STQVDNWQDYZ0FVKUZWX
+x-amz-crc32: 3530764421
+content-length: 182
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
+  "__type": "com.amazon.coral.validate#ValidationException",
   "message": "Invalid TableArn: Invalid ResourceArn provided as input arn:aws:dynamodb:us-east-1:000000000000:example/example"
 }
 ```
@@ -1869,7 +2290,12 @@ TransactGetItems is a synchronous operation that atomically retrieves multiple i
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.TransactGetItems
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 81
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TransactItems": [
@@ -1890,6 +2316,10 @@ X-Amz-Target: DynamoDB_20120810.TransactGetItems
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: CQ3E149SM2N9GO320C4TB4WBSBXULLO1RNUZCSHXBDR1GV3IVF0O
+x-amz-crc32: 3737639027
+content-length: 112
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -1905,7 +2335,12 @@ TransactWriteItems is a synchronous write operation that groups up to 100 action
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.TransactWriteItems
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 82
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TransactItems": [
@@ -1918,10 +2353,14 @@ X-Amz-Target: DynamoDB_20120810.TransactWriteItems
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: LHNO4Q21XNKMCM45AIENE5VBZNZ69N7UAO40IKO0BDI9MKR00AYK
+x-amz-crc32: 3962908076
+content-length: 235
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
-  "message": "1 validation error detected: Value at 'transactItems' failed to satisfy constraint: Member must contain exactly one of ConditionCheck, Put, Delete or Update"
+  "__type": "com.amazon.coral.validate#ValidationException",
+  "message": "1 validation error detected: Value '' at 'transactItems' failed to satisfy constraint: TransactWriteRequest should contain Delete or Put or Update or ConditionCheck"
 }
 ```
 
@@ -1933,7 +2372,12 @@ Removes the association of tags from an Amazon DynamoDB resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.UntagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 95
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:dynamodb:us-east-1:000000000000:example/example",
@@ -1946,9 +2390,13 @@ X-Amz-Target: DynamoDB_20120810.UntagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: PN1KX99N7TEL5BE7KESZOHKATKAZ6RARSYAZB7M9RUA7HBMQ41LG
+x-amz-crc32: 3530764421
+content-length: 182
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
+  "__type": "com.amazon.coral.validate#ValidationException",
   "message": "Invalid TableArn: Invalid ResourceArn provided as input arn:aws:dynamodb:us-east-1:000000000000:example/example"
 }
 ```
@@ -1961,7 +2409,12 @@ UpdateContinuousBackups enables or disables point in time recovery for the speci
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.UpdateContinuousBackups
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 95
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example",
@@ -1974,6 +2427,10 @@ X-Amz-Target: DynamoDB_20120810.UpdateContinuousBackups
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: ZFM0N2G31GHNN33QPGOK0DIA7GKP1NXBH9A55JWC4DYRUT246GGK
+x-amz-crc32: 79288739
+content-length: 105
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#TableNotFoundException",
@@ -1989,7 +2446,12 @@ Updates the status for contributor insights for a specific table or index.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.UpdateContributorInsights
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 60
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example",
@@ -2000,6 +2462,10 @@ X-Amz-Target: DynamoDB_20120810.UpdateContributorInsights
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: SX026TVIXVTIIVINUY1C34Y4S5BKWGG9RV57L04XUB8HODCYUNNL
+x-amz-crc32: 203954860
+content-length: 138
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -2015,7 +2481,12 @@ Adds or removes replicas in the specified global table.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.UpdateGlobalTable
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "GlobalTableName": "example",
@@ -2028,10 +2499,14 @@ X-Amz-Target: DynamoDB_20120810.UpdateGlobalTable
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: YDWQU8KMDH81OVPYB54TW5MNIU8JNPL7FL5AAA01A19KQ11LWEXZ
+x-amz-crc32: 1707832236
+content-length: 160
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#GlobalTableNotFoundException",
-  "message": "Global table not found: example"
+  "message": "Global table not found: Global table with name: 'example' does not exist."
 }
 ```
 
@@ -2043,7 +2518,12 @@ Updates settings for a global table.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.UpdateGlobalTableSettings
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 29
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "GlobalTableName": "example"
@@ -2053,10 +2533,14 @@ X-Amz-Target: DynamoDB_20120810.UpdateGlobalTableSettings
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: CPAVCZER0D05UEU9JLEHDZN9XJVXJUH2LR9VRJ4J3I2FKEL5Z01Q
+x-amz-crc32: 2610105866
+content-length: 136
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#GlobalTableNotFoundException",
-  "message": "Global table not found: example"
+  "message": "Global table with name: 'example' does not exist."
 }
 ```
 
@@ -2068,7 +2552,12 @@ Edits an existing item's attributes, or adds a new item to the table if it does 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.UpdateItem
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example",
@@ -2083,6 +2572,10 @@ X-Amz-Target: DynamoDB_20120810.UpdateItem
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: Z0RVBD0FYV1QJEMV7AEGIG9V5O1U8YT1NH9TIX7AGIU70NKKQBV1
+x-amz-crc32: 3737639027
+content-length: 112
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -2098,7 +2591,12 @@ The command to update the Kinesis stream destination.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.UpdateKinesisStreamingDestination
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 93
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example",
@@ -2109,6 +2607,10 @@ X-Amz-Target: DynamoDB_20120810.UpdateKinesisStreamingDestination
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: 42PHJY30M4RC2NDP9AFZLB0DVOX2EOK0VCI4T5NXQL1UJSJWI5ZV
+x-amz-crc32: 203954860
+content-length: 138
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
@@ -2124,7 +2626,12 @@ Modifies the provisioned throughput settings, global secondary indexes, DynamoDB
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.UpdateTable
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example"
@@ -2134,9 +2641,13 @@ X-Amz-Target: DynamoDB_20120810.UpdateTable
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: NQT2R06WYL0UBQSY4EPYUYKOIO06FASI977J6LBR2ZDSNG5679KY
+x-amz-crc32: 1658647735
+content-length: 367
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
-  "__type": "ValidationException",
+  "__type": "com.amazon.coral.validate#ValidationException",
   "message": "At least one of ProvisionedThroughput, BillingMode, UpdateStreamEnabled, GlobalSecondaryIndexUpdates, SSESpecification, ReplicaUpdates, MultiAccountReplicaReady, ReplicaTransitRoleArn, MultiRegionConsistency, DeletionProtectionEnabled, OnDemandThroughput, WarmThroughput or TableClass is required"
 }
 ```
@@ -2149,7 +2660,12 @@ Updates auto scaling settings on your global tables at once.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.UpdateTableReplicaAutoScaling
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example"
@@ -2159,10 +2675,14 @@ X-Amz-Target: DynamoDB_20120810.UpdateTableReplicaAutoScaling
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: SOIUGE8FPOM61K99FCDV1NE33PT4AZ40U2Q395MBTDRBEYJW7BQ9
+x-amz-crc32: 312258189
+content-length: 133
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",
-  "message": "Requested resource not found: Table: example not found"
+  "message": "Global table with name: 'example' does not exist."
 }
 ```
 
@@ -2174,7 +2694,12 @@ The UpdateTimeToLive method enables or disables Time to Live (TTL) for the speci
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.UpdateTimeToLive
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182758Z
+Content-Length: 93
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "example",
@@ -2188,6 +2713,10 @@ X-Amz-Target: DynamoDB_20120810.UpdateTimeToLive
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+x-amzn-requestid: FI1Z68JBQOX2RQ550QXI5NBLMZPW8TWFP4GZ1ZQOYK59F1W3APWX
+x-amz-crc32: 203954860
+content-length: 138
+date: Thu, 26 Nov 2026 18:27:58 GMT
 
 {
   "__type": "com.amazonaws.dynamodb.v20120810#ResourceNotFoundException",

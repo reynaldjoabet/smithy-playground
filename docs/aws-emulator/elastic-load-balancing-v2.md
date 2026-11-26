@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `elasticloadbalancing`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `elasticloadbalancing`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `DescribeLoadBalancers`:
 
@@ -39,9 +39,9 @@ An ALB needs subnets in at least two Availability Zones; it starts in `provision
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120836Z
+X-Amz-Date: 20261126T183321Z
 Content-Length: 187
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateLoadBalancer
 &Version=2015-12-01
@@ -58,16 +58,16 @@ Action=CreateLoadBalancer
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 1339
-date: Mon, 16 Nov 2026 12:08:36 GMT
+date: Thu, 26 Nov 2026 18:33:21 GMT
 
 <CreateLoadBalancerResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <CreateLoadBalancerResult>
     <LoadBalancers>
       <member xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
-        <LoadBalancerArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:loadbalancer/app/docs-demo-alb/f508d3a06baad0fb</LoadBalancerArn>
-        <DNSName>127.0.0.1:36109</DNSName>
+        <LoadBalancerArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:loadbalancer/app/docs-demo-alb/a3fa9733f0c6283b</LoadBalancerArn>
+        <DNSName>127.0.0.1:34101</DNSName>
         <CanonicalHostedZoneId>Z35SXDOTRQ7X7K</CanonicalHostedZoneId>
-        <CreatedTime>2026-11-16T12:08:36.488766Z</CreatedTime>
+        <CreatedTime>2026-11-26T18:33:21.918857Z</CreatedTime>
         <LoadBalancerName>docs-demo-alb</LoadBalancerName>
         <Scheme>internet-facing</Scheme>
         <VpcId>vpc-00000000000000001</VpcId>
@@ -79,16 +79,16 @@ date: Mon, 16 Nov 2026 12:08:36 GMT
           <member>
             <ZoneName>us-east-1a</ZoneName>
             <SubnetId>subnet-00000000000000007</SubnetId>
-            <LoadBalancerAddresses/>
+            <LoadBalancerAddresses></LoadBalancerAddresses>
           </member>
           <member>
             <ZoneName>us-east-1b</ZoneName>
             <SubnetId>subnet-00000000000000009</SubnetId>
-            <LoadBalancerAddresses/>
+            <LoadBalancerAddresses></LoadBalancerAddresses>
           </member>
         </AvailabilityZones>
         <SecurityGroups>
-          <member>sg-0000000000000000d</member>
+          <member>sg-00000000000000013</member>
         </SecurityGroups>
         <IpAddressType>ipv4</IpAddressType>
         <EnablePrefixForIpv6SourceNat>off</EnablePrefixForIpv6SourceNat>
@@ -96,7 +96,7 @@ date: Mon, 16 Nov 2026 12:08:36 GMT
     </LoadBalancers>
   </CreateLoadBalancerResult>
   <ResponseMetadata>
-    <RequestId>0b568a6b-14e1-4f1a-8fc6-370621527546</RequestId>
+    <RequestId>5fec2c36-81e7-48af-b103-2e1c21c7ed26</RequestId>
   </ResponseMetadata>
 </CreateLoadBalancerResponse>
 ```
@@ -111,9 +111,9 @@ Targets register with the group, not with the load balancer.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120836Z
+X-Amz-Date: 20261126T183321Z
 Content-Length: 151
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateTargetGroup
 &Version=2015-12-01
@@ -131,13 +131,13 @@ Action=CreateTargetGroup
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 1207
-date: Mon, 16 Nov 2026 12:08:36 GMT
+date: Thu, 26 Nov 2026 18:33:21 GMT
 
 <CreateTargetGroupResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <CreateTargetGroupResult>
     <TargetGroups>
       <member xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
-        <TargetGroupArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:targetgroup/docs-demo-tg/524c4058e34a75e4</TargetGroupArn>
+        <TargetGroupArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:targetgroup/docs-demo-tg/ce012da1bf2575f3</TargetGroupArn>
         <TargetGroupName>docs-demo-tg</TargetGroupName>
         <Protocol>HTTP</Protocol>
         <Port>80</Port>
@@ -153,7 +153,7 @@ date: Mon, 16 Nov 2026 12:08:36 GMT
         <Matcher>
           <HttpCode>200</HttpCode>
         </Matcher>
-        <LoadBalancerArns/>
+        <LoadBalancerArns></LoadBalancerArns>
         <TargetType>ip</TargetType>
         <ProtocolVersion>HTTP1</ProtocolVersion>
         <IpAddressType>ipv4</IpAddressType>
@@ -161,7 +161,7 @@ date: Mon, 16 Nov 2026 12:08:36 GMT
     </TargetGroups>
   </CreateTargetGroupResult>
   <ResponseMetadata>
-    <RequestId>db9c16f8-7ceb-4d68-845d-9af5aacc4fc1</RequestId>
+    <RequestId>0aea837f-4c33-4b37-afcb-c9750ebfda13</RequestId>
   </ResponseMetadata>
 </CreateTargetGroupResponse>
 ```
@@ -176,17 +176,17 @@ The listener forwards port 80 to the target group.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120836Z
+X-Amz-Date: 20261126T183321Z
 Content-Length: 378
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateListener
 &Version=2015-12-01
-&LoadBalancerArn=arn%3Aaws%3Aelasticloadbalancing%3Aus-east-1%3A000000000000%3Aloadbalancer%2Fapp%2Fdocs-demo-alb%2Ff508d3a06baad0fb
+&LoadBalancerArn=arn%3Aaws%3Aelasticloadbalancing%3Aus-east-1%3A000000000000%3Aloadbalancer%2Fapp%2Fdocs-demo-alb%2Fa3fa9733f0c6283b
 &Protocol=HTTP
 &Port=80
 &DefaultActions.member.1.Type=forward
-&DefaultActions.member.1.TargetGroupArn=arn%3Aaws%3Aelasticloadbalancing%3Aus-east-1%3A000000000000%3Atargetgroup%2Fdocs-demo-tg%2F524c4058e34a75e4
+&DefaultActions.member.1.TargetGroupArn=arn%3Aaws%3Aelasticloadbalancing%3Aus-east-1%3A000000000000%3Atargetgroup%2Fdocs-demo-tg%2Fce012da1bf2575f3
 ```
 
 **Response**
@@ -194,26 +194,26 @@ Action=CreateListener
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 1229
-date: Mon, 16 Nov 2026 12:08:36 GMT
+content-length: 1204
+date: Thu, 26 Nov 2026 18:33:21 GMT
 
 <CreateListenerResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <CreateListenerResult>
     <Listeners>
       <member xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
-        <ListenerArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:listener/app/docs-demo-alb/f508d3a06baad0fb/9c17eb7bda07d3bf</ListenerArn>
-        <LoadBalancerArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:loadbalancer/app/docs-demo-alb/f508d3a06baad0fb</LoadBalancerArn>
+        <ListenerArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:listener/app/docs-demo-alb/a3fa9733f0c6283b/6d7b86cc11152c4f</ListenerArn>
+        <LoadBalancerArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:loadbalancer/app/docs-demo-alb/a3fa9733f0c6283b</LoadBalancerArn>
         <Port>80</Port>
         <Protocol>HTTP</Protocol>
-        <Certificates/>
+        <Certificates></Certificates>
         <DefaultActions>
           <member>
             <Type>forward</Type>
-            <TargetGroupArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:targetgroup/docs-demo-tg/524c4058e34a75e4</TargetGroupArn>
+            <TargetGroupArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:targetgroup/docs-demo-tg/ce012da1bf2575f3</TargetGroupArn>
             <ForwardConfig>
               <TargetGroups>
                 <member>
-                  <TargetGroupArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:targetgroup/docs-demo-tg/524c4058e34a75e4</TargetGroupArn>
+                  <TargetGroupArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:targetgroup/docs-demo-tg/ce012da1bf2575f3</TargetGroupArn>
                   <Weight>1</Weight>
                 </member>
               </TargetGroups>
@@ -223,12 +223,11 @@ date: Mon, 16 Nov 2026 12:08:36 GMT
             </ForwardConfig>
           </member>
         </DefaultActions>
-        <AlpnPolicy/>
       </member>
     </Listeners>
   </CreateListenerResult>
   <ResponseMetadata>
-    <RequestId>0d734ec9-8cea-44a4-ad91-83131a17882f</RequestId>
+    <RequestId>32ad681e-7c5a-4ab9-8454-1bf0f9c076f3</RequestId>
   </ResponseMetadata>
 </CreateListenerResponse>
 ```
@@ -243,13 +242,13 @@ The load balancer is now `active`. Its DNS name is a local address and port the 
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120836Z
+X-Amz-Date: 20261126T183322Z
 Content-Length: 189
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeLoadBalancers
 &Version=2015-12-01
-&LoadBalancerArns.member.1=arn%3Aaws%3Aelasticloadbalancing%3Aus-east-1%3A000000000000%3Aloadbalancer%2Fapp%2Fdocs-demo-alb%2Ff508d3a06baad0fb
+&LoadBalancerArns.member.1=arn%3Aaws%3Aelasticloadbalancing%3Aus-east-1%3A000000000000%3Aloadbalancer%2Fapp%2Fdocs-demo-alb%2Fa3fa9733f0c6283b
 ```
 
 **Response**
@@ -258,16 +257,16 @@ Action=DescribeLoadBalancers
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 1345
-date: Mon, 16 Nov 2026 12:08:36 GMT
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <DescribeLoadBalancersResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <DescribeLoadBalancersResult>
     <LoadBalancers>
       <member xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
-        <LoadBalancerArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:loadbalancer/app/docs-demo-alb/f508d3a06baad0fb</LoadBalancerArn>
-        <DNSName>127.0.0.1:36109</DNSName>
+        <LoadBalancerArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:loadbalancer/app/docs-demo-alb/a3fa9733f0c6283b</LoadBalancerArn>
+        <DNSName>127.0.0.1:34101</DNSName>
         <CanonicalHostedZoneId>Z35SXDOTRQ7X7K</CanonicalHostedZoneId>
-        <CreatedTime>2026-11-16T12:08:36.488766Z</CreatedTime>
+        <CreatedTime>2026-11-26T18:33:21.918857Z</CreatedTime>
         <LoadBalancerName>docs-demo-alb</LoadBalancerName>
         <Scheme>internet-facing</Scheme>
         <VpcId>vpc-00000000000000001</VpcId>
@@ -279,16 +278,16 @@ date: Mon, 16 Nov 2026 12:08:36 GMT
           <member>
             <ZoneName>us-east-1a</ZoneName>
             <SubnetId>subnet-00000000000000007</SubnetId>
-            <LoadBalancerAddresses/>
+            <LoadBalancerAddresses></LoadBalancerAddresses>
           </member>
           <member>
             <ZoneName>us-east-1b</ZoneName>
             <SubnetId>subnet-00000000000000009</SubnetId>
-            <LoadBalancerAddresses/>
+            <LoadBalancerAddresses></LoadBalancerAddresses>
           </member>
         </AvailabilityZones>
         <SecurityGroups>
-          <member>sg-0000000000000000d</member>
+          <member>sg-00000000000000013</member>
         </SecurityGroups>
         <IpAddressType>ipv4</IpAddressType>
         <EnablePrefixForIpv6SourceNat>off</EnablePrefixForIpv6SourceNat>
@@ -296,7 +295,7 @@ date: Mon, 16 Nov 2026 12:08:36 GMT
     </LoadBalancers>
   </DescribeLoadBalancersResult>
   <ResponseMetadata>
-    <RequestId>b2f16998-bcb6-46f4-beac-281ffb7aefe2</RequestId>
+    <RequestId>3f5c0069-fc62-4a85-a84d-970a5749d07d</RequestId>
   </ResponseMetadata>
 </DescribeLoadBalancersResponse>
 ```
@@ -311,13 +310,13 @@ A target group a listener still forwards to is in use: `ResourceInUse`.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120837Z
+X-Amz-Date: 20261126T183322Z
 Content-Length: 166
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteTargetGroup
 &Version=2015-12-01
-&TargetGroupArn=arn%3Aaws%3Aelasticloadbalancing%3Aus-east-1%3A000000000000%3Atargetgroup%2Fdocs-demo-tg%2F524c4058e34a75e4
+&TargetGroupArn=arn%3Aaws%3Aelasticloadbalancing%3Aus-east-1%3A000000000000%3Atargetgroup%2Fdocs-demo-tg%2Fce012da1bf2575f3
 ```
 
 **Response**
@@ -325,17 +324,17 @@ Action=DeleteTargetGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
-x-amzn-requestid: 41e4df94-f945-4ca4-b08e-e01f605f86f3
+x-amzn-requestid: 5f017b16-39b3-4f1e-96f8-277f477a60a2
 content-length: 397
-date: Mon, 16 Nov 2026 12:08:37 GMT
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ResourceInUse</Code>
-    <Message>Target group 'arn:aws:elasticloadbalancing:us-east-1:000000000000:targetgroup/docs-demo-tg/524c4058e34a75e4' is currently in use by a listener or a rule</Message>
+    <Message>Target group &apos;arn:aws:elasticloadbalancing:us-east-1:000000000000:targetgroup/docs-demo-tg/ce012da1bf2575f3&apos; is currently in use by a listener or a rule</Message>
   </Error>
-  <RequestId>41e4df94-f945-4ca4-b08e-e01f605f86f3</RequestId>
+  <RequestId>5f017b16-39b3-4f1e-96f8-277f477a60a2</RequestId>
 </ErrorResponse>
 ```
 
@@ -349,13 +348,13 @@ Remove the listener ...
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120837Z
+X-Amz-Date: 20261126T183322Z
 Content-Length: 183
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteListener
 &Version=2015-12-01
-&ListenerArn=arn%3Aaws%3Aelasticloadbalancing%3Aus-east-1%3A000000000000%3Alistener%2Fapp%2Fdocs-demo-alb%2Ff508d3a06baad0fb%2F9c17eb7bda07d3bf
+&ListenerArn=arn%3Aaws%3Aelasticloadbalancing%3Aus-east-1%3A000000000000%3Alistener%2Fapp%2Fdocs-demo-alb%2Fa3fa9733f0c6283b%2F6d7b86cc11152c4f
 ```
 
 **Response**
@@ -364,12 +363,12 @@ Action=DeleteListener
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 256
-date: Mon, 16 Nov 2026 12:08:37 GMT
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <DeleteListenerResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
-  <DeleteListenerResult/>
+  <DeleteListenerResult></DeleteListenerResult>
   <ResponseMetadata>
-    <RequestId>159d50ec-ae26-4921-b2c1-6125eed6dbde</RequestId>
+    <RequestId>fdff6d80-fab0-4c63-83f1-b0887e313295</RequestId>
   </ResponseMetadata>
 </DeleteListenerResponse>
 ```
@@ -384,13 +383,13 @@ date: Mon, 16 Nov 2026 12:08:37 GMT
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120837Z
+X-Amz-Date: 20261126T183322Z
 Content-Length: 166
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteTargetGroup
 &Version=2015-12-01
-&TargetGroupArn=arn%3Aaws%3Aelasticloadbalancing%3Aus-east-1%3A000000000000%3Atargetgroup%2Fdocs-demo-tg%2F524c4058e34a75e4
+&TargetGroupArn=arn%3Aaws%3Aelasticloadbalancing%3Aus-east-1%3A000000000000%3Atargetgroup%2Fdocs-demo-tg%2Fce012da1bf2575f3
 ```
 
 **Response**
@@ -399,12 +398,12 @@ Action=DeleteTargetGroup
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 268
-date: Mon, 16 Nov 2026 12:08:37 GMT
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <DeleteTargetGroupResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
-  <DeleteTargetGroupResult/>
+  <DeleteTargetGroupResult></DeleteTargetGroupResult>
   <ResponseMetadata>
-    <RequestId>51470493-5061-4a27-a2bf-45894816aa29</RequestId>
+    <RequestId>728cca51-2421-431a-9486-f95336cd2d22</RequestId>
   </ResponseMetadata>
 </DeleteTargetGroupResponse>
 ```
@@ -419,13 +418,13 @@ date: Mon, 16 Nov 2026 12:08:37 GMT
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120837Z
+X-Amz-Date: 20261126T183322Z
 Content-Length: 176
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteLoadBalancer
 &Version=2015-12-01
-&LoadBalancerArn=arn%3Aaws%3Aelasticloadbalancing%3Aus-east-1%3A000000000000%3Aloadbalancer%2Fapp%2Fdocs-demo-alb%2Ff508d3a06baad0fb
+&LoadBalancerArn=arn%3Aaws%3Aelasticloadbalancing%3Aus-east-1%3A000000000000%3Aloadbalancer%2Fapp%2Fdocs-demo-alb%2Fa3fa9733f0c6283b
 ```
 
 **Response**
@@ -434,21 +433,21 @@ Action=DeleteLoadBalancer
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 272
-date: Mon, 16 Nov 2026 12:08:37 GMT
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <DeleteLoadBalancerResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
-  <DeleteLoadBalancerResult/>
+  <DeleteLoadBalancerResult></DeleteLoadBalancerResult>
   <ResponseMetadata>
-    <RequestId>ea6c9a2f-38ef-4bfc-a6d6-2ca56e76b027</RequestId>
+    <RequestId>02c7eb82-030d-4807-920d-7ad98bda266b</RequestId>
   </ResponseMetadata>
 </DeleteLoadBalancerResponse>
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
-Of 51 operations, 9 accepted the placeholder call, 1 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
+Of 51 operations, 6 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.629* answered `501` in 1.0.595. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AddListenerCertificates
 
@@ -456,6 +455,11 @@ Adds the specified SSL server certificate to the certificate list for the specif
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 143
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AddListenerCertificates
 &Version=2015-12-01
@@ -465,15 +469,18 @@ Action=AddListenerCertificates
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 5e07c7b4-55b2-42d9-ade8-a4d1b017f86e
+content-length: 313
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>1 validation error detected: Value null at 'certificates' failed to satisfy constraint: Member must not be null</Message>
+    <Message>1 validation error detected: Value null at &apos;certificates&apos; failed to satisfy constraint: Member must not be null</Message>
   </Error>
-  <RequestId>9faebeb2-f1a8-4e9e-bb61-1aa59f65979d</RequestId>
+  <RequestId>5e07c7b4-55b2-42d9-ade8-a4d1b017f86e</RequestId>
 </ErrorResponse>
 ```
 
@@ -485,6 +492,11 @@ Adds the specified tags to the specified Elastic Load Balancing resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 89
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AddTags
 &Version=2015-12-01
@@ -495,14 +507,17 @@ Action=AddTags
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 868fef09-031a-4fe3-b440-f12208e383af
+content-length: 325
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>'example' in ResourceArns is not the ARN of an Elastic Load Balancing resource</Message>
+    <Message>&apos;example&apos; in ResourceArns is not the ARN of an Elastic Load Balancing resource</Message>
   </Error>
-  <RequestId>92ced4b4-f85d-4539-b66c-6eb45bd49ec8</RequestId>
+  <RequestId>868fef09-031a-4fe3-b440-f12208e383af</RequestId>
 </ErrorResponse>
 ```
 
@@ -516,6 +531,11 @@ Adds the specified revocation file to the specified trust store.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 146
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AddTrustStoreRevocations
 &Version=2015-12-01
@@ -525,14 +545,17 @@ Action=AddTrustStoreRevocations
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 3cb8ed5f-2e83-4508-917c-8bacba28c785
+content-length: 347
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>TrustStoreNotFound</Code>
-    <Message>Trust store ARN 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Message>Trust store ARN &apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; not found</Message>
   </Error>
-  <RequestId>30e0fdeb-6a20-47ce-ab89-f21d30f578f7</RequestId>
+  <RequestId>3cb8ed5f-2e83-4508-917c-8bacba28c785</RequestId>
 </ErrorResponse>
 ```
 
@@ -544,6 +567,11 @@ Creates a listener for the specified Application Load Balancer, Network Load Bal
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 175
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateListener
 &Version=2015-12-01
@@ -554,18 +582,21 @@ Action=CreateListener
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 2a0d0bb2-ed96-4ead-8069-544985a0ded2
+content-length: 351
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
-    <Code>LoadBalancerNotFound</Code>
-    <Message>Load balancer 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Code>ValidationError</Code>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid load balancer ARN</Message>
   </Error>
-  <RequestId>1cc8821e-1db7-47d3-a71e-8ee191505725</RequestId>
+  <RequestId>2a0d0bb2-ed96-4ead-8069-544985a0ded2</RequestId>
 </ErrorResponse>
 ```
 
-`400` `LoadBalancerNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error. See [the walkthrough](#3-createlistener) for a successful call.
+`400` `ValidationError`: the placeholder values failed the operation's input validation. See [the walkthrough](#3-createlistener) for a successful call.
 
 ### CreateLoadBalancer
 
@@ -573,6 +604,11 @@ Creates an Application Load Balancer, Network Load Balancer, or Gateway Load Bal
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 57
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateLoadBalancer
 &Version=2015-12-01
@@ -582,6 +618,9 @@ Action=CreateLoadBalancer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 70792bfc-8e7e-4f8a-885e-8d6eba98820c
+content-length: 298
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
@@ -589,7 +628,7 @@ content-type: text/xml
     <Code>InvalidConfigurationRequest</Code>
     <Message>You must specify either Subnets or SubnetMappings</Message>
   </Error>
-  <RequestId>5589ef77-fdf7-4230-9a92-5fca1a4ea8ff</RequestId>
+  <RequestId>70792bfc-8e7e-4f8a-885e-8d6eba98820c</RequestId>
 </ErrorResponse>
 ```
 
@@ -601,6 +640,11 @@ Creates a rule for the specified listener.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 171
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateRule
 &Version=2015-12-01
@@ -612,15 +656,18 @@ Action=CreateRule
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: fb796376-c11b-4514-aae0-384d9a57d580
+content-length: 311
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>1 validation error detected: Value null at 'conditions' failed to satisfy constraint: Member must not be null</Message>
+    <Message>1 validation error detected: Value null at &apos;conditions&apos; failed to satisfy constraint: Member must not be null</Message>
   </Error>
-  <RequestId>ff016454-00de-481c-bc3a-269756ae1b19</RequestId>
+  <RequestId>fb796376-c11b-4514-aae0-384d9a57d580</RequestId>
 </ErrorResponse>
 ```
 
@@ -632,6 +679,11 @@ Creates a target group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 56
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateTargetGroup
 &Version=2015-12-01
@@ -639,33 +691,23 @@ Action=CreateTargetGroup
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 553b8f72-ac15-4c36-b847-8f86d0cd7a05
+content-length: 263
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
-<CreateTargetGroupResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
-  <CreateTargetGroupResult>
-    <TargetGroups>
-      <member xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
-        <TargetGroupArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:targetgroup/example/a6acbd5f4ced3490</TargetGroupArn>
-        <TargetGroupName>example</TargetGroupName>
-        <HealthCheckProtocol>TCP</HealthCheckProtocol>
-        <HealthCheckPort>traffic-port</HealthCheckPort>
-        <HealthCheckEnabled>true</HealthCheckEnabled>
-        <HealthCheckIntervalSeconds>30</HealthCheckIntervalSeconds>
-        <HealthCheckTimeoutSeconds>10</HealthCheckTimeoutSeconds>
-        <HealthyThresholdCount>5</HealthyThresholdCount>
-        <UnhealthyThresholdCount>2</UnhealthyThresholdCount>
-        <LoadBalancerArns/>
-        <TargetType>instance</TargetType>
-        <IpAddressType>ipv4</IpAddressType>
-      </member>
-    </TargetGroups>
-  </CreateTargetGroupResult>
-  <ResponseMetadata>
-… (3 more lines)
+<ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
+  <Error>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>A VPC ID must be specified</Message>
+  </Error>
+  <RequestId>553b8f72-ac15-4c36-b847-8f86d0cd7a05</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values. See [the walkthrough](#2-createtargetgroup) for a successful call.
+`400` `ValidationError`: the placeholder values failed the operation's input validation. See [the walkthrough](#2-createtargetgroup) for a successful call.
 
 ### CreateTrustStore
 
@@ -673,6 +715,11 @@ Creates a trust store.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 126
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateTrustStore
 &Version=2015-12-01
@@ -684,6 +731,9 @@ Action=CreateTrustStore
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 6e2e5f5a-d815-4fb7-b8c2-dba31f95cca7
+content-length: 294
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
@@ -691,7 +741,7 @@ content-type: text/xml
     <Code>CaCertificatesBundleNotFound</Code>
     <Message>Provided CA certificate bundle was not found</Message>
   </Error>
-  <RequestId>a22c0bbf-d68a-4b0f-a8db-7d7c4a93bbce</RequestId>
+  <RequestId>6e2e5f5a-d815-4fb7-b8c2-dba31f95cca7</RequestId>
 </ErrorResponse>
 ```
 
@@ -703,6 +753,11 @@ Deletes the specified listener.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 134
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteListener
 &Version=2015-12-01
@@ -712,14 +767,17 @@ Action=DeleteListener
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: e4a5a600-f604-4c8f-981d-6a4e9dc5f13f
+content-length: 346
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' is not a valid listener ARN</Message>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid listener ARN</Message>
   </Error>
-  <RequestId>fe30139d-9cc1-45b6-ae06-ba4837eaa0e1</RequestId>
+  <RequestId>e4a5a600-f604-4c8f-981d-6a4e9dc5f13f</RequestId>
 </ErrorResponse>
 ```
 
@@ -731,6 +789,11 @@ Deletes the specified Application Load Balancer, Network Load Balancer, or Gatew
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 142
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteLoadBalancer
 &Version=2015-12-01
@@ -738,18 +801,23 @@ Action=DeleteLoadBalancer
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 789c30d2-c5d9-4112-91b6-ebe340eed6f8
+content-length: 351
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
-<DeleteLoadBalancerResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
-  <DeleteLoadBalancerResult/>
-  <ResponseMetadata>
-    <RequestId>0970d90a-d797-4074-96cc-c2ee4712fe69</RequestId>
-  </ResponseMetadata>
-</DeleteLoadBalancerResponse>
+<ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
+  <Error>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid load balancer ARN</Message>
+  </Error>
+  <RequestId>789c30d2-c5d9-4112-91b6-ebe340eed6f8</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values. See [the walkthrough](#8-deleteloadbalancer) for a successful call.
+`400` `ValidationError`: the placeholder values failed the operation's input validation. See [the walkthrough](#8-deleteloadbalancer) for a successful call.
 
 ### DeleteRule
 
@@ -757,6 +825,11 @@ Deletes the specified rule.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 126
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteRule
 &Version=2015-12-01
@@ -766,14 +839,17 @@ Action=DeleteRule
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 404a61c4-5083-4560-bd77-82163e2cb9dc
+content-length: 330
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>RuleNotFound</Code>
-    <Message>Rule 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Message>Rule &apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; not found</Message>
   </Error>
-  <RequestId>95073873-233e-44e9-9a16-2b4dc8f4b112</RequestId>
+  <RequestId>404a61c4-5083-4560-bd77-82163e2cb9dc</RequestId>
 </ErrorResponse>
 ```
 
@@ -785,6 +861,11 @@ Deletes a shared trust store association.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 249
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteSharedTrustStoreAssociation
 &Version=2015-12-01
@@ -795,14 +876,17 @@ Action=DeleteSharedTrustStoreAssociation
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 260e0bbf-63d2-498e-b3a9-7f502c4d0001
+content-length: 347
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>TrustStoreNotFound</Code>
-    <Message>Trust store ARN 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Message>Trust store ARN &apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; not found</Message>
   </Error>
-  <RequestId>dd01d117-c3ba-4cd5-b74a-ecf8897dcc10</RequestId>
+  <RequestId>260e0bbf-63d2-498e-b3a9-7f502c4d0001</RequestId>
 </ErrorResponse>
 ```
 
@@ -814,6 +898,11 @@ Deletes the specified target group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 140
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteTargetGroup
 &Version=2015-12-01
@@ -821,18 +910,23 @@ Action=DeleteTargetGroup
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 83641e82-676a-446c-a55e-60e52468edf4
+content-length: 350
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
-<DeleteTargetGroupResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
-  <DeleteTargetGroupResult/>
-  <ResponseMetadata>
-    <RequestId>d3dfe62a-10ed-4ce5-a6cb-741009d7ea11</RequestId>
-  </ResponseMetadata>
-</DeleteTargetGroupResponse>
+<ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
+  <Error>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid target group ARN</Message>
+  </Error>
+  <RequestId>83641e82-676a-446c-a55e-60e52468edf4</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values. See [the walkthrough](#7-deletetargetgroup) for a successful call.
+`400` `ValidationError`: the placeholder values failed the operation's input validation. See [the walkthrough](#7-deletetargetgroup) for a successful call.
 
 ### DeleteTrustStore
 
@@ -840,6 +934,11 @@ Deletes a trust store.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 138
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteTrustStore
 &Version=2015-12-01
@@ -849,14 +948,17 @@ Action=DeleteTrustStore
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 9a3551f7-1c8a-4943-b26d-4c2adbabdb01
+content-length: 347
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>TrustStoreNotFound</Code>
-    <Message>Trust store ARN 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Message>Trust store ARN &apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; not found</Message>
   </Error>
-  <RequestId>54b8cbf9-6809-4c64-9481-f32a64988edf</RequestId>
+  <RequestId>9a3551f7-1c8a-4943-b26d-4c2adbabdb01</RequestId>
 </ErrorResponse>
 ```
 
@@ -868,6 +970,11 @@ Deregisters the specified targets from the specified target group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 168
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeregisterTargets
 &Version=2015-12-01
@@ -878,18 +985,21 @@ Action=DeregisterTargets
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 827f712f-6b25-49cd-ba5a-232d65847e66
+content-length: 350
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
-    <Code>TargetGroupNotFound</Code>
-    <Message>Target groups 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Code>ValidationError</Code>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid target group ARN</Message>
   </Error>
-  <RequestId>80cc18e7-5719-43d4-bb75-9ab5343c308e</RequestId>
+  <RequestId>827f712f-6b25-49cd-ba5a-232d65847e66</RequestId>
 </ErrorResponse>
 ```
 
-`400` `TargetGroupNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DescribeAccountLimits
 
@@ -897,6 +1007,11 @@ Describes the current Elastic Load Balancing resource limits for your Amazon Web
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeAccountLimits
 &Version=2015-12-01
@@ -905,6 +1020,8 @@ Action=DescribeAccountLimits
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 2966
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <DescribeAccountLimitsResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <DescribeAccountLimitsResult>
@@ -937,6 +1054,11 @@ Describes the capacity reservation status for the specified load balancer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 151
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeCapacityReservation
 &Version=2015-12-01
@@ -946,18 +1068,21 @@ Action=DescribeCapacityReservation
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 761d4cc6-743a-4a78-9cea-9e0125a79c47
+content-length: 351
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
-    <Code>LoadBalancerNotFound</Code>
-    <Message>Load balancer 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Code>ValidationError</Code>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid load balancer ARN</Message>
   </Error>
-  <RequestId>fb0bb367-1c74-466a-b093-bbd7118ea7ca</RequestId>
+  <RequestId>761d4cc6-743a-4a78-9cea-9e0125a79c47</RequestId>
 </ErrorResponse>
 ```
 
-`400` `LoadBalancerNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DescribeListenerAttributes
 
@@ -965,6 +1090,11 @@ Describes the attributes for the specified listener.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 146
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeListenerAttributes
 &Version=2015-12-01
@@ -974,14 +1104,17 @@ Action=DescribeListenerAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 84f5581b-11fa-4928-8fc7-8892dbd560e7
+content-length: 346
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' is not a valid listener ARN</Message>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid listener ARN</Message>
   </Error>
-  <RequestId>70d6bad0-926a-4368-ab7b-cbdb66325d45</RequestId>
+  <RequestId>84f5581b-11fa-4928-8fc7-8892dbd560e7</RequestId>
 </ErrorResponse>
 ```
 
@@ -993,6 +1126,11 @@ Describes the default certificate and the certificate list for the specified HTT
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 148
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeListenerCertificates
 &Version=2015-12-01
@@ -1002,14 +1140,17 @@ Action=DescribeListenerCertificates
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 761f96c5-9b1b-417b-8f2f-caea236ae65c
+content-length: 346
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' is not a valid listener ARN</Message>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid listener ARN</Message>
   </Error>
-  <RequestId>453545fe-3b8b-47fa-8882-6300dee35f4f</RequestId>
+  <RequestId>761f96c5-9b1b-417b-8f2f-caea236ae65c</RequestId>
 </ErrorResponse>
 ```
 
@@ -1021,6 +1162,11 @@ Describes the specified listeners or the listeners for the specified Application
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeListeners
 &Version=2015-12-01
@@ -1029,13 +1175,15 @@ Action=DescribeListeners
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 291
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <DescribeListenersResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <DescribeListenersResult>
-    <Listeners/>
+    <Listeners></Listeners>
   </DescribeListenersResult>
   <ResponseMetadata>
-    <RequestId>3f11408c-44f6-4ff3-8a07-c03b50319002</RequestId>
+    <RequestId>10ed596c-902d-491e-859c-238bf0ae4eb8</RequestId>
   </ResponseMetadata>
 </DescribeListenersResponse>
 ```
@@ -1048,6 +1196,11 @@ Describes the attributes for the specified Application Load Balancer, Network Lo
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 154
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeLoadBalancerAttributes
 &Version=2015-12-01
@@ -1057,18 +1210,21 @@ Action=DescribeLoadBalancerAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 55f62739-9173-4039-a44e-1182fe8406ec
+content-length: 340
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
-    <Code>LoadBalancerNotFound</Code>
-    <Message>Load balancer 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Code>ValidationError</Code>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; must be in ARN format</Message>
   </Error>
-  <RequestId>5fbf8ed4-b1be-4265-8c95-5c74d2b44c14</RequestId>
+  <RequestId>55f62739-9173-4039-a44e-1182fe8406ec</RequestId>
 </ErrorResponse>
 ```
 
-`400` `LoadBalancerNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DescribeLoadBalancers
 
@@ -1076,6 +1232,11 @@ Describes the specified load balancers or all of your load balancers.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeLoadBalancers
 &Version=2015-12-01
@@ -1084,13 +1245,15 @@ Action=DescribeLoadBalancers
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 315
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <DescribeLoadBalancersResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <DescribeLoadBalancersResult>
-    <LoadBalancers/>
+    <LoadBalancers></LoadBalancers>
   </DescribeLoadBalancersResult>
   <ResponseMetadata>
-    <RequestId>9859d055-cee2-41c1-ad92-2167b0f6c7db</RequestId>
+    <RequestId>a3a05add-7880-4227-a0f1-fbbc254d0d89</RequestId>
   </ResponseMetadata>
 </DescribeLoadBalancersResponse>
 ```
@@ -1103,6 +1266,11 @@ Describes the specified rules or the rules for the specified listener.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 39
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeRules
 &Version=2015-12-01
@@ -1111,14 +1279,17 @@ Action=DescribeRules
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 0b1e281c-e2c1-4f14-828a-6fa6933b7aae
+content-length: 297
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>You must specify either ListenerArn or RuleArns</Message>
+    <Message>You must specify either listener rule ARNs or a listener ARN</Message>
   </Error>
-  <RequestId>19d542d2-5532-4417-96fc-b89056f04eae</RequestId>
+  <RequestId>0b1e281c-e2c1-4f14-828a-6fa6933b7aae</RequestId>
 </ErrorResponse>
 ```
 
@@ -1130,6 +1301,11 @@ Describes the specified policies or all policies used for SSL negotiation.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeSSLPolicies
 &Version=2015-12-01
@@ -1138,6 +1314,8 @@ Action=DescribeSSLPolicies
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 56373
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <DescribeSSLPoliciesResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <DescribeSSLPoliciesResult>
@@ -1170,6 +1348,11 @@ Describes the tags for the specified Elastic Load Balancing resources.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 68
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeTags
 &Version=2015-12-01
@@ -1179,14 +1362,17 @@ Action=DescribeTags
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 60dd4289-f8d6-412e-b831-dfb78b184e9c
+content-length: 325
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>'example' in ResourceArns is not the ARN of an Elastic Load Balancing resource</Message>
+    <Message>&apos;example&apos; in ResourceArns is not the ARN of an Elastic Load Balancing resource</Message>
   </Error>
-  <RequestId>1f722e78-1e7f-41f0-a0ca-7ac0375557bb</RequestId>
+  <RequestId>60dd4289-f8d6-412e-b831-dfb78b184e9c</RequestId>
 </ErrorResponse>
 ```
 
@@ -1198,6 +1384,11 @@ Describes the attributes for the specified target group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 152
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeTargetGroupAttributes
 &Version=2015-12-01
@@ -1207,18 +1398,21 @@ Action=DescribeTargetGroupAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 5c01382d-3de7-4bac-805f-f6f992eaa6b9
+content-length: 340
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
-    <Code>TargetGroupNotFound</Code>
-    <Message>Target groups 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Code>ValidationError</Code>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; must be in ARN format</Message>
   </Error>
-  <RequestId>f2389318-ffa7-4d8a-96ae-2bd21fb4056c</RequestId>
+  <RequestId>5c01382d-3de7-4bac-805f-f6f992eaa6b9</RequestId>
 </ErrorResponse>
 ```
 
-`400` `TargetGroupNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DescribeTargetGroups
 
@@ -1226,6 +1420,11 @@ Describes the specified target groups or all of your target groups.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 46
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeTargetGroups
 &Version=2015-12-01
@@ -1234,28 +1433,17 @@ Action=DescribeTargetGroups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 309
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <DescribeTargetGroupsResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <DescribeTargetGroupsResult>
-    <TargetGroups>
-      <member xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
-        <TargetGroupArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:targetgroup/example/a6acbd5f4ced3490</TargetGroupArn>
-        <TargetGroupName>example</TargetGroupName>
-        <HealthCheckProtocol>TCP</HealthCheckProtocol>
-        <HealthCheckPort>traffic-port</HealthCheckPort>
-        <HealthCheckEnabled>true</HealthCheckEnabled>
-        <HealthCheckIntervalSeconds>30</HealthCheckIntervalSeconds>
-        <HealthCheckTimeoutSeconds>10</HealthCheckTimeoutSeconds>
-        <HealthyThresholdCount>5</HealthyThresholdCount>
-        <UnhealthyThresholdCount>2</UnhealthyThresholdCount>
-        <LoadBalancerArns/>
-        <TargetType>instance</TargetType>
-        <IpAddressType>ipv4</IpAddressType>
-      </member>
-    </TargetGroups>
+    <TargetGroups></TargetGroups>
   </DescribeTargetGroupsResult>
   <ResponseMetadata>
-… (3 more lines)
+    <RequestId>f0423b5d-552f-4206-bedc-04aa86640fea</RequestId>
+  </ResponseMetadata>
+</DescribeTargetGroupsResponse>
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -1266,6 +1454,11 @@ Describes the health of the specified targets or all of your targets.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 143
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeTargetHealth
 &Version=2015-12-01
@@ -1275,18 +1468,21 @@ Action=DescribeTargetHealth
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 20284131-c0f0-40cc-9991-975c8f5c7d00
+content-length: 350
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
-    <Code>TargetGroupNotFound</Code>
-    <Message>Target groups 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Code>ValidationError</Code>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid target group ARN</Message>
   </Error>
-  <RequestId>bfe62509-77c7-4f25-aca1-a46871f3f79c</RequestId>
+  <RequestId>20284131-c0f0-40cc-9991-975c8f5c7d00</RequestId>
 </ErrorResponse>
 ```
 
-`400` `TargetGroupNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DescribeTrustStoreAssociations
 
@@ -1294,6 +1490,11 @@ Describes all resources associated with the specified trust store.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 152
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeTrustStoreAssociations
 &Version=2015-12-01
@@ -1303,14 +1504,17 @@ Action=DescribeTrustStoreAssociations
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 34858f10-41b4-49ee-a36e-05ec7df07925
+content-length: 347
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>TrustStoreNotFound</Code>
-    <Message>Trust store ARN 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Message>Trust store ARN &apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; not found</Message>
   </Error>
-  <RequestId>21357f99-2a59-49a6-98de-6a6c00de4ca5</RequestId>
+  <RequestId>34858f10-41b4-49ee-a36e-05ec7df07925</RequestId>
 </ErrorResponse>
 ```
 
@@ -1324,6 +1528,11 @@ Describes the revocation files in use by the specified trust store or revocation
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 151
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeTrustStoreRevocations
 &Version=2015-12-01
@@ -1333,14 +1542,17 @@ Action=DescribeTrustStoreRevocations
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 44932e8e-e0de-49d4-9d65-019046ec93e9
+content-length: 347
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>TrustStoreNotFound</Code>
-    <Message>Trust store ARN 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Message>Trust store ARN &apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; not found</Message>
   </Error>
-  <RequestId>163f7fb5-ba26-40c5-93bb-ba2592a5eeb4</RequestId>
+  <RequestId>44932e8e-e0de-49d4-9d65-019046ec93e9</RequestId>
 </ErrorResponse>
 ```
 
@@ -1352,6 +1564,11 @@ Describes all trust stores for the specified account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeTrustStores
 &Version=2015-12-01
@@ -1360,13 +1577,15 @@ Action=DescribeTrustStores
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 303
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <DescribeTrustStoresResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <DescribeTrustStoresResult>
-    <TrustStores/>
+    <TrustStores></TrustStores>
   </DescribeTrustStoresResult>
   <ResponseMetadata>
-    <RequestId>5287d6d5-c4d5-4e8d-88b2-27567c235da3</RequestId>
+    <RequestId>79c734a5-923b-4b0a-96c2-d924931721ac</RequestId>
   </ResponseMetadata>
 </DescribeTrustStoresResponse>
 ```
@@ -1379,6 +1598,11 @@ Retrieves the resource policy for a specified resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 137
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetResourcePolicy
 &Version=2015-12-01
@@ -1388,6 +1612,9 @@ Action=GetResourcePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 9bf6fbec-c3cd-491a-af19-ba01f143cd8f
+content-length: 281
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
@@ -1395,7 +1622,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>The specified resource type is not supported</Message>
   </Error>
-  <RequestId>c11c21f9-ae1b-4f4b-b74f-8151c6e64b07</RequestId>
+  <RequestId>9bf6fbec-c3cd-491a-af19-ba01f143cd8f</RequestId>
 </ErrorResponse>
 ```
 
@@ -1405,8 +1632,15 @@ content-type: text/xml
 
 Retrieves the ca certificate bundle.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 155
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetTrustStoreCaCertificatesBundle
 &Version=2015-12-01
@@ -1414,20 +1648,23 @@ Action=GetTrustStoreCaCertificatesBundle
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 2a800675-386b-4732-b85f-8e0f95478093
+content-length: 347
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation GetTrustStoreCaCertificatesBundle is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>TrustStoreNotFound</Code>
+    <Message>Trust store ARN &apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; not found</Message>
   </Error>
-  <RequestId>9c157dba-c16c-4f9e-945d-0cff1b39a865</RequestId>
+  <RequestId>2a800675-386b-4732-b85f-8e0f95478093</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `TrustStoreNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### GetTrustStoreRevocationContent
 
@@ -1437,6 +1674,11 @@ Retrieves the specified revocation file.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 167
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetTrustStoreRevocationContent
 &Version=2015-12-01
@@ -1447,14 +1689,17 @@ Action=GetTrustStoreRevocationContent
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 373dc517-310b-4481-90da-d4ae4d8eca8a
+content-length: 347
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>TrustStoreNotFound</Code>
-    <Message>Trust store ARN 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Message>Trust store ARN &apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; not found</Message>
   </Error>
-  <RequestId>a2823ba2-109a-45fd-978f-0e6996871af1</RequestId>
+  <RequestId>373dc517-310b-4481-90da-d4ae4d8eca8a</RequestId>
 </ErrorResponse>
 ```
 
@@ -1466,6 +1711,11 @@ Modifies the capacity reservation of the specified load balancer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 149
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyCapacityReservation
 &Version=2015-12-01
@@ -1475,18 +1725,21 @@ Action=ModifyCapacityReservation
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 8010901e-74d7-4a63-9deb-a779ffbc3e68
+content-length: 351
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidConfigurationRequest</Code>
-    <Message>You must specify either MinimumLoadBalancerCapacity or ResetCapacityReservation</Message>
+    <Code>ValidationError</Code>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid load balancer ARN</Message>
   </Error>
-  <RequestId>32ba4a18-60ad-42fa-90a8-e5bc4c214447</RequestId>
+  <RequestId>8010901e-74d7-4a63-9deb-a779ffbc3e68</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidConfigurationRequest`.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### ModifyIpPools
 
@@ -1494,6 +1747,11 @@ content-type: text/xml
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 137
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyIpPools
 &Version=2015-12-01
@@ -1503,18 +1761,21 @@ Action=ModifyIpPools
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: bb2f6167-0053-4a61-8a71-bb16aa048df0
+content-length: 351
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
-    <Code>LoadBalancerNotFound</Code>
-    <Message>Load balancer 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Code>ValidationError</Code>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid load balancer ARN</Message>
   </Error>
-  <RequestId>73c4844d-969a-4666-8b65-4f09c336ea36</RequestId>
+  <RequestId>bb2f6167-0053-4a61-8a71-bb16aa048df0</RequestId>
 </ErrorResponse>
 ```
 
-`400` `LoadBalancerNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### ModifyListener
 
@@ -1522,6 +1783,11 @@ Replaces the specified properties of the specified listener.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 134
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyListener
 &Version=2015-12-01
@@ -1531,14 +1797,17 @@ Action=ModifyListener
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 114785f0-e845-468d-81e9-362027b62df1
+content-length: 346
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' is not a valid listener ARN</Message>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid listener ARN</Message>
   </Error>
-  <RequestId>d5ec765b-ace3-4e7b-a616-582a561f27d5</RequestId>
+  <RequestId>114785f0-e845-468d-81e9-362027b62df1</RequestId>
 </ErrorResponse>
 ```
 
@@ -1550,6 +1819,11 @@ Modifies the specified attributes of the specified listener.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 144
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyListenerAttributes
 &Version=2015-12-01
@@ -1559,15 +1833,18 @@ Action=ModifyListenerAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: c3a05463-4831-47e7-b0db-8358618669bb
+content-length: 311
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>1 validation error detected: Value null at 'attributes' failed to satisfy constraint: Member must not be null</Message>
+    <Message>1 validation error detected: Value null at &apos;attributes&apos; failed to satisfy constraint: Member must not be null</Message>
   </Error>
-  <RequestId>2a0bd339-7000-4f75-bab5-ffea4ac2ddbb</RequestId>
+  <RequestId>c3a05463-4831-47e7-b0db-8358618669bb</RequestId>
 </ErrorResponse>
 ```
 
@@ -1579,6 +1856,11 @@ Modifies the specified attributes of the specified Application Load Balancer, Ne
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 152
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyLoadBalancerAttributes
 &Version=2015-12-01
@@ -1588,15 +1870,18 @@ Action=ModifyLoadBalancerAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: fad209b9-0be1-4826-81c2-0ebd3262d819
+content-length: 311
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>1 validation error detected: Value null at 'attributes' failed to satisfy constraint: Member must not be null</Message>
+    <Message>1 validation error detected: Value null at &apos;attributes&apos; failed to satisfy constraint: Member must not be null</Message>
   </Error>
-  <RequestId>c4f51d8d-2435-4947-8d42-93369a7db181</RequestId>
+  <RequestId>fad209b9-0be1-4826-81c2-0ebd3262d819</RequestId>
 </ErrorResponse>
 ```
 
@@ -1608,6 +1893,11 @@ Replaces the specified properties of the specified rule.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 126
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyRule
 &Version=2015-12-01
@@ -1617,14 +1907,17 @@ Action=ModifyRule
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 5e14d044-f059-41f2-a3dc-4c7ed3562856
+content-length: 330
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>RuleNotFound</Code>
-    <Message>Rule 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Message>Rule &apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; not found</Message>
   </Error>
-  <RequestId>971364b6-5ff8-45ba-84f9-088005dab88e</RequestId>
+  <RequestId>5e14d044-f059-41f2-a3dc-4c7ed3562856</RequestId>
 </ErrorResponse>
 ```
 
@@ -1636,6 +1929,11 @@ Modifies the health checks used when evaluating the health state of the targets 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 140
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyTargetGroup
 &Version=2015-12-01
@@ -1645,18 +1943,21 @@ Action=ModifyTargetGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: f5c69281-8c31-4e64-9023-55b27da65850
+content-length: 350
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
-    <Code>TargetGroupNotFound</Code>
-    <Message>Target groups 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Code>ValidationError</Code>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid target group ARN</Message>
   </Error>
-  <RequestId>09c761e7-4671-4e6c-8f7d-963567ce96e0</RequestId>
+  <RequestId>f5c69281-8c31-4e64-9023-55b27da65850</RequestId>
 </ErrorResponse>
 ```
 
-`400` `TargetGroupNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### ModifyTargetGroupAttributes
 
@@ -1664,6 +1965,11 @@ Modifies the specified attributes of the specified target group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 150
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyTargetGroupAttributes
 &Version=2015-12-01
@@ -1673,15 +1979,18 @@ Action=ModifyTargetGroupAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 707d48eb-4a51-4329-8d34-995389a8d7e3
+content-length: 311
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>1 validation error detected: Value null at 'attributes' failed to satisfy constraint: Member must not be null</Message>
+    <Message>1 validation error detected: Value null at &apos;attributes&apos; failed to satisfy constraint: Member must not be null</Message>
   </Error>
-  <RequestId>ff51c7f1-b230-495c-96b8-cc49d13c64cc</RequestId>
+  <RequestId>707d48eb-4a51-4329-8d34-995389a8d7e3</RequestId>
 </ErrorResponse>
 ```
 
@@ -1693,6 +2002,11 @@ Update the ca certificate bundle for the specified trust store.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 209
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyTrustStore
 &Version=2015-12-01
@@ -1704,14 +2018,17 @@ Action=ModifyTrustStore
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 6658cce9-f34c-4d60-8865-b91dbdf4aae0
+content-length: 347
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>TrustStoreNotFound</Code>
-    <Message>Trust store ARN 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Message>Trust store ARN &apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; not found</Message>
   </Error>
-  <RequestId>70d65843-6c27-48b2-b53f-809a7f0fc1d0</RequestId>
+  <RequestId>6658cce9-f34c-4d60-8865-b91dbdf4aae0</RequestId>
 </ErrorResponse>
 ```
 
@@ -1723,6 +2040,11 @@ Registers the specified targets with the specified target group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 166
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RegisterTargets
 &Version=2015-12-01
@@ -1733,18 +2055,21 @@ Action=RegisterTargets
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 978aa09f-4721-4af4-abc6-5374f41ecc27
+content-length: 350
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
-    <Code>TargetGroupNotFound</Code>
-    <Message>Target groups 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Code>ValidationError</Code>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid target group ARN</Message>
   </Error>
-  <RequestId>2147ff6f-8ab5-47bf-b6b4-32581a38990f</RequestId>
+  <RequestId>978aa09f-4721-4af4-abc6-5374f41ecc27</RequestId>
 </ErrorResponse>
 ```
 
-`400` `TargetGroupNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### RemoveListenerCertificates
 
@@ -1752,6 +2077,11 @@ Removes the specified certificate from the certificate list for the specified HT
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 146
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RemoveListenerCertificates
 &Version=2015-12-01
@@ -1761,15 +2091,18 @@ Action=RemoveListenerCertificates
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 9ba54d00-5c7f-466f-9644-89e421a941b3
+content-length: 313
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>1 validation error detected: Value null at 'certificates' failed to satisfy constraint: Member must not be null</Message>
+    <Message>1 validation error detected: Value null at &apos;certificates&apos; failed to satisfy constraint: Member must not be null</Message>
   </Error>
-  <RequestId>17e6bf0f-e4da-4d32-83bd-fbca8ac8596b</RequestId>
+  <RequestId>9ba54d00-5c7f-466f-9644-89e421a941b3</RequestId>
 </ErrorResponse>
 ```
 
@@ -1781,6 +2114,11 @@ Removes the specified tags from the specified Elastic Load Balancing resources.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 91
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RemoveTags
 &Version=2015-12-01
@@ -1791,14 +2129,17 @@ Action=RemoveTags
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 2e6dcd50-523e-4a80-8291-939b1c80a098
+content-length: 325
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>'example' in ResourceArns is not the ARN of an Elastic Load Balancing resource</Message>
+    <Message>&apos;example&apos; in ResourceArns is not the ARN of an Elastic Load Balancing resource</Message>
   </Error>
-  <RequestId>d51a400a-c4a9-425b-97c2-19f4a26a807d</RequestId>
+  <RequestId>2e6dcd50-523e-4a80-8291-939b1c80a098</RequestId>
 </ErrorResponse>
 ```
 
@@ -1812,6 +2153,11 @@ Removes the specified revocation file from the specified trust store.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 174
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RemoveTrustStoreRevocations
 &Version=2015-12-01
@@ -1822,14 +2168,17 @@ Action=RemoveTrustStoreRevocations
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: af8a5ffc-f1d6-43ab-a60a-2db064d341f7
+content-length: 347
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
     <Code>TrustStoreNotFound</Code>
-    <Message>Trust store ARN 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Message>Trust store ARN &apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; not found</Message>
   </Error>
-  <RequestId>e2fda997-f8a0-47e5-ac8e-8ba3acd7a7d3</RequestId>
+  <RequestId>af8a5ffc-f1d6-43ab-a60a-2db064d341f7</RequestId>
 </ErrorResponse>
 ```
 
@@ -1841,6 +2190,11 @@ Sets the type of IP addresses used by the subnets of the specified load balancer
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 159
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetIpAddressType
 &Version=2015-12-01
@@ -1851,18 +2205,21 @@ Action=SetIpAddressType
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: bba6c584-0a79-4872-a00f-4f3b2badd1ca
+content-length: 351
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
-    <Code>LoadBalancerNotFound</Code>
-    <Message>Load balancer 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Code>ValidationError</Code>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid load balancer ARN</Message>
   </Error>
-  <RequestId>771197f0-7b05-4f86-913c-d1c5ac6d29f8</RequestId>
+  <RequestId>bba6c584-0a79-4872-a00f-4f3b2badd1ca</RequestId>
 </ErrorResponse>
 ```
 
-`400` `LoadBalancerNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### SetRulePriorities
 
@@ -1870,6 +2227,11 @@ Sets the priorities of the specified rules.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetRulePriorities
 &Version=2015-12-01
@@ -1878,15 +2240,18 @@ Action=SetRulePriorities
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: c9c44e71-829d-488c-9f32-9000d8fd2c45
+content-length: 315
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>1 validation error detected: Value null at 'rulePriorities' failed to satisfy constraint: Member must not be null</Message>
+    <Message>1 validation error detected: Value null at &apos;rulePriorities&apos; failed to satisfy constraint: Member must not be null</Message>
   </Error>
-  <RequestId>ee3a742f-41ea-44c3-b704-db0d9e8c8583</RequestId>
+  <RequestId>c9c44e71-829d-488c-9f32-9000d8fd2c45</RequestId>
 </ErrorResponse>
 ```
 
@@ -1898,6 +2263,11 @@ Associates the specified security groups with the specified Application Load Bal
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 173
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetSecurityGroups
 &Version=2015-12-01
@@ -1908,18 +2278,21 @@ Action=SetSecurityGroups
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 03e3b531-cf8c-4390-a09d-b70917dc52ab
+content-length: 351
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
-    <Code>LoadBalancerNotFound</Code>
-    <Message>Load balancer 'arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example' not found</Message>
+    <Code>ValidationError</Code>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid load balancer ARN</Message>
   </Error>
-  <RequestId>14b863c3-eb99-48c1-b04d-daf633cb5191</RequestId>
+  <RequestId>03e3b531-cf8c-4390-a09d-b70917dc52ab</RequestId>
 </ErrorResponse>
 ```
 
-`400` `LoadBalancerNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### SetSubnets
 
@@ -1927,6 +2300,11 @@ Enables the Availability Zones for the specified public subnets for the specifie
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183322Z
+Content-Length: 134
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetSubnets
 &Version=2015-12-01
@@ -1936,18 +2314,21 @@ Action=SetSubnets
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 5ff86b7b-f873-4c3e-9c83-f953d461ec1f
+content-length: 351
+date: Thu, 26 Nov 2026 18:33:22 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidConfigurationRequest</Code>
-    <Message>You must specify either Subnets or SubnetMappings</Message>
+    <Code>ValidationError</Code>
+    <Message>&apos;arn:aws:elasticloadbalancingv2:us-east-1:000000000000:example/example&apos; is not a valid load balancer ARN</Message>
   </Error>
-  <RequestId>860a5fe7-98a2-4a6a-aa36-2af1ec7302f3</RequestId>
+  <RequestId>5ff86b7b-f873-4c3e-9c83-f953d461ec1f</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidConfigurationRequest`.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ## How it works
 

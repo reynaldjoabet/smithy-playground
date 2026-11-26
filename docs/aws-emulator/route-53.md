@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `route53`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `route53`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListHostedZones`:
 
@@ -36,9 +36,9 @@ Answers 201 with the zone, its change status and its four name servers.
 POST /2013-04-01/hostedzone HTTP/1.1
 Content-Type: application/xml
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121550Z
-Content-Length: 233
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183050Z
+Content-Length: 216
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <CreateHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -52,32 +52,61 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ro
 ```http
 HTTP/1.1 201 Created
 content-type: application/xml
-location: https://127.0.0.1:9297/2013-04-01/hostedzone/ZWAGVLJO3K5YOD2
-content-length: 752
-date: Mon, 16 Nov 2026 12:15:50 GMT
+location: https://127.0.0.1:9297/2013-04-01/hostedzone/ZUBBF64LSMDW8FT
+content-length: 1454
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <CreateHostedZoneResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <HostedZone>
-    <Id>/hostedzone/ZWAGVLJO3K5YOD2</Id>
+    <Id>/hostedzone/ZUBBF64LSMDW8FT</Id>
     <Name>docs-demo.example.com.</Name>
     <CallerReference>docs-demo-2026-11-16</CallerReference>
     <Config>
       <PrivateZone>false</PrivateZone>
+      <HostedZoneTier>STANDARD</HostedZoneTier>
     </Config>
     <ResourceRecordSetCount>2</ResourceRecordSetCount>
-    <Features/>
+    <Features>
+      <AcceleratedRecoveryStatus>DISABLED</AcceleratedRecoveryStatus>
+      <ChangeGuardrails>
+        <ChangeGuardrail>
+          <Name>NS_OCCLUSION_CHECK</Name>
+          <Status>DISABLED</Status>
+        </ChangeGuardrail>
+        <ChangeGuardrail>
+          <Name>NS_DELEGATION_AUTHORITY_CHECK</Name>
+          <Status>DISABLED</Status>
+        </ChangeGuardrail>
+        <ChangeGuardrail>
+          <Name>NS_FORMAT_CHECK</Name>
+          <Status>DISABLED</Status>
+        </ChangeGuardrail>
+        <ChangeGuardrail>
+          <Name>ALIAS_TARGET_CHECK</Name>
+          <Status>DISABLED</Status>
+        </ChangeGuardrail>
+        <ChangeGuardrail>
+          <Name>ACTIVE_RECORD_CHECK</Name>
+          <Status>DISABLED</Status>
+        </ChangeGuardrail>
+        <ChangeGuardrail>
+          <Name>ACTIVE_DELEGATION_CHECK</Name>
+          <Status>DISABLED</Status>
+        </ChangeGuardrail>
+      </ChangeGuardrails>
+    </Features>
   </HostedZone>
   <ChangeInfo>
-    <Id>/change/CCO888C9VELYTN1</Id>
+    <Id>/change/CZNFE2VZH6165EG</Id>
     <Status>PENDING</Status>
-    <SubmittedAt>2026-11-16T12:15:50.487Z</SubmittedAt>
+    <SubmittedAt>2026-11-26T18:30:50.817Z</SubmittedAt>
   </ChangeInfo>
   <DelegationSet>
     <NameServers>
-      <NameServer>ns-113.awsdns-48.com</NameServer>
-      <NameServer>ns-823.awsdns-48.net</NameServer>
-      <NameServer>ns-1198.awsdns-20.org</NameServer>
-      <NameServer>ns-1529.awsdns-35.co.uk</NameServer>
+      <NameServer>ns-1716.awsdns-62.com</NameServer>
+      <NameServer>ns-1108.awsdns-27.net</NameServer>
+      <NameServer>ns-1832.awsdns-57.org</NameServer>
+      <NameServer>ns-587.awsdns-62.co.uk</NameServer>
     </NameServers>
   </DelegationSet>
 </CreateHostedZoneResponse>
@@ -90,12 +119,12 @@ Record changes are sent as a batch in an XML body; the response is a change id i
 **Request**
 
 ```http
-POST /2013-04-01/hostedzone/ZWAGVLJO3K5YOD2/rrset HTTP/1.1
+POST /2013-04-01/hostedzone/ZUBBF64LSMDW8FT/rrset HTTP/1.1
 Content-Type: application/xml
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121550Z
-Content-Length: 444
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183050Z
+Content-Length: 427
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -125,13 +154,13 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ro
 HTTP/1.1 200 OK
 content-type: application/xml
 content-length: 255
-date: Mon, 16 Nov 2026 12:15:50 GMT
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ChangeResourceRecordSetsResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <ChangeInfo>
-    <Id>/change/CI0LRN02C4BQAXG</Id>
+    <Id>/change/CZIFIES9F28W6QU</Id>
     <Status>PENDING</Status>
-    <SubmittedAt>2026-11-16T12:15:50.504Z</SubmittedAt>
+    <SubmittedAt>2026-11-26T18:30:50.819Z</SubmittedAt>
   </ChangeInfo>
 </ChangeResourceRecordSetsResponse>
 ```
@@ -145,10 +174,10 @@ Poll the change until it reports `INSYNC`, meaning it has reached every Route 53
 **Request**
 
 ```http
-GET /2013-04-01/change/CI0LRN02C4BQAXG HTTP/1.1
+GET /2013-04-01/change/CZIFIES9F28W6QU HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121552Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -156,14 +185,14 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ro
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
-content-length: 224
-date: Mon, 16 Nov 2026 12:15:52 GMT
+content-length: 225
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <GetChangeResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <ChangeInfo>
-    <Id>/change/CI0LRN02C4BQAXG</Id>
-    <Status>INSYNC</Status>
-    <SubmittedAt>2026-11-16T12:15:50.504Z</SubmittedAt>
+    <Id>/change/CZIFIES9F28W6QU</Id>
+    <Status>PENDING</Status>
+    <SubmittedAt>2026-11-26T18:30:50.819Z</SubmittedAt>
   </ChangeInfo>
 </GetChangeResponse>
 ```
@@ -175,10 +204,10 @@ The zone holds the SOA and NS records Route 53 created plus the new A record.
 **Request**
 
 ```http
-GET /2013-04-01/hostedzone/ZWAGVLJO3K5YOD2/rrset HTTP/1.1
+GET /2013-04-01/hostedzone/ZUBBF64LSMDW8FT/rrset HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121552Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -186,8 +215,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ro
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
-content-length: 1099
-date: Mon, 16 Nov 2026 12:15:52 GMT
+content-length: 1101
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ListResourceRecordSetsResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <ResourceRecordSets>
@@ -197,16 +226,16 @@ date: Mon, 16 Nov 2026 12:15:52 GMT
       <TTL>172800</TTL>
       <ResourceRecords>
         <ResourceRecord>
-          <Value>ns-113.awsdns-48.com.</Value>
+          <Value>ns-1716.awsdns-62.com.</Value>
         </ResourceRecord>
         <ResourceRecord>
-          <Value>ns-823.awsdns-48.net.</Value>
+          <Value>ns-1108.awsdns-27.net.</Value>
         </ResourceRecord>
         <ResourceRecord>
-          <Value>ns-1198.awsdns-20.org.</Value>
+          <Value>ns-1832.awsdns-57.org.</Value>
         </ResourceRecord>
         <ResourceRecord>
-          <Value>ns-1529.awsdns-35.co.uk.</Value>
+          <Value>ns-587.awsdns-62.co.uk.</Value>
         </ResourceRecord>
       </ResourceRecords>
     </ResourceRecordSet>
@@ -216,7 +245,7 @@ date: Mon, 16 Nov 2026 12:15:52 GMT
       <TTL>900</TTL>
       <ResourceRecords>
         <ResourceRecord>
-          <Value>ns-113.awsdns-48.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400</Value>
+          <Value>ns-1716.awsdns-62.com. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400</Value>
         </ResourceRecord>
       </ResourceRecords>
     </ResourceRecordSet>
@@ -232,7 +261,7 @@ date: Mon, 16 Nov 2026 12:15:52 GMT
     </ResourceRecordSet>
   </ResourceRecordSets>
   <IsTruncated>false</IsTruncated>
-  <MaxItems>300</MaxItems>
+  <MaxItems>100</MaxItems>
 </ListResourceRecordSetsResponse>
 ```
 
@@ -243,10 +272,10 @@ A zone that still holds records of its own is refused with `HostedZoneNotEmpty`.
 **Request**
 
 ```http
-DELETE /2013-04-01/hostedzone/ZWAGVLJO3K5YOD2 HTTP/1.1
+DELETE /2013-04-01/hostedzone/ZUBBF64LSMDW8FT HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121552Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -255,7 +284,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ro
 HTTP/1.1 400 Bad Request
 content-type: application/xml
 content-length: 397
-date: Mon, 16 Nov 2026 12:15:52 GMT
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -263,7 +292,7 @@ date: Mon, 16 Nov 2026 12:15:52 GMT
     <Code>HostedZoneNotEmpty</Code>
     <Message>The specified hosted zone contains resource record sets other than the default SOA and NS records and so cannot be deleted. Delete all non-default records and try again.</Message>
   </Error>
-  <RequestId>a9c4213a-3214-0d4b-3ae6-bc356a7f35e6</RequestId>
+  <RequestId>0fefdb28-47f8-ca0a-65ec-d8692c61d023</RequestId>
 </ErrorResponse>
 ```
 
@@ -274,12 +303,12 @@ Delete the A record (the exact record must be repeated) ...
 **Request**
 
 ```http
-POST /2013-04-01/hostedzone/ZWAGVLJO3K5YOD2/rrset HTTP/1.1
+POST /2013-04-01/hostedzone/ZUBBF64LSMDW8FT/rrset HTTP/1.1
 Content-Type: application/xml
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121552Z
-Content-Length: 444
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183050Z
+Content-Length: 427
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -309,13 +338,13 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ro
 HTTP/1.1 200 OK
 content-type: application/xml
 content-length: 255
-date: Mon, 16 Nov 2026 12:15:52 GMT
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ChangeResourceRecordSetsResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <ChangeInfo>
-    <Id>/change/C9B0U930FDCVX9U</Id>
+    <Id>/change/C8OPXNIS6RL9U34</Id>
     <Status>PENDING</Status>
-    <SubmittedAt>2026-11-16T12:15:52.566Z</SubmittedAt>
+    <SubmittedAt>2026-11-26T18:30:50.824Z</SubmittedAt>
   </ChangeInfo>
 </ChangeResourceRecordSetsResponse>
 ```
@@ -327,10 +356,10 @@ date: Mon, 16 Nov 2026 12:15:52 GMT
 **Request**
 
 ```http
-DELETE /2013-04-01/hostedzone/ZWAGVLJO3K5YOD2 HTTP/1.1
+DELETE /2013-04-01/hostedzone/ZUBBF64LSMDW8FT HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121552Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -339,22 +368,22 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ro
 HTTP/1.1 200 OK
 content-type: application/xml
 content-length: 239
-date: Mon, 16 Nov 2026 12:15:52 GMT
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <DeleteHostedZoneResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <ChangeInfo>
-    <Id>/change/COHVM955J74J0ZT</Id>
+    <Id>/change/CE0PCTJNQFFXW7H</Id>
     <Status>PENDING</Status>
-    <SubmittedAt>2026-11-16T12:15:52.574Z</SubmittedAt>
+    <SubmittedAt>2026-11-26T18:30:50.825Z</SubmittedAt>
   </ChangeInfo>
 </DeleteHostedZoneResponse>
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
-Of 71 operations, 16 accepted the placeholder call, 2 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
+Of 71 operations, 16 accepted the placeholder call, 1 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.629* answered `501` in 1.0.595. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### ActivateKeySigningKey
 
@@ -364,11 +393,16 @@ Activates a key-signing key (KSK) so that it can be used for signing by DNSSEC.
 
 ```http
 POST /2013-04-01/keysigningkey/example/example/activate HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 266
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -376,7 +410,7 @@ content-type: application/xml
     <Code>NoSuchKeySigningKey</Code>
     <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>9e0a90da-bb83-21cb-3593-08b508cbf82b</RequestId>
+  <RequestId>3b93b215-e9ba-8f48-8120-6cdb0352bdd4</RequestId>
 </ErrorResponse>
 ```
 
@@ -389,6 +423,10 @@ Associates an Amazon VPC with a private hosted zone.
 ```http
 POST /2013-04-01/hostedzone/example/associatevpc HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 153
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <AssociateVPCWithHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -399,6 +437,8 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 279
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -406,7 +446,7 @@ content-type: application/xml
     <Code>InvalidVPCId</Code>
     <Message>Invalid VPC ID: &quot;&quot; is not a valid Amazon VPC ID</Message>
   </Error>
-  <RequestId>ca609b84-d329-8dd6-c85a-1240669b3eb1</RequestId>
+  <RequestId>e2800949-ebcc-802a-f714-9a97393d9c3f</RequestId>
 </ErrorResponse>
 ```
 
@@ -419,6 +459,10 @@ Creates, changes, or deletes CIDR blocks within a collection.
 ```http
 POST /2013-04-01/cidrcollection/example HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 268
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <ChangeCidrCollectionRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -437,15 +481,17 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 439
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidInput</Code>
-    <Message>1 validation error detected: Value 'example' at 'id' failed to satisfy constraint: Member must satisfy regular expression pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</Message>
+    <Message>1 validation error detected: Value &apos;example&apos; at &apos;id&apos; failed to satisfy constraint: Member must satisfy regular expression pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</Message>
   </Error>
-  <RequestId>a142836a-8f8a-c908-5f21-d91679dfb6b3</RequestId>
+  <RequestId>c96fbacb-2a70-96e2-ae6f-79b05ba5f204</RequestId>
 </ErrorResponse>
 ```
 
@@ -458,6 +504,10 @@ Creates, changes, or deletes a resource record set, which contains authoritative
 ```http
 POST /2013-04-01/hostedzone/example/rrset HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 304
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <ChangeResourceRecordSetsRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -478,6 +528,8 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 431
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -485,7 +537,7 @@ content-type: application/xml
     <Code>InvalidInput</Code>
     <Message>Invalid request: Expected exactly one of [AliasTarget, all of [TTL, and ResourceRecords], or TrafficPolicyInstanceId], but found none in Change with [Action=CREATE, Name=example., Type=SOA, SetIdentifier=null]</Message>
   </Error>
-  <RequestId>e042cd3f-7078-db7f-a05a-9f52b485ef68</RequestId>
+  <RequestId>cc5a1f92-3495-c54f-2fcf-d8ac731c0dc6</RequestId>
 </ErrorResponse>
 ```
 
@@ -497,11 +549,16 @@ Adds, edits, or deletes tags for a health check or a hosted zone.
 
 ```http
 POST /2013-04-01/tags/healthcheck/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 273
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -509,7 +566,7 @@ content-type: application/xml
     <Code>NoSuchHealthCheck</Code>
     <Message>A health check with id example does not exist.</Message>
   </Error>
-  <RequestId>7a7a0aea-baf7-a6a8-8044-b4a3c6f62b64</RequestId>
+  <RequestId>f8dd9402-fbf6-0d49-42d3-143caa83c040</RequestId>
 </ErrorResponse>
 ```
 
@@ -522,6 +579,10 @@ Creates a CIDR collection in the current Amazon Web Services account.
 ```http
 POST /2013-04-01/cidrcollection HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 197
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <CreateCidrCollectionRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -533,12 +594,14 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 201 Created
 content-type: application/xml
-location: https://127.0.0.1:9297/2013-04-01/cidrcollection/ce58732d-73e3-f376-8c6a-f9c7fdb62910
+location: https://127.0.0.1:9297/2013-04-01/cidrcollection/04901489-b6d7-c741-4622-f150d9bd988f
+content-length: 305
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <CreateCidrCollectionResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Collection>
-    <Arn>arn:aws:route53::000000000000:cidrcollection/ce58732d-73e3-f376-8c6a-f9c7fdb62910</Arn>
-    <Id>ce58732d-73e3-f376-8c6a-f9c7fdb62910</Id>
+    <Arn>arn:aws:route53:::cidrcollection/04901489-b6d7-c741-4622-f150d9bd988f</Arn>
+    <Id>04901489-b6d7-c741-4622-f150d9bd988f</Id>
     <Name>example</Name>
     <Version>1</Version>
   </Collection>
@@ -554,6 +617,10 @@ Creates a new health check.
 ```http
 POST /2013-04-01/healthcheck HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 227
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <CreateHealthCheckRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -567,6 +634,8 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 345
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -574,7 +643,7 @@ content-type: application/xml
     <Code>InvalidInput</Code>
     <Message>Invalid request: a HTTP health check must specify HealthCheckConfig.IPAddress or HealthCheckConfig.FullyQualifiedDomainName</Message>
   </Error>
-  <RequestId>c55835aa-50b8-8208-52eb-1329ea76cb6f</RequestId>
+  <RequestId>6fb366a2-3ad0-1ef4-38b9-8b796643b3d9</RequestId>
 </ErrorResponse>
 ```
 
@@ -587,6 +656,10 @@ Creates a new public or private hosted zone.
 ```http
 POST /2013-04-01/hostedzone HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 189
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <CreateHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -598,6 +671,8 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 254
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -605,7 +680,7 @@ content-type: application/xml
     <Code>InvalidDomainName</Code>
     <Message>example is reserved by AWS!</Message>
   </Error>
-  <RequestId>e0fc54f3-829f-34e1-d69b-5dcd1af2bd2c</RequestId>
+  <RequestId>bc8d4fa2-13eb-878c-ec1f-8d6552679b88</RequestId>
 </ErrorResponse>
 ```
 
@@ -618,6 +693,10 @@ Creates a new key-signing key (KSK) associated with a hosted zone.
 ```http
 POST /2013-04-01/keysigningkey HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 360
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <CreateKeySigningKeyRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -632,14 +711,16 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 333
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidKeySigningKeyStatus</Code>
-    <Message>The key-signing key (KSK) status isn't valid or another KSK has the status INTERNAL_FAILURE.</Message>
+    <Message>The key-signing key (KSK) status isn&apos;t valid or another KSK has the status INTERNAL_FAILURE.</Message>
   </Error>
-  <RequestId>c587f7bc-fdf3-9936-3cdc-92480a482c5b</RequestId>
+  <RequestId>003f4539-1535-a9b6-3da4-bcd57c3838c4</RequestId>
 </ErrorResponse>
 ```
 
@@ -654,6 +735,10 @@ Creates a configuration for DNS query logging.
 ```http
 POST /2013-04-01/queryloggingconfig HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 288
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <CreateQueryLoggingConfigRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -665,6 +750,8 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -672,7 +759,7 @@ content-type: application/xml
     <Code>NoSuchHostedZone</Code>
     <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>c452a213-61fd-544d-a6cc-0337772810c4</RequestId>
+  <RequestId>6bf6bc73-71f6-6ae4-18f4-bb7be0973156</RequestId>
 </ErrorResponse>
 ```
 
@@ -685,6 +772,10 @@ Creates a delegation set (a group of four name servers) that can be reused by mu
 ```http
 POST /2013-04-01/delegationset HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 191
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <CreateReusableDelegationSetRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -695,17 +786,19 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 201 Created
 content-type: application/xml
-location: https://127.0.0.1:9297/2013-04-01/delegationset/NG3MYLLVLRECXGN
+location: https://127.0.0.1:9297/2013-04-01/delegationset/N0XBS6XRVL4A8H6
+content-length: 453
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <CreateReusableDelegationSetResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <DelegationSet>
-    <Id>/delegationset/NG3MYLLVLRECXGN</Id>
+    <Id>/delegationset/N0XBS6XRVL4A8H6</Id>
     <CallerReference>example</CallerReference>
     <NameServers>
-      <NameServer>ns-323.awsdns-00.com</NameServer>
-      <NameServer>ns-104.awsdns-07.net</NameServer>
-      <NameServer>ns-1850.awsdns-07.org</NameServer>
-      <NameServer>ns-697.awsdns-13.co.uk</NameServer>
+      <NameServer>ns-127.awsdns-62.com</NameServer>
+      <NameServer>ns-1494.awsdns-62.net</NameServer>
+      <NameServer>ns-1706.awsdns-36.org</NameServer>
+      <NameServer>ns-1455.awsdns-37.co.uk</NameServer>
     </NameServers>
   </DelegationSet>
 </CreateReusableDelegationSetResponse>
@@ -720,6 +813,10 @@ Creates a traffic policy, which you use to create multiple DNS resource record s
 ```http
 POST /2013-04-01/trafficpolicy HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 181
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <CreateTrafficPolicyRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -731,6 +828,8 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 297
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -738,7 +837,7 @@ content-type: application/xml
     <Code>InvalidTrafficPolicyDocument</Code>
     <Message>The traffic policy document must be declared as valid JSON.</Message>
   </Error>
-  <RequestId>b5544503-76cb-e326-68e2-51f594703769</RequestId>
+  <RequestId>e01e4850-4deb-d71e-8441-63760bdc3345</RequestId>
 </ErrorResponse>
 ```
 
@@ -751,6 +850,10 @@ Creates resource record sets in a specified hosted zone based on the settings in
 ```http
 POST /2013-04-01/trafficpolicyinstance HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 305
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <CreateTrafficPolicyInstanceRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -765,6 +868,8 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -772,7 +877,7 @@ content-type: application/xml
     <Code>NoSuchHostedZone</Code>
     <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>6dbd5c94-22e4-6728-2b47-e26ed4e269a6</RequestId>
+  <RequestId>bd16f28f-0aef-d890-6ef7-a8bde23fb5e5</RequestId>
 </ErrorResponse>
 ```
 
@@ -785,6 +890,10 @@ Creates a new version of an existing traffic policy.
 ```http
 POST /2013-04-01/trafficpolicy/example HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 175
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <CreateTrafficPolicyVersionRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -795,6 +904,8 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 297
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -802,7 +913,7 @@ content-type: application/xml
     <Code>InvalidTrafficPolicyDocument</Code>
     <Message>The traffic policy document must be declared as valid JSON.</Message>
   </Error>
-  <RequestId>92cd5c20-6c97-047b-30a5-d45e45c5a696</RequestId>
+  <RequestId>944aae45-9cea-76b6-da50-60582a5d47b9</RequestId>
 </ErrorResponse>
 ```
 
@@ -815,6 +926,10 @@ Authorizes the Amazon Web Services account that created a specified VPC to submi
 ```http
 POST /2013-04-01/hostedzone/example/authorizevpcassociation HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 167
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <CreateVPCAssociationAuthorizationRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -825,6 +940,8 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 279
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -832,7 +949,7 @@ content-type: application/xml
     <Code>InvalidVPCId</Code>
     <Message>Invalid VPC ID: &quot;&quot; is not a valid Amazon VPC ID</Message>
   </Error>
-  <RequestId>4d6648d8-6fd1-a2d1-2928-f2ae4eac942b</RequestId>
+  <RequestId>5d1abb25-9234-97c1-4724-c37b0c55a090</RequestId>
 </ErrorResponse>
 ```
 
@@ -844,19 +961,24 @@ Deactivates a key-signing key (KSK) so that it will not be used for signing by D
 
 ```http
 POST /2013-04-01/keysigningkey/example/example/deactivate HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 266
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
     <Type>Sender</Type>
     <Code>NoSuchKeySigningKey</Code>
-    <Message>The Key Signing Key with name 'example', could not be found.</Message>
+    <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>2cc2e511-87ff-f6a8-e2da-d478dba1a6d4</RequestId>
+  <RequestId>eb00662d-efb4-3f41-e0e1-affabdcd6d3b</RequestId>
 </ErrorResponse>
 ```
 
@@ -868,20 +990,25 @@ Deletes a CIDR collection in the current Amazon Web Services account.
 
 ```http
 DELETE /2013-04-01/cidrcollection/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 439
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidInput</Code>
-    <Message>1 validation error detected: Value 'example' at 'id' failed to satisfy constraint: Member must satisfy regular expression pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</Message>
+    <Message>1 validation error detected: Value &apos;example&apos; at &apos;id&apos; failed to satisfy constraint: Member must satisfy regular expression pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</Message>
   </Error>
-  <RequestId>2efb5857-8665-087f-ca7f-842905796708</RequestId>
+  <RequestId>140421d5-731e-5c37-003e-892fd687ba86</RequestId>
 </ErrorResponse>
 ```
 
@@ -893,11 +1020,16 @@ Deletes a health check.
 
 ```http
 DELETE /2013-04-01/healthcheck/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 273
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -905,7 +1037,7 @@ content-type: application/xml
     <Code>NoSuchHealthCheck</Code>
     <Message>A health check with id example does not exist.</Message>
   </Error>
-  <RequestId>63eeecc9-e8d7-68d1-fc1a-e1021c6e7fd9</RequestId>
+  <RequestId>e1e09332-0c2f-2318-0fed-c497bc494355</RequestId>
 </ErrorResponse>
 ```
 
@@ -917,11 +1049,16 @@ Deletes a hosted zone.
 
 ```http
 DELETE /2013-04-01/hostedzone/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -929,7 +1066,7 @@ content-type: application/xml
     <Code>NoSuchHostedZone</Code>
     <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>e62b8d5d-ff1c-d5c9-ac5e-cc00383239d1</RequestId>
+  <RequestId>87cf0419-94e6-5333-845e-3c6284123242</RequestId>
 </ErrorResponse>
 ```
 
@@ -941,19 +1078,24 @@ Deletes a key-signing key (KSK).
 
 ```http
 DELETE /2013-04-01/keysigningkey/example/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 266
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
     <Type>Sender</Type>
     <Code>NoSuchKeySigningKey</Code>
-    <Message>The Key Signing Key with name 'example', could not be found.</Message>
+    <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>43797f97-bea9-0818-4f09-7407d6001501</RequestId>
+  <RequestId>ba87bc25-0d07-37e2-813c-0498ac3763c1</RequestId>
 </ErrorResponse>
 ```
 
@@ -967,11 +1109,16 @@ Deletes a configuration for DNS query logging.
 
 ```http
 DELETE /2013-04-01/queryloggingconfig/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 281
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -979,7 +1126,7 @@ content-type: application/xml
     <Code>NoSuchQueryLoggingConfig</Code>
     <Message>The query logging configuration does not exist.</Message>
   </Error>
-  <RequestId>a93fa375-aaeb-3e26-4731-893a8b7e644c</RequestId>
+  <RequestId>949fef6a-2c85-7929-fb1b-4d40965d09ec</RequestId>
 </ErrorResponse>
 ```
 
@@ -991,11 +1138,16 @@ Deletes a reusable delegation set.
 
 ```http
 DELETE /2013-04-01/delegationset/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1003,7 +1155,7 @@ content-type: application/xml
     <Code>NoSuchDelegationSet</Code>
     <Message>example</Message>
   </Error>
-  <RequestId>5e981a83-2607-27f7-c76c-2fd971268ab4</RequestId>
+  <RequestId>9f810589-4940-e9b3-d95e-db3bda986175</RequestId>
 </ErrorResponse>
 ```
 
@@ -1015,18 +1167,23 @@ Deletes a traffic policy.
 
 ```http
 DELETE /2013-04-01/trafficpolicy/example/1 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 210
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
     <Type>Sender</Type>
     <Code>NoSuchTrafficPolicy</Code>
   </Error>
-  <RequestId>9e004a6f-d22d-eca0-1d20-57c4cee7e5e1</RequestId>
+  <RequestId>0980f3ea-6d0b-f8ef-4bf9-d7c287283f1b</RequestId>
 </ErrorResponse>
 ```
 
@@ -1038,18 +1195,23 @@ Deletes a traffic policy instance and all of the resource record sets that Amazo
 
 ```http
 DELETE /2013-04-01/trafficpolicyinstance/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
     <Type>Sender</Type>
     <Code>NoSuchTrafficPolicyInstance</Code>
   </Error>
-  <RequestId>7c0df26c-9367-2066-7fb5-efa653f3f45d</RequestId>
+  <RequestId>c546d541-d574-e85d-782a-662df9826ca3</RequestId>
 </ErrorResponse>
 ```
 
@@ -1062,6 +1224,10 @@ Removes authorization to submit an AssociateVPCWithHostedZone request to associa
 ```http
 POST /2013-04-01/hostedzone/example/deauthorizevpcassociation HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 167
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <DeleteVPCAssociationAuthorizationRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -1072,6 +1238,8 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 279
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1079,7 +1247,7 @@ content-type: application/xml
     <Code>InvalidVPCId</Code>
     <Message>Invalid VPC ID: &quot;&quot; is not a valid Amazon VPC ID</Message>
   </Error>
-  <RequestId>bfb0f70e-c352-2ad6-ae21-5fe1b496ea87</RequestId>
+  <RequestId>ab713de9-5aa2-76d4-cd10-5450e6b1f29f</RequestId>
 </ErrorResponse>
 ```
 
@@ -1091,11 +1259,16 @@ Disables DNSSEC signing in a specific hosted zone.
 
 ```http
 POST /2013-04-01/hostedzone/example/disable-dnssec HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1103,7 +1276,7 @@ content-type: application/xml
     <Code>NoSuchHostedZone</Code>
     <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>9fa0cc74-1cc9-9220-0b63-03121947afe6</RequestId>
+  <RequestId>ac009c9e-cbed-c45b-1188-7cbc496e362f</RequestId>
 </ErrorResponse>
 ```
 
@@ -1116,6 +1289,10 @@ Disassociates an Amazon Virtual Private Cloud (Amazon VPC) from an Amazon Route 
 ```http
 POST /2013-04-01/hostedzone/example/disassociatevpc HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 159
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <DisassociateVPCFromHostedZoneRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -1126,6 +1303,8 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 279
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1133,7 +1312,7 @@ content-type: application/xml
     <Code>InvalidVPCId</Code>
     <Message>Invalid VPC ID: &quot;&quot; is not a valid Amazon VPC ID</Message>
   </Error>
-  <RequestId>8f0cb7d9-c150-ce8f-7547-a0d02af34a66</RequestId>
+  <RequestId>79dff726-0d30-b251-a3be-d18586d39d8a</RequestId>
 </ErrorResponse>
 ```
 
@@ -1145,11 +1324,16 @@ Enables DNSSEC signing in a specific hosted zone.
 
 ```http
 POST /2013-04-01/hostedzone/example/enable-dnssec HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1157,7 +1341,7 @@ content-type: application/xml
     <Code>NoSuchHostedZone</Code>
     <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>1ec40e9c-a92a-912d-72fd-89c9a8acb643</RequestId>
+  <RequestId>8691ee07-63aa-ecbd-08ff-ef37cb963274</RequestId>
 </ErrorResponse>
 ```
 
@@ -1169,11 +1353,16 @@ Gets the specified limit for the current account, for example, the maximum numbe
 
 ```http
 GET /2013-04-01/accountlimit/MAX_HEALTH_CHECKS_BY_OWNER HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
+content-length: 193
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <GetAccountLimitResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Limit>
@@ -1192,11 +1381,16 @@ Returns the current status of a change batch request.
 
 ```http
 GET /2013-04-01/change/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1204,7 +1398,7 @@ content-type: application/xml
     <Code>NoSuchChange</Code>
     <Message>Could not find resource with ID: example</Message>
   </Error>
-  <RequestId>41b89424-e551-38d2-4308-1dcc4ce881dd</RequestId>
+  <RequestId>f58b0606-ecb6-892d-6754-adafa1881e20</RequestId>
 </ErrorResponse>
 ```
 
@@ -1216,11 +1410,16 @@ Route 53 does not perform authorization for this API because it retrieves inform
 
 ```http
 GET /2013-04-01/checkeripranges HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
+content-length: 1169
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <GetCheckerIpRangesResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <CheckerIpRanges>
@@ -1253,11 +1452,16 @@ Returns information about DNSSEC for a specific hosted zone, including the key-s
 
 ```http
 GET /2013-04-01/hostedzone/example/dnssec HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1265,7 +1469,7 @@ content-type: application/xml
     <Code>NoSuchHostedZone</Code>
     <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>9cc7dc7b-5e2b-294d-27f7-3d275a855259</RequestId>
+  <RequestId>19fbad23-2918-6bd4-8d55-a4d1788b0060</RequestId>
 </ErrorResponse>
 ```
 
@@ -1277,11 +1481,16 @@ Gets information about whether a specified geographic location is supported for 
 
 ```http
 GET /2013-04-01/geolocation HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 364
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1289,7 +1498,7 @@ content-type: application/xml
     <Code>InvalidInput</Code>
     <Message>a geolocation is asked about by continentcode, by countrycode, or by countrycode and subdivisioncode together; this request names none of them</Message>
   </Error>
-  <RequestId>bc613571-a43c-484d-9c72-4fa61ff083ef</RequestId>
+  <RequestId>cad75048-8415-3d92-fd26-f6bcbaca9770</RequestId>
 </ErrorResponse>
 ```
 
@@ -1301,11 +1510,16 @@ Gets information about a specified health check.
 
 ```http
 GET /2013-04-01/healthcheck/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 273
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1313,7 +1527,7 @@ content-type: application/xml
     <Code>NoSuchHealthCheck</Code>
     <Message>A health check with id example does not exist.</Message>
   </Error>
-  <RequestId>4771ba02-6e30-a203-3782-aee195fe6558</RequestId>
+  <RequestId>b4940225-bade-d8c6-b822-2a6d73b5885c</RequestId>
 </ErrorResponse>
 ```
 
@@ -1325,11 +1539,16 @@ Retrieves the number of health checks that are associated with the current Amazo
 
 ```http
 GET /2013-04-01/healthcheckcount HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
+content-length: 151
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <GetHealthCheckCountResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <HealthCheckCount>0</HealthCheckCount>
@@ -1344,11 +1563,16 @@ Gets the reason that a specified health check failed most recently.
 
 ```http
 GET /2013-04-01/healthcheck/example/lastfailurereason HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 273
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1356,7 +1580,7 @@ content-type: application/xml
     <Code>NoSuchHealthCheck</Code>
     <Message>A health check with id example does not exist.</Message>
   </Error>
-  <RequestId>58d1dfdd-ea1d-250c-53da-94095b127fd8</RequestId>
+  <RequestId>e0e90d5f-5edf-fd31-acdf-386cf523ea76</RequestId>
 </ErrorResponse>
 ```
 
@@ -1368,11 +1592,16 @@ Gets status of a specified health check.
 
 ```http
 GET /2013-04-01/healthcheck/example/status HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 273
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1380,7 +1609,7 @@ content-type: application/xml
     <Code>NoSuchHealthCheck</Code>
     <Message>A health check with id example does not exist.</Message>
   </Error>
-  <RequestId>3cd54269-46d1-342a-426a-8c3bfbd88bc8</RequestId>
+  <RequestId>4070095b-d8a4-40fa-0930-95fb2ba00ae9</RequestId>
 </ErrorResponse>
 ```
 
@@ -1392,11 +1621,16 @@ Gets information about a specified hosted zone including the four name servers a
 
 ```http
 GET /2013-04-01/hostedzone/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1404,7 +1638,7 @@ content-type: application/xml
     <Code>NoSuchHostedZone</Code>
     <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>06306351-1054-bfcb-ec7d-92735a1ee87e</RequestId>
+  <RequestId>b805a327-cba7-87f9-f774-33444e777595</RequestId>
 </ErrorResponse>
 ```
 
@@ -1416,11 +1650,16 @@ Retrieves the number of hosted zones that are associated with the current Amazon
 
 ```http
 GET /2013-04-01/hostedzonecount HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
+content-length: 147
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <GetHostedZoneCountResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <HostedZoneCount>0</HostedZoneCount>
@@ -1435,11 +1674,16 @@ Gets the specified limit for a specified hosted zone, for example, the maximum n
 
 ```http
 GET /2013-04-01/hostedzonelimit/example/MAX_RRSETS_BY_ZONE HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1447,7 +1691,7 @@ content-type: application/xml
     <Code>NoSuchHostedZone</Code>
     <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>fa570473-a9a8-ee00-1c8d-b74cfc5cb101</RequestId>
+  <RequestId>555eb273-030b-31a7-d337-15118c0d48b0</RequestId>
 </ErrorResponse>
 ```
 
@@ -1461,11 +1705,16 @@ Gets information about a specified configuration for DNS query logging.
 
 ```http
 GET /2013-04-01/queryloggingconfig/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 281
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1473,7 +1722,7 @@ content-type: application/xml
     <Code>NoSuchQueryLoggingConfig</Code>
     <Message>The query logging configuration does not exist.</Message>
   </Error>
-  <RequestId>1b6af74c-2da8-922e-d9cb-3f1b4b9384cb</RequestId>
+  <RequestId>063b07e9-2742-2b17-8724-a8b6d99ed973</RequestId>
 </ErrorResponse>
 ```
 
@@ -1485,11 +1734,16 @@ Retrieves information about a specified reusable delegation set, including the f
 
 ```http
 GET /2013-04-01/delegationset/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1497,7 +1751,7 @@ content-type: application/xml
     <Code>NoSuchDelegationSet</Code>
     <Message>example</Message>
   </Error>
-  <RequestId>35111a07-41f7-06e8-6dcc-91b87c93530f</RequestId>
+  <RequestId>4faea44a-bc2c-10ae-dbb3-dd650625b0dd</RequestId>
 </ErrorResponse>
 ```
 
@@ -1509,11 +1763,16 @@ Gets the maximum number of hosted zones that you can associate with the specifie
 
 ```http
 GET /2013-04-01/reusabledelegationsetlimit/example/MAX_ZONES_BY_REUSABLE_DELEGATION_SET HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1521,7 +1780,7 @@ content-type: application/xml
     <Code>NoSuchDelegationSet</Code>
     <Message>example</Message>
   </Error>
-  <RequestId>fdda18e3-7d5e-30c0-b62f-c8cc16000a45</RequestId>
+  <RequestId>021618de-c848-e0d6-3144-54079ea9ea17</RequestId>
 </ErrorResponse>
 ```
 
@@ -1533,19 +1792,23 @@ Gets information about a specific traffic policy version.
 
 ```http
 GET /2013-04-01/trafficpolicy/example/1 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 210
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
     <Type>Sender</Type>
     <Code>NoSuchTrafficPolicy</Code>
-    <Message>The policy does not exist.</Message>
   </Error>
-  <RequestId>99d4d292-898d-2f53-ff03-416243292542</RequestId>
+  <RequestId>269fb0dd-cfa5-6a5c-f09b-97a3ab38e24d</RequestId>
 </ErrorResponse>
 ```
 
@@ -1557,18 +1820,23 @@ Gets information about a specified traffic policy instance.
 
 ```http
 GET /2013-04-01/trafficpolicyinstance/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
     <Type>Sender</Type>
     <Code>NoSuchTrafficPolicyInstance</Code>
   </Error>
-  <RequestId>de62437a-e021-8df0-5fab-6aea375e887c</RequestId>
+  <RequestId>4fac0846-4922-b6a2-b1cb-c63beab9b0e6</RequestId>
 </ErrorResponse>
 ```
 
@@ -1580,11 +1848,16 @@ Gets the number of traffic policy instances that are associated with the current
 
 ```http
 GET /2013-04-01/trafficpolicyinstancecount HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
+content-length: 191
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <GetTrafficPolicyInstanceCountResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <TrafficPolicyInstanceCount>0</TrafficPolicyInstanceCount>
@@ -1599,20 +1872,25 @@ Returns a paginated list of location objects and their CIDR blocks.
 
 ```http
 GET /2013-04-01/cidrcollection/example/cidrblocks HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 449
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidInput</Code>
-    <Message>1 validation error detected: Value 'example' at 'collectionId' failed to satisfy constraint: Member must satisfy regular expression pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</Message>
+    <Message>1 validation error detected: Value &apos;example&apos; at &apos;collectionId&apos; failed to satisfy constraint: Member must satisfy regular expression pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</Message>
   </Error>
-  <RequestId>cf8eb94a-15b7-0beb-da9a-17255e47c3f1</RequestId>
+  <RequestId>0863409f-f074-84ef-e592-1ce621e53ad0</RequestId>
 </ErrorResponse>
 ```
 
@@ -1624,17 +1902,22 @@ Returns a paginated list of CIDR collections in the Amazon Web Services account 
 
 ```http
 GET /2013-04-01/cidrcollection HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
+content-length: 330
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ListCidrCollectionsResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <CidrCollections>
     <member>
-      <Arn>arn:aws:route53::000000000000:cidrcollection/ce58732d-73e3-f376-8c6a-f9c7fdb62910</Arn>
-      <Id>ce58732d-73e3-f376-8c6a-f9c7fdb62910</Id>
+      <Arn>arn:aws:route53:::cidrcollection/04901489-b6d7-c741-4622-f150d9bd988f</Arn>
+      <Id>04901489-b6d7-c741-4622-f150d9bd988f</Id>
       <Name>example</Name>
       <Version>1</Version>
     </member>
@@ -1650,20 +1933,25 @@ Returns a paginated list of CIDR locations for the given collection (metadata on
 
 ```http
 GET /2013-04-01/cidrcollection/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/xml
+content-length: 449
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidInput</Code>
-    <Message>1 validation error detected: Value 'example' at 'collectionId' failed to satisfy constraint: Member must satisfy regular expression pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</Message>
+    <Message>1 validation error detected: Value &apos;example&apos; at &apos;collectionId&apos; failed to satisfy constraint: Member must satisfy regular expression pattern: ^[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}$</Message>
   </Error>
-  <RequestId>bf3f62b7-ebd3-6e87-58d7-e60a348838ac</RequestId>
+  <RequestId>ee0793ae-92f1-5822-b931-90588da198dd</RequestId>
 </ErrorResponse>
 ```
 
@@ -1675,11 +1963,16 @@ Retrieves a list of supported geographic locations.
 
 ```http
 GET /2013-04-01/geolocations HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
+content-length: 42276
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ListGeoLocationsResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <GeoLocationDetailsList>
@@ -1701,7 +1994,7 @@ content-type: application/xml
     </GeoLocationDetails>
     <GeoLocationDetails>
       <CountryCode>AG</CountryCode>
-… (1320 more lines)
+… (1470 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -1712,15 +2005,20 @@ Retrieve a list of the health checks that are associated with the current Amazon
 
 ```http
 GET /2013-04-01/healthcheck HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
+content-length: 209
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ListHealthChecksResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
-  <HealthChecks/>
-  <Marker/>
+  <HealthChecks></HealthChecks>
+  <Marker></Marker>
   <IsTruncated>false</IsTruncated>
   <MaxItems>100</MaxItems>
 </ListHealthChecksResponse>
@@ -1734,15 +2032,20 @@ Retrieves a list of the public and private hosted zones that are associated with
 
 ```http
 GET /2013-04-01/hostedzone HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
+content-length: 205
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ListHostedZonesResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
-  <HostedZones/>
-  <Marker/>
+  <HostedZones></HostedZones>
+  <Marker></Marker>
   <IsTruncated>false</IsTruncated>
   <MaxItems>100</MaxItems>
 </ListHostedZonesResponse>
@@ -1756,14 +2059,19 @@ Retrieves a list of your hosted zones in lexicographic order.
 
 ```http
 GET /2013-04-01/hostedzonesbyname HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
+content-length: 200
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ListHostedZonesByNameResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
-  <HostedZones/>
+  <HostedZones></HostedZones>
   <IsTruncated>false</IsTruncated>
   <MaxItems>100</MaxItems>
 </ListHostedZonesByNameResponse>
@@ -1777,11 +2085,16 @@ Lists all the private hosted zones that a specified VPC is associated with, rega
 
 ```http
 GET /2013-04-01/hostedzonesbyvpc?vpcid=example&vpcregion=us-east-1 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 403 Forbidden
 content-type: application/xml
+content-length: 297
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1789,7 +2102,7 @@ content-type: application/xml
     <Code>AccessDenied</Code>
     <Message>The VPC: example in region us-east-1 that you provided is not owned by you.</Message>
   </Error>
-  <RequestId>fc7e82e0-9b9b-1faa-4ec0-d1fa8ce954b6</RequestId>
+  <RequestId>282e2e62-71b8-af6d-e471-e0513b7a7778</RequestId>
 </ErrorResponse>
 ```
 
@@ -1803,14 +2116,19 @@ Lists the configurations for DNS query logging that are associated with the curr
 
 ```http
 GET /2013-04-01/queryloggingconfig HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
+content-length: 164
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ListQueryLoggingConfigsResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
-  <QueryLoggingConfigs/>
+  <QueryLoggingConfigs></QueryLoggingConfigs>
 </ListQueryLoggingConfigsResponse>
 ```
 
@@ -1822,11 +2140,16 @@ Lists the resource record sets in a specified hosted zone.
 
 ```http
 GET /2013-04-01/hostedzone/example/rrset HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1834,7 +2157,7 @@ content-type: application/xml
     <Code>NoSuchHostedZone</Code>
     <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>39b8349d-e143-8c22-6612-14656a63f345</RequestId>
+  <RequestId>20b71809-b607-9c1e-3205-d6d0c4f0aae2</RequestId>
 </ErrorResponse>
 ```
 
@@ -1846,26 +2169,31 @@ Retrieves a list of the reusable delegation sets that are associated with the cu
 
 ```http
 GET /2013-04-01/delegationset HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
+content-length: 557
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ListReusableDelegationSetsResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <DelegationSets>
     <DelegationSet>
-      <Id>/delegationset/NG3MYLLVLRECXGN</Id>
+      <Id>/delegationset/N0XBS6XRVL4A8H6</Id>
       <CallerReference>example</CallerReference>
       <NameServers>
-        <NameServer>ns-323.awsdns-00.com</NameServer>
-        <NameServer>ns-104.awsdns-07.net</NameServer>
-        <NameServer>ns-1850.awsdns-07.org</NameServer>
-        <NameServer>ns-697.awsdns-13.co.uk</NameServer>
+        <NameServer>ns-127.awsdns-62.com</NameServer>
+        <NameServer>ns-1494.awsdns-62.net</NameServer>
+        <NameServer>ns-1706.awsdns-36.org</NameServer>
+        <NameServer>ns-1455.awsdns-37.co.uk</NameServer>
       </NameServers>
     </DelegationSet>
   </DelegationSets>
-  <Marker/>
+  <Marker></Marker>
   <IsTruncated>false</IsTruncated>
   <MaxItems>100</MaxItems>
 </ListReusableDelegationSetsResponse>
@@ -1879,11 +2207,16 @@ Lists tags for one health check or hosted zone.
 
 ```http
 GET /2013-04-01/tags/healthcheck/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 273
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1891,7 +2224,7 @@ content-type: application/xml
     <Code>NoSuchHealthCheck</Code>
     <Message>A health check with id example does not exist.</Message>
   </Error>
-  <RequestId>e4ca73e5-df98-7763-e3d8-615e987925d6</RequestId>
+  <RequestId>5f104c89-9783-dd1f-3483-36282533bef5</RequestId>
 </ErrorResponse>
 ```
 
@@ -1904,6 +2237,10 @@ Lists tags for up to 10 health checks or hosted zones.
 ```http
 POST /2013-04-01/tags/healthcheck HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 194
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <ListTagsForResourcesRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -1916,6 +2253,8 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 273
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1923,7 +2262,7 @@ content-type: application/xml
     <Code>NoSuchHealthCheck</Code>
     <Message>A health check with id example does not exist.</Message>
   </Error>
-  <RequestId>d9f989df-2ba0-8dd4-19e6-a5f91be17f55</RequestId>
+  <RequestId>7f17c05f-df55-0892-9218-cdbb2442d653</RequestId>
 </ErrorResponse>
 ```
 
@@ -1935,16 +2274,21 @@ Gets information about the latest version for every traffic policy that is assoc
 
 ```http
 GET /2013-04-01/trafficpolicies HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
+content-length: 265
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ListTrafficPoliciesResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
-  <TrafficPolicySummaries/>
+  <TrafficPolicySummaries></TrafficPolicySummaries>
   <IsTruncated>false</IsTruncated>
-  <TrafficPolicyIdMarker/>
+  <TrafficPolicyIdMarker></TrafficPolicyIdMarker>
   <MaxItems>100</MaxItems>
 </ListTrafficPoliciesResponse>
 ```
@@ -1957,14 +2301,19 @@ Gets information about the traffic policy instances that you created by using th
 
 ```http
 GET /2013-04-01/trafficpolicyinstances HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/xml
+content-length: 232
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ListTrafficPolicyInstancesResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
-  <TrafficPolicyInstances/>
+  <TrafficPolicyInstances></TrafficPolicyInstances>
   <IsTruncated>false</IsTruncated>
   <MaxItems>100</MaxItems>
 </ListTrafficPolicyInstancesResponse>
@@ -1980,11 +2329,16 @@ Gets information about the traffic policy instances that you created in a specif
 
 ```http
 GET /2013-04-01/trafficpolicyinstances/hostedzone?id=example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -1992,7 +2346,7 @@ content-type: application/xml
     <Code>NoSuchHostedZone</Code>
     <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>71bc5b10-a31c-9a82-92cb-e440d9606262</RequestId>
+  <RequestId>8167035e-e439-fccd-0cb5-982dfaaed557</RequestId>
 </ErrorResponse>
 ```
 
@@ -2002,25 +2356,31 @@ content-type: application/xml
 
 Gets information about the traffic policy instances that you created by using a specify traffic policy version.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 GET /2013-04-01/trafficpolicyinstances/trafficpolicy?id=example&version=1 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 210
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ListTrafficPolicyInstancesByPolicy is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>NoSuchTrafficPolicy</Code>
   </Error>
-  <RequestId>02de1a51-c602-c404-a6d2-abcb34924140</RequestId>
+  <RequestId>794fcf2b-6099-3974-ba05-eb3b16c9c617</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `NoSuchTrafficPolicy`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ListTrafficPolicyVersions
 
@@ -2028,19 +2388,23 @@ Gets information about all of the versions for a specified traffic policy.
 
 ```http
 GET /2013-04-01/trafficpolicies/example/versions HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 210
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
     <Type>Sender</Type>
     <Code>NoSuchTrafficPolicy</Code>
-    <Message>The policy does not exist.</Message>
   </Error>
-  <RequestId>cb9854a6-c519-40a0-4104-9c9eb9aeee07</RequestId>
+  <RequestId>5a8f10c5-99a7-c020-3bfb-e7f5fb29e31c</RequestId>
 </ErrorResponse>
 ```
 
@@ -2052,11 +2416,16 @@ Gets a list of the VPCs that were created by other accounts and that can be asso
 
 ```http
 GET /2013-04-01/hostedzone/example/authorizevpcassociation HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -2064,7 +2433,7 @@ content-type: application/xml
     <Code>NoSuchHostedZone</Code>
     <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>2fbf9f2b-5c49-3e47-102c-7632bcebfa3b</RequestId>
+  <RequestId>04fe7b74-2b85-2bb9-8925-28cede4803cc</RequestId>
 </ErrorResponse>
 ```
 
@@ -2076,11 +2445,16 @@ Gets the value that Amazon Route 53 returns in response to a DNS request for a s
 
 ```http
 GET /2013-04-01/testdnsanswer?hostedzoneid=example&recordname=example&recordtype=SOA HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -2088,7 +2462,7 @@ content-type: application/xml
     <Code>NoSuchHostedZone</Code>
     <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>876ebc83-6bf9-3a63-90fb-7e65bd7808d6</RequestId>
+  <RequestId>2ec00137-7aff-9c86-1247-7a961d5688db</RequestId>
 </ErrorResponse>
 ```
 
@@ -2100,11 +2474,16 @@ Updates an existing health check.
 
 ```http
 POST /2013-04-01/healthcheck/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 273
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -2112,7 +2491,7 @@ content-type: application/xml
     <Code>NoSuchHealthCheck</Code>
     <Message>A health check with id example does not exist.</Message>
   </Error>
-  <RequestId>2dd77fd3-9cba-40fb-aad7-f49a26610720</RequestId>
+  <RequestId>fdb20d51-e8a7-1821-a738-60211f72919e</RequestId>
 </ErrorResponse>
 ```
 
@@ -2124,11 +2503,16 @@ Updates the comment for a specified hosted zone.
 
 ```http
 POST /2013-04-01/hostedzone/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -2136,7 +2520,7 @@ content-type: application/xml
     <Code>NoSuchHostedZone</Code>
     <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>f462a3e1-07b4-d937-6914-265d2fe8f67b</RequestId>
+  <RequestId>f467d3bf-771e-fea2-9b07-10d826e5098c</RequestId>
 </ErrorResponse>
 ```
 
@@ -2148,11 +2532,16 @@ Updates the features configuration for a hosted zone.
 
 ```http
 POST /2013-04-01/hostedzone/example/features HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -2160,7 +2549,7 @@ content-type: application/xml
     <Code>NoSuchHostedZone</Code>
     <Message>No hosted zone found with ID: example</Message>
   </Error>
-  <RequestId>16c394e8-4b4e-86c2-b547-4db5697ef3b9</RequestId>
+  <RequestId>7b55f383-a3a4-e2f7-f15d-a643a848b174</RequestId>
 </ErrorResponse>
 ```
 
@@ -2173,6 +2562,10 @@ Updates the comment for a specified traffic policy version.
 ```http
 POST /2013-04-01/trafficpolicy/example/1 HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 173
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <UpdateTrafficPolicyCommentRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -2183,14 +2576,15 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/xml
+content-length: 210
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
     <Type>Sender</Type>
     <Code>NoSuchTrafficPolicy</Code>
-    <Message>The policy does not exist.</Message>
   </Error>
-  <RequestId>7a354e10-7491-3eb8-b7de-f6a8444f053f</RequestId>
+  <RequestId>57072671-8577-3c22-24e1-3965515eb3ac</RequestId>
 </ErrorResponse>
 ```
 
@@ -2203,6 +2597,10 @@ After you submit a UpdateTrafficPolicyInstance request, there's a brief delay wh
 ```http
 POST /2013-04-01/trafficpolicyinstance/example HTTP/1.1
 Content-Type: application/xml
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 249
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 <?xml version="1.0" ?>
 <UpdateTrafficPolicyInstanceRequest xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
@@ -2215,6 +2613,8 @@ Content-Type: application/xml
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/xml
+content-length: 314
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 <ErrorResponse xmlns="https://route53.amazonaws.com/doc/2013-04-01/">
   <Error>
@@ -2222,7 +2622,7 @@ content-type: application/xml
     <Code>NotImplemented</Code>
     <Message>operation UpdateTrafficPolicyInstance is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>7e494601-85db-7673-96b9-eb01de4a65d1</RequestId>
+  <RequestId>90725445-8f02-fdea-7f17-ec675cd7a15c</RequestId>
 </ErrorResponse>
 ```
 

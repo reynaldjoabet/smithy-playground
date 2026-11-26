@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `elasticloadbalancing`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `elasticloadbalancing`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `DescribeLoadBalancers`:
 
@@ -39,9 +39,9 @@ Classic load balancers are addressed by name, not ARN. The DNS name that comes b
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120837Z
+X-Amz-Date: 20261126T182958Z
 Content-Length: 301
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateLoadBalancer
 &Version=2012-06-01
@@ -59,15 +59,15 @@ Action=CreateLoadBalancer
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 306
-date: Mon, 16 Nov 2026 12:08:37 GMT
+content-length: 339
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <CreateLoadBalancerResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <CreateLoadBalancerResult>
-    <DNSName>127.0.0.1:37381</DNSName>
+    <DNSName>docs-demo-clb-7282544588.us-east-1.elb.localhost</DNSName>
   </CreateLoadBalancerResult>
   <ResponseMetadata>
-    <RequestId>1e5f8c51-c4c4-4f00-9c27-e12a09d938e6</RequestId>
+    <RequestId>1a5c879e-8d23-40d9-9140-a5192b997122</RequestId>
   </ResponseMetadata>
 </CreateLoadBalancerResponse>
 ```
@@ -82,9 +82,9 @@ The health check target is `PROTOCOL:PORT/path`.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120837Z
+X-Amz-Date: 20261126T182958Z
 Content-Length: 227
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ConfigureHealthCheck
 &Version=2012-06-01
@@ -102,7 +102,7 @@ Action=ConfigureHealthCheck
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 529
-date: Mon, 16 Nov 2026 12:08:37 GMT
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ConfigureHealthCheckResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <ConfigureHealthCheckResult>
@@ -115,7 +115,7 @@ date: Mon, 16 Nov 2026 12:08:37 GMT
     </HealthCheck>
   </ConfigureHealthCheckResult>
   <ResponseMetadata>
-    <RequestId>ec63e4c0-3b26-488e-b728-cf4690eb0d62</RequestId>
+    <RequestId>a6fda215-ef9e-4873-b3e2-93163ee49a7c</RequestId>
   </ResponseMetadata>
 </ConfigureHealthCheckResponse>
 ```
@@ -130,9 +130,9 @@ Listeners, health check and zones.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120837Z
+X-Amz-Date: 20261126T182958Z
 Content-Length: 88
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeLoadBalancers
 &Version=2012-06-01
@@ -144,16 +144,16 @@ Action=DescribeLoadBalancers
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 1584
-date: Mon, 16 Nov 2026 12:08:37 GMT
+content-length: 1613
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <DescribeLoadBalancersResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <DescribeLoadBalancersResult>
     <LoadBalancerDescriptions>
       <member xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
         <LoadBalancerName>docs-demo-clb</LoadBalancerName>
-        <DNSName>127.0.0.1:37381</DNSName>
-        <CanonicalHostedZoneName>docs-demo-clb-7282544588.us-east-1.elb.amazonaws.com</CanonicalHostedZoneName>
+        <DNSName>docs-demo-clb-7282544588.us-east-1.elb.localhost</DNSName>
+        <CanonicalHostedZoneName>docs-demo-clb-7282544588.us-east-1.elb.localhost</CanonicalHostedZoneName>
         <CanonicalHostedZoneNameID>Z35SXDOTRQ7X7K</CanonicalHostedZoneNameID>
         <ListenerDescriptions>
           <member>
@@ -163,21 +163,21 @@ date: Mon, 16 Nov 2026 12:08:37 GMT
               <InstanceProtocol>HTTP</InstanceProtocol>
               <InstancePort>8080</InstancePort>
             </Listener>
-            <PolicyNames/>
+            <PolicyNames></PolicyNames>
           </member>
         </ListenerDescriptions>
         <Policies>
-          <AppCookieStickinessPolicies/>
-          <LBCookieStickinessPolicies/>
-          <OtherPolicies/>
+          <AppCookieStickinessPolicies></AppCookieStickinessPolicies>
+          <LBCookieStickinessPolicies></LBCookieStickinessPolicies>
+          <OtherPolicies></OtherPolicies>
         </Policies>
-        <BackendServerDescriptions/>
+        <BackendServerDescriptions></BackendServerDescriptions>
         <AvailabilityZones>
           <member>us-east-1a</member>
           <member>us-east-1b</member>
         </AvailabilityZones>
-        <Subnets/>
-        <Instances/>
+        <Subnets></Subnets>
+        <Instances></Instances>
         <HealthCheck>
           <Target>HTTP:8080/health</Target>
           <Interval>30</Interval>
@@ -185,14 +185,14 @@ date: Mon, 16 Nov 2026 12:08:37 GMT
           <UnhealthyThreshold>2</UnhealthyThreshold>
           <HealthyThreshold>3</HealthyThreshold>
         </HealthCheck>
-        <SecurityGroups/>
-        <CreatedTime>2026-11-16T12:08:37.215637Z</CreatedTime>
+        <SecurityGroups></SecurityGroups>
+        <CreatedTime>2026-11-26T18:29:58.672528Z</CreatedTime>
         <Scheme>internet-facing</Scheme>
       </member>
     </LoadBalancerDescriptions>
   </DescribeLoadBalancersResult>
   <ResponseMetadata>
-    <RequestId>cb1b7b28-08e9-4fff-853d-3e5ab30c780b</RequestId>
+    <RequestId>0c3e6055-b5cd-476b-92b8-92d38f251f66</RequestId>
   </ResponseMetadata>
 </DescribeLoadBalancersResponse>
 ```
@@ -207,9 +207,9 @@ Deletes the load balancer.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120837Z
+X-Amz-Date: 20261126T182958Z
 Content-Length: 75
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteLoadBalancer
 &Version=2012-06-01
@@ -222,12 +222,12 @@ Action=DeleteLoadBalancer
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 272
-date: Mon, 16 Nov 2026 12:08:37 GMT
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <DeleteLoadBalancerResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
-  <DeleteLoadBalancerResult/>
+  <DeleteLoadBalancerResult></DeleteLoadBalancerResult>
   <ResponseMetadata>
-    <RequestId>4e9cd1eb-6e71-4ea8-a95e-a0574e01d046</RequestId>
+    <RequestId>5f49c205-ca04-4cbe-9856-8b42ec755410</RequestId>
   </ResponseMetadata>
 </DeleteLoadBalancerResponse>
 ```
@@ -242,9 +242,9 @@ Now `LoadBalancerNotFound`.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120837Z
+X-Amz-Date: 20261126T182958Z
 Content-Length: 88
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeLoadBalancers
 &Version=2012-06-01
@@ -256,23 +256,23 @@ Action=DescribeLoadBalancers
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
-x-amzn-requestid: 386ae01f-3b38-494e-9e71-6f15fc6f9362
+x-amzn-requestid: 53f18006-52a0-496f-ae5e-0d57cac571fc
 content-length: 306
-date: Mon, 16 Nov 2026 12:08:37 GMT
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>LoadBalancerNotFound</Code>
-    <Message>There is no ACTIVE Load Balancer named 'docs-demo-clb'</Message>
+    <Message>There is no ACTIVE Load Balancer named &apos;docs-demo-clb&apos;</Message>
   </Error>
-  <RequestId>386ae01f-3b38-494e-9e71-6f15fc6f9362</RequestId>
+  <RequestId>53f18006-52a0-496f-ae5e-0d57cac571fc</RequestId>
 </ErrorResponse>
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 29 operations, 3 accepted the placeholder call, 4 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
@@ -282,6 +282,11 @@ Adds the specified tags to the specified load balancer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 94
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AddTags
 &Version=2012-06-01
@@ -292,14 +297,17 @@ Action=AddTags
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 1fb8349f-25e4-455c-a128-60fd8928c5f0
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>LoadBalancerNotFound</Code>
-    <Message>There is no ACTIVE Load Balancer named 'example'</Message>
+    <Message>There is no ACTIVE Load Balancer named &apos;example&apos;</Message>
   </Error>
-  <RequestId>dd88aca5-cdef-4b00-af8a-2cac4b5dd6a4</RequestId>
+  <RequestId>1fb8349f-25e4-455c-a128-60fd8928c5f0</RequestId>
 </ErrorResponse>
 ```
 
@@ -311,6 +319,11 @@ Associates one or more security groups with your load balancer in a virtual priv
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 116
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ApplySecurityGroupsToLoadBalancer
 &Version=2012-06-01
@@ -321,14 +334,17 @@ Action=ApplySecurityGroupsToLoadBalancer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 00c33ac4-98ec-4c57-922e-2a6d01abcb04
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>LoadBalancerNotFound</Code>
-    <Message>There is no ACTIVE Load Balancer named 'example'</Message>
+    <Message>There is no ACTIVE Load Balancer named &apos;example&apos;</Message>
   </Error>
-  <RequestId>a4d4818f-f03a-4078-aacb-a10c185956f9</RequestId>
+  <RequestId>00c33ac4-98ec-4c57-922e-2a6d01abcb04</RequestId>
 </ErrorResponse>
 ```
 
@@ -340,6 +356,11 @@ Adds one or more subnets to the set of configured subnets for the specified load
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 103
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AttachLoadBalancerToSubnets
 &Version=2012-06-01
@@ -350,14 +371,17 @@ Action=AttachLoadBalancerToSubnets
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: ccd04490-0300-42ca-a72e-8d2215fefcd0
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>LoadBalancerNotFound</Code>
-    <Message>There is no ACTIVE Load Balancer named 'example'</Message>
+    <Message>There is no ACTIVE Load Balancer named &apos;example&apos;</Message>
   </Error>
-  <RequestId>f587072f-e5bc-422d-a302-655c9420d61e</RequestId>
+  <RequestId>ccd04490-0300-42ca-a72e-8d2215fefcd0</RequestId>
 </ErrorResponse>
 ```
 
@@ -369,6 +393,11 @@ Specifies the health check settings to use when evaluating the health state of y
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 207
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ConfigureHealthCheck
 &Version=2012-06-01
@@ -383,6 +412,9 @@ Action=ConfigureHealthCheck
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: aaeba6ef-0a8e-4d51-961b-db268138bfed
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
@@ -390,7 +422,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>HealthCheck Target must begin with one of HTTP, TCP, HTTPS, SSL</Message>
   </Error>
-  <RequestId>88d8ec76-7394-488b-97d6-4053e0628fa1</RequestId>
+  <RequestId>aaeba6ef-0a8e-4d51-961b-db268138bfed</RequestId>
 </ErrorResponse>
 ```
 
@@ -402,6 +434,11 @@ Generates a stickiness policy with sticky session lifetimes that follow that of 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 120
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateAppCookieStickinessPolicy
 &Version=2012-06-01
@@ -413,14 +450,17 @@ Action=CreateAppCookieStickinessPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 8afefbb7-1247-44da-9910-c0c382d9f8ae
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>LoadBalancerNotFound</Code>
-    <Message>There is no ACTIVE Load Balancer named 'example'</Message>
+    <Message>There is no ACTIVE Load Balancer named &apos;example&apos;</Message>
   </Error>
-  <RequestId>9df53c2c-4d15-4671-a700-9e3356c98643</RequestId>
+  <RequestId>8afefbb7-1247-44da-9910-c0c382d9f8ae</RequestId>
 </ErrorResponse>
 ```
 
@@ -432,6 +472,11 @@ Generates a stickiness policy with sticky session lifetimes controlled by the li
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 100
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateLBCookieStickinessPolicy
 &Version=2012-06-01
@@ -442,14 +487,17 @@ Action=CreateLBCookieStickinessPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 3c53807c-ec05-4336-a493-07b430baf545
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>LoadBalancerNotFound</Code>
-    <Message>There is no ACTIVE Load Balancer named 'example'</Message>
+    <Message>There is no ACTIVE Load Balancer named &apos;example&apos;</Message>
   </Error>
-  <RequestId>e18a92bd-3823-4930-acdf-57df85837a4f</RequestId>
+  <RequestId>3c53807c-ec05-4336-a493-07b430baf545</RequestId>
 </ErrorResponse>
 ```
 
@@ -461,6 +509,11 @@ Creates a Classic Load Balancer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 177
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateLoadBalancer
 &Version=2012-06-01
@@ -473,6 +526,9 @@ Action=CreateLoadBalancer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 9c91587d-4cae-4bcd-8967-0e1f4bdc64d6
+content-length: 299
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
@@ -480,7 +536,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>at least one of AvailabilityZones or Subnets must be specified</Message>
   </Error>
-  <RequestId>6eb5eeff-341d-4b8b-9a34-8136a40ad3b3</RequestId>
+  <RequestId>9c91587d-4cae-4bcd-8967-0e1f4bdc64d6</RequestId>
 </ErrorResponse>
 ```
 
@@ -492,6 +548,11 @@ Creates one or more listeners for the specified load balancer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 186
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateLoadBalancerListeners
 &Version=2012-06-01
@@ -504,6 +565,9 @@ Action=CreateLoadBalancerListeners
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: a8ece898-d446-44e1-8ffd-5f69a22a19ee
+content-length: 282
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
@@ -511,7 +575,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>Protocol must be one of HTTP, TCP, HTTPS, SSL</Message>
   </Error>
-  <RequestId>767bcc3e-99b4-4f7f-afb3-876f1e1f9c2d</RequestId>
+  <RequestId>a8ece898-d446-44e1-8ffd-5f69a22a19ee</RequestId>
 </ErrorResponse>
 ```
 
@@ -523,6 +587,11 @@ Creates a policy with the specified attributes for the specified load balancer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 117
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateLoadBalancerPolicy
 &Version=2012-06-01
@@ -534,14 +603,17 @@ Action=CreateLoadBalancerPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 0ff16fc2-7a31-4011-9abf-e0ac6090c3db
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>PolicyTypeNotFound</Code>
-    <Message>There is no LoadBalancerPolicyType named 'example'</Message>
+    <Message>There is no LoadBalancerPolicyType named &apos;example&apos;</Message>
   </Error>
-  <RequestId>eb471f4d-9545-4726-97cf-de644cf0f1ee</RequestId>
+  <RequestId>0ff16fc2-7a31-4011-9abf-e0ac6090c3db</RequestId>
 </ErrorResponse>
 ```
 
@@ -553,6 +625,11 @@ Deletes the specified load balancer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 69
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteLoadBalancer
 &Version=2012-06-01
@@ -562,11 +639,13 @@ Action=DeleteLoadBalancer
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 272
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <DeleteLoadBalancerResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
-  <DeleteLoadBalancerResult/>
+  <DeleteLoadBalancerResult></DeleteLoadBalancerResult>
   <ResponseMetadata>
-    <RequestId>3d065fb1-8552-4103-8fc5-de8f691602ca</RequestId>
+    <RequestId>b076c444-ec80-44e3-a88a-b50168add53c</RequestId>
   </ResponseMetadata>
 </DeleteLoadBalancerResponse>
 ```
@@ -579,6 +658,11 @@ Deletes the specified listeners from the specified load balancer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 107
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteLoadBalancerListeners
 &Version=2012-06-01
@@ -589,14 +673,17 @@ Action=DeleteLoadBalancerListeners
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 77617515-4974-4f25-9e75-4c92420ace42
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>LoadBalancerNotFound</Code>
-    <Message>There is no ACTIVE Load Balancer named 'example'</Message>
+    <Message>There is no ACTIVE Load Balancer named &apos;example&apos;</Message>
   </Error>
-  <RequestId>d2dea8fb-9222-44ae-986a-7e4d837f0731</RequestId>
+  <RequestId>77617515-4974-4f25-9e75-4c92420ace42</RequestId>
 </ErrorResponse>
 ```
 
@@ -608,6 +695,11 @@ Deletes the specified policy from the specified load balancer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 94
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteLoadBalancerPolicy
 &Version=2012-06-01
@@ -618,14 +710,17 @@ Action=DeleteLoadBalancerPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: c23dfabe-9648-4bd9-834c-f2f9785e5389
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>LoadBalancerNotFound</Code>
-    <Message>There is no ACTIVE Load Balancer named 'example'</Message>
+    <Message>There is no ACTIVE Load Balancer named &apos;example&apos;</Message>
   </Error>
-  <RequestId>5643eb3e-dd44-4800-91d7-ce09b48f7945</RequestId>
+  <RequestId>c23dfabe-9648-4bd9-834c-f2f9785e5389</RequestId>
 </ErrorResponse>
 ```
 
@@ -637,6 +732,11 @@ Deregisters the specified instances from the specified load balancer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 86
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeregisterInstancesFromLoadBalancer
 &Version=2012-06-01
@@ -646,15 +746,18 @@ Action=DeregisterInstancesFromLoadBalancer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: aadbbbe8-e538-479d-ae5d-890e3317a28e
+content-length: 309
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>MalformedInput</Code>
-    <Message>1 validation error detected: Value null at 'instances' failed to satisfy constraint: Member must not be null</Message>
+    <Message>1 validation error detected: Value null at &apos;instances&apos; failed to satisfy constraint: Member must not be null</Message>
   </Error>
-  <RequestId>f80ab235-6f14-4038-8016-14f22ea721bc</RequestId>
+  <RequestId>aadbbbe8-e538-479d-ae5d-890e3317a28e</RequestId>
 </ErrorResponse>
 ```
 
@@ -666,6 +769,11 @@ Describes the current Elastic Load Balancing resource limits for your AWS accoun
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeAccountLimits
 &Version=2012-06-01
@@ -674,6 +782,9 @@ Action=DescribeAccountLimits
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: c4ae7c05-498f-4961-b000-49db8bbe877c
+content-length: 320
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
@@ -681,7 +792,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation DescribeAccountLimits is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>29f2ad5b-2c70-44d6-b5b8-f730f33771b6</RequestId>
+  <RequestId>c4ae7c05-498f-4961-b000-49db8bbe877c</RequestId>
 </ErrorResponse>
 ```
 
@@ -693,6 +804,11 @@ Describes the state of the specified instances with respect to the specified loa
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 73
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeInstanceHealth
 &Version=2012-06-01
@@ -702,14 +818,17 @@ Action=DescribeInstanceHealth
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 33272cc6-2927-4914-8b16-886b0a1453b6
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>LoadBalancerNotFound</Code>
-    <Message>There is no ACTIVE Load Balancer named 'example'</Message>
+    <Message>There is no ACTIVE Load Balancer named &apos;example&apos;</Message>
   </Error>
-  <RequestId>e377145b-5deb-4676-83f2-3b51cc832289</RequestId>
+  <RequestId>33272cc6-2927-4914-8b16-886b0a1453b6</RequestId>
 </ErrorResponse>
 ```
 
@@ -721,6 +840,11 @@ Describes the attributes for the specified load balancer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 81
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeLoadBalancerAttributes
 &Version=2012-06-01
@@ -730,14 +854,17 @@ Action=DescribeLoadBalancerAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: aa847b16-53c8-4616-ac9c-4b23ca5fb61d
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>LoadBalancerNotFound</Code>
-    <Message>There is no ACTIVE Load Balancer named 'example'</Message>
+    <Message>There is no ACTIVE Load Balancer named &apos;example&apos;</Message>
   </Error>
-  <RequestId>27b2e222-d786-4ccf-9195-231139aee2fe</RequestId>
+  <RequestId>aa847b16-53c8-4616-ac9c-4b23ca5fb61d</RequestId>
 </ErrorResponse>
 ```
 
@@ -749,6 +876,11 @@ Describes the specified policies.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeLoadBalancerPolicies
 &Version=2012-06-01
@@ -757,6 +889,8 @@ Action=DescribeLoadBalancerPolicies
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 39073
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <DescribeLoadBalancerPoliciesResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <DescribeLoadBalancerPoliciesResult>
@@ -789,6 +923,11 @@ Describes the specified load balancer policy types or all load balancer policy t
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 57
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeLoadBalancerPolicyTypes
 &Version=2012-06-01
@@ -797,6 +936,9 @@ Action=DescribeLoadBalancerPolicyTypes
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: bfa46972-2df6-4497-a3e2-1529a1ef6671
+content-length: 330
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
@@ -804,7 +946,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation DescribeLoadBalancerPolicyTypes is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>984136fb-8ade-481c-9863-1147b1c7cca1</RequestId>
+  <RequestId>bfa46972-2df6-4497-a3e2-1529a1ef6671</RequestId>
 </ErrorResponse>
 ```
 
@@ -816,6 +958,11 @@ Describes the specified the load balancers.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeLoadBalancers
 &Version=2012-06-01
@@ -824,13 +971,15 @@ Action=DescribeLoadBalancers
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 337
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <DescribeLoadBalancersResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <DescribeLoadBalancersResult>
-    <LoadBalancerDescriptions/>
+    <LoadBalancerDescriptions></LoadBalancerDescriptions>
   </DescribeLoadBalancersResult>
   <ResponseMetadata>
-    <RequestId>a058b0c9-a376-48ee-9387-fb00c41dd522</RequestId>
+    <RequestId>b160ca8e-12c6-451f-aefb-78c8f5ea7956</RequestId>
   </ResponseMetadata>
 </DescribeLoadBalancersResponse>
 ```
@@ -843,6 +992,11 @@ Describes the tags associated with the specified load balancers.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 73
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeTags
 &Version=2012-06-01
@@ -852,14 +1006,17 @@ Action=DescribeTags
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 2cebe101-be20-4c09-9db2-307dddff2496
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>LoadBalancerNotFound</Code>
-    <Message>There is no ACTIVE Load Balancer named 'example'</Message>
+    <Message>There is no ACTIVE Load Balancer named &apos;example&apos;</Message>
   </Error>
-  <RequestId>87271fec-1c71-4116-87c7-09a9c4d104d4</RequestId>
+  <RequestId>2cebe101-be20-4c09-9db2-307dddff2496</RequestId>
 </ErrorResponse>
 ```
 
@@ -871,6 +1028,11 @@ Removes the specified subnets from the set of configured subnets for the load ba
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 105
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DetachLoadBalancerFromSubnets
 &Version=2012-06-01
@@ -881,14 +1043,17 @@ Action=DetachLoadBalancerFromSubnets
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: c19db7ea-a660-4218-af8d-809f5d71e540
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>LoadBalancerNotFound</Code>
-    <Message>There is no ACTIVE Load Balancer named 'example'</Message>
+    <Message>There is no ACTIVE Load Balancer named &apos;example&apos;</Message>
   </Error>
-  <RequestId>dd1bae32-721b-400d-aaba-caf820f30799</RequestId>
+  <RequestId>c19db7ea-a660-4218-af8d-809f5d71e540</RequestId>
 </ErrorResponse>
 ```
 
@@ -902,6 +1067,11 @@ Removes the specified Availability Zones from the set of Availability Zones for 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 125
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DisableAvailabilityZonesForLoadBalancer
 &Version=2012-06-01
@@ -912,14 +1082,17 @@ Action=DisableAvailabilityZonesForLoadBalancer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 531851ea-746a-4c75-8164-fcfde3e935dc
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>LoadBalancerNotFound</Code>
-    <Message>There is no ACTIVE Load Balancer named 'example'</Message>
+    <Message>There is no ACTIVE Load Balancer named &apos;example&apos;</Message>
   </Error>
-  <RequestId>5ed57b03-ca1a-4c96-a604-a838ad4a1c9b</RequestId>
+  <RequestId>531851ea-746a-4c75-8164-fcfde3e935dc</RequestId>
 </ErrorResponse>
 ```
 
@@ -931,6 +1104,11 @@ Adds the specified Availability Zones to the set of Availability Zones for the s
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 124
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=EnableAvailabilityZonesForLoadBalancer
 &Version=2012-06-01
@@ -941,14 +1119,17 @@ Action=EnableAvailabilityZonesForLoadBalancer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 5c22018d-4cc8-449e-8f19-744c5c26b950
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>LoadBalancerNotFound</Code>
-    <Message>There is no ACTIVE Load Balancer named 'example'</Message>
+    <Message>There is no ACTIVE Load Balancer named &apos;example&apos;</Message>
   </Error>
-  <RequestId>d51bd400-3586-4a58-80d3-fa9e60aef73f</RequestId>
+  <RequestId>5c22018d-4cc8-449e-8f19-744c5c26b950</RequestId>
 </ErrorResponse>
 ```
 
@@ -960,6 +1141,11 @@ Modifies the attributes of the specified load balancer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 79
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyLoadBalancerAttributes
 &Version=2012-06-01
@@ -969,15 +1155,18 @@ Action=ModifyLoadBalancerAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: f11220ac-4ab3-4fa7-b84a-e24a613fd3af
+content-length: 322
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>MalformedInput</Code>
-    <Message>1 validation error detected: Value null at 'loadBalancerAttributes' failed to satisfy constraint: Member must not be null</Message>
+    <Message>1 validation error detected: Value null at &apos;loadBalancerAttributes&apos; failed to satisfy constraint: Member must not be null</Message>
   </Error>
-  <RequestId>06bed626-a55c-4584-984d-f2fbe760527f</RequestId>
+  <RequestId>f11220ac-4ab3-4fa7-b84a-e24a613fd3af</RequestId>
 </ErrorResponse>
 ```
 
@@ -989,6 +1178,11 @@ Adds the specified instances to the specified load balancer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 84
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RegisterInstancesWithLoadBalancer
 &Version=2012-06-01
@@ -998,15 +1192,18 @@ Action=RegisterInstancesWithLoadBalancer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 5a04ae02-435b-4d42-9795-9b427aa1e507
+content-length: 309
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>MalformedInput</Code>
-    <Message>1 validation error detected: Value null at 'instances' failed to satisfy constraint: Member must not be null</Message>
+    <Message>1 validation error detected: Value null at &apos;instances&apos; failed to satisfy constraint: Member must not be null</Message>
   </Error>
-  <RequestId>7cbdeb36-9788-4677-951b-c23198e1927b</RequestId>
+  <RequestId>5a04ae02-435b-4d42-9795-9b427aa1e507</RequestId>
 </ErrorResponse>
 ```
 
@@ -1018,6 +1215,11 @@ Removes one or more tags from the specified load balancer.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RemoveTags
 &Version=2012-06-01
@@ -1027,15 +1229,18 @@ Action=RemoveTags
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: e2d8983b-d794-4e15-842a-0b705d19e88e
+content-length: 304
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>MalformedInput</Code>
-    <Message>1 validation error detected: Value null at 'tags' failed to satisfy constraint: Member must not be null</Message>
+    <Message>1 validation error detected: Value null at &apos;tags&apos; failed to satisfy constraint: Member must not be null</Message>
   </Error>
-  <RequestId>e42e877b-10ea-4762-8ec4-0f44e6b34ecb</RequestId>
+  <RequestId>e2d8983b-d794-4e15-842a-0b705d19e88e</RequestId>
 </ErrorResponse>
 ```
 
@@ -1047,6 +1252,11 @@ Sets the certificate that terminates the specified listener's SSL connections.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 132
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetLoadBalancerListenerSSLCertificate
 &Version=2012-06-01
@@ -1058,6 +1268,9 @@ Action=SetLoadBalancerListenerSSLCertificate
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: 21fed701-5b95-4610-aec1-3b528df5c7ed
+content-length: 336
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
@@ -1065,7 +1278,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation SetLoadBalancerListenerSSLCertificate is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>ad01e482-ab6e-42e5-8562-123d305ca83f</RequestId>
+  <RequestId>21fed701-5b95-4610-aec1-3b528df5c7ed</RequestId>
 </ErrorResponse>
 ```
 
@@ -1077,6 +1290,11 @@ Replaces the set of policies associated with the specified port on which the EC2
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 134
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetLoadBalancerPoliciesForBackendServer
 &Version=2012-06-01
@@ -1088,6 +1306,9 @@ Action=SetLoadBalancerPoliciesForBackendServer
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: da876cf5-7b52-4143-8b48-fa6f6c70539a
+content-length: 338
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
@@ -1095,7 +1316,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation SetLoadBalancerPoliciesForBackendServer is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>bf44e64f-2fed-4e40-85b9-4ce085450e79</RequestId>
+  <RequestId>da876cf5-7b52-4143-8b48-fa6f6c70539a</RequestId>
 </ErrorResponse>
 ```
 
@@ -1107,6 +1328,11 @@ Replaces the current set of policies for the specified load balancer port with t
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182958Z
+Content-Length: 132
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/elasticloadbalancing/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetLoadBalancerPoliciesOfListener
 &Version=2012-06-01
@@ -1118,14 +1344,17 @@ Action=SetLoadBalancerPoliciesOfListener
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 0328264e-3601-409b-918d-99db0e620b16
+content-length: 300
+date: Thu, 26 Nov 2026 18:29:58 GMT
 
 <ErrorResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2012-06-01/">
   <Error>
     <Type>Sender</Type>
     <Code>LoadBalancerNotFound</Code>
-    <Message>There is no ACTIVE Load Balancer named 'example'</Message>
+    <Message>There is no ACTIVE Load Balancer named &apos;example&apos;</Message>
   </Error>
-  <RequestId>5a4bbdca-19f8-4928-9b01-15cd9ceba1d9</RequestId>
+  <RequestId>0328264e-3601-409b-918d-99db0e620b16</RequestId>
 </ErrorResponse>
 ```
 

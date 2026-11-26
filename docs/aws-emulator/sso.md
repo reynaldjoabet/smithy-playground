@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `awsssoportal`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `awsssoportal`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListAccounts`:
 
@@ -37,10 +37,8 @@ The access token comes from `sso-oidc` `CreateToken` after a person approved the
 
 ```http
 GET /assignment/accounts HTTP/1.1
-x-amz-sso_bearer_token: not-a-real-session-token
+x-amz-sso_bearer_token: <redacted>
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/awsssoportal/aws4_request, SignedHeaders=host;x-amz-date;x-amz-sso_bearer_token, Signature=<signature>
 ```
 
 **Response**
@@ -50,7 +48,7 @@ HTTP/1.1 401 Unauthorized
 content-type: application/json
 x-amzn-errortype: UnauthorizedException
 content-length: 81
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "UnauthorizedException",
@@ -66,10 +64,8 @@ The same token gates role credentials.
 
 ```http
 GET /federation/credentials?account_id=000000000000&role_name=ReadOnly HTTP/1.1
-x-amz-sso_bearer_token: not-a-real-session-token
+x-amz-sso_bearer_token: <redacted>
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/awsssoportal/aws4_request, SignedHeaders=host;x-amz-date;x-amz-sso_bearer_token, Signature=<signature>
 ```
 
 **Response**
@@ -79,7 +75,7 @@ HTTP/1.1 401 Unauthorized
 content-type: application/json
 x-amzn-errortype: UnauthorizedException
 content-length: 81
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "UnauthorizedException",
@@ -89,7 +85,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 4 operations, 0 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error.
 
@@ -99,13 +95,16 @@ Returns the STS short-term credentials for a given role name that is assigned to
 
 ```http
 GET /federation/credentials?account_id=example&role_name=example HTTP/1.1
-x-amz-sso_bearer_token: example
+x-amz-sso_bearer_token: <redacted>
+Host: 127.0.0.1:9297
 ```
 
 ```http
 HTTP/1.1 401 Unauthorized
 content-type: application/json
 x-amzn-errortype: UnauthorizedException
+content-length: 81
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "UnauthorizedException",
@@ -121,13 +120,16 @@ Lists all roles that are assigned to the user for a given AWS account.
 
 ```http
 GET /assignment/roles?account_id=example HTTP/1.1
-x-amz-sso_bearer_token: example
+x-amz-sso_bearer_token: <redacted>
+Host: 127.0.0.1:9297
 ```
 
 ```http
 HTTP/1.1 401 Unauthorized
 content-type: application/json
 x-amzn-errortype: UnauthorizedException
+content-length: 81
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "UnauthorizedException",
@@ -143,13 +145,16 @@ Lists all AWS accounts assigned to the user.
 
 ```http
 GET /assignment/accounts HTTP/1.1
-x-amz-sso_bearer_token: example
+x-amz-sso_bearer_token: <redacted>
+Host: 127.0.0.1:9297
 ```
 
 ```http
 HTTP/1.1 401 Unauthorized
 content-type: application/json
 x-amzn-errortype: UnauthorizedException
+content-length: 81
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "UnauthorizedException",
@@ -165,13 +170,16 @@ Removes the locally stored SSO tokens from the client-side cache and sends an AP
 
 ```http
 POST /logout HTTP/1.1
-x-amz-sso_bearer_token: example
+x-amz-sso_bearer_token: <redacted>
+Host: 127.0.0.1:9297
 ```
 
 ```http
 HTTP/1.1 401 Unauthorized
 content-type: application/json
 x-amzn-errortype: UnauthorizedException
+content-length: 81
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "UnauthorizedException",

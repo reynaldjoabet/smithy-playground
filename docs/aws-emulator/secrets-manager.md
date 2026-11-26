@@ -11,7 +11,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `secretsmanager`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `secretsmanager`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListSecrets`:
 
@@ -42,9 +42,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.CreateSecret
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
-Content-Length: 156
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 121
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "prod/db/password",
@@ -59,10 +59,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/se
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 163
-date: Mon, 16 Nov 2026 12:05:21 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
-  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:prod/db/password-A2cvXP",
+  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:prod/db/password-rVzQGu",
   "Name": "prod/db/password",
   "VersionId": "11111111-2222-3333-4444-555555555555"
 }
@@ -79,9 +79,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.GetSecretValue
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
-Content-Length: 32
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "prod/db/password"
@@ -93,18 +93,18 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/se
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 293
-date: Mon, 16 Nov 2026 12:05:21 GMT
+content-length: 257
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
-  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:prod/db/password-A2cvXP",
+  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:prod/db/password-rVzQGu",
   "Name": "prod/db/password",
   "VersionId": "11111111-2222-3333-4444-555555555555",
   "SecretString": "<redacted>",
   "VersionStages": [
     "AWSCURRENT"
   ],
-  "CreatedDate": 1794830721.9157581
+  "CreatedDate": 1795717851.456
 }
 ```
 
@@ -119,9 +119,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.PutSecretValue
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
-Content-Length: 164
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 125
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "prod/db/password",
@@ -136,10 +136,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/se
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 194
-date: Mon, 16 Nov 2026 12:05:21 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
-  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:prod/db/password-A2cvXP",
+  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:prod/db/password-rVzQGu",
   "Name": "prod/db/password",
   "VersionId": "fda5fc4f-3168-415f-b711-a7f73fb034a7",
   "VersionStages": [
@@ -159,9 +159,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.ListSecretVersionIds
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
-Content-Length: 32
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "prod/db/password"
@@ -173,8 +173,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/se
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 468
-date: Mon, 16 Nov 2026 12:05:21 GMT
+content-length: 455
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "Versions": [
@@ -183,8 +183,8 @@ date: Mon, 16 Nov 2026 12:05:21 GMT
       "VersionStages": [
         "AWSPREVIOUS"
       ],
-      "LastAccessedDate": 1794787200,
-      "CreatedDate": 1794830721.9157581,
+      "LastAccessedDate": 1795651200,
+      "CreatedDate": 1795717851.456,
       "KmsKeyIds": [
         "DefaultEncryptionKey"
       ]
@@ -194,13 +194,13 @@ date: Mon, 16 Nov 2026 12:05:21 GMT
       "VersionStages": [
         "AWSCURRENT"
       ],
-      "CreatedDate": 1794830721.9294636,
+      "CreatedDate": 1795717851.46,
       "KmsKeyIds": [
         "DefaultEncryptionKey"
       ]
     }
   ],
-  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:prod/db/password-A2cvXP",
+  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:prod/db/password-rVzQGu",
   "Name": "prod/db/password"
 }
 ```
@@ -216,12 +216,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.DescribeSecret
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
-Content-Length: 92
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 91
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "SecretId": "arn:aws:secretsmanager:us-east-1:000000000000:secret:prod/db/password-A2cvXP"
+  "SecretId": "arn:aws:secretsmanager:us-east-1:000000000000:secret:prod/db/password-rVzQGu"
 }
 ```
 
@@ -230,24 +230,23 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/se
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 372
-date: Mon, 16 Nov 2026 12:05:21 GMT
+content-length: 335
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
-  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:prod/db/password-A2cvXP",
+  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:prod/db/password-rVzQGu",
   "Name": "prod/db/password",
-  "RotationEnabled": false,
-  "LastChangedDate": 1794830721.9294636,
-  "LastAccessedDate": 1794787200,
+  "LastChangedDate": 1795717851.46,
+  "LastAccessedDate": 1795651200,
   "VersionIdsToStages": {
-    "11111111-2222-3333-4444-555555555555": [
-      "AWSPREVIOUS"
-    ],
     "fda5fc4f-3168-415f-b711-a7f73fb034a7": [
       "AWSCURRENT"
+    ],
+    "11111111-2222-3333-4444-555555555555": [
+      "AWSPREVIOUS"
     ]
   },
-  "CreatedDate": 1794830721.9157581
+  "CreatedDate": 1795717851.456
 }
 ```
 
@@ -262,9 +261,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.DeleteSecret
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
-Content-Length: 68
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 65
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "prod/db/password",
@@ -277,13 +276,13 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/se
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 148
-date: Mon, 16 Nov 2026 12:05:21 GMT
+content-length: 142
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
-  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:prod/db/password-A2cvXP",
+  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:prod/db/password-rVzQGu",
   "Name": "prod/db/password",
-  "DeletionDate": 1794830721.9415512
+  "DeletionDate": 1795717851.463
 }
 ```
 
@@ -298,9 +297,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.GetSecretValue
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
-Content-Length: 32
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "prod/db/password"
@@ -313,7 +312,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/se
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 content-length: 131
-date: Mon, 16 Nov 2026 12:05:21 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -323,7 +322,7 @@ date: Mon, 16 Nov 2026 12:05:21 GMT
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 23 operations, 10 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error.
 
@@ -333,7 +332,12 @@ Retrieves the contents of the encrypted fields SecretString or SecretBinary for 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.BatchGetSecretValue
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -341,6 +345,8 @@ X-Amz-Target: secretsmanager.BatchGetSecretValue
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 107
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -356,7 +362,12 @@ Turns off automatic rotation, and if a rotation is currently in progress, cancel
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.CancelRotateSecret
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example"
@@ -366,6 +377,8 @@ X-Amz-Target: secretsmanager.CancelRotateSecret
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 99
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -381,7 +394,12 @@ Creates a new secret.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.CreateSecret
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 78
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -392,9 +410,11 @@ X-Amz-Target: secretsmanager.CreateSecret
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 94
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
-  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:example-3wKokR",
+  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:example-D5ytA8",
   "Name": "example"
 }
 ```
@@ -407,7 +427,12 @@ Deletes the resource-based permission policy attached to the secret.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.DeleteResourcePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example"
@@ -417,9 +442,11 @@ X-Amz-Target: secretsmanager.DeleteResourcePolicy
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 94
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
-  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:example-3wKokR",
+  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:example-D5ytA8",
   "Name": "example"
 }
 ```
@@ -432,7 +459,12 @@ Deletes a secret and all of its versions.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.DeleteSecret
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example"
@@ -442,11 +474,13 @@ X-Amz-Target: secretsmanager.DeleteSecret
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 124
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
-  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:example-3wKokR",
+  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:example-D5ytA8",
   "Name": "example",
-  "DeletionDate": 1797423083.743186
+  "DeletionDate": 1798309851.468
 }
 ```
 
@@ -458,7 +492,12 @@ Retrieves the details of a secret.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.DescribeSecret
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example"
@@ -468,14 +507,15 @@ X-Amz-Target: secretsmanager.DescribeSecret
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 185
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
-  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:example-3wKokR",
+  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:example-D5ytA8",
   "Name": "example",
-  "RotationEnabled": false,
-  "LastChangedDate": 1794831083.743186,
-  "DeletedDate": 1794831083.743186,
-  "CreatedDate": 1794831083.7245953
+  "LastChangedDate": 1795717851.468,
+  "DeletedDate": 1795717851.468,
+  "CreatedDate": 1795717851.466
 }
 ```
 
@@ -487,7 +527,12 @@ Generates a random password.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.GetRandomPassword
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -495,6 +540,8 @@ X-Amz-Target: secretsmanager.GetRandomPassword
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 53
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "RandomPassword": "<redacted>"
@@ -509,7 +556,12 @@ Retrieves the JSON text of the resource-based policy document attached to the se
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.GetResourcePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example"
@@ -519,6 +571,8 @@ X-Amz-Target: secretsmanager.GetResourcePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 131
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -534,7 +588,12 @@ Retrieves the contents of the encrypted fields SecretString or SecretBinary from
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.GetSecretValue
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example"
@@ -544,6 +603,8 @@ X-Amz-Target: secretsmanager.GetSecretValue
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 131
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -559,7 +620,12 @@ Lists the versions of a secret.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.ListSecretVersionIds
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example"
@@ -569,10 +635,12 @@ X-Amz-Target: secretsmanager.ListSecretVersionIds
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 108
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "Versions": [],
-  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:example-3wKokR",
+  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:example-D5ytA8",
   "Name": "example"
 }
 ```
@@ -585,7 +653,12 @@ Lists the secrets that are stored by Secrets Manager in the Amazon Web Services 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.ListSecrets
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -593,6 +666,8 @@ X-Amz-Target: secretsmanager.ListSecrets
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 17
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "SecretList": []
@@ -607,7 +682,12 @@ Attaches a resource-based permission policy to a secret.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.PutResourcePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example",
@@ -618,6 +698,8 @@ X-Amz-Target: secretsmanager.PutResourcePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 103
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "MalformedPolicyDocumentException",
@@ -633,7 +715,12 @@ Creates a new version of your secret by creating a new encrypted value and attac
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.PutSecretValue
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 82
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example",
@@ -644,6 +731,8 @@ X-Amz-Target: secretsmanager.PutSecretValue
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 102
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -659,7 +748,12 @@ For a secret that is replicated to other Regions, deletes the secret replicas fr
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.RemoveRegionsFromReplication
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 59
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example",
@@ -672,6 +766,8 @@ X-Amz-Target: secretsmanager.RemoveRegionsFromReplication
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 131
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -687,7 +783,12 @@ Replicates the secret to a new Regions.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.ReplicateSecretToRegions
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example",
@@ -700,6 +801,8 @@ X-Amz-Target: secretsmanager.ReplicateSecretToRegions
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 131
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -715,7 +818,12 @@ Cancels the scheduled deletion of a secret by removing the DeletedDate time stam
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.RestoreSecret
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example"
@@ -725,9 +833,11 @@ X-Amz-Target: secretsmanager.RestoreSecret
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 94
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
-  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:example-3wKokR",
+  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:example-D5ytA8",
   "Name": "example"
 }
 ```
@@ -740,7 +850,12 @@ Configures and starts the asynchronous process of rotating the secret.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.RotateSecret
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 82
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example",
@@ -751,6 +866,8 @@ X-Amz-Target: secretsmanager.RotateSecret
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 112
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -766,7 +883,12 @@ Removes the link between the replica secret and the primary secret and promotes 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.StopReplicationToReplica
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example"
@@ -776,6 +898,8 @@ X-Amz-Target: secretsmanager.StopReplicationToReplica
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 106
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -791,7 +915,12 @@ Attaches tags to a secret.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.TagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 34
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example",
@@ -804,6 +933,8 @@ X-Amz-Target: secretsmanager.TagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 91
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -819,7 +950,12 @@ Removes specific tags from a secret.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.UntagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 44
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example",
@@ -832,6 +968,8 @@ X-Amz-Target: secretsmanager.UntagResource
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 2
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {}
 ```
@@ -844,7 +982,12 @@ Modifies the details of a secret, including metadata and the secret value.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.UpdateSecret
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 82
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example",
@@ -855,9 +998,11 @@ X-Amz-Target: secretsmanager.UpdateSecret
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 94
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
-  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:example-3wKokR",
+  "ARN": "arn:aws:secretsmanager:us-east-1:000000000000:secret:example-D5ytA8",
   "Name": "example"
 }
 ```
@@ -870,7 +1015,12 @@ Modifies the staging labels attached to a version of a secret.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.UpdateSecretVersionStage
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SecretId": "example",
@@ -881,6 +1031,8 @@ X-Amz-Target: secretsmanager.UpdateSecretVersionStage
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 114
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -896,7 +1048,12 @@ Validates that a resource policy does not grant a wide range of principals acces
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: secretsmanager.ValidateResourcePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/secretsmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourcePolicy": "example"
@@ -906,6 +1063,8 @@ X-Amz-Target: secretsmanager.ValidateResourcePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 103
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "MalformedPolicyDocumentException",

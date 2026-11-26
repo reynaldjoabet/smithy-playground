@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `kafka`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `kafka`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListClustersV2`:
 
@@ -36,13 +36,13 @@ Server properties are sent as base64 in the JSON body.
 POST /v1/configurations HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121009Z
-Content-Length: 145
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183218Z
+Content-Length: 140
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "kafkaVersions": [
-    "3.6.0"
+    "3.9.x"
   ],
   "name": "docs-demo",
   "serverProperties": "YXV0by5jcmVhdGUudG9waWNzLmVuYWJsZT10cnVlCmxvZy5yZXRlbnRpb24uaG91cnM9MjQK"
@@ -55,13 +55,13 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ka
 HTTP/1.1 200 OK
 content-type: application/json
 content-length: 267
-date: Mon, 16 Nov 2026 12:10:09 GMT
+date: Thu, 26 Nov 2026 18:32:18 GMT
 
 {
-  "arn": "arn:aws:kafka:us-east-1:000000000000:configuration/docs-demo/0401ff45-3722-48df-81c3-0bed3a4cb8f7-2",
-  "creationTime": "2026-11-16T12:10:09.515201Z",
+  "arn": "arn:aws:kafka:us-east-1:000000000000:configuration/docs-demo/981502e4-1d54-46e4-8769-25c093886117-1",
+  "creationTime": "2026-11-26T18:32:18.934109Z",
   "latestRevision": {
-    "creationTime": "2026-11-16T12:10:09.515201Z",
+    "creationTime": "2026-11-26T18:32:18.934109Z",
     "revision": 1
   },
   "name": "docs-demo",
@@ -79,9 +79,9 @@ The broker count must be a multiple of the number of subnets.
 POST /v1/clusters HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121009Z
-Content-Length: 361
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183218Z
+Content-Length: 345
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "brokerNodeGroupInfo": {
@@ -93,10 +93,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ka
   },
   "clusterName": "docs-demo",
   "configurationInfo": {
-    "arn": "arn:aws:kafka:us-east-1:000000000000:configuration/docs-demo/0401ff45-3722-48df-81c3-0bed3a4cb8f7-2",
+    "arn": "arn:aws:kafka:us-east-1:000000000000:configuration/docs-demo/981502e4-1d54-46e4-8769-25c093886117-1",
     "revision": 1
   },
-  "kafkaVersion": "3.6.0",
+  "kafkaVersion": "3.9.x",
   "numberOfBrokerNodes": 2
 }
 ```
@@ -107,10 +107,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ka
 HTTP/1.1 200 OK
 content-type: application/json
 content-length: 155
-date: Mon, 16 Nov 2026 12:10:09 GMT
+date: Thu, 26 Nov 2026 18:32:18 GMT
 
 {
-  "clusterArn": "arn:aws:kafka:us-east-1:000000000000:cluster/docs-demo/ecfea57e-a006-407c-8466-ad95bbc05fb2-2",
+  "clusterArn": "arn:aws:kafka:us-east-1:000000000000:cluster/docs-demo/811b4fb5-6c23-45b1-af78-82334e27ae03-1",
   "clusterName": "docs-demo",
   "state": "CREATING"
 }
@@ -125,10 +125,10 @@ Poll until `ACTIVE`.
 **Request**
 
 ```http
-GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Acluster%2Fdocs-demo%2Fecfea57e-a006-407c-8466-ad95bbc05fb2-2 HTTP/1.1
+GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Acluster%2Fdocs-demo%2F811b4fb5-6c23-45b1-af78-82334e27ae03-1 HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121011Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183218Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -136,8 +136,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ka
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
-content-length: 1430
-date: Mon, 16 Nov 2026 12:10:11 GMT
+content-length: 1474
+date: Thu, 26 Nov 2026 18:32:18 GMT
 
 {
   "clusterInfo": {
@@ -146,17 +146,20 @@ date: Mon, 16 Nov 2026 12:10:11 GMT
         "subnet-00000000000000007",
         "subnet-00000000000000009"
       ],
-      "instanceType": "kafka.t3.small"
+      "instanceType": "kafka.t3.small",
+      "securityGroups": [
+        "sg-00000000000000013"
+      ]
     },
-    "clusterArn": "arn:aws:kafka:us-east-1:000000000000:cluster/docs-demo/ecfea57e-a006-407c-8466-ad95bbc05fb2-2",
+    "clusterArn": "arn:aws:kafka:us-east-1:000000000000:cluster/docs-demo/811b4fb5-6c23-45b1-af78-82334e27ae03-1",
     "clusterName": "docs-demo",
-    "creationTime": "2026-11-16T12:10:09.547731Z",
+    "creationTime": "2026-11-26T18:32:18.939718Z",
     "currentBrokerSoftwareInfo": {
-      "configurationArn": "arn:aws:kafka:us-east-1:000000000000:configuration/docs-demo/0401ff45-3722-48df-81c3-0bed3a4cb8f7-2",
+      "configurationArn": "arn:aws:kafka:us-east-1:000000000000:configuration/docs-demo/981502e4-1d54-46e4-8769-25c093886117-1",
       "configurationRevision": 1,
-      "kafkaVersion": "3.6.0"
+      "kafkaVersion": "3.9.x"
     },
-    "currentVersion": "KULPZNQ2M7RMAG",
+    "currentVersion": "KXKVZQKAT51QKE",
     "encryptionInfo": {
       "encryptionAtRest": {
         "dataVolumeKMSKeyId": "arn:aws:kms:us-east-1:000000000000:key/b4887068-c73a-4b59-bce3-dc3360ced13a"
@@ -178,10 +181,10 @@ date: Mon, 16 Nov 2026 12:10:11 GMT
       }
     },
     "numberOfBrokerNodes": 2,
-    "state": "ACTIVE",
+    "state": "CREATING",
     "tags": {},
-    "zookeeperConnectString": "z-1.docs-demo.9ddbca.c5.kafka.us-east-1.amazonaws.com:2181,z-2.docs-demo.9ddbca.c5.kafka.us-east-1.amazonaws.com:2181,z-3.docs-demo.9ddbca.c5.kafka.us-east-1.amazonaws.com:2181",
-    "zookeeperConnectStringTls": "z-1.docs-demo.9ddbca.c5.kafka.us-east-1.amazonaws.com:2182,z-2.docs-demo.9ddbca.c5.kafka.us-east-1.amazonaws.com:2182,z-3.docs-demo.9ddbca.c5.kafka.us-east-1.amazonaws.com:2182",
+    "zookeeperConnectString": "z-1.docs-demo.77b02e.c4.kafka.us-east-1.amazonaws.com:2181,z-2.docs-demo.77b02e.c4.kafka.us-east-1.amazonaws.com:2181,z-3.docs-demo.77b02e.c4.kafka.us-east-1.amazonaws.com:2181",
+    "zookeeperConnectStringTls": "z-1.docs-demo.77b02e.c4.kafka.us-east-1.amazonaws.com:2182,z-2.docs-demo.77b02e.c4.kafka.us-east-1.amazonaws.com:2182,z-3.docs-demo.77b02e.c4.kafka.us-east-1.amazonaws.com:2182",
     "storageMode": "LOCAL",
     "customerActionStatus": "NONE"
   }
@@ -195,10 +198,10 @@ The broker addresses a Kafka client connects to, in MSK's hostname format.
 **Request**
 
 ```http
-GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Acluster%2Fdocs-demo%2Fecfea57e-a006-407c-8466-ad95bbc05fb2-2/bootstrap-brokers HTTP/1.1
+GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Acluster%2Fdocs-demo%2F811b4fb5-6c23-45b1-af78-82334e27ae03-1/bootstrap-brokers HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121011Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -206,12 +209,12 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ka
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
-content-length: 292
-date: Mon, 16 Nov 2026 12:10:11 GMT
+content-length: 120
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "bootstrapBrokerString": "b-1.docs-demo.9ddbca.c5.kafka.us-east-1.amazonaws.com:9092,b-2.docs-demo.9ddbca.c5.kafka.us-east-1.amazonaws.com:9092",
-  "bootstrapBrokerStringTls": "b-1.docs-demo.9ddbca.c5.kafka.us-east-1.amazonaws.com:9094,b-2.docs-demo.9ddbca.c5.kafka.us-east-1.amazonaws.com:9094"
+  "bootstrapBrokerString": "127.0.0.1:44349,127.0.0.1:44349",
+  "bootstrapBrokerStringTls": "127.0.0.1:36041,127.0.0.1:36041"
 }
 ```
 
@@ -222,10 +225,10 @@ Deletion is asynchronous.
 **Request**
 
 ```http
-DELETE /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Acluster%2Fdocs-demo%2Fecfea57e-a006-407c-8466-ad95bbc05fb2-2 HTTP/1.1
+DELETE /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Acluster%2Fdocs-demo%2F811b4fb5-6c23-45b1-af78-82334e27ae03-1 HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121011Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -234,10 +237,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ka
 HTTP/1.1 200 OK
 content-type: application/json
 content-length: 129
-date: Mon, 16 Nov 2026 12:10:11 GMT
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "clusterArn": "arn:aws:kafka:us-east-1:000000000000:cluster/docs-demo/ecfea57e-a006-407c-8466-ad95bbc05fb2-2",
+  "clusterArn": "arn:aws:kafka:us-east-1:000000000000:cluster/docs-demo/811b4fb5-6c23-45b1-af78-82334e27ae03-1",
   "state": "DELETING"
 }
 ```
@@ -249,10 +252,10 @@ Poll until it is gone.
 **Request**
 
 ```http
-GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Acluster%2Fdocs-demo%2Fecfea57e-a006-407c-8466-ad95bbc05fb2-2 HTTP/1.1
+GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Acluster%2Fdocs-demo%2F811b4fb5-6c23-45b1-af78-82334e27ae03-1 HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121011Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -262,11 +265,11 @@ HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
 content-length: 114
-date: Mon, 16 Nov 2026 12:10:11 GMT
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "NotFoundException",
-  "invalidParameter": "ClusterArn",
+  "invalidParameter": "clusterArn",
   "message": "The requested resource doesn’t exist."
 }
 ```
@@ -278,10 +281,10 @@ A configuration no cluster uses can be deleted.
 **Request**
 
 ```http
-DELETE /v1/configurations/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aconfiguration%2Fdocs-demo%2F0401ff45-3722-48df-81c3-0bed3a4cb8f7-2 HTTP/1.1
+DELETE /v1/configurations/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aconfiguration%2Fdocs-demo%2F981502e4-1d54-46e4-8769-25c093886117-1 HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121011Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -290,17 +293,17 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ka
 HTTP/1.1 200 OK
 content-type: application/json
 content-length: 128
-date: Mon, 16 Nov 2026 12:10:11 GMT
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "arn": "arn:aws:kafka:us-east-1:000000000000:configuration/docs-demo/0401ff45-3722-48df-81c3-0bed3a4cb8f7-2",
+  "arn": "arn:aws:kafka:us-east-1:000000000000:configuration/docs-demo/981502e4-1d54-46e4-8769-25c093886117-1",
   "state": "DELETING"
 }
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 64 operations, 7 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error.
 
@@ -311,6 +314,10 @@ Associates one or more Scram Secrets with an Amazon MSK cluster.
 ```http
 POST /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/scram-secrets HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 29
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "secretArnList": [
@@ -323,6 +330,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 161
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -340,6 +349,10 @@ Disassociates one or more Scram Secrets from an Amazon MSK cluster.
 ```http
 PATCH /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/scram-secrets HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 29
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "secretArnList": [
@@ -352,6 +365,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 161
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -369,6 +384,10 @@ Creates a Channel that streams records from an Amazon MSK Express cluster topic 
 ```http
 POST /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/channels HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 170
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "channelName": "example",
@@ -387,6 +406,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -404,6 +425,10 @@ Creates a new MSK cluster.
 ```http
 POST /v1/clusters HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 151
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "brokerNodeGroupInfo": {
@@ -422,11 +447,13 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 228
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
   "invalidParameter": "kafkaVersion",
-  "message": "Standard instance types are not supported for Kafka version example. Valid values: [3.6.0, 3.7.x, 3.7.x.kraft, 3.8.x, 3.8.x.kraft, 3.9.x, 3.9.x.kraft, 4.0.x.kraft, 4.1.x.kraft, 4.2.x.kraft]"
+  "message": "Standard instance types are not supported for Kafka version example. Valid values: [3.8.x, 3.8.x.kraft, 3.9.x, 3.9.x.kraft, 4.0.x.kraft, 4.1.x.kraft]"
 }
 ```
 
@@ -439,6 +466,10 @@ Creates a new MSK cluster.
 ```http
 POST /api/v2/clusters HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 25
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clusterName": "example"
@@ -449,6 +480,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 144
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -466,6 +499,10 @@ Creates a new MSK configuration.
 ```http
 POST /v1/configurations HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "name": "example",
@@ -477,11 +514,13 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 565
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
   "invalidParameter": "serverProperties",
-  "message": "[{\"name\":\"example\",\"value\":\"\",\"errorMessages\":[\"Key 'example' is not supported by at least one Apache Kafka version. Key checked against versions: [1.1.1, 2.1.0, 2.2.1, 2.3.1, 2.4.1, 2.4.1.1, 2.5.1, 2.6.0, 2.6.1, 2.6.2, 2.6.3, 2.7.0, 2.7.1, 2.7.2, 2.8.0, 2.8.1, 2.8.2.tiered, 3.1.1, 3.2.0, 3.3.1, 3.3.2, 3.4.0, 3.5.1, 3.6.0, 3.6.0.1, 3.7.x, 3.7.x.kraft, 3.8.x, 3.8.x.kraft, 3.8.link, 3.9.x, 3.9.x.kraft, 4.0.x.kraft, 4.1.x.kraft, 4.2.x.kraft]\"]}]"
+  "message": "[ {\n  \"name\" : \"example\",\n  \"value\" : \"\",\n  \"errorMessages\" : [ \"Key 'example' is not supported by at least one Apache Kafka version. Key checked against versions: [1.1.1, 2.1.0, 2.2.1, 2.3.1, 2.4.1, 2.4.1.1, 2.5.1, 2.6.0, 2.6.1, 2.6.2, 2.6.3, 2.7.0, 2.7.1, 2.7.2, 2.8.0, 2.8.1, 2.8.2.tiered, 3.1.1, 3.2.0, 3.3.1, 3.3.2, 3.4.0, 3.5.1, 3.6.0, 3.6.0.1, 3.7.x, 3.7.x.kraft, 3.8.x, 3.8.x.kraft, 3.8.link, 3.9.x, 3.9.x.kraft, 4.0.x.kraft, 4.1.x.kraft, 4.2.x.kraft]\" ]\n} ]"
 }
 ```
 
@@ -494,6 +533,10 @@ Creates the replicator.
 ```http
 POST /replication/v1/replicators HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 378
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "kafkaClusters": [
@@ -515,21 +558,23 @@ Content-Type: application/json
     }
   ],
   "replicatorName": "example",
-… (2 more lines)
+… (1 more lines)
 ```
 
 ```http
-HTTP/1.1 403 Forbidden
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: AccessDeniedException
+x-amzn-errortype: ValidationException
+content-length: 127
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "__type": "AccessDeniedException",
-  "message": "Cross-account pass role is not allowed."
+  "__type": "ValidationException",
+  "message": "json parse error: Error at offset 360: unexpected token 'â'. Expected one of '\"'"
 }
 ```
 
-`403` `AccessDeniedException`: the request was refused by authorization.
+`400` `ValidationException`: the placeholder values failed the operation's input validation.
 
 ### CreateTopic
 
@@ -538,6 +583,10 @@ Creates a topic in the specified MSK cluster.
 ```http
 POST /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/topics HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 64
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "topicName": "example",
@@ -547,17 +596,20 @@ Content-Type: application/json
 ```
 
 ```http
-HTTP/1.1 403 Forbidden
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: AccessDeniedException
+x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "__type": "AccessDeniedException",
-  "message": "User: arn:aws:iam::000000000000:user/emulator is not authorized to perform: kafka-cluster:Connect on resource: arn:aws:kafka:us-east-1:000000000000:example/example because no identity-based policy allows the kafka-cluster:Connect action"
+  "__type": "BadRequestException",
+  "invalidParameter": "clusterArn",
+  "message": "One or more of the parameters are not valid."
 }
 ```
 
-`403` `AccessDeniedException`: the request was refused by authorization.
+`400` `BadRequestException`: the placeholder values failed the operation's input validation.
 
 ### CreateVpcConnection
 
@@ -566,6 +618,10 @@ Creates a new MSK VPC connection.
 ```http
 POST /v1/vpc-connection HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 177
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "targetClusterArn": "arn:aws:kafka:us-east-1:000000000000:example/example",
@@ -581,17 +637,20 @@ Content-Type: application/json
 ```
 
 ```http
-HTTP/1.1 403 Forbidden
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: AccessDeniedException
+x-amzn-errortype: BadRequestException
+content-length: 127
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "__type": "AccessDeniedException",
-  "message": "User: arn:aws:iam::000000000000:user/emulator is not authorized to perform: kafka:CreateVpcConnection on resource: arn:aws:kafka:us-east-1:000000000000:example/example because no identity-based policy allows the kafka:CreateVpcConnection action"
+  "__type": "BadRequestException",
+  "invalidParameter": "targetClusterArn",
+  "message": "One or more of the parameters are not valid."
 }
 ```
 
-`403` `AccessDeniedException`: the request was refused by authorization.
+`400` `BadRequestException`: the placeholder values failed the operation's input validation.
 
 ### DeleteChannel
 
@@ -599,12 +658,17 @@ Deletes the channel specified by channelArn from the cluster specified by cluste
 
 ```http
 DELETE /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/channels/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -621,12 +685,17 @@ Deletes the MSK cluster specified by the Amazon Resource Name (ARN) in the reque
 
 ```http
 DELETE /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -643,12 +712,17 @@ Deletes the MSK cluster policy specified by the Amazon Resource Name (ARN) in th
 
 ```http
 DELETE /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/policy HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -665,12 +739,17 @@ Deletes an MSK Configuration.
 
 ```http
 DELETE /v1/configurations/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 103
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -687,12 +766,17 @@ Deletes a replicator.
 
 ```http
 DELETE /replication/v1/replicators/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 112
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -709,20 +793,26 @@ Deletes a topic in the specified MSK cluster.
 
 ```http
 DELETE /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/topics/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 403 Forbidden
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: AccessDeniedException
+x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "__type": "AccessDeniedException",
-  "message": "User: arn:aws:iam::000000000000:user/emulator is not authorized to perform: kafka-cluster:Connect on resource: arn:aws:kafka:us-east-1:000000000000:example/example because no identity-based policy allows the kafka-cluster:Connect action"
+  "__type": "BadRequestException",
+  "invalidParameter": "clusterArn",
+  "message": "One or more of the parameters are not valid."
 }
 ```
 
-`403` `AccessDeniedException`: the request was refused by authorization.
+`400` `BadRequestException`: the placeholder values failed the operation's input validation.
 
 ### DeleteVpcConnection
 
@@ -730,16 +820,21 @@ Deletes a MSK VPC connection.
 
 ```http
 DELETE /v1/vpc-connection/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 127
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
-  "invalidParameter": "Arn",
+  "invalidParameter": "vpcConnectionArn",
   "message": "One or more of the parameters are not valid."
 }
 ```
@@ -752,12 +847,17 @@ Returns the current configuration and state of a channel.
 
 ```http
 GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/channels/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -774,21 +874,26 @@ Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is spe
 
 ```http
 GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 400 Bad Request
+HTTP/1.1 404 Not Found
 content-type: application/json
-x-amzn-errortype: BadRequestException
+x-amzn-errortype: NotFoundException
+content-length: 114
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "__type": "BadRequestException",
+  "__type": "NotFoundException",
   "invalidParameter": "clusterArn",
-  "message": "One or more of the parameters are not valid."
+  "message": "The requested resource doesn’t exist."
 }
 ```
 
-`400` `BadRequestException`: the placeholder values failed the operation's input validation. See [the walkthrough](#3-describecluster) for a successful call.
+`404` `NotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error. See [the walkthrough](#3-describecluster) for a successful call.
 
 ### DescribeClusterOperation
 
@@ -796,12 +901,17 @@ Returns a description of the cluster operation specified by the ARN.
 
 ```http
 GET /v1/operations/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 130
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -818,12 +928,17 @@ Returns a description of the cluster operation specified by the ARN.
 
 ```http
 GET /api/v2/operations/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 130
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -840,21 +955,26 @@ Returns a description of the MSK cluster whose Amazon Resource Name (ARN) is spe
 
 ```http
 GET /api/v2/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 400 Bad Request
+HTTP/1.1 404 Not Found
 content-type: application/json
-x-amzn-errortype: BadRequestException
+x-amzn-errortype: NotFoundException
+content-length: 114
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "__type": "BadRequestException",
+  "__type": "NotFoundException",
   "invalidParameter": "clusterArn",
-  "message": "One or more of the parameters are not valid."
+  "message": "The requested resource doesn’t exist."
 }
 ```
 
-`400` `BadRequestException`: the placeholder values failed the operation's input validation.
+`404` `NotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### DescribeConfiguration
 
@@ -862,12 +982,17 @@ Returns a description of this MSK configuration.
 
 ```http
 GET /v1/configurations/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 103
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -884,12 +1009,17 @@ Returns a description of this revision of the configuration.
 
 ```http
 GET /v1/configurations/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/revisions/1 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 103
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -906,12 +1036,17 @@ Describes a replicator.
 
 ```http
 GET /replication/v1/replicators/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 112
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -928,20 +1063,26 @@ Returns topic details of this topic on a MSK cluster.
 
 ```http
 GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/topics/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 403 Forbidden
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: AccessDeniedException
+x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "__type": "AccessDeniedException",
-  "message": "User: arn:aws:iam::000000000000:user/emulator is not authorized to perform: kafka-cluster:Connect on resource: arn:aws:kafka:us-east-1:000000000000:example/example because no identity-based policy allows the kafka-cluster:Connect action"
+  "__type": "BadRequestException",
+  "invalidParameter": "clusterArn",
+  "message": "One or more of the parameters are not valid."
 }
 ```
 
-`403` `AccessDeniedException`: the request was refused by authorization.
+`400` `BadRequestException`: the placeholder values failed the operation's input validation.
 
 ### DescribeTopicPartitions
 
@@ -949,20 +1090,26 @@ Returns partition details of this topic on a MSK cluster.
 
 ```http
 GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/topics/example/partitions HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 403 Forbidden
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: AccessDeniedException
+x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "__type": "AccessDeniedException",
-  "message": "User: arn:aws:iam::000000000000:user/emulator is not authorized to perform: kafka-cluster:Connect on resource: arn:aws:kafka:us-east-1:000000000000:example/example because no identity-based policy allows the kafka-cluster:Connect action"
+  "__type": "BadRequestException",
+  "invalidParameter": "clusterArn",
+  "message": "One or more of the parameters are not valid."
 }
 ```
 
-`403` `AccessDeniedException`: the request was refused by authorization.
+`400` `BadRequestException`: the placeholder values failed the operation's input validation.
 
 ### DescribeVpcConnection
 
@@ -970,16 +1117,21 @@ Returns a description of this MSK VPC connection.
 
 ```http
 GET /v1/vpc-connection/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 127
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
-  "invalidParameter": "Arn",
+  "invalidParameter": "vpcConnectionArn",
   "message": "One or more of the parameters are not valid."
 }
 ```
@@ -992,21 +1144,26 @@ A list of brokers that a client application can use to bootstrap.
 
 ```http
 GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/bootstrap-brokers HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 400 Bad Request
+HTTP/1.1 404 Not Found
 content-type: application/json
-x-amzn-errortype: BadRequestException
+x-amzn-errortype: NotFoundException
+content-length: 114
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "__type": "BadRequestException",
+  "__type": "NotFoundException",
   "invalidParameter": "clusterArn",
-  "message": "One or more of the parameters are not valid."
+  "message": "The requested resource doesn’t exist."
 }
 ```
 
-`400` `BadRequestException`: the placeholder values failed the operation's input validation. See [the walkthrough](#4-getbootstrapbrokers) for a successful call.
+`404` `NotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error. See [the walkthrough](#4-getbootstrapbrokers) for a successful call.
 
 ### GetClusterPolicy
 
@@ -1014,12 +1171,17 @@ Get the MSK cluster policy specified by the Amazon Resource Name (ARN) in the re
 
 ```http
 GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/policy HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1036,11 +1198,16 @@ Gets the Apache Kafka versions to which you can update the MSK cluster.
 
 ```http
 GET /v1/compatible-kafka-versions HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 2799
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "compatibleKafkaVersions": [
@@ -1062,7 +1229,7 @@ content-type: application/json
         "3.9.x"
       ]
     },
-… (274 more lines)
+… (284 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -1073,12 +1240,17 @@ Returns the list of channels in a cluster.
 
 ```http
 GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/channels HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1095,12 +1267,17 @@ Returns a list of all the VPC connections in this Region.
 
 ```http
 GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/client-vpc-connections HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 161
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1117,12 +1294,17 @@ Returns a list of all the operations that have been performed on the specified M
 
 ```http
 GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/operations HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1139,12 +1321,17 @@ Returns a list of all the operations that have been performed on the specified M
 
 ```http
 GET /api/v2/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/operations HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1161,11 +1348,16 @@ Returns a list of all the MSK clusters in the current Region.
 
 ```http
 GET /v1/clusters HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 22
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "clusterInfoList": []
@@ -1180,11 +1372,16 @@ Returns a list of all the MSK clusters in the current Region.
 
 ```http
 GET /api/v2/clusters HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 22
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "clusterInfoList": []
@@ -1199,12 +1396,17 @@ Returns a list of all the MSK configurations in this Region.
 
 ```http
 GET /v1/configurations/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/revisions HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 103
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1221,14 +1423,34 @@ Returns a list of all the MSK configurations in this Region.
 
 ```http
 GET /v1/configurations HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 333
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "configurations": []
+  "configurations": [
+    {
+      "arn": "arn:aws:kafka:us-east-1:000000000000:configuration/docs-demo/981502e4-1d54-46e4-8769-25c093886117-1",
+      "creationTime": "2026-11-26T18:32:18.934109Z",
+      "description": "",
+      "kafkaVersions": [
+        "3.9.x"
+      ],
+      "latestRevision": {
+        "creationTime": "2026-11-26T18:32:18.934109Z",
+        "revision": 1
+      },
+      "name": "docs-demo",
+      "state": "DELETING"
+    }
+  ]
 }
 ```
 
@@ -1240,11 +1462,16 @@ Returns a list of Apache Kafka versions.
 
 ```http
 GET /v1/kafka-versions HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 1589
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "kafkaVersions": [
@@ -1277,12 +1504,17 @@ Returns a list of the broker nodes in the cluster.
 
 ```http
 GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/nodes HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1299,11 +1531,16 @@ Lists the replicators.
 
 ```http
 GET /replication/v1/replicators HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 18
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "replicators": []
@@ -1318,12 +1555,17 @@ Returns a list of the Scram Secrets associated with an Amazon MSK cluster.
 
 ```http
 GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/scram-secrets HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1340,20 +1582,25 @@ Returns a list of the tags associated with the specified resource.
 
 ```http
 GET /v1/tags/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: NotFoundException
+x-amzn-errortype: BadRequestException
+content-length: 71
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "__type": "NotFoundException",
-  "message": "Resource was not found"
+  "__type": "BadRequestException",
+  "message": "Invalid input resource arn"
 }
 ```
 
-`404` `NotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `BadRequestException`: the placeholder values failed the operation's input validation.
 
 ### ListTopics
 
@@ -1361,20 +1608,26 @@ List topics in a MSK cluster.
 
 ```http
 GET /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/topics HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 403 Forbidden
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: AccessDeniedException
+x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "__type": "AccessDeniedException",
-  "message": "User: arn:aws:iam::000000000000:user/emulator is not authorized to perform: kafka-cluster:Connect on resource: arn:aws:kafka:us-east-1:000000000000:example/example because no identity-based policy allows the kafka-cluster:Connect action"
+  "__type": "BadRequestException",
+  "invalidParameter": "clusterArn",
+  "message": "One or more of the parameters are not valid."
 }
 ```
 
-`403` `AccessDeniedException`: the request was refused by authorization.
+`400` `BadRequestException`: the placeholder values failed the operation's input validation.
 
 ### ListVpcConnections
 
@@ -1382,11 +1635,16 @@ Returns a list of all the VPC connections in this Region.
 
 ```http
 GET /v1/vpc-connections HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 21
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "vpcConnections": []
@@ -1402,6 +1660,10 @@ Creates or updates the MSK cluster policy specified by the cluster Amazon Resour
 ```http
 PUT /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/policy HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 20
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "policy": "example"
@@ -1412,6 +1674,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1429,6 +1693,10 @@ Reboots brokers.
 ```http
 PUT /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/reboot-broker HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 25
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "brokerIds": [
@@ -1441,6 +1709,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1458,6 +1728,10 @@ Returns empty response.
 ```http
 PUT /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/client-vpc-connection HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "vpcConnectionArn": "arn:aws:kafka:us-east-1:000000000000:example/example"
@@ -1468,6 +1742,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 161
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1485,6 +1761,10 @@ Adds tags to the specified MSK resource.
 ```http
 POST /v1/tags/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 26
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "tags": {
@@ -1494,17 +1774,19 @@ Content-Type: application/json
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: NotFoundException
+x-amzn-errortype: BadRequestException
+content-length: 71
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "__type": "NotFoundException",
-  "message": "Resource was not found"
+  "__type": "BadRequestException",
+  "message": "Invalid input resource arn"
 }
 ```
 
-`404` `NotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `BadRequestException`: the placeholder values failed the operation's input validation.
 
 ### UntagResource
 
@@ -1512,20 +1794,25 @@ Removes the tags associated with the keys that are provided in the query.
 
 ```http
 DELETE /v1/tags/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample?tagKeys=example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: NotFoundException
+x-amzn-errortype: BadRequestException
+content-length: 71
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "__type": "NotFoundException",
-  "message": "Resource was not found"
+  "__type": "BadRequestException",
+  "message": "Invalid input resource arn"
 }
 ```
 
-`404` `NotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `BadRequestException`: the placeholder values failed the operation's input validation.
 
 ### UpdateBrokerCount
 
@@ -1534,6 +1821,10 @@ Updates the number of broker nodes in the cluster.
 ```http
 PUT /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/nodes/count HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 58
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "currentVersion": "example",
@@ -1545,6 +1836,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1562,6 +1855,10 @@ Updates the EBS storage associated with MSK brokers.
 ```http
 PUT /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/nodes/storage HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 90
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "currentVersion": "example",
@@ -1577,6 +1874,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1594,6 +1893,10 @@ Updates EC2 instance type.
 ```http
 PUT /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/nodes/type HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 59
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "currentVersion": "example",
@@ -1605,6 +1908,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1621,12 +1926,17 @@ Updates the destination configuration of an existing channel.
 
 ```http
 PUT /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/channels/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1644,6 +1954,10 @@ Updates the cluster with the configuration that is specified in the request body
 ```http
 PUT /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/configuration HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 124
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "configurationInfo": {
@@ -1658,6 +1972,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1675,6 +1991,10 @@ Updates the Apache Kafka version for the cluster.
 ```http
 PUT /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/version HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 59
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "currentVersion": "example",
@@ -1686,6 +2006,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1703,6 +2025,10 @@ Updates an MSK configuration.
 ```http
 PUT /v1/configurations/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 35
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "serverProperties": "ZXhhbXBsZQ=="
@@ -1713,6 +2039,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 103
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1730,6 +2058,10 @@ Updates the cluster's connectivity configuration.
 ```http
 PUT /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/connectivity HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "currentVersion": "example"
@@ -1740,6 +2072,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1757,6 +2091,10 @@ Updates the monitoring settings for the cluster.
 ```http
 PUT /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/monitoring HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "currentVersion": "example"
@@ -1767,6 +2105,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1784,6 +2124,10 @@ Use this resource to update the intelligent rebalancing status of an Amazon MSK 
 ```http
 PUT /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/rebalancing HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "currentVersion": "example",
@@ -1795,6 +2139,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1812,6 +2158,10 @@ Updates replication info of a replicator.
 ```http
 PUT /replication/v1/replicators/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/replication-info HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "currentVersion": "example"
@@ -1822,6 +2172,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 112
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1839,6 +2191,10 @@ Updates the security settings for the cluster.
 ```http
 PATCH /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/security HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "currentVersion": "example"
@@ -1849,6 +2205,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1866,6 +2224,10 @@ Updates cluster broker volume size (or) sets cluster storage mode to TIERED.
 ```http
 PUT /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/storage HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "currentVersion": "example"
@@ -1876,6 +2238,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
   "__type": "BadRequestException",
@@ -1892,20 +2256,26 @@ Updates the configuration of the specified topic.
 
 ```http
 PUT /v1/clusters/arn%3Aaws%3Akafka%3Aus-east-1%3A000000000000%3Aexample%2Fexample/topics/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183219Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/kafka/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 403 Forbidden
+HTTP/1.1 400 Bad Request
 content-type: application/json
-x-amzn-errortype: AccessDeniedException
+x-amzn-errortype: BadRequestException
+content-length: 121
+date: Thu, 26 Nov 2026 18:32:19 GMT
 
 {
-  "__type": "AccessDeniedException",
-  "message": "User: arn:aws:iam::000000000000:user/emulator is not authorized to perform: kafka-cluster:Connect on resource: arn:aws:kafka:us-east-1:000000000000:example/example because no identity-based policy allows the kafka-cluster:Connect action"
+  "__type": "BadRequestException",
+  "invalidParameter": "clusterArn",
+  "message": "One or more of the parameters are not valid."
 }
 ```
 
-`403` `AccessDeniedException`: the request was refused by authorization.
+`400` `BadRequestException`: the placeholder values failed the operation's input validation.
 
 ## How it works
 

@@ -11,7 +11,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `cloudhsm`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `cloudhsm`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `DescribeClusters`:
 
@@ -42,9 +42,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.CreateCluster
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124452Z
-Content-Length: 98
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182733Z
+Content-Length: 94
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "HsmType": "hsm2m.medium",
@@ -61,7 +61,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cl
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 450
-date: Mon, 16 Nov 2026 12:44:52 GMT
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "Cluster": {
@@ -70,15 +70,15 @@ date: Mon, 16 Nov 2026 12:44:52 GMT
       "Type": "DAYS",
       "Value": "90"
     },
-    "ClusterId": "cluster-q6HGkPEIhiT",
-    "CreateTimestamp": 1794833092.4171505,
+    "ClusterId": "cluster-rRKjWBOSRUa",
+    "CreateTimestamp": 1795717653.2281904,
     "Hsms": [],
     "HsmType": "hsm2m.medium",
-    "SecurityGroup": "sg-fd55098303d7dc22d",
+    "SecurityGroup": "sg-9c213ae6b039d5882",
     "State": "CREATE_IN_PROGRESS",
     "SubnetMapping": {
-      "us-east-1a": "subnet-00000000000000007",
-      "us-east-1b": "subnet-00000000000000009"
+      "us-east-1b": "subnet-00000000000000009",
+      "us-east-1a": "subnet-00000000000000007"
     },
     "VpcId": "vpc-00000000000000001",
     "NetworkType": "IPV4",
@@ -101,14 +101,14 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.DescribeClusters
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124454Z
-Content-Length: 52
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182733Z
+Content-Length: 50
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Filters": {
     "clusterIds": [
-      "cluster-q6HGkPEIhiT"
+      "cluster-rRKjWBOSRUa"
     ]
   }
 }
@@ -119,8 +119,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cl
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 448
-date: Mon, 16 Nov 2026 12:44:54 GMT
+content-length: 453
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "Clusters": [
@@ -130,15 +130,15 @@ date: Mon, 16 Nov 2026 12:44:54 GMT
         "Type": "DAYS",
         "Value": "90"
       },
-      "ClusterId": "cluster-q6HGkPEIhiT",
-      "CreateTimestamp": 1794833092.4171505,
+      "ClusterId": "cluster-rRKjWBOSRUa",
+      "CreateTimestamp": 1795717653.2281904,
       "Hsms": [],
       "HsmType": "hsm2m.medium",
-      "SecurityGroup": "sg-fd55098303d7dc22d",
-      "State": "UNINITIALIZED",
+      "SecurityGroup": "sg-9c213ae6b039d5882",
+      "State": "CREATE_IN_PROGRESS",
       "SubnetMapping": {
-        "us-east-1a": "subnet-00000000000000007",
-        "us-east-1b": "subnet-00000000000000009"
+        "us-east-1b": "subnet-00000000000000009",
+        "us-east-1a": "subnet-00000000000000007"
       },
       "VpcId": "vpc-00000000000000001",
       "NetworkType": "IPV4",
@@ -160,12 +160,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.CreateHsm
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124454Z
-Content-Length: 70
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182733Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "ClusterId": "cluster-q6HGkPEIhiT",
+  "ClusterId": "cluster-rRKjWBOSRUa",
   "AvailabilityZone": "us-east-1a"
 }
 ```
@@ -176,16 +176,16 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cl
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 244
-date: Mon, 16 Nov 2026 12:44:54 GMT
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "Hsm": {
     "AvailabilityZone": "us-east-1a",
-    "ClusterId": "cluster-q6HGkPEIhiT",
+    "ClusterId": "cluster-rRKjWBOSRUa",
     "SubnetId": "subnet-00000000000000007",
-    "EniId": "eni-beccf9b107ef5a5e3",
+    "EniId": "eni-1ed8f9ea03d838f57",
     "EniIp": "10.0.0.4",
-    "HsmId": "hsm-6uf5ZyrrfqY",
+    "HsmId": "hsm-lRoHJDUBhYy",
     "HsmType": "hsm2m.medium",
     "State": "CREATE_IN_PROGRESS"
   }
@@ -203,14 +203,14 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.DescribeClusters
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124454Z
-Content-Length: 52
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182733Z
+Content-Length: 50
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Filters": {
     "clusterIds": [
-      "cluster-q6HGkPEIhiT"
+      "cluster-rRKjWBOSRUa"
     ]
   }
 }
@@ -221,8 +221,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cl
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 684
-date: Mon, 16 Nov 2026 12:44:54 GMT
+content-length: 689
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "Clusters": [
@@ -232,26 +232,26 @@ date: Mon, 16 Nov 2026 12:44:54 GMT
         "Type": "DAYS",
         "Value": "90"
       },
-      "ClusterId": "cluster-q6HGkPEIhiT",
-      "CreateTimestamp": 1794833092.4171505,
+      "ClusterId": "cluster-rRKjWBOSRUa",
+      "CreateTimestamp": 1795717653.2281904,
       "Hsms": [
         {
           "AvailabilityZone": "us-east-1a",
-          "ClusterId": "cluster-q6HGkPEIhiT",
+          "ClusterId": "cluster-rRKjWBOSRUa",
           "SubnetId": "subnet-00000000000000007",
-          "EniId": "eni-beccf9b107ef5a5e3",
+          "EniId": "eni-1ed8f9ea03d838f57",
           "EniIp": "10.0.0.4",
-          "HsmId": "hsm-6uf5ZyrrfqY",
+          "HsmId": "hsm-lRoHJDUBhYy",
           "HsmType": "hsm2m.medium",
           "State": "CREATE_IN_PROGRESS"
         }
       ],
       "HsmType": "hsm2m.medium",
-      "SecurityGroup": "sg-fd55098303d7dc22d",
-      "State": "UNINITIALIZED",
+      "SecurityGroup": "sg-9c213ae6b039d5882",
+      "State": "CREATE_IN_PROGRESS",
       "SubnetMapping": {
-        "us-east-1a": "subnet-00000000000000007",
-        "us-east-1b": "subnet-00000000000000009"
+        "us-east-1b": "subnet-00000000000000009",
+        "us-east-1a": "subnet-00000000000000007"
       },
       "VpcId": "vpc-00000000000000001",
       "NetworkType": "IPV4",
@@ -273,12 +273,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.DeleteCluster
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124454Z
-Content-Length: 36
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182733Z
+Content-Length: 35
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "ClusterId": "cluster-q6HGkPEIhiT"
+  "ClusterId": "cluster-rRKjWBOSRUa"
 }
 ```
 
@@ -288,11 +288,11 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cl
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 content-length: 165
-date: Mon, 16 Nov 2026 12:44:54 GMT
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "CloudHsmInvalidRequestException",
-  "Message": "cluster cluster-q6HGkPEIhiT still contains the HSMs hsm-6uf5ZyrrfqY; delete them before deleting the cluster"
+  "Message": "cluster cluster-rRKjWBOSRUa still contains the HSMs hsm-lRoHJDUBhYy; delete them before deleting the cluster"
 }
 ```
 
@@ -307,13 +307,13 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.DeleteHsm
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124454Z
-Content-Length: 64
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182733Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "ClusterId": "cluster-q6HGkPEIhiT",
-  "HsmId": "hsm-6uf5ZyrrfqY"
+  "ClusterId": "cluster-rRKjWBOSRUa",
+  "HsmId": "hsm-lRoHJDUBhYy"
 }
 ```
 
@@ -323,10 +323,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cl
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 27
-date: Mon, 16 Nov 2026 12:44:54 GMT
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
-  "HsmId": "hsm-6uf5ZyrrfqY"
+  "HsmId": "hsm-lRoHJDUBhYy"
 }
 ```
 
@@ -343,14 +343,14 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.DescribeClusters
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124456Z
-Content-Length: 52
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182733Z
+Content-Length: 50
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Filters": {
     "clusterIds": [
-      "cluster-q6HGkPEIhiT"
+      "cluster-rRKjWBOSRUa"
     ]
   }
 }
@@ -361,8 +361,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cl
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 448
-date: Mon, 16 Nov 2026 12:44:56 GMT
+content-length: 689
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "Clusters": [
@@ -372,15 +372,26 @@ date: Mon, 16 Nov 2026 12:44:56 GMT
         "Type": "DAYS",
         "Value": "90"
       },
-      "ClusterId": "cluster-q6HGkPEIhiT",
-      "CreateTimestamp": 1794833092.4171505,
-      "Hsms": [],
+      "ClusterId": "cluster-rRKjWBOSRUa",
+      "CreateTimestamp": 1795717653.2281904,
+      "Hsms": [
+        {
+          "AvailabilityZone": "us-east-1a",
+          "ClusterId": "cluster-rRKjWBOSRUa",
+          "SubnetId": "subnet-00000000000000007",
+          "EniId": "eni-1ed8f9ea03d838f57",
+          "EniIp": "10.0.0.4",
+          "HsmId": "hsm-lRoHJDUBhYy",
+          "HsmType": "hsm2m.medium",
+          "State": "DELETE_IN_PROGRESS"
+        }
+      ],
       "HsmType": "hsm2m.medium",
-      "SecurityGroup": "sg-fd55098303d7dc22d",
-      "State": "UNINITIALIZED",
+      "SecurityGroup": "sg-9c213ae6b039d5882",
+      "State": "CREATE_IN_PROGRESS",
       "SubnetMapping": {
-        "us-east-1a": "subnet-00000000000000007",
-        "us-east-1b": "subnet-00000000000000009"
+        "us-east-1b": "subnet-00000000000000009",
+        "us-east-1a": "subnet-00000000000000007"
       },
       "VpcId": "vpc-00000000000000001",
       "NetworkType": "IPV4",
@@ -402,12 +413,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.DeleteCluster
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124456Z
-Content-Length: 36
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182733Z
+Content-Length: 35
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "ClusterId": "cluster-q6HGkPEIhiT"
+  "ClusterId": "cluster-rRKjWBOSRUa"
 }
 ```
 
@@ -417,7 +428,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cl
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 450
-date: Mon, 16 Nov 2026 12:44:56 GMT
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "Cluster": {
@@ -426,15 +437,15 @@ date: Mon, 16 Nov 2026 12:44:56 GMT
       "Type": "DAYS",
       "Value": "90"
     },
-    "ClusterId": "cluster-q6HGkPEIhiT",
-    "CreateTimestamp": 1794833092.4171505,
+    "ClusterId": "cluster-rRKjWBOSRUa",
+    "CreateTimestamp": 1795717653.2281904,
     "Hsms": [],
     "HsmType": "hsm2m.medium",
-    "SecurityGroup": "sg-fd55098303d7dc22d",
+    "SecurityGroup": "sg-9c213ae6b039d5882",
     "State": "DELETE_IN_PROGRESS",
     "SubnetMapping": {
-      "us-east-1a": "subnet-00000000000000007",
-      "us-east-1b": "subnet-00000000000000009"
+      "us-east-1b": "subnet-00000000000000009",
+      "us-east-1a": "subnet-00000000000000007"
     },
     "VpcId": "vpc-00000000000000001",
     "NetworkType": "IPV4",
@@ -446,7 +457,7 @@ date: Mon, 16 Nov 2026 12:44:56 GMT
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 18 operations, 1 accepted the placeholder call, 4 answer `501 NotImplemented`, and the rest refused it with a modelled error.
 
@@ -456,7 +467,12 @@ Copy an CloudHSM cluster backup to a different region.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.CopyBackupToRegion
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DestinationRegion": "example",
@@ -467,6 +483,8 @@ X-Amz-Target: BaldrApiService.CopyBackupToRegion
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 397
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "CloudHsmInvalidRequestException",
@@ -482,7 +500,12 @@ Creates a new CloudHSM cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.CreateCluster
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "HsmType": "example",
@@ -495,6 +518,8 @@ X-Amz-Target: BaldrApiService.CreateCluster
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 398
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "CloudHsmInvalidRequestException",
@@ -510,7 +535,12 @@ Creates a new hardware security module (HSM) in the specified CloudHSM cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.CreateHsm
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClusterId": "example",
@@ -521,6 +551,8 @@ X-Amz-Target: BaldrApiService.CreateHsm
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 407
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "CloudHsmInvalidRequestException",
@@ -536,7 +568,12 @@ Deletes a specified CloudHSM backup.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.DeleteBackup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "BackupId": "example"
@@ -546,6 +583,8 @@ X-Amz-Target: BaldrApiService.DeleteBackup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 221
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "CloudHsmInvalidRequestException",
@@ -561,7 +600,12 @@ Deletes the specified CloudHSM cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.DeleteCluster
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClusterId": "example"
@@ -571,6 +615,8 @@ X-Amz-Target: BaldrApiService.DeleteCluster
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 223
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "CloudHsmInvalidRequestException",
@@ -586,7 +632,12 @@ Deletes the specified HSM.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.DeleteHsm
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClusterId": "example"
@@ -596,6 +647,8 @@ X-Amz-Target: BaldrApiService.DeleteHsm
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 223
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "CloudHsmInvalidRequestException",
@@ -611,7 +664,12 @@ Deletes an CloudHSM resource policy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.DeleteResourcePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -619,6 +677,8 @@ X-Amz-Target: BaldrApiService.DeleteResourcePolicy
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 121
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "NotImplemented",
@@ -634,7 +694,12 @@ Gets information about backups of CloudHSM clusters.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.DescribeBackups
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -642,6 +707,8 @@ X-Amz-Target: BaldrApiService.DescribeBackups
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 116
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "NotImplemented",
@@ -657,7 +724,12 @@ Gets information about CloudHSM clusters.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.DescribeClusters
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -665,10 +737,30 @@ X-Amz-Target: BaldrApiService.DescribeClusters
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 453
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
-  "Clusters": []
-}
+  "Clusters": [
+    {
+      "BackupPolicy": "DEFAULT",
+      "BackupRetentionPolicy": {
+        "Type": "DAYS",
+        "Value": "90"
+      },
+      "ClusterId": "cluster-rRKjWBOSRUa",
+      "CreateTimestamp": 1795717653.2281904,
+      "Hsms": [],
+      "HsmType": "hsm2m.medium",
+      "SecurityGroup": "sg-9c213ae6b039d5882",
+      "State": "DELETE_IN_PROGRESS",
+      "SubnetMapping": {
+        "us-east-1b": "subnet-00000000000000009",
+        "us-east-1a": "subnet-00000000000000007"
+      },
+      "VpcId": "vpc-00000000000000001",
+      "NetworkType": "IPV4",
+… (5 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values. See [the walkthrough](#2-describeclusters) for a successful call.
@@ -679,7 +771,12 @@ Retrieves the resource policy document attached to a given resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.GetResourcePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -687,6 +784,8 @@ X-Amz-Target: BaldrApiService.GetResourcePolicy
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 118
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "NotImplemented",
@@ -702,7 +801,12 @@ Claims an CloudHSM cluster by submitting the cluster certificate issued by your 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.InitializeCluster
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClusterId": "example",
@@ -714,6 +818,8 @@ X-Amz-Target: BaldrApiService.InitializeCluster
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 223
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "CloudHsmInvalidRequestException",
@@ -729,7 +835,12 @@ Gets a list of tags for the specified CloudHSM cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.ListTags
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceId": "example"
@@ -739,6 +850,8 @@ X-Amz-Target: BaldrApiService.ListTags
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 235
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "CloudHsmInvalidRequestException",
@@ -754,7 +867,12 @@ Modifies attributes for CloudHSM backup.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.ModifyBackupAttributes
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "BackupId": "example",
@@ -765,6 +883,8 @@ X-Amz-Target: BaldrApiService.ModifyBackupAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 221
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "CloudHsmInvalidRequestException",
@@ -780,7 +900,12 @@ Modifies CloudHSM cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.ModifyCluster
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClusterId": "example"
@@ -790,6 +915,8 @@ X-Amz-Target: BaldrApiService.ModifyCluster
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 223
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "CloudHsmInvalidRequestException",
@@ -805,7 +932,12 @@ Creates or updates an CloudHSM resource policy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.PutResourcePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -813,6 +945,8 @@ X-Amz-Target: BaldrApiService.PutResourcePolicy
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 118
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "NotImplemented",
@@ -828,7 +962,12 @@ Restores a specified CloudHSM backup that is in the PENDING_DELETION state.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.RestoreBackup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "BackupId": "example"
@@ -838,6 +977,8 @@ X-Amz-Target: BaldrApiService.RestoreBackup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 221
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "CloudHsmInvalidRequestException",
@@ -853,7 +994,12 @@ Adds or overwrites one or more tags for the specified CloudHSM cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.TagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 72
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceId": "example",
@@ -869,6 +1015,8 @@ X-Amz-Target: BaldrApiService.TagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 233
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "CloudHsmInvalidRequestException",
@@ -884,7 +1032,12 @@ Removes the specified tag or tags from the specified CloudHSM cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: BaldrApiService.UntagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cloudhsm/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceId": "example",
@@ -897,6 +1050,8 @@ X-Amz-Target: BaldrApiService.UntagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 233
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 {
   "__type": "CloudHsmInvalidRequestException",

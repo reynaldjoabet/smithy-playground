@@ -11,7 +11,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `route53domains`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `route53domains`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListDomains`:
 
@@ -42,9 +42,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.CheckDomainAvailability
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
-Content-Length: 39
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183050Z
+Content-Length: 38
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "docs-demo-example.com"
@@ -57,7 +57,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ro
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 91
-date: Mon, 16 Nov 2026 12:05:33 GMT
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "Availability": "AVAILABLE",
@@ -80,9 +80,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.RegisterDomain
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
-Content-Length: 818
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183050Z
+Content-Length: 752
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "docs-demo-example.com",
@@ -132,10 +132,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ro
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 54
-date: Mon, 16 Nov 2026 12:05:33 GMT
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
-  "OperationId": "3df626ae-ddbb-4ab4-ae1a-24921d0ab46d"
+  "OperationId": "52cd0871-d6cf-46ca-ad00-7c24a97e65e9"
 }
 ```
 
@@ -150,12 +150,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.GetOperationDetail
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
-Content-Length: 55
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183050Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "OperationId": "3df626ae-ddbb-4ab4-ae1a-24921d0ab46d"
+  "OperationId": "52cd0871-d6cf-46ca-ad00-7c24a97e65e9"
 }
 ```
 
@@ -165,15 +165,15 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ro
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 201
-date: Mon, 16 Nov 2026 12:05:33 GMT
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
-  "OperationId": "3df626ae-ddbb-4ab4-ae1a-24921d0ab46d",
+  "OperationId": "52cd0871-d6cf-46ca-ad00-7c24a97e65e9",
   "Status": "SUBMITTED",
   "DomainName": "docs-demo-example.com",
   "Type": "REGISTER_DOMAIN",
-  "SubmittedDate": 1794830733.375,
-  "LastUpdatedDate": 1794830733.375
+  "SubmittedDate": 1795717850.675,
+  "LastUpdatedDate": 1795717850.675
 }
 ```
 
@@ -188,9 +188,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.ListDomains
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
+X-Amz-Date: 20261126T183050Z
 Content-Length: 2
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -201,7 +201,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ro
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 113
-date: Mon, 16 Nov 2026 12:05:33 GMT
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "Domains": [
@@ -209,7 +209,7 @@ date: Mon, 16 Nov 2026 12:05:33 GMT
       "DomainName": "docs-demo-example.com",
       "AutoRenew": true,
       "TransferLock": true,
-      "Expiry": 1826366733.375
+      "Expiry": 1827253850.675
     }
   ]
 }
@@ -226,9 +226,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.GetDomainDetail
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
-Content-Length: 39
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183050Z
+Content-Length: 38
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "docs-demo-example.com"
@@ -241,7 +241,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ro
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 1156
-date: Mon, 16 Nov 2026 12:05:33 GMT
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "DomainName": "docs-demo-example.com",
@@ -300,9 +300,9 @@ date: Mon, 16 Nov 2026 12:05:33 GMT
   "RegistrantPrivacy": true,
   "TechPrivacy": true,
   "RegistrarName": "Amazon Registrar, Inc.",
-  "CreationDate": 1794830733.375,
-  "UpdatedDate": 1794830733.375,
-  "ExpirationDate": 1826366733.375,
+  "CreationDate": 1795717850.675,
+  "UpdatedDate": 1795717850.675,
+  "ExpirationDate": 1827253850.675,
 … (5 more lines)
 ```
 
@@ -317,9 +317,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.DeleteDomain
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
-Content-Length: 39
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183050Z
+Content-Length: 38
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "docs-demo-example.com"
@@ -332,16 +332,16 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ro
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 54
-date: Mon, 16 Nov 2026 12:05:33 GMT
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
-  "OperationId": "a6076dbc-b563-4150-bf9e-97df039adf8b"
+  "OperationId": "0a88f1f3-e77c-42c8-afbf-aaab7bae2dc2"
 }
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 35 operations, 3 accepted the placeholder call, 19 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
@@ -351,17 +351,24 @@ Accepts the transfer of a domain from another Amazon Web Services account to the
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.AcceptDomainTransferFromAnotherAwsAccount
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example",
-  "Password": "example"
+  "Password": "<redacted>"
 }
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 142
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -377,7 +384,12 @@ Creates a delegation signer (DS) record in the registry zone for this domain nam
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.AssociateDelegationSignerToDomain
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example",
@@ -388,6 +400,8 @@ X-Amz-Target: Route53Domains_v20140515.AssociateDelegationSignerToDomain
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 134
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -403,7 +417,12 @@ Cancels the transfer of a domain from the current Amazon Web Services account to
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.CancelDomainTransferToAnotherAwsAccount
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -413,6 +432,8 @@ X-Amz-Target: Route53Domains_v20140515.CancelDomainTransferToAnotherAwsAccount
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 140
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -428,7 +449,12 @@ This operation checks the availability of one domain name.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.CheckDomainAvailability
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -438,6 +464,8 @@ X-Amz-Target: Route53Domains_v20140515.CheckDomainAvailability
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "InvalidInput",
@@ -453,7 +481,12 @@ Checks whether a domain name can be transferred to Amazon Route 53.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.CheckDomainTransferability
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -463,6 +496,8 @@ X-Amz-Target: Route53Domains_v20140515.CheckDomainTransferability
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "InvalidInput",
@@ -478,7 +513,12 @@ This operation deletes the specified domain.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.DeleteDomain
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -488,6 +528,8 @@ X-Amz-Target: Route53Domains_v20140515.DeleteDomain
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "InvalidInput",
@@ -503,7 +545,12 @@ This operation deletes the specified tags for a domain.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.DeleteTagsForDomain
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example",
@@ -516,6 +563,8 @@ X-Amz-Target: Route53Domains_v20140515.DeleteTagsForDomain
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 120
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -531,7 +580,12 @@ This operation disables automatic renewal of domain registration for the specifi
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.DisableDomainAutoRenew
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -541,6 +595,8 @@ X-Amz-Target: Route53Domains_v20140515.DisableDomainAutoRenew
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "InvalidInput",
@@ -558,7 +614,12 @@ This operation removes the transfer lock on the domain (specifically the clientT
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.DisableDomainTransferLock
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -568,6 +629,8 @@ X-Amz-Target: Route53Domains_v20140515.DisableDomainTransferLock
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "InvalidInput",
@@ -583,7 +646,12 @@ Deletes a delegation signer (DS) record in the registry zone for this domain nam
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.DisassociateDelegationSignerFromDomain
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 39
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example",
@@ -594,6 +662,8 @@ X-Amz-Target: Route53Domains_v20140515.DisassociateDelegationSignerFromDomain
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 139
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -609,7 +679,12 @@ This operation configures Amazon Route 53 to automatically renew the specified d
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.EnableDomainAutoRenew
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -619,6 +694,8 @@ X-Amz-Target: Route53Domains_v20140515.EnableDomainAutoRenew
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "InvalidInput",
@@ -634,7 +711,12 @@ This operation sets the transfer lock on the domain (specifically the clientTran
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.EnableDomainTransferLock
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -644,6 +726,8 @@ X-Amz-Target: Route53Domains_v20140515.EnableDomainTransferLock
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -661,7 +745,12 @@ For operations that require confirmation that the email address for the registra
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.GetContactReachabilityStatus
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -669,6 +758,8 @@ X-Amz-Target: Route53Domains_v20140515.GetContactReachabilityStatus
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 92
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "InvalidInput",
@@ -684,7 +775,12 @@ This operation returns detailed information about a specified domain that is ass
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.GetDomainDetail
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -694,6 +790,8 @@ X-Amz-Target: Route53Domains_v20140515.GetDomainDetail
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "InvalidInput",
@@ -709,7 +807,12 @@ Returns the following prices for the specified domain: Registration Transfer Own
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.GetDomainPrices
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -719,6 +822,8 @@ X-Amz-Target: Route53Domains_v20140515.GetDomainPrices
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 116
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -736,7 +841,12 @@ The GetDomainSuggestions operation returns a list of suggested domain names.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.GetDomainSuggestions
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 66
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example",
@@ -748,6 +858,8 @@ X-Amz-Target: Route53Domains_v20140515.GetDomainSuggestions
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "InvalidInput",
@@ -763,7 +875,12 @@ This operation returns the current status of an operation that is not completed.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.GetOperationDetail
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 25
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "OperationId": "example"
@@ -773,10 +890,12 @@ X-Amz-Target: Route53Domains_v20140515.GetOperationDetail
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 109
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "InvalidInput",
-  "message": "Value 'example' at 'operationId' failed to satisfy constraint: Member must be the id of an operation submitted by this account"
+  "message": "Invalid request. Problems: No operation found for operationId : example"
 }
 ```
 
@@ -788,7 +907,12 @@ This operation returns all the domain names registered with Amazon Route 53 for 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.ListDomains
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -796,6 +920,8 @@ X-Amz-Target: Route53Domains_v20140515.ListDomains
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 14
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "Domains": []
@@ -810,7 +936,12 @@ Returns information about all of the operations that return an operation ID and 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.ListOperations
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -818,24 +949,26 @@ X-Amz-Target: Route53Domains_v20140515.ListOperations
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 418
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "Operations": [
     {
-      "OperationId": "3df626ae-ddbb-4ab4-ae1a-24921d0ab46d",
-      "Status": "SUCCESSFUL",
+      "OperationId": "52cd0871-d6cf-46ca-ad00-7c24a97e65e9",
+      "Status": "SUBMITTED",
       "Type": "REGISTER_DOMAIN",
-      "SubmittedDate": 1794830733.375,
+      "SubmittedDate": 1795717850.675,
       "DomainName": "docs-demo-example.com",
-      "LastUpdatedDate": 1794830733.875
+      "LastUpdatedDate": 1795717850.675
     },
     {
-      "OperationId": "a6076dbc-b563-4150-bf9e-97df039adf8b",
-      "Status": "SUCCESSFUL",
+      "OperationId": "0a88f1f3-e77c-42c8-afbf-aaab7bae2dc2",
+      "Status": "SUBMITTED",
       "Type": "DELETE_DOMAIN",
-      "SubmittedDate": 1794830733.399,
+      "SubmittedDate": 1795717850.679,
       "DomainName": "docs-demo-example.com",
-      "LastUpdatedDate": 1794830733.899
+      "LastUpdatedDate": 1795717850.679
     }
   ]
 }
@@ -851,7 +984,12 @@ Lists the following prices for either all the TLDs supported by Route 53, or the
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.ListPrices
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -859,6 +997,8 @@ X-Amz-Target: Route53Domains_v20140515.ListPrices
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 9944
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "Prices": [
@@ -893,7 +1033,12 @@ This operation returns all of the tags that are associated with the specified do
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.ListTagsForDomain
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -903,6 +1048,8 @@ X-Amz-Target: Route53Domains_v20140515.ListTagsForDomain
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "InvalidInput",
@@ -918,7 +1065,12 @@ Moves a domain from Amazon Web Services to another registrar.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.PushDomain
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example",
@@ -929,6 +1081,8 @@ X-Amz-Target: Route53Domains_v20140515.PushDomain
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 111
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -944,7 +1098,12 @@ This operation registers a domain.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.RegisterDomain
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 102
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example",
@@ -958,6 +1117,8 @@ X-Amz-Target: Route53Domains_v20140515.RegisterDomain
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "InvalidInput",
@@ -973,7 +1134,12 @@ Rejects the transfer of a domain from another Amazon Web Services account to the
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.RejectDomainTransferFromAnotherAwsAccount
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -983,6 +1149,8 @@ X-Amz-Target: Route53Domains_v20140515.RejectDomainTransferFromAnotherAwsAccount
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 142
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -998,7 +1166,12 @@ This operation renews a domain for the specified number of years.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.RenewDomain
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 46
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example",
@@ -1009,6 +1182,8 @@ X-Amz-Target: Route53Domains_v20140515.RenewDomain
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 112
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -1024,7 +1199,12 @@ For operations that require confirmation that the email address for the registra
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.ResendContactReachabilityEmail
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1032,6 +1212,8 @@ X-Amz-Target: Route53Domains_v20140515.ResendContactReachabilityEmail
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 131
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -1047,7 +1229,12 @@ Resend the form of authorization email for this operation.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.ResendOperationAuthorization
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 25
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "OperationId": "example"
@@ -1057,6 +1244,8 @@ X-Amz-Target: Route53Domains_v20140515.ResendOperationAuthorization
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 129
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -1072,7 +1261,12 @@ This operation returns the authorization code for the domain.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.RetrieveDomainAuthCode
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -1082,6 +1276,8 @@ X-Amz-Target: Route53Domains_v20140515.RetrieveDomainAuthCode
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 123
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -1097,7 +1293,12 @@ Transfers a domain from another registrar to Amazon Route 53.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.TransferDomain
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 82
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example",
@@ -1110,6 +1311,8 @@ X-Amz-Target: Route53Domains_v20140515.TransferDomain
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 115
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -1125,7 +1328,12 @@ Transfers a domain from the current Amazon Web Services account to another Amazo
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.TransferDomainToAnotherAwsAccount
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example",
@@ -1136,6 +1344,8 @@ X-Amz-Target: Route53Domains_v20140515.TransferDomainToAnotherAwsAccount
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 134
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -1151,7 +1361,12 @@ This operation updates the contact information for a particular domain.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.UpdateDomainContact
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -1161,6 +1376,8 @@ X-Amz-Target: Route53Domains_v20140515.UpdateDomainContact
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 120
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -1176,7 +1393,12 @@ This operation updates the specified domain contact's privacy setting.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.UpdateDomainContactPrivacy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -1186,6 +1408,8 @@ X-Amz-Target: Route53Domains_v20140515.UpdateDomainContactPrivacy
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 127
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -1201,7 +1425,12 @@ This operation replaces the current set of name servers for the domain with the 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.UpdateDomainNameservers
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 59
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example",
@@ -1216,6 +1445,8 @@ X-Amz-Target: Route53Domains_v20140515.UpdateDomainNameservers
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 124
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",
@@ -1233,7 +1464,12 @@ This operation adds or updates tags for a specified domain.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.UpdateTagsForDomain
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DomainName": "example"
@@ -1243,6 +1479,8 @@ X-Amz-Target: Route53Domains_v20140515.UpdateTagsForDomain
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "InvalidInput",
@@ -1258,7 +1496,12 @@ Returns all the domain-related billing records for the current Amazon Web Servic
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: Route53Domains_v20140515.ViewBilling
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183050Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/route53domains/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1266,6 +1509,8 @@ X-Amz-Target: Route53Domains_v20140515.ViewBilling
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 112
+date: Thu, 26 Nov 2026 18:30:50 GMT
 
 {
   "__type": "NotImplemented",

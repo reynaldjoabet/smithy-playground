@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `iam`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `iam`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListUsers`:
 
@@ -39,9 +39,9 @@ IAM is global: the ARN has no Region. The user id starts with `AIDA`.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183005Z
 Content-Length: 108
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateUser
 &Version=2010-05-08
@@ -55,8 +55,8 @@ Action=CreateUser
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 543
-date: Mon, 16 Nov 2026 12:04:56 GMT
+content-length: 542
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <CreateUserResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <CreateUserResult>
@@ -65,7 +65,7 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
       <UserName>docs-demo-user</UserName>
       <UserId>AIDABGXEQES5NRCCJJWAN</UserId>
       <Arn>arn:aws:iam::000000000000:user/docs-demo-user</Arn>
-      <CreateDate>2026-11-16T12:04:56.474Z</CreateDate>
+      <CreateDate>2026-11-26T18:30:05.49Z</CreateDate>
       <Tags>
         <member>
           <Key>team</Key>
@@ -75,7 +75,7 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
     </User>
   </CreateUserResult>
   <ResponseMetadata>
-    <RequestId>28569296-2d50-4875-8319-ce153c50b295</RequestId>
+    <RequestId>ae14c80b-631e-43a3-9629-db98e193ce4c</RequestId>
   </ResponseMetadata>
 </CreateUserResponse>
 ```
@@ -90,9 +90,9 @@ A customer managed policy, created at version `v1`.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183005Z
 Content-Length: 301
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreatePolicy
 &Version=2010-05-08
@@ -105,8 +105,8 @@ Action=CreatePolicy
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 722
-date: Mon, 16 Nov 2026 12:04:56 GMT
+content-length: 735
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <CreatePolicyResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <CreatePolicyResult>
@@ -119,12 +119,13 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
       <AttachmentCount>0</AttachmentCount>
       <PermissionsBoundaryUsageCount>0</PermissionsBoundaryUsageCount>
       <IsAttachable>true</IsAttachable>
-      <CreateDate>2026-11-16T12:04:56.483Z</CreateDate>
-      <UpdateDate>2026-11-16T12:04:56.483Z</UpdateDate>
+      <CreateDate>2026-11-26T18:30:05.492Z</CreateDate>
+      <UpdateDate>2026-11-26T18:30:05.492Z</UpdateDate>
+      <Tags></Tags>
     </Policy>
   </CreatePolicyResult>
   <ResponseMetadata>
-    <RequestId>b6f8679c-925c-4f7f-ac56-ac0a7b7cabee</RequestId>
+    <RequestId>333f0390-af6c-4f65-b604-0aee843769b9</RequestId>
   </ResponseMetadata>
 </CreatePolicyResponse>
 ```
@@ -139,9 +140,9 @@ Attaching returns an empty result.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183005Z
 Content-Length: 136
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AttachUserPolicy
 &Version=2010-05-08
@@ -155,12 +156,12 @@ Action=AttachUserPolicy
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 248
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <AttachUserPolicyResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <AttachUserPolicyResult/>
+  <AttachUserPolicyResult></AttachUserPolicyResult>
   <ResponseMetadata>
-    <RequestId>5d150358-642c-4dd7-a8cc-f34793f26a33</RequestId>
+    <RequestId>0e29dffc-4da5-4468-a438-a70c01e3d90b</RequestId>
   </ResponseMetadata>
 </AttachUserPolicyResponse>
 ```
@@ -175,9 +176,9 @@ The attachment is visible on the user.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183005Z
 Content-Length: 74
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListAttachedUserPolicies
 &Version=2010-05-08
@@ -190,7 +191,7 @@ Action=ListAttachedUserPolicies
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 525
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListAttachedUserPoliciesResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListAttachedUserPoliciesResult>
@@ -203,7 +204,7 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
     <IsTruncated>false</IsTruncated>
   </ListAttachedUserPoliciesResult>
   <ResponseMetadata>
-    <RequestId>be2400e5-df24-4453-94f9-7306d3336465</RequestId>
+    <RequestId>5eb5a028-8ec5-4ebe-be82-86f070d198ef</RequestId>
   </ResponseMetadata>
 </ListAttachedUserPoliciesResponse>
 ```
@@ -218,9 +219,9 @@ The secret access key is only ever returned here; it is redacted on this page.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183005Z
 Content-Length: 65
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateAccessKey
 &Version=2010-05-08
@@ -233,20 +234,20 @@ Action=CreateAccessKey
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 546
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <CreateAccessKeyResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <CreateAccessKeyResult>
     <AccessKey xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
       <UserName>docs-demo-user</UserName>
-      <AccessKeyId>EMULATORAKJPV4TEAMUJ</AccessKeyId>
+      <AccessKeyId>EMULATORAKXOBG24MQ4E</AccessKeyId>
       <Status>Active</Status>
       <SecretAccessKey><redacted></SecretAccessKey>
-      <CreateDate>2026-11-16T12:04:56.506Z</CreateDate>
+      <CreateDate>2026-11-26T18:30:05.495Z</CreateDate>
     </AccessKey>
   </CreateAccessKeyResult>
   <ResponseMetadata>
-    <RequestId>b796b5a7-4f01-43eb-ad0f-d867c4c34c5e</RequestId>
+    <RequestId>a4dc0dbe-9e2c-4406-a598-78206465b9f8</RequestId>
   </ResponseMetadata>
 </CreateAccessKeyResponse>
 ```
@@ -261,9 +262,9 @@ A user that still has keys and policies cannot be deleted: 409 `DeleteConflict`.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183005Z
 Content-Length: 60
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteUser
 &Version=2010-05-08
@@ -275,9 +276,9 @@ Action=DeleteUser
 ```http
 HTTP/1.1 409 Conflict
 content-type: text/xml
-x-amzn-requestid: 61f8b769-4e45-4aae-9838-393830a475ce
+x-amzn-requestid: e633372b-a70f-4010-8d50-2b4aa660deac
 content-length: 273
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -285,7 +286,7 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
     <Code>DeleteConflict</Code>
     <Message>Cannot delete entity, must detach all policies first.</Message>
   </Error>
-  <RequestId>61f8b769-4e45-4aae-9838-393830a475ce</RequestId>
+  <RequestId>e633372b-a70f-4010-8d50-2b4aa660deac</RequestId>
 </ErrorResponse>
 ```
 
@@ -299,14 +300,14 @@ Remove the key ...
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183005Z
 Content-Length: 98
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteAccessKey
 &Version=2010-05-08
 &UserName=docs-demo-user
-&AccessKeyId=EMULATORAKJPV4TEAMUJ
+&AccessKeyId=EMULATORAKXOBG24MQ4E
 ```
 
 **Response**
@@ -315,12 +316,12 @@ Action=DeleteAccessKey
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 244
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DeleteAccessKeyResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <DeleteAccessKeyResult/>
+  <DeleteAccessKeyResult></DeleteAccessKeyResult>
   <ResponseMetadata>
-    <RequestId>608fcb7c-d1d2-48dc-a1d7-f0b43e249e2f</RequestId>
+    <RequestId>9fa2dc3d-a42a-4dca-a77d-9fd6507c9003</RequestId>
   </ResponseMetadata>
 </DeleteAccessKeyResponse>
 ```
@@ -335,9 +336,9 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183005Z
 Content-Length: 136
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DetachUserPolicy
 &Version=2010-05-08
@@ -351,12 +352,12 @@ Action=DetachUserPolicy
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 248
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DetachUserPolicyResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <DetachUserPolicyResult/>
+  <DetachUserPolicyResult></DetachUserPolicyResult>
   <ResponseMetadata>
-    <RequestId>8c085ecc-746c-4602-8046-82937906e6cb</RequestId>
+    <RequestId>c6db1519-da52-4927-b443-7967fe9910e5</RequestId>
   </ResponseMetadata>
 </DetachUserPolicyResponse>
 ```
@@ -371,9 +372,9 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183005Z
 Content-Length: 108
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeletePolicy
 &Version=2010-05-08
@@ -386,12 +387,12 @@ Action=DeletePolicy
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 232
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DeletePolicyResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <DeletePolicyResult/>
+  <DeletePolicyResult></DeletePolicyResult>
   <ResponseMetadata>
-    <RequestId>ad5cb914-42d9-41c9-958c-d0bf108e381c</RequestId>
+    <RequestId>45cd48e1-8d12-4524-b8ae-3c104f9464df</RequestId>
   </ResponseMetadata>
 </DeletePolicyResponse>
 ```
@@ -406,9 +407,9 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183005Z
 Content-Length: 60
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteUser
 &Version=2010-05-08
@@ -421,21 +422,21 @@ Action=DeleteUser
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 224
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DeleteUserResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <DeleteUserResult/>
+  <DeleteUserResult></DeleteUserResult>
   <ResponseMetadata>
-    <RequestId>d2ee6268-8fb2-44d0-a34b-c62c076429a4</RequestId>
+    <RequestId>031358a4-498a-48e6-ba12-d1230cfdbbb1</RequestId>
   </ResponseMetadata>
 </DeleteUserResponse>
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
-Of 180 operations, 35 accepted the placeholder call, 4 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
+Of 180 operations, 34 accepted the placeholder call, 4 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AcceptDelegationRequest
 
@@ -443,6 +444,11 @@ Accepts a delegation request, granting the requested temporary access.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 86
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AcceptDelegationRequest
 &Version=2010-05-08
@@ -452,6 +458,9 @@ Action=AcceptDelegationRequest
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: f7e308c9-6e13-4e37-81e5-8db865292801
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -459,7 +468,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>DelegationRequest not found: example000000000</Message>
   </Error>
-  <RequestId>e0b8e359-0acf-44f5-81a1-9fdad76eb0ea</RequestId>
+  <RequestId>f7e308c9-6e13-4e37-81e5-8db865292801</RequestId>
 </ErrorResponse>
 ```
 
@@ -471,6 +480,11 @@ Creates an IAM role from the specified role template.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 112
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AcquireRole
 &Version=2010-05-08
@@ -480,6 +494,9 @@ Action=AcquireRole
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 7feede69-0f0a-4591-beaf-01a16c15211b
+content-length: 293
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -487,7 +504,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Role template not found: arn:aws:iam:us-east-1:000000000000:example/example</Message>
   </Error>
-  <RequestId>dbbbba55-8747-40f8-9d6a-3d51980212bd</RequestId>
+  <RequestId>7feede69-0f0a-4591-beaf-01a16c15211b</RequestId>
 </ErrorResponse>
 ```
 
@@ -499,6 +516,11 @@ Adds a new client ID (also known as audience) to the list of client IDs already 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 165
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AddClientIDToOpenIDConnectProvider
 &Version=2010-05-08
@@ -509,6 +531,9 @@ Action=AddClientIDToOpenIDConnectProvider
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 5f338f33-5c8f-46e6-8e8d-43549ab5a795
+content-length: 309
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -516,7 +541,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>OpenIDConnect Provider not found for arn arn:aws:iam:us-east-1:000000000000:example/example</Message>
   </Error>
-  <RequestId>ff6df48b-8a22-4114-a346-1874791129f7</RequestId>
+  <RequestId>5f338f33-5c8f-46e6-8e8d-43549ab5a795</RequestId>
 </ErrorResponse>
 ```
 
@@ -528,6 +553,11 @@ Adds the specified IAM role to the specified instance profile.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 95
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AddRoleToInstanceProfile
 &Version=2010-05-08
@@ -538,6 +568,9 @@ Action=AddRoleToInstanceProfile
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 387ba8b7-44ab-4504-b499-f1ca4f609a0f
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -545,7 +578,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Instance Profile example cannot be found.</Message>
   </Error>
-  <RequestId>bd251feb-aff5-43da-abfe-ec624815a84d</RequestId>
+  <RequestId>387ba8b7-44ab-4504-b499-f1ca4f609a0f</RequestId>
 </ErrorResponse>
 ```
 
@@ -557,6 +590,11 @@ Adds the specified user to the specified group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AddUserToGroup
 &Version=2010-05-08
@@ -567,6 +605,9 @@ Action=AddUserToGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 3d46b931-c57f-4ea3-b296-bf962dd9ef48
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -574,7 +615,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The group with name example cannot be found.</Message>
   </Error>
-  <RequestId>92f6d44b-612e-4fdc-b937-c0ada5250cac</RequestId>
+  <RequestId>3d46b931-c57f-4ea3-b296-bf962dd9ef48</RequestId>
 </ErrorResponse>
 ```
 
@@ -586,6 +627,11 @@ Associates a delegation request with the current identity.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 89
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AssociateDelegationRequest
 &Version=2010-05-08
@@ -595,6 +641,9 @@ Action=AssociateDelegationRequest
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 9be304a4-a6c4-4698-826b-3b9f8ff95967
+content-length: 264
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -602,7 +651,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Delegation request not found: example000000000</Message>
   </Error>
-  <RequestId>1a40d9d1-50e9-4b3d-ac1e-a4ca423aedb0</RequestId>
+  <RequestId>9be304a4-a6c4-4698-826b-3b9f8ff95967</RequestId>
 </ErrorResponse>
 ```
 
@@ -614,6 +663,11 @@ Attaches the specified managed policy to the specified IAM group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 134
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AttachGroupPolicy
 &Version=2010-05-08
@@ -624,6 +678,9 @@ Action=AttachGroupPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 07bd2a97-b228-4e0d-ae87-7f033dba16fe
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -631,7 +688,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>ARN arn:aws:iam:us-east-1:000000000000:example/example is not valid.</Message>
   </Error>
-  <RequestId>c29f9772-30a8-4d09-8a74-caf2dc0af15d</RequestId>
+  <RequestId>07bd2a97-b228-4e0d-ae87-7f033dba16fe</RequestId>
 </ErrorResponse>
 ```
 
@@ -643,6 +700,11 @@ Attaches the specified managed policy to the specified IAM role.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 132
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AttachRolePolicy
 &Version=2010-05-08
@@ -653,6 +715,9 @@ Action=AttachRolePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: bd18e98e-c2c4-4191-8b04-a2669c943dc0
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -660,7 +725,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>ARN arn:aws:iam:us-east-1:000000000000:example/example is not valid.</Message>
   </Error>
-  <RequestId>334b3bbc-f7a4-43d0-ad01-05edd3d34b48</RequestId>
+  <RequestId>bd18e98e-c2c4-4191-8b04-a2669c943dc0</RequestId>
 </ErrorResponse>
 ```
 
@@ -672,6 +737,11 @@ Attaches the specified managed policy to the specified user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 132
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AttachUserPolicy
 &Version=2010-05-08
@@ -682,6 +752,9 @@ Action=AttachUserPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 5bd71575-2e92-47a1-9205-6d882f35efa6
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -689,7 +762,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>ARN arn:aws:iam:us-east-1:000000000000:example/example is not valid.</Message>
   </Error>
-  <RequestId>35f1e8d3-fadc-4501-8033-86c222a2808d</RequestId>
+  <RequestId>5bd71575-2e92-47a1-9205-6d882f35efa6</RequestId>
 </ErrorResponse>
 ```
 
@@ -701,16 +774,24 @@ Changes the password of the IAM user who is calling this operation.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 80
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ChangePassword
 &Version=2010-05-08
-&OldPassword=example
-&NewPassword=example
+&OldPassword=<redacted>
+&NewPassword=<redacted>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: fb6cc254-4cdc-4ade-9780-e20e8b5a6b1e
+content-length: 266
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -718,7 +799,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Login Profile for User emulator cannot be found.</Message>
   </Error>
-  <RequestId>21c8191c-9879-4749-8751-9fe2425ffb9a</RequestId>
+  <RequestId>fb6cc254-4cdc-4ade-9780-e20e8b5a6b1e</RequestId>
 </ErrorResponse>
 ```
 
@@ -730,6 +811,11 @@ Creates a new Amazon Web Services secret access key and corresponding Amazon Web
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 41
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateAccessKey
 &Version=2010-05-08
@@ -738,19 +824,21 @@ Action=CreateAccessKey
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 539
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <CreateAccessKeyResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <CreateAccessKeyResult>
     <AccessKey xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
       <UserName>emulator</UserName>
-      <AccessKeyId>EMULATORAKKYPDOTCMUU</AccessKeyId>
+      <AccessKeyId>EMULATORAKNGDWTSXFHM</AccessKeyId>
       <Status>Active</Status>
       <SecretAccessKey><redacted></SecretAccessKey>
-      <CreateDate>2026-11-16T12:11:28.317Z</CreateDate>
+      <CreateDate>2026-11-26T18:30:05.51Z</CreateDate>
     </AccessKey>
   </CreateAccessKeyResult>
   <ResponseMetadata>
-    <RequestId>6bfd3238-a3eb-4914-82bf-50bce7764947</RequestId>
+    <RequestId>9f9191ae-6359-4f3f-b048-8bae1228d378</RequestId>
   </ResponseMetadata>
 </CreateAccessKeyResponse>
 ```
@@ -763,6 +851,11 @@ Creates an alias for your Amazon Web Services account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 65
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateAccountAlias
 &Version=2010-05-08
@@ -772,11 +865,13 @@ Action=CreateAccountAlias
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 256
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <CreateAccountAliasResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <CreateAccountAliasResult/>
+  <CreateAccountAliasResult></CreateAccountAliasResult>
   <ResponseMetadata>
-    <RequestId>cdedaee2-eba5-4dc4-9801-b513045cc9d4</RequestId>
+    <RequestId>a7d67242-460a-4552-9e6d-baf3e105b4b9</RequestId>
   </ResponseMetadata>
 </CreateAccountAliasResponse>
 ```
@@ -789,6 +884,11 @@ Creates an IAM delegation request for temporary access delegation.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 145
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDelegationRequest
 &Version=2010-05-08
@@ -801,15 +901,18 @@ Action=CreateDelegationRequest
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 6fdf2d83-cfb4-4e89-bfca-de4fb34dcbaa
+content-length: 307
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>1 validation error detected: Value at 'permissions' failed to satisfy constraint: Member must not be null</Message>
+    <Message>1 validation error detected: Value at &apos;permissions&apos; failed to satisfy constraint: Member must not be null</Message>
   </Error>
-  <RequestId>39414226-7ed4-4a97-aa75-d1fdb4e8853b</RequestId>
+  <RequestId>6fdf2d83-cfb4-4e89-bfca-de4fb34dcbaa</RequestId>
 </ErrorResponse>
 ```
 
@@ -821,6 +924,11 @@ Creates a new group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 55
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateGroup
 &Version=2010-05-08
@@ -830,6 +938,8 @@ Action=CreateGroup
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 476
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <CreateGroupResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <CreateGroupResult>
@@ -838,11 +948,11 @@ content-type: text/xml
       <GroupName>example</GroupName>
       <GroupId>AGPABGXEQES5NRCCJJWAN</GroupId>
       <Arn>arn:aws:iam::000000000000:group/example</Arn>
-      <CreateDate>2026-11-16T12:11:28.327Z</CreateDate>
+      <CreateDate>2026-11-26T18:30:05.513Z</CreateDate>
     </Group>
   </CreateGroupResult>
   <ResponseMetadata>
-    <RequestId>db62cbf3-d882-42d8-b841-f189a62a23b2</RequestId>
+    <RequestId>1aca7bf8-e3d4-4f82-b564-e85524a9c5e4</RequestId>
   </ResponseMetadata>
 </CreateGroupResponse>
 ```
@@ -855,6 +965,11 @@ Creates a new instance profile.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateInstanceProfile
 &Version=2010-05-08
@@ -864,6 +979,8 @@ Action=CreateInstanceProfile
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 615
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <CreateInstanceProfileResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <CreateInstanceProfileResult>
@@ -872,12 +989,13 @@ content-type: text/xml
       <InstanceProfileName>example</InstanceProfileName>
       <InstanceProfileId>AIPABGXEQES5NRCCJJWAN</InstanceProfileId>
       <Arn>arn:aws:iam::000000000000:instance-profile/example</Arn>
-      <CreateDate>2026-11-16T12:11:28.332Z</CreateDate>
-      <Roles/>
+      <CreateDate>2026-11-26T18:30:05.514Z</CreateDate>
+      <Roles></Roles>
+      <Tags></Tags>
     </InstanceProfile>
   </CreateInstanceProfileResult>
   <ResponseMetadata>
-    <RequestId>6e0f2529-0698-45da-b758-7af289351662</RequestId>
+    <RequestId>c3796a0b-d1ba-4dd7-883d-4610f2b7c4aa</RequestId>
   </ResponseMetadata>
 </CreateInstanceProfileResponse>
 ```
@@ -890,6 +1008,11 @@ Creates a password for the specified IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 44
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateLoginProfile
 &Version=2010-05-08
@@ -898,6 +1021,9 @@ Action=CreateLoginProfile
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: a18c9a1a-d93c-4c8b-bfa5-711a44ffbb5b
+content-length: 301
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -905,7 +1031,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>Password must be specified unless the request is made with an AssumeRoot session</Message>
   </Error>
-  <RequestId>93df7faa-1cd4-49c2-8a29-33405b424d9c</RequestId>
+  <RequestId>a18c9a1a-d93c-4c8b-bfa5-711a44ffbb5b</RequestId>
 </ErrorResponse>
 ```
 
@@ -917,6 +1043,11 @@ Creates an IAM entity to describe an identity provider (IdP) that supports OpenI
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 65
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateOpenIDConnectProvider
 &Version=2010-05-08
@@ -926,14 +1057,16 @@ Action=CreateOpenIDConnectProvider
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 1ad00b57-2ee4-4861-beef-fd3bd3d017a1
+content-length: 199
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidInput</Code>
-    <Message>Invalid Url example: the URL must begin with https://</Message>
   </Error>
-  <RequestId>82830482-9911-4759-b1e2-965e284924fd</RequestId>
+  <RequestId>1ad00b57-2ee4-4861-beef-fd3bd3d017a1</RequestId>
 </ErrorResponse>
 ```
 
@@ -945,6 +1078,11 @@ Creates a new managed policy for your Amazon Web Services account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 80
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreatePolicy
 &Version=2010-05-08
@@ -955,6 +1093,9 @@ Action=CreatePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 823752a9-2ddb-4533-ab23-1cce88567947
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -962,7 +1103,7 @@ content-type: text/xml
     <Code>MalformedPolicyDocument</Code>
     <Message>Syntax errors in policy.</Message>
   </Error>
-  <RequestId>8f3df264-77e3-44d2-9ec2-cbd0822897a0</RequestId>
+  <RequestId>823752a9-2ddb-4533-ab23-1cce88567947</RequestId>
 </ErrorResponse>
 ```
 
@@ -974,6 +1115,11 @@ Creates a new version of the specified managed policy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 141
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreatePolicyVersion
 &Version=2010-05-08
@@ -984,6 +1130,9 @@ Action=CreatePolicyVersion
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 770cde9e-11b1-4731-8a6d-f7d2ad2cc643
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -991,7 +1140,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>ARN arn:aws:iam:us-east-1:000000000000:example/example is not valid.</Message>
   </Error>
-  <RequestId>339c5a61-89a7-4e7b-8e5c-e55d2a208b88</RequestId>
+  <RequestId>770cde9e-11b1-4731-8a6d-f7d2ad2cc643</RequestId>
 </ErrorResponse>
 ```
 
@@ -1003,6 +1152,11 @@ Creates a new role for your Amazon Web Services account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 86
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateRole
 &Version=2010-05-08
@@ -1013,6 +1167,9 @@ Action=CreateRole
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: c761b718-8b4e-4acd-9774-69759a12fe69
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1020,7 +1177,7 @@ content-type: text/xml
     <Code>MalformedPolicyDocument</Code>
     <Message>This policy contains invalid Json</Message>
   </Error>
-  <RequestId>731b3a6f-415d-420c-8713-eee42de24b9c</RequestId>
+  <RequestId>c761b718-8b4e-4acd-9774-69759a12fe69</RequestId>
 </ErrorResponse>
 ```
 
@@ -1032,6 +1189,11 @@ Creates an IAM resource that describes an identity provider (IdP) that supports 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 1079
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateSAMLProvider
 &Version=2010-05-08
@@ -1042,6 +1204,9 @@ Action=CreateSAMLProvider
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 668dd01c-58b6-4a03-919c-bbe9565073df
+content-length: 248
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1049,7 +1214,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>Invalid SAML metadata document</Message>
   </Error>
-  <RequestId>613b4378-027d-49a6-8d62-d6bec66461e0</RequestId>
+  <RequestId>668dd01c-58b6-4a03-919c-bbe9565073df</RequestId>
 </ErrorResponse>
 ```
 
@@ -1061,6 +1226,11 @@ Creates an IAM role that is linked to a specific Amazon Web Services service.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 72
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateServiceLinkedRole
 &Version=2010-05-08
@@ -1068,20 +1238,23 @@ Action=CreateServiceLinkedRole
 ```
 
 ```http
-HTTP/1.1 400 Bad Request
+HTTP/1.1 403 Forbidden
 content-type: text/xml
+x-amzn-requestid: 249a8c1f-2a79-4be5-98e7-dfdaf4d24503
+content-length: 277
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidInput</Code>
-    <Message>AWSServiceName must be a service principal, such as elasticbeanstalk.amazonaws.com; got example</Message>
+    <Code>AccessDenied</Code>
+    <Message>example is not a valid AWS service name (Service Principal)</Message>
   </Error>
-  <RequestId>b1a24c1b-ebb7-4724-bfb6-6da241c5bfba</RequestId>
+  <RequestId>249a8c1f-2a79-4be5-98e7-dfdaf4d24503</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidInput`: the placeholder values failed the operation's input validation.
+`403` `AccessDenied`: the request was refused by authorization.
 
 ### CreateServiceSpecificCredential
 
@@ -1089,6 +1262,11 @@ Generates a set of credentials consisting of a user name and password that can b
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 94
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateServiceSpecificCredential
 &Version=2010-05-08
@@ -1099,18 +1277,21 @@ Action=CreateServiceSpecificCredential
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: bd30cfdb-33f3-4b18-b991-b748ef38e1c4
+content-length: 287
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
-    <Code>NotSupportedService</Code>
-    <Message>The service example does not support service-specific credentials.</Message>
+    <Code>NoSuchEntity</Code>
+    <Message>No such service example is supported for Service Specific Credentials</Message>
   </Error>
-  <RequestId>b2583604-3602-49f7-a5d7-e9e567b33c1d</RequestId>
+  <RequestId>bd30cfdb-33f3-4b18-b991-b748ef38e1c4</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NotSupportedService`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### CreateUser
 
@@ -1118,6 +1299,11 @@ Creates a new IAM user for your Amazon Web Services account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateUser
 &Version=2010-05-08
@@ -1127,6 +1313,8 @@ Action=CreateUser
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 478
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <CreateUserResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <CreateUserResult>
@@ -1135,11 +1323,12 @@ content-type: text/xml
       <UserName>example</UserName>
       <UserId>AIDAOWVOJOY3VBWOJCSHY</UserId>
       <Arn>arn:aws:iam::000000000000:user/example</Arn>
-      <CreateDate>2026-11-16T12:11:28.358Z</CreateDate>
+      <CreateDate>2026-11-26T18:30:05.521Z</CreateDate>
+      <Tags></Tags>
     </User>
   </CreateUserResult>
   <ResponseMetadata>
-    <RequestId>1ee488a3-0fe9-4747-8bec-2afa475eb14f</RequestId>
+    <RequestId>0d2d71e4-808c-4b0f-809e-30fb07a3896e</RequestId>
   </ResponseMetadata>
 </CreateUserResponse>
 ```
@@ -1152,6 +1341,11 @@ Creates a new virtual MFA device for the Amazon Web Services account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateVirtualMFADevice
 &Version=2010-05-08
@@ -1161,17 +1355,20 @@ Action=CreateVirtualMFADevice
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 1826
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <CreateVirtualMFADeviceResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <CreateVirtualMFADeviceResult>
     <VirtualMFADevice xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
       <SerialNumber>arn:aws:iam::000000000000:mfa/example</SerialNumber>
-      <Base32StringSeed><redacted></Base32StringSeed>
+      <Base32StringSeed>SUZKVU1TRE9HWlhGTTJMR0pSTFVNWkJZSEJCRVFUU0k=</Base32StringSeed>
       <QRCodePNG><redacted></QRCodePNG>
+      <Tags></Tags>
     </VirtualMFADevice>
   </CreateVirtualMFADeviceResult>
   <ResponseMetadata>
-    <RequestId>6eaa5cb7-e9b4-4f8d-84b1-fdf0df16113d</RequestId>
+    <RequestId>06c9d216-4e9e-4f3f-9265-f410817a7b32</RequestId>
   </ResponseMetadata>
 </CreateVirtualMFADeviceResponse>
 ```
@@ -1186,6 +1383,11 @@ Deactivates the specified MFA device and removes it from association with the us
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 68
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeactivateMFADevice
 &Version=2010-05-08
@@ -1195,6 +1397,9 @@ Action=DeactivateMFADevice
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: d4e8087e-2607-4b69-84f7-fd95124a5669
+content-length: 273
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1202,7 +1407,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>MFA Device with serial number example00 does not exist.</Message>
   </Error>
-  <RequestId>ba18e7d1-a56b-462e-8df6-19638597bd1f</RequestId>
+  <RequestId>d4e8087e-2607-4b69-84f7-fd95124a5669</RequestId>
 </ErrorResponse>
 ```
 
@@ -1214,6 +1419,11 @@ Deletes the access key pair associated with the specified IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteAccessKey
 &Version=2010-05-08
@@ -1223,6 +1433,9 @@ Action=DeleteAccessKey
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: b3b89230-efb1-4e91-84e1-7f0b8cddc376
+content-length: 274
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1230,7 +1443,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The Access Key with id example000000000 cannot be found.</Message>
   </Error>
-  <RequestId>df855cb9-7118-4d60-9084-01915114b8a3</RequestId>
+  <RequestId>b3b89230-efb1-4e91-84e1-7f0b8cddc376</RequestId>
 </ErrorResponse>
 ```
 
@@ -1242,6 +1455,11 @@ Deletes the specified Amazon Web Services account alias.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 65
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteAccountAlias
 &Version=2010-05-08
@@ -1251,11 +1469,13 @@ Action=DeleteAccountAlias
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 256
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DeleteAccountAliasResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <DeleteAccountAliasResult/>
+  <DeleteAccountAliasResult></DeleteAccountAliasResult>
   <ResponseMetadata>
-    <RequestId>c1e9454e-795d-4840-a614-b5b6a87d726d</RequestId>
+    <RequestId>99595f52-f111-4f22-ad70-d1300c719b39</RequestId>
   </ResponseMetadata>
 </DeleteAccountAliasResponse>
 ```
@@ -1268,6 +1488,11 @@ Deletes the password policy for the Amazon Web Services account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteAccountPasswordPolicy
 &Version=2010-05-08
@@ -1276,6 +1501,9 @@ Action=DeleteAccountPasswordPolicy
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 8995e220-9288-4f18-a521-f8b973381f8a
+content-length: 278
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1283,7 +1511,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The account policy with name PasswordPolicy cannot be found.</Message>
   </Error>
-  <RequestId>4b8bcd96-c446-4e05-a5d7-8edbe77aa748</RequestId>
+  <RequestId>8995e220-9288-4f18-a521-f8b973381f8a</RequestId>
 </ErrorResponse>
 ```
 
@@ -1295,6 +1523,11 @@ Deletes the specified IAM group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 55
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteGroup
 &Version=2010-05-08
@@ -1304,11 +1537,13 @@ Action=DeleteGroup
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 228
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DeleteGroupResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <DeleteGroupResult/>
+  <DeleteGroupResult></DeleteGroupResult>
   <ResponseMetadata>
-    <RequestId>066c02d7-c484-45c1-bc6b-e038726989ab</RequestId>
+    <RequestId>f7e84dc7-a641-4069-81ce-647ac103570e</RequestId>
   </ResponseMetadata>
 </DeleteGroupResponse>
 ```
@@ -1321,6 +1556,11 @@ Deletes the specified inline policy that is embedded in the specified IAM group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 80
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteGroupPolicy
 &Version=2010-05-08
@@ -1331,6 +1571,9 @@ Action=DeleteGroupPolicy
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 0df24ae7-51e6-441b-9b6f-f97aa91ccb77
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1338,7 +1581,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The group with name example cannot be found.</Message>
   </Error>
-  <RequestId>3c52e516-2f92-414c-ae2e-35d70f4f2376</RequestId>
+  <RequestId>0df24ae7-51e6-441b-9b6f-f97aa91ccb77</RequestId>
 </ErrorResponse>
 ```
 
@@ -1350,6 +1593,11 @@ Deletes the specified instance profile.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteInstanceProfile
 &Version=2010-05-08
@@ -1359,11 +1607,13 @@ Action=DeleteInstanceProfile
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 268
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DeleteInstanceProfileResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <DeleteInstanceProfileResult/>
+  <DeleteInstanceProfileResult></DeleteInstanceProfileResult>
   <ResponseMetadata>
-    <RequestId>0fafb80b-c1a9-41b1-a7a9-2e0f4eb80e9b</RequestId>
+    <RequestId>a130163c-1730-4c3a-80fa-9a0eb9818696</RequestId>
   </ResponseMetadata>
 </DeleteInstanceProfileResponse>
 ```
@@ -1376,6 +1626,11 @@ Deletes the password for the specified IAM user or root user, For more informati
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 44
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteLoginProfile
 &Version=2010-05-08
@@ -1384,6 +1639,9 @@ Action=DeleteLoginProfile
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: c2e41420-d3a1-4863-a3d6-c2cf3c427f9f
+content-length: 266
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1391,7 +1649,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Login Profile for User emulator cannot be found.</Message>
   </Error>
-  <RequestId>2e4cd585-06f0-47fb-bb38-50879b05a256</RequestId>
+  <RequestId>c2e41420-d3a1-4863-a3d6-c2cf3c427f9f</RequestId>
 </ErrorResponse>
 ```
 
@@ -1403,6 +1661,11 @@ Deletes an OpenID Connect identity provider (IdP) resource object in IAM.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 141
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteOpenIDConnectProvider
 &Version=2010-05-08
@@ -1412,6 +1675,9 @@ Action=DeleteOpenIDConnectProvider
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 7258e7a8-70e4-4ad7-b752-38ef9ae59be2
+content-length: 309
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1419,7 +1685,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>OpenId connect Provider arn:aws:iam:us-east-1:000000000000:example/example cannot be found.</Message>
   </Error>
-  <RequestId>23da86e6-3264-4936-8521-af0a060d47b6</RequestId>
+  <RequestId>7258e7a8-70e4-4ad7-b752-38ef9ae59be2</RequestId>
 </ErrorResponse>
 ```
 
@@ -1431,6 +1697,11 @@ Deletes the specified managed policy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 111
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeletePolicy
 &Version=2010-05-08
@@ -1440,6 +1711,9 @@ Action=DeletePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 01d34a1a-4425-4a2a-b03b-45f8b6484148
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1447,7 +1721,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>ARN arn:aws:iam:us-east-1:000000000000:example/example is not valid.</Message>
   </Error>
-  <RequestId>45d1b4b7-b300-4ae9-90d5-e1a379fa866d</RequestId>
+  <RequestId>01d34a1a-4425-4a2a-b03b-45f8b6484148</RequestId>
 </ErrorResponse>
 ```
 
@@ -1459,6 +1733,11 @@ Deletes the specified version from the specified managed policy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 136
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeletePolicyVersion
 &Version=2010-05-08
@@ -1469,15 +1748,18 @@ Action=DeletePolicyVersion
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: cd45ce39-d033-45d2-9e70-1d7bb01c7c5c
+content-length: 360
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>1 validation error detected: Value at 'versionId' failed to satisfy constraint: Member must satisfy regular expression pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?</Message>
+    <Message>1 validation error detected: Value at &apos;versionId&apos; failed to satisfy constraint: Member must satisfy regular expression pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?</Message>
   </Error>
-  <RequestId>55106f1b-1319-4e5c-a00f-77a97e052263</RequestId>
+  <RequestId>cd45ce39-d033-45d2-9e70-1d7bb01c7c5c</RequestId>
 </ErrorResponse>
 ```
 
@@ -1489,6 +1771,11 @@ Deletes the specified role.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteRole
 &Version=2010-05-08
@@ -1498,6 +1785,9 @@ Action=DeleteRole
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 3a0039e6-1dd4-45e1-b21e-004b622ae078
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1505,7 +1795,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The role with name example cannot be found.</Message>
   </Error>
-  <RequestId>46f3af1c-e21c-403b-a4c9-bd9876524c80</RequestId>
+  <RequestId>3a0039e6-1dd4-45e1-b21e-004b622ae078</RequestId>
 </ErrorResponse>
 ```
 
@@ -1517,6 +1807,11 @@ Deletes the permissions boundary for the specified IAM role.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 72
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteRolePermissionsBoundary
 &Version=2010-05-08
@@ -1526,6 +1821,9 @@ Action=DeleteRolePermissionsBoundary
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: b6340c70-4e7c-41fc-a05d-d24708034e8f
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1533,7 +1831,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The role with name example cannot be found.</Message>
   </Error>
-  <RequestId>51d41da7-63a2-4882-9523-fc2237b64828</RequestId>
+  <RequestId>b6340c70-4e7c-41fc-a05d-d24708034e8f</RequestId>
 </ErrorResponse>
 ```
 
@@ -1545,6 +1843,11 @@ Deletes the specified inline policy that is embedded in the specified IAM role.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 78
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteRolePolicy
 &Version=2010-05-08
@@ -1555,6 +1858,9 @@ Action=DeleteRolePolicy
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: c72460bc-f1a6-425d-9e6a-a90e622709ae
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1562,7 +1868,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The role with name example cannot be found.</Message>
   </Error>
-  <RequestId>89320ab2-6dd4-4cb5-aefd-adad7f2eaa1f</RequestId>
+  <RequestId>c72460bc-f1a6-425d-9e6a-a90e622709ae</RequestId>
 </ErrorResponse>
 ```
 
@@ -1574,6 +1880,11 @@ Deletes a SAML provider resource in IAM.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 123
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteSAMLProvider
 &Version=2010-05-08
@@ -1581,20 +1892,23 @@ Action=DeleteSAMLProvider
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: f763c4f5-8eb9-4eaa-9e2f-0a3140d59dbb
+content-length: 249
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
-    <Code>NoSuchEntity</Code>
-    <Message>Manifest not found for arn arn:aws:iam:us-east-1:000000000000:example/example</Message>
+    <Code>ValidationError</Code>
+    <Message>Invalid resource type in ARN</Message>
   </Error>
-  <RequestId>53fe7d6e-b642-487f-ba55-b34d51e12f8a</RequestId>
+  <RequestId>f763c4f5-8eb9-4eaa-9e2f-0a3140d59dbb</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### DeleteSSHPublicKey
 
@@ -1604,6 +1918,11 @@ Deletes the specified SSH public key.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 97
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteSSHPublicKey
 &Version=2010-05-08
@@ -1614,14 +1933,17 @@ Action=DeleteSSHPublicKey
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: ee809424-b650-4172-852d-7ca8ee5031ff
+content-length: 278
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
     <Code>NoSuchEntity</Code>
-    <Message>The user with name example cannot be found.</Message>
+    <Message>The Public Key with id example0000000000000 cannot be found.</Message>
   </Error>
-  <RequestId>259b317b-aaf5-4d37-b4e0-90b2ae77ac64</RequestId>
+  <RequestId>ee809424-b650-4172-852d-7ca8ee5031ff</RequestId>
 </ErrorResponse>
 ```
 
@@ -1633,6 +1955,11 @@ Deletes the specified server certificate.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 79
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteServerCertificate
 &Version=2010-05-08
@@ -1642,6 +1969,9 @@ Action=DeleteServerCertificate
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 101e2628-ccf4-425d-bd02-b1db47a4713b
+content-length: 275
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1649,7 +1979,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The Server Certificate with name example cannot be found.</Message>
   </Error>
-  <RequestId>e12b6f00-708c-462a-a8d3-680779546e46</RequestId>
+  <RequestId>101e2628-ccf4-425d-bd02-b1db47a4713b</RequestId>
 </ErrorResponse>
 ```
 
@@ -1661,6 +1991,11 @@ Submits a service-linked role deletion request and returns a DeletionTaskId , wh
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 66
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteServiceLinkedRole
 &Version=2010-05-08
@@ -1670,6 +2005,9 @@ Action=DeleteServiceLinkedRole
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 7275439e-9ff0-4f8d-9f9e-640fa63ed3ce
+content-length: 257
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1677,7 +2015,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Cannot find the service role to delete.</Message>
   </Error>
-  <RequestId>940cc6a6-26f4-4269-846b-2a5b455bb326</RequestId>
+  <RequestId>7275439e-9ff0-4f8d-9f9e-640fa63ed3ce</RequestId>
 </ErrorResponse>
 ```
 
@@ -1689,6 +2027,11 @@ Deletes the specified service-specific credential.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 106
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteServiceSpecificCredential
 &Version=2010-05-08
@@ -1698,6 +2041,9 @@ Action=DeleteServiceSpecificCredential
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 4cbd9262-9eef-4785-959e-e06aecf3cc87
+content-length: 264
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1705,7 +2051,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>No such credential example0000000000000 exists</Message>
   </Error>
-  <RequestId>f8528305-63c7-43e1-8152-91591e47bfd5</RequestId>
+  <RequestId>4cbd9262-9eef-4785-959e-e06aecf3cc87</RequestId>
 </ErrorResponse>
 ```
 
@@ -1717,6 +2063,11 @@ Deletes a signing certificate associated with the specified IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 89
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteSigningCertificate
 &Version=2010-05-08
@@ -1726,6 +2077,9 @@ Action=DeleteSigningCertificate
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 91070b7a-eb31-47c8-a3c5-376138599475
+content-length: 283
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1733,7 +2087,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The Certificate with id example00000000000000000 cannot be found.</Message>
   </Error>
-  <RequestId>d398a5aa-b66e-4c30-8164-451e24729864</RequestId>
+  <RequestId>91070b7a-eb31-47c8-a3c5-376138599475</RequestId>
 </ErrorResponse>
 ```
 
@@ -1745,6 +2099,11 @@ Deletes the specified IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteUser
 &Version=2010-05-08
@@ -1754,11 +2113,13 @@ Action=DeleteUser
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 224
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <DeleteUserResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <DeleteUserResult/>
+  <DeleteUserResult></DeleteUserResult>
   <ResponseMetadata>
-    <RequestId>034070ff-c341-4b56-9bba-6fa94204c8c5</RequestId>
+    <RequestId>6b4f7623-1b7b-458d-8f38-6a581945569c</RequestId>
   </ResponseMetadata>
 </DeleteUserResponse>
 ```
@@ -1771,6 +2132,11 @@ Deletes the permissions boundary for the specified IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 72
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteUserPermissionsBoundary
 &Version=2010-05-08
@@ -1780,6 +2146,9 @@ Action=DeleteUserPermissionsBoundary
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 8729b64c-b026-4a7a-b0e4-28b0534239e5
+content-length: 245
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1787,7 +2156,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>User example was not found.</Message>
   </Error>
-  <RequestId>0c35b55c-f5ec-49eb-a483-2c418042e36b</RequestId>
+  <RequestId>8729b64c-b026-4a7a-b0e4-28b0534239e5</RequestId>
 </ErrorResponse>
 ```
 
@@ -1799,6 +2168,11 @@ Deletes the specified inline policy that is embedded in the specified IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 78
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteUserPolicy
 &Version=2010-05-08
@@ -1809,6 +2183,9 @@ Action=DeleteUserPolicy
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: be34a367-d13a-4329-9dd6-6cc7751e8ecb
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1816,7 +2193,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>af1b509f-05c5-448e-8913-045f9263b6d6</RequestId>
+  <RequestId>be34a367-d13a-4329-9dd6-6cc7751e8ecb</RequestId>
 </ErrorResponse>
 ```
 
@@ -1830,6 +2207,11 @@ Deletes a virtual MFA device.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteVirtualMFADevice
 &Version=2010-05-08
@@ -1839,6 +2221,9 @@ Action=DeleteVirtualMFADevice
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 9f3f2f78-17b4-4d55-8ce8-7455a739ea70
+content-length: 273
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1846,7 +2231,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>MFA Device with serial number example00 does not exist.</Message>
   </Error>
-  <RequestId>9868a807-83bc-4af4-9f8c-1ed34ac78d0f</RequestId>
+  <RequestId>9f3f2f78-17b4-4d55-8ce8-7455a739ea70</RequestId>
 </ErrorResponse>
 ```
 
@@ -1858,6 +2243,11 @@ Removes the specified managed policy from the specified IAM group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 134
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DetachGroupPolicy
 &Version=2010-05-08
@@ -1868,6 +2258,9 @@ Action=DetachGroupPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: aaec8584-7a02-48d0-9d54-b98260c0487d
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1875,7 +2268,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>ARN arn:aws:iam:us-east-1:000000000000:example/example is not valid.</Message>
   </Error>
-  <RequestId>91246f88-f1d1-46ab-95f8-fad2481c6299</RequestId>
+  <RequestId>aaec8584-7a02-48d0-9d54-b98260c0487d</RequestId>
 </ErrorResponse>
 ```
 
@@ -1887,6 +2280,11 @@ Removes the specified managed policy from the specified role.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 132
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DetachRolePolicy
 &Version=2010-05-08
@@ -1897,6 +2295,9 @@ Action=DetachRolePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 2d510047-f211-41a9-90c4-3fc972801b09
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1904,7 +2305,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>ARN arn:aws:iam:us-east-1:000000000000:example/example is not valid.</Message>
   </Error>
-  <RequestId>da452913-5388-45c2-85cd-e3ba5f1235a7</RequestId>
+  <RequestId>2d510047-f211-41a9-90c4-3fc972801b09</RequestId>
 </ErrorResponse>
 ```
 
@@ -1916,6 +2317,11 @@ Removes the specified managed policy from the specified user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 132
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DetachUserPolicy
 &Version=2010-05-08
@@ -1926,6 +2332,9 @@ Action=DetachUserPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 8c79f901-d331-43c9-8459-240c5b6ee9d0
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1933,7 +2342,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>ARN arn:aws:iam:us-east-1:000000000000:example/example is not valid.</Message>
   </Error>
-  <RequestId>ba6d6228-69d6-411d-aec2-e32d0456bc76</RequestId>
+  <RequestId>8c79f901-d331-43c9-8459-240c5b6ee9d0</RequestId>
 </ErrorResponse>
 ```
 
@@ -1945,6 +2354,11 @@ Disables the management of privileged root user credentials across member accoun
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DisableOrganizationsRootCredentialsManagement
 &Version=2010-05-08
@@ -1953,6 +2367,9 @@ Action=DisableOrganizationsRootCredentialsManagement
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: 6e1d6219-2629-4c13-971f-582ab050a281
+content-length: 328
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1960,7 +2377,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation DisableOrganizationsRootCredentialsManagement is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>0ba05086-0959-4c87-ba0e-d436d57d9762</RequestId>
+  <RequestId>6e1d6219-2629-4c13-971f-582ab050a281</RequestId>
 </ErrorResponse>
 ```
 
@@ -1972,6 +2389,11 @@ Disables root user sessions for privileged tasks across member accounts in your 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 58
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DisableOrganizationsRootSessions
 &Version=2010-05-08
@@ -1980,6 +2402,9 @@ Action=DisableOrganizationsRootSessions
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: 7ea48d12-f5b8-4cdc-8d9f-76e720707d77
+content-length: 315
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -1987,7 +2412,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation DisableOrganizationsRootSessions is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>7806a884-3c02-468f-b534-6faceff160de</RequestId>
+  <RequestId>7ea48d12-f5b8-4cdc-8d9f-76e720707d77</RequestId>
 </ErrorResponse>
 ```
 
@@ -1999,6 +2424,11 @@ Disables the outbound identity federation feature for your Amazon Web Services a
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 62
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DisableOutboundWebIdentityFederation
 &Version=2010-05-08
@@ -2007,6 +2437,9 @@ Action=DisableOutboundWebIdentityFederation
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: cc355538-b55d-4693-a1c0-1a396a91fdaa
+content-length: 294
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2014,7 +2447,7 @@ content-type: text/xml
     <Code>FeatureDisabled</Code>
     <Message>Outbound identity federation is already disabled for account 000000000000</Message>
   </Error>
-  <RequestId>ec096dfc-c9d4-4fd5-a3f4-b63fde74f007</RequestId>
+  <RequestId>cc355538-b55d-4693-a1c0-1a396a91fdaa</RequestId>
 </ErrorResponse>
 ```
 
@@ -2026,6 +2459,11 @@ Enables the specified MFA device and associates it with the specified IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 135
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=EnableMFADevice
 &Version=2010-05-08
@@ -2038,6 +2476,9 @@ Action=EnableMFADevice
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 9aa780fe-d381-45c8-930d-e992ee9e8e1c
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2045,7 +2486,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>7a5f7f53-9652-4742-b931-16d9015287cd</RequestId>
+  <RequestId>9aa780fe-d381-45c8-930d-e992ee9e8e1c</RequestId>
 </ErrorResponse>
 ```
 
@@ -2057,6 +2498,11 @@ Enables the management of privileged root user credentials across member account
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=EnableOrganizationsRootCredentialsManagement
 &Version=2010-05-08
@@ -2065,6 +2511,9 @@ Action=EnableOrganizationsRootCredentialsManagement
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: 6389b778-6e20-4c85-aafa-e27ac964a90c
+content-length: 327
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2072,7 +2521,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation EnableOrganizationsRootCredentialsManagement is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>c6b4d1dd-acb3-41b1-9586-2e59f7ae2819</RequestId>
+  <RequestId>6389b778-6e20-4c85-aafa-e27ac964a90c</RequestId>
 </ErrorResponse>
 ```
 
@@ -2084,6 +2533,11 @@ Allows the management account or delegated administrator to perform privileged t
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 57
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=EnableOrganizationsRootSessions
 &Version=2010-05-08
@@ -2092,6 +2546,9 @@ Action=EnableOrganizationsRootSessions
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: a9941b0c-cde3-4a87-976d-54c443c9136b
+content-length: 314
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2099,7 +2556,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation EnableOrganizationsRootSessions is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>ff171e7a-bc1f-4cfd-8649-0ae875979e83</RequestId>
+  <RequestId>a9941b0c-cde3-4a87-976d-54c443c9136b</RequestId>
 </ErrorResponse>
 ```
 
@@ -2111,6 +2568,11 @@ Enables the outbound identity federation feature for your Amazon Web Services ac
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=EnableOutboundWebIdentityFederation
 &Version=2010-05-08
@@ -2119,13 +2581,15 @@ Action=EnableOutboundWebIdentityFederation
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 416
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <EnableOutboundWebIdentityFederationResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <EnableOutboundWebIdentityFederationResult>
     <IssuerIdentifier>https://127.0.0.1:9297/F7B11509F4D675C3C44F0DD37CA830BB</IssuerIdentifier>
   </EnableOutboundWebIdentityFederationResult>
   <ResponseMetadata>
-    <RequestId>9aa83304-11fd-4e0f-bd20-35fd9e16399d</RequestId>
+    <RequestId>d6805995-45e1-4905-b41b-01977d2b6d01</RequestId>
   </ResponseMetadata>
 </EnableOutboundWebIdentityFederationResponse>
 ```
@@ -2138,6 +2602,11 @@ Generates a credential report for the Amazon Web Services account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 50
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GenerateCredentialReport
 &Version=2010-05-08
@@ -2146,6 +2615,8 @@ Action=GenerateCredentialReport
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 384
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <GenerateCredentialReportResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <GenerateCredentialReportResult>
@@ -2153,7 +2624,7 @@ content-type: text/xml
     <Description>No report exists. Starting a new report generation task</Description>
   </GenerateCredentialReportResult>
   <ResponseMetadata>
-    <RequestId>9bc76f9c-d601-4c9c-9a64-f5300750383f</RequestId>
+    <RequestId>cb277cf9-4afb-492a-af62-0b9221b7252d</RequestId>
   </ResponseMetadata>
 </GenerateCredentialReportResponse>
 ```
@@ -2166,6 +2637,11 @@ Generates a report for service last accessed data for Organizations.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 90
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GenerateOrganizationsAccessReport
 &Version=2010-05-08
@@ -2175,15 +2651,18 @@ Action=GenerateOrganizationsAccessReport
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 1d89ef3a-6a4f-4ca7-b047-b67a79d0f023
+content-length: 378
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>1 validation error detected: Value at 'entityPath' failed to satisfy constraint: Member must satisfy regular expression pattern: o-[0-9a-z]{10,32}\/r-[0-9a-z]{4,32}[0-9a-z-\/]*</Message>
+    <Message>1 validation error detected: Value at &apos;entityPath&apos; failed to satisfy constraint: Member must satisfy regular expression pattern: o-[0-9a-z]{10,32}\/r-[0-9a-z]{4,32}[0-9a-z-\/]*</Message>
   </Error>
-  <RequestId>337196ae-ee83-4346-8e8c-d26f6c0363b9</RequestId>
+  <RequestId>1d89ef3a-6a4f-4ca7-b047-b67a79d0f023</RequestId>
 </ErrorResponse>
 ```
 
@@ -2195,6 +2674,11 @@ Generates a report that includes details about when an IAM resource (user, group
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 127
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GenerateServiceLastAccessedDetails
 &Version=2010-05-08
@@ -2204,6 +2688,9 @@ Action=GenerateServiceLastAccessedDetails
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: e261ef5c-afe4-4c5e-ae92-3f8cbd30ed7b
+content-length: 352
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2211,7 +2698,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>ARN arn:aws:iam:us-east-1:000000000000:example/example is not valid: Arn must be the ARN of an IAM user, group, role or managed policy</Message>
   </Error>
-  <RequestId>a967960b-9389-4393-bf01-0a367545cf02</RequestId>
+  <RequestId>e261ef5c-afe4-4c5e-ae92-3f8cbd30ed7b</RequestId>
 </ErrorResponse>
 ```
 
@@ -2223,6 +2710,11 @@ Retrieves information about when the specified access key was last used.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetAccessKeyLastUsed
 &Version=2010-05-08
@@ -2232,6 +2724,9 @@ Action=GetAccessKeyLastUsed
 ```http
 HTTP/1.1 403 Forbidden
 content-type: text/xml
+x-amzn-requestid: 431db870-7c39-429d-bacb-01e4517ce88c
+content-length: 358
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2239,7 +2734,7 @@ content-type: text/xml
     <Code>AccessDenied</Code>
     <Message>User: arn:aws:iam::000000000000:user/emulator is not authorized to perform iam:GetAccessKeyLastUsed on resource: access key example000000000</Message>
   </Error>
-  <RequestId>910efe6a-5bce-4cc3-a540-8aafeaf7a2bc</RequestId>
+  <RequestId>431db870-7c39-429d-bacb-01e4517ce88c</RequestId>
 </ErrorResponse>
 ```
 
@@ -2251,6 +2746,11 @@ Retrieves information about all IAM users, groups, roles, and policies in your A
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 56
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetAccountAuthorizationDetails
 &Version=2010-05-08
@@ -2259,6 +2759,8 @@ Action=GetAccountAuthorizationDetails
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 7255
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <GetAccountAuthorizationDetailsResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <GetAccountAuthorizationDetailsResult>
@@ -2269,18 +2771,18 @@ content-type: text/xml
         <UserId>AIDAH5I7GEMO7ADXNFAZU</UserId>
         <Arn>arn:aws:iam::000000000000:user/emulator</Arn>
         <CreateDate>1970-01-01T00:00:00Z</CreateDate>
-        <UserPolicyList/>
-        <GroupList/>
-        <AttachedManagedPolicies/>
+        <UserPolicyList></UserPolicyList>
+        <GroupList></GroupList>
+        <AttachedManagedPolicies></AttachedManagedPolicies>
+        <Tags></Tags>
       </member>
     </UserDetailList>
-    <GroupDetailList/>
+    <GroupDetailList></GroupDetailList>
     <RoleDetailList>
       <member>
         <Path>/aws-service-role/dynamodb.application-autoscaling.amazonaws.com/</Path>
         <RoleName>AWSServiceRoleForApplicationAutoScaling_DynamoDBTable</RoleName>
-        <RoleId>AROAN7DDQNT4UYC2BHD35</RoleId>
-… (20 more lines)
+… (120 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -2291,6 +2793,11 @@ Retrieves the password policy for the Amazon Web Services account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 50
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetAccountPasswordPolicy
 &Version=2010-05-08
@@ -2299,6 +2806,9 @@ Action=GetAccountPasswordPolicy
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 6ec3b347-1ea0-4546-8113-79b67cd98466
+content-length: 284
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2306,7 +2816,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The Password Policy with domain name 000000000000 cannot be found.</Message>
   </Error>
-  <RequestId>828c22bd-fb5e-4761-872b-dd6095f56f8d</RequestId>
+  <RequestId>6ec3b347-1ea0-4546-8113-79b67cd98466</RequestId>
 </ErrorResponse>
 ```
 
@@ -2318,6 +2828,11 @@ Retrieves the account-level properties for the caller's Amazon Web Services acco
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 46
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetAccountProperties
 &Version=2010-05-08
@@ -2326,6 +2841,8 @@ Action=GetAccountProperties
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 354
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <GetAccountPropertiesResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <GetAccountPropertiesResult>
@@ -2337,7 +2854,7 @@ content-type: text/xml
     </Properties>
   </GetAccountPropertiesResult>
   <ResponseMetadata>
-    <RequestId>65af76db-a890-43b5-90b0-164eda9051b5</RequestId>
+    <RequestId>ad4d31f1-1acf-48b4-b9ad-19ede456d089</RequestId>
   </ResponseMetadata>
 </GetAccountPropertiesResponse>
 ```
@@ -2350,6 +2867,11 @@ Retrieves information about IAM entity usage and IAM quotas in the Amazon Web Se
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetAccountSummary
 &Version=2010-05-08
@@ -2358,25 +2880,27 @@ Action=GetAccountSummary
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 2365
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <GetAccountSummaryResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <GetAccountSummaryResult>
     <SummaryMap>
       <entry>
-        <key>GlobalEndpointTokenVersion</key>
-        <value>1</value>
-      </entry>
-      <entry>
-        <key>Policies</key>
-        <value>0</value>
-      </entry>
-      <entry>
         <key>VersionsPerPolicyQuota</key>
         <value>5</value>
       </entry>
       <entry>
-        <key>PoliciesQuota</key>
-        <value>1500</value>
+        <key>MFADevices</key>
+        <value>1</value>
+      </entry>
+      <entry>
+        <key>Groups</key>
+        <value>0</value>
+      </entry>
+      <entry>
+        <key>SigningCertificatesPerUserQuota</key>
+        <value>2</value>
       </entry>
       <entry>
 … (125 more lines)
@@ -2390,6 +2914,11 @@ Gets a list of all of the context keys referenced in the input policies.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 88
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetContextKeysForCustomPolicy
 &Version=2010-05-08
@@ -2399,6 +2928,9 @@ Action=GetContextKeysForCustomPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: e7d6f20f-ec77-4778-ae6b-eeebc2b5ce90
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2406,7 +2938,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>Policy input list item 1 has invalid content</Message>
   </Error>
-  <RequestId>55295160-991f-40ce-968b-860dc83b41c2</RequestId>
+  <RequestId>e7d6f20f-ec77-4778-ae6b-eeebc2b5ce90</RequestId>
 </ErrorResponse>
 ```
 
@@ -2418,6 +2950,11 @@ Gets a list of all of the context keys referenced in all the IAM policies that a
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 137
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetContextKeysForPrincipalPolicy
 &Version=2010-05-08
@@ -2427,6 +2964,9 @@ Action=GetContextKeysForPrincipalPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 1048d480-0253-4062-bf23-e605a89fb0e2
+content-length: 305
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2434,7 +2974,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>Invalid ARN provided in the request: arn:aws:iam:us-east-1:000000000000:example/example</Message>
   </Error>
-  <RequestId>150b7a5a-a735-4ec2-a33c-61602b96a64c</RequestId>
+  <RequestId>1048d480-0253-4062-bf23-e605a89fb0e2</RequestId>
 </ErrorResponse>
 ```
 
@@ -2446,6 +2986,11 @@ Retrieves a credential report for the Amazon Web Services account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetCredentialReport
 &Version=2010-05-08
@@ -2454,13 +2999,16 @@ Action=GetCredentialReport
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 5fceb580-895e-4978-a136-43143d567c75
+content-length: 203
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
     <Code>ReportInProgress</Code>
   </Error>
-  <RequestId>54ebe43c-690d-45e6-b4d3-8b8502d6a6c0</RequestId>
+  <RequestId>5fceb580-895e-4978-a136-43143d567c75</RequestId>
 </ErrorResponse>
 ```
 
@@ -2472,6 +3020,11 @@ Retrieves information about a specific delegation request.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 83
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetDelegationRequest
 &Version=2010-05-08
@@ -2481,6 +3034,9 @@ Action=GetDelegationRequest
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 16c04dcc-c6b0-4ad7-bc80-ba5c6a9a00e9
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2488,7 +3044,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>DelegationRequest not found: example000000000</Message>
   </Error>
-  <RequestId>a7c9e883-cbdd-4572-a4dd-412f41e85792</RequestId>
+  <RequestId>16c04dcc-c6b0-4ad7-bc80-ba5c6a9a00e9</RequestId>
 </ErrorResponse>
 ```
 
@@ -2500,6 +3056,11 @@ Returns a list of IAM users that are in the specified IAM group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetGroup
 &Version=2010-05-08
@@ -2509,6 +3070,9 @@ Action=GetGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: cd0b86f2-9391-40b5-8827-c08fff8a459b
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2516,7 +3080,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The group with name example cannot be found.</Message>
   </Error>
-  <RequestId>715cbd3b-9b99-441f-85d2-af2dc8c1be84</RequestId>
+  <RequestId>cd0b86f2-9391-40b5-8827-c08fff8a459b</RequestId>
 </ErrorResponse>
 ```
 
@@ -2528,6 +3092,11 @@ Retrieves the specified inline policy document that is embedded in the specified
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetGroupPolicy
 &Version=2010-05-08
@@ -2538,6 +3107,9 @@ Action=GetGroupPolicy
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: cd70c251-582d-4399-bdf3-a813ce8a7e1d
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2545,7 +3117,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The group with name example cannot be found.</Message>
   </Error>
-  <RequestId>f27954a2-e705-465b-b31c-a4f2c0508b66</RequestId>
+  <RequestId>cd70c251-582d-4399-bdf3-a813ce8a7e1d</RequestId>
 </ErrorResponse>
 ```
 
@@ -2557,6 +3129,11 @@ Retrieves a human readable summary for a given entity.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 122
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetHumanReadableSummary
 &Version=2010-05-08
@@ -2566,6 +3143,9 @@ Action=GetHumanReadableSummary
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 2456ef34-be37-4200-aa9f-37e0310e9353
+content-length: 249
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2573,7 +3153,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>Invalid resource type in ARN</Message>
   </Error>
-  <RequestId>6dea5fdf-2e88-4d0c-b030-d86d862fb2d1</RequestId>
+  <RequestId>2456ef34-be37-4200-aa9f-37e0310e9353</RequestId>
 </ErrorResponse>
 ```
 
@@ -2585,6 +3165,11 @@ Retrieves information about the specified instance profile, including the instan
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 72
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetInstanceProfile
 &Version=2010-05-08
@@ -2594,6 +3179,9 @@ Action=GetInstanceProfile
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: de8e00ff-236e-44ad-87ee-daa4baf0162a
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2601,7 +3189,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Instance Profile example cannot be found.</Message>
   </Error>
-  <RequestId>cac29dbd-007f-4bc4-897e-08a84eb56a77</RequestId>
+  <RequestId>de8e00ff-236e-44ad-87ee-daa4baf0162a</RequestId>
 </ErrorResponse>
 ```
 
@@ -2613,6 +3201,11 @@ Retrieves the user name for the specified IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 41
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetLoginProfile
 &Version=2010-05-08
@@ -2621,6 +3214,9 @@ Action=GetLoginProfile
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: de0ea91c-8ebf-423b-b704-13915d4fd895
+content-length: 266
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2628,7 +3224,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Login Profile for User emulator cannot be found.</Message>
   </Error>
-  <RequestId>94c1a329-db5b-4a0c-b61a-076251c975fc</RequestId>
+  <RequestId>de0ea91c-8ebf-423b-b704-13915d4fd895</RequestId>
 </ErrorResponse>
 ```
 
@@ -2640,6 +3236,11 @@ Retrieves information about an MFA device for a specified user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetMFADevice
 &Version=2010-05-08
@@ -2649,6 +3250,9 @@ Action=GetMFADevice
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 888ef4b9-41c6-4646-9c6c-469148508048
+content-length: 410
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2656,7 +3260,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>The MFA device serial number sent in the request is invalid or not supported by this API. Currently, only hardware FIDO security keys are supported. Please use the compatible device or API.</Message>
   </Error>
-  <RequestId>d607b0b5-3cef-4886-b075-d037bfa1e28a</RequestId>
+  <RequestId>888ef4b9-41c6-4646-9c6c-469148508048</RequestId>
 </ErrorResponse>
 ```
 
@@ -2668,6 +3272,11 @@ Returns information about the specified OpenID Connect (OIDC) provider resource 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 138
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetOpenIDConnectProvider
 &Version=2010-05-08
@@ -2677,6 +3286,9 @@ Action=GetOpenIDConnectProvider
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 91ad42ba-54d9-49f4-8044-701496f88b0a
+content-length: 309
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2684,7 +3296,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>OpenIDConnect Provider not found for arn arn:aws:iam:us-east-1:000000000000:example/example</Message>
   </Error>
-  <RequestId>7c9adf50-ca64-42e5-866d-6a1c81dff3c4</RequestId>
+  <RequestId>91ad42ba-54d9-49f4-8044-701496f88b0a</RequestId>
 </ErrorResponse>
 ```
 
@@ -2696,6 +3308,11 @@ Retrieves the service last accessed data report for Organizations that was previ
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 97
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetOrganizationsAccessReport
 &Version=2010-05-08
@@ -2703,20 +3320,23 @@ Action=GetOrganizationsAccessReport
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 403 Forbidden
 content-type: text/xml
+x-amzn-requestid: e4ac5dbc-aeb0-4d56-8cd3-61754c58a575
+content-length: 267
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
-    <Code>NoSuchEntity</Code>
-    <Message>Job example00000000000000000000000000000 does not exist.</Message>
+    <Code>AccessDenied</Code>
+    <Message>You are not authorized to perform this operation.</Message>
   </Error>
-  <RequestId>b8d980d4-bcd7-4a99-9c35-c9f72449132e</RequestId>
+  <RequestId>e4ac5dbc-aeb0-4d56-8cd3-61754c58a575</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`403` `AccessDenied`: the request was refused by authorization.
 
 ### GetOutboundWebIdentityFederationInfo
 
@@ -2724,6 +3344,11 @@ Retrieves the configuration information for the outbound identity federation fea
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 62
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetOutboundWebIdentityFederationInfo
 &Version=2010-05-08
@@ -2732,6 +3357,8 @@ Action=GetOutboundWebIdentityFederationInfo
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 463
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <GetOutboundWebIdentityFederationInfoResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <GetOutboundWebIdentityFederationInfoResult>
@@ -2739,7 +3366,7 @@ content-type: text/xml
     <JwtVendingEnabled>true</JwtVendingEnabled>
   </GetOutboundWebIdentityFederationInfoResult>
   <ResponseMetadata>
-    <RequestId>47004837-71a1-49a7-904b-250a2422e2a1</RequestId>
+    <RequestId>670d351f-4471-45e1-83e4-b8c58ce851c9</RequestId>
   </ResponseMetadata>
 </GetOutboundWebIdentityFederationInfoResponse>
 ```
@@ -2752,6 +3379,11 @@ Retrieves information about the specified managed policy, including the policy's
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 108
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetPolicy
 &Version=2010-05-08
@@ -2761,6 +3393,9 @@ Action=GetPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: aa382f20-96a3-4c2d-bc77-d2c4513d07af
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2768,7 +3403,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>ARN arn:aws:iam:us-east-1:000000000000:example/example is not valid.</Message>
   </Error>
-  <RequestId>15732a99-9928-4f4c-b293-57f721995614</RequestId>
+  <RequestId>aa382f20-96a3-4c2d-bc77-d2c4513d07af</RequestId>
 </ErrorResponse>
 ```
 
@@ -2780,6 +3415,11 @@ Retrieves information about the specified version of the specified managed polic
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 133
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetPolicyVersion
 &Version=2010-05-08
@@ -2790,15 +3430,18 @@ Action=GetPolicyVersion
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 36eaf6b9-e058-401a-a06e-e887d673cc80
+content-length: 360
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>1 validation error detected: Value at 'versionId' failed to satisfy constraint: Member must satisfy regular expression pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?</Message>
+    <Message>1 validation error detected: Value at &apos;versionId&apos; failed to satisfy constraint: Member must satisfy regular expression pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?</Message>
   </Error>
-  <RequestId>f72016a0-4ce9-4916-b6c7-52eccd501f33</RequestId>
+  <RequestId>36eaf6b9-e058-401a-a06e-e887d673cc80</RequestId>
 </ErrorResponse>
 ```
 
@@ -2810,6 +3453,11 @@ Retrieves information about the specified role, including the role's path, GUID,
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 50
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetRole
 &Version=2010-05-08
@@ -2819,6 +3467,9 @@ Action=GetRole
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: d7b6a1e3-6b62-44da-88e2-73cc0f4064a0
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2826,7 +3477,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The role with name example cannot be found.</Message>
   </Error>
-  <RequestId>425ddec6-aaee-4497-9d41-45de47cea250</RequestId>
+  <RequestId>d7b6a1e3-6b62-44da-88e2-73cc0f4064a0</RequestId>
 </ErrorResponse>
 ```
 
@@ -2838,6 +3489,11 @@ Retrieves the specified inline policy document that is embedded with the specifi
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetRolePolicy
 &Version=2010-05-08
@@ -2848,6 +3504,9 @@ Action=GetRolePolicy
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 70a7e708-b5e2-4feb-91dc-27ff260318e3
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2855,7 +3514,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The role with name example cannot be found.</Message>
   </Error>
-  <RequestId>e1df5e21-1b10-4679-a97e-3d6fc0c18b09</RequestId>
+  <RequestId>70a7e708-b5e2-4feb-91dc-27ff260318e3</RequestId>
 </ErrorResponse>
 ```
 
@@ -2867,6 +3526,11 @@ Retrieves information about a version of the specified role template.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 123
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetRoleTemplateVersion
 &Version=2010-05-08
@@ -2876,14 +3540,17 @@ Action=GetRoleTemplateVersion
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 7e5d57c7-5f34-46d3-89ac-db8c8b60dcea
+content-length: 439
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>Invalid resource type in ARN</Message>
+    <Message>The specified role template ARN is not valid. Expected format is: arn:{partition}:iam::aws:role-template/{servicePrincipal}/{templateName}:{majorVersion} (majorVersion must be a positive integer with no leading zeros).</Message>
   </Error>
-  <RequestId>72648e84-9ce5-4bae-bfea-bf3ff4d3fd80</RequestId>
+  <RequestId>7e5d57c7-5f34-46d3-89ac-db8c8b60dcea</RequestId>
 </ErrorResponse>
 ```
 
@@ -2895,6 +3562,11 @@ Returns the SAML provider metadocument that was uploaded when the IAM SAML provi
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 120
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetSAMLProvider
 &Version=2010-05-08
@@ -2902,20 +3574,23 @@ Action=GetSAMLProvider
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 933f9cb2-abc3-4e62-986a-6a5233085bc8
+content-length: 249
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
-    <Code>NoSuchEntity</Code>
-    <Message>Manifest not found for arn arn:aws:iam:us-east-1:000000000000:example/example</Message>
+    <Code>ValidationError</Code>
+    <Message>Invalid resource type in ARN</Message>
   </Error>
-  <RequestId>0fb0806b-489a-448e-8cbc-1f665bc1a874</RequestId>
+  <RequestId>933f9cb2-abc3-4e62-986a-6a5233085bc8</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### GetSSHPublicKey
 
@@ -2923,6 +3598,11 @@ Retrieves the specified SSH public key, including metadata about the key.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 107
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetSSHPublicKey
 &Version=2010-05-08
@@ -2934,6 +3614,9 @@ Action=GetSSHPublicKey
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: a97922d6-afca-4242-9ea0-2fbc6c558bf4
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2941,7 +3624,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>8e7d5ba6-6ab0-40be-bb4a-bb9f57d17d74</RequestId>
+  <RequestId>a97922d6-afca-4242-9ea0-2fbc6c558bf4</RequestId>
 </ErrorResponse>
 ```
 
@@ -2953,6 +3636,11 @@ Retrieves information about the specified server certificate stored in IAM.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 76
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetServerCertificate
 &Version=2010-05-08
@@ -2962,6 +3650,9 @@ Action=GetServerCertificate
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 2f04181b-cbea-40ee-8d79-4c9d62d20399
+content-length: 275
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2969,7 +3660,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The Server Certificate with name example cannot be found.</Message>
   </Error>
-  <RequestId>c3272e02-0994-4439-af41-be9ab048c533</RequestId>
+  <RequestId>2f04181b-cbea-40ee-8d79-4c9d62d20399</RequestId>
 </ErrorResponse>
 ```
 
@@ -2981,6 +3672,11 @@ Retrieves a service last accessed report that was created using the GenerateServ
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 98
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetServiceLastAccessedDetails
 &Version=2010-05-08
@@ -2990,6 +3686,9 @@ Action=GetServiceLastAccessedDetails
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: ec96b532-617d-42dc-adb6-d66a1719a68c
+content-length: 274
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -2997,7 +3696,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Job example00000000000000000000000000000 does not exist.</Message>
   </Error>
-  <RequestId>334f8b3f-bd74-46aa-a7de-05fcb28f4802</RequestId>
+  <RequestId>ec96b532-617d-42dc-adb6-d66a1719a68c</RequestId>
 </ErrorResponse>
 ```
 
@@ -3009,6 +3708,11 @@ After you generate a group or policy report using the GenerateServiceLastAccesse
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 135
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetServiceLastAccessedDetailsWithEntities
 &Version=2010-05-08
@@ -3019,6 +3723,9 @@ Action=GetServiceLastAccessedDetailsWithEntities
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: b8574e9e-4f6c-4819-885c-4289c7c8e202
+content-length: 274
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -3026,7 +3733,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Job example00000000000000000000000000000 does not exist.</Message>
   </Error>
-  <RequestId>8bd4b105-17cf-4a89-ab6a-ed07600bf620</RequestId>
+  <RequestId>b8574e9e-4f6c-4819-885c-4289c7c8e202</RequestId>
 </ErrorResponse>
 ```
 
@@ -3038,6 +3745,11 @@ Retrieves the status of your service-linked role deletion.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 83
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetServiceLinkedRoleDeletionStatus
 &Version=2010-05-08
@@ -3047,6 +3759,9 @@ Action=GetServiceLinkedRoleDeletionStatus
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 90f891d8-1c83-4fbf-8b30-358aa6bcd1eb
+content-length: 386
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -3054,7 +3769,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>The deletion task ID example is not valid: DeletionTaskId must be in the format task/aws-service-role/&lt;service-principal-name&gt;/&lt;role-name&gt;/&lt;task-uuid&gt;</Message>
   </Error>
-  <RequestId>84740e41-162e-4ef3-90ae-5d3f17b05ade</RequestId>
+  <RequestId>90f891d8-1c83-4fbf-8b30-358aa6bcd1eb</RequestId>
 </ErrorResponse>
 ```
 
@@ -3066,6 +3781,11 @@ Retrieves information about the specified IAM user, including the user's creatio
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 33
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetUser
 &Version=2010-05-08
@@ -3074,6 +3794,8 @@ Action=GetUser
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 464
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <GetUserResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <GetUserResult>
@@ -3083,10 +3805,11 @@ content-type: text/xml
       <UserId>AIDAH5I7GEMO7ADXNFAZU</UserId>
       <Arn>arn:aws:iam::000000000000:user/emulator</Arn>
       <CreateDate>1970-01-01T00:00:00Z</CreateDate>
+      <Tags></Tags>
     </User>
   </GetUserResult>
   <ResponseMetadata>
-    <RequestId>058ccb96-bc21-48e2-9060-1f31233e3ec3</RequestId>
+    <RequestId>6cd566a2-39b8-4f99-bc71-f50eccdc9e13</RequestId>
   </ResponseMetadata>
 </GetUserResponse>
 ```
@@ -3099,6 +3822,11 @@ Retrieves the specified inline policy document that is embedded in the specified
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetUserPolicy
 &Version=2010-05-08
@@ -3109,6 +3837,9 @@ Action=GetUserPolicy
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 1749a03e-e37b-4235-90c8-30bac9be266b
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -3116,7 +3847,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>cdf9b7f2-8d10-4a39-9a61-cfeef75df3bf</RequestId>
+  <RequestId>1749a03e-e37b-4235-90c8-30bac9be266b</RequestId>
 </ErrorResponse>
 ```
 
@@ -3128,6 +3859,11 @@ Returns information about the access key IDs associated with the specified IAM u
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 40
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListAccessKeys
 &Version=2010-05-08
@@ -3136,15 +3872,17 @@ Action=ListAccessKeys
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 686
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListAccessKeysResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListAccessKeysResult>
     <AccessKeyMetadata>
       <member xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
         <UserName>emulator</UserName>
-        <AccessKeyId>EMULATORAKKYPDOTCMUU</AccessKeyId>
+        <AccessKeyId>EMULATORAKNGDWTSXFHM</AccessKeyId>
         <Status>Active</Status>
-        <CreateDate>2026-11-16T12:11:28.317Z</CreateDate>
+        <CreateDate>2026-11-26T18:30:05.51Z</CreateDate>
       </member>
       <member>
         <UserName>emulator</UserName>
@@ -3156,7 +3894,7 @@ content-type: text/xml
     <IsTruncated>false</IsTruncated>
   </ListAccessKeysResult>
   <ResponseMetadata>
-    <RequestId>12a90232-02b4-4f34-ad9c-e82baa780025</RequestId>
+    <RequestId>c751d32e-c5a6-4933-98a1-af9220cac025</RequestId>
 … (2 more lines)
 ```
 
@@ -3168,6 +3906,11 @@ Lists the account alias associated with the Amazon Web Services account (Note: y
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 44
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListAccountAliases
 &Version=2010-05-08
@@ -3176,14 +3919,16 @@ Action=ListAccountAliases
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 321
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListAccountAliasesResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListAccountAliasesResult>
-    <AccountAliases/>
+    <AccountAliases></AccountAliases>
     <IsTruncated>false</IsTruncated>
   </ListAccountAliasesResult>
   <ResponseMetadata>
-    <RequestId>801f171c-e213-4ba7-ab37-846f58703f41</RequestId>
+    <RequestId>b899d419-5309-4366-9918-d50251ee2f5e</RequestId>
   </ResponseMetadata>
 </ListAccountAliasesResponse>
 ```
@@ -3196,27 +3941,36 @@ Lists all managed policies that are attached to the specified IAM group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
-Action=ListAttachedGroupPolicies
+Action=ListAttachedGroupMFADevices
 &Version=2010-05-08
 &GroupName=example
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 4deef908-3040-4f4c-b734-97e2b1b9befd
+content-length: 233
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>NoSuchEntity</Code>
-    <Message>The group with name example cannot be found.</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListAttachedGroupMFADevices</Message>
   </Error>
-  <RequestId>33d899fc-62c2-4c03-94e3-9f3050ad8759</RequestId>
+  <RequestId>4deef908-3040-4f4c-b734-97e2b1b9befd</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `InvalidAction`.
 
 ### ListAttachedRolePolicies
 
@@ -3224,27 +3978,36 @@ Lists all managed policies that are attached to the specified IAM role.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 69
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
-Action=ListAttachedRolePolicies
+Action=ListAttachedRoleMFADevices
 &Version=2010-05-08
 &RoleName=example
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 48d08668-205a-4eb2-93c0-121659ef2ff8
+content-length: 232
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>NoSuchEntity</Code>
-    <Message>The role with name example cannot be found.</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListAttachedRoleMFADevices</Message>
   </Error>
-  <RequestId>1b0eb271-346c-42c8-a053-9e4955faa306</RequestId>
+  <RequestId>48d08668-205a-4eb2-93c0-121659ef2ff8</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `InvalidAction`.
 
 ### ListAttachedUserPolicies
 
@@ -3252,27 +4015,36 @@ Lists all managed policies that are attached to the specified IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 69
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
-Action=ListAttachedUserPolicies
+Action=ListAttachedUserMFADevices
 &Version=2010-05-08
 &UserName=example
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 17c1c006-422c-4635-a522-7c71e843e702
+content-length: 232
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>NoSuchEntity</Code>
-    <Message>The user with name example cannot be found.</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListAttachedUserMFADevices</Message>
   </Error>
-  <RequestId>20884067-5aff-4ec1-b482-f24c2f95e86f</RequestId>
+  <RequestId>17c1c006-422c-4635-a522-7c71e843e702</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error. See [the walkthrough](#4-listattacheduserpolicies) for a successful call.
+`400` `InvalidAction`. See [the walkthrough](#4-listattacheduserpolicies) for a successful call.
 
 ### ListDelegationRequests
 
@@ -3280,6 +4052,11 @@ Lists delegation requests based on the specified criteria.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 48
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListDelegationRequests
 &Version=2010-05-08
@@ -3288,14 +4065,16 @@ Action=ListDelegationRequests
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 345
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListDelegationRequestsResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListDelegationRequestsResult>
-    <DelegationRequests/>
+    <DelegationRequests></DelegationRequests>
     <isTruncated>false</isTruncated>
   </ListDelegationRequestsResult>
   <ResponseMetadata>
-    <RequestId>2129f8d0-6e33-4836-985f-ca121a792a1c</RequestId>
+    <RequestId>e46c8449-a103-4613-b45b-e9b90027afba</RequestId>
   </ResponseMetadata>
 </ListDelegationRequestsResponse>
 ```
@@ -3308,6 +4087,11 @@ Lists all IAM users, groups, and roles that the specified managed policy is atta
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 120
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListEntitiesForPolicy
 &Version=2010-05-08
@@ -3317,6 +4101,9 @@ Action=ListEntitiesForPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: f6966ba4-8c5c-4259-ac41-2fadb1ecbcf8
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -3324,7 +4111,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>ARN arn:aws:iam:us-east-1:000000000000:example/example is not valid.</Message>
   </Error>
-  <RequestId>26f03fae-450e-4370-9cd2-191f230a03bd</RequestId>
+  <RequestId>f6966ba4-8c5c-4259-ac41-2fadb1ecbcf8</RequestId>
 </ErrorResponse>
 ```
 
@@ -3336,27 +4123,36 @@ Lists the names of the inline policies that are embedded in the specified IAM gr
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 63
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
-Action=ListGroupPolicies
+Action=ListGroupMFADevices
 &Version=2010-05-08
 &GroupName=example
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 55b29485-b048-4df9-b072-bf8e0cdb08d9
+content-length: 225
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>NoSuchEntity</Code>
-    <Message>The group with name example cannot be found.</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListGroupMFADevices</Message>
   </Error>
-  <RequestId>fe67073b-2c43-40b0-9496-b602c52aee9a</RequestId>
+  <RequestId>55b29485-b048-4df9-b072-bf8e0cdb08d9</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `InvalidAction`.
 
 ### ListGroups
 
@@ -3364,6 +4160,11 @@ Lists the IAM groups that have the specified path prefix.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 36
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListGroups
 &Version=2010-05-08
@@ -3372,14 +4173,16 @@ Action=ListGroups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 273
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListGroupsResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListGroupsResult>
-    <Groups/>
+    <Groups></Groups>
     <IsTruncated>false</IsTruncated>
   </ListGroupsResult>
   <ResponseMetadata>
-    <RequestId>12055abd-0d5f-479d-a2cc-439c0a3d9439</RequestId>
+    <RequestId>c169b3c4-6e4c-4fd2-a9fd-6a4d71c55241</RequestId>
   </ResponseMetadata>
 </ListGroupsResponse>
 ```
@@ -3392,6 +4195,11 @@ Lists the IAM groups that the specified IAM user belongs to.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 60
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListGroupsForUser
 &Version=2010-05-08
@@ -3401,6 +4209,9 @@ Action=ListGroupsForUser
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: a89328e2-5062-429f-8f42-e0e459a12dd0
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -3408,7 +4219,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>d3df126e-62f8-48a1-954d-8c7ddb6a522d</RequestId>
+  <RequestId>a89328e2-5062-429f-8f42-e0e459a12dd0</RequestId>
 </ErrorResponse>
 ```
 
@@ -3420,6 +4231,11 @@ Lists the tags that are attached to the specified IAM instance profile.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListInstanceProfileTags
 &Version=2010-05-08
@@ -3429,6 +4245,9 @@ Action=ListInstanceProfileTags
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 187c2d04-e9e0-45e6-a9f6-6f94392d0172
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -3436,7 +4255,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Instance Profile example cannot be found.</Message>
   </Error>
-  <RequestId>d21a11d1-f9c2-49a8-a7cd-690c7e478eac</RequestId>
+  <RequestId>187c2d04-e9e0-45e6-a9f6-6f94392d0172</RequestId>
 </ErrorResponse>
 ```
 
@@ -3448,6 +4267,11 @@ Lists the instance profiles that have the specified path prefix.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 46
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListInstanceProfiles
 &Version=2010-05-08
@@ -3456,14 +4280,16 @@ Action=ListInstanceProfiles
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 333
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListInstanceProfilesResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListInstanceProfilesResult>
-    <InstanceProfiles/>
+    <InstanceProfiles></InstanceProfiles>
     <IsTruncated>false</IsTruncated>
   </ListInstanceProfilesResult>
   <ResponseMetadata>
-    <RequestId>90766519-7e78-4a59-a22a-2d624e4b47ed</RequestId>
+    <RequestId>7a5dac64-a943-45dc-9635-490e10023aaa</RequestId>
   </ResponseMetadata>
 </ListInstanceProfilesResponse>
 ```
@@ -3476,6 +4302,11 @@ Lists the instance profiles that have the specified associated IAM role.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListInstanceProfilesForRole
 &Version=2010-05-08
@@ -3485,6 +4316,9 @@ Action=ListInstanceProfilesForRole
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: a4e84886-a926-4073-b60a-4ef68c01deb6
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -3492,7 +4326,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The role with name example cannot be found.</Message>
   </Error>
-  <RequestId>4bdf6aaa-3e0a-4dbf-ad5b-681766bac1e0</RequestId>
+  <RequestId>a4e84886-a926-4073-b60a-4ef68c01deb6</RequestId>
 </ErrorResponse>
 ```
 
@@ -3506,6 +4340,11 @@ Lists the tags that are attached to the specified IAM virtual multi-factor authe
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 66
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListMFADeviceTags
 &Version=2010-05-08
@@ -3515,6 +4354,9 @@ Action=ListMFADeviceTags
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 8095ba4f-ee4f-4fdd-8e20-a059a130d93c
+content-length: 273
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -3522,7 +4364,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>MFA Device with serial number example00 does not exist.</Message>
   </Error>
-  <RequestId>6cbe6f3c-f6ee-4325-b3fd-4cabf5b8e42f</RequestId>
+  <RequestId>8095ba4f-ee4f-4fdd-8e20-a059a130d93c</RequestId>
 </ErrorResponse>
 ```
 
@@ -3536,6 +4378,11 @@ Lists the MFA devices for an IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 40
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListMFADevices
 &Version=2010-05-08
@@ -3544,14 +4391,16 @@ Action=ListMFADevices
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 297
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListMFADevicesResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListMFADevicesResult>
-    <MFADevices/>
+    <MFADevices></MFADevices>
     <IsTruncated>false</IsTruncated>
   </ListMFADevicesResult>
   <ResponseMetadata>
-    <RequestId>18974012-bd8b-44b0-8773-f852987d31c2</RequestId>
+    <RequestId>c10ea78a-5d6d-420e-a746-bce63c9fe4e6</RequestId>
   </ResponseMetadata>
 </ListMFADevicesResponse>
 ```
@@ -3564,6 +4413,11 @@ Lists the tags that are attached to the specified OpenID Connect (OIDC)-compatib
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 143
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListOpenIDConnectProviderTags
 &Version=2010-05-08
@@ -3573,6 +4427,9 @@ Action=ListOpenIDConnectProviderTags
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 6f7876aa-2520-4e11-bd1c-850a096f21bd
+content-length: 309
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -3580,7 +4437,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>OpenIDConnect Provider not found for arn arn:aws:iam:us-east-1:000000000000:example/example</Message>
   </Error>
-  <RequestId>fea1efb2-615d-4603-9ca4-3ddd89e6fd6e</RequestId>
+  <RequestId>6f7876aa-2520-4e11-bd1c-850a096f21bd</RequestId>
 </ErrorResponse>
 ```
 
@@ -3592,6 +4449,11 @@ Lists information about the IAM OpenID Connect (OIDC) provider resource objects 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListOpenIDConnectProviders
 &Version=2010-05-08
@@ -3600,13 +4462,15 @@ Action=ListOpenIDConnectProviders
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 343
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListOpenIDConnectProvidersResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListOpenIDConnectProvidersResult>
-    <OpenIDConnectProviderList/>
+    <OpenIDConnectProviderList></OpenIDConnectProviderList>
   </ListOpenIDConnectProvidersResult>
   <ResponseMetadata>
-    <RequestId>893b3acc-e855-476f-bf2c-cd02d37ccb72</RequestId>
+    <RequestId>44e858c2-6ac2-45e9-9297-e2426a2d9746</RequestId>
   </ResponseMetadata>
 </ListOpenIDConnectProvidersResponse>
 ```
@@ -3619,6 +4483,11 @@ Lists the centralized root access features enabled for your organization.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListOrganizationsFeatures
 &Version=2010-05-08
@@ -3627,6 +4496,9 @@ Action=ListOrganizationsFeatures
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 42f31931-42a3-40ab-9580-d4caf49bef5d
+content-length: 316
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -3634,7 +4506,7 @@ content-type: text/xml
     <Code>OrganizationNotFoundException</Code>
     <Message>The request was rejected because no organization is associated with your account.</Message>
   </Error>
-  <RequestId>55fa13eb-508b-4fd3-ab98-c7699b189880</RequestId>
+  <RequestId>42f31931-42a3-40ab-9580-d4caf49bef5d</RequestId>
 </ErrorResponse>
 ```
 
@@ -3646,36 +4518,31 @@ Lists all the managed policies that are available in your Amazon Web Services ac
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 40
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
-Action=ListPolicies
+Action=ListMFADevices
 &Version=2010-05-08
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 297
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<ListPoliciesResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <ListPoliciesResult>
-    <Policies>
-      <member xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-        <PolicyName>AWSLakeFormationDataAdmin</PolicyName>
-        <PolicyId>ANPAQT4ZJRMWH6PVKLSND</PolicyId>
-        <Arn>arn:aws:iam::aws:policy/AWSLakeFormationDataAdmin</Arn>
-        <Path>/</Path>
-        <DefaultVersionId>v4</DefaultVersionId>
-        <AttachmentCount>0</AttachmentCount>
-        <PermissionsBoundaryUsageCount>0</PermissionsBoundaryUsageCount>
-        <IsAttachable>true</IsAttachable>
-        <CreateDate>2019-08-08T19:00:40Z</CreateDate>
-        <UpdateDate>2023-10-10T17:28:23Z</UpdateDate>
-      </member>
-      <member>
-        <PolicyName>AWSLambdaExecute</PolicyName>
-        <PolicyId>ANPABX7MQWRTZ3KJHVNDC</PolicyId>
-        <Arn>arn:aws:iam::aws:policy/AWSLambdaExecute</Arn>
-        <Path>/</Path>
-… (758 more lines)
+<ListMFADevicesResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
+  <ListMFADevicesResult>
+    <MFADevices></MFADevices>
+    <IsTruncated>false</IsTruncated>
+  </ListMFADevicesResult>
+  <ResponseMetadata>
+    <RequestId>6cde18f4-d4d9-4e44-b6cc-b5903e8818ea</RequestId>
+  </ResponseMetadata>
+</ListMFADevicesResponse>
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -3686,8 +4553,13 @@ Retrieves a list of policies that the IAM identity (user, group, or role) can us
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 163
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
-Action=ListPoliciesGrantingServiceAccess
+Action=ListMFADevicesGrantingServiceAccess
 &Version=2010-05-08
 &Arn=arn%3Aaws%3Aiam%3Aus-east-1%3A000000000000%3Aexample%2Fexample
 &ServiceNamespaces.member.1=example
@@ -3696,18 +4568,22 @@ Action=ListPoliciesGrantingServiceAccess
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 743900d6-edfe-4744-80ba-803be738b423
+content-length: 241
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidInput</Code>
-    <Message>Invalid Entity Arn: arn:aws:iam:us-east-1:000000000000:example/example is not supported.</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListMFADevicesGrantingServiceAccess</Message>
   </Error>
-  <RequestId>b5b03eb5-ad91-4461-9fb5-52e858026bd7</RequestId>
+  <RequestId>743900d6-edfe-4744-80ba-803be738b423</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidInput`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### ListPolicyTags
 
@@ -3715,6 +4591,11 @@ Lists the tags that are attached to the specified IAM customer managed policy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 113
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListPolicyTags
 &Version=2010-05-08
@@ -3724,6 +4605,9 @@ Action=ListPolicyTags
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 1fcaed96-e7e9-4730-a243-9ca1466cdaff
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -3731,7 +4615,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>ARN arn:aws:iam:us-east-1:000000000000:example/example is not valid.</Message>
   </Error>
-  <RequestId>c570f419-cf5c-4861-a459-f216e08be780</RequestId>
+  <RequestId>1fcaed96-e7e9-4730-a243-9ca1466cdaff</RequestId>
 </ErrorResponse>
 ```
 
@@ -3743,6 +4627,11 @@ Lists information about the versions of the specified managed policy, including 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 117
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListPolicyVersions
 &Version=2010-05-08
@@ -3752,6 +4641,9 @@ Action=ListPolicyVersions
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: daaa00c7-b6d4-4974-a01b-124e0467622c
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -3759,7 +4651,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>ARN arn:aws:iam:us-east-1:000000000000:example/example is not valid.</Message>
   </Error>
-  <RequestId>6be1fa1a-e3af-4387-bf24-835058e18a6e</RequestId>
+  <RequestId>daaa00c7-b6d4-4974-a01b-124e0467622c</RequestId>
 </ErrorResponse>
 ```
 
@@ -3771,27 +4663,36 @@ Lists the names of the inline policies that are embedded in the specified IAM ro
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
-Action=ListRolePolicies
+Action=ListRoleMFADevices
 &Version=2010-05-08
 &RoleName=example
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: fdac900d-ee19-4d71-9625-6120d88d6360
+content-length: 224
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>NoSuchEntity</Code>
-    <Message>The role with name example cannot be found.</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListRoleMFADevices</Message>
   </Error>
-  <RequestId>d5f2e4de-b855-4a5f-9846-2ec2c764b9c5</RequestId>
+  <RequestId>fdac900d-ee19-4d71-9625-6120d88d6360</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `InvalidAction`.
 
 ### ListRoleTags
 
@@ -3799,6 +4700,11 @@ Lists the tags that are attached to the specified role.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 55
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListRoleTags
 &Version=2010-05-08
@@ -3808,6 +4714,9 @@ Action=ListRoleTags
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: f745cee0-d99b-4377-8f0b-6f26b8997778
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -3815,7 +4724,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The role with name example cannot be found.</Message>
   </Error>
-  <RequestId>5ad78f8e-e234-4593-8c5b-21b7e9686b1f</RequestId>
+  <RequestId>f745cee0-d99b-4377-8f0b-6f26b8997778</RequestId>
 </ErrorResponse>
 ```
 
@@ -3827,6 +4736,11 @@ Lists the IAM roles that have the specified path prefix.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 35
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListRoles
 &Version=2010-05-08
@@ -3835,6 +4749,8 @@ Action=ListRoles
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 2331
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListRolesResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListRolesResult>
@@ -3842,19 +4758,21 @@ content-type: text/xml
       <member xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
         <Path>/aws-service-role/dynamodb.application-autoscaling.amazonaws.com/</Path>
         <RoleName>AWSServiceRoleForApplicationAutoScaling_DynamoDBTable</RoleName>
-        <RoleId>AROAN7DDQNT4UYC2BHD35</RoleId>
+        <RoleId>AROABGXEQES5NRCCJJWAN</RoleId>
         <Arn>arn:aws:iam::000000000000:role/aws-service-role/dynamodb.application-autoscaling.amazonaws.com/AWSServiceRoleForApplicationAutoScaling_DynamoDBTable</Arn>
-        <CreateDate>2026-11-16T12:08:37.757Z</CreateDate>
+        <CreateDate>2026-11-26T18:27:29.281Z</CreateDate>
         <AssumeRolePolicyDocument>%7B%22Version%22%3A%222012-10-17%22%2C%22Statement%22%3A%5B%7B%22Effect%22%3A%22Allow%22%2C%22Principal%22%3A%7B%22Service%22%3A%22dynamodb.application-autoscaling.amazonaws.com%22%7D%2C%22Action%22%3A%5B%22sts%3AAssumeRole%22%5D%7D%5D%7D</AssumeRolePolicyDocument>
         <MaxSessionDuration>3600</MaxSessionDuration>
       </member>
-    </Roles>
-    <IsTruncated>false</IsTruncated>
-  </ListRolesResult>
-  <ResponseMetadata>
-    <RequestId>69e92c2e-77e9-4d95-b688-48912a6e218b</RequestId>
-  </ResponseMetadata>
-</ListRolesResponse>
+      <member>
+        <Path>/aws-service-role/support.amazonaws.com/</Path>
+        <RoleName>AWSServiceRoleForSupport</RoleName>
+        <RoleId>AROA65WPD4XO6IA2PEUOZ</RoleId>
+        <Arn>arn:aws:iam::000000000000:role/aws-service-role/support.amazonaws.com/AWSServiceRoleForSupport</Arn>
+        <CreateDate>1970-01-01T00:00:00Z</CreateDate>
+        <AssumeRolePolicyDocument>%7B%22Version%22%3A%222012-10-17%22%2C%22Statement%22%3A%5B%7B%22Effect%22%3A%22Allow%22%2C%22Principal%22%3A%7B%22Service%22%3A%22support.amazonaws.com%22%7D%2C%22Action%22%3A%5B%22sts%3AAssumeRole%22%5D%7D%5D%7D</AssumeRolePolicyDocument>
+        <MaxSessionDuration>3600</MaxSessionDuration>
+… (17 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -3865,6 +4783,11 @@ Lists the tags that are attached to the specified Security Assertion Markup Lang
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 125
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListSAMLProviderTags
 &Version=2010-05-08
@@ -3872,20 +4795,23 @@ Action=ListSAMLProviderTags
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 6eca393e-ed74-44ac-8010-10d6745f527c
+content-length: 249
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
-    <Code>NoSuchEntity</Code>
-    <Message>Manifest not found for arn arn:aws:iam:us-east-1:000000000000:example/example</Message>
+    <Code>ValidationError</Code>
+    <Message>Invalid resource type in ARN</Message>
   </Error>
-  <RequestId>043bc00a-e77b-4097-9f32-070d3da454ce</RequestId>
+  <RequestId>6eca393e-ed74-44ac-8010-10d6745f527c</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### ListSAMLProviders
 
@@ -3893,6 +4819,11 @@ Lists the SAML provider resource objects defined in IAM in the account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListSAMLProviders
 &Version=2010-05-08
@@ -3901,13 +4832,15 @@ Action=ListSAMLProviders
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 289
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListSAMLProvidersResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListSAMLProvidersResult>
-    <SAMLProviderList/>
+    <SAMLProviderList></SAMLProviderList>
   </ListSAMLProvidersResult>
   <ResponseMetadata>
-    <RequestId>fdd9a310-4460-4dfa-9ea9-e9917eea6bf2</RequestId>
+    <RequestId>c51e2548-ba1f-493d-afb3-7b0f0d6f1340</RequestId>
   </ResponseMetadata>
 </ListSAMLProvidersResponse>
 ```
@@ -3920,6 +4853,11 @@ Returns information about the SSH public keys associated with the specified IAM 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListSSHPublicKeys
 &Version=2010-05-08
@@ -3928,14 +4866,16 @@ Action=ListSSHPublicKeys
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 315
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListSSHPublicKeysResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListSSHPublicKeysResult>
-    <SSHPublicKeys/>
+    <SSHPublicKeys></SSHPublicKeys>
     <IsTruncated>false</IsTruncated>
   </ListSSHPublicKeysResult>
   <ResponseMetadata>
-    <RequestId>297b2ed8-030f-4c5c-a66b-048cfb2bef59</RequestId>
+    <RequestId>2106f62b-7a30-418f-b290-6cebffbce1b0</RequestId>
   </ResponseMetadata>
 </ListSSHPublicKeysResponse>
 ```
@@ -3948,6 +4888,11 @@ Lists the tags that are attached to the specified IAM server certificate.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 81
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListServerCertificateTags
 &Version=2010-05-08
@@ -3957,6 +4902,9 @@ Action=ListServerCertificateTags
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 27758c36-7a3e-417d-b6cf-00eeb9c6be25
+content-length: 275
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -3964,7 +4912,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The Server Certificate with name example cannot be found.</Message>
   </Error>
-  <RequestId>bdd1c7bc-6019-4c30-bb46-81c85d178bd5</RequestId>
+  <RequestId>27758c36-7a3e-417d-b6cf-00eeb9c6be25</RequestId>
 </ErrorResponse>
 ```
 
@@ -3976,6 +4924,11 @@ Lists the server certificates stored in IAM that have the specified path prefix.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 48
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListServerCertificates
 &Version=2010-05-08
@@ -3984,14 +4937,16 @@ Action=ListServerCertificates
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 367
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListServerCertificatesResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListServerCertificatesResult>
-    <ServerCertificateMetadataList/>
+    <ServerCertificateMetadataList></ServerCertificateMetadataList>
     <IsTruncated>false</IsTruncated>
   </ListServerCertificatesResult>
   <ResponseMetadata>
-    <RequestId>13e6fb9d-aafe-4983-b7ae-6f905ddde7dd</RequestId>
+    <RequestId>9263e363-cfd0-48e4-a638-79960d41c98f</RequestId>
   </ResponseMetadata>
 </ListServerCertificatesResponse>
 ```
@@ -4004,6 +4959,11 @@ Returns information about the service-specific credentials associated with the s
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 56
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListServiceSpecificCredentials
 &Version=2010-05-08
@@ -4012,14 +4972,16 @@ Action=ListServiceSpecificCredentials
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 393
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListServiceSpecificCredentialsResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListServiceSpecificCredentialsResult>
-    <ServiceSpecificCredentials/>
+    <ServiceSpecificCredentials></ServiceSpecificCredentials>
     <IsTruncated>false</IsTruncated>
   </ListServiceSpecificCredentialsResult>
   <ResponseMetadata>
-    <RequestId>84880106-2fc8-4452-bbc4-e86273848e15</RequestId>
+    <RequestId>9044afdc-aca9-4bb3-8edb-ae52f5c92fa8</RequestId>
   </ResponseMetadata>
 </ListServiceSpecificCredentialsResponse>
 ```
@@ -4032,6 +4994,11 @@ Returns information about the signing certificates associated with the specified
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListSigningCertificates
 &Version=2010-05-08
@@ -4040,14 +5007,16 @@ Action=ListSigningCertificates
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 337
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListSigningCertificatesResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListSigningCertificatesResult>
-    <Certificates/>
+    <Certificates></Certificates>
     <IsTruncated>false</IsTruncated>
   </ListSigningCertificatesResult>
   <ResponseMetadata>
-    <RequestId>425868b7-575b-49a5-8357-6908d0725322</RequestId>
+    <RequestId>94ed494a-506d-4fad-9598-eb1347af0f30</RequestId>
   </ResponseMetadata>
 </ListSigningCertificatesResponse>
 ```
@@ -4060,27 +5029,36 @@ Lists the names of the inline policies embedded in the specified IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
-Action=ListUserPolicies
+Action=ListUserMFADevices
 &Version=2010-05-08
 &UserName=example
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: a77cfd3c-7744-4383-8af9-ec30f8c11269
+content-length: 224
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>NoSuchEntity</Code>
-    <Message>The user with name example cannot be found.</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListUserMFADevices</Message>
   </Error>
-  <RequestId>16a4b867-a52f-4157-a113-519cbb685b85</RequestId>
+  <RequestId>a77cfd3c-7744-4383-8af9-ec30f8c11269</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `InvalidAction`.
 
 ### ListUserTags
 
@@ -4088,6 +5066,11 @@ Lists the tags that are attached to the specified IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 55
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListUserTags
 &Version=2010-05-08
@@ -4097,6 +5080,9 @@ Action=ListUserTags
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: d7d01dba-71ed-4db2-8136-8ea1b111e8f4
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4104,7 +5090,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>15e28ab4-be12-4c86-ba7b-cd06b9571192</RequestId>
+  <RequestId>d7d01dba-71ed-4db2-8136-8ea1b111e8f4</RequestId>
 </ErrorResponse>
 ```
 
@@ -4116,6 +5102,11 @@ Lists the IAM users that have the specified path prefix.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 35
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListUsers
 &Version=2010-05-08
@@ -4124,6 +5115,8 @@ Action=ListUsers
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 510
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListUsersResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListUsersResult>
@@ -4139,7 +5132,7 @@ content-type: text/xml
     <IsTruncated>false</IsTruncated>
   </ListUsersResult>
   <ResponseMetadata>
-    <RequestId>f6ad54cb-9c03-4ac5-9f90-3cb1253b7263</RequestId>
+    <RequestId>2a3375f7-1f19-47df-ba70-2c4245c88fa6</RequestId>
   </ResponseMetadata>
 </ListUsersResponse>
 ```
@@ -4152,6 +5145,11 @@ Lists the virtual MFA devices defined in the Amazon Web Services account by assi
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListVirtualMFADevices
 &Version=2010-05-08
@@ -4160,6 +5158,8 @@ Action=ListVirtualMFADevices
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 472
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ListVirtualMFADevicesResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <ListVirtualMFADevicesResult>
@@ -4171,7 +5171,7 @@ content-type: text/xml
     <IsTruncated>false</IsTruncated>
   </ListVirtualMFADevicesResult>
   <ResponseMetadata>
-    <RequestId>0b96372f-2cb0-4fef-a426-965a4370911d</RequestId>
+    <RequestId>37ffb0db-a977-40ce-af00-7e2ad81fc263</RequestId>
   </ResponseMetadata>
 </ListVirtualMFADevicesResponse>
 ```
@@ -4184,6 +5184,11 @@ Sets account-level properties for the caller's Amazon Web Services account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 106
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PutAccountProperties
 &Version=2010-05-08
@@ -4194,18 +5199,21 @@ Action=PutAccountProperties
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 67a30d7f-482e-4068-87ed-4c1f4d03c695
+content-length: 276
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
-    <Code>ValidationError</Code>
+    <Code>InvalidInput</Code>
     <Message>Property key must be in format Namespace/PropertyName: key</Message>
   </Error>
-  <RequestId>54f63a3a-5ca6-4456-83a5-438f18aa0e2e</RequestId>
+  <RequestId>67a30d7f-482e-4068-87ed-4c1f4d03c695</RequestId>
 </ErrorResponse>
 ```
 
-`400` `ValidationError`: the placeholder values failed the operation's input validation.
+`400` `InvalidInput`: the placeholder values failed the operation's input validation.
 
 ### PutGroupPolicy
 
@@ -4213,6 +5221,11 @@ Adds or updates an inline policy document that is embedded in the specified IAM 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 100
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PutGroupPolicy
 &Version=2010-05-08
@@ -4224,6 +5237,9 @@ Action=PutGroupPolicy
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: d29e0325-91fa-47e1-9ef4-a27e7192423e
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4231,7 +5247,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The group with name example cannot be found.</Message>
   </Error>
-  <RequestId>65d4ff01-b299-4d07-a2b6-daa9cf9476fb</RequestId>
+  <RequestId>d29e0325-91fa-47e1-9ef4-a27e7192423e</RequestId>
 </ErrorResponse>
 ```
 
@@ -4243,6 +5259,11 @@ Adds or updates the policy that is specified as the IAM role's permissions bound
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 110
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PutRolePermissionsBoundary
 &Version=2010-05-08
@@ -4253,6 +5274,9 @@ Action=PutRolePermissionsBoundary
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 31084b5d-26bf-49f9-814b-c5af85dd45b0
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4260,7 +5284,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>ARN example0000000000000 is not valid.</Message>
   </Error>
-  <RequestId>5a1c9cfa-b0f2-4f61-aaf9-aa898ac08bdc</RequestId>
+  <RequestId>31084b5d-26bf-49f9-814b-c5af85dd45b0</RequestId>
 </ErrorResponse>
 ```
 
@@ -4272,6 +5296,11 @@ Adds or updates an inline policy document that is embedded in the specified IAM 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 98
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PutRolePolicy
 &Version=2010-05-08
@@ -4283,6 +5312,9 @@ Action=PutRolePolicy
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 4b5d80a7-71eb-4b0a-8261-93bc3b81a4d3
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4290,7 +5322,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The role with name example cannot be found.</Message>
   </Error>
-  <RequestId>ba4f0e54-0282-4c3d-bf98-95d852b45b53</RequestId>
+  <RequestId>4b5d80a7-71eb-4b0a-8261-93bc3b81a4d3</RequestId>
 </ErrorResponse>
 ```
 
@@ -4302,6 +5334,11 @@ Adds or updates the policy that is specified as the IAM user's permissions bound
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 110
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PutUserPermissionsBoundary
 &Version=2010-05-08
@@ -4312,6 +5349,9 @@ Action=PutUserPermissionsBoundary
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: d4b27313-0a90-4122-a406-9f1c13314422
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4319,7 +5359,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>ARN example0000000000000 is not valid.</Message>
   </Error>
-  <RequestId>3fa7096c-3b7b-4cdd-9a12-69fc1ce20ff2</RequestId>
+  <RequestId>d4b27313-0a90-4122-a406-9f1c13314422</RequestId>
 </ErrorResponse>
 ```
 
@@ -4331,6 +5371,11 @@ Adds or updates an inline policy document that is embedded in the specified IAM 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 98
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PutUserPolicy
 &Version=2010-05-08
@@ -4342,6 +5387,9 @@ Action=PutUserPolicy
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: fa348538-7013-42c0-9eb0-b6d6b7ac3178
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4349,7 +5397,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>dcdc0a0e-0526-497e-8564-c3051d5f5310</RequestId>
+  <RequestId>fa348538-7013-42c0-9eb0-b6d6b7ac3178</RequestId>
 </ErrorResponse>
 ```
 
@@ -4361,6 +5409,11 @@ Rejects a delegation request, denying the requested temporary access.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 86
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RejectDelegationRequest
 &Version=2010-05-08
@@ -4370,6 +5423,9 @@ Action=RejectDelegationRequest
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 38560698-92a8-48ba-b9b8-343b1d23e641
+content-length: 264
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4377,7 +5433,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Delegation request not found: example000000000</Message>
   </Error>
-  <RequestId>3286df51-5bad-4ea7-bf00-64bb02e10da5</RequestId>
+  <RequestId>38560698-92a8-48ba-b9b8-343b1d23e641</RequestId>
 </ErrorResponse>
 ```
 
@@ -4389,6 +5445,11 @@ Removes the specified client ID (also known as audience) from the list of client
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 170
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RemoveClientIDFromOpenIDConnectProvider
 &Version=2010-05-08
@@ -4399,6 +5460,9 @@ Action=RemoveClientIDFromOpenIDConnectProvider
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 590a164d-3f61-46a1-bf6f-a9e3e515754f
+content-length: 309
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4406,7 +5470,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>OpenIDConnect Provider not found for arn arn:aws:iam:us-east-1:000000000000:example/example</Message>
   </Error>
-  <RequestId>beea8fd9-800f-467c-9aa0-6b32f7fa0098</RequestId>
+  <RequestId>590a164d-3f61-46a1-bf6f-a9e3e515754f</RequestId>
 </ErrorResponse>
 ```
 
@@ -4418,6 +5482,11 @@ Removes the specified IAM role from the specified Amazon EC2 instance profile.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 100
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RemoveRoleFromInstanceProfile
 &Version=2010-05-08
@@ -4428,6 +5497,9 @@ Action=RemoveRoleFromInstanceProfile
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: ed394713-00bb-4d57-919e-e4f5f14201e1
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4435,7 +5507,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Instance Profile example cannot be found.</Message>
   </Error>
-  <RequestId>58e8924b-2136-4a5d-9246-24b74b94fc01</RequestId>
+  <RequestId>ed394713-00bb-4d57-919e-e4f5f14201e1</RequestId>
 </ErrorResponse>
 ```
 
@@ -4447,6 +5519,11 @@ Removes the specified user from the specified group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 80
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RemoveUserFromGroup
 &Version=2010-05-08
@@ -4457,6 +5534,9 @@ Action=RemoveUserFromGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: a84fe92c-819b-46cc-bf7c-5b1ab4dcfc7b
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4464,7 +5544,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>4c628015-7048-4c6d-ada4-0bd2e7e1b244</RequestId>
+  <RequestId>a84fe92c-819b-46cc-bf7c-5b1ab4dcfc7b</RequestId>
 </ErrorResponse>
 ```
 
@@ -4476,6 +5556,11 @@ Resets the password for a service-specific credential.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 105
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ResetServiceSpecificCredential
 &Version=2010-05-08
@@ -4485,6 +5570,9 @@ Action=ResetServiceSpecificCredential
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 5086532d-a6b4-4c7f-bebf-5a3c786156f1
+content-length: 264
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4492,7 +5580,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>No such credential example0000000000000 exists</Message>
   </Error>
-  <RequestId>360a1143-9413-41ad-962b-06d60181e6de</RequestId>
+  <RequestId>5086532d-a6b4-4c7f-bebf-5a3c786156f1</RequestId>
 </ErrorResponse>
 ```
 
@@ -4506,6 +5594,11 @@ Synchronizes the specified MFA device with its IAM resource object on the Amazon
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 135
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ResyncMFADevice
 &Version=2010-05-08
@@ -4518,6 +5611,9 @@ Action=ResyncMFADevice
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 1f40cecd-1231-465a-8908-411bc802e232
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4525,7 +5621,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>2d2fd6a2-3575-4c7a-831c-fcfec86fb0fe</RequestId>
+  <RequestId>1f40cecd-1231-465a-8908-411bc802e232</RequestId>
 </ErrorResponse>
 ```
 
@@ -4539,6 +5635,11 @@ Sends the exchange token for an accepted delegation request.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 82
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SendDelegationToken
 &Version=2010-05-08
@@ -4548,6 +5649,9 @@ Action=SendDelegationToken
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: d9a7f241-cb0e-482a-9495-e684b168d693
+content-length: 264
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4555,7 +5659,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Delegation request not found: example000000000</Message>
   </Error>
-  <RequestId>835b65dc-f96e-4560-aea8-d63319f780ab</RequestId>
+  <RequestId>d9a7f241-cb0e-482a-9495-e684b168d693</RequestId>
 </ErrorResponse>
 ```
 
@@ -4567,6 +5671,11 @@ Sets the specified version of the specified policy as the policy's default (oper
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 140
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetDefaultPolicyVersion
 &Version=2010-05-08
@@ -4577,15 +5686,18 @@ Action=SetDefaultPolicyVersion
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 184647bc-b982-43bc-961f-9164e92ab08a
+content-length: 360
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>1 validation error detected: Value at 'versionId' failed to satisfy constraint: Member must satisfy regular expression pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?</Message>
+    <Message>1 validation error detected: Value at &apos;versionId&apos; failed to satisfy constraint: Member must satisfy regular expression pattern: v[1-9][0-9]*(\.[A-Za-z0-9-]*)?</Message>
   </Error>
-  <RequestId>3c18c889-2ce9-47ae-99ce-57699a28e01c</RequestId>
+  <RequestId>184647bc-b982-43bc-961f-9164e92ab08a</RequestId>
 </ErrorResponse>
 ```
 
@@ -4597,25 +5709,36 @@ Sets the specified version of the global endpoint token as the token version use
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetSecurityTokenServicePreferences
 &Version=2010-05-08
-&GlobalEndpointTokenVersion=v1Token
+&Groups=v1Token
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 56e16aca-9b26-4a12-8e6a-8f71405ffaf5
+content-length: 322
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
-<SetSecurityTokenServicePreferencesResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <SetSecurityTokenServicePreferencesResult/>
-  <ResponseMetadata>
-    <RequestId>cdc087f5-b487-4e89-991e-1b8a78976fcf</RequestId>
-  </ResponseMetadata>
-</SetSecurityTokenServicePreferencesResponse>
+<?xml version="1.0"?>
+<ErrorResponse>
+  <Error>
+    <Type>Sender</Type>
+    <Code>ValidationError</Code>
+    <Message>1 validation error detected: Value at &apos;globalEndpointTokenVersion&apos; failed to satisfy constraint: Member must not be null</Message>
+  </Error>
+  <RequestId>56e16aca-9b26-4a12-8e6a-8f71405ffaf5</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### SimulateCustomPolicy
 
@@ -4623,6 +5746,11 @@ Simulate how a set of IAM policies and optionally a resource-based policy works 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 108
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SimulateCustomPolicy
 &Version=2010-05-08
@@ -4633,6 +5761,9 @@ Action=SimulateCustomPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 9541dc22-fea6-4dc6-b616-deb59cbe017b
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4640,7 +5771,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>Policy input list item 1 has invalid content</Message>
   </Error>
-  <RequestId>4c026916-7ec3-4cf2-baf5-c50cd4fed7c4</RequestId>
+  <RequestId>9541dc22-fea6-4dc6-b616-deb59cbe017b</RequestId>
 </ErrorResponse>
 ```
 
@@ -4652,6 +5783,11 @@ Simulate how a set of IAM policies attached to an IAM entity works with a list o
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 157
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SimulatePrincipalPolicy
 &Version=2010-05-08
@@ -4662,14 +5798,17 @@ Action=SimulatePrincipalPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 343cad94-6ed6-4389-8969-f6388b3549bf
+content-length: 265
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidInput</Code>
-    <Message>Invalid Action name: example must name a service and an action, as in iam:CreateUser</Message>
+    <Message>The action is invalid since it is missing names</Message>
   </Error>
-  <RequestId>63824e60-a399-4be1-9881-da3bd0e89b86</RequestId>
+  <RequestId>343cad94-6ed6-4389-8969-f6388b3549bf</RequestId>
 </ErrorResponse>
 ```
 
@@ -4681,6 +5820,11 @@ Adds one or more tags to an IAM instance profile.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 126
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=TagInstanceProfile
 &Version=2010-05-08
@@ -4692,6 +5836,9 @@ Action=TagInstanceProfile
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 4a2c640a-93e8-42b8-a023-672145024680
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4699,7 +5846,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Instance Profile example cannot be found.</Message>
   </Error>
-  <RequestId>0d8d9189-e30b-4302-afcf-f276e1b93585</RequestId>
+  <RequestId>4a2c640a-93e8-42b8-a023-672145024680</RequestId>
 </ErrorResponse>
 ```
 
@@ -4713,6 +5860,11 @@ Adds one or more tags to an IAM virtual multi-factor authentication (MFA) device
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 115
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=TagMFADevice
 &Version=2010-05-08
@@ -4724,6 +5876,9 @@ Action=TagMFADevice
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 4e062b81-ddb3-4e29-9c08-c451ab20c411
+content-length: 273
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4731,7 +5886,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>MFA Device with serial number example00 does not exist.</Message>
   </Error>
-  <RequestId>29772c58-61b8-4d4d-87b0-e3920b45d5a2</RequestId>
+  <RequestId>4e062b81-ddb3-4e29-9c08-c451ab20c411</RequestId>
 </ErrorResponse>
 ```
 
@@ -4743,6 +5898,11 @@ Adds one or more tags to an OpenID Connect (OIDC)-compatible identity provider.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 192
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=TagOpenIDConnectProvider
 &Version=2010-05-08
@@ -4754,6 +5914,9 @@ Action=TagOpenIDConnectProvider
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 24f12a60-99a3-4e53-b1b1-4009d81ed645
+content-length: 309
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4761,7 +5924,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>OpenId connect Provider arn:aws:iam:us-east-1:000000000000:example/example cannot be found.</Message>
   </Error>
-  <RequestId>10e03cef-8312-4088-858b-fb8a9b5a8c42</RequestId>
+  <RequestId>24f12a60-99a3-4e53-b1b1-4009d81ed645</RequestId>
 </ErrorResponse>
 ```
 
@@ -4773,6 +5936,11 @@ Adds one or more tags to an IAM customer managed policy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 162
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=TagPolicy
 &Version=2010-05-08
@@ -4784,6 +5952,9 @@ Action=TagPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: b27861ca-6450-4985-ac8d-e89ad02c8d69
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4791,7 +5962,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>ARN arn:aws:iam:us-east-1:000000000000:example/example is not valid.</Message>
   </Error>
-  <RequestId>46baa267-8057-4af5-a959-9c4ce3c57a86</RequestId>
+  <RequestId>b27861ca-6450-4985-ac8d-e89ad02c8d69</RequestId>
 </ErrorResponse>
 ```
 
@@ -4803,6 +5974,11 @@ Adds one or more tags to an IAM role.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 104
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=TagRole
 &Version=2010-05-08
@@ -4814,6 +5990,9 @@ Action=TagRole
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 10868b19-b75e-4c20-aea6-6beaeb9bf8bc
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4821,7 +6000,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The role with name example cannot be found.</Message>
   </Error>
-  <RequestId>07110304-cac5-40dd-98cf-ce1d07214d9e</RequestId>
+  <RequestId>10868b19-b75e-4c20-aea6-6beaeb9bf8bc</RequestId>
 </ErrorResponse>
 ```
 
@@ -4833,6 +6012,11 @@ Adds one or more tags to a Security Assertion Markup Language (SAML) identity pr
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 174
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=TagSAMLProvider
 &Version=2010-05-08
@@ -4842,20 +6026,23 @@ Action=TagSAMLProvider
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: d29206eb-1ca8-49f4-bf89-1362a444e484
+content-length: 249
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
-    <Code>NoSuchEntity</Code>
-    <Message>Manifest not found for arn arn:aws:iam:us-east-1:000000000000:example/example</Message>
+    <Code>ValidationError</Code>
+    <Message>Invalid resource type in ARN</Message>
   </Error>
-  <RequestId>d4a58ca1-ff28-4847-86d9-51706b533b31</RequestId>
+  <RequestId>d29206eb-1ca8-49f4-bf89-1362a444e484</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### TagServerCertificate
 
@@ -4863,6 +6050,11 @@ Adds one or more tags to an IAM server certificate.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 130
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=TagServerCertificate
 &Version=2010-05-08
@@ -4874,6 +6066,9 @@ Action=TagServerCertificate
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 4d4e44cd-9ae7-496c-b3fe-a6f522877dd8
+content-length: 275
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4881,7 +6076,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The Server Certificate with name example cannot be found.</Message>
   </Error>
-  <RequestId>0abcf8d7-5db8-4ee1-a7df-03ce0082061c</RequestId>
+  <RequestId>4d4e44cd-9ae7-496c-b3fe-a6f522877dd8</RequestId>
 </ErrorResponse>
 ```
 
@@ -4893,6 +6088,11 @@ Adds one or more tags to an IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 104
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=TagUser
 &Version=2010-05-08
@@ -4904,6 +6104,9 @@ Action=TagUser
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: fa9adcc0-5d9a-428e-95f9-ef1e1f11aa3a
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4911,7 +6114,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>e84264de-b0f8-4974-bb60-95baa6b6ec64</RequestId>
+  <RequestId>fa9adcc0-5d9a-428e-95f9-ef1e1f11aa3a</RequestId>
 </ErrorResponse>
 ```
 
@@ -4923,6 +6126,11 @@ Removes the specified tags from the IAM instance profile.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 99
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UntagInstanceProfile
 &Version=2010-05-08
@@ -4933,6 +6141,9 @@ Action=UntagInstanceProfile
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 7829215c-1706-4ea2-a4c8-0cc270103479
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4940,7 +6151,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Instance Profile example cannot be found.</Message>
   </Error>
-  <RequestId>5daa9884-e9cd-47b6-a14f-01a3002b40ba</RequestId>
+  <RequestId>7829215c-1706-4ea2-a4c8-0cc270103479</RequestId>
 </ErrorResponse>
 ```
 
@@ -4954,6 +6165,11 @@ Removes the specified tags from the IAM virtual multi-factor authentication (MFA
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 88
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UntagMFADevice
 &Version=2010-05-08
@@ -4964,6 +6180,9 @@ Action=UntagMFADevice
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 876c3b32-34c6-4775-a790-f5a8fffea313
+content-length: 273
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -4971,7 +6190,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>MFA Device with serial number example00 does not exist.</Message>
   </Error>
-  <RequestId>214d160d-6a95-4a06-bb36-cf0404260075</RequestId>
+  <RequestId>876c3b32-34c6-4775-a790-f5a8fffea313</RequestId>
 </ErrorResponse>
 ```
 
@@ -4983,6 +6202,11 @@ Removes the specified tags from the specified OpenID Connect (OIDC)-compatible i
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 165
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UntagOpenIDConnectProvider
 &Version=2010-05-08
@@ -4993,6 +6217,9 @@ Action=UntagOpenIDConnectProvider
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: ec06b50e-acc5-4efa-9f28-ea044535ff78
+content-length: 309
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5000,7 +6227,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>OpenId connect Provider arn:aws:iam:us-east-1:000000000000:example/example cannot be found.</Message>
   </Error>
-  <RequestId>05aeeeeb-792c-42bf-9d42-971cffc94bf0</RequestId>
+  <RequestId>ec06b50e-acc5-4efa-9f28-ea044535ff78</RequestId>
 </ErrorResponse>
 ```
 
@@ -5012,6 +6239,11 @@ Removes the specified tags from the customer managed policy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 135
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UntagPolicy
 &Version=2010-05-08
@@ -5022,6 +6254,9 @@ Action=UntagPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 60bdc59f-2f42-4aae-8406-bd633717dc4c
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5029,7 +6264,7 @@ content-type: text/xml
     <Code>InvalidInput</Code>
     <Message>ARN arn:aws:iam:us-east-1:000000000000:example/example is not valid.</Message>
   </Error>
-  <RequestId>285fe013-e4af-4132-bdb6-0f39fd572c2e</RequestId>
+  <RequestId>60bdc59f-2f42-4aae-8406-bd633717dc4c</RequestId>
 </ErrorResponse>
 ```
 
@@ -5041,6 +6276,11 @@ Removes the specified tags from the role.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UntagRole
 &Version=2010-05-08
@@ -5051,6 +6291,9 @@ Action=UntagRole
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 91fc185a-a8f9-41f2-8d9f-0bd3e1e454fc
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5058,7 +6301,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The role with name example cannot be found.</Message>
   </Error>
-  <RequestId>566e40bb-7463-409d-ac09-87c9153d8776</RequestId>
+  <RequestId>91fc185a-a8f9-41f2-8d9f-0bd3e1e454fc</RequestId>
 </ErrorResponse>
 ```
 
@@ -5070,6 +6313,11 @@ Removes the specified tags from the specified Security Assertion Markup Language
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 147
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UntagSAMLProvider
 &Version=2010-05-08
@@ -5078,20 +6326,23 @@ Action=UntagSAMLProvider
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: cd45a43f-afc9-4272-954a-ffb09a627fef
+content-length: 249
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
-    <Code>NoSuchEntity</Code>
-    <Message>Manifest not found for arn arn:aws:iam:us-east-1:000000000000:example/example</Message>
+    <Code>ValidationError</Code>
+    <Message>Invalid resource type in ARN</Message>
   </Error>
-  <RequestId>2f4e3d20-2db4-4d28-b131-58ddce9e1482</RequestId>
+  <RequestId>cd45a43f-afc9-4272-954a-ffb09a627fef</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### UntagServerCertificate
 
@@ -5099,6 +6350,11 @@ Removes the specified tags from the IAM server certificate.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 103
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UntagServerCertificate
 &Version=2010-05-08
@@ -5109,6 +6365,9 @@ Action=UntagServerCertificate
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: eee1076e-086d-4290-b9f0-4bf204595918
+content-length: 275
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5116,7 +6375,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The Server Certificate with name example cannot be found.</Message>
   </Error>
-  <RequestId>fcff6610-a6cf-40cd-99c2-bf412ab8cabc</RequestId>
+  <RequestId>eee1076e-086d-4290-b9f0-4bf204595918</RequestId>
 </ErrorResponse>
 ```
 
@@ -5128,6 +6387,11 @@ Removes the specified tags from the user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UntagUser
 &Version=2010-05-08
@@ -5138,6 +6402,9 @@ Action=UntagUser
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: d676243c-d252-428a-8b6f-50dbad1ca9fa
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5145,7 +6412,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>5db5c419-9bbf-40f1-9bcf-253b7626422d</RequestId>
+  <RequestId>d676243c-d252-428a-8b6f-50dbad1ca9fa</RequestId>
 </ErrorResponse>
 ```
 
@@ -5157,6 +6424,11 @@ Changes the status of the specified access key from Active to Inactive, or vice 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 84
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateAccessKey
 &Version=2010-05-08
@@ -5167,6 +6439,9 @@ Action=UpdateAccessKey
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: cf1827df-fe82-4b42-96d8-df0263ec828e
+content-length: 274
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5174,7 +6449,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The Access Key with id example000000000 cannot be found.</Message>
   </Error>
-  <RequestId>df72ed6f-651e-436a-81a3-87bc3ad60147</RequestId>
+  <RequestId>cf1827df-fe82-4b42-96d8-df0263ec828e</RequestId>
 </ErrorResponse>
 ```
 
@@ -5186,6 +6461,11 @@ Updates the password policy settings for the Amazon Web Services account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateAccountPasswordPolicy
 &Version=2010-05-08
@@ -5194,11 +6474,13 @@ Action=UpdateAccountPasswordPolicy
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 292
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <UpdateAccountPasswordPolicyResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <UpdateAccountPasswordPolicyResult/>
+  <UpdateAccountPasswordPolicyResult></UpdateAccountPasswordPolicyResult>
   <ResponseMetadata>
-    <RequestId>4de5f60a-3216-4a84-849c-92e5030547c6</RequestId>
+    <RequestId>cdede138-47db-48c3-a19e-4ebae0f3a64d</RequestId>
   </ResponseMetadata>
 </UpdateAccountPasswordPolicyResponse>
 ```
@@ -5211,6 +6493,11 @@ Updates the policy that grants an IAM entity permission to assume a role.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 88
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateAssumeRolePolicy
 &Version=2010-05-08
@@ -5221,6 +6508,9 @@ Action=UpdateAssumeRolePolicy
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 52b79d9e-4166-4cb3-809d-aaca4ce95b9a
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5228,7 +6518,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The role with name example cannot be found.</Message>
   </Error>
-  <RequestId>cb7529d8-c58d-475d-af4f-bbc1016c1488</RequestId>
+  <RequestId>52b79d9e-4166-4cb3-809d-aaca4ce95b9a</RequestId>
 </ErrorResponse>
 ```
 
@@ -5240,6 +6530,11 @@ Updates an existing delegation request with additional information.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 86
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateDelegationRequest
 &Version=2010-05-08
@@ -5249,6 +6544,9 @@ Action=UpdateDelegationRequest
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 787ad1ee-e8a2-4d51-bade-4cd0fc706775
+content-length: 264
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5256,7 +6554,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>Delegation request not found: example000000000</Message>
   </Error>
-  <RequestId>b7f3a4f6-1c4b-44cf-bb1f-e4bfd57d66b0</RequestId>
+  <RequestId>787ad1ee-e8a2-4d51-bade-4cd0fc706775</RequestId>
 </ErrorResponse>
 ```
 
@@ -5268,6 +6566,11 @@ Updates the name and/or the path of the specified IAM group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 55
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateGroup
 &Version=2010-05-08
@@ -5277,6 +6580,9 @@ Action=UpdateGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: e514cc27-e2e8-4674-9ae6-cdfc6248749c
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5284,7 +6590,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The group with name example cannot be found.</Message>
   </Error>
-  <RequestId>b81e0db8-06f4-4566-9774-a74f11e759fc</RequestId>
+  <RequestId>e514cc27-e2e8-4674-9ae6-cdfc6248749c</RequestId>
 </ErrorResponse>
 ```
 
@@ -5296,6 +6602,11 @@ Changes the password for the specified IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateLoginProfile
 &Version=2010-05-08
@@ -5305,6 +6616,9 @@ Action=UpdateLoginProfile
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 34b9c8c0-9125-42a5-b3c7-769afc4c16cc
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5312,7 +6626,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>767653bf-7c2b-4a90-88ab-fda87ce4f26e</RequestId>
+  <RequestId>34b9c8c0-9125-42a5-b3c7-769afc4c16cc</RequestId>
 </ErrorResponse>
 ```
 
@@ -5324,6 +6638,11 @@ Replaces the existing list of server certificate thumbprints associated with an 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 216
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateOpenIDConnectProviderThumbprint
 &Version=2010-05-08
@@ -5334,6 +6653,9 @@ Action=UpdateOpenIDConnectProviderThumbprint
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: fbdfdd91-7de4-47c5-9daa-6e1f33d9ed40
+content-length: 309
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5341,7 +6663,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>OpenIDConnect Provider not found for arn arn:aws:iam:us-east-1:000000000000:example/example</Message>
   </Error>
-  <RequestId>4c685c12-2b95-4bfd-9e35-37883311c832</RequestId>
+  <RequestId>fbdfdd91-7de4-47c5-9daa-6e1f33d9ed40</RequestId>
 </ErrorResponse>
 ```
 
@@ -5353,6 +6675,11 @@ Updates the description or maximum session duration setting of a role.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateRole
 &Version=2010-05-08
@@ -5362,6 +6689,9 @@ Action=UpdateRole
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: ff1d0849-68a5-405d-8815-75459f5730b2
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5369,7 +6699,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The role with name example cannot be found.</Message>
   </Error>
-  <RequestId>5e2ac9d2-c2ea-4b0e-9c54-6aaf0c27faf4</RequestId>
+  <RequestId>ff1d0849-68a5-405d-8815-75459f5730b2</RequestId>
 </ErrorResponse>
 ```
 
@@ -5381,6 +6711,11 @@ Use UpdateRole instead.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 84
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateRoleDescription
 &Version=2010-05-08
@@ -5391,6 +6726,9 @@ Action=UpdateRoleDescription
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 1e2743d2-c878-4395-9ce0-3f7840464b3c
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5398,7 +6736,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The role with name example cannot be found.</Message>
   </Error>
-  <RequestId>c64c1dd8-dda4-4db6-bf38-ba4affec74ea</RequestId>
+  <RequestId>1e2743d2-c878-4395-9ce0-3f7840464b3c</RequestId>
 </ErrorResponse>
 ```
 
@@ -5410,6 +6748,11 @@ Updates the metadata document, SAML encryption settings, and private keys for an
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 123
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateSAMLProvider
 &Version=2010-05-08
@@ -5417,20 +6760,23 @@ Action=UpdateSAMLProvider
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: c37a5b0f-9231-489b-b443-e68a018301ed
+content-length: 249
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
-    <Code>NoSuchEntity</Code>
-    <Message>Manifest not found for arn arn:aws:iam:us-east-1:000000000000:example/example</Message>
+    <Code>ValidationError</Code>
+    <Message>Invalid resource type in ARN</Message>
   </Error>
-  <RequestId>5b412a7a-84a5-41a1-89e3-3c6bf77e8640</RequestId>
+  <RequestId>c37a5b0f-9231-489b-b443-e68a018301ed</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NoSuchEntity`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### UpdateSSHPublicKey
 
@@ -5440,6 +6786,11 @@ Sets the status of an IAM user's SSH public key to active or inactive.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 111
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateSSHPublicKey
 &Version=2010-05-08
@@ -5451,6 +6802,9 @@ Action=UpdateSSHPublicKey
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: b6689e68-4ec3-45e5-bf22-cca08de56ad5
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5458,7 +6812,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>2e92069a-46cc-4481-afe8-301cfad2a2a9</RequestId>
+  <RequestId>b6689e68-4ec3-45e5-bf22-cca08de56ad5</RequestId>
 </ErrorResponse>
 ```
 
@@ -5470,6 +6824,11 @@ Updates the name and/or the path of the specified server certificate stored in I
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 79
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateServerCertificate
 &Version=2010-05-08
@@ -5479,6 +6838,9 @@ Action=UpdateServerCertificate
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 9f3fbe67-6f22-40cf-b327-3b6dad314d08
+content-length: 275
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5486,7 +6848,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The Server Certificate with name example cannot be found.</Message>
   </Error>
-  <RequestId>bdce2e5e-39bb-4506-b9cf-ac2d06630115</RequestId>
+  <RequestId>9f3fbe67-6f22-40cf-b327-3b6dad314d08</RequestId>
 </ErrorResponse>
 ```
 
@@ -5498,6 +6860,11 @@ Sets the status of a service-specific credential to Active or Inactive .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 120
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateServiceSpecificCredential
 &Version=2010-05-08
@@ -5508,6 +6875,9 @@ Action=UpdateServiceSpecificCredential
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 9f93f3d8-6040-45d0-82ca-e3dc98a05e8d
+content-length: 264
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5515,7 +6885,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>No such credential example0000000000000 exists</Message>
   </Error>
-  <RequestId>7ce2f04c-7ded-430b-9981-e7df48991f32</RequestId>
+  <RequestId>9f93f3d8-6040-45d0-82ca-e3dc98a05e8d</RequestId>
 </ErrorResponse>
 ```
 
@@ -5527,6 +6897,11 @@ Changes the status of the specified user signing certificate from active to disa
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 103
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateSigningCertificate
 &Version=2010-05-08
@@ -5537,6 +6912,9 @@ Action=UpdateSigningCertificate
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 9b391f7b-0d6f-476c-bb57-581d3adf1698
+content-length: 283
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5544,7 +6922,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The Certificate with id example00000000000000000 cannot be found.</Message>
   </Error>
-  <RequestId>291c5265-798a-4912-bf11-bbe8223ba36c</RequestId>
+  <RequestId>9b391f7b-0d6f-476c-bb57-581d3adf1698</RequestId>
 </ErrorResponse>
 ```
 
@@ -5556,6 +6934,11 @@ Updates the name and/or the path of the specified IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateUser
 &Version=2010-05-08
@@ -5565,6 +6948,9 @@ Action=UpdateUser
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 6e12a7d4-d090-4498-b1ca-a0c43206c72f
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5572,7 +6958,7 @@ content-type: text/xml
     <Code>NoSuchEntity</Code>
     <Message>The user with name example cannot be found.</Message>
   </Error>
-  <RequestId>96746e2f-ece1-4e6b-a5f6-5e34d1245e47</RequestId>
+  <RequestId>6e12a7d4-d090-4498-b1ca-a0c43206c72f</RequestId>
 </ErrorResponse>
 ```
 
@@ -5584,6 +6970,11 @@ Uploads an SSH public key and associates it with the specified IAM user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 86
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UploadSSHPublicKey
 &Version=2010-05-08
@@ -5594,14 +6985,17 @@ Action=UploadSSHPublicKey
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 16a9b77f-1c75-4e6c-9bf0-7c8f7013631f
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
     <Type>Sender</Type>
     <Code>UnrecognizedPublicKeyEncoding</Code>
-    <Message>The public key encoding format is unsupported or unrecognized.</Message>
+    <Message>Invalid public key uploaded.</Message>
   </Error>
-  <RequestId>420bf7b4-ea34-484c-95f7-e00326738366</RequestId>
+  <RequestId>16a9b77f-1c75-4e6c-9bf0-7c8f7013631f</RequestId>
 </ErrorResponse>
 ```
 
@@ -5613,6 +7007,11 @@ Uploads a server certificate entity for the Amazon Web Services account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 122
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UploadServerCertificate
 &Version=2010-05-08
@@ -5624,6 +7023,9 @@ Action=UploadServerCertificate
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: a0746638-3f59-4c04-a53a-7553e0b1bd11
+content-length: 302
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5631,7 +7033,7 @@ content-type: text/xml
     <Code>MalformedCertificate</Code>
     <Message>Unable to parse certificate. Please ensure the certificate is in PEM format.</Message>
   </Error>
-  <RequestId>467f525f-19e3-4830-8f3a-9dff2fb45676</RequestId>
+  <RequestId>a0746638-3f59-4c04-a53a-7553e0b1bd11</RequestId>
 </ErrorResponse>
 ```
 
@@ -5643,6 +7045,11 @@ Uploads an X.509 signing certificate and associates it with the specified IAM us
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183005Z
+Content-Length: 74
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UploadSigningCertificate
 &Version=2010-05-08
@@ -5652,6 +7059,9 @@ Action=UploadSigningCertificate
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: a1e5e598-8729-4e6c-aabb-5fbd027bdb31
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:05 GMT
 
 <ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <Error>
@@ -5659,7 +7069,7 @@ content-type: text/xml
     <Code>MalformedCertificate</Code>
     <Message>Certificate example is malformed.</Message>
   </Error>
-  <RequestId>266fc008-514c-416a-a9dc-abe1371c134e</RequestId>
+  <RequestId>a1e5e598-8729-4e6c-aabb-5fbd027bdb31</RequestId>
 </ErrorResponse>
 ```
 

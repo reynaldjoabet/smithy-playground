@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `eks-auth`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `eks-auth`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `AssumeRoleForPodIdentity`:
 
@@ -41,9 +41,9 @@ The token must be a service account token (a JWT) that the cluster issued for a 
 POST /clusters/docs-demo/assume-role-for-pod-identity HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120554Z
-Content-Length: 42
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/eks-auth/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Content-Length: 41
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks-auth/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "token": "eyJhbGciOiJSUzI1NiJ9.e30.c2ln"
@@ -57,7 +57,7 @@ HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: InvalidTokenException
 content-length: 106
-date: Mon, 16 Nov 2026 12:05:54 GMT
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidTokenException",
@@ -67,7 +67,7 @@ date: Mon, 16 Nov 2026 12:05:54 GMT
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 1 operations, 0 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error.
 
@@ -78,6 +78,10 @@ The Amazon EKS Auth API and the AssumeRoleForPodIdentity action are only used by
 ```http
 POST /clusters/example/assume-role-for-pod-identity HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 19
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks-auth/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "token": "example"
@@ -88,6 +92,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: InvalidParameterException
+content-length: 226
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",

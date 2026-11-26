@@ -11,7 +11,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `ecs`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `ecs`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListClusters`:
 
@@ -42,9 +42,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.CreateCluster
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
-Content-Length: 28
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Content-Length: 27
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "clusterName": "docs-demo"
@@ -57,7 +57,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 412
-date: Mon, 16 Nov 2026 12:05:34 GMT
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "cluster": {
@@ -95,9 +95,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.RegisterTaskDefinition
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
-Content-Length: 272
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Content-Length: 253
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "family": "docs-demo-web",
@@ -127,8 +127,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 801
-date: Mon, 16 Nov 2026 12:05:34 GMT
+content-length: 795
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "taskDefinition": {
@@ -175,7 +175,7 @@ date: Mon, 16 Nov 2026 12:05:34 GMT
     ],
     "cpu": "256",
     "memory": "512",
-    "registeredAt": 1794830734.1675153,
+    "registeredAt": 1795717753.527,
     "registeredBy": "arn:aws:iam::000000000000:user/emulator"
   },
   "tags": []
@@ -193,9 +193,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.RunTask
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
-Content-Length: 325
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Content-Length: 310
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "cluster": "docs-demo",
@@ -219,8 +219,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 1392
-date: Mon, 16 Nov 2026 12:05:34 GMT
+content-length: 1495
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "tasks": [
@@ -234,44 +234,34 @@ date: Mon, 16 Nov 2026 12:05:34 GMT
             {
               "name": "subnetId",
               "value": "subnet-00000000000000007"
-            },
-            {
-              "name": "networkInterfaceId",
-              "value": "eni-00000000000000001"
-            },
-            {
-              "name": "macAddress",
-              "value": "0a:00:00:00:00:01"
-            },
-            {
-              "name": "privateIPv4Address",
-              "value": "172.31.0.5"
             }
           ]
         }
       ],
+      "attributes": [
+        {
+          "name": "ecs.cpu-architecture",
+          "value": "x86_64"
+        }
+      ],
+      "availabilityZone": "us-east-1a",
       "clusterArn": "arn:aws:ecs:us-east-1:000000000000:cluster/docs-demo",
       "containers": [
         {
-          "containerArn": "arn:aws:ecs:us-east-1:000000000000:container/docs-demo/00000000000000000000000000000001/00000000000000000000000000000001",
+          "containerArn": "arn:aws:ecs:us-east-1:000000000000:container/docs-demo/00000000000000000000000000000001/00000001-0000-0000-0000-000000000001",
           "taskArn": "arn:aws:ecs:us-east-1:000000000000:task/docs-demo/00000000000000000000000000000001",
           "name": "web",
           "image": "public.ecr.aws/nginx/nginx:latest",
-          "lastStatus": "PROVISIONING",
+          "lastStatus": "PENDING",
           "networkBindings": [],
-          "networkInterfaces": [
-            {
-              "attachmentId": "00000001-0000-0000-0000-000000000001",
-              "privateIpv4Address": "172.31.0.5"
-            }
-          ],
+          "networkInterfaces": [],
           "healthStatus": "UNKNOWN",
           "managedAgents": [],
           "cpu": "0"
         }
       ],
       "cpu": "256",
-      "createdAt": 1794830734.1777656,
+      "createdAt": 1795717753.529,
       "desiredStatus": "RUNNING",
       "enableExecuteCommand": false,
       "group": "family:docs-demo-web",
@@ -279,10 +269,20 @@ date: Mon, 16 Nov 2026 12:05:34 GMT
       "lastStatus": "PROVISIONING",
       "launchType": "FARGATE",
       "memory": "512",
+      "overrides": {
+        "containerOverrides": [
+          {
+            "name": "web"
+          }
+        ],
+        "inferenceAcceleratorOverrides": []
+      },
+      "platformVersion": "1.4.0",
+      "platformFamily": "Linux",
       "tags": [],
       "taskArn": "arn:aws:ecs:us-east-1:000000000000:task/docs-demo/00000000000000000000000000000001",
       "taskDefinitionArn": "arn:aws:ecs:us-east-1:000000000000:task-definition/docs-demo-web:1",
-… (5 more lines)
+… (13 more lines)
 ```
 
 ### 4. DescribeTasks
@@ -296,9 +296,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeTasks
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
-Content-Length: 121
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Content-Length: 118
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "cluster": "docs-demo",
@@ -313,8 +313,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 1456
-date: Mon, 16 Nov 2026 12:05:34 GMT
+content-length: 1606
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "tasks": [
@@ -328,44 +328,35 @@ date: Mon, 16 Nov 2026 12:05:34 GMT
             {
               "name": "subnetId",
               "value": "subnet-00000000000000007"
-            },
-            {
-              "name": "networkInterfaceId",
-              "value": "eni-00000000000000001"
-            },
-            {
-              "name": "macAddress",
-              "value": "0a:00:00:00:00:01"
-            },
-            {
-              "name": "privateIPv4Address",
-              "value": "172.31.0.5"
             }
           ]
         }
       ],
+      "attributes": [
+        {
+          "name": "ecs.cpu-architecture",
+          "value": "x86_64"
+        }
+      ],
+      "availabilityZone": "us-east-1a",
       "clusterArn": "arn:aws:ecs:us-east-1:000000000000:cluster/docs-demo",
       "containers": [
         {
-          "containerArn": "arn:aws:ecs:us-east-1:000000000000:container/docs-demo/00000000000000000000000000000001/00000000000000000000000000000001",
+          "containerArn": "arn:aws:ecs:us-east-1:000000000000:container/docs-demo/00000000000000000000000000000001/00000001-0000-0000-0000-000000000001",
           "taskArn": "arn:aws:ecs:us-east-1:000000000000:task/docs-demo/00000000000000000000000000000001",
           "name": "web",
           "image": "public.ecr.aws/nginx/nginx:latest",
-          "lastStatus": "PROVISIONING",
+          "runtimeId": "00000000000000000000000000000001-1",
+          "lastStatus": "PENDING",
           "networkBindings": [],
-          "networkInterfaces": [
-            {
-              "attachmentId": "00000001-0000-0000-0000-000000000001",
-              "privateIpv4Address": "172.31.0.5"
-            }
-          ],
+          "networkInterfaces": [],
           "healthStatus": "UNKNOWN",
           "managedAgents": [],
           "cpu": "0"
         }
       ],
       "cpu": "256",
-      "createdAt": 1794830734.1777656,
+      "createdAt": 1795717753.529,
       "desiredStatus": "RUNNING",
       "enableExecuteCommand": false,
       "group": "family:docs-demo-web",
@@ -373,10 +364,19 @@ date: Mon, 16 Nov 2026 12:05:34 GMT
       "lastStatus": "PROVISIONING",
       "launchType": "FARGATE",
       "memory": "512",
-      "pullStartedAt": 1794830734.1791248,
-      "pullStoppedAt": 1794830734.1791248,
-      "taskArn": "arn:aws:ecs:us-east-1:000000000000:task/docs-demo/00000000000000000000000000000001",
-… (6 more lines)
+      "overrides": {
+        "containerOverrides": [
+          {
+            "name": "web"
+          }
+        ],
+        "inferenceAcceleratorOverrides": []
+      },
+      "platformVersion": "1.4.0",
+      "platformFamily": "Linux",
+      "pullStartedAt": 1795717753.529,
+      "pullStoppedAt": 1795717753.529,
+… (16 more lines)
 ```
 
 ### 5. StopTask
@@ -390,9 +390,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.StopTask
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
-Content-Length: 141
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Content-Length: 136
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "cluster": "docs-demo",
@@ -406,8 +406,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 1538
-date: Mon, 16 Nov 2026 12:05:34 GMT
+content-length: 1677
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "task": {
@@ -420,44 +420,35 @@ date: Mon, 16 Nov 2026 12:05:34 GMT
           {
             "name": "subnetId",
             "value": "subnet-00000000000000007"
-          },
-          {
-            "name": "networkInterfaceId",
-            "value": "eni-00000000000000001"
-          },
-          {
-            "name": "macAddress",
-            "value": "0a:00:00:00:00:01"
-          },
-          {
-            "name": "privateIPv4Address",
-            "value": "172.31.0.5"
           }
         ]
       }
     ],
+    "attributes": [
+      {
+        "name": "ecs.cpu-architecture",
+        "value": "x86_64"
+      }
+    ],
+    "availabilityZone": "us-east-1a",
     "clusterArn": "arn:aws:ecs:us-east-1:000000000000:cluster/docs-demo",
     "containers": [
       {
-        "containerArn": "arn:aws:ecs:us-east-1:000000000000:container/docs-demo/00000000000000000000000000000001/00000000000000000000000000000001",
+        "containerArn": "arn:aws:ecs:us-east-1:000000000000:container/docs-demo/00000000000000000000000000000001/00000001-0000-0000-0000-000000000001",
         "taskArn": "arn:aws:ecs:us-east-1:000000000000:task/docs-demo/00000000000000000000000000000001",
         "name": "web",
         "image": "public.ecr.aws/nginx/nginx:latest",
+        "runtimeId": "00000000000000000000000000000001-1",
         "lastStatus": "DEACTIVATING",
         "networkBindings": [],
-        "networkInterfaces": [
-          {
-            "attachmentId": "00000001-0000-0000-0000-000000000001",
-            "privateIpv4Address": "172.31.0.5"
-          }
-        ],
+        "networkInterfaces": [],
         "healthStatus": "UNKNOWN",
         "managedAgents": [],
         "cpu": "0"
       }
     ],
     "cpu": "256",
-    "createdAt": 1794830734.1777656,
+    "createdAt": 1795717753.529,
     "desiredStatus": "STOPPED",
     "enableExecuteCommand": false,
     "group": "family:docs-demo-web",
@@ -465,11 +456,20 @@ date: Mon, 16 Nov 2026 12:05:34 GMT
     "lastStatus": "DEACTIVATING",
     "launchType": "FARGATE",
     "memory": "512",
-    "pullStartedAt": 1794830734.1791248,
-    "pullStoppedAt": 1794830734.1791248,
+    "overrides": {
+      "containerOverrides": [
+        {
+          "name": "web"
+        }
+      ],
+      "inferenceAcceleratorOverrides": []
+    },
+    "platformVersion": "1.4.0",
+    "platformFamily": "Linux",
+    "pullStartedAt": 1795717753.529,
+    "pullStoppedAt": 1795717753.529,
     "stopCode": "UserInitiated",
-    "stoppedReason": "docs demo",
-… (7 more lines)
+… (16 more lines)
 ```
 
 ### 6. DeregisterTaskDefinition
@@ -483,9 +483,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeregisterTaskDefinition
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
-Content-Length: 88
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Content-Length: 87
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "taskDefinition": "arn:aws:ecs:us-east-1:000000000000:task-definition/docs-demo-web:1"
@@ -497,8 +497,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 831
-date: Mon, 16 Nov 2026 12:05:34 GMT
+content-length: 845
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "taskDefinition": {
@@ -545,9 +545,10 @@ date: Mon, 16 Nov 2026 12:05:34 GMT
     ],
     "cpu": "256",
     "memory": "512",
-    "registeredAt": 1794830734.1675153,
-    "deregisteredAt": 1794830734.1955457,
-    "registeredBy": "arn:aws:iam::000000000000:user/emulator"
+    "registeredAt": 1795717753.527,
+    "deregisteredAt": 1795717753.533,
+    "registeredBy": "arn:aws:iam::000000000000:user/emulator",
+    "previousStatus": "ACTIVE"
   }
 }
 ```
@@ -563,9 +564,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteCluster
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120534Z
-Content-Length: 24
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "cluster": "docs-demo"
@@ -578,7 +579,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 414
-date: Mon, 16 Nov 2026 12:05:34 GMT
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "cluster": {
@@ -607,9 +608,9 @@ date: Mon, 16 Nov 2026 12:05:34 GMT
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
-Of 88 operations, 21 accepted the placeholder call, 11 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
+Of 88 operations, 19 accepted the placeholder call, 9 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.629* answered `501` in 1.0.595. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AssociateGatewayWithCluster
 
@@ -617,7 +618,12 @@ Associates a gateway with an Amazon ECS cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.AssociateGatewayWithCluster
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 41
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "gateway": "example",
@@ -628,6 +634,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.AssociateGatewayWithCluster
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 128
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "NotImplemented",
@@ -643,7 +651,12 @@ Continues or rolls back an Amazon ECS service deployment that is paused at a lif
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ContinueServiceDeployment
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 96
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "serviceDeploymentArn": "arn:aws:ecs:us-east-1:000000000000:example/example",
@@ -654,10 +667,12 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ContinueServiceDeployment
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 87
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
-  "message": "The ServiceDeployment ARN is invalid."
+  "message": "The Service ARN provided is invalid."
 }
 ```
 
@@ -669,7 +684,12 @@ Creates a capacity provider.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.CreateCapacityProvider
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 18
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "name": "example"
@@ -679,6 +699,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.CreateCapacityProvider
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 128
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -694,7 +716,12 @@ Creates a new Amazon ECS cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.CreateCluster
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -702,6 +729,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.CreateCluster
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 408
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "cluster": {
@@ -734,7 +763,12 @@ Creates a new daemon in the specified cluster and capacity providers.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.CreateDaemon
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 138
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "daemonName": "example",
@@ -748,14 +782,16 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.CreateDaemon
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 185
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
-  "__type": "InvalidParameterException",
-  "message": "The specified capacity provider was not found. Specify a valid capacity provider and try again."
+  "__type": "ClientException",
+  "message": "daemonTaskDefinition must be a family, family:revision or daemon-task-definition ARN; got \"arn:aws:ecs:us-east-1:000000000000:example/example\""
 }
 ```
 
-`400` `InvalidParameterException`: the placeholder values failed the operation's input validation.
+`400` `ClientException`.
 
 ### CreateExpressGatewayService
 
@@ -763,7 +799,12 @@ Creates an Express service that simplifies deploying containerized web applicati
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.CreateExpressGatewayService
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 78
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "infrastructureRoleArn": "arn:aws:ecs:us-east-1:000000000000:example/example"
@@ -773,6 +814,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.CreateExpressGatewayService
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 113
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -786,9 +829,16 @@ content-type: application/x-amz-json-1.1
 
 Creates a gateway.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.CreateGateway
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 185
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "name": "example",
@@ -801,16 +851,19 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.CreateGateway
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 102
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
-  "__type": "NotImplemented",
-  "message": "operation CreateGateway is scaffolded but not implemented in this emulator"
+  "gatewayArn": "arn:aws:ecs:us-east-1:000000000000:gateway/example",
+  "name": "example",
+  "status": "ACTIVE"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### CreateService
 
@@ -818,7 +871,12 @@ Runs and maintains your desired number of tasks from a specified task definition
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.CreateService
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 25
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "serviceName": "example"
@@ -828,6 +886,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.CreateService
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 74
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -843,7 +903,12 @@ Create a task set in the specified cluster and service.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.CreateTaskSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 68
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "service": "example",
@@ -855,6 +920,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.CreateTaskSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 68
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClusterNotFoundException",
@@ -870,7 +937,12 @@ Disables an account setting for a specified user, role, or the root user for an 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteAccountSetting
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "name": "serviceLongArnFormat"
@@ -880,6 +952,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteAccountSetting
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 83
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -895,7 +969,12 @@ Deletes one or more custom attributes from an Amazon ECS resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteAttributes
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 35
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "attributes": [
@@ -909,6 +988,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 123
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -926,7 +1007,12 @@ Deletes the specified capacity provider.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteCapacityProvider
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 30
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "capacityProvider": "example"
@@ -936,6 +1022,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteCapacityProvider
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClientException",
@@ -951,7 +1039,12 @@ Deletes the specified cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteCluster
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "cluster": "example"
@@ -961,6 +1054,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteCluster
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 68
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClusterNotFoundException",
@@ -976,7 +1071,12 @@ Deletes the specified daemon.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteDaemon
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 66
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "daemonArn": "arn:aws:ecs:us-east-1:000000000000:example/example"
@@ -986,10 +1086,12 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteDaemon
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 74
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "DaemonNotFoundException",
-  "message": "Daemon not found: arn:aws:ecs:us-east-1:000000000000:example/example"
+  "message": "No daemon metadata found."
 }
 ```
 
@@ -1001,7 +1103,12 @@ Deletes the specified daemon task definition.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteDaemonTaskDefinition
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 34
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "daemonTaskDefinition": "example"
@@ -1011,6 +1118,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteDaemonTaskDefinition
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 149
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClientException",
@@ -1026,7 +1135,12 @@ Deletes an Express service and removes all associated Amazon Web Services resour
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteExpressGatewayService
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "serviceArn": "arn:aws:ecs:us-east-1:000000000000:example/example"
@@ -1036,6 +1150,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteExpressGatewayService
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 67
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ServiceNotFoundException",
@@ -1051,7 +1167,12 @@ Deletes a gateway.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteGateway
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "gateway": "example"
@@ -1061,6 +1182,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteGateway
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 114
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "NotImplemented",
@@ -1076,7 +1199,12 @@ Deletes a specified service within a cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteService
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "service": "example"
@@ -1086,10 +1214,11 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteService
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 37
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
-  "__type": "ServiceNotFoundException",
-  "message": ""
+  "__type": "ServiceNotFoundException"
 }
 ```
 
@@ -1101,7 +1230,12 @@ Deletes one or more task definitions.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteTaskDefinitions
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "taskDefinitions": [
@@ -1113,6 +1247,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteTaskDefinitions
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 150
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClientException",
@@ -1128,7 +1264,12 @@ Deletes a specified task set within a service.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteTaskSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "cluster": "example",
@@ -1140,6 +1281,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeleteTaskSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 68
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClusterNotFoundException",
@@ -1155,7 +1298,12 @@ Deregisters an Amazon ECS container instance from the specified cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeregisterContainerInstance
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "containerInstance": "example"
@@ -1165,6 +1313,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeregisterContainerInstance
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 99
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1180,7 +1330,12 @@ Deregisters the specified task definition by family and revision.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeregisterTaskDefinition
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "taskDefinition": "example"
@@ -1190,6 +1345,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DeregisterTaskDefinition
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 70
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1205,7 +1362,12 @@ Describes one or more of your capacity providers.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeCapacityProviders
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1213,6 +1375,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeCapacityProviders
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 350
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "capacityProviders": [
@@ -1243,7 +1407,12 @@ Describes one or more of your clusters.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeClusters
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1251,6 +1420,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeClusters
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 344
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "clusters": [
@@ -1281,7 +1452,12 @@ Describes one or more container instances.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeContainerInstances
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 34
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "containerInstances": [
@@ -1293,6 +1469,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeContainerInstances
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 129
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "containerInstances": [],
@@ -1313,7 +1491,12 @@ Describes the specified daemon.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeDaemon
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 66
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "daemonArn": "arn:aws:ecs:us-east-1:000000000000:example/example"
@@ -1323,6 +1506,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeDaemon
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 117
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "DaemonNotFoundException",
@@ -1338,7 +1523,12 @@ Describes one or more of your daemon deployments.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeDaemonDeployments
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 36
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "daemonDeploymentArns": [
@@ -1348,21 +1538,18 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeDaemonDeployments
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 84
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
-  "failures": [
-    {
-      "arn": "example",
-      "reason": "MISSING"
-    }
-  ],
-  "daemonDeployments": []
+  "__type": "InvalidParameterException",
+  "message": "Request parameter(s) are invalid."
 }
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`400` `InvalidParameterException`: the placeholder values failed the operation's input validation.
 
 ### DescribeDaemonRevisions
 
@@ -1370,7 +1557,12 @@ Describes one or more of your daemon revisions.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeDaemonRevisions
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 34
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "daemonRevisionArns": [
@@ -1380,21 +1572,18 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeDaemonRevisions
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 86
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
-  "daemonRevisions": [],
-  "failures": [
-    {
-      "arn": "example",
-      "reason": "MISSING"
-    }
-  ]
+  "__type": "InvalidParameterException",
+  "message": "The Daemon Revision ARN is invalid."
 }
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`400` `InvalidParameterException`: the placeholder values failed the operation's input validation.
 
 ### DescribeDaemonTaskDefinition
 
@@ -1402,7 +1591,12 @@ Describes a daemon task definition.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeDaemonTaskDefinition
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 34
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "daemonTaskDefinition": "example"
@@ -1412,6 +1606,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeDaemonTaskDefinition
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 83
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClientException",
@@ -1427,7 +1623,12 @@ Retrieves detailed information about an Express service, including current statu
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeExpressGatewayService
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "serviceArn": "arn:aws:ecs:us-east-1:000000000000:example/example"
@@ -1437,6 +1638,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeExpressGatewayService
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 68
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1450,9 +1653,16 @@ content-type: application/x-amz-json-1.1
 
 Describes a gateway, including its configuration, status, and the type-specific infrastructure settings that it uses.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeGateway
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "gateway": "example"
@@ -1460,16 +1670,35 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeGateway
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 535
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
-  "__type": "NotImplemented",
-  "message": "operation DescribeGateway is scaffolded but not implemented in this emulator"
-}
+  "gateway": {
+    "gatewayArn": "arn:aws:ecs:us-east-1:000000000000:gateway/example",
+    "name": "example",
+    "status": "ACTIVE",
+    "infrastructureRoleArn": "arn:aws:ecs:us-east-1:000000000000:example/example",
+    "deletionProtection": true,
+    "configuration": {
+      "hostSharedAlb": {
+        "networkConfiguration": {
+          "ipAddressType": "dualstack"
+        },
+        "scheme": "internet-facing",
+        "port": 443,
+        "protocol": "HTTPS",
+        "maxAlbCount": 10,
+        "currentAlbCount": 0,
+        "httpDesync": "defensive"
+      }
+    },
+… (7 more lines)
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeGatewayResources
 
@@ -1477,7 +1706,12 @@ Returns the infrastructure that a gateway has created and manages, so that you c
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeGatewayResources
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "gateway": "example"
@@ -1487,6 +1721,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeGatewayResources
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 125
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "NotImplemented",
@@ -1502,7 +1738,12 @@ Describes a gateway route, including its status, the service it routes traffic t
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeGatewayRoute
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 72
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "gatewayRouteArn": "arn:aws:ecs:us-east-1:000000000000:example/example"
@@ -1512,6 +1753,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeGatewayRoute
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 121
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "NotImplemented",
@@ -1527,7 +1770,12 @@ Describes one or more of your service deployments.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeServiceDeployments
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 37
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "serviceDeploymentArns": [
@@ -1537,21 +1785,18 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeServiceDeployments
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 87
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
-  "serviceDeployments": [],
-  "failures": [
-    {
-      "arn": "example",
-      "reason": "MISSING"
-    }
-  ]
+  "__type": "InvalidParameterException",
+  "message": "The Service ARN provided is invalid."
 }
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`400` `InvalidParameterException`: the placeholder values failed the operation's input validation.
 
 ### DescribeServiceRevisions
 
@@ -1559,7 +1804,12 @@ Describes one or more service revisions.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeServiceRevisions
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 35
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "serviceRevisionArns": [
@@ -1569,21 +1819,18 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeServiceRevisions
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 87
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
-  "serviceRevisions": [],
-  "failures": [
-    {
-      "arn": "example",
-      "reason": "MISSING"
-    }
-  ]
+  "__type": "InvalidParameterException",
+  "message": "The Service ARN provided is invalid."
 }
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`400` `InvalidParameterException`: the placeholder values failed the operation's input validation.
 
 ### DescribeServices
 
@@ -1591,7 +1838,12 @@ Describes the specified services running in your cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeServices
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "services": [
@@ -1603,6 +1855,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeServices
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 116
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "services": [],
@@ -1623,7 +1877,12 @@ Describes a task definition.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeTaskDefinition
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "taskDefinition": "example"
@@ -1633,6 +1892,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeTaskDefinition
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 76
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClientException",
@@ -1648,7 +1909,12 @@ Describes the task sets in the specified cluster and service.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeTaskSets
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 41
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "cluster": "example",
@@ -1659,6 +1925,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeTaskSets
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 68
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClusterNotFoundException",
@@ -1674,7 +1942,12 @@ Describes a specified task or tasks.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeTasks
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "tasks": [
@@ -1686,6 +1959,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DescribeTasks
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 102
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "tasks": [],
@@ -1706,7 +1981,12 @@ Removes the association between a gateway and an Amazon ECS cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DisassociateGatewayFromCluster
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 41
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "gateway": "example",
@@ -1717,6 +1997,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DisassociateGatewayFromCluster
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 131
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "NotImplemented",
@@ -1732,7 +2014,12 @@ This action is only used by the Amazon ECS agent, and it is not intended for use
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.DiscoverPollEndpoint
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1740,11 +2027,13 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.DiscoverPollEndpoint
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 161
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
-  "endpoint": "https://ecs-a-1.us-east-1.amazonaws.com/",
-  "telemetryEndpoint": "https://ecs-t-1.us-east-1.amazonaws.com/",
-  "serviceConnectEndpoint": "https://ecs-sc.us-east-1.amazonaws.com/"
+  "endpoint": "https://127.0.0.1:9297/",
+  "telemetryEndpoint": "https://127.0.0.1:9297/telemetry/",
+  "serviceConnectEndpoint": "https://127.0.0.1:9297/service-connect/"
 }
 ```
 
@@ -1756,7 +2045,12 @@ Runs a command remotely on a container within a task.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ExecuteCommand
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 58
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "command": "example",
@@ -1768,10 +2062,12 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ExecuteCommand
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 149
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
-  "message": "The specified task was not found. Specify a valid task ID and try again."
+  "message": "Amazon ECS only supports initiating interactive sessions, so you must specify true for this value."
 }
 ```
 
@@ -1783,7 +2079,12 @@ Retrieves the protection status of tasks in an Amazon ECS service.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.GetTaskProtection
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "cluster": "example"
@@ -1793,6 +2094,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.GetTaskProtection
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 68
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClusterNotFoundException",
@@ -1808,7 +2111,12 @@ Lists the account settings for a specified principal.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListAccountSettings
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1816,6 +2124,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListAccountSettings
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 15
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "settings": []
@@ -1830,7 +2140,12 @@ Lists the attributes for Amazon ECS resources within a specified target type and
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListAttributes
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 35
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "targetType": "container-instance"
@@ -1840,6 +2155,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListAttributes
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 17
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "attributes": []
@@ -1854,7 +2171,12 @@ Returns a list of existing clusters.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListClusters
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1862,6 +2184,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListClusters
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 70
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "clusterArns": [
@@ -1878,7 +2202,12 @@ Returns a list of container instances in a specified cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListContainerInstances
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1886,6 +2215,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListContainerInstances
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 28
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "containerInstanceArns": []
@@ -1900,7 +2231,12 @@ Returns a list of daemon deployments for a specified daemon.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListDaemonDeployments
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 66
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "daemonArn": "arn:aws:ecs:us-east-1:000000000000:example/example"
@@ -1910,6 +2246,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListDaemonDeployments
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 109
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClientException",
@@ -1925,7 +2263,12 @@ Returns a list of daemon task definitions that are registered to your account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListDaemonTaskDefinitions
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1933,6 +2276,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListDaemonTaskDefinitions
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 28
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "daemonTaskDefinitions": []
@@ -1947,7 +2292,12 @@ Returns a list of daemons.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListDaemons
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1955,6 +2305,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListDaemons
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 26
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "daemonSummariesList": []
@@ -1969,7 +2321,12 @@ Returns a list of the associations between gateways and clusters.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListGatewayClusterAssociations
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1977,6 +2334,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListGatewayClusterAssociations
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 131
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "NotImplemented",
@@ -1992,7 +2351,12 @@ Returns a list of gateway routes.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListGatewayRoutes
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -2000,6 +2364,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListGatewayRoutes
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 118
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "NotImplemented",
@@ -2015,7 +2381,12 @@ Returns a list of gateways in your account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListGateways
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -2023,6 +2394,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListGateways
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 113
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "NotImplemented",
@@ -2038,7 +2411,12 @@ This operation lists all the service deployments that meet the specified filter 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListServiceDeployments
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "service": "example"
@@ -2048,6 +2426,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListServiceDeployments
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 68
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ServiceNotFoundException",
@@ -2063,7 +2443,12 @@ Returns a list of services.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListServices
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -2071,6 +2456,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListServices
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 18
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "serviceArns": []
@@ -2085,7 +2472,12 @@ This operation lists all of the services that are associated with a Cloud Map na
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListServicesByNamespace
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "namespace": "example"
@@ -2095,6 +2487,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListServicesByNamespace
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 92
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "NamespaceNotFoundException",
@@ -2110,7 +2504,12 @@ List the tags for an Amazon ECS resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListTagsForResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 68
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "resourceArn": "arn:aws:ecs:us-east-1:000000000000:example/example"
@@ -2120,6 +2519,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListTagsForResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 250
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2135,7 +2536,12 @@ Returns a list of task definition families that are registered to your account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListTaskDefinitionFamilies
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -2143,6 +2549,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListTaskDefinitionFamilies
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 30
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "families": [
@@ -2159,7 +2567,12 @@ Returns a list of task definitions that are registered to your account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListTaskDefinitions
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -2167,6 +2580,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListTaskDefinitions
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 25
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "taskDefinitionArns": []
@@ -2181,7 +2596,12 @@ Returns a list of tasks.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListTasks
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -2189,6 +2609,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.ListTasks
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 15
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "taskArns": []
@@ -2203,7 +2625,12 @@ Modifies an account setting.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.PutAccountSetting
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "name": "serviceLongArnFormat",
@@ -2214,6 +2641,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.PutAccountSetting
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 74
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2229,7 +2658,12 @@ Modifies an account setting for all users on an account for whom no individual a
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.PutAccountSettingDefault
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "name": "serviceLongArnFormat",
@@ -2240,6 +2674,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.PutAccountSettingDefault
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 74
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2257,7 +2693,12 @@ Create or update an attribute on an Amazon ECS resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.PutAttributes
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 35
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "attributes": [
@@ -2271,14 +2712,16 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.PutAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 123
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
-  "__type": "ClusterNotFoundException",
-  "message": "Cluster not found."
+  "__type": "InvalidParameterException",
+  "message": "attributes.targetId is required to name the resource the attribute is on"
 }
 ```
 
-`400` `ClusterNotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `InvalidParameterException`: the placeholder values failed the operation's input validation.
 
 ### PutClusterCapacityProviders
 
@@ -2286,7 +2729,12 @@ Modifies the available capacity providers and the default capacity provider stra
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.PutClusterCapacityProviders
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 120
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "cluster": "example",
@@ -2304,6 +2752,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.PutClusterCapacityProviders
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 68
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClusterNotFoundException",
@@ -2319,7 +2769,12 @@ This action is only used by the Amazon ECS agent, and it is not intended for use
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.RegisterContainerInstance
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -2327,6 +2782,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.RegisterContainerInstance
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 120
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2342,7 +2799,12 @@ Registers a new daemon task definition from the supplied family and containerDef
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.RegisterDaemonTaskDefinition
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 65
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "family": "example",
@@ -2357,6 +2819,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.RegisterDaemonTaskDefinition
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 84
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClientException",
@@ -2372,7 +2836,12 @@ Registers a new task definition from the supplied family and containerDefinition
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.RegisterTaskDefinition
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 48
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "family": "example",
@@ -2385,6 +2854,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.RegisterTaskDefinition
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 84
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClientException",
@@ -2400,7 +2871,12 @@ Starts a new task using the specified task definition.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.RunTask
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 81
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "taskDefinition": "example",
@@ -2411,6 +2887,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.RunTask
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 66
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClientException",
@@ -2426,7 +2904,12 @@ Starts a new task from the specified task definition on the specified container 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.StartTask
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "containerInstances": [
@@ -2439,6 +2922,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.StartTask
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 93
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2454,7 +2939,12 @@ Stops an ongoing service deployment.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.StopServiceDeployment
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "serviceDeploymentArn": "arn:aws:ecs:us-east-1:000000000000:example/example"
@@ -2464,14 +2954,16 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.StopServiceDeployment
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 87
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
-  "__type": "ServiceDeploymentNotFoundException",
-  "message": "The service deployment ARN arn:aws:ecs:us-east-1:000000000000:example/example that you specified doesn't exist. You can use ListServiceDeployments to retrieve the service deployment ARNs."
+  "__type": "InvalidParameterException",
+  "message": "The Service ARN provided is invalid."
 }
 ```
 
-`400` `ServiceDeploymentNotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `InvalidParameterException`: the placeholder values failed the operation's input validation.
 
 ### StopTask
 
@@ -2479,7 +2971,12 @@ Stops a running task.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.StopTask
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 18
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "task": "example"
@@ -2489,6 +2986,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.StopTask
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 84
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2504,7 +3003,12 @@ This action is only used by the Amazon ECS agent, and it is not intended for use
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.SubmitAttachmentStateChanges
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 107
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "attachments": [
@@ -2519,6 +3023,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.SubmitAttachmentStateChanges
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 95
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2534,7 +3040,12 @@ This action is only used by the Amazon ECS agent, and it is not intended for use
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.SubmitContainerStateChange
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -2542,6 +3053,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.SubmitContainerStateChange
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 84
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2557,7 +3070,12 @@ This action is only used by the Amazon ECS agent, and it is not intended for use
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.SubmitTaskStateChange
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -2565,6 +3083,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.SubmitTaskStateChange
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 84
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2580,7 +3100,12 @@ Associates the specified tags to a resource with the specified resourceArn .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.TagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 80
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "resourceArn": "arn:aws:ecs:us-east-1:000000000000:example/example",
@@ -2593,6 +3118,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.TagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 250
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2608,7 +3135,12 @@ Deletes specified tags from a resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.UntagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 90
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "resourceArn": "arn:aws:ecs:us-east-1:000000000000:example/example",
@@ -2621,6 +3153,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.UntagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 250
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2638,7 +3172,12 @@ Modifies the parameters for a capacity provider.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateCapacityProvider
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 18
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "name": "example"
@@ -2648,6 +3187,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateCapacityProvider
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 128
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2663,7 +3204,12 @@ Updates the cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateCluster
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "cluster": "example"
@@ -2673,6 +3219,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateCluster
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 68
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClusterNotFoundException",
@@ -2688,7 +3236,12 @@ Modifies the settings to use for a cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateClusterSettings
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 37
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "cluster": "example",
@@ -2701,6 +3254,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateClusterSettings
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 74
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2716,7 +3271,12 @@ Updates the Amazon ECS container agent on a specified container instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateContainerAgent
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "containerInstance": "example"
@@ -2726,6 +3286,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateContainerAgent
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 99
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2741,7 +3303,12 @@ Modifies the status of an Amazon ECS container instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateContainerInstancesState
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "containerInstances": [
@@ -2754,6 +3321,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateContainerInstancesState
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 93
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2769,7 +3338,12 @@ Updates the specified daemon.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateDaemon
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 180
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "daemonArn": "arn:aws:ecs:us-east-1:000000000000:example/example",
@@ -2783,14 +3357,16 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateDaemon
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 185
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
-  "__type": "DaemonNotFoundException",
-  "message": "Daemon not found: arn:aws:ecs:us-east-1:000000000000:example/example"
+  "__type": "ClientException",
+  "message": "daemonTaskDefinition must be a family, family:revision or daemon-task-definition ARN; got \"arn:aws:ecs:us-east-1:000000000000:example/example\""
 }
 ```
 
-`400` `DaemonNotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `ClientException`.
 
 ### UpdateExpressGatewayService
 
@@ -2798,7 +3374,12 @@ Updates an existing Express service configuration.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateExpressGatewayService
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "serviceArn": "arn:aws:ecs:us-east-1:000000000000:example/example"
@@ -2808,6 +3389,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateExpressGatewayService
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 121
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2823,7 +3406,12 @@ Modifies the configuration of a gateway.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateGateway
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "gateway": "example"
@@ -2833,6 +3421,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateGateway
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 114
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "NotImplemented",
@@ -2848,7 +3438,12 @@ Modifies the parameters of a service.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateService
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "service": "example"
@@ -2858,6 +3453,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateService
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 68
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ServiceNotFoundException",
@@ -2873,7 +3470,12 @@ Modifies which task set in a service is the primary task set.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateServicePrimaryTaskSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 68
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "cluster": "example",
@@ -2885,6 +3487,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateServicePrimaryTaskSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 68
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClusterNotFoundException",
@@ -2900,7 +3504,12 @@ Updates the protection status of a task.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateTaskProtection
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "cluster": "example",
@@ -2914,6 +3523,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateTaskProtection
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 68
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClusterNotFoundException",
@@ -2929,7 +3540,12 @@ Modifies a task set.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateTaskSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182913Z
+Content-Length: 72
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ecs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "cluster": "example",
@@ -2942,6 +3558,8 @@ X-Amz-Target: AmazonEC2ContainerServiceV20141113.UpdateTaskSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 68
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ClusterNotFoundException",

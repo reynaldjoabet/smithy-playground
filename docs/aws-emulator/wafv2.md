@@ -11,7 +11,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `wafv2`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `wafv2`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListWebACLs`:
 
@@ -42,9 +42,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.CreateIPSet
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 109
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Content-Length: 102
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "docs-demo-blocked",
@@ -62,15 +62,15 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/wa
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 267
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "Summary": {
     "Name": "docs-demo-blocked",
-    "Id": "2cac5f68-91ae-4f38-94da-f67122c6b34c",
+    "Id": "352d8842-1b4e-4bc3-9cca-641b63a039fd",
     "Description": "",
-    "LockToken": "44834cf0-a986-482a-b67b-f68a453c218a",
-    "ARN": "arn:aws:wafv2:us-east-1:000000000000:regional/ipset/docs-demo-blocked/2cac5f68-91ae-4f38-94da-f67122c6b34c"
+    "LockToken": "c0394157-fc66-4422-950b-5e7eb401b24b",
+    "ARN": "arn:aws:wafv2:us-east-1:000000000000:regional/ipset/docs-demo-blocked/352d8842-1b4e-4bc3-9cca-641b63a039fd"
   }
 }
 ```
@@ -86,9 +86,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.CreateWebACL
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 548
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Content-Length: 516
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "docs-demo-acl",
@@ -102,7 +102,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/wa
       "Priority": 0,
       "Statement": {
         "IPSetReferenceStatement": {
-          "ARN": "arn:aws:wafv2:us-east-1:000000000000:regional/ipset/docs-demo-blocked/2cac5f68-91ae-4f38-94da-f67122c6b34c"
+          "ARN": "arn:aws:wafv2:us-east-1:000000000000:regional/ipset/docs-demo-blocked/352d8842-1b4e-4bc3-9cca-641b63a039fd"
         }
       },
       "Action": {
@@ -129,15 +129,15 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/wa
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 260
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "Summary": {
     "Name": "docs-demo-acl",
-    "Id": "107210c8-4e75-4ecb-88b5-016da1d497b6",
+    "Id": "05722548-a0c5-4902-9e46-fae9f54b8a6c",
     "Description": "",
-    "LockToken": "116737c2-9dac-4971-97ee-3d634e69bde3",
-    "ARN": "arn:aws:wafv2:us-east-1:000000000000:regional/webacl/docs-demo-acl/107210c8-4e75-4ecb-88b5-016da1d497b6"
+    "LockToken": "ad92ed3b-d828-49ef-a87d-763fa94a72fa",
+    "ARN": "arn:aws:wafv2:us-east-1:000000000000:regional/webacl/docs-demo-acl/05722548-a0c5-4902-9e46-fae9f54b8a6c"
   }
 }
 ```
@@ -153,14 +153,14 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetWebACL
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 92
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Content-Length: 87
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "docs-demo-acl",
   "Scope": "REGIONAL",
-  "Id": "107210c8-4e75-4ecb-88b5-016da1d497b6"
+  "Id": "05722548-a0c5-4902-9e46-fae9f54b8a6c"
 }
 ```
 
@@ -170,13 +170,13 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/wa
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 952
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "WebACL": {
     "Name": "docs-demo-acl",
-    "Id": "107210c8-4e75-4ecb-88b5-016da1d497b6",
-    "ARN": "arn:aws:wafv2:us-east-1:000000000000:regional/webacl/docs-demo-acl/107210c8-4e75-4ecb-88b5-016da1d497b6",
+    "Id": "05722548-a0c5-4902-9e46-fae9f54b8a6c",
+    "ARN": "arn:aws:wafv2:us-east-1:000000000000:regional/webacl/docs-demo-acl/05722548-a0c5-4902-9e46-fae9f54b8a6c",
     "DefaultAction": {
       "Allow": {}
     },
@@ -187,7 +187,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
         "Priority": 0,
         "Statement": {
           "IPSetReferenceStatement": {
-            "ARN": "arn:aws:wafv2:us-east-1:000000000000:regional/ipset/docs-demo-blocked/2cac5f68-91ae-4f38-94da-f67122c6b34c"
+            "ARN": "arn:aws:wafv2:us-east-1:000000000000:regional/ipset/docs-demo-blocked/352d8842-1b4e-4bc3-9cca-641b63a039fd"
           }
         },
         "Action": {
@@ -213,7 +213,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
       "ALBLowReputationMode": "ACTIVE_UNDER_DDOS"
     }
   },
-  "LockToken": "116737c2-9dac-4971-97ee-3d634e69bde3"
+  "LockToken": "ad92ed3b-d828-49ef-a87d-763fa94a72fa"
 }
 ```
 
@@ -228,15 +228,15 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DeleteIPSet
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 149
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Content-Length: 142
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "docs-demo-blocked",
   "Scope": "REGIONAL",
-  "Id": "2cac5f68-91ae-4f38-94da-f67122c6b34c",
-  "LockToken": "44834cf0-a986-482a-b67b-f68a453c218a"
+  "Id": "352d8842-1b4e-4bc3-9cca-641b63a039fd",
+  "LockToken": "c0394157-fc66-4422-950b-5e7eb401b24b"
 }
 ```
 
@@ -246,7 +246,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/wa
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 content-length: 192
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFAssociatedItemException",
@@ -265,14 +265,14 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DeleteWebACL
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 145
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Content-Length: 138
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "docs-demo-acl",
   "Scope": "REGIONAL",
-  "Id": "107210c8-4e75-4ecb-88b5-016da1d497b6",
+  "Id": "05722548-a0c5-4902-9e46-fae9f54b8a6c",
   "LockToken": "00000000-0000-0000-0000-000000000000"
 }
 ```
@@ -283,7 +283,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/wa
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 content-length: 177
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFOptimisticLockException",
@@ -302,15 +302,15 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DeleteWebACL
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 145
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Content-Length: 138
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "docs-demo-acl",
   "Scope": "REGIONAL",
-  "Id": "107210c8-4e75-4ecb-88b5-016da1d497b6",
-  "LockToken": "116737c2-9dac-4971-97ee-3d634e69bde3"
+  "Id": "05722548-a0c5-4902-9e46-fae9f54b8a6c",
+  "LockToken": "ad92ed3b-d828-49ef-a87d-763fa94a72fa"
 }
 ```
 
@@ -320,7 +320,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/wa
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 2
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {}
 ```
@@ -336,15 +336,15 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DeleteIPSet
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 149
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Content-Length: 142
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "docs-demo-blocked",
   "Scope": "REGIONAL",
-  "Id": "2cac5f68-91ae-4f38-94da-f67122c6b34c",
-  "LockToken": "44834cf0-a986-482a-b67b-f68a453c218a"
+  "Id": "352d8842-1b4e-4bc3-9cca-641b63a039fd",
+  "LockToken": "c0394157-fc66-4422-950b-5e7eb401b24b"
 }
 ```
 
@@ -354,14 +354,14 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/wa
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 2
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {}
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 59 operations, 15 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error.
 
@@ -371,7 +371,12 @@ Associates a web ACL with a resource, to protect the resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.AssociateWebACL
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 137
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "WebACLArn": "arn:aws:wafv2:us-east-1:000000000000:example/example",
@@ -382,6 +387,8 @@ X-Amz-Target: AWSWAF_20190729.AssociateWebACL
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 480
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidParameterException",
@@ -400,7 +407,12 @@ Returns the web ACL capacity unit (WCU) requirements for a specified scope and s
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.CheckCapacity
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 187
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Scope": "CLOUDFRONT",
@@ -422,6 +434,8 @@ X-Amz-Target: AWSWAF_20190729.CheckCapacity
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 14
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "Capacity": 0
@@ -436,7 +450,12 @@ Creates an API key that contains a set of token domains.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.CreateAPIKey
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Scope": "CLOUDFRONT",
@@ -449,6 +468,8 @@ X-Amz-Target: AWSWAF_20190729.CreateAPIKey
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 109
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "APIKey": "<redacted>"
@@ -463,7 +484,12 @@ Creates an IPSet , which you use to identify web requests that originate from sp
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.CreateIPSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 89
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -478,13 +504,15 @@ X-Amz-Target: AWSWAF_20190729.CreateIPSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 266
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidParameterException",
-  "message": "Error reason: \"example\" is not in CIDR notation; expected <address>/<prefix length>, field: IP_ADDRESS, parameter: example",
+  "message": "Error reason: The parameter contains formatting that is not valid., field: IP_ADDRESS, parameter: example",
   "Field": "IP_ADDRESS",
   "Parameter": "example",
-  "Reason": "\"example\" is not in CIDR notation; expected <address>/<prefix length>"
+  "Reason": "The parameter contains formatting that is not valid."
 }
 ```
 
@@ -496,7 +524,12 @@ Creates a RegexPatternSet , which you reference in a RegexPatternSetReferenceSta
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.CreateRegexPatternSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 68
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -510,14 +543,16 @@ X-Amz-Target: AWSWAF_20190729.CreateRegexPatternSet
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 255
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "Summary": {
     "Name": "example",
-    "Id": "59176e7b-1c4a-440e-902b-079ba572f7d9",
+    "Id": "107e0077-acac-4189-9aa5-232916ade12f",
     "Description": "",
-    "LockToken": "682728b5-e2df-4be8-8e0d-aa643f46ea75",
-    "ARN": "arn:aws:wafv2:us-east-1:000000000000:global/regexpatternset/example/59176e7b-1c4a-440e-902b-079ba572f7d9"
+    "LockToken": "1bf784aa-6a6e-461b-bd66-8265acf6a690",
+    "ARN": "arn:aws:wafv2:us-east-1:000000000000:global/regexpatternset/example/107e0077-acac-4189-9aa5-232916ade12f"
   }
 }
 ```
@@ -530,7 +565,12 @@ Creates a RuleGroup per the specifications provided.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.CreateRuleGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 160
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -547,14 +587,16 @@ X-Amz-Target: AWSWAF_20190729.CreateRuleGroup
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 249
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "Summary": {
     "Name": "example",
-    "Id": "1b7b1042-625b-4169-a6d5-f16de13ee51e",
+    "Id": "9e008753-92b4-4543-9c31-2562882200ca",
     "Description": "",
-    "LockToken": "36b9f3dc-9596-4325-ad6b-29b7b8bcb372",
-    "ARN": "arn:aws:wafv2:us-east-1:000000000000:global/rulegroup/example/1b7b1042-625b-4169-a6d5-f16de13ee51e"
+    "LockToken": "104b7f86-f666-4a35-a7bf-3b70d357e963",
+    "ARN": "arn:aws:wafv2:us-east-1:000000000000:global/rulegroup/example/9e008753-92b4-4543-9c31-2562882200ca"
   }
 }
 ```
@@ -567,7 +609,12 @@ Creates a WebACL per the specifications provided.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.CreateWebACL
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 166
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -582,21 +629,21 @@ X-Amz-Target: AWSWAF_20190729.CreateWebACL
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 346
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "Summary": {
-    "Name": "example",
-    "Id": "a9a7d870-bc6c-42d5-b787-0082e39925a8",
-    "Description": "",
-    "LockToken": "136ce73d-b08c-4932-abeb-9d4d99e499cf",
-    "ARN": "arn:aws:wafv2:us-east-1:000000000000:global/webacl/example/a9a7d870-bc6c-42d5-b787-0082e39925a8"
-  }
+  "__type": "WAFInvalidParameterException",
+  "message": "Error reason: You have used none or multiple values for a field that requires exactly one value., field: DEFAULT_ACTION, parameter: DefaultAction",
+  "Field": "DEFAULT_ACTION",
+  "Parameter": "DefaultAction",
+  "Reason": "You have used none or multiple values for a field that requires exactly one value."
 }
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values. See [the walkthrough](#2-createwebacl) for a successful call.
+`400` `WAFInvalidParameterException`: the placeholder values failed the operation's input validation. See [the walkthrough](#2-createwebacl) for a successful call.
 
 ### DeleteAPIKey
 
@@ -604,7 +651,12 @@ Deletes the specified API key.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DeleteAPIKey
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 130
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Scope": "CLOUDFRONT",
@@ -613,18 +665,15 @@ X-Amz-Target: AWSWAF_20190729.DeleteAPIKey
 ```
 
 ```http
-HTTP/1.1 400 Bad Request
+HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 2
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
-{
-  "__type": "WAFInvalidParameterException",
-  "message": "Error reason: The parameter contains formatting that is not valid., field: null, parameter: example",
-  "Parameter": "example",
-  "Reason": "The parameter contains formatting that is not valid."
-}
+{}
 ```
 
-`400` `WAFInvalidParameterException`: the placeholder values failed the operation's input validation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DeleteFirewallManagerRuleGroups
 
@@ -632,7 +681,12 @@ Deletes all rule groups that are managed by Firewall Manager from the specified 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DeleteFirewallManagerRuleGroups
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 96
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "WebACLArn": "arn:aws:wafv2:us-east-1:000000000000:example/example",
@@ -643,6 +697,8 @@ X-Amz-Target: AWSWAF_20190729.DeleteFirewallManagerRuleGroups
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 234
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -658,7 +714,12 @@ Deletes the specified IPSet .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DeleteIPSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 76
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -671,6 +732,8 @@ X-Amz-Target: AWSWAF_20190729.DeleteIPSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 378
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -686,7 +749,12 @@ Deletes the LoggingConfiguration from the specified web ACL.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DeleteLoggingConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:wafv2:us-east-1:000000000000:example/example"
@@ -696,6 +764,8 @@ X-Amz-Target: AWSWAF_20190729.DeleteLoggingConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 480
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidParameterException",
@@ -714,7 +784,12 @@ Permanently deletes an IAM policy from the specified rule group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DeletePermissionPolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:wafv2:us-east-1:000000000000:example/example"
@@ -724,6 +799,8 @@ X-Amz-Target: AWSWAF_20190729.DeletePermissionPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 480
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidParameterException",
@@ -742,7 +819,12 @@ Deletes the specified RegexPatternSet .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DeleteRegexPatternSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 76
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -755,6 +837,8 @@ X-Amz-Target: AWSWAF_20190729.DeleteRegexPatternSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 378
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -770,7 +854,12 @@ Deletes the specified RuleGroup .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DeleteRuleGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 76
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -783,6 +872,8 @@ X-Amz-Target: AWSWAF_20190729.DeleteRuleGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 378
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -798,7 +889,12 @@ Deletes the specified WebACL .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DeleteWebACL
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 76
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -811,6 +907,8 @@ X-Amz-Target: AWSWAF_20190729.DeleteWebACL
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 378
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -826,7 +924,12 @@ Provides high-level information for the Amazon Web Services Managed Rules rule g
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DescribeAllManagedProducts
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Scope": "CLOUDFRONT"
@@ -836,28 +939,30 @@ X-Amz-Target: AWSWAF_20190729.DescribeAllManagedProducts
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 8195
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "ManagedProducts": [
     {
-      "VendorName": "AWS",
-      "ManagedRuleSetName": "AWSManagedRulesCommonRuleSet",
-      "ProductId": "AWSManagedRulesCommonRuleSet",
-      "ProductTitle": "Core rule set (CRS)",
-      "ProductDescription": "Provides protection against exploitation of a wide range of vulnerabilities, including high risk and commonly occurring vulnerabilities described in OWASP publications.",
-      "SnsTopicArn": "arn:aws:sns:us-east-1:000000000000:aws-managed-waf-rule-notifications",
+      "VendorName": "Cyber Security Cloud Inc.",
+      "ManagedRuleSetName": "CyberSecurityCloud-APIGatewayServerless-",
+      "ProductId": "8bbf295b-34b3-40c0-bee7-5ba8f602705f",
+      "ProductLink": "http://aws.amazon.com/marketplace/pp/B081TKTBQ8",
+      "ProductTitle": "Cyber Security Cloud Managed Rules for AWS WAF -API Gateway/Serverless-",
+      "ProductDescription": "The Cyber Security Cloud OWASP ruleset is designed to mitigate and minimize vulnerabilities, including all those on OWASP API Security/Serverless Top 10 Threats.",
+      "SnsTopicArn": "arn:aws:sns:us-east-1:343255486711:CyberSecurityCloud-ManagedRule",
       "IsVersioningSupported": true,
       "IsAdvancedManagedRuleSet": false
     },
     {
-      "VendorName": "AWS",
-      "ManagedRuleSetName": "AWSManagedRulesAdminProtectionRuleSet",
-      "ProductId": "AWSManagedRulesAdminProtectionRuleSet",
-      "ProductTitle": "Admin protection",
-      "ProductDescription": "Blocks external access to exposed administrative pages.",
-      "SnsTopicArn": "arn:aws:sns:us-east-1:000000000000:aws-managed-waf-rule-notifications",
-      "IsVersioningSupported": true,
-… (134 more lines)
+      "VendorName": "Cyber Security Cloud Inc.",
+      "ManagedRuleSetName": "CyberSecurityCloud-HighSecurityOWASPSet-",
+      "ProductId": "fa8c6ca7-12c3-4e3f-8524-782177f2f2bd",
+      "ProductLink": "http://aws.amazon.com/marketplace/pp/B081TD6XL1",
+      "ProductTitle": "Cyber Security Cloud Managed Rules for AWS WAF -HighSecurity OWASP Set-",
+      "ProductDescription": "The Cyber Security Cloud OWASP ruleset is designed to mitigate and minimize vulnerabilities, including all those on OWASP Top 10 Web Application Threats list.",
+… (156 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -868,7 +973,12 @@ Provides high-level information for the managed rule groups owned by a specific 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DescribeManagedProductsByVendor
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "VendorName": "example",
@@ -879,6 +989,8 @@ X-Amz-Target: AWSWAF_20190729.DescribeManagedProductsByVendor
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 22
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "ManagedProducts": []
@@ -893,7 +1005,12 @@ Provides high-level information for a managed rule group, including descriptions
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DescribeManagedRuleGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 62
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "VendorName": "example",
@@ -905,6 +1022,8 @@ X-Amz-Target: AWSWAF_20190729.DescribeManagedRuleGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 143
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFNonexistentItemException",
@@ -920,7 +1039,12 @@ Disassociates the specified resource from its web ACL association, if it has one
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.DisassociateWebACL
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:wafv2:us-east-1:000000000000:example/example"
@@ -930,6 +1054,8 @@ X-Amz-Target: AWSWAF_20190729.DisassociateWebACL
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 480
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidParameterException",
@@ -948,7 +1074,12 @@ Generates a presigned download URL for the specified release of the mobile SDK.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GenerateMobileSdkReleaseUrl
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Platform": "IOS",
@@ -959,6 +1090,8 @@ X-Amz-Target: AWSWAF_20190729.GenerateMobileSdkReleaseUrl
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 102
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidOperationException",
@@ -974,7 +1107,12 @@ Returns your API key in decrypted form.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetDecryptedAPIKey
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 130
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Scope": "CLOUDFRONT",
@@ -985,16 +1123,16 @@ X-Amz-Target: AWSWAF_20190729.GetDecryptedAPIKey
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 132
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "__type": "WAFInvalidParameterException",
-  "message": "Error reason: The parameter contains formatting that is not valid., field: null, parameter: example",
-  "Parameter": "example",
-  "Reason": "The parameter contains formatting that is not valid."
+  "__type": "WAFNonexistentItemException",
+  "Message": "AWS WAF couldn’t perform the operation because your resource doesn’t exist."
 }
 ```
 
-`400` `WAFInvalidParameterException`: the placeholder values failed the operation's input validation.
+`400` `WAFNonexistentItemException`.
 
 ### GetIPSet
 
@@ -1002,7 +1140,12 @@ Retrieves the specified IPSet .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetIPSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -1014,6 +1157,8 @@ X-Amz-Target: AWSWAF_20190729.GetIPSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 221
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1029,7 +1174,12 @@ Returns the LoggingConfiguration for the specified web ACL.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetLoggingConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:wafv2:us-east-1:000000000000:example/example"
@@ -1039,6 +1189,8 @@ X-Amz-Target: AWSWAF_20190729.GetLoggingConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 480
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidParameterException",
@@ -1057,7 +1209,12 @@ Retrieves the specified managed rule set.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetManagedRuleSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -1069,6 +1226,8 @@ X-Amz-Target: AWSWAF_20190729.GetManagedRuleSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 221
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1084,7 +1243,12 @@ Retrieves information for the specified mobile SDK release, including release no
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetMobileSdkRelease
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Platform": "IOS",
@@ -1095,6 +1259,8 @@ X-Amz-Target: AWSWAF_20190729.GetMobileSdkRelease
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 102
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidOperationException",
@@ -1110,7 +1276,12 @@ Returns the IAM policy that is attached to the specified rule group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetPermissionPolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:wafv2:us-east-1:000000000000:example/example"
@@ -1120,6 +1291,8 @@ X-Amz-Target: AWSWAF_20190729.GetPermissionPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 480
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidParameterException",
@@ -1138,7 +1311,12 @@ Retrieves the IP addresses that are currently blocked by a rate-based rule insta
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetRateBasedStatementManagedKeys
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 87
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Scope": "CLOUDFRONT",
@@ -1151,6 +1329,8 @@ X-Amz-Target: AWSWAF_20190729.GetRateBasedStatementManagedKeys
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 227
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1166,7 +1346,12 @@ Retrieves the specified RegexPatternSet .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetRegexPatternSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -1178,6 +1363,8 @@ X-Amz-Target: AWSWAF_20190729.GetRegexPatternSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 221
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1193,7 +1380,12 @@ Retrieves ranked monetization statistics.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetRevenueStatistics
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 164
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "StatisticType": "TOP_SOURCES_BY_REVENUE",
@@ -1209,6 +1401,8 @@ X-Amz-Target: AWSWAF_20190729.GetRevenueStatistics
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 83
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1224,7 +1418,12 @@ Retrieves a summary of monetization revenue for the specified time window.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetRevenueStatisticsSummary
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 123
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TimeWindow": {
@@ -1239,6 +1438,8 @@ X-Amz-Target: AWSWAF_20190729.GetRevenueStatisticsSummary
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 83
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1254,7 +1455,12 @@ Retrieves time series data for monetization revenue.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetRevenueStatisticsTimeSeries
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 178
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "StatisticType": "DATE_HISTOGRAM",
@@ -1271,6 +1477,8 @@ X-Amz-Target: AWSWAF_20190729.GetRevenueStatisticsTimeSeries
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 83
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1286,7 +1494,12 @@ Retrieves the specified RuleGroup .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetRuleGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1294,6 +1507,8 @@ X-Amz-Target: AWSWAF_20190729.GetRuleGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 284
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidParameterException",
@@ -1312,7 +1527,12 @@ Gets detailed information about a specified number of requests--a sample--that W
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetSampledRequests
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 212
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "WebAclArn": "arn:aws:wafv2:us-east-1:000000000000:example/example",
@@ -1329,6 +1549,8 @@ X-Amz-Target: AWSWAF_20190729.GetSampledRequests
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 83
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1344,7 +1566,12 @@ Retrieves aggregated statistics about the top URI paths accessed by bot traffic 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetTopPathStatisticsByTraffic
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 216
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "WebAclArn": "arn:aws:wafv2:us-east-1:000000000000:example/example",
@@ -1361,6 +1588,8 @@ X-Amz-Target: AWSWAF_20190729.GetTopPathStatisticsByTraffic
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 83
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1376,7 +1605,12 @@ Retrieves the specified WebACL .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetWebACL
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1384,6 +1618,8 @@ X-Amz-Target: AWSWAF_20190729.GetWebACL
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 155
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "AccessDeniedException",
@@ -1399,7 +1635,12 @@ Retrieves the WebACL for the specified resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.GetWebACLForResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:wafv2:us-east-1:000000000000:example/example"
@@ -1409,6 +1650,8 @@ X-Amz-Target: AWSWAF_20190729.GetWebACLForResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 480
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidParameterException",
@@ -1427,7 +1670,12 @@ Retrieves a list of the API keys that you've defined for the specified scope.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.ListAPIKeys
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Scope": "CLOUDFRONT"
@@ -1437,20 +1685,12 @@ X-Amz-Target: AWSWAF_20190729.ListAPIKeys
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 120
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "NextMarker": "00000000000000000001",
-  "APIKeySummaries": [
-    {
-      "TokenDomains": [
-        "example"
-      ],
-      "APIKey": "<redacted>",
-      "CreationTimestamp": 1794831084.701,
-      "Version": 1
-    }
-  ],
-  "ApplicationIntegrationURL": "https://aa730e0b0523ce83942711e1baf4286e.us-east-1.captcha-sdk.awswaf.com/aa730e0b0523ce83942711e1baf4286e/"
+  "APIKeySummaries": [],
+  "ApplicationIntegrationURL": "https://aa730e0b0523.us-east-1.captcha-sdk.awswaf.com/aa730e0b0523/"
 }
 ```
 
@@ -1462,7 +1702,12 @@ Returns a list of the available versions for the specified managed rule group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.ListAvailableManagedRuleGroupVersions
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 62
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "VendorName": "example",
@@ -1474,6 +1719,8 @@ X-Amz-Target: AWSWAF_20190729.ListAvailableManagedRuleGroupVersions
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 143
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFNonexistentItemException",
@@ -1489,7 +1736,12 @@ Retrieves an array of managed rule groups that are available for you to use.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.ListAvailableManagedRuleGroups
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Scope": "CLOUDFRONT"
@@ -1499,6 +1751,8 @@ X-Amz-Target: AWSWAF_20190729.ListAvailableManagedRuleGroups
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 5084
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "NextMarker": "AWSManagedRulesAntiDDoSRuleSet",
@@ -1531,7 +1785,12 @@ Retrieves an array of IPSetSummary objects for the IP sets that you manage.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.ListIPSets
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Scope": "CLOUDFRONT"
@@ -1541,6 +1800,8 @@ X-Amz-Target: AWSWAF_20190729.ListIPSets
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 13
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "IPSets": []
@@ -1555,7 +1816,12 @@ Retrieves an array of your LoggingConfiguration objects.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.ListLoggingConfigurations
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Scope": "CLOUDFRONT"
@@ -1565,6 +1831,8 @@ X-Amz-Target: AWSWAF_20190729.ListLoggingConfigurations
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 28
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "LoggingConfigurations": []
@@ -1579,7 +1847,12 @@ Retrieves the managed rule sets that you own.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.ListManagedRuleSets
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Scope": "CLOUDFRONT"
@@ -1589,6 +1862,8 @@ X-Amz-Target: AWSWAF_20190729.ListManagedRuleSets
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 22
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "ManagedRuleSets": []
@@ -1603,7 +1878,12 @@ Retrieves a list of the available releases for the mobile SDK and the specified 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.ListMobileSdkReleases
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 18
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Platform": "IOS"
@@ -1613,6 +1893,8 @@ X-Amz-Target: AWSWAF_20190729.ListMobileSdkReleases
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 102
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidOperationException",
@@ -1628,7 +1910,12 @@ Retrieves an array of RegexPatternSetSummary objects for the regex pattern sets 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.ListRegexPatternSets
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Scope": "CLOUDFRONT"
@@ -1638,16 +1925,18 @@ X-Amz-Target: AWSWAF_20190729.ListRegexPatternSets
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 289
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "NextMarker": "example",
   "RegexPatternSets": [
     {
       "Name": "example",
-      "Id": "59176e7b-1c4a-440e-902b-079ba572f7d9",
+      "Id": "107e0077-acac-4189-9aa5-232916ade12f",
       "Description": "",
-      "LockToken": "682728b5-e2df-4be8-8e0d-aa643f46ea75",
-      "ARN": "arn:aws:wafv2:us-east-1:000000000000:global/regexpatternset/example/59176e7b-1c4a-440e-902b-079ba572f7d9"
+      "LockToken": "1bf784aa-6a6e-461b-bd66-8265acf6a690",
+      "ARN": "arn:aws:wafv2:us-east-1:000000000000:global/regexpatternset/example/107e0077-acac-4189-9aa5-232916ade12f"
     }
   ]
 }
@@ -1661,7 +1950,12 @@ Retrieves an array of the Amazon Resource Names (ARNs) for the resources that ar
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.ListResourcesForWebACL
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 68
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "WebACLArn": "arn:aws:wafv2:us-east-1:000000000000:example/example"
@@ -1671,6 +1965,8 @@ X-Amz-Target: AWSWAF_20190729.ListResourcesForWebACL
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 480
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidParameterException",
@@ -1689,7 +1985,12 @@ Retrieves an array of RuleGroupSummary objects for the rule groups that you mana
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.ListRuleGroups
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Scope": "CLOUDFRONT"
@@ -1699,16 +2000,18 @@ X-Amz-Target: AWSWAF_20190729.ListRuleGroups
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 277
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "NextMarker": "example",
   "RuleGroups": [
     {
       "Name": "example",
-      "Id": "1b7b1042-625b-4169-a6d5-f16de13ee51e",
+      "Id": "9e008753-92b4-4543-9c31-2562882200ca",
       "Description": "",
-      "LockToken": "36b9f3dc-9596-4325-ad6b-29b7b8bcb372",
-      "ARN": "arn:aws:wafv2:us-east-1:000000000000:global/rulegroup/example/1b7b1042-625b-4169-a6d5-f16de13ee51e"
+      "LockToken": "104b7f86-f666-4a35-a7bf-3b70d357e963",
+      "ARN": "arn:aws:wafv2:us-east-1:000000000000:global/rulegroup/example/9e008753-92b4-4543-9c31-2562882200ca"
     }
   ]
 }
@@ -1722,7 +2025,12 @@ Retrieves individual settlement transaction records for monetization.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.ListSettlementRecords
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 123
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TimeWindow": {
@@ -1737,6 +2045,8 @@ X-Amz-Target: AWSWAF_20190729.ListSettlementRecords
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 83
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1752,7 +2062,12 @@ Retrieves the TagInfoForResource for the specified resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.ListTagsForResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceARN": "arn:aws:wafv2:us-east-1:000000000000:example/example"
@@ -1762,6 +2077,8 @@ X-Amz-Target: AWSWAF_20190729.ListTagsForResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 480
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidParameterException",
@@ -1780,7 +2097,12 @@ Retrieves an array of WebACLSummary objects for the web ACLs that you manage.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.ListWebACLs
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Scope": "CLOUDFRONT"
@@ -1790,18 +2112,11 @@ X-Amz-Target: AWSWAF_20190729.ListWebACLs
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 14
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "NextMarker": "example",
-  "WebACLs": [
-    {
-      "Name": "example",
-      "Id": "a9a7d870-bc6c-42d5-b787-0082e39925a8",
-      "Description": "",
-      "LockToken": "136ce73d-b08c-4932-abeb-9d4d99e499cf",
-      "ARN": "arn:aws:wafv2:us-east-1:000000000000:global/webacl/example/a9a7d870-bc6c-42d5-b787-0082e39925a8"
-    }
-  ]
+  "WebACLs": []
 }
 ```
 
@@ -1813,7 +2128,12 @@ Enables the specified LoggingConfiguration , to start logging from a web ACL, ac
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.PutLoggingConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 144
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "LoggingConfiguration": {
@@ -1828,6 +2148,8 @@ X-Amz-Target: AWSWAF_20190729.PutLoggingConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 480
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidParameterException",
@@ -1846,7 +2168,12 @@ Defines the versions of your managed rule set that you are offering to the custo
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.PutManagedRuleSetVersions
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 76
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -1859,6 +2186,8 @@ X-Amz-Target: AWSWAF_20190729.PutManagedRuleSetVersions
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 221
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1874,7 +2203,12 @@ Use this to share a rule group with other accounts.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.PutPermissionPolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 89
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:wafv2:us-east-1:000000000000:example/example",
@@ -1885,6 +2219,8 @@ X-Amz-Target: AWSWAF_20190729.PutPermissionPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 154
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidPermissionPolicyException",
@@ -1900,7 +2236,12 @@ Associates tags with the specified Amazon Web Services resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.TagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 115
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceARN": "arn:aws:wafv2:us-east-1:000000000000:example/example",
@@ -1916,6 +2257,8 @@ X-Amz-Target: AWSWAF_20190729.TagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 480
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidParameterException",
@@ -1934,7 +2277,12 @@ Disassociates tags from an Amazon Web Services resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.UntagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 92
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceARN": "arn:aws:wafv2:us-east-1:000000000000:example/example",
@@ -1947,6 +2295,8 @@ X-Amz-Target: AWSWAF_20190729.UntagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 480
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "WAFInvalidParameterException",
@@ -1965,7 +2315,12 @@ Updates the specified IPSet .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.UpdateIPSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 100
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -1981,6 +2336,8 @@ X-Amz-Target: AWSWAF_20190729.UpdateIPSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 378
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -1996,7 +2353,12 @@ Updates the expiration information for your managed rule set.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.UpdateManagedRuleSetVersionExpiryDate
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 145
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -2011,6 +2373,8 @@ X-Amz-Target: AWSWAF_20190729.UpdateManagedRuleSetVersionExpiryDate
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 83
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -2026,7 +2390,12 @@ Updates the specified RegexPatternSet .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.UpdateRegexPatternSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 105
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -2042,6 +2411,8 @@ X-Amz-Target: AWSWAF_20190729.UpdateRegexPatternSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 378
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -2057,7 +2428,12 @@ Updates the specified RuleGroup .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.UpdateRuleGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 184
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -2075,6 +2451,8 @@ X-Amz-Target: AWSWAF_20190729.UpdateRuleGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 378
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",
@@ -2090,7 +2468,12 @@ Updates the specified WebACL .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSWAF_20190729.UpdateWebACL
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 203
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/wafv2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -2109,6 +2492,8 @@ X-Amz-Target: AWSWAF_20190729.UpdateWebACL
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 378
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "ValidationException",

@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `sns`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `sns`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListTopics`:
 
@@ -40,9 +40,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: AmazonSQS.CreateQueue
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
-Content-Length: 29
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sqs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sqs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "QueueName": "order-events"
@@ -54,12 +54,12 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sq
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: 4aa8cc81-2276-4377-8e8e-a2493c841d47
-content-length: 76
-date: Mon, 16 Nov 2026 12:05:21 GMT
+x-amzn-requestid: 03ed68fe-a0b0-4f06-a6ab-aab184281ce5
+content-length: 63
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
-  "QueueUrl": "https://sqs.us-east-1.amazonaws.com/000000000000/order-events"
+  "QueueUrl": "https://127.0.0.1:9297/000000000000/order-events"
 }
 ```
 
@@ -74,12 +74,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: AmazonSQS.GetQueueAttributes
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
-Content-Length: 109
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sqs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 93
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sqs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "QueueUrl": "https://sqs.us-east-1.amazonaws.com/000000000000/order-events",
+  "QueueUrl": "https://127.0.0.1:9297/000000000000/order-events",
   "AttributeNames": [
     "QueueArn"
   ]
@@ -91,9 +91,9 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sq
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: b1853262-6d5f-4ce7-b9f0-5e4cbbf70102
+x-amzn-requestid: 25cc3793-c6f3-4754-a03c-6f32f2bdeb3d
 content-length: 77
-date: Mon, 16 Nov 2026 12:05:21 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "Attributes": {
@@ -112,9 +112,9 @@ The topic's ARN is the handle every later call uses.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
+X-Amz-Date: 20261126T183051Z
 Content-Length: 55
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateTopic
 &Version=2010-03-31
@@ -127,14 +127,14 @@ Action=CreateTopic
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 295
-date: Mon, 16 Nov 2026 12:05:21 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 <CreateTopicResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
   <CreateTopicResult>
     <TopicArn>arn:aws:sns:us-east-1:000000000000:order-events</TopicArn>
   </CreateTopicResult>
   <ResponseMetadata>
-    <RequestId>325450d9-eefd-4abf-bb8a-b8e877fe204b</RequestId>
+    <RequestId>cb72a9d2-8d6d-4cec-a63f-1d9a2ce337c3</RequestId>
   </ResponseMetadata>
 </CreateTopicResponse>
 ```
@@ -150,12 +150,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: AmazonSQS.SetQueueAttributes
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
-Content-Length: 437
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sqs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 420
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sqs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "QueueUrl": "https://sqs.us-east-1.amazonaws.com/000000000000/order-events",
+  "QueueUrl": "https://127.0.0.1:9297/000000000000/order-events",
   "Attributes": {
     "Policy": "{\"Version\": \"2012-10-17\", \"Statement\": [{\"Effect\": \"Allow\", \"Principal\": {\"Service\": \"sns.amazonaws.com\"}, \"Action\": \"sqs:SendMessage\", \"Resource\": \"arn:aws:sqs:us-east-1:000000000000:order-events\", \"Condition\": {\"ArnEquals\": {\"aws:SourceArn\": \"arn:aws:sns:us-east-1:000000000000:order-events\"}}}]}"
   }
@@ -167,9 +167,9 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sq
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: a09fef60-e7d3-45af-a12e-40d0bde38bb3
+x-amzn-requestid: cd351a33-381c-4e16-9c69-a17f1f80b9e6
 content-length: 2
-date: Mon, 16 Nov 2026 12:05:21 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {}
 ```
@@ -184,9 +184,9 @@ An SQS subscription is confirmed immediately, so the response returns a real sub
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
+X-Amz-Date: 20261126T183051Z
 Content-Length: 209
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=Subscribe
 &Version=2010-03-31
@@ -202,14 +202,14 @@ Action=Subscribe
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 338
-date: Mon, 16 Nov 2026 12:05:21 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 <SubscribeResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
   <SubscribeResult>
-    <SubscriptionArn>arn:aws:sns:us-east-1:000000000000:order-events:24404949-7f8b-4991-a87f-f3e740c2aa88</SubscriptionArn>
+    <SubscriptionArn>arn:aws:sns:us-east-1:000000000000:order-events:0428581c-ac2f-475c-9011-2ad90c0f16cf</SubscriptionArn>
   </SubscribeResult>
   <ResponseMetadata>
-    <RequestId>9d80edaf-9bf0-464d-887b-94898d53c150</RequestId>
+    <RequestId>f5f779fb-4592-47d4-8efe-6247d244ce74</RequestId>
   </ResponseMetadata>
 </SubscribeResponse>
 ```
@@ -224,9 +224,9 @@ Publishing returns a message id; delivery to each subscriber happens after the c
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
+X-Amz-Date: 20261126T183051Z
 Content-Length: 187
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=Publish
 &Version=2010-03-31
@@ -241,14 +241,14 @@ Action=Publish
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 270
-date: Mon, 16 Nov 2026 12:05:21 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 <PublishResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
   <PublishResult>
-    <MessageId>1f624d5b-3ac8-4434-a561-670e0a4e3e81</MessageId>
+    <MessageId>726bd21d-077e-4d64-a582-736b6d8e0bab</MessageId>
   </PublishResult>
   <ResponseMetadata>
-    <RequestId>ce8e50ed-1c90-4392-a5e8-9657db3a2346</RequestId>
+    <RequestId>13f4e3d2-51bd-4c45-ab3c-f77e9082b120</RequestId>
   </ResponseMetadata>
 </PublishResponse>
 ```
@@ -264,12 +264,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: AmazonSQS.ReceiveMessage
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
-Content-Length: 99
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sqs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 83
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sqs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "QueueUrl": "https://sqs.us-east-1.amazonaws.com/000000000000/order-events",
+  "QueueUrl": "https://127.0.0.1:9297/000000000000/order-events",
   "WaitTimeSeconds": 2
 }
 ```
@@ -279,16 +279,17 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sq
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-content-length: 1601
-date: Mon, 16 Nov 2026 12:05:21 GMT
+x-amzn-requestid: 798d60d7-24e6-41e4-8542-5031da45effd
+content-length: 1318
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "Messages": [
     {
-      "MessageId": "e339293b-4556-4994-b596-acfc51ee392b",
-      "ReceiptHandle": "MjE3ZmMxMGQtZDlkYy00MDFiLWIyYjYtYzIwMDNmZjU2YmJmIGYxN2RjNjVhLTE5MjYtNGVhNC05MjZhLTRmNzNlNTdjNmQ2OSBhcm46YXdzOnNxczp1cy1lYXN0LTE6MDAwMDAwMDAwMDAwOm9yZGVyLWV2ZW50cw==",
-      "MD5OfBody": "7333bbf93ace088d0ffc556614485f87",
-      "Body": "{\n  \"Type\" : \"Notification\",\n  \"MessageId\" : \"1f624d5b-3ac8-4434-a561-670e0a4e3e81\",\n  \"TopicArn\" : \"arn:aws:sns:us-east-1:000000000000:order-events\",\n  \"Subject\" : \"order\",\n  \"Message\" : \"{\\\"orderId\\\": 42, \\\"status\\\": \\\"shipped\\\"}\",\n  \"Timestamp\" : \"2026-11-16T12:05:21.880Z\",\n  \"SignatureVersion\" : \"1\",\n  \"Signature\" : \"MAD2bkkzKTJIR9rbh97ByTHlP4OWFS5pBD/RI//OBSbIwllm9+hABj6bVErntt8nz7+fdw3ebWR0uID+QmYff4+YvH5wC+oN9duL9S4HV2fSPVKgYPpJs2K0xBpw6Y7A/nPxQfF6C5wiVs23ALyrwV3p6xXAOoPDykJWRShSLDE6m0YQSQepUI3MTkug0C9CEjJa541G2YofP7T4ZtlD9pQZA6DODC5TlG8wjILUa06jEYByvVyirD59QsXfgMYu8xImZ6EZmKkcX5M0+xi2841lhU59EtLdhSLEeIQtImfarkcvAbcMvRIya5SJRJLYeqmndt7uLWw62e2yK9Jj0w==\",\n  \"SigningCertURL\" : \"https://127.0.0.1:9297/SimpleNotificationService-c94da7065ae6d4a2abc628726979687e.pem?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=<access-key-id>%2F20261116%2Fus-east-1%2Fsns%2Faws4_request&X-Amz-Date=20261116T120521Z&X-Amz-Expires=604800&X-Amz-SignedHeaders=host&X-Amz-Signature=<signature>\",\n  \"UnsubscribeURL\" : \"https://sns.us-east-1.amazonaws.com/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:000000000000:order-events:24404949-7f8b-4991-a87f-f3e740c2aa88\"\n}"
+      "MessageId": "5f7c31ae-39ac-49c1-be0d-3b87ba79528f",
+      "ReceiptHandle": "MjhhNzk5ZWMtNmFhYi00YmZhLTliYzktOWU4Yjk4YmYyNjY1IGY4ZDI0MmI1LTMwMGItNDZhMy1iMWY1LTFjYWZlZmFmZDJkNCBhcm46YXdzOnNxczp1cy1lYXN0LTE6MDAwMDAwMDAwMDAwOm9yZGVyLWV2ZW50cw==",
+      "MD5OfBody": "00bc1bb8d9d20e6bceabd51b8b0aea5c",
+      "Body": "{\n  \"Type\" : \"Notification\",\n  \"MessageId\" : \"726bd21d-077e-4d64-a582-736b6d8e0bab\",\n  \"TopicArn\" : \"arn:aws:sns:us-east-1:000000000000:order-events\",\n  \"Subject\" : \"order\",\n  \"Message\" : \"{\\\"orderId\\\": 42, \\\"status\\\": \\\"shipped\\\"}\",\n  \"Timestamp\" : \"2026-11-26T18:30:51.551Z\",\n  \"SignatureVersion\" : \"1\",\n  \"Signature\" : \"EeYWhxcwaD5/V4iGtGTU4w/uPnCNMbF1+RMPbUHpEApb1B9f79Njk83+TgMEsBqKK7AfT5LG5VsdXWIjKzD1g09TYpEwz/F0lsmrOJ8sXcGPMuKQU84Ng/JwF7ThIdfzb8TS8Kndw738tbpboRYfykkfFMcvjy4VlpvRfDSLweJMdzoGhbI549b2ZW04fXeW15i6hSJu499le35lmhg6zBg+JdRZSadhFmiiZCzOJZMNw7h94igjY4CpxDtMLJ8flBHlatknyLcWxTqgqm4EY7G24wyoZ0XMs84W5pcXOJMj9fwgl7pfM7Az2ykqiUEjeqrkasPXVxSVXdVQcCfwUg==\",\n  \"SigningCertURL\" : \"https://127.0.0.1:9297/SimpleNotificationService-76da023b8817678ece030582bc80e0b5.pem\",\n  \"UnsubscribeURL\" : \"https://127.0.0.1:9297/?Action=Unsubscribe&SubscriptionArn=arn:aws:sns:us-east-1:000000000000:order-events:0428581c-ac2f-475c-9011-2ad90c0f16cf\"\n}"
     }
   ]
 }
@@ -304,9 +305,9 @@ Removes the subscription.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
+X-Amz-Date: 20261126T183051Z
 Content-Length: 150
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=Unsubscribe
 &Version=2010-03-31
@@ -319,12 +320,12 @@ Action=Unsubscribe
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 227
-date: Mon, 16 Nov 2026 12:05:21 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 <UnsubscribeResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
-  <UnsubscribeResult/>
+  <UnsubscribeResult></UnsubscribeResult>
   <ResponseMetadata>
-    <RequestId>1e293b6c-8839-4827-bb3b-aff3728966e8</RequestId>
+    <RequestId>0f4576a5-98d7-47d5-bdeb-3aeb8f6f46ea</RequestId>
   </ResponseMetadata>
 </UnsubscribeResponse>
 ```
@@ -339,9 +340,9 @@ Deletes the topic.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
+X-Amz-Date: 20261126T183051Z
 Content-Length: 104
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteTopic
 &Version=2010-03-31
@@ -354,12 +355,12 @@ Action=DeleteTopic
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 227
-date: Mon, 16 Nov 2026 12:05:21 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 <DeleteTopicResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
-  <DeleteTopicResult/>
+  <DeleteTopicResult></DeleteTopicResult>
   <ResponseMetadata>
-    <RequestId>53dcd156-4f08-4823-8d0d-3c7caebd6ba2</RequestId>
+    <RequestId>a9d209bd-b33a-4e4e-b6f3-7ba93a7deb23</RequestId>
   </ResponseMetadata>
 </DeleteTopicResponse>
 ```
@@ -375,12 +376,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: AmazonSQS.DeleteQueue
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120521Z
-Content-Length: 77
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sqs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 63
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sqs/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "QueueUrl": "https://sqs.us-east-1.amazonaws.com/000000000000/order-events"
+  "QueueUrl": "https://127.0.0.1:9297/000000000000/order-events"
 }
 ```
 
@@ -389,18 +390,18 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sq
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: 5c556d88-8b6a-4e2c-8bf4-ea89e4e7e6d1
+x-amzn-requestid: 97bebc8e-a74d-49d7-a718-cfc17b8e8c24
 content-length: 2
-date: Mon, 16 Nov 2026 12:05:21 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {}
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
-Of 42 operations, 11 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 42 operations, 0 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error.
 
 ### AddPermission
 
@@ -408,6 +409,11 @@ Adds a statement to a topic's access control policy, granting access for the spe
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 188
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AddPermission
 &Version=2010-03-31
@@ -420,18 +426,22 @@ Action=AddPermission
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 9d43fbf6-0e95-4840-a5f4-410131ba6b0e
+content-length: 224
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: Topic Name</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: AddPermission&#xA;</Message>
   </Error>
-  <RequestId>ed37ced5-5713-4ff6-a70b-1cb8f400936c</RequestId>
+  <RequestId>9d43fbf6-0e95-4840-a5f4-410131ba6b0e</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### CheckIfPhoneNumberIsOptedOut
 
@@ -439,6 +449,11 @@ Accepts a phone number and indicates whether the phone holder has opted out of r
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 76
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CheckIfPhoneNumberIsOptedOut
 &Version=2010-03-31
@@ -448,18 +463,22 @@ Action=CheckIfPhoneNumberIsOptedOut
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 66363435-0d6b-49a4-b41a-2b9f7c491ab9
+content-length: 239
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: PhoneNumber Reason: input incorrectly formatted</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: CheckIfPhoneNumberIsOptedOut&#xA;</Message>
   </Error>
-  <RequestId>0bbdbea1-b351-4867-841e-d755918e1c6b</RequestId>
+  <RequestId>66363435-0d6b-49a4-b41a-2b9f7c491ab9</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### ConfirmSubscription
 
@@ -467,28 +486,37 @@ Verifies an endpoint owner's intent to receive messages by validating the token 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 134
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ConfirmSubscription
 &Version=2010-03-31
 &TopicArn=arn%3Aaws%3Asns%3Aus-east-1%3A000000000000%3Aexample%2Fexample
-&Token=example
+&Token=<redacted>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 58e68e79-66b4-4de2-bd54-9fb094c44a74
+content-length: 230
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: Topic Name</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ConfirmSubscription&#xA;</Message>
   </Error>
-  <RequestId>390f123c-46c5-44a2-bd48-367d4a34ef68</RequestId>
+  <RequestId>58e68e79-66b4-4de2-bd54-9fb094c44a74</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### CreatePlatformApplication
 
@@ -496,6 +524,11 @@ Creates a platform application object for one of the supported push notification
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 146
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreatePlatformApplication
 &Version=2010-03-31
@@ -508,18 +541,22 @@ Action=CreatePlatformApplication
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 3c2b77b4-0236-4f60-84af-9b69f95dae9e
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: Platform Reason: example is not supported</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: CreatePlatformApplication&#xA;</Message>
   </Error>
-  <RequestId>fd5dac38-f793-4d80-a944-2ae20142901d</RequestId>
+  <RequestId>3c2b77b4-0236-4f60-84af-9b69f95dae9e</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### CreatePlatformEndpoint
 
@@ -527,28 +564,37 @@ Creates an endpoint for a device and mobile app on one of the supported push not
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 151
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreatePlatformEndpoint
 &Version=2010-03-31
 &PlatformApplicationArn=arn%3Aaws%3Asns%3Aus-east-1%3A000000000000%3Aexample%2Fexample
-&Token=example
+&Token=<redacted>
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 8bf56715-280a-4261-92a5-d5cf40325f89
+content-length: 233
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>NotFound</Code>
-    <Message>PlatformApplication does not exist</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: CreatePlatformEndpoint&#xA;</Message>
   </Error>
-  <RequestId>f06ae49e-0117-4fbf-a925-c66eb11ec24f</RequestId>
+  <RequestId>8bf56715-280a-4261-92a5-d5cf40325f89</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `InvalidAction`.
 
 ### CreateSMSSandboxPhoneNumber
 
@@ -556,6 +602,11 @@ Adds a destination phone number to an Amazon Web Services account in the SMS san
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 69
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateSMSSandboxPhoneNumber
 &Version=2010-03-31
@@ -565,18 +616,22 @@ Action=CreateSMSSandboxPhoneNumber
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 05469283-810d-4eca-921d-35e4f7a98076
+content-length: 238
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: PhoneNumber Reason: input incorrectly formatted</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: CreateSMSSandboxPhoneNumber&#xA;</Message>
   </Error>
-  <RequestId>bfe77044-aa1b-4eaf-af5e-9e78b12cc5a5</RequestId>
+  <RequestId>05469283-810d-4eca-921d-35e4f7a98076</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### CreateTopic
 
@@ -584,6 +639,11 @@ Creates a topic to which notifications can be published.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateTopic
 &Version=2010-03-31
@@ -591,20 +651,24 @@ Action=CreateTopic
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 875a8fdb-649e-4f1f-b483-c2b0006b0833
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<CreateTopicResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
-  <CreateTopicResult>
-    <TopicArn>arn:aws:sns:us-east-1:000000000000:example</TopicArn>
-  </CreateTopicResult>
-  <ResponseMetadata>
-    <RequestId>5fb2daa7-e645-42a5-aa28-db8c0923eaeb</RequestId>
-  </ResponseMetadata>
-</CreateTopicResponse>
+<?xml version="1.0"?>
+<ErrorResponse>
+  <Error>
+    <Type>Sender</Type>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: CreateTopic&#xA;</Message>
+  </Error>
+  <RequestId>875a8fdb-649e-4f1f-b483-c2b0006b0833</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values. See [the walkthrough](#3-createtopic) for a successful call.
+`400` `InvalidAction`. See [the walkthrough](#3-createtopic) for a successful call.
 
 ### DeleteEndpoint
 
@@ -612,6 +676,11 @@ Deletes the endpoint for a device and mobile app from Amazon SNS.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 117
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteEndpoint
 &Version=2010-03-31
@@ -619,18 +688,24 @@ Action=DeleteEndpoint
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: b3f922ce-3a07-427c-9e4c-e2266f3b59ca
+content-length: 225
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<DeleteEndpointResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
-  <DeleteEndpointResult/>
-  <ResponseMetadata>
-    <RequestId>a3dc9e02-3280-4cd2-a07a-c7a5b72b4fb5</RequestId>
-  </ResponseMetadata>
-</DeleteEndpointResponse>
+<?xml version="1.0"?>
+<ErrorResponse>
+  <Error>
+    <Type>Sender</Type>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: DeleteEndpoint&#xA;</Message>
+  </Error>
+  <RequestId>b3f922ce-3a07-427c-9e4c-e2266f3b59ca</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`400` `InvalidAction`.
 
 ### DeletePlatformApplication
 
@@ -638,6 +713,11 @@ Deletes a platform application object for one of the supported push notification
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 139
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeletePlatformApplication
 &Version=2010-03-31
@@ -645,18 +725,24 @@ Action=DeletePlatformApplication
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: ae9fd888-2e5b-4eef-b45f-2fe9041e70b5
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<DeletePlatformApplicationResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
-  <DeletePlatformApplicationResult/>
-  <ResponseMetadata>
-    <RequestId>8addfe44-2154-4c41-9c39-9aa6bdd8619e</RequestId>
-  </ResponseMetadata>
-</DeletePlatformApplicationResponse>
+<?xml version="1.0"?>
+<ErrorResponse>
+  <Error>
+    <Type>Sender</Type>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: DeletePlatformApplication&#xA;</Message>
+  </Error>
+  <RequestId>ae9fd888-2e5b-4eef-b45f-2fe9041e70b5</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`400` `InvalidAction`.
 
 ### DeleteSMSSandboxPhoneNumber
 
@@ -664,6 +750,11 @@ Deletes an Amazon Web Services account's verified or pending phone number from t
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 69
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteSMSSandboxPhoneNumber
 &Version=2010-03-31
@@ -673,18 +764,22 @@ Action=DeleteSMSSandboxPhoneNumber
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 1d1651d0-a064-4a9b-8d05-8009d31b67c7
+content-length: 238
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: PhoneNumber Reason: input incorrectly formatted</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: DeleteSMSSandboxPhoneNumber&#xA;</Message>
   </Error>
-  <RequestId>fab32207-9c9f-4ba7-9f8e-374c34c16853</RequestId>
+  <RequestId>1d1651d0-a064-4a9b-8d05-8009d31b67c7</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### DeleteTopic
 
@@ -692,6 +787,11 @@ Deletes a topic and all its subscriptions.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 111
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteTopic
 &Version=2010-03-31
@@ -701,18 +801,22 @@ Action=DeleteTopic
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: bfd2f96f-8884-4bd6-9e5b-5d0c6743fe3d
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: Topic Name</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: DeleteTopic&#xA;</Message>
   </Error>
-  <RequestId>abb79a80-9105-46f8-a16f-ddb411d4a002</RequestId>
+  <RequestId>bfd2f96f-8884-4bd6-9e5b-5d0c6743fe3d</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation. See [the walkthrough](#9-deletetopic) for a successful call.
+`400` `InvalidAction`. See [the walkthrough](#9-deletetopic) for a successful call.
 
 ### GetDataProtectionPolicy
 
@@ -720,6 +824,11 @@ Amazon SNS message data protection is no longer available to new customers.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 126
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetDataProtectionPolicy
 &Version=2010-03-31
@@ -727,20 +836,24 @@ Action=GetDataProtectionPolicy
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 90897381-7bf9-4ff2-8b0c-80ebd8c9105a
+content-length: 234
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>NotFound</Code>
-    <Message>Topic does not exist</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: GetDataProtectionPolicy&#xA;</Message>
   </Error>
-  <RequestId>808a3f95-2305-464e-8aee-45114db32de4</RequestId>
+  <RequestId>90897381-7bf9-4ff2-8b0c-80ebd8c9105a</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `InvalidAction`.
 
 ### GetEndpointAttributes
 
@@ -748,6 +861,11 @@ Retrieves the endpoint attributes for a device on one of the supported push noti
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 124
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetEndpointAttributes
 &Version=2010-03-31
@@ -755,20 +873,24 @@ Action=GetEndpointAttributes
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 4e01001d-687a-443b-9017-bbda56d62dbd
+content-length: 232
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>NotFound</Code>
-    <Message>Endpoint does not exist</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: GetEndpointAttributes&#xA;</Message>
   </Error>
-  <RequestId>f1282bce-9093-4efc-a5c4-58cd61463754</RequestId>
+  <RequestId>4e01001d-687a-443b-9017-bbda56d62dbd</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `InvalidAction`.
 
 ### GetPlatformApplicationAttributes
 
@@ -776,6 +898,11 @@ Retrieves the attributes of the platform application object for the supported pu
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 146
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetPlatformApplicationAttributes
 &Version=2010-03-31
@@ -783,20 +910,24 @@ Action=GetPlatformApplicationAttributes
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: f1b4e816-2f77-4f25-96ca-f5e2b76bfa2a
+content-length: 243
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>NotFound</Code>
-    <Message>PlatformApplication does not exist</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: GetPlatformApplicationAttributes&#xA;</Message>
   </Error>
-  <RequestId>853da1ee-3e03-495c-ba6c-f0f82dee4a79</RequestId>
+  <RequestId>f1b4e816-2f77-4f25-96ca-f5e2b76bfa2a</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `InvalidAction`.
 
 ### GetSMSAttributes
 
@@ -804,31 +935,35 @@ Returns the settings for sending SMS messages from your Amazon Web Services acco
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetSMSAttributes
 &Version=2010-03-31
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 28ac00bf-0a4f-4c5a-9d35-8d37e9d291dc
+content-length: 227
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<GetSMSAttributesResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
-  <GetSMSAttributesResult>
-    <attributes>
-      <entry>
-        <key>MonthlySpendLimit</key>
-        <value>1</value>
-      </entry>
-    </attributes>
-  </GetSMSAttributesResult>
-  <ResponseMetadata>
-    <RequestId>3befa456-b85a-4351-be8d-f28d6bb790c0</RequestId>
-  </ResponseMetadata>
-</GetSMSAttributesResponse>
+<?xml version="1.0"?>
+<ErrorResponse>
+  <Error>
+    <Type>Sender</Type>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: GetSMSAttributes&#xA;</Message>
+  </Error>
+  <RequestId>28ac00bf-0a4f-4c5a-9d35-8d37e9d291dc</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`400` `InvalidAction`.
 
 ### GetSMSSandboxAccountStatus
 
@@ -836,26 +971,35 @@ Retrieves the SMS sandbox status for the calling Amazon Web Services account in 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetSMSSandboxAccountStatus
 &Version=2010-03-31
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 4046174b-7d91-46fc-a117-7a4d3603af22
+content-length: 237
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<GetSMSSandboxAccountStatusResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
-  <GetSMSSandboxAccountStatusResult>
-    <IsInSandbox>true</IsInSandbox>
-  </GetSMSSandboxAccountStatusResult>
-  <ResponseMetadata>
-    <RequestId>ae74eddf-96a0-49dc-99b1-c87eff2ddf93</RequestId>
-  </ResponseMetadata>
-</GetSMSSandboxAccountStatusResponse>
+<?xml version="1.0"?>
+<ErrorResponse>
+  <Error>
+    <Type>Sender</Type>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: GetSMSSandboxAccountStatus&#xA;</Message>
+  </Error>
+  <RequestId>4046174b-7d91-46fc-a117-7a4d3603af22</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`400` `InvalidAction`.
 
 ### GetSubscriptionAttributes
 
@@ -863,6 +1007,11 @@ Returns all of the properties of a subscription.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 132
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetSubscriptionAttributes
 &Version=2010-03-31
@@ -872,18 +1021,22 @@ Action=GetSubscriptionAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 33d20741-a514-4ee7-a6f4-0176160a0866
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: SubscriptionId</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: GetSubscriptionAttributes&#xA;</Message>
   </Error>
-  <RequestId>f63125d6-d60a-4a78-be2b-5db4461c6d3c</RequestId>
+  <RequestId>33d20741-a514-4ee7-a6f4-0176160a0866</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### GetTopicAttributes
 
@@ -891,6 +1044,11 @@ Returns all of the properties of a topic.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 118
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetTopicAttributes
 &Version=2010-03-31
@@ -900,18 +1058,22 @@ Action=GetTopicAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 0074ccf4-d8fa-4fd2-aa9c-f3b21b9494d1
+content-length: 229
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: Topic Name</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: GetTopicAttributes&#xA;</Message>
   </Error>
-  <RequestId>a3995e74-1a62-45f5-a1b2-b4b6e6300f23</RequestId>
+  <RequestId>0074ccf4-d8fa-4fd2-aa9c-f3b21b9494d1</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### ListEndpointsByPlatformApplication
 
@@ -919,6 +1081,11 @@ Lists the endpoints and endpoint attributes for devices in a supported push noti
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 148
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListEndpointsByPlatformApplication
 &Version=2010-03-31
@@ -926,20 +1093,24 @@ Action=ListEndpointsByPlatformApplication
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: f7c0fbc9-36bf-44a7-b6eb-fab0cfd6ae01
+content-length: 245
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>NotFound</Code>
-    <Message>PlatformApplication does not exist</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListEndpointsByPlatformApplication&#xA;</Message>
   </Error>
-  <RequestId>4822ddab-9efa-43c2-8f92-299756a2fafd</RequestId>
+  <RequestId>f7c0fbc9-36bf-44a7-b6eb-fab0cfd6ae01</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `InvalidAction`.
 
 ### ListOriginationNumbers
 
@@ -947,26 +1118,35 @@ Lists the calling Amazon Web Services account's dedicated origination numbers an
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListOriginationNumbers
 &Version=2010-03-31
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 797353bc-30b2-4c2d-83aa-2989e7f1d640
+content-length: 233
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ListOriginationNumbersResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
-  <ListOriginationNumbersResult>
-    <PhoneNumbers/>
-  </ListOriginationNumbersResult>
-  <ResponseMetadata>
-    <RequestId>50910303-cb82-4ad0-9083-4840d5b2981d</RequestId>
-  </ResponseMetadata>
-</ListOriginationNumbersResponse>
+<?xml version="1.0"?>
+<ErrorResponse>
+  <Error>
+    <Type>Sender</Type>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListOriginationNumbers&#xA;</Message>
+  </Error>
+  <RequestId>797353bc-30b2-4c2d-83aa-2989e7f1d640</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`400` `InvalidAction`.
 
 ### ListPhoneNumbersOptedOut
 
@@ -974,26 +1154,35 @@ Returns a list of phone numbers that are opted out, meaning you cannot send SMS 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListPhoneNumbersOptedOut
 &Version=2010-03-31
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 4e64fb59-d33a-469a-b13e-75bb74fd28c7
+content-length: 235
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ListPhoneNumbersOptedOutResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
-  <ListPhoneNumbersOptedOutResult>
-    <phoneNumbers/>
-  </ListPhoneNumbersOptedOutResult>
-  <ResponseMetadata>
-    <RequestId>dba747de-7568-487d-a278-0cfd3171a6d0</RequestId>
-  </ResponseMetadata>
-</ListPhoneNumbersOptedOutResponse>
+<?xml version="1.0"?>
+<ErrorResponse>
+  <Error>
+    <Type>Sender</Type>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListPhoneNumbersOptedOut&#xA;</Message>
+  </Error>
+  <RequestId>4e64fb59-d33a-469a-b13e-75bb74fd28c7</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`400` `InvalidAction`.
 
 ### ListPlatformApplications
 
@@ -1001,26 +1190,35 @@ Lists the platform application objects for the supported push notification servi
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListPlatformApplications
 &Version=2010-03-31
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: dd51fee5-07bd-4319-ba2d-78ba3990dc07
+content-length: 235
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ListPlatformApplicationsResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
-  <ListPlatformApplicationsResult>
-    <PlatformApplications/>
-  </ListPlatformApplicationsResult>
-  <ResponseMetadata>
-    <RequestId>35543231-d0b9-4597-8812-32a4017ba99f</RequestId>
-  </ResponseMetadata>
-</ListPlatformApplicationsResponse>
+<?xml version="1.0"?>
+<ErrorResponse>
+  <Error>
+    <Type>Sender</Type>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListPlatformApplications&#xA;</Message>
+  </Error>
+  <RequestId>dd51fee5-07bd-4319-ba2d-78ba3990dc07</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`400` `InvalidAction`.
 
 ### ListSMSSandboxPhoneNumbers
 
@@ -1028,26 +1226,35 @@ Lists the calling Amazon Web Services account's current verified and pending des
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListSMSSandboxPhoneNumbers
 &Version=2010-03-31
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: ad83d41a-c02b-4ab5-a467-d043f08c8000
+content-length: 237
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ListSMSSandboxPhoneNumbersResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
-  <ListSMSSandboxPhoneNumbersResult>
-    <PhoneNumbers/>
-  </ListSMSSandboxPhoneNumbersResult>
-  <ResponseMetadata>
-    <RequestId>d1195f8f-26ae-4c0e-a4a0-8bd85c4e5c81</RequestId>
-  </ResponseMetadata>
-</ListSMSSandboxPhoneNumbersResponse>
+<?xml version="1.0"?>
+<ErrorResponse>
+  <Error>
+    <Type>Sender</Type>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListSMSSandboxPhoneNumbers&#xA;</Message>
+  </Error>
+  <RequestId>ad83d41a-c02b-4ab5-a467-d043f08c8000</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`400` `InvalidAction`.
 
 ### ListSubscriptions
 
@@ -1055,26 +1262,35 @@ Returns a list of the requester's subscriptions.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 44
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListSubscriptions
 &Version=2010-03-31
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: d7fb0c30-6ae3-4d45-8342-22d45d586507
+content-length: 228
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ListSubscriptionsResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
-  <ListSubscriptionsResult>
-    <Subscriptions/>
-  </ListSubscriptionsResult>
-  <ResponseMetadata>
-    <RequestId>7c84a39d-b991-4ea7-8754-a4b2f834ab1d</RequestId>
-  </ResponseMetadata>
-</ListSubscriptionsResponse>
+<?xml version="1.0"?>
+<ErrorResponse>
+  <Error>
+    <Type>Sender</Type>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListSubscriptions&#xA;</Message>
+  </Error>
+  <RequestId>d7fb0c30-6ae3-4d45-8342-22d45d586507</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`400` `InvalidAction`.
 
 ### ListSubscriptionsByTopic
 
@@ -1082,6 +1298,11 @@ Returns a list of the subscriptions to a specific topic.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 124
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListSubscriptionsByTopic
 &Version=2010-03-31
@@ -1091,18 +1312,22 @@ Action=ListSubscriptionsByTopic
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: e2d0b19f-f356-455d-b56e-7cd3ec46a72b
+content-length: 235
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: Topic Name</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListSubscriptionsByTopic&#xA;</Message>
   </Error>
-  <RequestId>ea76251f-8a69-47b2-b71b-b49e3d953eac</RequestId>
+  <RequestId>e2d0b19f-f356-455d-b56e-7cd3ec46a72b</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### ListTagsForResource
 
@@ -1110,6 +1335,11 @@ List all tags added to the specified Amazon SNS topic.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 122
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListTagsForResource
 &Version=2010-03-31
@@ -1119,18 +1349,22 @@ Action=ListTagsForResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: de458cbf-45ce-4e10-aa4f-632b860cf997
+content-length: 230
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: ResourceArn Reason: An SNS tag is held by a topic, so the ARN must name an Amazon SNS topic</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListTagsForResource&#xA;</Message>
   </Error>
-  <RequestId>e81abc75-e931-4fef-a03b-f2c7f4e83644</RequestId>
+  <RequestId>de458cbf-45ce-4e10-aa4f-632b860cf997</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### ListTopics
 
@@ -1138,30 +1372,35 @@ Returns a list of the requester's topics.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 37
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListTopics
 &Version=2010-03-31
 ```
 
 ```http
-HTTP/1.1 200 OK
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 9b69ad88-e47b-4539-856c-efaf332ea3d0
+content-length: 221
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ListTopicsResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
-  <ListTopicsResult>
-    <Topics>
-      <member xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
-        <TopicArn>arn:aws:sns:us-east-1:000000000000:example</TopicArn>
-      </member>
-    </Topics>
-  </ListTopicsResult>
-  <ResponseMetadata>
-    <RequestId>92bb67e9-5bf6-4e4b-98bf-00d7e7edd9f7</RequestId>
-  </ResponseMetadata>
-</ListTopicsResponse>
+<?xml version="1.0"?>
+<ErrorResponse>
+  <Error>
+    <Type>Sender</Type>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: ListTopics&#xA;</Message>
+  </Error>
+  <RequestId>9b69ad88-e47b-4539-856c-efaf332ea3d0</RequestId>
+</ErrorResponse>
 ```
 
-Accepted: the emulator answered `200 OK` even with placeholder values.
+`400` `InvalidAction`.
 
 ### OptInPhoneNumber
 
@@ -1169,6 +1408,11 @@ Use this request to opt in a phone number that is opted out, which enables you t
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 64
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=OptInPhoneNumber
 &Version=2010-03-31
@@ -1178,18 +1422,22 @@ Action=OptInPhoneNumber
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 675f2bc1-0545-4cd9-b107-dc4acf4d2023
+content-length: 227
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: PhoneNumber Reason: input incorrectly formatted</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: OptInPhoneNumber&#xA;</Message>
   </Error>
-  <RequestId>ca4cba69-39f1-4e16-8bcf-72c5c82f46bc</RequestId>
+  <RequestId>675f2bc1-0545-4cd9-b107-dc4acf4d2023</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### Publish
 
@@ -1197,6 +1445,11 @@ Sends a message to an Amazon SNS topic, a text message (SMS message) directly to
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=Publish
 &Version=2010-03-31
@@ -1206,18 +1459,22 @@ Action=Publish
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: d302383c-98b2-4be5-8a2c-905e402f764e
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: TopicArn or TargetArn Reason: no value for required parameter</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: Publish&#xA;</Message>
   </Error>
-  <RequestId>fba5eee5-fdae-4cdd-8184-a15cda871fbc</RequestId>
+  <RequestId>d302383c-98b2-4be5-8a2c-905e402f764e</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation. See [the walkthrough](#6-publish) for a successful call.
+`400` `InvalidAction`. See [the walkthrough](#6-publish) for a successful call.
 
 ### PublishBatch
 
@@ -1225,6 +1482,11 @@ Publishes up to 10 messages to the specified topic in a single batch.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 213
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PublishBatch
 &Version=2010-03-31
@@ -1236,18 +1498,22 @@ Action=PublishBatch
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 9bc5b5b7-19bb-4664-bec1-e9830b6b4662
+content-length: 223
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: Topic Name</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: PublishBatch&#xA;</Message>
   </Error>
-  <RequestId>8aeb5fb3-3230-4f88-b549-7a4d96536796</RequestId>
+  <RequestId>9bc5b5b7-19bb-4664-bec1-e9830b6b4662</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### PutDataProtectionPolicy
 
@@ -1255,6 +1521,11 @@ Amazon SNS message data protection is no longer available to new customers.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 156
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PutDataProtectionPolicy
 &Version=2010-03-31
@@ -1265,14 +1536,18 @@ Action=PutDataProtectionPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 2117c3df-9df6-48f7-b86e-03fc135967c4
+content-length: 234
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>InvalidAction</Code>
-    <Message>Operation (PutDataProtectionPolicy) is not supported in this region</Message>
+    <Message>unknown action: PutDataProtectionPolicy&#xA;</Message>
   </Error>
-  <RequestId>78758bf3-2075-436a-9c94-917a024e7ef3</RequestId>
+  <RequestId>2117c3df-9df6-48f7-b86e-03fc135967c4</RequestId>
 </ErrorResponse>
 ```
 
@@ -1284,6 +1559,11 @@ Removes a statement from a topic's access control policy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 131
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RemovePermission
 &Version=2010-03-31
@@ -1294,18 +1574,22 @@ Action=RemovePermission
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: fea9502b-8488-4ec0-b38d-81b95f5740e1
+content-length: 227
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: Topic Name</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: RemovePermission&#xA;</Message>
   </Error>
-  <RequestId>a6094d03-be5e-49ad-8b98-a002bc75b2a5</RequestId>
+  <RequestId>fea9502b-8488-4ec0-b38d-81b95f5740e1</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### SetEndpointAttributes
 
@@ -1313,6 +1597,11 @@ Sets the attributes for an endpoint for a device on one of the supported push no
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 186
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetEndpointAttributes
 &Version=2010-03-31
@@ -1322,20 +1611,24 @@ Action=SetEndpointAttributes
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: c97ba0d9-5e47-45ae-95ac-a4eedaa3f26b
+content-length: 232
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>NotFound</Code>
-    <Message>Endpoint does not exist</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: SetEndpointAttributes&#xA;</Message>
   </Error>
-  <RequestId>75a8b15e-809b-410c-8b49-bb31cbb5415c</RequestId>
+  <RequestId>c97ba0d9-5e47-45ae-95ac-a4eedaa3f26b</RequestId>
 </ErrorResponse>
 ```
 
-`404` `NotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `InvalidAction`.
 
 ### SetPlatformApplicationAttributes
 
@@ -1343,6 +1636,11 @@ Sets the attributes of the platform application object for the supported push no
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 208
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetPlatformApplicationAttributes
 &Version=2010-03-31
@@ -1354,18 +1652,22 @@ Action=SetPlatformApplicationAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 624952c5-9c6f-402f-a12f-916e1fc241e2
+content-length: 243
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: Attributes Reason: Invalid attribute name: key</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: SetPlatformApplicationAttributes&#xA;</Message>
   </Error>
-  <RequestId>efe65cd9-df27-4cd5-aa95-ea8516b0dc2f</RequestId>
+  <RequestId>624952c5-9c6f-402f-a12f-916e1fc241e2</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### SetSMSAttributes
 
@@ -1373,6 +1675,11 @@ Use this request to set the default settings for sending SMS messages and receiv
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 105
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetSMSAttributes
 &Version=2010-03-31
@@ -1383,18 +1690,22 @@ Action=SetSMSAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: c94d3fee-cec9-4544-83ad-c545ceb7f2ec
+content-length: 227
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>key is not a valid attribute</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: SetSMSAttributes&#xA;</Message>
   </Error>
-  <RequestId>33688b61-6384-4b78-b110-d00e4b62c3d7</RequestId>
+  <RequestId>c94d3fee-cec9-4544-83ad-c545ceb7f2ec</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### SetSubscriptionAttributes
 
@@ -1402,6 +1713,11 @@ Allows a subscription owner to set an attribute of the subscription to a new val
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 155
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetSubscriptionAttributes
 &Version=2010-03-31
@@ -1412,18 +1728,22 @@ Action=SetSubscriptionAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 1421e433-c022-4d89-aa0a-930b958eed3f
+content-length: 236
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: SubscriptionId</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: SetSubscriptionAttributes&#xA;</Message>
   </Error>
-  <RequestId>ecf4f241-fb82-4f20-853b-50c62119a5d7</RequestId>
+  <RequestId>1421e433-c022-4d89-aa0a-930b958eed3f</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### SetTopicAttributes
 
@@ -1431,6 +1751,11 @@ Allows a topic owner to set an attribute of the topic to a new value.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 141
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetTopicAttributes
 &Version=2010-03-31
@@ -1441,18 +1766,22 @@ Action=SetTopicAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 42e30727-ae21-4492-800c-8df67a299eb4
+content-length: 229
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: Topic Name</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: SetTopicAttributes&#xA;</Message>
   </Error>
-  <RequestId>afe981b4-2d10-481f-966e-54d1505cd682</RequestId>
+  <RequestId>42e30727-ae21-4492-800c-8df67a299eb4</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### Subscribe
 
@@ -1460,6 +1789,11 @@ Subscribes an endpoint to an Amazon SNS topic.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 127
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=Subscribe
 &Version=2010-03-31
@@ -1470,18 +1804,22 @@ Action=Subscribe
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: b261f77d-8816-481f-9335-2ac9b300217b
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: Topic Name</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: Subscribe&#xA;</Message>
   </Error>
-  <RequestId>b00a8801-7d4f-4e66-81fe-55c8af923120</RequestId>
+  <RequestId>b261f77d-8816-481f-9335-2ac9b300217b</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation. See [the walkthrough](#5-subscribe) for a successful call.
+`400` `InvalidAction`. See [the walkthrough](#5-subscribe) for a successful call.
 
 ### TagResource
 
@@ -1489,6 +1827,11 @@ Add tags to the specified Amazon SNS topic.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 170
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=TagResource
 &Version=2010-03-31
@@ -1500,18 +1843,22 @@ Action=TagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 693d1b58-1dfb-4c35-b284-d6c619057af1
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: ResourceArn Reason: An SNS tag is held by a topic, so the ARN must name an Amazon SNS topic</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: TagResource&#xA;</Message>
   </Error>
-  <RequestId>36e69e93-47d6-4d96-b70d-39a3e95b8916</RequestId>
+  <RequestId>693d1b58-1dfb-4c35-b284-d6c619057af1</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### Unsubscribe
 
@@ -1519,6 +1866,11 @@ Deletes a subscription.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 118
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=Unsubscribe
 &Version=2010-03-31
@@ -1528,18 +1880,22 @@ Action=Unsubscribe
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 774514be-8657-4574-bd14-4b1737d06df3
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: SubscriptionId</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: Unsubscribe&#xA;</Message>
   </Error>
-  <RequestId>573e0495-9401-4670-9ec4-8be86d2e71f7</RequestId>
+  <RequestId>774514be-8657-4574-bd14-4b1737d06df3</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation. See [the walkthrough](#8-unsubscribe) for a successful call.
+`400` `InvalidAction`. See [the walkthrough](#8-unsubscribe) for a successful call.
 
 ### UntagResource
 
@@ -1547,6 +1903,11 @@ Remove tags from the specified Amazon SNS topic.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 142
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UntagResource
 &Version=2010-03-31
@@ -1557,18 +1918,22 @@ Action=UntagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: bcdef34f-19ef-440d-b2d9-5aa2c26d4b12
+content-length: 224
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: ResourceArn Reason: An SNS tag is held by a topic, so the ARN must name an Amazon SNS topic</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: UntagResource&#xA;</Message>
   </Error>
-  <RequestId>c3f7d68c-58db-4b2a-9d9f-78fe68725796</RequestId>
+  <RequestId>bcdef34f-19ef-440d-b2d9-5aa2c26d4b12</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ### VerifySMSSandboxPhoneNumber
 
@@ -1576,6 +1941,11 @@ Verifies a destination phone number with a one-time password (OTP) for the calli
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 92
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sns/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=VerifySMSSandboxPhoneNumber
 &Version=2010-03-31
@@ -1586,18 +1956,22 @@ Action=VerifySMSSandboxPhoneNumber
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: ce6cb60a-ffaf-404f-8376-3ba9a7e498d5
+content-length: 238
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
-<ErrorResponse xmlns="http://sns.amazonaws.com/doc/2010-03-31/">
+<?xml version="1.0"?>
+<ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>InvalidParameter</Code>
-    <Message>Invalid parameter: PhoneNumber Reason: input incorrectly formatted</Message>
+    <Code>InvalidAction</Code>
+    <Message>unknown action: VerifySMSSandboxPhoneNumber&#xA;</Message>
   </Error>
-  <RequestId>d1ccfc96-e56c-467a-8cd5-df4056ce564a</RequestId>
+  <RequestId>ce6cb60a-ffaf-404f-8376-3ba9a7e498d5</RequestId>
 </ErrorResponse>
 ```
 
-`400` `InvalidParameter`: the placeholder values failed the operation's input validation.
+`400` `InvalidAction`.
 
 ## How it works
 

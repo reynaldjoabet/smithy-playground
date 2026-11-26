@@ -11,7 +11,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `autoscaling-plans`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `autoscaling-plans`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `DescribeScalingPlans`:
 
@@ -42,9 +42,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.CreateTable
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120952Z
-Content-Length: 317
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182729Z
+Content-Length: 294
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AttributeDefinitions": [
@@ -79,10 +79,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dy
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: B8GWUGJRX9K4DZMOJ9SM66CQTIHUM7501HN18JJTPKVAG1V1KK8O
-x-amz-crc32: 4260793991
+x-amzn-requestid: 9QX6YHQN1973DC4ZB77AYKFS2A0VGR07CPHGJR5B69703AYIN0FY
+x-amz-crc32: 3192097194
 content-length: 671
-date: Mon, 16 Nov 2026 12:09:52 GMT
+date: Thu, 26 Nov 2026 18:27:29 GMT
 
 {
   "TableDescription": {
@@ -100,7 +100,7 @@ date: Mon, 16 Nov 2026 12:09:52 GMT
       }
     ],
     "TableStatus": "CREATING",
-    "CreationDateTime": 1794830992.444,
+    "CreationDateTime": 1795717649.363,
     "ProvisionedThroughput": {
       "NumberOfDecreasesToday": 0,
       "ReadCapacityUnits": 5,
@@ -109,7 +109,7 @@ date: Mon, 16 Nov 2026 12:09:52 GMT
     "TableSizeBytes": 0,
     "ItemCount": 0,
     "TableArn": "arn:aws:dynamodb:us-east-1:000000000000:table/docs-demo-plan",
-    "TableId": "f14feacb-eed9-496b-ae17-33b5b65a055f",
+    "TableId": "cb4422fc-f0e0-4d63-b5a0-1423e6c2313f",
     "DeletionProtectionEnabled": false,
     "TableThroughputModeSummary": {
       "TableThroughputMode": "PROVISIONED"
@@ -134,9 +134,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeTable
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120952Z
-Content-Length: 31
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182729Z
+Content-Length: 30
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "docs-demo-plan"
@@ -148,10 +148,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dy
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: 0LFTB3GI6B95YO85HAC1OZRLOUT1WWW70E7KRTW77JJ69WAI4NML
-x-amz-crc32: 2357193430
+x-amzn-requestid: A5SQEB623B6NEZQ966GTFY4NIXP9SPXA8SVQS9QDNNOXOCYIEHOZ
+x-amz-crc32: 3486182907
 content-length: 658
-date: Mon, 16 Nov 2026 12:09:55 GMT
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 {
   "Table": {
@@ -169,7 +169,7 @@ date: Mon, 16 Nov 2026 12:09:55 GMT
       }
     ],
     "TableStatus": "ACTIVE",
-    "CreationDateTime": 1794830992.444,
+    "CreationDateTime": 1795717649.363,
     "ProvisionedThroughput": {
       "NumberOfDecreasesToday": 0,
       "ReadCapacityUnits": 5,
@@ -178,7 +178,7 @@ date: Mon, 16 Nov 2026 12:09:55 GMT
     "TableSizeBytes": 0,
     "ItemCount": 0,
     "TableArn": "arn:aws:dynamodb:us-east-1:000000000000:table/docs-demo-plan",
-    "TableId": "f14feacb-eed9-496b-ae17-33b5b65a055f",
+    "TableId": "cb4422fc-f0e0-4d63-b5a0-1423e6c2313f",
     "DeletionProtectionEnabled": false,
     "TableThroughputModeSummary": {
       "TableThroughputMode": "PROVISIONED"
@@ -203,9 +203,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AnyScaleScalingPlannerFrontendService.CreateScalingPlan
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120955Z
-Content-Length: 468
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/autoscaling-plans/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182732Z
+Content-Length: 444
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling-plans/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ScalingPlanName": "docs-demo",
@@ -245,7 +245,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/au
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 24
-date: Mon, 16 Nov 2026 12:09:55 GMT
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 {
   "ScalingPlanVersion": 1
@@ -265,9 +265,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AnyScaleScalingPlannerFrontendService.DescribeScalingPlans
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120957Z
-Content-Length: 35
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/autoscaling-plans/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182732Z
+Content-Length: 34
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling-plans/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ScalingPlanNames": [
@@ -281,8 +281,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/au
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 661
-date: Mon, 16 Nov 2026 12:09:57 GMT
+content-length: 691
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 {
   "ScalingPlans": [
@@ -316,10 +316,11 @@ date: Mon, 16 Nov 2026 12:09:57 GMT
           ]
         }
       ],
-      "StatusCode": "Active",
-      "StatusMessage": "Scaling plan has been created and applied to all resources.",
-      "StatusStartTime": 1794830995.956312,
-      "CreationTime": 1794830995.456312
+      "StatusCode": "CreationInProgress",
+      "StatusMessage": "Scaling plan is being created.",
+      "StatusStartTime": 1795717652.3751066,
+      "CreationTime": 1795717652.3751066,
+      "LastMutatingRequestTime": 1795717652.3751066
     }
   ]
 }
@@ -336,9 +337,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AnyScaleScalingPlannerFrontendService.DescribeScalingPlanResources
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120957Z
-Content-Length: 57
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/autoscaling-plans/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182732Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling-plans/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ScalingPlanName": "docs-demo",
@@ -351,8 +352,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/au
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 609
-date: Mon, 16 Nov 2026 12:09:57 GMT
+content-length: 376
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 {
   "ScalingPlanResources": [
@@ -362,20 +363,8 @@ date: Mon, 16 Nov 2026 12:09:57 GMT
       "ServiceNamespace": "dynamodb",
       "ResourceId": "table/docs-demo-plan",
       "ScalableDimension": "dynamodb:table:ReadCapacityUnits",
-      "ScalingPolicies": [
-        {
-          "PolicyName": "AutoScaling-docs-demo-d841397dcb0e3e3880b1a7cb84f9d690",
-          "PolicyType": "TargetTrackingScaling",
-          "TargetTrackingConfiguration": {
-            "PredefinedScalingMetricSpecification": {
-              "PredefinedScalingMetricType": "DynamoDBReadCapacityUtilization"
-            },
-            "TargetValue": 70.0
-          }
-        }
-      ],
-      "ScalingStatusCode": "Active",
-      "ScalingStatusMessage": "Target tracking scaling policies have been applied to the resource."
+      "ScalingStatusCode": "Inactive",
+      "ScalingStatusMessage": "Target tracking scaling policies have not been applied to the resource yet because the scaling plan is being created."
     }
   ]
 }
@@ -392,9 +381,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AnyScaleScalingPlannerFrontendService.DeleteScalingPlan
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120957Z
-Content-Length: 57
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/autoscaling-plans/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182732Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling-plans/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ScalingPlanName": "docs-demo",
@@ -408,7 +397,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/au
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 2
-date: Mon, 16 Nov 2026 12:09:57 GMT
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 {}
 ```
@@ -424,9 +413,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DescribeTable
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120957Z
-Content-Length: 31
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182732Z
+Content-Length: 30
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "docs-demo-plan"
@@ -438,10 +427,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dy
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: 9JQIQ7MMT4WP97BBSBQN9N4CPBL3TNN5EO1IA0HIT5BSI0VGBVLX
-x-amz-crc32: 2357193430
+x-amzn-requestid: FQ0NI2P9P6TKIQKZPFX1S2PUY5BYOXQPBO0FLD3AD7YLFQ4BOJ3X
+x-amz-crc32: 3486182907
 content-length: 658
-date: Mon, 16 Nov 2026 12:09:57 GMT
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 {
   "Table": {
@@ -459,7 +448,7 @@ date: Mon, 16 Nov 2026 12:09:57 GMT
       }
     ],
     "TableStatus": "ACTIVE",
-    "CreationDateTime": 1794830992.444,
+    "CreationDateTime": 1795717649.363,
     "ProvisionedThroughput": {
       "NumberOfDecreasesToday": 0,
       "ReadCapacityUnits": 5,
@@ -468,7 +457,7 @@ date: Mon, 16 Nov 2026 12:09:57 GMT
     "TableSizeBytes": 0,
     "ItemCount": 0,
     "TableArn": "arn:aws:dynamodb:us-east-1:000000000000:table/docs-demo-plan",
-    "TableId": "f14feacb-eed9-496b-ae17-33b5b65a055f",
+    "TableId": "cb4422fc-f0e0-4d63-b5a0-1423e6c2313f",
     "DeletionProtectionEnabled": false,
     "TableThroughputModeSummary": {
       "TableThroughputMode": "PROVISIONED"
@@ -493,9 +482,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: DynamoDB_20120810.DeleteTable
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120957Z
-Content-Length: 31
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T182732Z
+Content-Length: 30
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/dynamodb/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TableName": "docs-demo-plan"
@@ -507,10 +496,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/dy
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-x-amzn-requestid: LKW0W595W5YZ66UKTPORFQENTWD8NWBOP41C1VW7LA5IXT83B95V
-x-amz-crc32: 2098035847
+x-amzn-requestid: VR6Z2HY4JQ7WWCLD4PWTKAP5LTZMSPE4FSABRWYZ5I2PTL99Q84K
+x-amz-crc32: 1052277674
 content-length: 671
-date: Mon, 16 Nov 2026 12:09:57 GMT
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 {
   "TableDescription": {
@@ -528,7 +517,7 @@ date: Mon, 16 Nov 2026 12:09:57 GMT
       }
     ],
     "TableStatus": "DELETING",
-    "CreationDateTime": 1794830992.444,
+    "CreationDateTime": 1795717649.363,
     "ProvisionedThroughput": {
       "NumberOfDecreasesToday": 0,
       "ReadCapacityUnits": 5,
@@ -537,7 +526,7 @@ date: Mon, 16 Nov 2026 12:09:57 GMT
     "TableSizeBytes": 0,
     "ItemCount": 0,
     "TableArn": "arn:aws:dynamodb:us-east-1:000000000000:table/docs-demo-plan",
-    "TableId": "f14feacb-eed9-496b-ae17-33b5b65a055f",
+    "TableId": "cb4422fc-f0e0-4d63-b5a0-1423e6c2313f",
     "DeletionProtectionEnabled": false,
     "TableThroughputModeSummary": {
       "TableThroughputMode": "PROVISIONED"
@@ -553,7 +542,7 @@ date: Mon, 16 Nov 2026 12:09:57 GMT
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 6 operations, 2 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error.
 
@@ -563,7 +552,12 @@ Creates a scaling plan.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: AnyScaleScalingPlannerFrontendService.CreateScalingPlan
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182732Z
+Content-Length: 284
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling-plans/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ScalingPlanName": "example",
@@ -588,6 +582,8 @@ X-Amz-Target: AnyScaleScalingPlannerFrontendService.CreateScalingPlan
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 69
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 {
   "__type": "ValidationException",
@@ -603,7 +599,12 @@ Deletes the specified scaling plan.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: AnyScaleScalingPlannerFrontendService.DeleteScalingPlan
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182732Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling-plans/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ScalingPlanName": "example",
@@ -614,6 +615,8 @@ X-Amz-Target: AnyScaleScalingPlannerFrontendService.DeleteScalingPlan
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 113
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 {
   "__type": "ObjectNotFoundException",
@@ -629,7 +632,12 @@ Describes the scalable resources in the specified scaling plan.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: AnyScaleScalingPlannerFrontendService.DescribeScalingPlanResources
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182732Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling-plans/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ScalingPlanName": "example",
@@ -640,6 +648,8 @@ X-Amz-Target: AnyScaleScalingPlannerFrontendService.DescribeScalingPlanResources
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 27
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 {
   "ScalingPlanResources": []
@@ -654,7 +664,12 @@ Describes one or more of your scaling plans.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: AnyScaleScalingPlannerFrontendService.DescribeScalingPlans
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182732Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling-plans/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -662,10 +677,30 @@ X-Amz-Target: AnyScaleScalingPlannerFrontendService.DescribeScalingPlans
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 691
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 {
-  "ScalingPlans": []
-}
+  "ScalingPlans": [
+    {
+      "ScalingPlanName": "docs-demo",
+      "ScalingPlanVersion": 1,
+      "ApplicationSource": {
+        "TagFilters": [
+          {
+            "Key": "app",
+            "Values": [
+              "docs-demo"
+            ]
+          }
+        ]
+      },
+      "ScalingInstructions": [
+        {
+          "ServiceNamespace": "dynamodb",
+          "ResourceId": "table/docs-demo-plan",
+          "ScalableDimension": "dynamodb:table:ReadCapacityUnits",
+… (20 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values. See [the walkthrough](#4-describescalingplans) for a successful call.
@@ -676,7 +711,12 @@ Retrieves the forecast data for a scalable resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: AnyScaleScalingPlannerFrontendService.GetScalingPlanResourceForecastData
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182732Z
+Content-Length: 281
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling-plans/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ScalingPlanName": "example",
@@ -693,6 +733,8 @@ X-Amz-Target: AnyScaleScalingPlannerFrontendService.GetScalingPlanResourceForeca
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 83
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 {
   "__type": "ValidationException",
@@ -708,7 +750,12 @@ Updates the specified scaling plan.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: AnyScaleScalingPlannerFrontendService.UpdateScalingPlan
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182732Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling-plans/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ScalingPlanName": "example",
@@ -719,6 +766,8 @@ X-Amz-Target: AnyScaleScalingPlannerFrontendService.UpdateScalingPlan
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 113
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 {
   "__type": "ObjectNotFoundException",

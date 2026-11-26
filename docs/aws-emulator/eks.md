@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `eks`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `eks`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListClusters`:
 
@@ -36,9 +36,9 @@ EKS needs a role it can assume.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120552Z
+X-Amz-Date: 20261126T182913Z
 Content-Length: 315
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateRole
 &Version=2010-05-08
@@ -51,23 +51,25 @@ Action=CreateRole
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 778
-date: Mon, 16 Nov 2026 12:05:52 GMT
+content-length: 820
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 <CreateRoleResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <CreateRoleResult>
     <Role xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
       <Path>/</Path>
       <RoleName>docs-demo-eks</RoleName>
-      <RoleId>AROAOWVOJOY3VBWOJCSHY</RoleId>
+      <RoleId>AROAN7DDQNT4UYC2BHD35</RoleId>
       <Arn>arn:aws:iam::000000000000:role/docs-demo-eks</Arn>
-      <CreateDate>2026-11-16T12:05:52.022Z</CreateDate>
+      <CreateDate>2026-11-26T18:29:13.812Z</CreateDate>
       <AssumeRolePolicyDocument>%7B%22Version%22%3A%222012-10-17%22%2C%22Statement%22%3A%5B%7B%22Effect%22%3A%22Allow%22%2C%22Principal%22%3A%7B%22Service%22%3A%22eks.amazonaws.com%22%7D%2C%22Action%22%3A%22sts%3AAssumeRole%22%7D%5D%7D</AssumeRolePolicyDocument>
       <MaxSessionDuration>3600</MaxSessionDuration>
+      <Tags></Tags>
+      <RoleLastUsed></RoleLastUsed>
     </Role>
   </CreateRoleResult>
   <ResponseMetadata>
-    <RequestId>f74ac674-0a47-4ebc-8f1d-b18d7bb3ce0e</RequestId>
+    <RequestId>c5a022b3-28e6-44af-9ef7-5724d88fe09c</RequestId>
   </ResponseMetadata>
 </CreateRoleResponse>
 ```
@@ -82,13 +84,13 @@ The subnets come from EC2; the cluster starts in `CREATING`.
 POST /clusters HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120552Z
-Content-Length: 256
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Content-Length: 245
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "name": "docs-demo",
-  "version": "1.31",
+  "version": "1.34",
   "roleArn": "arn:aws:iam::000000000000:role/docs-demo-eks",
   "resourcesVpcConfig": {
     "subnetIds": [
@@ -105,15 +107,15 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ek
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
-content-length: 1449
-date: Mon, 16 Nov 2026 12:05:52 GMT
+content-length: 1462
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "cluster": {
     "name": "docs-demo",
     "arn": "arn:aws:eks:us-east-1:000000000000:cluster/docs-demo",
-    "createdAt": 1794830752.0792463,
-    "version": "1.31",
+    "createdAt": 1795717753.816,
+    "version": "1.34",
     "roleArn": "arn:aws:iam::000000000000:role/docs-demo-eks",
     "resourcesVpcConfig": {
       "subnetIds": [
@@ -130,7 +132,7 @@ date: Mon, 16 Nov 2026 12:05:52 GMT
       "controlPlaneEgressMode": "AWS_MANAGED"
     },
     "kubernetesNetworkConfig": {
-      "serviceIpv4Cidr": "10.100.0.0/16",
+      "serviceIpv4Cidr": "172.20.0.0/16",
       "ipFamily": "ipv4",
       "elasticLoadBalancing": {
         "enabled": false
@@ -168,7 +170,7 @@ date: Mon, 16 Nov 2026 12:05:52 GMT
     "kubeApiServerConfig": {
       "eventTtl": "60m",
       "serviceNodePortRange": {
-… (31 more lines)
+… (32 more lines)
 ```
 
 ### 3. DescribeCluster
@@ -182,8 +184,8 @@ Poll until `ACTIVE`. The cluster then reports its certificate authority and an A
 ```http
 GET /clusters/docs-demo HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120554Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -191,16 +193,15 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ek
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
-content-length: 2423
-date: Mon, 16 Nov 2026 12:05:54 GMT
+content-length: 1415
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "cluster": {
     "name": "docs-demo",
     "arn": "arn:aws:eks:us-east-1:000000000000:cluster/docs-demo",
-    "createdAt": 1794830752.0792463,
-    "version": "1.31",
-    "endpoint": "https://127.0.0.1:34531",
+    "createdAt": 1795717753.816,
+    "version": "1.34",
     "roleArn": "arn:aws:iam::000000000000:role/docs-demo-eks",
     "resourcesVpcConfig": {
       "subnetIds": [
@@ -208,7 +209,6 @@ date: Mon, 16 Nov 2026 12:05:54 GMT
         "subnet-00000000000000009"
       ],
       "securityGroupIds": [],
-      "clusterSecurityGroupId": "sg-000000000000000a5",
       "vpcId": "vpc-00000000000000001",
       "endpointPublicAccess": true,
       "endpointPrivateAccess": false,
@@ -218,7 +218,7 @@ date: Mon, 16 Nov 2026 12:05:54 GMT
       "controlPlaneEgressMode": "AWS_MANAGED"
     },
     "kubernetesNetworkConfig": {
-      "serviceIpv4Cidr": "10.100.0.0/16",
+      "serviceIpv4Cidr": "172.20.0.0/16",
       "ipFamily": "ipv4",
       "elasticLoadBalancing": {
         "enabled": false
@@ -238,23 +238,25 @@ date: Mon, 16 Nov 2026 12:05:54 GMT
         }
       ]
     },
-    "identity": {
-      "oidc": {
-        "issuer": "https://oidc.eks.us-east-1.amazonaws.com/id/3FA665443E5D315DA0C3B70B71F19C7B"
-      }
-    },
-    "status": "ACTIVE",
-    "certificateAuthority": {
-      "data": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJiekNDQVJXZ0F3SUJBZ0lVSnF1bzhhQStIQ1lYQ1M3Z2Y1dzFVUzQrY3Vnd0NnWUlLb1pJemowRUF3SXcKRlRFVE1CRUdBMVVFQXd3S2EzVmlaWEp1WlhSbGN6QWVGdzB5TmpFeE1UWXhNakExTlRKYUZ3MHpOakV4TVRNeApNakExTlRKYU1CVXhFekFSQmdOVkJBTU1DbXQxWW1WeWJtVjBaWE13V1RBVEJnY3Foa2pPUFFJQkJnZ3Foa2pPClBRTUJCd05DQUFURWJXUkJvZjk0SXhwV09wenJrTWN6Q0tKVk9SSlBOeS9US1JtN0VkUEgrSWZ5aUFsRUx5NXIKNWFjNlZTMFhOVWJwSTdOWTlZeFg1ZEV0am5yOVltcXVvME13UVRBUEJnTlZIUThCQWY4RUJRTURCNFlBTUIwRwpBMVVkRGdRV0JCUTNEdzRzNzlXc1prTGxCZytpdjBjUjR1Q3JLakFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQW9HCkNDcUdTTTQ5QkFNQ0EwZ0FNRVVDSUgxeG5Uci9FTzVMZUpmVENMV1NTQ0VkZS8xaUpick4yb1ZPdTV5SlRMUTIKQWlFQTFUUXlidy9zVEVhSXdUL1VQWTRFbkhQbDFiditndDBSNVp5YkIrSmViUzA9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K",
-      "active": {
-        "id": "cfaeca89-c5f1-4169-9ae0-d2767d57d077",
-        "activatedBy": "EKS"
-      }
-    },
+    "status": "CREATING",
+    "certificateAuthority": {},
     "platformVersion": "eks.4",
     "tags": {},
     "accessConfig": {
-… (43 more lines)
+      "authenticationMode": "CONFIG_MAP"
+    },
+    "upgradePolicy": {
+      "supportType": "EXTENDED"
+    },
+    "deletionProtection": false,
+    "controlPlaneScalingConfig": {
+      "tier": "standard"
+    },
+    "kubeApiServerConfig": {
+      "eventTtl": "60m",
+      "serviceNodePortRange": {
+        "minPort": 30000,
+… (31 more lines)
 ```
 
 ### 4. ListClusters
@@ -266,8 +268,8 @@ Cluster names of the account in this Region.
 ```http
 GET /clusters HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120554Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -276,7 +278,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ek
 HTTP/1.1 200 OK
 content-type: application/json
 content-length: 26
-date: Mon, 16 Nov 2026 12:05:54 GMT
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "clusters": [
@@ -294,8 +296,8 @@ An unknown name answers 404 `ResourceNotFoundException`.
 ```http
 GET /clusters/nope HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120554Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -305,7 +307,7 @@ HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
 content-length: 104
-date: Mon, 16 Nov 2026 12:05:54 GMT
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -323,8 +325,8 @@ The cluster moves to `DELETING`.
 ```http
 DELETE /clusters/docs-demo HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120554Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T182913Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -332,16 +334,15 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ek
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
-content-length: 1992
-date: Mon, 16 Nov 2026 12:05:54 GMT
+content-length: 982
+date: Thu, 26 Nov 2026 18:29:13 GMT
 
 {
   "cluster": {
     "name": "docs-demo",
     "arn": "arn:aws:eks:us-east-1:000000000000:cluster/docs-demo",
-    "createdAt": 1794830752.0792463,
-    "version": "1.31",
-    "endpoint": "https://127.0.0.1:34531",
+    "createdAt": 1795717753.816,
+    "version": "1.34",
     "roleArn": "arn:aws:iam::000000000000:role/docs-demo-eks",
     "resourcesVpcConfig": {
       "subnetIds": [
@@ -349,7 +350,6 @@ date: Mon, 16 Nov 2026 12:05:54 GMT
         "subnet-00000000000000009"
       ],
       "securityGroupIds": [],
-      "clusterSecurityGroupId": "sg-000000000000000a5",
       "vpcId": "vpc-00000000000000001",
       "endpointPublicAccess": true,
       "endpointPrivateAccess": false,
@@ -359,7 +359,7 @@ date: Mon, 16 Nov 2026 12:05:54 GMT
       "controlPlaneEgressMode": "AWS_MANAGED"
     },
     "kubernetesNetworkConfig": {
-      "serviceIpv4Cidr": "10.100.0.0/16",
+      "serviceIpv4Cidr": "172.20.0.0/16",
       "ipFamily": "ipv4",
       "elasticLoadBalancing": {
         "enabled": false
@@ -379,23 +379,23 @@ date: Mon, 16 Nov 2026 12:05:54 GMT
         }
       ]
     },
-    "identity": {
-      "oidc": {
-        "issuer": "https://oidc.eks.us-east-1.amazonaws.com/id/3FA665443E5D315DA0C3B70B71F19C7B"
-      }
-    },
     "status": "DELETING",
-    "certificateAuthority": {
-      "data": "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSUJiekNDQVJXZ0F3SUJBZ0lVSnF1bzhhQStIQ1lYQ1M3Z2Y1dzFVUzQrY3Vnd0NnWUlLb1pJemowRUF3SXcKRlRFVE1CRUdBMVVFQXd3S2EzVmlaWEp1WlhSbGN6QWVGdzB5TmpFeE1UWXhNakExTlRKYUZ3MHpOakV4TVRNeApNakExTlRKYU1CVXhFekFSQmdOVkJBTU1DbXQxWW1WeWJtVjBaWE13V1RBVEJnY3Foa2pPUFFJQkJnZ3Foa2pPClBRTUJCd05DQUFURWJXUkJvZjk0SXhwV09wenJrTWN6Q0tKVk9SSlBOeS9US1JtN0VkUEgrSWZ5aUFsRUx5NXIKNWFjNlZTMFhOVWJwSTdOWTlZeFg1ZEV0am5yOVltcXVvME13UVRBUEJnTlZIUThCQWY4RUJRTURCNFlBTUIwRwpBMVVkRGdRV0JCUTNEdzRzNzlXc1prTGxCZytpdjBjUjR1Q3JLakFQQmdOVkhSTUJBZjhFQlRBREFRSC9NQW9HCkNDcUdTTTQ5QkFNQ0EwZ0FNRVVDSUgxeG5Uci9FTzVMZUpmVENMV1NTQ0VkZS8xaUpick4yb1ZPdTV5SlRMUTIKQWlFQTFUUXlidy9zVEVhSXdUL1VQWTRFbkhQbDFiditndDBSNVp5YkIrSmViUzA9Ci0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K",
-      "active": {
-        "id": "cfaeca89-c5f1-4169-9ae0-d2767d57d077",
-        "activatedBy": "EKS"
-      }
-    },
+    "certificateAuthority": {},
     "platformVersion": "eks.4",
     "tags": {},
     "accessConfig": {
-… (11 more lines)
+      "authenticationMode": "CONFIG_MAP"
+    },
+    "upgradePolicy": {
+      "supportType": "EXTENDED"
+    },
+    "deletionProtection": false,
+    "controlPlaneScalingConfig": {
+      "tier": "standard"
+    },
+    "vendedLogs": false
+  }
+}
 ```
 
 ### 7. DescribeCluster
@@ -407,8 +407,8 @@ Poll until it is gone.
 ```http
 GET /clusters/docs-demo HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120554Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -418,7 +418,7 @@ HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
 content-length: 114
-date: Mon, 16 Nov 2026 12:05:54 GMT
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -437,9 +437,9 @@ Clean up the role.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120554Z
+X-Amz-Date: 20261126T182916Z
 Content-Length: 59
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteRole
 &Version=2010-05-08
@@ -452,19 +452,19 @@ Action=DeleteRole
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 224
-date: Mon, 16 Nov 2026 12:05:54 GMT
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 <DeleteRoleResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <DeleteRoleResult/>
+  <DeleteRoleResult></DeleteRoleResult>
   <ResponseMetadata>
-    <RequestId>f6284914-fb40-4aaf-be4d-eff52a075801</RequestId>
+    <RequestId>e1253a11-ed9a-459f-9d90-ee6c1317ee8d</RequestId>
   </ResponseMetadata>
 </DeleteRoleResponse>
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 70 operations, 5 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
@@ -475,6 +475,10 @@ Activates a successor certificate authority (CA) as the signing certificate auth
 ```http
 POST /clusters/example/certificate-authorities/example/activate HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientRequestToken": "47f6ad46-a4de-4788-8eb9-b70502e05305"
@@ -485,6 +489,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -502,6 +508,10 @@ Associates an access policy and its scope to an access entry.
 ```http
 POST /clusters/example/access-entries/arn%3Aaws%3Aeks%3Aus-east-1%3A000000000000%3Aexample%2Fexample/access-policies HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Content-Length: 83
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "policyArn": "arn:aws:eks:us-east-1:000000000000:example/example",
@@ -513,6 +523,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -529,6 +541,10 @@ Associates an encryption configuration to an existing cluster.
 ```http
 POST /clusters/example/encryption-config/associate HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Content-Length: 85
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "encryptionConfig": [
@@ -542,6 +558,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -559,6 +577,10 @@ Associates an identity provider configuration to a cluster.
 ```http
 POST /clusters/example/identity-provider-configs/associate HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Content-Length: 152
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "oidc": {
@@ -574,6 +596,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -591,6 +615,10 @@ Cancels an in-progress update to an Amazon EKS cluster on a best-effort basis.
 ```http
 POST /clusters/example/updates/example/cancel-update HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientRequestToken": "63a700e0-adbc-4a74-a269-8df9b226747a"
@@ -601,6 +629,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -618,6 +648,10 @@ Creates an access entry.
 ```http
 POST /clusters/example/access-entries HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Content-Length: 129
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "principalArn": "arn:aws:eks:us-east-1:000000000000:example/example",
@@ -629,6 +663,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -646,6 +682,10 @@ Creates an Amazon EKS add-on.
 ```http
 POST /clusters/example/addons HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Content-Length: 83
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "addonName": "example",
@@ -657,6 +697,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -674,6 +716,10 @@ Creates a managed capability resource for an Amazon EKS cluster.
 ```http
 POST /clusters/example/capabilities HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Content-Length: 199
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "capabilityName": "example",
@@ -688,6 +734,8 @@ Content-Type: application/json
 HTTP/1.1 403 Forbidden
 content-type: application/json
 x-amzn-errortype: AccessDeniedException
+content-length: 86
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "AccessDeniedException",
@@ -704,6 +752,10 @@ Appends a successor certificate authority (CA) to your cluster, beginning the CA
 ```http
 POST /clusters/example/certificate-authorities HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientRequestToken": "6acf5df2-6b00-4770-82cf-8ad1ff54cadd"
@@ -714,6 +766,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -731,6 +785,10 @@ Creates an Amazon EKS control plane.
 ```http
 POST /clusters HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Content-Length: 165
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "name": "example",
@@ -744,6 +802,8 @@ Content-Type: application/json
 HTTP/1.1 403 Forbidden
 content-type: application/json
 x-amzn-errortype: AccessDeniedException
+content-length: 86
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "AccessDeniedException",
@@ -760,6 +820,10 @@ Creates an EKS Anywhere subscription.
 ```http
 POST /eks-anywhere-subscriptions HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Content-Length: 88
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "name": "example",
@@ -772,6 +836,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: InvalidParameterException
+content-length: 82
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -788,6 +854,10 @@ Creates an Fargate profile for your Amazon EKS cluster.
 ```http
 POST /clusters/example/fargate-profiles HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Content-Length: 167
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "fargateProfileName": "example",
@@ -800,6 +870,8 @@ Content-Type: application/json
 HTTP/1.1 403 Forbidden
 content-type: application/json
 x-amzn-errortype: AccessDeniedException
+content-length: 86
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "AccessDeniedException",
@@ -816,6 +888,10 @@ Creates a managed node group for an Amazon EKS cluster.
 ```http
 POST /clusters/example/node-groups HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Content-Length: 130
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "nodegroupName": "example",
@@ -831,6 +907,8 @@ Content-Type: application/json
 HTTP/1.1 403 Forbidden
 content-type: application/json
 x-amzn-errortype: AccessDeniedException
+content-length: 86
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "AccessDeniedException",
@@ -847,6 +925,10 @@ Creates an EKS Pod Identity association between a service account in an Amazon E
 ```http
 POST /clusters/example/pod-identity-associations HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Content-Length: 173
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "namespace": "example",
@@ -860,6 +942,8 @@ Content-Type: application/json
 HTTP/1.1 403 Forbidden
 content-type: application/json
 x-amzn-errortype: AccessDeniedException
+content-length: 86
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "AccessDeniedException",
@@ -875,12 +959,17 @@ Deletes an access entry.
 
 ```http
 DELETE /clusters/example/access-entries/arn%3Aaws%3Aeks%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -896,12 +985,17 @@ Deletes an Amazon EKS add-on.
 
 ```http
 DELETE /clusters/example/addons/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -917,12 +1011,17 @@ Deletes a managed capability from your Amazon EKS cluster.
 
 ```http
 DELETE /clusters/example/capabilities/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -938,12 +1037,17 @@ Deletes a certificate authority (CA) from your cluster.
 
 ```http
 DELETE /clusters/example/certificate-authorities/example?clientRequestToken=db8d0ab1-9fc8-4eb6-a323-eef278062129 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -960,12 +1064,17 @@ Deletes an Amazon EKS cluster control plane.
 
 ```http
 DELETE /clusters/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -982,12 +1091,17 @@ Deletes an expired or inactive subscription.
 
 ```http
 DELETE /eks-anywhere-subscriptions/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 74
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1003,12 +1117,17 @@ Deletes an Fargate profile.
 
 ```http
 DELETE /clusters/example/fargate-profiles/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1024,12 +1143,17 @@ Deletes a managed node group.
 
 ```http
 DELETE /clusters/example/node-groups/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1045,12 +1169,17 @@ Deletes a EKS Pod Identity association.
 
 ```http
 DELETE /clusters/example/pod-identity-associations/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: InvalidParameterException
+content-length: 132
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1067,12 +1196,17 @@ Deregisters a connected cluster to remove it from the Amazon EKS control plane.
 
 ```http
 DELETE /cluster-registrations/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1089,12 +1223,17 @@ Describes an access entry.
 
 ```http
 GET /clusters/example/access-entries/arn%3Aaws%3Aeks%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1110,12 +1249,17 @@ Describes an Amazon EKS add-on.
 
 ```http
 GET /clusters/example/addons/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1131,12 +1275,17 @@ Returns configuration options.
 
 ```http
 GET /addons/configuration-schemas?addonName=example&addonVersion=example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 128
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1152,11 +1301,16 @@ Describes the versions for an add-on.
 
 ```http
 GET /addons/supported-versions HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 202478
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "addons": [
@@ -1165,7 +1319,7 @@ content-type: application/json
       "type": "security",
       "addonVersions": [
         {
-          "addonVersion": "v1.11.3-eksbuild.1",
+          "addonVersion": "v0.10.2-eksbuild.1",
           "architecture": [
             "amd64",
             "arm64"
@@ -1175,10 +1329,10 @@ content-type: application/json
           ],
           "compatibilities": [
             {
-              "clusterVersion": "1.37",
+              "clusterVersion": "1.27",
               "platformVersions": [
                 "*"
-… (19398 more lines)
+… (17980 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -1189,12 +1343,17 @@ Returns detailed information about a specific managed capability in your Amazon 
 
 ```http
 GET /clusters/example/capabilities/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1210,12 +1369,17 @@ Returns detailed information about a certificate authority (CA) in your cluster,
 
 ```http
 GET /clusters/example/certificate-authorities/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1232,12 +1396,17 @@ Describes an Amazon EKS cluster.
 
 ```http
 GET /clusters/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1254,11 +1423,16 @@ Lists available Kubernetes versions for Amazon EKS clusters.
 
 ```http
 GET /cluster-versions HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182916Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 34904
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "clusterVersions": [
@@ -1280,7 +1454,7 @@ content-type: application/json
           "podSchedulingRatePerSecond": 167,
           "clusterDatabaseSizeGb": 16,
           "controlPlaneComponentConfigOverrides": {
-… (7004 more lines)
+… (2882 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -1291,12 +1465,17 @@ Returns descriptive information about a subscription.
 
 ```http
 GET /eks-anywhere-subscriptions/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 74
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1312,12 +1491,17 @@ Describes an Fargate profile.
 
 ```http
 GET /clusters/example/fargate-profiles/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:16 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1334,6 +1518,10 @@ Describes an identity provider configuration.
 ```http
 POST /clusters/example/identity-provider-configs/describe HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Content-Length: 62
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "identityProviderConfig": {
@@ -1347,6 +1535,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1362,12 +1552,17 @@ Returns details about an insight that you specify using its ID.
 
 ```http
 GET /clusters/example/insights/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1384,12 +1579,17 @@ Returns the status of the latest on-demand cluster insights refresh operation.
 
 ```http
 GET /clusters/example/insights-refresh HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1406,12 +1606,17 @@ Describes a managed node group.
 
 ```http
 GET /clusters/example/node-groups/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1427,12 +1632,17 @@ Returns descriptive information about an EKS Pod Identity association.
 
 ```http
 GET /clusters/example/pod-identity-associations/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: InvalidParameterException
+content-length: 132
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1449,12 +1659,17 @@ Describes an update to an Amazon EKS resource.
 
 ```http
 GET /clusters/example/updates/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1471,12 +1686,17 @@ Disassociates an access policy from an access entry.
 
 ```http
 DELETE /clusters/example/access-entries/arn%3Aaws%3Aeks%3Aus-east-1%3A000000000000%3Aexample%2Fexample/access-policies/arn%3Aaws%3Aeks%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1493,6 +1713,10 @@ Disassociates an identity provider configuration from a cluster.
 ```http
 POST /clusters/example/identity-provider-configs/disassociate HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Content-Length: 122
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "identityProviderConfig": {
@@ -1507,6 +1731,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: InvalidParameterException
+content-length: 128
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1523,12 +1749,17 @@ Lists the access entries for your cluster.
 
 ```http
 GET /clusters/example/access-entries HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1545,11 +1776,16 @@ Lists the available access policies.
 
 ```http
 GET /access-policies HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 4540
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "accessPolicies": [
@@ -1582,12 +1818,17 @@ Lists the installed add-ons.
 
 ```http
 GET /clusters/example/addons HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1604,12 +1845,17 @@ Lists the access policies associated with an access entry.
 
 ```http
 GET /clusters/example/access-entries/arn%3Aaws%3Aeks%3Aus-east-1%3A000000000000%3Aexample%2Fexample/access-policies HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1625,12 +1871,17 @@ Lists all managed capabilities in your Amazon EKS cluster.
 
 ```http
 GET /clusters/example/capabilities HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1647,12 +1898,17 @@ Lists the certificate authorities (CAs) for your cluster.
 
 ```http
 GET /clusters/example/certificate-authorities HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1669,11 +1925,16 @@ Lists the Amazon EKS clusters in your Amazon Web Services account in the specifi
 
 ```http
 GET /clusters HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 15
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "clusters": []
@@ -1688,11 +1949,16 @@ Displays the full description of the subscription.
 
 ```http
 GET /eks-anywhere-subscriptions HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 20
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "subscriptions": []
@@ -1709,12 +1975,17 @@ Lists the Fargate profiles associated with the specified cluster in your Amazon 
 
 ```http
 GET /clusters/example/fargate-profiles HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1733,12 +2004,17 @@ Lists the identity provider configurations for your cluster.
 
 ```http
 GET /clusters/example/identity-provider-configs HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1755,12 +2031,17 @@ Returns a list of all insights checked for against the specified cluster.
 
 ```http
 POST /clusters/example/insights HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1777,12 +2058,17 @@ Lists the managed node groups associated with the specified cluster in your Amaz
 
 ```http
 GET /clusters/example/node-groups HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1799,12 +2085,17 @@ List the EKS Pod Identity associations in a cluster.
 
 ```http
 GET /clusters/example/pod-identity-associations HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1821,12 +2112,17 @@ List the tags for an Amazon EKS resource.
 
 ```http
 GET /tags/arn%3Aaws%3Aeks%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 65
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "NotFoundException",
@@ -1842,12 +2138,17 @@ Lists the updates associated with an Amazon EKS resource in your Amazon Web Serv
 
 ```http
 GET /clusters/example/updates HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1865,6 +2166,10 @@ Connects a Kubernetes cluster to the Amazon EKS control plane.
 ```http
 POST /cluster-registrations HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Content-Length: 187
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "name": "example",
@@ -1880,6 +2185,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: InvalidParameterException
+content-length: 107
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1896,12 +2203,17 @@ Initiates an on-demand refresh operation for cluster insights, getting the lates
 
 ```http
 POST /clusters/example/insights-refresh HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1919,6 +2231,10 @@ Associates the specified tags to an Amazon EKS resource with the specified resou
 ```http
 POST /tags/arn%3Aaws%3Aeks%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Content-Length: 26
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "tags": {
@@ -1931,6 +2247,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 65
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "NotFoundException",
@@ -1946,12 +2264,17 @@ Deletes specified tags from an Amazon EKS resource.
 
 ```http
 DELETE /tags/arn%3Aaws%3Aeks%3Aus-east-1%3A000000000000%3Aexample%2Fexample?tagKeys=example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 65
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "NotFoundException",
@@ -1968,6 +2291,10 @@ Updates an access entry.
 ```http
 POST /clusters/example/access-entries/arn%3Aaws%3Aeks%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientRequestToken": "bc12dfee-8101-4f61-a189-43aaac908457"
@@ -1978,6 +2305,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1994,6 +2323,10 @@ Updates an Amazon EKS add-on.
 ```http
 POST /clusters/example/addons/example/update HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientRequestToken": "11fc329b-2747-40c1-a58e-d38d1d6b46e5"
@@ -2004,6 +2337,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2020,6 +2355,10 @@ Updates the configuration of a managed capability in your Amazon EKS cluster.
 ```http
 POST /clusters/example/capabilities/example HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientRequestToken": "d6121380-d96c-476b-a931-561124527478"
@@ -2030,6 +2369,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2046,6 +2387,10 @@ Updates an Amazon EKS cluster configuration.
 ```http
 POST /clusters/example/update-config HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientRequestToken": "090a7ca0-24c4-4e37-9181-f3f3b79bbc8c"
@@ -2056,6 +2401,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2073,6 +2420,10 @@ Updates an Amazon EKS cluster to the specified Kubernetes version.
 ```http
 POST /clusters/example/updates HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Content-Length: 81
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "version": "example",
@@ -2084,6 +2435,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 110
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2101,6 +2454,10 @@ Update an EKS Anywhere Subscription.
 ```http
 POST /eks-anywhere-subscriptions/example HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Content-Length: 79
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "autoRenew": false,
@@ -2112,6 +2469,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 74
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2128,6 +2487,10 @@ Updates an Amazon EKS managed node group configuration.
 ```http
 POST /clusters/example/node-groups/example/update-config HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientRequestToken": "2de304ed-2024-4179-a09d-a3953652dbba"
@@ -2138,6 +2501,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2154,6 +2519,10 @@ Updates the Kubernetes version or AMI version of an Amazon EKS managed node grou
 ```http
 POST /clusters/example/node-groups/example/update-version HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientRequestToken": "e03a826d-9773-4fe5-8c91-f02cc80df8dc"
@@ -2164,6 +2533,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 89
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2180,6 +2551,10 @@ Updates a EKS Pod Identity association.
 ```http
 POST /clusters/example/pod-identity-associations/example HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182917Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/eks/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientRequestToken": "f1fabcf4-8359-4351-8344-9873a4e2ee50"
@@ -2190,6 +2565,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: InvalidParameterException
+content-length: 132
+date: Thu, 26 Nov 2026 18:29:17 GMT
 
 {
   "__type": "InvalidParameterException",

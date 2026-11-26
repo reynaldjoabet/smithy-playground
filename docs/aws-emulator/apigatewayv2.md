@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `apigateway`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `apigateway`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `GetApis`:
 
@@ -36,9 +36,9 @@ Answers 201 with the API's id and its `apiEndpoint`, which keeps the AWS `execut
 POST /v2/apis HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
-Content-Length: 46
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T182725Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "name": "orders-api",
@@ -51,15 +51,14 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ap
 ```http
 HTTP/1.1 201 Created
 content-type: application/json
-content-length: 419
-date: Mon, 16 Nov 2026 12:05:33 GMT
+content-length: 390
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
-  "apiEndpoint": "https://e77k44w5b0.execute-api.us-east-1.amazonaws.com",
-  "apiGatewayManaged": false,
-  "apiId": "e77k44w5b0",
+  "apiEndpoint": "https://127.0.0.1:39581/_aws/execute-api/mp67t4dbd4",
+  "apiId": "mp67t4dbd4",
   "apiKeySelectionExpression": "$request.header.x-api-key",
-  "createdDate": "2026-11-16T12:05:33.200654Z",
+  "createdDate": "2026-11-26T18:27:26.003782Z",
   "disableSchemaValidation": false,
   "disableExecuteApiEndpoint": false,
   "ipAddressType": "ipv4",
@@ -77,12 +76,12 @@ An integration is the backend a route forwards to.
 **Request**
 
 ```http
-POST /v2/apis/e77k44w5b0/integrations HTTP/1.1
+POST /v2/apis/mp67t4dbd4/integrations HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
-Content-Length: 140
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T182726Z
+Content-Length: 133
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "integrationMethod": "GET",
@@ -97,13 +96,12 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ap
 ```http
 HTTP/1.1 201 Created
 content-type: application/json
-content-length: 306
-date: Mon, 16 Nov 2026 12:05:33 GMT
+content-length: 280
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
-  "apiGatewayManaged": false,
   "connectionType": "INTERNET",
-  "integrationId": "390335c",
+  "integrationId": "ur7ayid",
   "integrationMethod": "GET",
   "integrationType": "HTTP_PROXY",
   "integrationUri": "https://example.com/orders",
@@ -122,16 +120,16 @@ A route key is the HTTP method and path; `Target` wires it to the integration.
 **Request**
 
 ```http
-POST /v2/apis/e77k44w5b0/routes HTTP/1.1
+POST /v2/apis/mp67t4dbd4/routes HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
-Content-Length: 61
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T182726Z
+Content-Length: 58
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "routeKey": "GET /orders",
-  "target": "integrations/390335c"
+  "target": "integrations/ur7ayid"
 }
 ```
 
@@ -140,19 +138,15 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ap
 ```http
 HTTP/1.1 201 Created
 content-type: application/json
-content-length: 221
-date: Mon, 16 Nov 2026 12:05:33 GMT
+content-length: 128
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
-  "apiGatewayManaged": false,
   "apiKeyRequired": false,
-  "authorizationScopes": [],
   "authorizationType": "NONE",
-  "requestModels": {},
-  "requestParameters": {},
-  "routeId": "2jcp6wq",
+  "routeId": "t1iw09q",
   "routeKey": "GET /orders",
-  "target": "integrations/390335c"
+  "target": "integrations/ur7ayid"
 }
 ```
 
@@ -163,12 +157,12 @@ date: Mon, 16 Nov 2026 12:05:33 GMT
 **Request**
 
 ```http
-POST /v2/apis/e77k44w5b0/stages HTTP/1.1
+POST /v2/apis/mp67t4dbd4/stages HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
-Content-Length: 45
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T182726Z
+Content-Length: 42
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "autoDeploy": true,
@@ -181,19 +175,18 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ap
 ```http
 HTTP/1.1 201 Created
 content-type: application/json
-content-length: 377
-date: Mon, 16 Nov 2026 12:05:33 GMT
+content-length: 351
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
-  "apiGatewayManaged": false,
   "autoDeploy": true,
-  "createdDate": "2026-11-16T12:05:33.239407Z",
+  "createdDate": "2026-11-26T18:27:26.008172Z",
   "defaultRouteSettings": {
     "detailedMetricsEnabled": false
   },
-  "deploymentId": "51lenj",
-  "lastDeploymentStatusMessage": "Successfully deployed stage with deployment id '51lenj'",
-  "lastUpdatedDate": "2026-11-16T12:05:33.239407Z",
+  "deploymentId": "wjslhw",
+  "lastDeploymentStatusMessage": "Successfully deployed stage with deployment id 'wjslhw'",
+  "lastUpdatedDate": "2026-11-26T18:27:26.008172Z",
   "routeSettings": {},
   "stageName": "$default",
   "stageVariables": {},
@@ -208,10 +201,10 @@ Lists the API's routes.
 **Request**
 
 ```http
-GET /v2/apis/e77k44w5b0/routes HTTP/1.1
+GET /v2/apis/mp67t4dbd4/routes HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -219,21 +212,17 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ap
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
-content-length: 233
-date: Mon, 16 Nov 2026 12:05:33 GMT
+content-length: 140
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "items": [
     {
-      "apiGatewayManaged": false,
       "apiKeyRequired": false,
-      "authorizationScopes": [],
       "authorizationType": "NONE",
-      "requestModels": {},
-      "requestParameters": {},
-      "routeId": "2jcp6wq",
+      "routeId": "t1iw09q",
       "routeKey": "GET /orders",
-      "target": "integrations/390335c"
+      "target": "integrations/ur7ayid"
     }
   ]
 }
@@ -248,8 +237,8 @@ An unknown id answers 404 `NotFoundException`.
 ```http
 GET /v2/apis/nosuchapi HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -259,7 +248,7 @@ HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
 content-length: 98
-date: Mon, 16 Nov 2026 12:05:33 GMT
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -274,10 +263,10 @@ Deleting the API removes its routes, integrations and stages; 204 No Content.
 **Request**
 
 ```http
-DELETE /v2/apis/e77k44w5b0 HTTP/1.1
+DELETE /v2/apis/mp67t4dbd4 HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120533Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -285,12 +274,12 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ap
 ```http
 HTTP/1.1 204 No Content
 content-type: application/json
-date: Mon, 16 Nov 2026 12:05:33 GMT
+date: Thu, 26 Nov 2026 18:27:26 GMT
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 103 operations, 8 accepted the placeholder call, 4 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
@@ -301,6 +290,10 @@ Creates an Api resource.
 ```http
 POST /v2/apis HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "name": "example",
@@ -312,10 +305,12 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 77
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "BadRequestException",
-  "message": "RouteSelectionExpression is required for WebSocket APIs."
+  "message": "Invalid routeSelectionExpression"
 }
 ```
 
@@ -328,6 +323,10 @@ Creates an API mapping.
 ```http
 POST /v2/domainnames/example/apimappings HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 37
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "apiId": "example",
@@ -339,6 +338,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 83
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -355,6 +356,10 @@ Creates an Authorizer for an API.
 ```http
 POST /v2/apis/example/authorizers HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 74
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "authorizerType": "REQUEST",
@@ -369,6 +374,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -384,12 +391,17 @@ Creates a Deployment for an API.
 
 ```http
 POST /v2/apis/example/deployments HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -406,6 +418,10 @@ Creates a domain name.
 ```http
 POST /v2/domainnames HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "domainName": "example"
@@ -416,6 +432,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 98
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "BadRequestException",
@@ -432,6 +450,10 @@ Creates an Integration.
 ```http
 POST /v2/apis/example/integrations HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 25
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "integrationType": "AWS"
@@ -442,6 +464,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -458,6 +482,10 @@ Creates an IntegrationResponses.
 ```http
 POST /v2/apis/example/integrations/example/integrationresponses HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 36
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "integrationResponseKey": "example"
@@ -468,6 +496,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -484,6 +514,10 @@ Creates a Model for an API.
 ```http
 POST /v2/apis/example/models HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 37
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "name": "example",
@@ -495,6 +529,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -511,6 +547,10 @@ Creates a portal.
 ```http
 POST /v2/portals HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 275
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "authorization": {},
@@ -535,6 +575,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 108
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "BadRequestException",
@@ -551,6 +593,10 @@ Creates a new portal product.
 ```http
 POST /v2/portalproducts HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 25
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "displayName": "example"
@@ -560,6 +606,8 @@ Content-Type: application/json
 ```http
 HTTP/1.1 201 Created
 content-type: application/json
+content-length: 253
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "displayName": "example",
@@ -567,7 +615,7 @@ content-type: application/json
     "contents": [],
     "productPageArns": []
   },
-  "lastModified": "2026-11-16T12:11:23.23946Z",
+  "lastModified": "2026-11-26T18:27:26.021346Z",
   "portalProductArn": "arn:aws:apigateway:us-east-1:000000000000:/portalproducts/cetidi75uc",
   "portalProductId": "cetidi75uc",
   "tags": {}
@@ -583,6 +631,10 @@ Creates a new product page for a portal product.
 ```http
 POST /v2/portalproducts/example/productpages HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 55
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "displayContent": {
@@ -596,6 +648,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 100
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -612,6 +666,10 @@ Creates a product REST endpoint page for a portal product.
 ```http
 POST /v2/portalproducts/example/productrestendpointpages HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 29
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "restEndpointIdentifier": {}
@@ -622,6 +680,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 113
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "BadRequestException",
@@ -638,6 +698,10 @@ Creates a Route for an API.
 ```http
 POST /v2/apis/example/routes HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "routeKey": "example"
@@ -648,6 +712,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -664,6 +730,10 @@ Creates a RouteResponse for a Route.
 ```http
 POST /v2/apis/example/routes/example/routeresponses HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 30
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "routeResponseKey": "example"
@@ -674,6 +744,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -690,6 +762,10 @@ Creates a RoutingRule.
 ```http
 POST /v2/domainnames/example/routingrules HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 96
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "actions": [
@@ -711,6 +787,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 146
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "BadRequestException",
@@ -727,6 +805,10 @@ Creates a Stage for an API.
 ```http
 POST /v2/apis/example/stages HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "stageName": "example"
@@ -737,6 +819,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -753,6 +837,10 @@ Creates a VPC link.
 ```http
 POST /v2/vpclinks HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 42
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "name": "example",
@@ -766,6 +854,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 156
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "BadRequestException",
@@ -781,12 +871,17 @@ Deletes the AccessLogSettings for a Stage.
 
 ```http
 DELETE /v2/apis/example/stages/example/accesslogsettings HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -802,12 +897,17 @@ Deletes an Api resource.
 
 ```http
 DELETE /v2/apis/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -823,12 +923,17 @@ Deletes an API mapping.
 
 ```http
 DELETE /v2/domainnames/example/apimappings/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 83
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -844,12 +949,17 @@ Deletes an Authorizer.
 
 ```http
 DELETE /v2/apis/example/authorizers/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -865,12 +975,17 @@ Deletes a CORS configuration.
 
 ```http
 DELETE /v2/apis/example/cors HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -886,12 +1001,17 @@ Deletes a Deployment.
 
 ```http
 DELETE /v2/apis/example/deployments/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 82
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -907,12 +1027,17 @@ Deletes a domain name.
 
 ```http
 DELETE /v2/domainnames/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 83
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -928,12 +1053,17 @@ Deletes an Integration.
 
 ```http
 DELETE /v2/apis/example/integrations/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -949,12 +1079,17 @@ Deletes an IntegrationResponses.
 
 ```http
 DELETE /v2/apis/example/integrations/example/integrationresponses/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -970,12 +1105,17 @@ Deletes a Model.
 
 ```http
 DELETE /v2/apis/example/models/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -991,11 +1131,15 @@ Deletes a portal.
 
 ```http
 DELETE /v2/portals/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 204 No Content
 content-type: application/json
+date: Thu, 26 Nov 2026 18:27:26 GMT
 ```
 
 Accepted: the emulator answered `204 No Content` even with placeholder values.
@@ -1006,11 +1150,15 @@ Deletes a portal product.
 
 ```http
 DELETE /v2/portalproducts/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 204 No Content
 content-type: application/json
+date: Thu, 26 Nov 2026 18:27:26 GMT
 ```
 
 Accepted: the emulator answered `204 No Content` even with placeholder values.
@@ -1021,12 +1169,17 @@ Deletes the sharing policy for a portal product.
 
 ```http
 DELETE /v2/portalproducts/example/sharingpolicy HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 100
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1042,12 +1195,17 @@ Deletes a product page of a portal product.
 
 ```http
 DELETE /v2/portalproducts/example/productpages/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 100
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1063,12 +1221,17 @@ Deletes a product REST endpoint page.
 
 ```http
 DELETE /v2/portalproducts/example/productrestendpointpages/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 100
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1084,12 +1247,17 @@ Deletes a Route.
 
 ```http
 DELETE /v2/apis/example/routes/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1105,12 +1273,17 @@ Deletes a route request parameter.
 
 ```http
 DELETE /v2/apis/example/routes/example/requestparameters/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1126,12 +1299,17 @@ Deletes a RouteResponse.
 
 ```http
 DELETE /v2/apis/example/routes/example/routeresponses/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1147,12 +1325,17 @@ Deletes the RouteSettings for a stage.
 
 ```http
 DELETE /v2/apis/example/stages/example/routesettings/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1168,12 +1351,17 @@ Deletes a routing rule.
 
 ```http
 DELETE /v2/domainnames/example/routingrules/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 83
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1189,12 +1377,17 @@ Deletes a Stage.
 
 ```http
 DELETE /v2/apis/example/stages/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1210,12 +1403,17 @@ Deletes a VPC link.
 
 ```http
 DELETE /v2/vpclinks/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 80
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1231,12 +1429,17 @@ Deletes the publication of a portal portal.
 
 ```http
 DELETE /v2/portals/example/publish HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 59
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1252,16 +1455,21 @@ x-amzn-errortype: NotFoundException
 
 ```http
 GET /v2/apis/example/exports/example?outputType=example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 125
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "BadRequestException",
-  "message": "Invalid value for Specification: 'example'. Valid values are: OAS30."
+  "message": "Invalid export type detected. Currently, the only specification version is OAS30"
 }
 ```
 
@@ -1273,12 +1481,17 @@ Gets an Api resource.
 
 ```http
 GET /v2/apis/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1294,12 +1507,17 @@ Gets an API mapping.
 
 ```http
 GET /v2/domainnames/example/apimappings/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 83
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1315,12 +1533,17 @@ Gets API mappings.
 
 ```http
 GET /v2/domainnames/example/apimappings HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 83
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1336,11 +1559,16 @@ Gets a collection of Api resources.
 
 ```http
 GET /v2/apis HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 12
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "items": []
@@ -1355,12 +1583,17 @@ Gets an Authorizer.
 
 ```http
 GET /v2/apis/example/authorizers/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 82
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1376,12 +1609,17 @@ Gets the Authorizers for an API.
 
 ```http
 GET /v2/apis/example/authorizers HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1397,12 +1635,17 @@ Gets a Deployment.
 
 ```http
 GET /v2/apis/example/deployments/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 82
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1418,12 +1661,17 @@ Gets the Deployments for an API.
 
 ```http
 GET /v2/apis/example/deployments HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1439,12 +1687,17 @@ Gets a domain name.
 
 ```http
 GET /v2/domainnames/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 83
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1460,11 +1713,16 @@ Gets the domain names for an AWS account.
 
 ```http
 GET /v2/domainnames HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 12
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "items": []
@@ -1479,12 +1737,17 @@ Gets an Integration.
 
 ```http
 GET /v2/apis/example/integrations/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 83
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1500,12 +1763,17 @@ Gets an IntegrationResponses.
 
 ```http
 GET /v2/apis/example/integrations/example/integrationresponses/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1521,12 +1789,17 @@ Gets the IntegrationResponses for an Integration.
 
 ```http
 GET /v2/apis/example/integrations/example/integrationresponses HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1542,12 +1815,17 @@ Gets the Integrations for an API.
 
 ```http
 GET /v2/apis/example/integrations HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1563,12 +1841,17 @@ Gets a Model.
 
 ```http
 GET /v2/apis/example/models/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 86
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1584,12 +1867,17 @@ Gets a model template.
 
 ```http
 GET /v2/apis/example/models/example/template HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 86
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1605,12 +1893,17 @@ Gets the Models for an API.
 
 ```http
 GET /v2/apis/example/models HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1626,12 +1919,17 @@ Gets a portal.
 
 ```http
 GET /v2/portals/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 59
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1647,12 +1945,17 @@ Gets a portal product.
 
 ```http
 GET /v2/portalproducts/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 100
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1668,12 +1971,17 @@ Gets the sharing policy for a portal product.
 
 ```http
 GET /v2/portalproducts/example/sharingpolicy HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 100
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1689,12 +1997,17 @@ Gets a product page of a portal product.
 
 ```http
 GET /v2/portalproducts/example/productpages/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 64
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1710,12 +2023,17 @@ Gets a product REST endpoint page.
 
 ```http
 GET /v2/portalproducts/example/productrestendpointpages/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 76
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1731,12 +2049,17 @@ Gets a Route.
 
 ```http
 GET /v2/apis/example/routes/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1752,12 +2075,17 @@ Gets a RouteResponse.
 
 ```http
 GET /v2/apis/example/routes/example/routeresponses/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1773,12 +2101,17 @@ Gets the RouteResponses for a Route.
 
 ```http
 GET /v2/apis/example/routes/example/routeresponses HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1794,12 +2127,17 @@ Gets the Routes for an API.
 
 ```http
 GET /v2/apis/example/routes HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1815,12 +2153,17 @@ Gets a routing rule.
 
 ```http
 GET /v2/domainnames/example/routingrules/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 83
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1836,12 +2179,17 @@ Gets a Stage.
 
 ```http
 GET /v2/apis/example/stages/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1857,12 +2205,17 @@ Gets the Stages for an API.
 
 ```http
 GET /v2/apis/example/stages HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1880,12 +2233,17 @@ Gets a collection of Tag resources.
 
 ```http
 GET /v2/tags/arn%3Aaws%3Aapigatewayv2%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 81
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "BadRequestException",
@@ -1901,12 +2259,17 @@ Gets a VPC link.
 
 ```http
 GET /v2/vpclinks/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 80
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -1922,11 +2285,16 @@ Gets a collection of VPC links.
 
 ```http
 GET /v2/vpclinks HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 12
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "items": []
@@ -1942,6 +2310,10 @@ Imports an API.
 ```http
 PUT /v2/apis HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 18
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "body": "example"
@@ -1952,6 +2324,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 122
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "BadRequestException",
@@ -1967,18 +2341,23 @@ Lists portal products.
 
 ```http
 GET /v2/portalproducts HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 307
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "items": [
     {
       "description": "",
       "displayName": "example",
-      "lastModified": "2026-11-16T12:11:23.23946Z",
+      "lastModified": "2026-11-26T18:27:26.021346Z",
       "portalProductArn": "arn:aws:apigateway:us-east-1:000000000000:/portalproducts/cetidi75uc",
       "portalProductId": "cetidi75uc",
       "tags": {}
@@ -1996,11 +2375,16 @@ Lists portals.
 
 ```http
 GET /v2/portals HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 12
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "items": []
@@ -2015,12 +2399,17 @@ Lists the product pages for a portal product.
 
 ```http
 GET /v2/portalproducts/example/productpages HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 117
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotImplemented",
@@ -2036,12 +2425,17 @@ Lists the product REST endpoint pages of a portal product.
 
 ```http
 GET /v2/portalproducts/example/productrestendpointpages HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 129
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotImplemented",
@@ -2057,12 +2451,17 @@ Lists routing rules.
 
 ```http
 GET /v2/domainnames/example/routingrules HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 83
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2078,12 +2477,17 @@ Creates a portal preview.
 
 ```http
 POST /v2/portals/example/preview HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 59
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2099,12 +2503,17 @@ Publishes a portal.
 
 ```http
 POST /v2/portals/example/publish HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 59
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2121,6 +2530,10 @@ Updates the sharing policy for a portal product.
 ```http
 PUT /v2/portalproducts/example/sharingpolicy HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "policyDocument": "example"
@@ -2131,6 +2544,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 100
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2147,6 +2562,10 @@ Updates a routing rule.
 ```http
 PUT /v2/domainnames/example/routingrules/example HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 96
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "actions": [
@@ -2168,6 +2587,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 146
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "BadRequestException",
@@ -2184,6 +2605,10 @@ Puts an Api resource.
 ```http
 PUT /v2/apis/example HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 18
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "body": "example"
@@ -2194,6 +2619,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2209,12 +2636,17 @@ Resets all authorizer cache entries on a stage.
 
 ```http
 DELETE /v2/apis/example/stages/example/cache/authorizers HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2230,12 +2662,17 @@ Creates a new Tag resource to represent a tag.
 
 ```http
 POST /v2/tags/arn%3Aaws%3Aapigatewayv2%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 112
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotImplemented",
@@ -2253,12 +2690,17 @@ Deletes a Tag.
 
 ```http
 DELETE /v2/tags/arn%3Aaws%3Aapigatewayv2%3Aus-east-1%3A000000000000%3Aexample%2Fexample?tagKeys=example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: BadRequestException
+content-length: 81
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "BadRequestException",
@@ -2274,12 +2716,17 @@ Updates an Api resource.
 
 ```http
 PATCH /v2/apis/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2296,6 +2743,10 @@ The API mapping.
 ```http
 PATCH /v2/domainnames/example/apimappings/example HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Content-Length: 19
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "apiId": "example"
@@ -2306,6 +2757,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 83
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2321,12 +2774,17 @@ Updates an Authorizer.
 
 ```http
 PATCH /v2/apis/example/authorizers/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2342,12 +2800,17 @@ Updates a Deployment.
 
 ```http
 PATCH /v2/apis/example/deployments/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 117
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotImplemented",
@@ -2363,12 +2826,17 @@ Updates a domain name.
 
 ```http
 PATCH /v2/domainnames/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 83
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2384,12 +2852,17 @@ Updates an Integration.
 
 ```http
 PATCH /v2/apis/example/integrations/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2405,12 +2878,17 @@ Updates an IntegrationResponses.
 
 ```http
 PATCH /v2/apis/example/integrations/example/integrationresponses/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2428,12 +2906,17 @@ Updates a Model.
 
 ```http
 PATCH /v2/apis/example/models/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2449,12 +2932,17 @@ Updates a portal.
 
 ```http
 PATCH /v2/portals/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 59
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2470,12 +2958,17 @@ Updates the portal product.
 
 ```http
 PATCH /v2/portalproducts/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 100
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2491,12 +2984,17 @@ Updates a product page of a portal product.
 
 ```http
 PATCH /v2/portalproducts/example/productpages/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 64
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2512,12 +3010,17 @@ Updates a product REST endpoint page.
 
 ```http
 PATCH /v2/portalproducts/example/productrestendpointpages/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 76
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2533,12 +3036,17 @@ Updates a Route.
 
 ```http
 PATCH /v2/apis/example/routes/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2554,12 +3062,17 @@ Updates a RouteResponse.
 
 ```http
 PATCH /v2/apis/example/routes/example/routeresponses/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2575,12 +3088,17 @@ Updates a Stage.
 
 ```http
 PATCH /v2/apis/example/stages/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 96
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",
@@ -2596,12 +3114,17 @@ Updates a VPC link.
 
 ```http
 PATCH /v2/vpclinks/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182726Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/apigateway/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: NotFoundException
+content-length: 80
+date: Thu, 26 Nov 2026 18:27:26 GMT
 
 {
   "__type": "NotFoundException",

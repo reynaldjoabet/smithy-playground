@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `autoscaling`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `autoscaling`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `DescribeAutoScalingGroups`:
 
@@ -39,9 +39,9 @@ Launch configurations are refused, as they are for new AWS accounts: Auto Scalin
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120917Z
+X-Amz-Date: 20261126T182732Z
 Content-Length: 140
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateLaunchConfiguration
 &Version=2011-01-01
@@ -55,9 +55,9 @@ Action=CreateLaunchConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
-x-amzn-requestid: 75bf7700-1ea0-4282-bc95-28c928532efb
+x-amzn-requestid: 199918dd-e6b7-4d76-909b-635f36def8d0
 content-length: 395
-date: Mon, 16 Nov 2026 12:09:17 GMT
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -65,7 +65,7 @@ date: Mon, 16 Nov 2026 12:09:17 GMT
     <Code>UnsupportedOperation</Code>
     <Message>The Launch Configuration creation operation is not available in your account. Use launch templates to create configuration templates for your Auto Scaling groups.</Message>
   </Error>
-  <RequestId>75bf7700-1ea0-4282-bc95-28c928532efb</RequestId>
+  <RequestId>199918dd-e6b7-4d76-909b-635f36def8d0</RequestId>
 </ErrorResponse>
 ```
 
@@ -79,9 +79,9 @@ The launch template lives in EC2.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120917Z
+X-Amz-Date: 20261126T182732Z
 Content-Length: 217
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ec2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateLaunchTemplate
 &Version=2016-11-15
@@ -96,23 +96,23 @@ Action=CreateLaunchTemplate
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml;charset=UTF-8
-content-length: 616
-date: Mon, 16 Nov 2026 12:09:17 GMT
+content-length: 625
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <CreateLaunchTemplateResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <launchTemplate xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
-    <launchTemplateId>lt-000000000000000a9</launchTemplateId>
+    <launchTemplateId>lt-000000000000000a7</launchTemplateId>
     <launchTemplateName>docs-demo-lt</launchTemplateName>
-    <createTime>2026-11-16T12:09:17.312683Z</createTime>
-    <createdBy>arn:aws:iam::000000000000:root</createdBy>
+    <createTime>2026-11-26T18:27:32.982524Z</createTime>
+    <createdBy>arn:aws:iam::000000000000:user/emulator</createdBy>
     <defaultVersionNumber>1</defaultVersionNumber>
     <latestVersionNumber>1</latestVersionNumber>
-    <tagSet/>
+    <tagSet></tagSet>
     <operator>
       <managed>false</managed>
     </operator>
   </launchTemplate>
-  <requestId>196c5ce6-e618-449b-b1b6-bbb77b468a9b</requestId>
+  <requestId>d16e9592-3b37-4355-8e89-260a639bbedf</requestId>
 </CreateLaunchTemplateResponse>
 ```
 
@@ -126,14 +126,14 @@ Subnets are passed as one comma-separated string; success is an empty result.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120917Z
+X-Amz-Date: 20261126T182732Z
 Content-Length: 277
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateAutoScalingGroup
 &Version=2011-01-01
 &AutoScalingGroupName=docs-demo-asg
-&LaunchTemplate.LaunchTemplateId=lt-000000000000000a9
+&LaunchTemplate.LaunchTemplateId=lt-000000000000000a7
 &LaunchTemplate.Version=%24Latest
 &MinSize=0
 &MaxSize=2
@@ -147,12 +147,12 @@ Action=CreateAutoScalingGroup
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 279
-date: Mon, 16 Nov 2026 12:09:17 GMT
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <CreateAutoScalingGroupResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
-  <CreateAutoScalingGroupResult/>
+  <CreateAutoScalingGroupResult></CreateAutoScalingGroupResult>
   <ResponseMetadata>
-    <RequestId>0d05c457-1aab-4ea7-998a-a9b4a7777c76</RequestId>
+    <RequestId>e1639565-3102-4414-a49e-0a0deaa6e367</RequestId>
   </ResponseMetadata>
 </CreateAutoScalingGroupResponse>
 ```
@@ -167,9 +167,9 @@ The group launches instances to reach the desired capacity.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120917Z
+X-Amz-Date: 20261126T182732Z
 Content-Length: 97
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetDesiredCapacity
 &Version=2011-01-01
@@ -183,12 +183,12 @@ Action=SetDesiredCapacity
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 263
-date: Mon, 16 Nov 2026 12:09:17 GMT
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <SetDesiredCapacityResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
-  <SetDesiredCapacityResult/>
+  <SetDesiredCapacityResult></SetDesiredCapacityResult>
   <ResponseMetadata>
-    <RequestId>f5f4622a-3fdb-43eb-b4a2-f0748cb1ddc7</RequestId>
+    <RequestId>26cc2823-ea25-4b6e-8df1-62c80b309c60</RequestId>
   </ResponseMetadata>
 </SetDesiredCapacityResponse>
 ```
@@ -203,9 +203,9 @@ The group's sizes and the instances it holds.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120917Z
+X-Amz-Date: 20261126T182732Z
 Content-Length: 96
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeAutoScalingGroups
 &Version=2011-01-01
@@ -217,8 +217,8 @@ Action=DescribeAutoScalingGroups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 2080
-date: Mon, 16 Nov 2026 12:09:17 GMT
+content-length: 2788
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <DescribeAutoScalingGroupsResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeAutoScalingGroupsResult>
@@ -227,7 +227,7 @@ date: Mon, 16 Nov 2026 12:09:17 GMT
         <AutoScalingGroupName>docs-demo-asg</AutoScalingGroupName>
         <AutoScalingGroupARN>arn:aws:autoscaling:us-east-1:000000000000:autoScalingGroup:00000001-0000-4000-8000-000000000001:autoScalingGroupName/docs-demo-asg</AutoScalingGroupARN>
         <LaunchTemplate>
-          <LaunchTemplateId>lt-000000000000000a9</LaunchTemplateId>
+          <LaunchTemplateId>lt-000000000000000a7</LaunchTemplateId>
           <LaunchTemplateName>docs-demo-lt</LaunchTemplateName>
           <Version>$Latest</Version>
         </LaunchTemplate>
@@ -239,43 +239,48 @@ date: Mon, 16 Nov 2026 12:09:17 GMT
           <member>us-east-1a</member>
           <member>us-east-1b</member>
         </AvailabilityZones>
-        <LoadBalancerNames/>
-        <TargetGroupARNs/>
+        <AvailabilityZoneIds>
+          <member>use1-az1</member>
+          <member>use1-az2</member>
+        </AvailabilityZoneIds>
+        <LoadBalancerNames></LoadBalancerNames>
+        <TargetGroupARNs></TargetGroupARNs>
         <HealthCheckType>EC2</HealthCheckType>
         <HealthCheckGracePeriod>0</HealthCheckGracePeriod>
         <Instances>
           <member>
-            <InstanceId>i-00000000000000002</InstanceId>
+            <InstanceId>i-037b3ad409997f83d</InstanceId>
             <InstanceType>t3.micro</InstanceType>
             <AvailabilityZone>us-east-1a</AvailabilityZone>
+            <AvailabilityZoneId>use1-az1</AvailabilityZoneId>
             <LifecycleState>Pending</LifecycleState>
             <HealthStatus>Healthy</HealthStatus>
             <LaunchTemplate>
-              <LaunchTemplateId>lt-000000000000000a9</LaunchTemplateId>
+              <LaunchTemplateId>lt-000000000000000a7</LaunchTemplateId>
               <LaunchTemplateName>docs-demo-lt</LaunchTemplateName>
-              <Version>$Latest</Version>
+              <Version>1</Version>
             </LaunchTemplate>
             <ImageId>ami-0000000000000003c</ImageId>
             <ProtectedFromScaleIn>false</ProtectedFromScaleIn>
           </member>
         </Instances>
-        <CreatedTime>2026-11-16T12:09:17.331094Z</CreatedTime>
-        <SuspendedProcesses/>
+        <CreatedTime>2026-11-26T18:27:32.984618Z</CreatedTime>
+        <SuspendedProcesses></SuspendedProcesses>
         <VPCZoneIdentifier>subnet-00000000000000007,subnet-00000000000000009</VPCZoneIdentifier>
-        <EnabledMetrics/>
-        <Tags/>
+        <EnabledMetrics></EnabledMetrics>
+        <Tags></Tags>
         <TerminationPolicies>
           <member>Default</member>
         </TerminationPolicies>
         <NewInstancesProtectedFromScaleIn>false</NewInstancesProtectedFromScaleIn>
-        <TrafficSources/>
-      </member>
-    </AutoScalingGroups>
-  </DescribeAutoScalingGroupsResult>
-  <ResponseMetadata>
-    <RequestId>b7068fa3-1cd2-4afe-9df1-e111abc72e67</RequestId>
-  </ResponseMetadata>
-</DescribeAutoScalingGroupsResponse>
+        <ServiceLinkedRoleARN>arn:aws:iam::000000000000:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling</ServiceLinkedRoleARN>
+        <TrafficSources></TrafficSources>
+        <AvailabilityZoneDistribution>
+          <CapacityDistributionStrategy>balanced-best-effort</CapacityDistributionStrategy>
+        </AvailabilityZoneDistribution>
+        <CapacityReservationSpecification>
+          <CapacityReservationPreference>default</CapacityReservationPreference>
+… (13 more lines)
 ```
 
 ### 6. DeleteAutoScalingGroup
@@ -288,9 +293,9 @@ A group that still has instances is refused unless the request forces it.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120917Z
+X-Amz-Date: 20261126T182732Z
 Content-Length: 83
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteAutoScalingGroup
 &Version=2011-01-01
@@ -302,9 +307,9 @@ Action=DeleteAutoScalingGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
-x-amzn-requestid: 83cbd18d-ed52-4f65-91b6-2c7700c00fd0
+x-amzn-requestid: b91f76d8-be2d-4f6c-b176-d86c1c0972e0
 content-length: 345
-date: Mon, 16 Nov 2026 12:09:17 GMT
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -312,7 +317,7 @@ date: Mon, 16 Nov 2026 12:09:17 GMT
     <Code>ResourceInUse</Code>
     <Message>You cannot delete an AutoScalingGroup while there are instances or pending Spot instance request(s) still in the group.</Message>
   </Error>
-  <RequestId>83cbd18d-ed52-4f65-91b6-2c7700c00fd0</RequestId>
+  <RequestId>b91f76d8-be2d-4f6c-b176-d86c1c0972e0</RequestId>
 </ErrorResponse>
 ```
 
@@ -326,9 +331,9 @@ date: Mon, 16 Nov 2026 12:09:17 GMT
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120917Z
+X-Amz-Date: 20261126T182732Z
 Content-Length: 100
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteAutoScalingGroup
 &Version=2011-01-01
@@ -342,12 +347,12 @@ Action=DeleteAutoScalingGroup
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 279
-date: Mon, 16 Nov 2026 12:09:17 GMT
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <DeleteAutoScalingGroupResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
-  <DeleteAutoScalingGroupResult/>
+  <DeleteAutoScalingGroupResult></DeleteAutoScalingGroupResult>
   <ResponseMetadata>
-    <RequestId>ce83c3f6-d3f0-4ced-81ef-98bb1789d530</RequestId>
+    <RequestId>d06ebb2f-35bb-402b-8a8c-b16579756543</RequestId>
   </ResponseMetadata>
 </DeleteAutoScalingGroupResponse>
 ```
@@ -362,9 +367,9 @@ Poll until the group is gone.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120917Z
+X-Amz-Date: 20261126T182732Z
 Content-Length: 96
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeAutoScalingGroups
 &Version=2011-01-01
@@ -377,14 +382,14 @@ Action=DescribeAutoScalingGroups
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 330
-date: Mon, 16 Nov 2026 12:09:17 GMT
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <DescribeAutoScalingGroupsResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeAutoScalingGroupsResult>
-    <AutoScalingGroups/>
+    <AutoScalingGroups></AutoScalingGroups>
   </DescribeAutoScalingGroupsResult>
   <ResponseMetadata>
-    <RequestId>42bf3e2b-83d3-4e48-a03b-af6fc772c0f0</RequestId>
+    <RequestId>2b370994-39fe-428b-bb5a-6a616ef2c8c7</RequestId>
   </ResponseMetadata>
 </DescribeAutoScalingGroupsResponse>
 ```
@@ -399,13 +404,13 @@ Clean up the launch template.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120917Z
+X-Amz-Date: 20261126T182732Z
 Content-Length: 84
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ec2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/ec2/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteLaunchTemplate
 &Version=2016-11-15
-&LaunchTemplateId=lt-000000000000000a9
+&LaunchTemplateId=lt-000000000000000a7
 ```
 
 **Response**
@@ -413,31 +418,31 @@ Action=DeleteLaunchTemplate
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml;charset=UTF-8
-content-length: 616
-date: Mon, 16 Nov 2026 12:09:17 GMT
+content-length: 625
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <DeleteLaunchTemplateResponse xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
   <launchTemplate xmlns="http://ec2.amazonaws.com/doc/2016-11-15">
-    <launchTemplateId>lt-000000000000000a9</launchTemplateId>
+    <launchTemplateId>lt-000000000000000a7</launchTemplateId>
     <launchTemplateName>docs-demo-lt</launchTemplateName>
-    <createTime>2026-11-16T12:09:17.312683Z</createTime>
-    <createdBy>arn:aws:iam::000000000000:root</createdBy>
+    <createTime>2026-11-26T18:27:32.982524Z</createTime>
+    <createdBy>arn:aws:iam::000000000000:user/emulator</createdBy>
     <defaultVersionNumber>1</defaultVersionNumber>
     <latestVersionNumber>1</latestVersionNumber>
-    <tagSet/>
+    <tagSet></tagSet>
     <operator>
       <managed>false</managed>
     </operator>
   </launchTemplate>
-  <requestId>179e057f-1c75-4a4a-af0d-3aef0c49b361</requestId>
+  <requestId>1ea168f7-01d3-4a19-b387-cfa77921c3e1</requestId>
 </DeleteLaunchTemplateResponse>
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
-Of 68 operations, 15 accepted the placeholder call, 2 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
+Of 68 operations, 16 accepted the placeholder call, 2 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AttachInstances
 
@@ -447,6 +452,11 @@ Attaches one or more EC2 instances to the specified Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182732Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AttachInstances
 &Version=2011-01-01
@@ -456,6 +466,9 @@ Action=AttachInstances
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: af0f5a6a-e613-4497-b38e-0ad397dae300
+content-length: 297
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -463,7 +476,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - AutoScalingGroup: example not found</Message>
   </Error>
-  <RequestId>c5ebd126-b0f8-46da-a375-b51e2e2579f7</RequestId>
+  <RequestId>af0f5a6a-e613-4497-b38e-0ad397dae300</RequestId>
 </ErrorResponse>
 ```
 
@@ -475,6 +488,11 @@ This API operation is superseded by AttachTrafficSources , which can attach mult
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182732Z
+Content-Length: 118
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AttachLoadBalancerTargetGroups
 &Version=2011-01-01
@@ -485,14 +503,17 @@ Action=AttachLoadBalancerTargetGroups
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 32bd5666-caea-4f1e-8382-53aff0b8b863
+content-length: 266
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
+    <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>55a103f5-d42a-41ae-989f-b16a7b75d9ef</RequestId>
+  <RequestId>32bd5666-caea-4f1e-8382-53aff0b8b863</RequestId>
 </ErrorResponse>
 ```
 
@@ -506,6 +527,11 @@ This API operation is superseded by AttachTrafficSources , which can attach mult
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182732Z
+Content-Length: 109
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AttachLoadBalancers
 &Version=2011-01-01
@@ -516,6 +542,9 @@ Action=AttachLoadBalancers
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 38d30d7f-8fcf-4976-b455-14b1fcde2770
+content-length: 266
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -523,7 +552,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>f9fb7d57-2684-44d3-a691-e8abd77e7763</RequestId>
+  <RequestId>38d30d7f-8fcf-4976-b455-14b1fcde2770</RequestId>
 </ErrorResponse>
 ```
 
@@ -537,6 +566,11 @@ Attaches one or more traffic sources to the specified Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182732Z
+Content-Length: 118
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AttachTrafficSources
 &Version=2011-01-01
@@ -547,6 +581,9 @@ Action=AttachTrafficSources
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 9f44084e-9676-4419-928b-4d8c2fd08533
+content-length: 266
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -554,7 +591,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>e28ec8a2-b45f-4ca8-8483-c995e5823333</RequestId>
+  <RequestId>9f44084e-9676-4419-928b-4d8c2fd08533</RequestId>
 </ErrorResponse>
 ```
 
@@ -568,6 +605,11 @@ Deletes one or more scheduled actions for the specified Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182732Z
+Content-Length: 119
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=BatchDeleteScheduledAction
 &Version=2011-01-01
@@ -578,6 +620,9 @@ Action=BatchDeleteScheduledAction
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 6bbd936c-3335-445d-88e2-1de1407d8c35
+content-length: 296
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -585,7 +630,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
   </Error>
-  <RequestId>104bb305-fdfd-486a-a0fc-1bd757477bf4</RequestId>
+  <RequestId>6bbd936c-3335-445d-88e2-1de1407d8c35</RequestId>
 </ErrorResponse>
 ```
 
@@ -599,6 +644,11 @@ Creates or updates one or more scheduled scaling actions for an Auto Scaling gro
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182732Z
+Content-Length: 154
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=BatchPutScheduledUpdateGroupAction
 &Version=2011-01-01
@@ -609,6 +659,9 @@ Action=BatchPutScheduledUpdateGroupAction
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 01f2950f-c8d9-4c36-956f-ebeac74988dc
+content-length: 266
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -616,7 +669,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>906409b6-713a-40c0-abaf-d3cc61b36c4c</RequestId>
+  <RequestId>01f2950f-c8d9-4c36-956f-ebeac74988dc</RequestId>
 </ErrorResponse>
 ```
 
@@ -628,6 +681,11 @@ Cancels an instance refresh or rollback that is in progress.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 76
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CancelInstanceRefresh
 &Version=2011-01-01
@@ -637,6 +695,9 @@ Action=CancelInstanceRefresh
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 7b640d4f-5345-4aa3-9b32-165b29a25616
+content-length: 308
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -644,7 +705,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - Auto Scaling group with name example not found</Message>
   </Error>
-  <RequestId>5ba6280e-657e-420b-94eb-e0c27cc7a5ec</RequestId>
+  <RequestId>7b640d4f-5345-4aa3-9b32-165b29a25616</RequestId>
 </ErrorResponse>
 ```
 
@@ -658,6 +719,11 @@ Completes the lifecycle action for the specified token or instance with the spec
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 134
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CompleteLifecycleAction
 &Version=2011-01-01
@@ -669,14 +735,17 @@ Action=CompleteLifecycleAction
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 93e332a8-b64d-43db-a4ab-05b8b2459f9e
+content-length: 295
+date: Thu, 26 Nov 2026 18:27:32 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>'LifecycleActionResult' must be one of: CONTINUE, ABANDON</Message>
+    <Message>&apos;LifecycleActionResult&apos; must be one of: CONTINUE, ABANDON</Message>
   </Error>
-  <RequestId>4fb9c51a-03b9-4aad-a02f-3304d87bdd91</RequestId>
+  <RequestId>93e332a8-b64d-43db-a4ab-05b8b2459f9e</RequestId>
 </ErrorResponse>
 ```
 
@@ -688,6 +757,11 @@ We strongly recommend using a launch template when calling this operation to ens
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 97
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateAutoScalingGroup
 &Version=2011-01-01
@@ -699,6 +773,9 @@ Action=CreateAutoScalingGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 09c95f6c-4659-4445-862b-90a9419bae44
+content-length: 349
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -706,7 +783,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>Valid requests must contain either LaunchTemplate, LaunchConfigurationName, InstanceId or MixedInstancesPolicy parameter.</Message>
   </Error>
-  <RequestId>51626fc8-7d17-404f-9c6f-b49fffeb1553</RequestId>
+  <RequestId>09c95f6c-4659-4445-862b-90a9419bae44</RequestId>
 </ErrorResponse>
 ```
 
@@ -718,6 +795,11 @@ Creates a launch configuration.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 83
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateLaunchConfiguration
 &Version=2011-01-01
@@ -727,18 +809,21 @@ Action=CreateLaunchConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 0a8b69c7-c0e6-4ec6-9c71-7895d600d9fe
+content-length: 336
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
     <Type>Sender</Type>
-    <Code>UnsupportedOperation</Code>
-    <Message>The Launch Configuration creation operation is not available in your account. Use launch templates to create configuration templates for your Auto Scaling groups.</Message>
+    <Code>ValidationError</Code>
+    <Message>Valid requests must contain either the InstanceID parameter or both the ImageId and InstanceType parameters.</Message>
   </Error>
-  <RequestId>3b5c71f1-3e01-45a5-86b2-728ce976b890</RequestId>
+  <RequestId>0a8b69c7-c0e6-4ec6-9c71-7895d600d9fe</RequestId>
 </ErrorResponse>
 ```
 
-`400` `UnsupportedOperation`.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ### CreateOrUpdateTags
 
@@ -748,6 +833,11 @@ Creates or updates tags for the specified Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateOrUpdateTags
 &Version=2011-01-01
@@ -757,6 +847,9 @@ Action=CreateOrUpdateTags
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: c35015e6-8ecd-4ae7-a7a0-bdd967967870
+content-length: 266
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -764,7 +857,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>ddb882a0-df57-4ab1-8f37-d1426ec449f5</RequestId>
+  <RequestId>c35015e6-8ecd-4ae7-a7a0-bdd967967870</RequestId>
 </ErrorResponse>
 ```
 
@@ -776,6 +869,11 @@ Deletes the specified Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteAutoScalingGroup
 &Version=2011-01-01
@@ -785,14 +883,17 @@ Action=DeleteAutoScalingGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: edd68fa2-491c-4ebb-844f-83ef217e7a28
+content-length: 308
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>AutoScalingGroup name not found - AutoScalingGroup 'example' not found</Message>
+    <Message>AutoScalingGroup name not found - AutoScalingGroup &apos;example&apos; not found</Message>
   </Error>
-  <RequestId>2a26a680-8120-44d0-8440-b04e282eeee9</RequestId>
+  <RequestId>edd68fa2-491c-4ebb-844f-83ef217e7a28</RequestId>
 </ErrorResponse>
 ```
 
@@ -804,6 +905,11 @@ Deletes the specified launch configuration.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 83
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteLaunchConfiguration
 &Version=2011-01-01
@@ -813,6 +919,9 @@ Action=DeleteLaunchConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 083af9ea-2cbe-4b97-b10d-b6286ba4a419
+content-length: 304
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -820,7 +929,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>Launch configuration name not found - Launch configuration example not found</Message>
   </Error>
-  <RequestId>bf388b9b-6392-494c-b3e5-d93cae825135</RequestId>
+  <RequestId>083af9ea-2cbe-4b97-b10d-b6286ba4a419</RequestId>
 </ErrorResponse>
 ```
 
@@ -832,6 +941,11 @@ Deletes the specified lifecycle hook.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 100
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteLifecycleHook
 &Version=2011-01-01
@@ -842,14 +956,17 @@ Action=DeleteLifecycleHook
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: c56d6c71-eb2a-4dc2-ad35-099c8f8f7613
+content-length: 311
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>AutoScalingGroup name not found - null</Message>
+    <Message>No Lifecycle Hook found with name &apos;example&apos; for group &apos;example&apos;</Message>
   </Error>
-  <RequestId>adaac854-6181-44cf-b09b-05cf05f92071</RequestId>
+  <RequestId>c56d6c71-eb2a-4dc2-ad35-099c8f8f7613</RequestId>
 </ErrorResponse>
 ```
 
@@ -861,6 +978,11 @@ Deletes the specified notification.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 166
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteNotificationConfiguration
 &Version=2011-01-01
@@ -871,14 +993,17 @@ Action=DeleteNotificationConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 469aa839-a6f9-44fc-896a-ece6f02cb54e
+content-length: 269
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>AutoScalingGroup name not found - null</Message>
+    <Message>AutoScalingGroup name not found - example</Message>
   </Error>
-  <RequestId>348e1df4-ed1a-4bb4-86dc-d8cc292c2bd5</RequestId>
+  <RequestId>469aa839-a6f9-44fc-896a-ece6f02cb54e</RequestId>
 </ErrorResponse>
 ```
 
@@ -892,6 +1017,11 @@ Deletes the specified scaling policy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 57
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeletePolicy
 &Version=2011-01-01
@@ -901,6 +1031,9 @@ Action=DeletePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: b2a8d8c5-f8fa-43d0-8707-ddebcc559d49
+content-length: 303
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -908,7 +1041,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>The AutoScaling Group name is required when specifying a policy by its name</Message>
   </Error>
-  <RequestId>e064ab7f-52c2-4df3-a97e-255c60ecea07</RequestId>
+  <RequestId>b2a8d8c5-f8fa-43d0-8707-ddebcc559d49</RequestId>
 </ErrorResponse>
 ```
 
@@ -922,6 +1055,11 @@ Deletes the specified scheduled action.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 104
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteScheduledAction
 &Version=2011-01-01
@@ -932,6 +1070,9 @@ Action=DeleteScheduledAction
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 3b098a01-20a6-4764-a627-a223598bdd20
+content-length: 296
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -939,7 +1080,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
   </Error>
-  <RequestId>1233f1da-ef86-4ec6-b8b7-5ecd6c2dd3ce</RequestId>
+  <RequestId>3b098a01-20a6-4764-a627-a223598bdd20</RequestId>
 </ErrorResponse>
 ```
 
@@ -953,6 +1094,11 @@ Deletes the specified tags.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 62
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteTags
 &Version=2011-01-01
@@ -962,6 +1108,9 @@ Action=DeleteTags
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: fe257251-21ef-4177-92bf-04b3ff09a76a
+content-length: 266
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -969,7 +1118,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>9d5df158-f93c-4b1f-aa1b-33c22184bb9f</RequestId>
+  <RequestId>fe257251-21ef-4177-92bf-04b3ff09a76a</RequestId>
 </ErrorResponse>
 ```
 
@@ -983,6 +1132,11 @@ Deletes the warm pool for the specified Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 69
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteWarmPool
 &Version=2011-01-01
@@ -992,6 +1146,9 @@ Action=DeleteWarmPool
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: d940aa50-0910-4712-a7f0-942b57e93818
+content-length: 297
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -999,7 +1156,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - No such Auto Scaling group: example</Message>
   </Error>
-  <RequestId>73ed09ce-ab09-4f6c-b5be-3af2fd67419e</RequestId>
+  <RequestId>d940aa50-0910-4712-a7f0-942b57e93818</RequestId>
 </ErrorResponse>
 ```
 
@@ -1011,6 +1168,11 @@ Describes the current Amazon EC2 Auto Scaling resource quotas for your account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeAccountLimits
 &Version=2011-01-01
@@ -1019,6 +1181,8 @@ Action=DescribeAccountLimits
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 717
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <DescribeAccountLimitsResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeAccountLimitsResult>
@@ -1034,7 +1198,7 @@ content-type: text/xml
     </ThrottlingLimits>
   </DescribeAccountLimitsResult>
   <ResponseMetadata>
-    <RequestId>c2af7ebd-15f2-4f01-bfe9-dd9079f64eb1</RequestId>
+    <RequestId>5650a32c-9bc5-4952-890b-3cc230063d92</RequestId>
   </ResponseMetadata>
 </DescribeAccountLimitsResponse>
 ```
@@ -1047,6 +1211,11 @@ Describes the current Amazon EC2 Auto Scaling account settings for your account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeAccountSettings
 &Version=2011-01-01
@@ -1055,6 +1224,9 @@ Action=DescribeAccountSettings
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: a7413685-68ef-4e0a-9656-0a33b9b971e7
+content-length: 313
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -1062,7 +1234,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation DescribeAccountSettings is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>ec0452da-161c-4c8c-9d9b-85e0675e60b4</RequestId>
+  <RequestId>a7413685-68ef-4e0a-9656-0a33b9b971e7</RequestId>
 </ErrorResponse>
 ```
 
@@ -1074,6 +1246,11 @@ Describes the available adjustment types for step scaling and simple scaling pol
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeAdjustmentTypes
 &Version=2011-01-01
@@ -1082,6 +1259,8 @@ Action=DescribeAdjustmentTypes
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 577
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <DescribeAdjustmentTypesResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeAdjustmentTypesResult>
@@ -1098,7 +1277,7 @@ content-type: text/xml
     </AdjustmentTypes>
   </DescribeAdjustmentTypesResult>
   <ResponseMetadata>
-    <RequestId>eca42808-dedb-4d21-882e-bb90e1c3bb3d</RequestId>
+    <RequestId>3e2d8d16-7fa8-4b99-8054-b8d3ecdae06a</RequestId>
   </ResponseMetadata>
 </DescribeAdjustmentTypesResponse>
 ```
@@ -1111,6 +1290,11 @@ Gets information about the Auto Scaling groups in the account and Region.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeAutoScalingGroups
 &Version=2011-01-01
@@ -1119,13 +1303,15 @@ Action=DescribeAutoScalingGroups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 330
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <DescribeAutoScalingGroupsResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeAutoScalingGroupsResult>
-    <AutoScalingGroups/>
+    <AutoScalingGroups></AutoScalingGroups>
   </DescribeAutoScalingGroupsResult>
   <ResponseMetadata>
-    <RequestId>3bdbbec4-a470-4c11-bd21-8841e4a64117</RequestId>
+    <RequestId>0420dc89-7e8e-4764-acba-c9df944f6d5d</RequestId>
   </ResponseMetadata>
 </DescribeAutoScalingGroupsResponse>
 ```
@@ -1140,6 +1326,11 @@ Gets information about the Auto Scaling instances in the account and Region.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeAutoScalingInstances
 &Version=2011-01-01
@@ -1148,13 +1339,15 @@ Action=DescribeAutoScalingInstances
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 348
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <DescribeAutoScalingInstancesResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeAutoScalingInstancesResult>
-    <AutoScalingInstances/>
+    <AutoScalingInstances></AutoScalingInstances>
   </DescribeAutoScalingInstancesResult>
   <ResponseMetadata>
-    <RequestId>95250a84-48a3-40bd-a18c-4c64027d96f4</RequestId>
+    <RequestId>c4adf887-8c09-47e2-8cd0-2964411e6bbf</RequestId>
   </ResponseMetadata>
 </DescribeAutoScalingInstancesResponse>
 ```
@@ -1167,6 +1360,11 @@ Describes the notification types that are supported by Amazon EC2 Auto Scaling.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 62
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeAutoScalingNotificationTypes
 &Version=2011-01-01
@@ -1175,6 +1373,8 @@ Action=DescribeAutoScalingNotificationTypes
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 770
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <DescribeAutoScalingNotificationTypesResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeAutoScalingNotificationTypesResult>
@@ -1189,7 +1389,7 @@ content-type: text/xml
     </AutoScalingNotificationTypes>
   </DescribeAutoScalingNotificationTypesResult>
   <ResponseMetadata>
-    <RequestId>8d9bcdb5-4b5a-48be-84f1-cb23b22da2bb</RequestId>
+    <RequestId>4e2eece7-8699-485b-97a9-b9b9288d6d49</RequestId>
   </ResponseMetadata>
 </DescribeAutoScalingNotificationTypesResponse>
 ```
@@ -1202,6 +1402,11 @@ Gets information about the instance refreshes for the specified Auto Scaling gro
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 80
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeInstanceRefreshes
 &Version=2011-01-01
@@ -1211,6 +1416,9 @@ Action=DescribeInstanceRefreshes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 5f416e8f-27ff-4f76-9ef7-f36a2ec30fd6
+content-length: 296
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -1218,7 +1426,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
   </Error>
-  <RequestId>3e8a8b2a-6fd4-4265-be99-6d1545218ad4</RequestId>
+  <RequestId>5f416e8f-27ff-4f76-9ef7-f36a2ec30fd6</RequestId>
 </ErrorResponse>
 ```
 
@@ -1230,6 +1438,11 @@ Gets information about the launch configurations in the account and Region.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeLaunchConfigurations
 &Version=2011-01-01
@@ -1238,13 +1451,15 @@ Action=DescribeLaunchConfigurations
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 348
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <DescribeLaunchConfigurationsResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeLaunchConfigurationsResult>
-    <LaunchConfigurations/>
+    <LaunchConfigurations></LaunchConfigurations>
   </DescribeLaunchConfigurationsResult>
   <ResponseMetadata>
-    <RequestId>bc84a6fd-504e-4145-b991-5ec3d7644db0</RequestId>
+    <RequestId>5a025338-3b54-45fc-8a4c-da8a5e7c7661</RequestId>
   </ResponseMetadata>
 </DescribeLaunchConfigurationsResponse>
 ```
@@ -1257,6 +1472,11 @@ Describes the available types of lifecycle hooks.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeLifecycleHookTypes
 &Version=2011-01-01
@@ -1265,6 +1485,8 @@ Action=DescribeLifecycleHookTypes
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 440
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <DescribeLifecycleHookTypesResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeLifecycleHookTypesResult>
@@ -1274,7 +1496,7 @@ content-type: text/xml
     </LifecycleHookTypes>
   </DescribeLifecycleHookTypesResult>
   <ResponseMetadata>
-    <RequestId>8c347729-a230-4c58-b75c-5f08f16866db</RequestId>
+    <RequestId>5cb7dde8-0293-4f35-8081-afb39ae3bdd1</RequestId>
   </ResponseMetadata>
 </DescribeLifecycleHookTypesResponse>
 ```
@@ -1287,6 +1509,11 @@ Gets information about the lifecycle hooks for the specified Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeLifecycleHooks
 &Version=2011-01-01
@@ -1294,20 +1521,22 @@ Action=DescribeLifecycleHooks
 ```
 
 ```http
-HTTP/1.1 400 Bad Request
+HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 312
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
-<ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
-  <Error>
-    <Type>Sender</Type>
-    <Code>ValidationError</Code>
-    <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
-  </Error>
-  <RequestId>d1d73352-3c09-46ba-a17e-310abec7b034</RequestId>
-</ErrorResponse>
+<DescribeLifecycleHooksResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
+  <DescribeLifecycleHooksResult>
+    <LifecycleHooks></LifecycleHooks>
+  </DescribeLifecycleHooksResult>
+  <ResponseMetadata>
+    <RequestId>dfcd7f22-fecc-4c2f-9781-2faee76e2a95</RequestId>
+  </ResponseMetadata>
+</DescribeLifecycleHooksResponse>
 ```
 
-`400` `ValidationError`: the placeholder values failed the operation's input validation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeLoadBalancerTargetGroups
 
@@ -1315,6 +1544,11 @@ This API operation is superseded by DescribeTrafficSources , which can describe 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 87
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeLoadBalancerTargetGroups
 &Version=2011-01-01
@@ -1324,14 +1558,17 @@ Action=DescribeLoadBalancerTargetGroups
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: e801911c-58a2-4a3c-b84a-5e5b7eed8285
+content-length: 321
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
+    <Message>AutoScalingGroup name not found - Could not find Auto Scaling group named &apos;example&apos;</Message>
   </Error>
-  <RequestId>2f3f0355-3c38-4085-8b16-ee6f1407ff28</RequestId>
+  <RequestId>e801911c-58a2-4a3c-b84a-5e5b7eed8285</RequestId>
 </ErrorResponse>
 ```
 
@@ -1345,6 +1582,11 @@ This API operation is superseded by DescribeTrafficSources , which can describe 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 76
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeLoadBalancers
 &Version=2011-01-01
@@ -1354,14 +1596,17 @@ Action=DescribeLoadBalancers
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 4558a4e8-e4f8-4e23-b73c-45d4b1919f5b
+content-length: 321
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>AutoScalingGroup name not found - Could not find Auto Scaling group named 'example'</Message>
+    <Message>AutoScalingGroup name not found - Could not find Auto Scaling group named &apos;example&apos;</Message>
   </Error>
-  <RequestId>b589068b-4469-494c-9e14-a995d4ca0974</RequestId>
+  <RequestId>4558a4e8-e4f8-4e23-b73c-45d4b1919f5b</RequestId>
 </ErrorResponse>
 ```
 
@@ -1373,6 +1618,11 @@ Describes the available CloudWatch metrics for Amazon EC2 Auto Scaling.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 55
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeMetricCollectionTypes
 &Version=2011-01-01
@@ -1381,6 +1631,8 @@ Action=DescribeMetricCollectionTypes
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 1894
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <DescribeMetricCollectionTypesResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeMetricCollectionTypesResult>
@@ -1398,10 +1650,10 @@ content-type: text/xml
         <Metric>GroupInServiceInstances</Metric>
       </member>
       <member>
-        <Metric>GroupPendingInstances</Metric>
+        <Metric>GroupInServiceCapacity</Metric>
       </member>
       <member>
-        <Metric>GroupStandbyInstances</Metric>
+        <Metric>GroupPendingInstances</Metric>
 … (69 more lines)
 ```
 
@@ -1413,6 +1665,11 @@ Gets information about the Amazon SNS notifications that are configured for one 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 60
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeNotificationConfigurations
 &Version=2011-01-01
@@ -1421,13 +1678,15 @@ Action=DescribeNotificationConfigurations
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 384
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <DescribeNotificationConfigurationsResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeNotificationConfigurationsResult>
-    <NotificationConfigurations/>
+    <NotificationConfigurations></NotificationConfigurations>
   </DescribeNotificationConfigurationsResult>
   <ResponseMetadata>
-    <RequestId>74446ca0-20bd-419e-bdd2-20491b45bb93</RequestId>
+    <RequestId>8ce0a6bc-f67b-479d-a579-54fdbd9da225</RequestId>
   </ResponseMetadata>
 </DescribeNotificationConfigurationsResponse>
 ```
@@ -1440,6 +1699,11 @@ Gets information about the scaling policies in the account and Region.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 42
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribePolicies
 &Version=2011-01-01
@@ -1448,13 +1712,15 @@ Action=DescribePolicies
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 290
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <DescribePoliciesResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribePoliciesResult>
-    <ScalingPolicies/>
+    <ScalingPolicies></ScalingPolicies>
   </DescribePoliciesResult>
   <ResponseMetadata>
-    <RequestId>58d7bc7e-1066-4fde-9f0b-57fb28a26133</RequestId>
+    <RequestId>e7b256d9-0c98-492e-b928-5786459982f9</RequestId>
   </ResponseMetadata>
 </DescribePoliciesResponse>
 ```
@@ -1467,6 +1733,11 @@ Gets information about the scaling activities in the account and Region.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeScalingActivities
 &Version=2011-01-01
@@ -1475,13 +1746,15 @@ Action=DescribeScalingActivities
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 316
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <DescribeScalingActivitiesResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeScalingActivitiesResult>
-    <Activities/>
+    <Activities></Activities>
   </DescribeScalingActivitiesResult>
   <ResponseMetadata>
-    <RequestId>38bbbb20-3508-45c3-aa8c-4e088b6c003b</RequestId>
+    <RequestId>5442dde8-6fcc-49bc-902e-b8dfaa458ae2</RequestId>
   </ResponseMetadata>
 </DescribeScalingActivitiesResponse>
 ```
@@ -1494,6 +1767,11 @@ Describes the scaling process types for use with the ResumeProcesses and Suspend
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeScalingProcessTypes
 &Version=2011-01-01
@@ -1502,6 +1780,8 @@ Action=DescribeScalingProcessTypes
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 893
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <DescribeScalingProcessTypesResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeScalingProcessTypesResult>
@@ -1536,6 +1816,11 @@ Gets information about the scheduled actions that haven't run or that have not r
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 50
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeScheduledActions
 &Version=2011-01-01
@@ -1544,13 +1829,15 @@ Action=DescribeScheduledActions
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 346
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <DescribeScheduledActionsResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeScheduledActionsResult>
-    <ScheduledUpdateGroupActions/>
+    <ScheduledUpdateGroupActions></ScheduledUpdateGroupActions>
   </DescribeScheduledActionsResult>
   <ResponseMetadata>
-    <RequestId>8410a9a6-8224-44dc-9fd0-6770e3ac85b2</RequestId>
+    <RequestId>4fc4e7b6-9cba-4fb9-b5f9-29e5fe47a310</RequestId>
   </ResponseMetadata>
 </DescribeScheduledActionsResponse>
 ```
@@ -1563,6 +1850,11 @@ Describes the specified tags.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 38
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeTags
 &Version=2011-01-01
@@ -1571,13 +1863,15 @@ Action=DescribeTags
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 252
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <DescribeTagsResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeTagsResult>
-    <Tags/>
+    <Tags></Tags>
   </DescribeTagsResult>
   <ResponseMetadata>
-    <RequestId>7d84ff59-f365-432d-8063-7a94dd2aaffa</RequestId>
+    <RequestId>5a329165-e5d6-45f0-a91d-dee22bdf13b5</RequestId>
   </ResponseMetadata>
 </DescribeTagsResponse>
 ```
@@ -1590,6 +1884,11 @@ Describes the termination policies supported by Amazon EC2 Auto Scaling.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 56
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeTerminationPolicyTypes
 &Version=2011-01-01
@@ -1598,6 +1897,8 @@ Action=DescribeTerminationPolicyTypes
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 625
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <DescribeTerminationPolicyTypesResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <DescribeTerminationPolicyTypesResult>
@@ -1613,7 +1914,7 @@ content-type: text/xml
     </TerminationPolicyTypes>
   </DescribeTerminationPolicyTypesResult>
   <ResponseMetadata>
-    <RequestId>7becbc80-81b7-4089-8589-31cd12b7e2ce</RequestId>
+    <RequestId>077ac5be-d1c2-4a04-90b0-ef2d93005839</RequestId>
   </ResponseMetadata>
 </DescribeTerminationPolicyTypesResponse>
 ```
@@ -1628,6 +1929,11 @@ Gets information about the traffic sources for the specified Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeTrafficSources
 &Version=2011-01-01
@@ -1637,14 +1943,17 @@ Action=DescribeTrafficSources
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: efa7fcc4-34d5-4a8a-9aaf-1ad2b88d43af
+content-length: 321
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>AutoScalingGroup name not found - Could not find Auto Scaling group named 'example'</Message>
+    <Message>AutoScalingGroup name not found - Could not find Auto Scaling group named &apos;example&apos;</Message>
   </Error>
-  <RequestId>6837bdb9-d576-4cb1-be56-90f8592fc7b8</RequestId>
+  <RequestId>efa7fcc4-34d5-4a8a-9aaf-1ad2b88d43af</RequestId>
 </ErrorResponse>
 ```
 
@@ -1656,6 +1965,11 @@ Gets information about a warm pool and its instances.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeWarmPool
 &Version=2011-01-01
@@ -1665,6 +1979,9 @@ Action=DescribeWarmPool
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 6c088fb7-3dc6-4ffc-80bb-92e04bbe616f
+content-length: 297
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -1672,7 +1989,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - No such Auto Scaling group: example</Message>
   </Error>
-  <RequestId>c1650722-11de-4d86-bf44-494084b5338c</RequestId>
+  <RequestId>6c088fb7-3dc6-4ffc-80bb-92e04bbe616f</RequestId>
 </ErrorResponse>
 ```
 
@@ -1686,6 +2003,11 @@ Removes one or more instances from the specified Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 107
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DetachInstances
 &Version=2011-01-01
@@ -1696,6 +2018,9 @@ Action=DetachInstances
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: ade3df0e-e5fc-4187-9a3b-22a192200c46
+content-length: 296
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -1703,7 +2028,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
   </Error>
-  <RequestId>5bf2d0e1-c826-4f40-8da2-57ee7d14d2ca</RequestId>
+  <RequestId>ade3df0e-e5fc-4187-9a3b-22a192200c46</RequestId>
 </ErrorResponse>
 ```
 
@@ -1715,6 +2040,11 @@ This API operation is superseded by DetachTrafficSources , which can detach mult
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 118
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DetachLoadBalancerTargetGroups
 &Version=2011-01-01
@@ -1725,14 +2055,17 @@ Action=DetachLoadBalancerTargetGroups
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: a0fd21ac-4f10-4570-a9bc-e69b34d4b1fd
+content-length: 266
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
+    <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>c89645b9-5566-48e4-9d62-c26594a9a79d</RequestId>
+  <RequestId>a0fd21ac-4f10-4570-a9bc-e69b34d4b1fd</RequestId>
 </ErrorResponse>
 ```
 
@@ -1746,6 +2079,11 @@ This API operation is superseded by DetachTrafficSources , which can detach mult
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 109
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DetachLoadBalancers
 &Version=2011-01-01
@@ -1756,6 +2094,9 @@ Action=DetachLoadBalancers
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 73afd076-23b9-442c-b9e2-9e28b3967739
+content-length: 266
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -1763,7 +2104,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>9b4e370f-67ab-491c-89ab-9eed7f56fccd</RequestId>
+  <RequestId>73afd076-23b9-442c-b9e2-9e28b3967739</RequestId>
 </ErrorResponse>
 ```
 
@@ -1777,6 +2118,11 @@ Detaches one or more traffic sources from the specified Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 118
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DetachTrafficSources
 &Version=2011-01-01
@@ -1787,6 +2133,9 @@ Action=DetachTrafficSources
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: e0d5bca2-66b1-4a51-a59d-52feb296e38d
+content-length: 266
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -1794,7 +2143,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>17aaee95-fc77-4615-b6c2-23303fb63b62</RequestId>
+  <RequestId>e0d5bca2-66b1-4a51-a59d-52feb296e38d</RequestId>
 </ErrorResponse>
 ```
 
@@ -1808,6 +2157,11 @@ Disables group metrics collection for the specified Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 79
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DisableMetricsCollection
 &Version=2011-01-01
@@ -1817,6 +2171,9 @@ Action=DisableMetricsCollection
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: e97323bb-283d-4405-8bcc-30386e77136a
+content-length: 251
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -1824,7 +2181,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>Group example not found</Message>
   </Error>
-  <RequestId>9550510e-9498-431e-8345-e0f173c0e39c</RequestId>
+  <RequestId>e97323bb-283d-4405-8bcc-30386e77136a</RequestId>
 </ErrorResponse>
 ```
 
@@ -1838,6 +2195,11 @@ Enables group metrics collection for the specified Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 98
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=EnableMetricsCollection
 &Version=2011-01-01
@@ -1848,6 +2210,9 @@ Action=EnableMetricsCollection
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 64cb4e40-6c98-43bb-b119-497b110b3de9
+content-length: 251
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -1855,7 +2220,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>Group example not found</Message>
   </Error>
-  <RequestId>0d588393-6707-4886-9f01-b942d65e429b</RequestId>
+  <RequestId>64cb4e40-6c98-43bb-b119-497b110b3de9</RequestId>
 </ErrorResponse>
 ```
 
@@ -1869,6 +2234,11 @@ Moves the specified instances into the standby state.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 104
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=EnterStandby
 &Version=2011-01-01
@@ -1879,6 +2249,9 @@ Action=EnterStandby
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: b15a2918-bf9f-406b-a830-27ea63757d10
+content-length: 296
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -1886,7 +2259,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
   </Error>
-  <RequestId>17432d14-d938-4aeb-8d7e-a5a60c9422cd</RequestId>
+  <RequestId>b15a2918-bf9f-406b-a830-27ea63757d10</RequestId>
 </ErrorResponse>
 ```
 
@@ -1900,6 +2273,11 @@ Executes the specified policy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 58
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ExecutePolicy
 &Version=2011-01-01
@@ -1909,6 +2287,9 @@ Action=ExecutePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 74560897-cf0c-433b-afe1-aeae16898aac
+content-length: 303
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -1916,7 +2297,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>The AutoScaling Group name is required when specifying a policy by its name</Message>
   </Error>
-  <RequestId>9d31d319-3e9d-4087-aa25-9020676987b4</RequestId>
+  <RequestId>74560897-cf0c-433b-afe1-aeae16898aac</RequestId>
 </ErrorResponse>
 ```
 
@@ -1930,6 +2311,11 @@ Moves the specified instances out of the standby state.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 66
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ExitStandby
 &Version=2011-01-01
@@ -1939,6 +2325,9 @@ Action=ExitStandby
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 881f4c65-e8de-4091-bc0c-104f6484d278
+content-length: 296
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -1946,7 +2335,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
   </Error>
-  <RequestId>7c07fc73-9db8-404a-872a-892b819dcc7d</RequestId>
+  <RequestId>881f4c65-e8de-4091-bc0c-104f6484d278</RequestId>
 </ErrorResponse>
 ```
 
@@ -1960,6 +2349,11 @@ Retrieves the forecast data for a predictive scaling policy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 170
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetPredictiveScalingForecast
 &Version=2011-01-01
@@ -1972,6 +2366,9 @@ Action=GetPredictiveScalingForecast
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: f2593334-fd68-4ff5-932a-c620f47d9fd3
+content-length: 267
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -1979,7 +2376,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>Given end time must be after start time</Message>
   </Error>
-  <RequestId>f263da02-ac67-4361-807d-d1cd7f9ea1c9</RequestId>
+  <RequestId>f2593334-fd68-4ff5-932a-c620f47d9fd3</RequestId>
 </ErrorResponse>
 ```
 
@@ -1993,6 +2390,11 @@ Launches a specified number of instances in an Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 110
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=LaunchInstances
 &Version=2011-01-01
@@ -2004,6 +2406,9 @@ Action=LaunchInstances
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: f0024949-aa26-4a5e-b142-ab39fd56dd78
+content-length: 292
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -2011,7 +2416,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup not found - No such Auto Scaling group: example</Message>
   </Error>
-  <RequestId>baaf2b2f-87b9-45ad-8a1a-fe3a1eb9cb30</RequestId>
+  <RequestId>f0024949-aa26-4a5e-b142-ab39fd56dd78</RequestId>
 </ErrorResponse>
 ```
 
@@ -2023,6 +2428,11 @@ Modifies an account setting for your account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PutAccountSetting
 &Version=2011-01-01
@@ -2033,6 +2443,9 @@ Action=PutAccountSetting
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: 4bde3fbb-6f32-49dd-a5a1-8916c4736e8a
+content-length: 307
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -2040,7 +2453,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation PutAccountSetting is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>1a29a5ad-7da5-454b-b34f-3e2b148e32be</RequestId>
+  <RequestId>4bde3fbb-6f32-49dd-a5a1-8916c4736e8a</RequestId>
 </ErrorResponse>
 ```
 
@@ -2052,6 +2465,11 @@ Creates or updates a lifecycle hook for the specified Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 97
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PutLifecycleHook
 &Version=2011-01-01
@@ -2062,14 +2480,17 @@ Action=PutLifecycleHook
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 7b32f049-b951-48fe-9a6a-e30c2fccf327
+content-length: 297
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>AutoScalingGroup name not found - null</Message>
+    <Message>AutoScalingGroup name not found - No such Auto Scaling group: example</Message>
   </Error>
-  <RequestId>f45f3b28-1a9d-4ee6-9116-5736cc9129dc</RequestId>
+  <RequestId>7b32f049-b951-48fe-9a6a-e30c2fccf327</RequestId>
 </ErrorResponse>
 ```
 
@@ -2081,6 +2502,11 @@ Configures an Auto Scaling group to send notifications when specified events tak
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 198
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PutNotificationConfiguration
 &Version=2011-01-01
@@ -2092,14 +2518,17 @@ Action=PutNotificationConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: a1710d26-f246-4140-bb5a-ecd161aa467a
+content-length: 269
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>AutoScalingGroup name not found - null</Message>
+    <Message>AutoScalingGroup name not found - example</Message>
   </Error>
-  <RequestId>00fdee90-ee0a-479a-85b7-100b3ab7d0bc</RequestId>
+  <RequestId>a1710d26-f246-4140-bb5a-ecd161aa467a</RequestId>
 </ErrorResponse>
 ```
 
@@ -2111,6 +2540,11 @@ Creates or updates a scaling policy for an Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 90
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PutScalingPolicy
 &Version=2011-01-01
@@ -2121,14 +2555,17 @@ Action=PutScalingPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 965c8e2d-20dd-47b8-ae27-f93ceaecce60
+content-length: 251
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>AutoScalingGroup name not found - null</Message>
+    <Message>Group example not found</Message>
   </Error>
-  <RequestId>c1263e1e-1484-480c-8684-586a77d3f589</RequestId>
+  <RequestId>965c8e2d-20dd-47b8-ae27-f93ceaecce60</RequestId>
 </ErrorResponse>
 ```
 
@@ -2142,6 +2579,11 @@ Creates or updates a scheduled scaling action for an Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 112
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PutScheduledUpdateGroupAction
 &Version=2011-01-01
@@ -2152,6 +2594,9 @@ Action=PutScheduledUpdateGroupAction
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: b9aae381-ed2f-489a-a1c0-dacaeea94e77
+content-length: 266
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -2159,7 +2604,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>6de6feb5-c649-4ffd-af05-e674531e338b</RequestId>
+  <RequestId>b9aae381-ed2f-489a-a1c0-dacaeea94e77</RequestId>
 </ErrorResponse>
 ```
 
@@ -2171,6 +2616,11 @@ Creates or updates a warm pool for the specified Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 66
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PutWarmPool
 &Version=2011-01-01
@@ -2180,14 +2630,17 @@ Action=PutWarmPool
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 0505617e-c91a-4c6d-8372-25f980740a37
+content-length: 297
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>AutoScalingGroup name not found - null</Message>
+    <Message>AutoScalingGroup name not found - No such Auto Scaling group: example</Message>
   </Error>
-  <RequestId>6eb91c6d-01a7-4148-b6de-fa9c143b8ecb</RequestId>
+  <RequestId>0505617e-c91a-4c6d-8372-25f980740a37</RequestId>
 </ErrorResponse>
 ```
 
@@ -2201,6 +2654,11 @@ Records a heartbeat for the lifecycle action associated with the specified token
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 111
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RecordLifecycleActionHeartbeat
 &Version=2011-01-01
@@ -2211,6 +2669,9 @@ Action=RecordLifecycleActionHeartbeat
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: b61dd3da-524a-4b4e-8eae-b3015001d447
+content-length: 297
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -2218,7 +2679,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>No Lifecycle Action found because no token or instance ID is provided</Message>
   </Error>
-  <RequestId>10bdaf94-341b-4034-bb86-f2c31c83b4df</RequestId>
+  <RequestId>b61dd3da-524a-4b4e-8eae-b3015001d447</RequestId>
 </ErrorResponse>
 ```
 
@@ -2232,6 +2693,11 @@ Resumes the specified suspended auto scaling processes, or all suspended process
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ResumeProcesses
 &Version=2011-01-01
@@ -2241,6 +2707,9 @@ Action=ResumeProcesses
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: daaee39d-5f96-4d49-8bac-b94f4444fb15
+content-length: 284
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -2248,7 +2717,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - no such group: example</Message>
   </Error>
-  <RequestId>fff5fec1-b83f-4c40-9f17-ea7ca514dcb7</RequestId>
+  <RequestId>daaee39d-5f96-4d49-8bac-b94f4444fb15</RequestId>
 </ErrorResponse>
 ```
 
@@ -2260,6 +2729,11 @@ Cancels an instance refresh that is in progress and rolls back any changes that 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 78
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RollbackInstanceRefresh
 &Version=2011-01-01
@@ -2269,6 +2743,9 @@ Action=RollbackInstanceRefresh
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 36b4402d-ebec-4ad2-a4e9-0120fef6f1af
+content-length: 308
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -2276,7 +2753,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - Auto Scaling group with name example not found</Message>
   </Error>
-  <RequestId>4c2eb3e7-2797-43b5-9bf3-10c2a6614181</RequestId>
+  <RequestId>36b4402d-ebec-4ad2-a4e9-0120fef6f1af</RequestId>
 </ErrorResponse>
 ```
 
@@ -2288,6 +2765,11 @@ Sets the size of the specified Auto Scaling group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 91
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetDesiredCapacity
 &Version=2011-01-01
@@ -2298,6 +2780,9 @@ Action=SetDesiredCapacity
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 2e44793c-0786-4698-80ba-963998cd0a00
+content-length: 266
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -2305,7 +2790,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>06f48a7f-8a82-4002-bb45-e207ee2014a4</RequestId>
+  <RequestId>2e44793c-0786-4698-80ba-963998cd0a00</RequestId>
 </ErrorResponse>
 ```
 
@@ -2319,6 +2804,11 @@ Sets the health status of the specified instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 83
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetInstanceHealth
 &Version=2011-01-01
@@ -2329,6 +2819,9 @@ Action=SetInstanceHealth
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 7bcebd80-da38-440f-ae49-964095c1a300
+content-length: 283
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -2336,7 +2829,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>Valid instance health states are: [Healthy, Unhealthy].</Message>
   </Error>
-  <RequestId>96529a59-b267-4558-8b1a-64fac8b6e714</RequestId>
+  <RequestId>7bcebd80-da38-440f-ae49-964095c1a300</RequestId>
 </ErrorResponse>
 ```
 
@@ -2348,6 +2841,11 @@ Updates the instance protection settings of the specified instances.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 132
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SetInstanceProtection
 &Version=2011-01-01
@@ -2359,14 +2857,17 @@ Action=SetInstanceProtection
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 0157fd44-3d6a-4a9a-b9e9-86e81236353a
+content-length: 296
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>AutoScalingGroup name not found - null</Message>
+    <Message>AutoScalingGroup name not found - AutoScalingGroup example not found</Message>
   </Error>
-  <RequestId>cdcdf606-275d-4c6a-a3f3-b6ae484bb3c8</RequestId>
+  <RequestId>0157fd44-3d6a-4a9a-b9e9-86e81236353a</RequestId>
 </ErrorResponse>
 ```
 
@@ -2378,6 +2879,11 @@ Starts an instance refresh.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=StartInstanceRefresh
 &Version=2011-01-01
@@ -2387,6 +2893,9 @@ Action=StartInstanceRefresh
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 62916ac8-3278-4387-9b2a-068f47ec071d
+content-length: 266
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -2394,7 +2903,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>7efd7a47-618b-423d-bec6-1e2f128e2098</RequestId>
+  <RequestId>62916ac8-3278-4387-9b2a-068f47ec071d</RequestId>
 </ErrorResponse>
 ```
 
@@ -2408,6 +2917,11 @@ Suspends the specified auto scaling processes, or all processes, for the specifi
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SuspendProcesses
 &Version=2011-01-01
@@ -2417,6 +2931,9 @@ Action=SuspendProcesses
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 0ace11d7-c11c-414b-af14-d117e1b91ded
+content-length: 284
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -2424,7 +2941,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - no such group: example</Message>
   </Error>
-  <RequestId>11b998e9-0a1a-4c04-b5e1-3d20932b60ba</RequestId>
+  <RequestId>0ace11d7-c11c-414b-af14-d117e1b91ded</RequestId>
 </ErrorResponse>
 ```
 
@@ -2436,6 +2953,11 @@ Terminates the specified instance and optionally adjusts the desired group size.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 98
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=TerminateInstanceInAutoScalingGroup
 &Version=2011-01-01
@@ -2445,6 +2967,9 @@ Action=TerminateInstanceInAutoScalingGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 33b6ff9a-b597-4038-b0c5-85fe4a6ade60
+content-length: 307
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -2452,7 +2977,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>Valid requests must contain either the InstanceId or the InstanceIds parameter.</Message>
   </Error>
-  <RequestId>4882c1ed-f835-43a1-b5d9-a83a88a4244d</RequestId>
+  <RequestId>33b6ff9a-b597-4038-b0c5-85fe4a6ade60</RequestId>
 </ErrorResponse>
 ```
 
@@ -2464,6 +2989,11 @@ We strongly recommend that all Auto Scaling groups use launch templates to ensur
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T182733Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/autoscaling/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=UpdateAutoScalingGroup
 &Version=2011-01-01
@@ -2473,6 +3003,9 @@ Action=UpdateAutoScalingGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 446440e7-51e9-4330-9c9f-0896ce8b36f4
+content-length: 266
+date: Thu, 26 Nov 2026 18:27:33 GMT
 
 <ErrorResponse xmlns="http://autoscaling.amazonaws.com/doc/2011-01-01/">
   <Error>
@@ -2480,7 +3013,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>AutoScalingGroup name not found - null</Message>
   </Error>
-  <RequestId>d4f5a4ee-0ed7-4fc3-b2e7-ce3b7fd49414</RequestId>
+  <RequestId>446440e7-51e9-4330-9c9f-0896ce8b36f4</RequestId>
 </ErrorResponse>
 ```
 

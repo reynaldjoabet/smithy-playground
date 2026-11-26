@@ -11,7 +11,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `identitystore`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `identitystore`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListUsers`:
 
@@ -42,9 +42,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListInstances
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
+X-Amz-Date: 20261126T183006Z
 Content-Length: 2
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -55,7 +55,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ss
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 624
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "Instances": [
@@ -65,14 +65,14 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
       "IdentityStoreArn": "arn:aws:identitystore::000000000000:identitystore/d-9067f3a1c2",
       "OwnerAccountId": "000000000000",
       "Name": "IdentityCenter",
-      "CreatedDate": 1794830491.9161334,
+      "CreatedDate": 1795717806.1406298,
       "Status": "ACTIVE",
       "PrimaryRegion": "us-east-1",
       "Regions": [
         {
           "RegionName": "us-east-1",
           "Status": "ACTIVE",
-          "AddedDate": 1794830491.9161334,
+          "AddedDate": 1795717806.1406298,
           "IsPrimaryRegion": true
         }
       ],
@@ -96,9 +96,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.CreateUser
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 216
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183006Z
+Content-Length: 199
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "d-9067f3a1c2",
@@ -124,12 +124,12 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/id
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 175
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "IdentityStoreId": "d-9067f3a1c2",
-  "UserId": "795f2cc7-6c10-47d4-97c5-029d251f0a7f",
-  "UserArn": "arn:aws:identitystore:::user/795f2cc7-6c10-47d4-97c5-029d251f0a7f",
+  "UserId": "207a7102-8112-4d83-874e-b6459bdefd23",
+  "UserArn": "arn:aws:identitystore:::user/207a7102-8112-4d83-874e-b6459bdefd23",
   "Revision": "1"
 }
 ```
@@ -145,9 +145,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.CreateGroup
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 93
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183006Z
+Content-Length: 88
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "d-9067f3a1c2",
@@ -162,12 +162,12 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/id
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 178
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "IdentityStoreId": "d-9067f3a1c2",
-  "GroupId": "1d419ca6-250b-4073-9fbb-f5840ee9d7d5",
-  "GroupArn": "arn:aws:identitystore:::group/1d419ca6-250b-4073-9fbb-f5840ee9d7d5",
+  "GroupId": "75d8f6a0-3d1c-4e65-a2a7-c2a52aec14de",
+  "GroupArn": "arn:aws:identitystore:::group/75d8f6a0-3d1c-4e65-a2a7-c2a52aec14de",
   "Revision": "1"
 }
 ```
@@ -183,15 +183,15 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.CreateGroupMembership
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 150
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183006Z
+Content-Length: 144
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "d-9067f3a1c2",
-  "GroupId": "1d419ca6-250b-4073-9fbb-f5840ee9d7d5",
+  "GroupId": "75d8f6a0-3d1c-4e65-a2a7-c2a52aec14de",
   "MemberId": {
-    "UserId": "795f2cc7-6c10-47d4-97c5-029d251f0a7f"
+    "UserId": "207a7102-8112-4d83-874e-b6459bdefd23"
   }
 }
 ```
@@ -202,12 +202,12 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/id
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 178
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "IdentityStoreId": "d-9067f3a1c2",
-  "MembershipId": "f8cec501-caab-47c1-a536-70f214d12a9a",
-  "MembershipArn": "arn:aws:identitystore:::membership/f8cec501-caab-47c1-a536-70f214d12a9a"
+  "MembershipId": "1da722ba-2b19-4676-9e0b-2efdedc9fe9f",
+  "MembershipArn": "arn:aws:identitystore:::membership/1da722ba-2b19-4676-9e0b-2efdedc9fe9f"
 }
 ```
 
@@ -222,13 +222,13 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.ListGroupMemberships
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 86
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183006Z
+Content-Length: 83
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "d-9067f3a1c2",
-  "GroupId": "1d419ca6-250b-4073-9fbb-f5840ee9d7d5"
+  "GroupId": "75d8f6a0-3d1c-4e65-a2a7-c2a52aec14de"
 }
 ```
 
@@ -237,23 +237,23 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/id
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-content-length: 509
-date: Mon, 16 Nov 2026 12:10:17 GMT
+content-length: 449
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "GroupMemberships": [
     {
       "IdentityStoreId": "d-9067f3a1c2",
-      "MembershipId": "f8cec501-caab-47c1-a536-70f214d12a9a",
-      "MembershipArn": "arn:aws:identitystore:::membership/f8cec501-caab-47c1-a536-70f214d12a9a",
-      "GroupId": "1d419ca6-250b-4073-9fbb-f5840ee9d7d5",
+      "MembershipId": "1da722ba-2b19-4676-9e0b-2efdedc9fe9f",
+      "MembershipArn": "arn:aws:identitystore:::membership/1da722ba-2b19-4676-9e0b-2efdedc9fe9f",
+      "GroupId": "75d8f6a0-3d1c-4e65-a2a7-c2a52aec14de",
       "MemberId": {
-        "UserId": "795f2cc7-6c10-47d4-97c5-029d251f0a7f"
+        "UserId": "207a7102-8112-4d83-874e-b6459bdefd23"
       },
-      "CreatedAt": 1794831017.679292,
-      "UpdatedAt": 1794831017.679292,
-      "CreatedBy": "arn:aws:iam::000000000000:user/<access-key-id>",
-      "UpdatedBy": "arn:aws:iam::000000000000:user/<access-key-id>"
+      "CreatedAt": 1795717806.1467752,
+      "UpdatedAt": 1795717806.1467752,
+      "CreatedBy": "AIDAH5I7GEMO7ADXNFAZU",
+      "UpdatedBy": "AIDAH5I7GEMO7ADXNFAZU"
     }
   ]
 }
@@ -270,9 +270,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.CreateUser
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 138
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183006Z
+Content-Length: 128
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "d-9067f3a1c2",
@@ -291,12 +291,12 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/id
 HTTP/1.1 409 Conflict
 content-type: application/x-amz-json-1.1
 content-length: 155
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ConflictException",
   "Message": "Duplicate UserName",
-  "RequestId": "1ce3d796-3586-46d4-b157-d775f698b289",
+  "RequestId": "008b1c9c-b68f-45e1-adb9-4334bf704230",
   "Reason": "UNIQUENESS_CONSTRAINT_VIOLATION"
 }
 ```
@@ -312,13 +312,13 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.DeleteGroupMembership
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 91
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183006Z
+Content-Length: 88
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "d-9067f3a1c2",
-  "MembershipId": "f8cec501-caab-47c1-a536-70f214d12a9a"
+  "MembershipId": "1da722ba-2b19-4676-9e0b-2efdedc9fe9f"
 }
 ```
 
@@ -328,7 +328,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/id
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 2
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {}
 ```
@@ -344,13 +344,13 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.DeleteGroup
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 86
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183006Z
+Content-Length: 83
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "d-9067f3a1c2",
-  "GroupId": "1d419ca6-250b-4073-9fbb-f5840ee9d7d5"
+  "GroupId": "75d8f6a0-3d1c-4e65-a2a7-c2a52aec14de"
 }
 ```
 
@@ -360,7 +360,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/id
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 2
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {}
 ```
@@ -376,13 +376,13 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.DeleteUser
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 85
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183006Z
+Content-Length: 82
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "d-9067f3a1c2",
-  "UserId": "795f2cc7-6c10-47d4-97c5-029d251f0a7f"
+  "UserId": "207a7102-8112-4d83-874e-b6459bdefd23"
 }
 ```
 
@@ -392,14 +392,14 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/id
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 2
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {}
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 22 operations, 0 accepted the placeholder call, 1 answer `501 NotImplemented`, and the rest refused it with a modelled error.
 
@@ -409,7 +409,12 @@ Creates a group within the specified identity store.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.CreateGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 29
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example"
@@ -419,6 +424,8 @@ X-Amz-Target: AWSIdentityStore.CreateGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 332
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -434,7 +441,12 @@ Creates a relationship between a member and a group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.CreateGroupMembership
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 81
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example",
@@ -448,6 +460,8 @@ X-Amz-Target: AWSIdentityStore.CreateGroupMembership
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 602
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -463,7 +477,12 @@ Creates a user within the specified identity store.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.CreateUser
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 29
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example"
@@ -473,6 +492,8 @@ X-Amz-Target: AWSIdentityStore.CreateUser
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 332
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -488,7 +509,12 @@ Delete a group within an identity store given GroupId .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.DeleteGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example",
@@ -499,6 +525,8 @@ X-Amz-Target: AWSIdentityStore.DeleteGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 602
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -514,7 +542,12 @@ Delete a membership within a group given MembershipId .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.DeleteGroupMembership
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example",
@@ -525,6 +558,8 @@ X-Amz-Target: AWSIdentityStore.DeleteGroupMembership
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 607
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -540,7 +575,12 @@ Deletes a user within an identity store given UserId .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.DeleteUser
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 48
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example",
@@ -551,6 +591,8 @@ X-Amz-Target: AWSIdentityStore.DeleteUser
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 601
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -566,7 +608,12 @@ Retrieves the group metadata and attributes from GroupId in an identity store.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.DescribeGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example",
@@ -577,6 +624,8 @@ X-Amz-Target: AWSIdentityStore.DescribeGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 602
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -592,7 +641,12 @@ Retrieves membership metadata and attributes from MembershipId in an identity st
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.DescribeGroupMembership
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example",
@@ -603,6 +657,8 @@ X-Amz-Target: AWSIdentityStore.DescribeGroupMembership
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 607
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -618,7 +674,12 @@ Retrieves details about the specified identity store, including its Amazon Resou
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.DescribeIdentityStore
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 29
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example"
@@ -628,6 +689,8 @@ X-Amz-Target: AWSIdentityStore.DescribeIdentityStore
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 332
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -643,7 +706,12 @@ Retrieves the user metadata and attributes from the UserId in an identity store.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.DescribeUser
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 48
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example",
@@ -654,6 +722,8 @@ X-Amz-Target: AWSIdentityStore.DescribeUser
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 601
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -669,7 +739,12 @@ Retrieves GroupId in an identity store.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.GetGroupId
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 102
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example",
@@ -685,6 +760,8 @@ X-Amz-Target: AWSIdentityStore.GetGroupId
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 332
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -700,7 +777,12 @@ Retrieves the MembershipId in an identity store.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.GetGroupMembershipId
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 81
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example",
@@ -714,6 +796,8 @@ X-Amz-Target: AWSIdentityStore.GetGroupMembershipId
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 602
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -729,7 +813,12 @@ Retrieves the UserId in an identity store.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.GetUserId
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 102
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example",
@@ -745,6 +834,8 @@ X-Amz-Target: AWSIdentityStore.GetUserId
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 332
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -760,7 +851,12 @@ Checks the user's membership in all requested groups and returns if the member e
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.IsMemberInGroups
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 84
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example",
@@ -776,6 +872,8 @@ X-Amz-Target: AWSIdentityStore.IsMemberInGroups
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 767
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -791,7 +889,12 @@ For the specified group in the specified identity store, returns the list of all
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.ListGroupMemberships
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example",
@@ -802,6 +905,8 @@ X-Amz-Target: AWSIdentityStore.ListGroupMemberships
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 602
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -817,7 +922,12 @@ For the specified member in the specified identity store, returns the list of al
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.ListGroupMembershipsForMember
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example",
@@ -830,6 +940,8 @@ X-Amz-Target: AWSIdentityStore.ListGroupMembershipsForMember
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 332
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -845,7 +957,12 @@ Lists all groups in the identity store.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.ListGroups
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 29
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example"
@@ -855,6 +972,8 @@ X-Amz-Target: AWSIdentityStore.ListGroups
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 332
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -870,7 +989,12 @@ Lists the identity stores that you have access to.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.ListIdentityStores
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -878,6 +1002,8 @@ X-Amz-Target: AWSIdentityStore.ListIdentityStores
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.1
+content-length: 119
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "NotImplemented",
@@ -893,7 +1019,12 @@ Lists all users in the identity store.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.ListUsers
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 29
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example"
@@ -903,6 +1034,8 @@ X-Amz-Target: AWSIdentityStore.ListUsers
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 332
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -918,7 +1051,12 @@ Updates the specified group metadata and attributes in the specified identity st
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.UpdateGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 92
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example",
@@ -934,6 +1072,8 @@ X-Amz-Target: AWSIdentityStore.UpdateGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 602
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -949,7 +1089,12 @@ Updates the configuration of the specified identity store, including its network
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.UpdateIdentityStore
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 29
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example"
@@ -959,6 +1104,8 @@ X-Amz-Target: AWSIdentityStore.UpdateIdentityStore
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 332
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",
@@ -974,7 +1121,12 @@ Updates the specified user metadata and attributes in the specified identity sto
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSIdentityStore.UpdateUser
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183006Z
+Content-Length: 91
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/identitystore/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "IdentityStoreId": "example",
@@ -990,6 +1142,8 @@ X-Amz-Target: AWSIdentityStore.UpdateUser
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 601
+date: Thu, 26 Nov 2026 18:30:06 GMT
 
 {
   "__type": "ValidationException",

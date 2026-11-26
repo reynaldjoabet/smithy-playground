@@ -11,7 +11,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `network-firewall`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `network-firewall`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListFirewalls`:
 
@@ -42,9 +42,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.CreateRuleGroup
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124406Z
-Content-Length: 210
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 201
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "RuleGroupName": "docs-demo-allow-https",
@@ -64,14 +64,14 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
 content-length: 504
-date: Mon, 16 Nov 2026 12:44:06 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
-  "UpdateToken": "a5668a9f-8f1c-4dd9-8094-99bbfac1018b",
+  "UpdateToken": "17ae59aa-167a-4cd9-afac-2d52f04d4565",
   "RuleGroupResponse": {
     "RuleGroupArn": "arn:aws:network-firewall:us-east-1:000000000000:stateful-rulegroup/docs-demo-allow-https",
     "RuleGroupName": "docs-demo-allow-https",
-    "RuleGroupId": "e374e972-f36a-4814-bfdd-dbe80f870fe2",
+    "RuleGroupId": "a0d1e6d7-d43e-472b-9842-f6fd82806293",
     "Type": "STATEFUL",
     "Capacity": 100,
     "RuleGroupStatus": "ACTIVE",
@@ -81,7 +81,7 @@ date: Mon, 16 Nov 2026 12:44:06 GMT
       "KeyId": "AWS_OWNED_KMS_KEY",
       "Type": "AWS_OWNED_KMS_KEY"
     },
-    "LastModifiedTime": 1794833046.2013283
+    "LastModifiedTime": 1795717847.411451
   }
 }
 ```
@@ -97,9 +97,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.CreateFirewallPolicy
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124406Z
-Content-Length: 314
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 305
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallPolicyName": "docs-demo-policy",
@@ -125,14 +125,14 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
 content-length: 566
-date: Mon, 16 Nov 2026 12:44:06 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
-  "UpdateToken": "55ae92dd-da63-4730-ad1e-22014f7211f1",
+  "UpdateToken": "04d45493-bb79-4474-bc01-8f8bf51a04f7",
   "FirewallPolicyResponse": {
     "FirewallPolicyName": "docs-demo-policy",
     "FirewallPolicyArn": "arn:aws:network-firewall:us-east-1:000000000000:firewall-policy/docs-demo-policy",
-    "FirewallPolicyId": "b4f78d8c-ef22-4bcd-85f5-57ec78cc6a12",
+    "FirewallPolicyId": "ba24690a-867d-4d3d-ad7f-b3826f66595b",
     "FirewallPolicyStatus": "ACTIVE",
     "ConsumedStatelessRuleCapacity": 0,
     "ConsumedStatefulRuleCapacity": 100,
@@ -142,7 +142,7 @@ date: Mon, 16 Nov 2026 12:44:06 GMT
       "KeyId": "AWS_OWNED_KMS_KEY",
       "Type": "AWS_OWNED_KMS_KEY"
     },
-    "LastModifiedTime": 1794833046.2324905
+    "LastModifiedTime": 1795717847.4133155
   }
 }
 ```
@@ -158,9 +158,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.CreateFirewall
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124406Z
-Content-Length: 233
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 225
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallName": "docs-demo-fw",
@@ -180,7 +180,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
 content-length: 1022
-date: Mon, 16 Nov 2026 12:44:06 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "Firewall": {
@@ -196,7 +196,7 @@ date: Mon, 16 Nov 2026 12:44:06 GMT
     "DeleteProtection": false,
     "SubnetChangeProtection": false,
     "FirewallPolicyChangeProtection": false,
-    "FirewallId": "2b836f48-32a4-4294-86ee-ef675b82c96d",
+    "FirewallId": "ab07d12e-1aef-4764-a312-221b3e6835f5",
     "EncryptionConfiguration": {
       "KeyId": "AWS_OWNED_KMS_KEY",
       "Type": "AWS_OWNED_KMS_KEY"
@@ -211,13 +211,13 @@ date: Mon, 16 Nov 2026 12:44:06 GMT
       "us-east-1a": {
         "Attachment": {
           "SubnetId": "subnet-00000000000000007",
-          "EndpointId": "vpce-000000000000000c3",
+          "EndpointId": "vpce-000000000000000da",
           "Status": "CREATING"
         },
         "Config": {
           "arn:aws:network-firewall:us-east-1:000000000000:firewall-policy/docs-demo-policy": {
             "SyncStatus": "IN_SYNC",
-            "UpdateToken": "127dca65-360c-4531-9d21-4b97476e7460"
+            "UpdateToken": "c855acca-92e2-427d-97cb-eda68340ef63"
           }
         }
       }
@@ -239,9 +239,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeFirewall
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124408Z
-Content-Length: 32
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallName": "docs-demo-fw"
@@ -253,11 +253,11 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
-content-length: 1075
-date: Mon, 16 Nov 2026 12:44:08 GMT
+content-length: 1085
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
-  "UpdateToken": "127dca65-360c-4531-9d21-4b97476e7460",
+  "UpdateToken": "c855acca-92e2-427d-97cb-eda68340ef63",
   "Firewall": {
     "FirewallName": "docs-demo-fw",
     "FirewallArn": "arn:aws:network-firewall:us-east-1:000000000000:firewall/docs-demo-fw",
@@ -271,7 +271,7 @@ date: Mon, 16 Nov 2026 12:44:08 GMT
     "DeleteProtection": false,
     "SubnetChangeProtection": false,
     "FirewallPolicyChangeProtection": false,
-    "FirewallId": "2b836f48-32a4-4294-86ee-ef675b82c96d",
+    "FirewallId": "ab07d12e-1aef-4764-a312-221b3e6835f5",
     "Tags": [],
     "EncryptionConfiguration": {
       "KeyId": "AWS_OWNED_KMS_KEY",
@@ -281,19 +281,19 @@ date: Mon, 16 Nov 2026 12:44:08 GMT
     "NoSourcePreservation": false
   },
   "FirewallStatus": {
-    "Status": "READY",
+    "Status": "PROVISIONING",
     "ConfigurationSyncStateSummary": "IN_SYNC",
     "SyncStates": {
       "us-east-1a": {
         "Attachment": {
           "SubnetId": "subnet-00000000000000007",
-          "EndpointId": "vpce-000000000000000c3",
-          "Status": "READY"
+          "EndpointId": "vpce-000000000000000da",
+          "Status": "CREATING"
         },
         "Config": {
           "arn:aws:network-firewall:us-east-1:000000000000:firewall-policy/docs-demo-policy": {
             "SyncStatus": "IN_SYNC",
-            "UpdateToken": "127dca65-360c-4531-9d21-4b97476e7460"
+            "UpdateToken": "c855acca-92e2-427d-97cb-eda68340ef63"
           }
         }
       }
@@ -313,9 +313,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteFirewallPolicy
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124408Z
-Content-Length: 42
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 41
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallPolicyName": "docs-demo-policy"
@@ -328,7 +328,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
 content-length: 105
-date: Mon, 16 Nov 2026 12:44:08 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidOperationException",
@@ -347,9 +347,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteFirewall
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124408Z
-Content-Length: 32
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallName": "docs-demo-fw"
@@ -362,7 +362,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
 content-length: 1028
-date: Mon, 16 Nov 2026 12:44:08 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "Firewall": {
@@ -378,7 +378,7 @@ date: Mon, 16 Nov 2026 12:44:08 GMT
     "DeleteProtection": false,
     "SubnetChangeProtection": false,
     "FirewallPolicyChangeProtection": false,
-    "FirewallId": "2b836f48-32a4-4294-86ee-ef675b82c96d",
+    "FirewallId": "ab07d12e-1aef-4764-a312-221b3e6835f5",
     "Tags": [],
     "EncryptionConfiguration": {
       "KeyId": "AWS_OWNED_KMS_KEY",
@@ -394,13 +394,13 @@ date: Mon, 16 Nov 2026 12:44:08 GMT
       "us-east-1a": {
         "Attachment": {
           "SubnetId": "subnet-00000000000000007",
-          "EndpointId": "vpce-000000000000000c3",
+          "EndpointId": "vpce-000000000000000da",
           "Status": "DELETING"
         },
         "Config": {
           "arn:aws:network-firewall:us-east-1:000000000000:firewall-policy/docs-demo-policy": {
             "SyncStatus": "IN_SYNC",
-            "UpdateToken": "127dca65-360c-4531-9d21-4b97476e7460"
+            "UpdateToken": "c855acca-92e2-427d-97cb-eda68340ef63"
           }
         }
       }
@@ -420,9 +420,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeFirewall
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124408Z
-Content-Length: 32
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallName": "docs-demo-fw"
@@ -435,7 +435,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
 content-length: 116
-date: Mon, 16 Nov 2026 12:44:08 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -454,9 +454,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteFirewallPolicy
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124408Z
-Content-Length: 42
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 41
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallPolicyName": "docs-demo-policy"
@@ -469,13 +469,13 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
 content-length: 525
-date: Mon, 16 Nov 2026 12:44:08 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "FirewallPolicyResponse": {
     "FirewallPolicyName": "docs-demo-policy",
     "FirewallPolicyArn": "arn:aws:network-firewall:us-east-1:000000000000:firewall-policy/docs-demo-policy",
-    "FirewallPolicyId": "b4f78d8c-ef22-4bcd-85f5-57ec78cc6a12",
+    "FirewallPolicyId": "ba24690a-867d-4d3d-ad7f-b3826f66595b",
     "FirewallPolicyStatus": "DELETING",
     "Tags": [],
     "ConsumedStatelessRuleCapacity": 0,
@@ -486,7 +486,7 @@ date: Mon, 16 Nov 2026 12:44:08 GMT
       "KeyId": "AWS_OWNED_KMS_KEY",
       "Type": "AWS_OWNED_KMS_KEY"
     },
-    "LastModifiedTime": 1794833048.7178829
+    "LastModifiedTime": 1795717847.42743
   }
 }
 ```
@@ -502,9 +502,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteRuleGroup
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124408Z
-Content-Length: 62
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 59
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "RuleGroupName": "docs-demo-allow-https",
@@ -518,13 +518,13 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
 content-length: 463
-date: Mon, 16 Nov 2026 12:44:08 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "RuleGroupResponse": {
     "RuleGroupArn": "arn:aws:network-firewall:us-east-1:000000000000:stateful-rulegroup/docs-demo-allow-https",
     "RuleGroupName": "docs-demo-allow-https",
-    "RuleGroupId": "e374e972-f36a-4814-bfdd-dbe80f870fe2",
+    "RuleGroupId": "a0d1e6d7-d43e-472b-9842-f6fd82806293",
     "Type": "STATEFUL",
     "Capacity": 100,
     "RuleGroupStatus": "DELETING",
@@ -535,16 +535,16 @@ date: Mon, 16 Nov 2026 12:44:08 GMT
       "KeyId": "AWS_OWNED_KMS_KEY",
       "Type": "AWS_OWNED_KMS_KEY"
     },
-    "LastModifiedTime": 1794833048.7296875
+    "LastModifiedTime": 1795717847.428491
   }
 }
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
-Of 85 operations, 3 accepted the placeholder call, 39 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
+Of 85 operations, 3 accepted the placeholder call, 38 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.629* answered `501` in 1.0.595. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AcceptNetworkFirewallTransitGatewayAttachment
 
@@ -552,7 +552,12 @@ Accepts a transit gateway attachment request for Network Firewall.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.AcceptNetworkFirewallTransitGatewayAttachment
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 40
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TransitGatewayAttachmentId": "example"
@@ -562,6 +567,8 @@ X-Amz-Target: NetworkFirewall_20201112.AcceptNetworkFirewallTransitGatewayAttach
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 212
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -577,7 +584,12 @@ Associates the specified Availability Zones with a transit gateway-attached fire
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.AssociateAvailabilityZones
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AvailabilityZoneMappings": [
@@ -591,6 +603,8 @@ X-Amz-Target: NetworkFirewall_20201112.AssociateAvailabilityZones
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 127
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -606,7 +620,12 @@ Associates a FirewallPolicy to a Firewall .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.AssociateFirewallPolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 86
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallPolicyArn": "arn:aws:networkfirewall:us-east-1:000000000000:example/example"
@@ -616,6 +635,8 @@ X-Amz-Target: NetworkFirewall_20201112.AssociateFirewallPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 104
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -631,7 +652,12 @@ Associates the specified subnets in the Amazon VPC to the firewall.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.AssociateSubnets
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SubnetMappings": [
@@ -645,6 +671,8 @@ X-Amz-Target: NetworkFirewall_20201112.AssociateSubnets
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 104
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -660,7 +688,12 @@ Attaches ProxyRuleGroup resources to a ProxyConfiguration A Proxy Configuration 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.AttachRuleGroupsToProxyConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "RuleGroups": [
@@ -673,6 +706,8 @@ X-Amz-Target: NetworkFirewall_20201112.AttachRuleGroupsToProxyConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -688,7 +723,12 @@ Creates a Network Firewall container association.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.CreateContainerAssociation
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 169
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ContainerAssociationName": "example",
@@ -704,6 +744,8 @@ X-Amz-Target: NetworkFirewall_20201112.CreateContainerAssociation
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 127
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -719,7 +761,12 @@ Creates an Network Firewall Firewall and accompanying FirewallStatus for a VPC.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.CreateFirewall
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 111
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallName": "example",
@@ -730,6 +777,8 @@ X-Amz-Target: NetworkFirewall_20201112.CreateFirewall
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 113
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -745,7 +794,12 @@ Creates the firewall policy for the firewall according to the specifications.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.CreateFirewallPolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 135
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallPolicyName": "example",
@@ -763,6 +817,8 @@ X-Amz-Target: NetworkFirewall_20201112.CreateFirewallPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 139
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -778,7 +834,12 @@ Creates an Network Firewall Proxy Attaches a Proxy configuration to a NAT Gatewa
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.CreateProxy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 76
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ProxyName": "example",
@@ -790,6 +851,8 @@ X-Amz-Target: NetworkFirewall_20201112.CreateProxy
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 112
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -805,7 +868,12 @@ Creates an Network Firewall ProxyConfiguration A Proxy Configuration defines the
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.CreateProxyConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 65
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ProxyConfigurationName": "example",
@@ -816,6 +884,8 @@ X-Amz-Target: NetworkFirewall_20201112.CreateProxyConfiguration
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -831,7 +901,12 @@ Creates an Network Firewall ProxyRuleGroup Collections of related proxy filterin
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.CreateProxyRuleGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 32
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ProxyRuleGroupName": "example"
@@ -841,6 +916,8 @@ X-Amz-Target: NetworkFirewall_20201112.CreateProxyRuleGroup
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 121
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -856,7 +933,12 @@ Creates Network Firewall ProxyRule resources.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.CreateProxyRules
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 12
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Rules": {}
@@ -866,6 +948,8 @@ X-Amz-Target: NetworkFirewall_20201112.CreateProxyRules
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 117
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -881,7 +965,12 @@ Creates the specified stateless or stateful rule group, which includes the rules
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.CreateRuleGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 59
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "RuleGroupName": "example",
@@ -893,6 +982,8 @@ X-Amz-Target: NetworkFirewall_20201112.CreateRuleGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 108
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -908,7 +999,12 @@ Creates an Network Firewall TLS inspection configuration.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.CreateTLSInspectionConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 76
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TLSInspectionConfigurationName": "example",
@@ -919,6 +1015,8 @@ X-Amz-Target: NetworkFirewall_20201112.CreateTLSInspectionConfiguration
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 133
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -934,7 +1032,12 @@ Creates a firewall endpoint for an Network Firewall firewall.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.CreateVpcEndpointAssociation
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 137
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallArn": "arn:aws:networkfirewall:us-east-1:000000000000:example/example",
@@ -948,6 +1051,8 @@ X-Amz-Target: NetworkFirewall_20201112.CreateVpcEndpointAssociation
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 184
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -963,7 +1068,12 @@ Deletes a container association.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteContainerAssociation
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -971,6 +1081,8 @@ X-Amz-Target: NetworkFirewall_20201112.DeleteContainerAssociation
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 127
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -986,7 +1098,12 @@ Deletes the specified Firewall and its FirewallStatus .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteFirewall
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -994,6 +1111,8 @@ X-Amz-Target: NetworkFirewall_20201112.DeleteFirewall
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 104
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -1009,7 +1128,12 @@ Deletes the specified FirewallPolicy .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteFirewallPolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1017,6 +1141,8 @@ X-Amz-Target: NetworkFirewall_20201112.DeleteFirewallPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 116
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -1032,7 +1158,12 @@ Deletes a transit gateway attachment from a Network Firewall.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteNetworkFirewallTransitGatewayAttachment
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 40
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TransitGatewayAttachmentId": "example"
@@ -1042,6 +1173,8 @@ X-Amz-Target: NetworkFirewall_20201112.DeleteNetworkFirewallTransitGatewayAttach
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 212
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1057,7 +1190,12 @@ Deletes the specified Proxy .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteProxy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 26
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "NatGatewayId": "example"
@@ -1067,6 +1205,8 @@ X-Amz-Target: NetworkFirewall_20201112.DeleteProxy
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 112
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1082,7 +1222,12 @@ Deletes the specified ProxyConfiguration .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteProxyConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1090,6 +1235,8 @@ X-Amz-Target: NetworkFirewall_20201112.DeleteProxyConfiguration
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1105,7 +1252,12 @@ Deletes the specified ProxyRuleGroup .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteProxyRuleGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1113,6 +1265,8 @@ X-Amz-Target: NetworkFirewall_20201112.DeleteProxyRuleGroup
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 121
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1128,7 +1282,12 @@ Deletes the specified ProxyRule (s). currently attached to a ProxyRuleGroup
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteProxyRules
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Rules": [
@@ -1140,6 +1299,8 @@ X-Amz-Target: NetworkFirewall_20201112.DeleteProxyRules
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 117
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1155,7 +1316,12 @@ Deletes a resource policy that you created in a PutResourcePolicy request.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteResourcePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 80
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:networkfirewall:us-east-1:000000000000:example/example"
@@ -1165,6 +1331,8 @@ X-Amz-Target: NetworkFirewall_20201112.DeleteResourcePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 116
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1180,7 +1348,12 @@ Deletes the specified RuleGroup .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteRuleGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1188,6 +1361,8 @@ X-Amz-Target: NetworkFirewall_20201112.DeleteRuleGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 106
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -1203,7 +1378,12 @@ Deletes the specified TLSInspectionConfiguration .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteTLSInspectionConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1211,6 +1391,8 @@ X-Amz-Target: NetworkFirewall_20201112.DeleteTLSInspectionConfiguration
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 133
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1226,7 +1408,12 @@ Deletes the specified VpcEndpointAssociation .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DeleteVpcEndpointAssociation
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 94
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "VpcEndpointAssociationArn": "arn:aws:networkfirewall:us-east-1:000000000000:example/example"
@@ -1236,6 +1423,8 @@ X-Amz-Target: NetworkFirewall_20201112.DeleteVpcEndpointAssociation
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 129
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1251,7 +1440,12 @@ Retrieves the configuration and status of a container association.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeContainerAssociation
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1259,6 +1453,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeContainerAssociation
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 129
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1274,7 +1470,12 @@ Returns the data objects for the specified firewall.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeFirewall
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1282,6 +1483,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeFirewall
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 104
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -1297,7 +1500,12 @@ Returns the high-level information about a firewall, including the Availability 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeFirewallMetadata
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1305,6 +1513,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeFirewallMetadata
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1320,7 +1530,12 @@ Returns the data objects for the specified firewall policy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeFirewallPolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1328,6 +1543,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeFirewallPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 116
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -1343,7 +1560,12 @@ Returns key information about a specific flow operation.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeFlowOperation
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 137
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallArn": "arn:aws:networkfirewall:us-east-1:000000000000:example/example",
@@ -1354,6 +1576,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeFlowOperation
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 226
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1369,7 +1593,12 @@ Returns the logging configuration for the specified firewall.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeLoggingConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1377,6 +1606,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeLoggingConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 104
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -1392,7 +1623,12 @@ Returns the data objects for the specified proxy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeProxy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1400,6 +1636,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeProxy
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 114
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1415,7 +1653,12 @@ Returns the data objects for the specified proxy configuration.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeProxyConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1423,6 +1666,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeProxyConfiguration
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 127
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1438,7 +1683,12 @@ Returns the data objects for the specified proxy configuration for the specified
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeProxyRule
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 27
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ProxyRuleName": "example"
@@ -1448,6 +1698,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeProxyRule
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 118
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1463,7 +1715,12 @@ Returns the data objects for the specified proxy rule group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeProxyRuleGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1471,6 +1728,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeProxyRuleGroup
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 123
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1486,7 +1745,12 @@ Retrieves a resource policy that you created in a PutResourcePolicy request.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeResourcePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 80
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:networkfirewall:us-east-1:000000000000:example/example"
@@ -1496,6 +1760,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeResourcePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 116
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1511,7 +1777,12 @@ Returns the data objects for the specified rule group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeRuleGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1519,6 +1790,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeRuleGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 106
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -1534,7 +1807,12 @@ High-level information about a rule group, returned by operations like create an
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeRuleGroupMetadata
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1542,6 +1820,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeRuleGroupMetadata
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 126
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1557,7 +1837,12 @@ Returns detailed information for a stateful rule group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeRuleGroupSummary
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1565,6 +1850,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeRuleGroupSummary
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1580,7 +1867,12 @@ Returns the data objects for the specified TLS inspection configuration.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeTLSInspectionConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1588,6 +1880,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeTLSInspectionConfiguration
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 135
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1603,7 +1897,12 @@ Returns the data object for the specified VPC endpoint association.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DescribeVpcEndpointAssociation
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 94
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "VpcEndpointAssociationArn": "arn:aws:networkfirewall:us-east-1:000000000000:example/example"
@@ -1613,6 +1912,8 @@ X-Amz-Target: NetworkFirewall_20201112.DescribeVpcEndpointAssociation
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 131
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1628,7 +1929,12 @@ Detaches ProxyRuleGroup resources from a ProxyConfiguration A Proxy Configuratio
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DetachRuleGroupsFromProxyConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 25
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UpdateToken": "example"
@@ -1638,6 +1944,8 @@ X-Amz-Target: NetworkFirewall_20201112.DetachRuleGroupsFromProxyConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1653,7 +1961,12 @@ Removes the specified Availability Zone associations from a transit gateway-atta
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DisassociateAvailabilityZones
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AvailabilityZoneMappings": [
@@ -1667,6 +1980,8 @@ X-Amz-Target: NetworkFirewall_20201112.DisassociateAvailabilityZones
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 130
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1682,7 +1997,12 @@ Removes the specified subnet associations from the firewall.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.DisassociateSubnets
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 25
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SubnetIds": [
@@ -1694,6 +2014,8 @@ X-Amz-Target: NetworkFirewall_20201112.DisassociateSubnets
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 328
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1709,7 +2031,12 @@ The results of a COMPLETED analysis report generated with StartAnalysisReport .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.GetAnalysisReportResults
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 30
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AnalysisReportId": "example"
@@ -1719,6 +2046,8 @@ X-Amz-Target: NetworkFirewall_20201112.GetAnalysisReportResults
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1734,7 +2063,12 @@ Returns a list of all traffic analysis reports generated within the last 30 days
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.ListAnalysisReports
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1742,6 +2076,8 @@ X-Amz-Target: NetworkFirewall_20201112.ListAnalysisReports
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 120
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1757,7 +2093,12 @@ Lists the container associations in your account and Region.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.ListContainerAssociations
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1765,6 +2106,8 @@ X-Amz-Target: NetworkFirewall_20201112.ListContainerAssociations
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 126
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1780,7 +2123,12 @@ Retrieves the metadata for the firewall policies that you have defined.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.ListFirewallPolicies
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1788,6 +2136,8 @@ X-Amz-Target: NetworkFirewall_20201112.ListFirewallPolicies
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
+content-length: 23
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "FirewallPolicies": []
@@ -1802,7 +2152,12 @@ Retrieves the metadata for the firewalls that you have defined.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.ListFirewalls
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1810,6 +2165,8 @@ X-Amz-Target: NetworkFirewall_20201112.ListFirewalls
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
+content-length: 16
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "Firewalls": []
@@ -1824,7 +2181,12 @@ Returns the results of a specific flow operation.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.ListFlowOperationResults
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 137
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallArn": "arn:aws:networkfirewall:us-east-1:000000000000:example/example",
@@ -1835,6 +2197,8 @@ X-Amz-Target: NetworkFirewall_20201112.ListFlowOperationResults
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 226
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1850,7 +2214,12 @@ Returns a list of all flow operations ran in a specific firewall.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.ListFlowOperations
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 80
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallArn": "arn:aws:networkfirewall:us-east-1:000000000000:example/example"
@@ -1860,6 +2229,8 @@ X-Amz-Target: NetworkFirewall_20201112.ListFlowOperations
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 116
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1875,7 +2246,12 @@ Retrieves the metadata for the proxies that you have defined.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.ListProxies
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1883,6 +2259,8 @@ X-Amz-Target: NetworkFirewall_20201112.ListProxies
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 112
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1898,7 +2276,12 @@ Retrieves the metadata for the proxy configuration that you have defined.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.ListProxyConfigurations
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1906,6 +2289,8 @@ X-Amz-Target: NetworkFirewall_20201112.ListProxyConfigurations
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 124
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1921,7 +2306,12 @@ Retrieves the metadata for the proxy rule groups that you have defined.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.ListProxyRuleGroups
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1929,6 +2319,8 @@ X-Amz-Target: NetworkFirewall_20201112.ListProxyRuleGroups
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 120
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1944,7 +2336,12 @@ Retrieves the metadata for the rule groups that you have defined.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.ListRuleGroups
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1952,6 +2349,8 @@ X-Amz-Target: NetworkFirewall_20201112.ListRuleGroups
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.0
+content-length: 17
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "RuleGroups": []
@@ -1966,7 +2365,12 @@ Retrieves the metadata for the TLS inspection configurations that you have defin
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.ListTLSInspectionConfigurations
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1974,6 +2378,8 @@ X-Amz-Target: NetworkFirewall_20201112.ListTLSInspectionConfigurations
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 132
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -1989,7 +2395,12 @@ Retrieves the tags associated with the specified resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.ListTagsForResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 80
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:networkfirewall:us-east-1:000000000000:example/example"
@@ -1999,6 +2410,8 @@ X-Amz-Target: NetworkFirewall_20201112.ListTagsForResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 194
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -2014,7 +2427,12 @@ Retrieves the metadata for the VPC endpoint associations that you have defined.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.ListVpcEndpointAssociations
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -2022,6 +2440,8 @@ X-Amz-Target: NetworkFirewall_20201112.ListVpcEndpointAssociations
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 128
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -2037,7 +2457,12 @@ Creates or updates an IAM policy for your rule group, firewall policy, or firewa
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.PutResourcePolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 99
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:networkfirewall:us-east-1:000000000000:example/example",
@@ -2048,6 +2473,8 @@ X-Amz-Target: NetworkFirewall_20201112.PutResourcePolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 186
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -2063,7 +2490,12 @@ Rejects a transit gateway attachment request for Network Firewall.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.RejectNetworkFirewallTransitGatewayAttachment
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 40
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TransitGatewayAttachmentId": "example"
@@ -2073,6 +2505,8 @@ X-Amz-Target: NetworkFirewall_20201112.RejectNetworkFirewallTransitGatewayAttach
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 212
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2088,7 +2522,12 @@ Generates a traffic analysis report for the timeframe and traffic type you speci
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.StartAnalysisReport
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 26
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AnalysisType": "TLS_SNI"
@@ -2098,6 +2537,8 @@ X-Amz-Target: NetworkFirewall_20201112.StartAnalysisReport
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 120
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -2113,7 +2554,12 @@ Begins capturing the flows in a firewall, according to the filters you define.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.StartFlowCapture
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 99
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallArn": "arn:aws:networkfirewall:us-east-1:000000000000:example/example",
@@ -2126,6 +2572,8 @@ X-Amz-Target: NetworkFirewall_20201112.StartFlowCapture
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 117
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -2141,7 +2589,12 @@ Begins the flushing of traffic from the firewall, according to the filters you d
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.StartFlowFlush
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 99
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallArn": "arn:aws:networkfirewall:us-east-1:000000000000:example/example",
@@ -2154,6 +2607,8 @@ X-Amz-Target: NetworkFirewall_20201112.StartFlowFlush
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 116
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2169,7 +2624,12 @@ Adds the specified tags to the specified resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.TagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 125
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:networkfirewall:us-east-1:000000000000:example/example",
@@ -2185,6 +2645,8 @@ X-Amz-Target: NetworkFirewall_20201112.TagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 194
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -2200,7 +2662,12 @@ Removes the tags with the specified keys from the specified resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UntagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 102
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:networkfirewall:us-east-1:000000000000:example/example",
@@ -2213,6 +2680,8 @@ X-Amz-Target: NetworkFirewall_20201112.UntagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 194
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -2228,7 +2697,12 @@ Modifies the AvailabilityZoneChangeProtection setting for a transit gateway-atta
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateAvailabilityZoneChangeProtection
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 42
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AvailabilityZoneChangeProtection": false
@@ -2238,6 +2712,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateAvailabilityZoneChangeProtection
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 139
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -2253,7 +2729,12 @@ Updates the monitoring configurations and description of a container association
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateContainerAssociation
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 156
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Type": "ECS",
@@ -2269,6 +2750,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateContainerAssociation
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2282,24 +2765,33 @@ content-type: application/x-amz-json-1.0
 
 Enables specific types of firewall analysis on a specific firewall you define.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateFirewallAnalysisSettings
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 104
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
-  "__type": "NotImplemented",
-  "message": "operation UpdateFirewallAnalysisSettings is scaffolded but not implemented in this emulator"
+  "__type": "InvalidRequestException",
+  "Message": "At least one of FirewallName or FirewallArn must be set"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidRequestException`: the placeholder values failed the operation's input validation.
 
 ### UpdateFirewallDeleteProtection
 
@@ -2307,7 +2799,12 @@ Modifies the flag, DeleteProtection , which indicates whether it is possible to 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateFirewallDeleteProtection
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 26
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DeleteProtection": false
@@ -2317,6 +2814,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateFirewallDeleteProtection
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 104
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -2332,7 +2831,12 @@ Modifies the description for the specified firewall.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateFirewallDescription
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -2340,6 +2844,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateFirewallDescription
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 104
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -2355,7 +2861,12 @@ A complex type that contains settings for encryption of your firewall resources.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateFirewallEncryptionConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -2363,6 +2874,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateFirewallEncryptionConfiguration
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 138
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -2378,7 +2891,12 @@ Updates the properties of the specified firewall policy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateFirewallPolicy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 128
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UpdateToken": "example",
@@ -2396,6 +2914,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateFirewallPolicy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2413,7 +2933,12 @@ Modifies the flag, ChangeProtection , which indicates whether it is possible to 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateFirewallPolicyChangeProtection
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 40
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "FirewallPolicyChangeProtection": false
@@ -2423,6 +2948,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateFirewallPolicyChangeProtection
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 104
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -2438,7 +2965,12 @@ Sets the logging configuration for the specified firewall.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateLoggingConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -2446,6 +2978,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateLoggingConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 104
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -2461,7 +2995,12 @@ Updates the properties of the specified proxy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateProxy
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 50
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "NatGatewayId": "example",
@@ -2472,6 +3011,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateProxy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2487,7 +3028,12 @@ Updates the properties of the specified proxy configuration.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateProxyConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DefaultRulePhaseActions": {},
@@ -2498,6 +3044,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateProxyConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2513,7 +3061,12 @@ Updates the properties of the specified proxy rule.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateProxyRule
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ProxyRuleName": "example",
@@ -2524,6 +3077,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateProxyRule
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2539,7 +3094,12 @@ Updates proxy rule group priorities within a proxy configuration.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateProxyRuleGroupPriorities
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "RuleGroups": [
@@ -2552,6 +3112,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateProxyRuleGroupPriorities
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2567,7 +3129,12 @@ Updates proxy rule priorities within a proxy rule group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateProxyRulePriorities
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 72
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "RuleGroupRequestPhase": "PRE_DNS",
@@ -2581,6 +3148,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateProxyRulePriorities
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2596,7 +3165,12 @@ Modifies the proxy listener configuration of a proxy mode firewall.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateProxySettings
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -2604,6 +3178,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateProxySettings
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/x-amz-json-1.0
+content-length: 120
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -2619,7 +3195,12 @@ Updates the rule settings for the specified rule group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateRuleGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 25
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UpdateToken": "example"
@@ -2629,6 +3210,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateRuleGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2642,7 +3225,12 @@ content-type: application/x-amz-json-1.0
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateSubnetChangeProtection
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 32
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "SubnetChangeProtection": false
@@ -2652,6 +3240,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateSubnetChangeProtection
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 104
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -2667,7 +3257,12 @@ Updates the TLS inspection configuration settings for the specified TLS inspecti
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
 X-Amz-Target: NetworkFirewall_20201112.UpdateTLSInspectionConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 57
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-firewall/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TLSInspectionConfiguration": {},
@@ -2678,6 +3273,8 @@ X-Amz-Target: NetworkFirewall_20201112.UpdateTLSInspectionConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.0
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",

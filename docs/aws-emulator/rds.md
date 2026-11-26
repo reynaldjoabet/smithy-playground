@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `rds`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `rds`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `DescribeDBInstances`:
 
@@ -39,9 +39,9 @@ The instance starts in `creating`; the password is not echoed back.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
+X-Amz-Date: 20261126T183048Z
 Content-Length: 225
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBInstance
 &Version=2014-10-31
@@ -59,27 +59,29 @@ Action=CreateDBInstance
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 4297
-date: Mon, 16 Nov 2026 12:10:17 GMT
+content-length: 5097
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 <CreateDBInstanceResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <CreateDBInstanceResult>
     <DBInstance xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
+      <VPCNetworkingEnabled>true</VPCNetworkingEnabled>
+      <HttpEndpointEnabled>false</HttpEndpointEnabled>
       <DBInstanceIdentifier>docs-demo-pg</DBInstanceIdentifier>
       <DBInstanceClass>db.t3.micro</DBInstanceClass>
       <Engine>postgres</Engine>
       <DBInstanceStatus>creating</DBInstanceStatus>
       <MasterUsername>app</MasterUsername>
       <Endpoint>
-        <Address>127.0.0.1</Address>
-        <Port>43985</Port>
+        <Address>0.0.0.0</Address>
+        <Port>39253</Port>
         <HostedZoneId>Z2R2ITUGPM61AM</HostedZoneId>
       </Endpoint>
       <AllocatedStorage>20</AllocatedStorage>
-      <InstanceCreateTime>2026-11-16T12:10:17.925369Z</InstanceCreateTime>
+      <InstanceCreateTime>2026-11-26T18:30:48.19992Z</InstanceCreateTime>
       <PreferredBackupWindow>07:00-07:30</PreferredBackupWindow>
       <BackupRetentionPeriod>1</BackupRetentionPeriod>
-      <DBSecurityGroups/>
+      <DBSecurityGroups></DBSecurityGroups>
       <VpcSecurityGroups>
         <VpcSecurityGroupMembership>
           <VpcSecurityGroupId>sg-5964d6082ac46f28a</VpcSecurityGroupId>
@@ -104,7 +106,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
             <SubnetAvailabilityZone>
               <Name>us-east-1a</Name>
             </SubnetAvailabilityZone>
-            <SubnetOutpost/>
+            <SubnetOutpost></SubnetOutpost>
             <SubnetStatus>Active</SubnetStatus>
           </Subnet>
           <Subnet>
@@ -112,7 +114,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
             <SubnetAvailabilityZone>
               <Name>us-east-1b</Name>
             </SubnetAvailabilityZone>
-            <SubnetOutpost/>
+            <SubnetOutpost></SubnetOutpost>
             <SubnetStatus>Active</SubnetStatus>
           </Subnet>
           <Subnet>
@@ -120,9 +122,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
             <SubnetAvailabilityZone>
               <Name>us-east-1c</Name>
             </SubnetAvailabilityZone>
-            <SubnetOutpost/>
-            <SubnetStatus>Active</SubnetStatus>
-… (57 more lines)
+… (84 more lines)
 ```
 
 ### 2. DescribeDBInstances
@@ -137,9 +137,9 @@ Poll until `available`. The endpoint is then a local address and port (`127.0.0.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121019Z
+X-Amz-Date: 20261126T183048Z
 Content-Length: 79
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBInstances
 &Version=2014-10-31
@@ -151,28 +151,30 @@ Action=DescribeDBInstances
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 4317
-date: Mon, 16 Nov 2026 12:10:19 GMT
+content-length: 5136
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 <DescribeDBInstancesResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBInstancesResult>
     <DBInstances>
       <DBInstance xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
+        <VPCNetworkingEnabled>true</VPCNetworkingEnabled>
+        <HttpEndpointEnabled>false</HttpEndpointEnabled>
         <DBInstanceIdentifier>docs-demo-pg</DBInstanceIdentifier>
         <DBInstanceClass>db.t3.micro</DBInstanceClass>
         <Engine>postgres</Engine>
-        <DBInstanceStatus>available</DBInstanceStatus>
+        <DBInstanceStatus>creating</DBInstanceStatus>
         <MasterUsername>app</MasterUsername>
         <Endpoint>
-          <Address>127.0.0.1</Address>
-          <Port>43985</Port>
+          <Address>0.0.0.0</Address>
+          <Port>39253</Port>
           <HostedZoneId>Z2R2ITUGPM61AM</HostedZoneId>
         </Endpoint>
         <AllocatedStorage>20</AllocatedStorage>
-        <InstanceCreateTime>2026-11-16T12:10:17.925369Z</InstanceCreateTime>
+        <InstanceCreateTime>2026-11-26T18:30:48.19992Z</InstanceCreateTime>
         <PreferredBackupWindow>07:00-07:30</PreferredBackupWindow>
         <BackupRetentionPeriod>1</BackupRetentionPeriod>
-        <DBSecurityGroups/>
+        <DBSecurityGroups></DBSecurityGroups>
         <VpcSecurityGroups>
           <VpcSecurityGroupMembership>
             <VpcSecurityGroupId>sg-5964d6082ac46f28a</VpcSecurityGroupId>
@@ -197,7 +199,7 @@ date: Mon, 16 Nov 2026 12:10:19 GMT
               <SubnetAvailabilityZone>
                 <Name>us-east-1a</Name>
               </SubnetAvailabilityZone>
-              <SubnetOutpost/>
+              <SubnetOutpost></SubnetOutpost>
               <SubnetStatus>Active</SubnetStatus>
             </Subnet>
             <Subnet>
@@ -205,16 +207,14 @@ date: Mon, 16 Nov 2026 12:10:19 GMT
               <SubnetAvailabilityZone>
                 <Name>us-east-1b</Name>
               </SubnetAvailabilityZone>
-              <SubnetOutpost/>
+              <SubnetOutpost></SubnetOutpost>
               <SubnetStatus>Active</SubnetStatus>
             </Subnet>
             <Subnet>
               <SubnetIdentifier>subnet-0000000000000000b</SubnetIdentifier>
               <SubnetAvailabilityZone>
                 <Name>us-east-1c</Name>
-              </SubnetAvailabilityZone>
-              <SubnetOutpost/>
-… (57 more lines)
+… (86 more lines)
 ```
 
 ### 3. CreateDBSnapshot
@@ -227,9 +227,9 @@ A manual snapshot starts in `creating`.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121020Z
+X-Amz-Date: 20261126T183048Z
 Content-Length: 115
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBSnapshot
 &Version=2014-10-31
@@ -242,38 +242,38 @@ Action=CreateDBSnapshot
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 1295
-date: Mon, 16 Nov 2026 12:10:20 GMT
+content-length: 1292
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 <CreateDBSnapshotResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <CreateDBSnapshotResult>
     <DBSnapshot xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
       <DBSnapshotIdentifier>docs-demo-pg-snap</DBSnapshotIdentifier>
       <DBInstanceIdentifier>docs-demo-pg</DBInstanceIdentifier>
-      <SnapshotCreateTime>2026-11-16T12:10:20.016918Z</SnapshotCreateTime>
+      <SnapshotCreateTime>2026-11-26T18:30:48.723779Z</SnapshotCreateTime>
       <Engine>postgres</Engine>
       <AllocatedStorage>20</AllocatedStorage>
       <Status>creating</Status>
       <Port>5432</Port>
       <AvailabilityZone>us-east-1a</AvailabilityZone>
-      <InstanceCreateTime>2026-11-16T12:10:17.925369Z</InstanceCreateTime>
+      <InstanceCreateTime>2026-11-26T18:30:48.19992Z</InstanceCreateTime>
       <MasterUsername>app</MasterUsername>
       <EngineVersion>18.3</EngineVersion>
       <LicenseModel>postgresql-license</LicenseModel>
       <SnapshotType>manual</SnapshotType>
-      <StorageThroughput>125</StorageThroughput>
+      <StorageThroughput>0</StorageThroughput>
       <PercentProgress>0</PercentProgress>
-      <StorageType>gp3</StorageType>
+      <StorageType>gp2</StorageType>
       <Encrypted>false</Encrypted>
       <BackupRetentionPeriod>1</BackupRetentionPeriod>
       <PreferredBackupWindow>07:00-07:30</PreferredBackupWindow>
       <DBSnapshotArn>arn:aws:rds:us-east-1:000000000000:snapshot:docs-demo-pg-snap</DBSnapshotArn>
-      <DbiResourceId>db-XB1NLPJCWCADLT701YYIWRMWV0</DbiResourceId>
-      <TagList/>
+      <DbiResourceId>db-51P47QQD4ENYGI8N47O4LBQB2S</DbiResourceId>
+      <TagList></TagList>
     </DBSnapshot>
   </CreateDBSnapshotResult>
   <ResponseMetadata>
-    <RequestId>0e52bec8-dfd6-467b-ac52-b0d34d07fb53</RequestId>
+    <RequestId>5cd901b6-b316-42fc-918c-2140ade5d27b</RequestId>
   </ResponseMetadata>
 </CreateDBSnapshotResponse>
 ```
@@ -290,9 +290,9 @@ Poll until the snapshot is `available`.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121022Z
+X-Amz-Date: 20261126T183048Z
 Content-Length: 84
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBSnapshots
 &Version=2014-10-31
@@ -304,8 +304,8 @@ Action=DescribeDBSnapshots
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 1337
-date: Mon, 16 Nov 2026 12:10:22 GMT
+content-length: 1331
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 <DescribeDBSnapshotsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBSnapshotsResult>
@@ -313,31 +313,31 @@ date: Mon, 16 Nov 2026 12:10:22 GMT
       <DBSnapshot xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
         <DBSnapshotIdentifier>docs-demo-pg-snap</DBSnapshotIdentifier>
         <DBInstanceIdentifier>docs-demo-pg</DBInstanceIdentifier>
-        <SnapshotCreateTime>2026-11-16T12:10:20.016918Z</SnapshotCreateTime>
+        <SnapshotCreateTime>2026-11-26T18:30:48.723779Z</SnapshotCreateTime>
         <Engine>postgres</Engine>
         <AllocatedStorage>20</AllocatedStorage>
-        <Status>available</Status>
+        <Status>creating</Status>
         <Port>5432</Port>
         <AvailabilityZone>us-east-1a</AvailabilityZone>
-        <InstanceCreateTime>2026-11-16T12:10:17.925369Z</InstanceCreateTime>
+        <InstanceCreateTime>2026-11-26T18:30:48.19992Z</InstanceCreateTime>
         <MasterUsername>app</MasterUsername>
         <EngineVersion>18.3</EngineVersion>
         <LicenseModel>postgresql-license</LicenseModel>
         <SnapshotType>manual</SnapshotType>
-        <StorageThroughput>125</StorageThroughput>
-        <PercentProgress>100</PercentProgress>
-        <StorageType>gp3</StorageType>
+        <StorageThroughput>0</StorageThroughput>
+        <PercentProgress>0</PercentProgress>
+        <StorageType>gp2</StorageType>
         <Encrypted>false</Encrypted>
         <BackupRetentionPeriod>1</BackupRetentionPeriod>
         <PreferredBackupWindow>07:00-07:30</PreferredBackupWindow>
         <DBSnapshotArn>arn:aws:rds:us-east-1:000000000000:snapshot:docs-demo-pg-snap</DBSnapshotArn>
-        <DbiResourceId>db-XB1NLPJCWCADLT701YYIWRMWV0</DbiResourceId>
-        <TagList/>
+        <DbiResourceId>db-51P47QQD4ENYGI8N47O4LBQB2S</DbiResourceId>
+        <TagList></TagList>
       </DBSnapshot>
     </DBSnapshots>
   </DescribeDBSnapshotsResult>
   <ResponseMetadata>
-    <RequestId>3a889669-f8fe-4c3e-9deb-8fcbe66f2c82</RequestId>
+    <RequestId>8f818934-56f5-4abd-b2ec-c9a25258a69f</RequestId>
   </ResponseMetadata>
 </DescribeDBSnapshotsResponse>
 ```
@@ -352,9 +352,9 @@ Deleting without a final-snapshot decision is refused.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121022Z
+X-Amz-Date: 20261126T183048Z
 Content-Length: 76
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBInstance
 &Version=2014-10-31
@@ -366,9 +366,9 @@ Action=DeleteDBInstance
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
-x-amzn-requestid: 514fa533-7bc7-465d-a650-6c97d9ad9a67
+x-amzn-requestid: 5f256634-743c-4795-8d22-c472083f37dd
 content-length: 308
-date: Mon, 16 Nov 2026 12:10:22 GMT
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -376,7 +376,7 @@ date: Mon, 16 Nov 2026 12:10:22 GMT
     <Code>InvalidParameterCombination</Code>
     <Message>FinalDBSnapshotIdentifier is required unless SkipFinalSnapshot is specified.</Message>
   </Error>
-  <RequestId>514fa533-7bc7-465d-a650-6c97d9ad9a67</RequestId>
+  <RequestId>5f256634-743c-4795-8d22-c472083f37dd</RequestId>
 </ErrorResponse>
 ```
 
@@ -390,9 +390,9 @@ Skipping the final snapshot deletes the instance.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121022Z
+X-Amz-Date: 20261126T183048Z
 Content-Length: 99
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBInstance
 &Version=2014-10-31
@@ -405,27 +405,29 @@ Action=DeleteDBInstance
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 4277
-date: Mon, 16 Nov 2026 12:10:22 GMT
+content-length: 5100
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 <DeleteDBInstanceResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DeleteDBInstanceResult>
     <DBInstance xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
+      <VPCNetworkingEnabled>true</VPCNetworkingEnabled>
+      <HttpEndpointEnabled>false</HttpEndpointEnabled>
       <DBInstanceIdentifier>docs-demo-pg</DBInstanceIdentifier>
       <DBInstanceClass>db.t3.micro</DBInstanceClass>
       <Engine>postgres</Engine>
       <DBInstanceStatus>deleting</DBInstanceStatus>
       <MasterUsername>app</MasterUsername>
       <Endpoint>
-        <Address>127.0.0.1</Address>
-        <Port>43985</Port>
+        <Address>0.0.0.0</Address>
+        <Port>39253</Port>
         <HostedZoneId>Z2R2ITUGPM61AM</HostedZoneId>
       </Endpoint>
       <AllocatedStorage>20</AllocatedStorage>
-      <InstanceCreateTime>2026-11-16T12:10:17.925369Z</InstanceCreateTime>
+      <InstanceCreateTime>2026-11-26T18:30:48.19992Z</InstanceCreateTime>
       <PreferredBackupWindow>07:00-07:30</PreferredBackupWindow>
       <BackupRetentionPeriod>1</BackupRetentionPeriod>
-      <DBSecurityGroups/>
+      <DBSecurityGroups></DBSecurityGroups>
       <VpcSecurityGroups>
         <VpcSecurityGroupMembership>
           <VpcSecurityGroupId>sg-5964d6082ac46f28a</VpcSecurityGroupId>
@@ -450,7 +452,7 @@ date: Mon, 16 Nov 2026 12:10:22 GMT
             <SubnetAvailabilityZone>
               <Name>us-east-1a</Name>
             </SubnetAvailabilityZone>
-            <SubnetOutpost/>
+            <SubnetOutpost></SubnetOutpost>
             <SubnetStatus>Active</SubnetStatus>
           </Subnet>
           <Subnet>
@@ -458,7 +460,7 @@ date: Mon, 16 Nov 2026 12:10:22 GMT
             <SubnetAvailabilityZone>
               <Name>us-east-1b</Name>
             </SubnetAvailabilityZone>
-            <SubnetOutpost/>
+            <SubnetOutpost></SubnetOutpost>
             <SubnetStatus>Active</SubnetStatus>
           </Subnet>
           <Subnet>
@@ -466,9 +468,7 @@ date: Mon, 16 Nov 2026 12:10:22 GMT
             <SubnetAvailabilityZone>
               <Name>us-east-1c</Name>
             </SubnetAvailabilityZone>
-            <SubnetOutpost/>
-            <SubnetStatus>Active</SubnetStatus>
-… (55 more lines)
+… (83 more lines)
 ```
 
 ### 7. DeleteDBSnapshot
@@ -481,9 +481,9 @@ Manual snapshots outlive their instance and are deleted on their own.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121022Z
+X-Amz-Date: 20261126T183049Z
 Content-Length: 81
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBSnapshot
 &Version=2014-10-31
@@ -495,47 +495,47 @@ Action=DeleteDBSnapshot
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 1298
-date: Mon, 16 Nov 2026 12:10:22 GMT
+content-length: 1295
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DeleteDBSnapshotResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DeleteDBSnapshotResult>
     <DBSnapshot xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
       <DBSnapshotIdentifier>docs-demo-pg-snap</DBSnapshotIdentifier>
       <DBInstanceIdentifier>docs-demo-pg</DBInstanceIdentifier>
-      <SnapshotCreateTime>2026-11-16T12:10:20.016918Z</SnapshotCreateTime>
+      <SnapshotCreateTime>2026-11-26T18:30:48.723779Z</SnapshotCreateTime>
       <Engine>postgres</Engine>
       <AllocatedStorage>20</AllocatedStorage>
       <Status>available</Status>
       <Port>5432</Port>
       <AvailabilityZone>us-east-1a</AvailabilityZone>
-      <InstanceCreateTime>2026-11-16T12:10:17.925369Z</InstanceCreateTime>
+      <InstanceCreateTime>2026-11-26T18:30:48.19992Z</InstanceCreateTime>
       <MasterUsername>app</MasterUsername>
       <EngineVersion>18.3</EngineVersion>
       <LicenseModel>postgresql-license</LicenseModel>
       <SnapshotType>manual</SnapshotType>
-      <StorageThroughput>125</StorageThroughput>
+      <StorageThroughput>0</StorageThroughput>
       <PercentProgress>100</PercentProgress>
-      <StorageType>gp3</StorageType>
+      <StorageType>gp2</StorageType>
       <Encrypted>false</Encrypted>
       <BackupRetentionPeriod>1</BackupRetentionPeriod>
       <PreferredBackupWindow>07:00-07:30</PreferredBackupWindow>
       <DBSnapshotArn>arn:aws:rds:us-east-1:000000000000:snapshot:docs-demo-pg-snap</DBSnapshotArn>
-      <DbiResourceId>db-XB1NLPJCWCADLT701YYIWRMWV0</DbiResourceId>
-      <TagList/>
+      <DbiResourceId>db-51P47QQD4ENYGI8N47O4LBQB2S</DbiResourceId>
+      <TagList></TagList>
     </DBSnapshot>
   </DeleteDBSnapshotResult>
   <ResponseMetadata>
-    <RequestId>feb53553-9bc8-4d3b-9c44-500b4b6e03a8</RequestId>
+    <RequestId>e3ddac45-e574-4be9-b991-c57767c3a6cc</RequestId>
   </ResponseMetadata>
 </DeleteDBSnapshotResponse>
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
-Of 168 operations, 34 accepted the placeholder call, 18 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
+Of 168 operations, 37 accepted the placeholder call, 8 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.629* answered `501` in 1.0.595. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### AddRoleToDBCluster
 
@@ -543,6 +543,11 @@ Associates an Identity and Access Management (IAM) role with a DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 101
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AddRoleToDBCluster
 &Version=2014-10-31
@@ -553,15 +558,18 @@ Action=AddRoleToDBCluster
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: f3a8e9e5-9162-4dcd-8cba-ce05009b10f3
+content-length: 401
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterValue</Code>
-    <Message>1 validation error detected: Value 'example0000000000000' at 'roleArn' failed to satisfy constraint: Member must satisfy regular expression pattern: ^arn:aws[a-z-]*:iam::[0-9]*:role/.*$</Message>
+    <Message>1 validation error detected: Value &apos;example0000000000000&apos; at &apos;roleArn&apos; failed to satisfy constraint: Member must satisfy regular expression pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.*</Message>
   </Error>
-  <RequestId>a8d61fdd-0c1e-4d43-80ba-1f320b894e6b</RequestId>
+  <RequestId>f3a8e9e5-9162-4dcd-8cba-ce05009b10f3</RequestId>
 </ErrorResponse>
 ```
 
@@ -573,6 +581,11 @@ Associates an Amazon Web Services Identity and Access Management (IAM) role with
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 165
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AddRoleToDBInstance
 &Version=2014-10-31
@@ -584,6 +597,9 @@ Action=AddRoleToDBInstance
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 2bb5dd46-fa46-4241-b895-b0ed76fba41a
+content-length: 294
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -591,7 +607,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid Role ARN: arn:aws:rds:us-east-1:000000000000:example/example</Message>
   </Error>
-  <RequestId>a5e5af33-c52a-496d-95d2-6e4347dba84d</RequestId>
+  <RequestId>2bb5dd46-fa46-4241-b895-b0ed76fba41a</RequestId>
 </ErrorResponse>
 ```
 
@@ -603,6 +619,11 @@ Adds a source identifier to an existing RDS event notification subscription.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 109
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AddSourceIdentifierToSubscription
 &Version=2014-10-31
@@ -613,6 +634,9 @@ Action=AddSourceIdentifierToSubscription
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 4a263159-456d-4132-99c7-4e64c4ed1db1
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -620,7 +644,7 @@ content-type: text/xml
     <Code>SubscriptionNotFound</Code>
     <Message>Event Subscription example not found.</Message>
   </Error>
-  <RequestId>c06c9e27-08a3-4746-80b1-28f5f9913e94</RequestId>
+  <RequestId>4a263159-456d-4132-99c7-4e64c4ed1db1</RequestId>
 </ErrorResponse>
 ```
 
@@ -632,6 +656,11 @@ Adds metadata tags to an Amazon RDS resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 64
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AddTagsToResource
 &Version=2014-10-31
@@ -641,19 +670,22 @@ Action=AddTagsToResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 906efd0c-14ec-4b50-a4ba-9bb7a21d6890
+content-length: 252
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>MalformedInput</Code>
-    <Message>1 validation error detected: Value null at 'tags' failed to satisfy constraint: Member must not be null</Message>
+    <Code>InvalidParameterValue</Code>
+    <Message>Please specify a value for parameter &apos;tags&apos;.</Message>
   </Error>
-  <RequestId>9c443f80-cc11-4862-a59d-5b1983b55508</RequestId>
+  <RequestId>906efd0c-14ec-4b50-a4ba-9bb7a21d6890</RequestId>
 </ErrorResponse>
 ```
 
-`400` `MalformedInput`: the placeholder values failed the operation's input validation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### ApplyPendingMaintenanceAction
 
@@ -661,6 +693,11 @@ Applies a pending maintenance action to a resource (for example, to a DB instanc
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 120
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ApplyPendingMaintenanceAction
 &Version=2014-10-31
@@ -672,6 +709,9 @@ Action=ApplyPendingMaintenanceAction
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 9fcb0d06-a5b5-44d1-944c-b3d01adf272d
+content-length: 251
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -679,7 +719,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Unknown resource: example</Message>
   </Error>
-  <RequestId>ea269f48-54d7-45dc-a0f9-c931fb0bc220</RequestId>
+  <RequestId>9fcb0d06-a5b5-44d1-944c-b3d01adf272d</RequestId>
 </ErrorResponse>
 ```
 
@@ -691,6 +731,11 @@ Enables ingress to a DBSecurityGroup using one of two forms of authorization.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 85
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AuthorizeDBSecurityGroupIngress
 &Version=2014-10-31
@@ -700,6 +745,9 @@ Action=AuthorizeDBSecurityGroupIngress
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 638eb117-d609-4481-8fcc-5d4fa07af0a6
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -707,7 +755,7 @@ content-type: text/xml
     <Code>DBSecurityGroupNotFound</Code>
     <Message>DBSecurityGroup not found: example</Message>
   </Error>
-  <RequestId>c053a535-eb84-449e-b037-f5c23134e5d6</RequestId>
+  <RequestId>638eb117-d609-4481-8fcc-5d4fa07af0a6</RequestId>
 </ErrorResponse>
 ```
 
@@ -719,6 +767,11 @@ Backtracks a DB cluster to a specific time, without creating a new DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 109
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=BacktrackDBCluster
 &Version=2014-10-31
@@ -729,6 +782,9 @@ Action=BacktrackDBCluster
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 1a2da395-398c-4e8f-b52a-1744872dfbb5
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -736,7 +792,7 @@ content-type: text/xml
     <Code>DBClusterNotFoundFault</Code>
     <Message>Could not find specified DB Cluster</Message>
   </Error>
-  <RequestId>03d4b368-4db6-48d9-ab63-73e9b3ea85db</RequestId>
+  <RequestId>1a2da395-398c-4e8f-b52a-1744872dfbb5</RequestId>
 </ErrorResponse>
 ```
 
@@ -746,8 +802,15 @@ content-type: text/xml
 
 Cancels a DB capacity reservation.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 93
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CancelDBCapacityReservation
 &Version=2014-10-31
@@ -755,20 +818,23 @@ Action=CancelDBCapacityReservation
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: f50dd9d2-2c30-4140-94d3-bf3d3304b3f6
+content-length: 305
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation CancelDBCapacityReservation is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>DBCapacityReservationNotFound</Code>
+    <Message>The specified DBCapacityReservation &apos;example&apos; does not exist.</Message>
   </Error>
-  <RequestId>73d5947c-09bc-4d38-9fdb-623b0b6a93cb</RequestId>
+  <RequestId>f50dd9d2-2c30-4140-94d3-bf3d3304b3f6</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `DBCapacityReservationNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### CancelExportTask
 
@@ -776,6 +842,11 @@ Cancels an export task in progress that is exporting a snapshot or cluster to Am
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CancelExportTask
 &Version=2014-10-31
@@ -785,14 +856,17 @@ Action=CancelExportTask
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 321cdb25-2273-4c92-8f41-f3e07734efdc
+content-length: 266
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>ExportTaskNotFound</Code>
-    <Message>The export task example doesn't exist.</Message>
+    <Message>The export task example doesn&apos;t exist.</Message>
   </Error>
-  <RequestId>3bfb9b83-4b7f-4120-91fe-acdae58b4016</RequestId>
+  <RequestId>321cdb25-2273-4c92-8f41-f3e07734efdc</RequestId>
 </ErrorResponse>
 ```
 
@@ -804,6 +878,11 @@ Copies the specified DB cluster parameter group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 198
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CopyDBClusterParameterGroup
 &Version=2014-10-31
@@ -815,14 +894,17 @@ Action=CopyDBClusterParameterGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 950c96c4-b9ac-4dd6-92b0-891853d9b7da
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>DBParameterGroupNotFound</Code>
-    <Message>DBClusterParameterGroup not found: example</Message>
+    <Message>Parameter group does not exist</Message>
   </Error>
-  <RequestId>6fa19a39-cb17-4f0a-a8e9-fed476f9d513</RequestId>
+  <RequestId>950c96c4-b9ac-4dd6-92b0-891853d9b7da</RequestId>
 </ErrorResponse>
 ```
 
@@ -834,6 +916,11 @@ Copies a snapshot of a DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 131
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CopyDBClusterSnapshot
 &Version=2014-10-31
@@ -844,6 +931,9 @@ Action=CopyDBClusterSnapshot
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 78e246a1-5583-40a6-ad7f-0b1ad1ed36ea
+content-length: 298
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -851,7 +941,7 @@ content-type: text/xml
     <Code>DBClusterSnapshotNotFoundFault</Code>
     <Message>Requested snapshot example not found in source region us-east-1</Message>
   </Error>
-  <RequestId>fe952f0c-8553-4e68-91c3-30fdfe6cc551</RequestId>
+  <RequestId>78e246a1-5583-40a6-ad7f-0b1ad1ed36ea</RequestId>
 </ErrorResponse>
 ```
 
@@ -863,6 +953,11 @@ Copies the specified DB parameter group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 170
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CopyDBParameterGroup
 &Version=2014-10-31
@@ -874,6 +969,9 @@ Action=CopyDBParameterGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 66998b1e-46c6-4444-ac12-e98a9cf26e79
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -881,7 +979,7 @@ content-type: text/xml
     <Code>DBParameterGroupNotFound</Code>
     <Message>Parameter group does not exist</Message>
   </Error>
-  <RequestId>fe0e3e2d-241c-4b5b-9518-8c95d0e14f9c</RequestId>
+  <RequestId>66998b1e-46c6-4444-ac12-e98a9cf26e79</RequestId>
 </ErrorResponse>
 ```
 
@@ -893,6 +991,11 @@ Copies the specified DB snapshot.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 110
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CopyDBSnapshot
 &Version=2014-10-31
@@ -903,6 +1006,9 @@ Action=CopyDBSnapshot
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: f2a860be-2390-462f-883b-8c7f8949f42f
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -910,7 +1016,7 @@ content-type: text/xml
     <Code>DBSnapshotNotFound</Code>
     <Message>Requested snapshot example not found in source region us-east-1</Message>
   </Error>
-  <RequestId>36f419f4-318b-4b96-b583-c5e7cb3a35df</RequestId>
+  <RequestId>f2a860be-2390-462f-883b-8c7f8949f42f</RequestId>
 </ErrorResponse>
 ```
 
@@ -922,6 +1028,11 @@ Copies the specified option group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 150
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CopyOptionGroup
 &Version=2014-10-31
@@ -933,6 +1044,9 @@ Action=CopyOptionGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 506a9b0d-184f-4b95-9a1d-844f56d11ace
+content-length: 274
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -940,7 +1054,7 @@ content-type: text/xml
     <Code>OptionGroupNotFoundFault</Code>
     <Message>Specified OptionGroupName: example not found.</Message>
   </Error>
-  <RequestId>4da10242-cbd3-49e9-b5ed-01569f3f8b70</RequestId>
+  <RequestId>506a9b0d-184f-4b95-9a1d-844f56d11ace</RequestId>
 </ErrorResponse>
 ```
 
@@ -952,6 +1066,11 @@ Creates a blue/green deployment.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 98
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateBlueGreenDeployment
 &Version=2014-10-31
@@ -962,15 +1081,18 @@ Action=CreateBlueGreenDeployment
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 118a8f38-04ef-488c-bb04-0f23aa0b794b
+content-length: 381
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterValue</Code>
-    <Message>1 validation error detected: Value 'example' at 'source' failed to satisfy constraint: Member must satisfy regular expression pattern: ^arn:[A-Za-z][0-9A-Za-z-:._]*$</Message>
+    <Message>1 validation error detected: Value &apos;example&apos; at &apos;source&apos; failed to satisfy constraint: Member must satisfy regular expression pattern: arn:[A-Za-z][0-9A-Za-z-:._]*</Message>
   </Error>
-  <RequestId>65919dbb-bd42-469f-b912-709c7e11708e</RequestId>
+  <RequestId>118a8f38-04ef-488c-bb04-0f23aa0b794b</RequestId>
 </ErrorResponse>
 ```
 
@@ -982,6 +1104,11 @@ Creates a custom DB engine version (CEV).
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 90
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateCustomDBEngineVersion
 &Version=2014-10-31
@@ -992,6 +1119,9 @@ Action=CreateCustomDBEngineVersion
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 49dafde2-fe91-46fa-a54f-52998518609a
+content-length: 243
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -999,7 +1129,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid DB engine</Message>
   </Error>
-  <RequestId>a4d6ad71-bd17-4133-9245-8be314b087a2</RequestId>
+  <RequestId>49dafde2-fe91-46fa-a54f-52998518609a</RequestId>
 </ErrorResponse>
 ```
 
@@ -1011,6 +1141,11 @@ Creates a DB capacity reservation.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 201
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBCapacityReservation
 &Version=2014-10-31
@@ -1024,15 +1159,18 @@ Action=CreateDBCapacityReservation
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: ab190d30-87ea-49ce-878c-8446f4fc55cc
+content-length: 397
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterValue</Code>
-    <Message>1 validation error detected: Value 'example' at 'dBInstanceClass' failed to satisfy constraint: Member must satisfy regular expression pattern: ^db\.[0-9a-z]{2,6}\.[0-9a-z\.]{4,20}$</Message>
+    <Message>1 validation error detected: Value &apos;example&apos; at &apos;dBInstanceClass&apos; failed to satisfy constraint: Member must satisfy regular expression pattern: db\.[0-9a-z]{2,6}\.[0-9a-z\.]{4,20}</Message>
   </Error>
-  <RequestId>fbc51317-7a9d-44d0-9115-c355798c6a84</RequestId>
+  <RequestId>ab190d30-87ea-49ce-878c-8446f4fc55cc</RequestId>
 </ErrorResponse>
 ```
 
@@ -1044,6 +1182,11 @@ Creates a new Amazon Aurora DB cluster or Multi-AZ DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 84
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBCluster
 &Version=2014-10-31
@@ -1054,14 +1197,17 @@ Action=CreateDBCluster
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 78be84c5-d090-4b6e-9e6b-837edca2dd70
+content-length: 243
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterValue</Code>
-    <Message>Invalid DB engine: example is not one of aurora-mysql, aurora-postgresql, docdb, mysql, neptune, postgres</Message>
+    <Message>Invalid DB engine</Message>
   </Error>
-  <RequestId>433c991f-a061-4f1e-a32d-fd32f0e27e3e</RequestId>
+  <RequestId>78be84c5-d090-4b6e-9e6b-837edca2dd70</RequestId>
 </ErrorResponse>
 ```
 
@@ -1075,6 +1221,11 @@ Creates a new custom endpoint and associates it with an Amazon Aurora DB cluster
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 134
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBClusterEndpoint
 &Version=2014-10-31
@@ -1086,14 +1237,17 @@ Action=CreateDBClusterEndpoint
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 578cd091-851b-4518-9b31-6d8a4f12a885
+content-length: 312
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterValue</Code>
-    <Message>invalid value 'example' for EndpointType: must be one of READER, WRITER, ANY</Message>
+    <Message>invalid value &apos;example&apos; for EndpointType: must be one of READER, WRITER, ANY</Message>
   </Error>
-  <RequestId>ebb37816-7437-4146-bd4e-9075168afabc</RequestId>
+  <RequestId>578cd091-851b-4518-9b31-6d8a4f12a885</RequestId>
 </ErrorResponse>
 ```
 
@@ -1105,6 +1259,11 @@ Creates a new DB cluster parameter group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 142
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBClusterParameterGroup
 &Version=2014-10-31
@@ -1116,6 +1275,9 @@ Action=CreateDBClusterParameterGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 410c0d76-8531-4391-8e95-763834fc26b4
+content-length: 292
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1123,7 +1285,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>ParameterGroupFamily example is not a valid parameter group family</Message>
   </Error>
-  <RequestId>63f4bfb5-21e0-4878-8540-e35d5fedd4e8</RequestId>
+  <RequestId>410c0d76-8531-4391-8e95-763834fc26b4</RequestId>
 </ErrorResponse>
 ```
 
@@ -1135,6 +1297,11 @@ Creates a snapshot of a DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 113
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBClusterSnapshot
 &Version=2014-10-31
@@ -1145,6 +1312,9 @@ Action=CreateDBClusterSnapshot
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: c99c2b51-e593-40d7-8605-045a3c7b25ca
+content-length: 255
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1152,7 +1322,7 @@ content-type: text/xml
     <Code>DBClusterNotFoundFault</Code>
     <Message>DBCluster not found: example</Message>
   </Error>
-  <RequestId>89f1adcf-c88d-442c-bb77-bfa0c7813253</RequestId>
+  <RequestId>c99c2b51-e593-40d7-8605-045a3c7b25ca</RequestId>
 </ErrorResponse>
 ```
 
@@ -1164,6 +1334,11 @@ Creates a new DB instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 110
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBInstance
 &Version=2014-10-31
@@ -1175,6 +1350,9 @@ Action=CreateDBInstance
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 65086258-3f68-4268-a9cc-3290ab6b7b32
+content-length: 243
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1182,7 +1360,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid DB engine</Message>
   </Error>
-  <RequestId>6fcf7ffd-e53d-4554-bf9e-afb0f460cdeb</RequestId>
+  <RequestId>65086258-3f68-4268-a9cc-3290ab6b7b32</RequestId>
 </ErrorResponse>
 ```
 
@@ -1194,6 +1372,11 @@ Creates a new DB instance that acts as a read replica for an existing source DB 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 82
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBInstanceReadReplica
 &Version=2014-10-31
@@ -1203,6 +1386,9 @@ Action=CreateDBInstanceReadReplica
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 3a65c11f-da1a-4b87-98ad-a28ce8118257
+content-length: 350
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1210,7 +1396,7 @@ content-type: text/xml
     <Code>InvalidParameterCombination</Code>
     <Message>either SourceDBInstanceIdentifier or SourceDBClusterIdentifier must be specified: a read replica replicates one source</Message>
   </Error>
-  <RequestId>234346c2-60b2-49a2-9204-32a7b1131632</RequestId>
+  <RequestId>3a65c11f-da1a-4b87-98ad-a28ce8118257</RequestId>
 </ErrorResponse>
 ```
 
@@ -1222,6 +1408,11 @@ Creates a new DB parameter group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 128
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBParameterGroup
 &Version=2014-10-31
@@ -1233,6 +1424,9 @@ Action=CreateDBParameterGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 6e76907d-fa8c-4c7d-8999-a66cbdf56465
+content-length: 292
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1240,7 +1434,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>ParameterGroupFamily example is not a valid parameter group family</Message>
   </Error>
-  <RequestId>77bbfba0-94c4-49df-bbbf-c7c9c0bdc84f</RequestId>
+  <RequestId>6e76907d-fa8c-4c7d-8999-a66cbdf56465</RequestId>
 </ErrorResponse>
 ```
 
@@ -1252,6 +1446,11 @@ Creates a new DB proxy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 179
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBProxy
 &Version=2014-10-31
@@ -1264,14 +1463,17 @@ Action=CreateDBProxy
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: d674331c-27cb-474a-b2eb-71e9e1b60e31
+content-length: 323
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidSubnet</Code>
-    <Message>'example' is not an EC2 subnet id (expected subnet- followed by 8 or 17 hexadecimal characters)</Message>
+    <Message>&apos;example&apos; is not an EC2 subnet id (expected subnet- followed by 8 or 17 hexadecimal characters)</Message>
   </Error>
-  <RequestId>7d75f647-8e5a-4d54-91e4-4294d903a505</RequestId>
+  <RequestId>d674331c-27cb-474a-b2eb-71e9e1b60e31</RequestId>
 </ErrorResponse>
 ```
 
@@ -1281,8 +1483,15 @@ content-type: text/xml
 
 Creates a DBProxyEndpoint .
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 125
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBProxyEndpoint
 &Version=2014-10-31
@@ -1292,20 +1501,23 @@ Action=CreateDBProxyEndpoint
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 58f11be9-c4b0-4d5f-b1c8-faa5c13fc7ba
+content-length: 323
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation CreateDBProxyEndpoint is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>InvalidSubnet</Code>
+    <Message>&apos;example&apos; is not an EC2 subnet id (expected subnet- followed by 8 or 17 hexadecimal characters)</Message>
   </Error>
-  <RequestId>7c636c40-950c-4b5c-bdbb-efb4b94cfcd2</RequestId>
+  <RequestId>58f11be9-c4b0-4d5f-b1c8-faa5c13fc7ba</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidSubnet`.
 
 ### CreateDBSecurityGroup
 
@@ -1313,6 +1525,11 @@ Creates a new DB security group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 110
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBSecurityGroup
 &Version=2014-10-31
@@ -1323,6 +1540,8 @@ Action=CreateDBSecurityGroup
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 682
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <CreateDBSecurityGroupResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <CreateDBSecurityGroupResult>
@@ -1331,13 +1550,13 @@ content-type: text/xml
       <DBSecurityGroupName>example</DBSecurityGroupName>
       <DBSecurityGroupDescription>example</DBSecurityGroupDescription>
       <VpcId>vpc-bcb2053b5ea151bab</VpcId>
-      <EC2SecurityGroups/>
-      <IPRanges/>
+      <EC2SecurityGroups></EC2SecurityGroups>
+      <IPRanges></IPRanges>
       <DBSecurityGroupArn>arn:aws:rds:us-east-1:000000000000:secgrp:example</DBSecurityGroupArn>
     </DBSecurityGroup>
   </CreateDBSecurityGroupResult>
   <ResponseMetadata>
-    <RequestId>6fe80114-5289-44b3-abc8-c8086ed38e21</RequestId>
+    <RequestId>9ba5b531-c114-4cd3-8f9f-02c73661d842</RequestId>
   </ResponseMetadata>
 </CreateDBSecurityGroupResponse>
 ```
@@ -1350,6 +1569,11 @@ Creates a new DB shard group for Aurora Limitless Database.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 112
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBShardGroup
 &Version=2014-10-31
@@ -1361,14 +1585,17 @@ Action=CreateDBShardGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: a9545b5d-d689-43f5-a463-705f817089f5
+content-length: 261
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>DBClusterNotFoundFault</Code>
-    <Message>The DB cluster doesn't exist.</Message>
+    <Message>The DB cluster doesn&apos;t exist.</Message>
   </Error>
-  <RequestId>07c34cc7-8f22-4b74-9ef5-4981d8c4d5e9</RequestId>
+  <RequestId>a9545b5d-d689-43f5-a463-705f817089f5</RequestId>
 </ErrorResponse>
 ```
 
@@ -1380,6 +1607,11 @@ Creates a snapshot of a DB instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 100
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBSnapshot
 &Version=2014-10-31
@@ -1390,6 +1622,9 @@ Action=CreateDBSnapshot
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 9f589979-4d01-406f-a6ed-f9d88f3291a6
+content-length: 252
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1397,7 +1632,7 @@ content-type: text/xml
     <Code>DBInstanceNotFound</Code>
     <Message>DBInstance not found: example</Message>
   </Error>
-  <RequestId>ad35ad5a-4c1a-43b6-a7b9-2bf516a47788</RequestId>
+  <RequestId>9f589979-4d01-406f-a6ed-f9d88f3291a6</RequestId>
 </ErrorResponse>
 ```
 
@@ -1409,6 +1644,11 @@ Creates a new DB subnet group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 141
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateDBSubnetGroup
 &Version=2014-10-31
@@ -1420,14 +1660,17 @@ Action=CreateDBSubnetGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 56182e00-828b-44e5-8d83-47349f2f75a8
+content-length: 323
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidSubnet</Code>
-    <Message>'example' is not an EC2 subnet id (expected subnet- followed by 8 or 17 hexadecimal characters)</Message>
+    <Message>&apos;example&apos; is not an EC2 subnet id (expected subnet- followed by 8 or 17 hexadecimal characters)</Message>
   </Error>
-  <RequestId>ae973d4d-2bab-4448-b1eb-97f04766e44f</RequestId>
+  <RequestId>56182e00-828b-44e5-8d83-47349f2f75a8</RequestId>
 </ErrorResponse>
 ```
 
@@ -1439,6 +1682,11 @@ Creates an RDS event notification subscription.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 149
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateEventSubscription
 &Version=2014-10-31
@@ -1449,6 +1697,9 @@ Action=CreateEventSubscription
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: d198c5f4-2100-4518-88f7-0fdf26df7bb3
+content-length: 408
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1456,7 +1707,7 @@ content-type: text/xml
     <Code>SNSInvalidTopic</Code>
     <Message>invalid value arn:aws:rds:us-east-1:000000000000:example/example for SnsTopicArn: expected an Amazon SNS topic ARN of the form arn:aws:sns:&lt;region&gt;:&lt;account&gt;:&lt;topic name&gt;</Message>
   </Error>
-  <RequestId>50e3cdef-3d45-455d-a930-7b3cdecebdaf</RequestId>
+  <RequestId>d198c5f4-2100-4518-88f7-0fdf26df7bb3</RequestId>
 </ErrorResponse>
 ```
 
@@ -1468,6 +1719,11 @@ Creates an Aurora global database spread across multiple Amazon Web Services Reg
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateGlobalCluster
 &Version=2014-10-31
@@ -1477,25 +1733,27 @@ Action=CreateGlobalCluster
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 943
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <CreateGlobalClusterResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <CreateGlobalClusterResult>
     <GlobalCluster xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
       <GlobalClusterIdentifier>example</GlobalClusterIdentifier>
-      <GlobalClusterResourceId>cluster-5e8b37e56599a183</GlobalClusterResourceId>
+      <GlobalClusterResourceId>cluster-6cffedcf13353749</GlobalClusterResourceId>
       <GlobalClusterArn>arn:aws:rds::000000000000:global-cluster:example</GlobalClusterArn>
       <Status>available</Status>
       <EngineLifecycleSupport>open-source-rds-extended-support</EngineLifecycleSupport>
       <StorageEncrypted>false</StorageEncrypted>
       <StorageEncryptionType>sse-rds</StorageEncryptionType>
       <DeletionProtection>false</DeletionProtection>
-      <GlobalClusterMembers/>
-      <Endpoint>example.global-utrjz1d7t0id.global.rds.amazonaws.com</Endpoint>
-      <TagList/>
+      <GlobalClusterMembers></GlobalClusterMembers>
+      <Endpoint>example.global-0dnv0i1gmikr.global.rds.amazonaws.com</Endpoint>
+      <TagList></TagList>
     </GlobalCluster>
   </CreateGlobalClusterResult>
   <ResponseMetadata>
-    <RequestId>3f0444b8-8196-4085-a010-6b376a1498b8</RequestId>
+    <RequestId>95c7e569-d926-43e4-9395-357e86e3f509</RequestId>
   </ResponseMetadata>
 </CreateGlobalClusterResponse>
 ```
@@ -1508,6 +1766,11 @@ Creates a zero-ETL integration with Amazon Redshift.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 158
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateIntegration
 &Version=2014-10-31
@@ -1519,15 +1782,18 @@ Action=CreateIntegration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 65688956-9220-479c-920c-e363664875c1
+content-length: 445
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterValue</Code>
-    <Message>1 validation error detected: Value 'example' at 'sourceArn' failed to satisfy constraint: Member must satisfy regular expression pattern: ^arn:aws[a-z\-]*:rds(-[a-z]*)?:[a-z0-9\-]*:[0-9]*:(cluster|db):[a-z][a-z0-9]*(-[a-z0-9]+)*$</Message>
+    <Message>1 validation error detected: Value &apos;example&apos; at &apos;sourceArn&apos; failed to satisfy constraint: Member must satisfy regular expression pattern: arn:aws[a-z\-]*:rds(-[a-z]*)?:[a-z0-9\-]*:[0-9]*:(cluster|db):[a-z][a-z0-9]*(-[a-z0-9]+)*</Message>
   </Error>
-  <RequestId>ee66899f-a27d-4c5e-acde-66194860f518</RequestId>
+  <RequestId>65688956-9220-479c-920c-e363664875c1</RequestId>
 </ErrorResponse>
 ```
 
@@ -1539,6 +1805,11 @@ Creates a new option group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 144
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateOptionGroup
 &Version=2014-10-31
@@ -1551,14 +1822,17 @@ Action=CreateOptionGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 6b12371b-a1ab-48d2-bd60-fe11d73dadd6
+content-length: 452
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterValue</Code>
-    <Message>invalid value 'example' for EngineName: valid values are db2-ae, db2-ce, db2-se, mariadb, mysql, oracle-ee, oracle-ee-cdb, oracle-se2, oracle-se2-cdb, postgres, sqlserver-ee, sqlserver-se, sqlserver-ex, sqlserver-web</Message>
+    <Message>invalid value &apos;example&apos; for EngineName: valid values are db2-ae, db2-ce, db2-se, mariadb, mysql, oracle-ee, oracle-ee-cdb, oracle-se2, oracle-se2-cdb, postgres, sqlserver-ee, sqlserver-se, sqlserver-ex, sqlserver-web</Message>
   </Error>
-  <RequestId>88da4071-e174-4290-8cb9-dfb47813aca4</RequestId>
+  <RequestId>6b12371b-a1ab-48d2-bd60-fe11d73dadd6</RequestId>
 </ErrorResponse>
 ```
 
@@ -1570,6 +1844,11 @@ Creates a tenant database in a DB instance that uses the multi-tenant configurat
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 119
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateTenantDatabase
 &Version=2014-10-31
@@ -1581,6 +1860,9 @@ Action=CreateTenantDatabase
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 09e48189-cd6c-4efa-b4ef-145cf06a8d68
+content-length: 252
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1588,7 +1870,7 @@ content-type: text/xml
     <Code>DBInstanceNotFound</Code>
     <Message>DBInstance not found: example</Message>
   </Error>
-  <RequestId>7f929179-e935-4fe4-9f42-6d7c2b4f5de1</RequestId>
+  <RequestId>09e48189-cd6c-4efa-b4ef-145cf06a8d68</RequestId>
 </ErrorResponse>
 ```
 
@@ -1600,6 +1882,11 @@ Deletes a blue/green deployment.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 89
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteBlueGreenDeployment
 &Version=2014-10-31
@@ -1609,14 +1896,17 @@ Action=DeleteBlueGreenDeployment
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 079031e9-3f0a-45a1-8956-f9a41b01a730
+content-length: 275
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterValue</Code>
-    <Message>invalid value 'example' for BlueGreenDeploymentIdentifier: a blue/green deployment identifier is assigned by the service and reads bgd- followed by the token it assigned</Message>
+    <Message>Invalid blue-green deployment identifier: example</Message>
   </Error>
-  <RequestId>177219b2-2382-483b-abf4-1adbd562707d</RequestId>
+  <RequestId>079031e9-3f0a-45a1-8956-f9a41b01a730</RequestId>
 </ErrorResponse>
 ```
 
@@ -1628,6 +1918,11 @@ Deletes a custom engine version.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 90
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteCustomDBEngineVersion
 &Version=2014-10-31
@@ -1638,14 +1933,17 @@ Action=DeleteCustomDBEngineVersion
 ```http
 HTTP/1.1 403 Forbidden
 content-type: text/xml
+x-amzn-requestid: 76d2b2b2-af3a-41cd-969b-01e996a3a1ab
+content-length: 318
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>AccessDenied</Code>
-    <Message>The custom engine version you requested may not exist or you don't have the required permission.</Message>
+    <Message>The custom engine version you requested may not exist or you don&apos;t have the required permission.</Message>
   </Error>
-  <RequestId>4a039487-b706-42f9-a05e-d0d711d8664e</RequestId>
+  <RequestId>76d2b2b2-af3a-41cd-969b-01e996a3a1ab</RequestId>
 </ErrorResponse>
 ```
 
@@ -1657,6 +1955,11 @@ The DeleteDBCluster action deletes a previously provisioned DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 69
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBCluster
 &Version=2014-10-31
@@ -1666,6 +1969,9 @@ Action=DeleteDBCluster
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: b6b03ebe-4895-45f7-9847-70048800f739
+content-length: 295
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1673,7 +1979,7 @@ content-type: text/xml
     <Code>DBClusterNotFoundFault</Code>
     <Message>The source cluster could not be found or cannot be accessed: example</Message>
   </Error>
-  <RequestId>7c7b4fba-2026-49b5-b39e-76097f1f67aa</RequestId>
+  <RequestId>b6b03ebe-4895-45f7-9847-70048800f739</RequestId>
 </ErrorResponse>
 ```
 
@@ -1685,6 +1991,11 @@ Deletes automated backups using the DbClusterResourceId value of the source DB c
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 84
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBClusterAutomatedBackup
 &Version=2014-10-31
@@ -1694,6 +2005,9 @@ Action=DeleteDBClusterAutomatedBackup
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: 4741e9a3-ab74-4e0f-ad8f-987708e27e97
+content-length: 312
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1701,7 +2015,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation DeleteDBClusterAutomatedBackup is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>2e1b0fea-d9c9-4c3a-89b6-930a9556e98a</RequestId>
+  <RequestId>4741e9a3-ab74-4e0f-ad8f-987708e27e97</RequestId>
 </ErrorResponse>
 ```
 
@@ -1715,6 +2029,11 @@ Deletes a custom endpoint and removes it from an Amazon Aurora DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 85
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBClusterEndpoint
 &Version=2014-10-31
@@ -1724,6 +2043,9 @@ Action=DeleteDBClusterEndpoint
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 81a09c1a-bc00-4a2d-bc15-89ef4f45dbcc
+content-length: 270
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1731,7 +2053,7 @@ content-type: text/xml
     <Code>DBClusterEndpointNotFoundFault</Code>
     <Message>DBClusterEndpoint example not found</Message>
   </Error>
-  <RequestId>1f8349cf-04ed-43c4-8978-368663fa44d0</RequestId>
+  <RequestId>81a09c1a-bc00-4a2d-bc15-89ef4f45dbcc</RequestId>
 </ErrorResponse>
 ```
 
@@ -1743,6 +2065,11 @@ Deletes a specified DB cluster parameter group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 91
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBClusterParameterGroup
 &Version=2014-10-31
@@ -1752,6 +2079,9 @@ Action=DeleteDBClusterParameterGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 38e314ff-205a-49f4-9be2-f52ed280fc66
+content-length: 271
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1759,7 +2089,7 @@ content-type: text/xml
     <Code>DBParameterGroupNotFound</Code>
     <Message>DBClusterParameterGroup not found: example</Message>
   </Error>
-  <RequestId>4d32bb22-783f-4e27-9cae-b9340256e778</RequestId>
+  <RequestId>38e314ff-205a-49f4-9be2-f52ed280fc66</RequestId>
 </ErrorResponse>
 ```
 
@@ -1771,6 +2101,11 @@ Deletes a DB cluster snapshot.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 85
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBClusterSnapshot
 &Version=2014-10-31
@@ -1780,6 +2115,9 @@ Action=DeleteDBClusterSnapshot
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: e64f3e22-6367-4fd4-87d2-97c24fe1f8e8
+content-length: 271
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1787,7 +2125,7 @@ content-type: text/xml
     <Code>DBClusterSnapshotNotFoundFault</Code>
     <Message>DBClusterSnapshot not found: example</Message>
   </Error>
-  <RequestId>c6ff359a-9ee3-44e1-b82b-8dfcf5ea6dfc</RequestId>
+  <RequestId>e64f3e22-6367-4fd4-87d2-97c24fe1f8e8</RequestId>
 </ErrorResponse>
 ```
 
@@ -1799,6 +2137,11 @@ Deletes a previously provisioned DB instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBInstance
 &Version=2014-10-31
@@ -1808,6 +2151,9 @@ Action=DeleteDBInstance
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 98a3ec04-10a2-4c4a-b019-28157710b861
+content-length: 252
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1815,7 +2161,7 @@ content-type: text/xml
     <Code>DBInstanceNotFound</Code>
     <Message>DBInstance example not found.</Message>
   </Error>
-  <RequestId>5c01e1cf-dedd-4226-b8aa-c026c5c73193</RequestId>
+  <RequestId>98a3ec04-10a2-4c4a-b019-28157710b861</RequestId>
 </ErrorResponse>
 ```
 
@@ -1829,6 +2175,11 @@ Deletes automated backups using the DbiResourceId value of the source DB instanc
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 57
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBInstanceAutomatedBackup
 &Version=2014-10-31
@@ -1837,14 +2188,17 @@ Action=DeleteDBInstanceAutomatedBackup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: b6ed7fc2-4597-438d-82be-aa8221834178
+content-length: 319
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterCombination</Code>
-    <Message>DbiResourceId must be specified when DBInstanceAutomatedBackupsArn isn't specified</Message>
+    <Message>DbiResourceId must be specified when DBInstanceAutomatedBackupsArn isn&apos;t specified</Message>
   </Error>
-  <RequestId>f48a45c2-86ad-48c1-8dc8-0a477ec7235a</RequestId>
+  <RequestId>b6ed7fc2-4597-438d-82be-aa8221834178</RequestId>
 </ErrorResponse>
 ```
 
@@ -1856,6 +2210,11 @@ Deletes a specified DB parameter group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBParameterGroup
 &Version=2014-10-31
@@ -1865,6 +2224,9 @@ Action=DeleteDBParameterGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 6a627fa4-575e-42f2-b818-94c12d974ef8
+content-length: 264
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1872,7 +2234,7 @@ content-type: text/xml
     <Code>DBParameterGroupNotFound</Code>
     <Message>DBParameterGroup not found: example</Message>
   </Error>
-  <RequestId>34b9b36d-ef15-475f-8577-ab95659b2cea</RequestId>
+  <RequestId>6a627fa4-575e-42f2-b818-94c12d974ef8</RequestId>
 </ErrorResponse>
 ```
 
@@ -1884,6 +2246,11 @@ Deletes an existing DB proxy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 59
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBProxy
 &Version=2014-10-31
@@ -1893,14 +2260,17 @@ Action=DeleteDBProxy
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: d2392e23-78e6-4674-a956-a41abcc41ec9
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>DBProxyNotFoundFault</Code>
-    <Message>DBProxy 'example' not found.</Message>
+    <Message>DBProxy &apos;example&apos; not found.</Message>
   </Error>
-  <RequestId>5b88b4c8-87f3-487a-9f18-40d475dff324</RequestId>
+  <RequestId>d2392e23-78e6-4674-a956-a41abcc41ec9</RequestId>
 </ErrorResponse>
 ```
 
@@ -1912,6 +2282,11 @@ Deletes a DBProxyEndpoint .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBProxyEndpoint
 &Version=2014-10-31
@@ -1921,6 +2296,9 @@ Action=DeleteDBProxyEndpoint
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: a7b3a63d-7035-40a6-b338-4a98785fad8e
+content-length: 303
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1928,7 +2306,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation DeleteDBProxyEndpoint is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>2f62c233-ac46-442e-9094-02c680edb121</RequestId>
+  <RequestId>a7b3a63d-7035-40a6-b338-4a98785fad8e</RequestId>
 </ErrorResponse>
 ```
 
@@ -1940,6 +2318,11 @@ Deletes a DB security group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBSecurityGroup
 &Version=2014-10-31
@@ -1949,11 +2332,13 @@ Action=DeleteDBSecurityGroup
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 267
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DeleteDBSecurityGroupResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
-  <DeleteDBSecurityGroupResult/>
+  <DeleteDBSecurityGroupResult></DeleteDBSecurityGroupResult>
   <ResponseMetadata>
-    <RequestId>abb16b39-cee5-4c95-9ae4-f993dff4e77a</RequestId>
+    <RequestId>d1ccaf99-cded-4871-9251-e9bd774af1d6</RequestId>
   </ResponseMetadata>
 </DeleteDBSecurityGroupResponse>
 ```
@@ -1966,6 +2351,11 @@ Deletes an Aurora Limitless Database DB shard group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBShardGroup
 &Version=2014-10-31
@@ -1975,6 +2365,9 @@ Action=DeleteDBShardGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: e93f967b-7cfb-419d-8195-f704840b960c
+content-length: 272
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -1982,7 +2375,7 @@ content-type: text/xml
     <Code>DBShardGroupNotFound</Code>
     <Message>DB shard group not found or can not be accessed</Message>
   </Error>
-  <RequestId>7c1543aa-93b5-44ae-b515-e0ac44d70cad</RequestId>
+  <RequestId>e93f967b-7cfb-419d-8195-f704840b960c</RequestId>
 </ErrorResponse>
 ```
 
@@ -1994,6 +2387,11 @@ Deletes a DB snapshot.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBSnapshot
 &Version=2014-10-31
@@ -2003,6 +2401,9 @@ Action=DeleteDBSnapshot
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 44a5397a-0579-4caf-adf4-58d2f9387586
+content-length: 252
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -2010,7 +2411,7 @@ content-type: text/xml
     <Code>DBSnapshotNotFound</Code>
     <Message>DBSnapshot not found: example</Message>
   </Error>
-  <RequestId>a7b28405-b8da-49df-8a48-6a09dc19ac75</RequestId>
+  <RequestId>44a5397a-0579-4caf-adf4-58d2f9387586</RequestId>
 </ErrorResponse>
 ```
 
@@ -2022,6 +2423,11 @@ Deletes a DB subnet group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteDBSubnetGroup
 &Version=2014-10-31
@@ -2031,14 +2437,17 @@ Action=DeleteDBSubnetGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: d8c9c920-8861-48fd-b83c-0abc0b0993c0
+content-length: 282
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>DBSubnetGroupNotFoundFault</Code>
-    <Message>DB subnet group 'example' does not exist.</Message>
+    <Message>DB subnet group &apos;example&apos; does not exist.</Message>
   </Error>
-  <RequestId>2c00ff57-bafe-4016-b9c5-ac90130d9560</RequestId>
+  <RequestId>d8c9c920-8861-48fd-b83c-0abc0b0993c0</RequestId>
 </ErrorResponse>
 ```
 
@@ -2050,6 +2459,11 @@ Deletes an RDS event notification subscription.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 74
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteEventSubscription
 &Version=2014-10-31
@@ -2059,6 +2473,9 @@ Action=DeleteEventSubscription
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: afb123a8-399e-4c9a-b8c9-a5a5b283d672
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -2066,7 +2483,7 @@ content-type: text/xml
     <Code>SubscriptionNotFound</Code>
     <Message>Event Subscription example not found.</Message>
   </Error>
-  <RequestId>277fae1b-4510-4e7a-b209-946dd724e6d0</RequestId>
+  <RequestId>afb123a8-399e-4c9a-b8c9-a5a5b283d672</RequestId>
 </ErrorResponse>
 ```
 
@@ -2078,6 +2495,11 @@ Deletes a global database cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteGlobalCluster
 &Version=2014-10-31
@@ -2087,25 +2509,27 @@ Action=DeleteGlobalCluster
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 943
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DeleteGlobalClusterResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DeleteGlobalClusterResult>
     <GlobalCluster xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
       <GlobalClusterIdentifier>example</GlobalClusterIdentifier>
-      <GlobalClusterResourceId>cluster-5e8b37e56599a183</GlobalClusterResourceId>
+      <GlobalClusterResourceId>cluster-6cffedcf13353749</GlobalClusterResourceId>
       <GlobalClusterArn>arn:aws:rds::000000000000:global-cluster:example</GlobalClusterArn>
       <Status>available</Status>
       <EngineLifecycleSupport>open-source-rds-extended-support</EngineLifecycleSupport>
       <StorageEncrypted>false</StorageEncrypted>
       <StorageEncryptionType>sse-rds</StorageEncryptionType>
       <DeletionProtection>false</DeletionProtection>
-      <GlobalClusterMembers/>
-      <Endpoint>example.global-utrjz1d7t0id.global.rds.amazonaws.com</Endpoint>
-      <TagList/>
+      <GlobalClusterMembers></GlobalClusterMembers>
+      <Endpoint>example.global-0dnv0i1gmikr.global.rds.amazonaws.com</Endpoint>
+      <TagList></TagList>
     </GlobalCluster>
   </DeleteGlobalClusterResult>
   <ResponseMetadata>
-    <RequestId>433c4f89-d37c-4c1d-b132-a0fbf4d620c8</RequestId>
+    <RequestId>f111b787-fc41-41b8-a4cc-b745ed017447</RequestId>
   </ResponseMetadata>
 </DeleteGlobalClusterResponse>
 ```
@@ -2118,6 +2542,11 @@ Deletes a zero-ETL integration with Amazon Redshift.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 73
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteIntegration
 &Version=2014-10-31
@@ -2127,14 +2556,17 @@ Action=DeleteIntegration
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 3fcb2930-f9a1-48a2-afc7-3d3902608912
+content-length: 461
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>IntegrationNotFoundFault</Code>
-    <Message>Integration with identifier arn:aws:rds:us-east-1:000000000000:integration:example could not be found.</Message>
+    <Message>Integration with identifier arn:aws:rds:us-east-1:000000000000:integration:example could not be found. The integration might have been deleted, or you provided an incorrect identifier. Check the integration identifier and try again.</Message>
   </Error>
-  <RequestId>56420a64-83a6-43f9-8a0b-b3e5b3bb7230</RequestId>
+  <RequestId>3fcb2930-f9a1-48a2-afc7-3d3902608912</RequestId>
 </ErrorResponse>
 ```
 
@@ -2146,6 +2578,11 @@ Deletes an existing option group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteOptionGroup
 &Version=2014-10-31
@@ -2155,6 +2592,9 @@ Action=DeleteOptionGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 03b948df-d058-41a8-9aa7-0b27836b6019
+content-length: 274
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -2162,7 +2602,7 @@ content-type: text/xml
     <Code>OptionGroupNotFoundFault</Code>
     <Message>Specified OptionGroupName: example not found.</Message>
   </Error>
-  <RequestId>6955b795-961f-4027-a6c9-5bc6eaea8b45</RequestId>
+  <RequestId>03b948df-d058-41a8-9aa7-0b27836b6019</RequestId>
 </ErrorResponse>
 ```
 
@@ -2174,6 +2614,11 @@ Deletes a tenant database from your DB instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 96
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteTenantDatabase
 &Version=2014-10-31
@@ -2184,6 +2629,9 @@ Action=DeleteTenantDatabase
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: cd2f858c-3f22-4468-a7f1-33b7d1a2dfd3
+content-length: 252
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -2191,7 +2639,7 @@ content-type: text/xml
     <Code>DBInstanceNotFound</Code>
     <Message>DBInstance not found: example</Message>
   </Error>
-  <RequestId>e979bf31-1f66-42b0-9371-982557126aa2</RequestId>
+  <RequestId>cd2f858c-3f22-4468-a7f1-33b7d1a2dfd3</RequestId>
 </ErrorResponse>
 ```
 
@@ -2203,6 +2651,11 @@ Remove the association between one or more DBProxyTarget data structures and a D
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeregisterDBProxyTargets
 &Version=2014-10-31
@@ -2212,6 +2665,9 @@ Action=DeregisterDBProxyTargets
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: aa96a5d9-8110-4bcf-9696-d183539a3605
+content-length: 277
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -2219,7 +2675,7 @@ content-type: text/xml
     <Code>InvalidParameterCombination</Code>
     <Message>Missing DB instance or DB cluster identifier.</Message>
   </Error>
-  <RequestId>f98502ee-9b85-41a0-8767-1e97b6d25b88</RequestId>
+  <RequestId>aa96a5d9-8110-4bcf-9696-d183539a3605</RequestId>
 </ErrorResponse>
 ```
 
@@ -2231,6 +2687,11 @@ Lists all of the attributes for a customer account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeAccountAttributes
 &Version=2014-10-31
@@ -2239,6 +2700,8 @@ Action=DescribeAccountAttributes
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 2472
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeAccountAttributesResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeAccountAttributesResult>
@@ -2271,6 +2734,11 @@ Describes one or more blue/green deployments.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeBlueGreenDeployments
 &Version=2014-10-31
@@ -2279,13 +2747,15 @@ Action=DescribeBlueGreenDeployments
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 340
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeBlueGreenDeploymentsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeBlueGreenDeploymentsResult>
-    <BlueGreenDeployments/>
+    <BlueGreenDeployments></BlueGreenDeployments>
   </DescribeBlueGreenDeploymentsResult>
   <ResponseMetadata>
-    <RequestId>51d70bea-7cee-47aa-9226-9f44c0abd282</RequestId>
+    <RequestId>b805e8a2-4650-46c8-9b72-66dc0fba733f</RequestId>
   </ResponseMetadata>
 </DescribeBlueGreenDeploymentsResponse>
 ```
@@ -2298,6 +2768,11 @@ Lists the set of certificate authority (CA) certificates provided by Amazon RDS 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 46
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeCertificates
 &Version=2014-10-31
@@ -2306,6 +2781,8 @@ Action=DescribeCertificates
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 1622
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeCertificatesResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeCertificatesResult>
@@ -2336,28 +2813,37 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Describes one or more DB capacity reservations.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 56
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBCapacityReservations
 &Version=2014-10-31
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 352
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
-<ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
-  <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DescribeDBCapacityReservations is scaffolded but not implemented in this emulator</Message>
-  </Error>
-  <RequestId>d9888ea7-650d-460f-b078-d6db3d315d91</RequestId>
-</ErrorResponse>
+<DescribeDBCapacityReservationsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
+  <DescribeDBCapacityReservationsResult>
+    <DBCapacityReservations></DBCapacityReservations>
+  </DescribeDBCapacityReservationsResult>
+  <ResponseMetadata>
+    <RequestId>80ffa822-f6f5-4884-8762-4931f26dd9cc</RequestId>
+  </ResponseMetadata>
+</DescribeDBCapacityReservationsResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeDBClusterAutomatedBackups
 
@@ -2365,6 +2851,11 @@ Displays backups for both current and deleted DB clusters.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 59
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBClusterAutomatedBackups
 &Version=2014-10-31
@@ -2373,13 +2864,15 @@ Action=DescribeDBClusterAutomatedBackups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 370
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBClusterAutomatedBackupsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBClusterAutomatedBackupsResult>
-    <DBClusterAutomatedBackups/>
+    <DBClusterAutomatedBackups></DBClusterAutomatedBackups>
   </DescribeDBClusterAutomatedBackupsResult>
   <ResponseMetadata>
-    <RequestId>a6ef24b6-a8de-42c8-a5e5-a5891f1695a9</RequestId>
+    <RequestId>d8a34e03-dfc6-4f4d-a049-dcb405c44921</RequestId>
   </ResponseMetadata>
 </DescribeDBClusterAutomatedBackupsResponse>
 ```
@@ -2394,6 +2887,11 @@ Returns information about backtracks for a DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 81
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBClusterBacktracks
 &Version=2014-10-31
@@ -2403,14 +2901,17 @@ Action=DescribeDBClusterBacktracks
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 32b52cf7-4a43-4dec-9a8a-f4f6dfc81723
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>DBClusterNotFoundFault</Code>
-    <Message>DBCluster example not found.</Message>
+    <Message>Could not find specified DB Cluster</Message>
   </Error>
-  <RequestId>b3980371-c686-425b-87fa-c63a3d3e4569</RequestId>
+  <RequestId>32b52cf7-4a43-4dec-9a8a-f4f6dfc81723</RequestId>
 </ErrorResponse>
 ```
 
@@ -2424,6 +2925,11 @@ Returns information about endpoints for an Amazon Aurora DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBClusterEndpoints
 &Version=2014-10-31
@@ -2432,13 +2938,15 @@ Action=DescribeDBClusterEndpoints
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 328
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBClusterEndpointsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBClusterEndpointsResult>
-    <DBClusterEndpoints/>
+    <DBClusterEndpoints></DBClusterEndpoints>
   </DescribeDBClusterEndpointsResult>
   <ResponseMetadata>
-    <RequestId>98e5ec25-5d09-42d0-aea2-8601696e1545</RequestId>
+    <RequestId>2887f3d3-297b-48dd-b5ee-e54b8fe090c5</RequestId>
   </ResponseMetadata>
 </DescribeDBClusterEndpointsResponse>
 ```
@@ -2451,6 +2959,11 @@ Returns a list of DBClusterParameterGroup descriptions.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 58
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBClusterParameterGroups
 &Version=2014-10-31
@@ -2459,15 +2972,30 @@ Action=DescribeDBClusterParameterGroups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 11385
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBClusterParameterGroupsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBClusterParameterGroupsResult>
-    <DBClusterParameterGroups/>
-  </DescribeDBClusterParameterGroupsResult>
-  <ResponseMetadata>
-    <RequestId>f537d37e-0c60-4523-918b-5cc02aaecdfe</RequestId>
-  </ResponseMetadata>
-</DescribeDBClusterParameterGroupsResponse>
+    <DBClusterParameterGroups>
+      <DBClusterParameterGroup xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
+        <DBClusterParameterGroupName>default.aurora-mysql5.7</DBClusterParameterGroupName>
+        <DBParameterGroupFamily>aurora-mysql5.7</DBParameterGroupFamily>
+        <Description>Default cluster parameter group for aurora-mysql5.7</Description>
+        <DBClusterParameterGroupArn>arn:aws:rds:us-east-1:000000000000:cluster-pg:default.aurora-mysql5.7</DBClusterParameterGroupArn>
+      </DBClusterParameterGroup>
+      <DBClusterParameterGroup>
+        <DBClusterParameterGroupName>default.aurora-mysql8.0</DBClusterParameterGroupName>
+        <DBParameterGroupFamily>aurora-mysql8.0</DBParameterGroupFamily>
+        <Description>Default cluster parameter group for aurora-mysql8.0</Description>
+        <DBClusterParameterGroupArn>arn:aws:rds:us-east-1:000000000000:cluster-pg:default.aurora-mysql8.0</DBClusterParameterGroupArn>
+      </DBClusterParameterGroup>
+      <DBClusterParameterGroup>
+        <DBClusterParameterGroupName>default.aurora-postgresql11</DBClusterParameterGroupName>
+        <DBParameterGroupFamily>aurora-postgresql11</DBParameterGroupFamily>
+        <Description>Default cluster parameter group for aurora-postgresql11</Description>
+        <DBClusterParameterGroupArn>arn:aws:rds:us-east-1:000000000000:cluster-pg:default.aurora-postgresql11</DBClusterParameterGroupArn>
+… (157 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -2478,6 +3006,11 @@ Returns the detailed parameter list for a particular DB cluster parameter group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 89
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBClusterParameters
 &Version=2014-10-31
@@ -2487,6 +3020,9 @@ Action=DescribeDBClusterParameters
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 4ae46ebb-31d1-4eb9-ab97-6d7c10dde9c3
+content-length: 271
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -2494,7 +3030,7 @@ content-type: text/xml
     <Code>DBParameterGroupNotFound</Code>
     <Message>DBClusterParameterGroup not found: example</Message>
   </Error>
-  <RequestId>216cd976-ba7a-499e-b62b-ee45e6aa0d4b</RequestId>
+  <RequestId>4ae46ebb-31d1-4eb9-ab97-6d7c10dde9c3</RequestId>
 </ErrorResponse>
 ```
 
@@ -2506,6 +3042,11 @@ Returns a list of DB cluster snapshot attribute names and values for a manual DB
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 97
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBClusterSnapshotAttributes
 &Version=2014-10-31
@@ -2515,6 +3056,9 @@ Action=DescribeDBClusterSnapshotAttributes
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: ad4c026e-87e0-4524-b2b2-f4d2fdfd7f01
+content-length: 271
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -2522,7 +3066,7 @@ content-type: text/xml
     <Code>DBClusterSnapshotNotFoundFault</Code>
     <Message>DBClusterSnapshot not found: example</Message>
   </Error>
-  <RequestId>f878669f-e4e1-4f12-ba32-dea4af264c27</RequestId>
+  <RequestId>ad4c026e-87e0-4524-b2b2-f4d2fdfd7f01</RequestId>
 </ErrorResponse>
 ```
 
@@ -2534,6 +3078,11 @@ Returns information about DB cluster snapshots.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBClusterSnapshots
 &Version=2014-10-31
@@ -2542,13 +3091,15 @@ Action=DescribeDBClusterSnapshots
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 328
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBClusterSnapshotsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBClusterSnapshotsResult>
-    <DBClusterSnapshots/>
+    <DBClusterSnapshots></DBClusterSnapshots>
   </DescribeDBClusterSnapshotsResult>
   <ResponseMetadata>
-    <RequestId>cec2d038-2f5a-4375-86ed-6445df5247cb</RequestId>
+    <RequestId>430efc2b-7f8a-452d-b78c-c115af6d5acb</RequestId>
   </ResponseMetadata>
 </DescribeDBClusterSnapshotsResponse>
 ```
@@ -2561,6 +3112,11 @@ Describes existing Amazon Aurora DB clusters and Multi-AZ DB clusters.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 44
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBClusters
 &Version=2014-10-31
@@ -2569,13 +3125,15 @@ Action=DescribeDBClusters
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 280
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBClustersResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBClustersResult>
-    <DBClusters/>
+    <DBClusters></DBClusters>
   </DescribeDBClustersResult>
   <ResponseMetadata>
-    <RequestId>053e4cc9-01f5-4f07-b036-1fb188d5f91a</RequestId>
+    <RequestId>44367d6e-ea23-497f-99d3-f74c18c612c3</RequestId>
   </ResponseMetadata>
 </DescribeDBClustersResponse>
 ```
@@ -2588,6 +3146,11 @@ Describes the properties of specific versions of DB engines.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 50
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBEngineVersions
 &Version=2014-10-31
@@ -2596,10 +3159,12 @@ Action=DescribeDBEngineVersions
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 686322
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBEngineVersionsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBEngineVersionsResult>
-    <Marker>b3JhY2xlLXNlMi1jZGIvMjEuMC4wLjAucnUtMjAyNC0xMC5ydXItMjAyNC0xMC5yMQ==</Marker>
+    <Marker>bmVwdHVuZS8xLjQuOC4w</Marker>
     <DBEngineVersions>
       <DBEngineVersion xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
         <MinorEngineVersion>mysql_aurora.2.11.1</MinorEngineVersion>
@@ -2616,8 +3181,8 @@ content-type: text/xml
         <DBEngineVersionDescription>Aurora (MySQL 5.7) 2.11.1</DBEngineVersionDescription>
         <ValidUpgradeTarget>
           <UpgradeTarget>
-            <MajorEngineVersion>5.7</MajorEngineVersion>
-… (14934 more lines)
+            <SupportsDataGroups>false</SupportsDataGroups>
+… (16793 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -2630,6 +3195,11 @@ Displays backups for both current and deleted instances.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 60
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBInstanceAutomatedBackups
 &Version=2014-10-31
@@ -2638,13 +3208,15 @@ Action=DescribeDBInstanceAutomatedBackups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 376
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBInstanceAutomatedBackupsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBInstanceAutomatedBackupsResult>
-    <DBInstanceAutomatedBackups/>
+    <DBInstanceAutomatedBackups></DBInstanceAutomatedBackups>
   </DescribeDBInstanceAutomatedBackupsResult>
   <ResponseMetadata>
-    <RequestId>26a2368f-7c91-4d7b-bbc6-90599f66d498</RequestId>
+    <RequestId>05ec1ae5-ec23-4e57-a4b4-a1984d60273d</RequestId>
   </ResponseMetadata>
 </DescribeDBInstanceAutomatedBackupsResponse>
 ```
@@ -2657,6 +3229,11 @@ Describes provisioned RDS instances.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBInstances
 &Version=2014-10-31
@@ -2665,13 +3242,15 @@ Action=DescribeDBInstances
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBInstancesResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBInstancesResult>
-    <DBInstances/>
+    <DBInstances></DBInstances>
   </DescribeDBInstancesResult>
   <ResponseMetadata>
-    <RequestId>4081f1ea-e7be-496f-9a96-53111ce37ba7</RequestId>
+    <RequestId>6c7ed0d3-e541-4891-8d14-03e9d21213dd</RequestId>
   </ResponseMetadata>
 </DescribeDBInstancesResponse>
 ```
@@ -2684,6 +3263,11 @@ Returns a list of DB log files for the DB instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 73
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBLogFiles
 &Version=2014-10-31
@@ -2693,6 +3277,9 @@ Action=DescribeDBLogFiles
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: b146a7a6-5898-471b-97fd-b83e634716ae
+content-length: 252
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -2700,7 +3287,7 @@ content-type: text/xml
     <Code>DBInstanceNotFound</Code>
     <Message>DBInstance not found: example</Message>
   </Error>
-  <RequestId>a90317c0-d7cb-4b6f-8aa5-5f76d78afc3f</RequestId>
+  <RequestId>b146a7a6-5898-471b-97fd-b83e634716ae</RequestId>
 </ErrorResponse>
 ```
 
@@ -2712,6 +3299,11 @@ Describes the properties of specific major versions of DB engines.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 55
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBMajorEngineVersions
 &Version=2014-10-31
@@ -2720,6 +3312,8 @@ Action=DescribeDBMajorEngineVersions
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 20431
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBMajorEngineVersionsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBMajorEngineVersionsResult>
@@ -2752,6 +3346,11 @@ Returns a list of DBParameterGroup descriptions.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBParameterGroups
 &Version=2014-10-31
@@ -2760,6 +3359,8 @@ Action=DescribeDBParameterGroups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 23795
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBParameterGroupsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBParameterGroupsResult>
@@ -2781,7 +3382,7 @@ content-type: text/xml
         <DBParameterGroupFamily>aurora-postgresql11</DBParameterGroupFamily>
         <Description>Default parameter group for aurora-postgresql11</Description>
         <DBParameterGroupArn>arn:aws:rds:us-east-1:000000000000:pg:default.aurora-postgresql11</DBParameterGroupArn>
-… (391 more lines)
+… (397 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -2792,6 +3393,11 @@ Returns the detailed parameter list for a particular DB parameter group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBParameters
 &Version=2014-10-31
@@ -2801,6 +3407,9 @@ Action=DescribeDBParameters
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: c15cef83-ccfa-46cd-bd6d-90c7cc7a9beb
+content-length: 264
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -2808,7 +3417,7 @@ content-type: text/xml
     <Code>DBParameterGroupNotFound</Code>
     <Message>DBParameterGroup not found: example</Message>
   </Error>
-  <RequestId>f0f969b1-942d-450b-9eed-a6f20798dce5</RequestId>
+  <RequestId>c15cef83-ccfa-46cd-bd6d-90c7cc7a9beb</RequestId>
 </ErrorResponse>
 ```
 
@@ -2820,6 +3429,11 @@ Returns information about DB proxies.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBProxies
 &Version=2014-10-31
@@ -2828,13 +3442,15 @@ Action=DescribeDBProxies
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 274
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBProxiesResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBProxiesResult>
-    <DBProxies/>
+    <DBProxies></DBProxies>
   </DescribeDBProxiesResult>
   <ResponseMetadata>
-    <RequestId>6e1a6291-e907-4896-a69c-9cdd46743302</RequestId>
+    <RequestId>084925cd-cb80-4769-9911-748431af1076</RequestId>
   </ResponseMetadata>
 </DescribeDBProxiesResponse>
 ```
@@ -2849,6 +3465,11 @@ Returns information about DB proxy endpoints.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 50
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBProxyEndpoints
 &Version=2014-10-31
@@ -2857,13 +3478,15 @@ Action=DescribeDBProxyEndpoints
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 316
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBProxyEndpointsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBProxyEndpointsResult>
-    <DBProxyEndpoints/>
+    <DBProxyEndpoints></DBProxyEndpoints>
   </DescribeDBProxyEndpointsResult>
   <ResponseMetadata>
-    <RequestId>f103baaa-4b05-4caa-ab0d-0aeda0ef522b</RequestId>
+    <RequestId>b5ad8bdc-1f98-4995-893d-01096c176851</RequestId>
   </ResponseMetadata>
 </DescribeDBProxyEndpointsResponse>
 ```
@@ -2876,6 +3499,11 @@ Returns information about DB proxy target groups, represented by DBProxyTargetGr
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 73
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBProxyTargetGroups
 &Version=2014-10-31
@@ -2885,14 +3513,17 @@ Action=DescribeDBProxyTargetGroups
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: e8f4437d-eb19-4eaa-94a5-bdd491ecc29f
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>DBProxyNotFoundFault</Code>
-    <Message>DBProxy 'example' not found.</Message>
+    <Message>DBProxy &apos;example&apos; not found.</Message>
   </Error>
-  <RequestId>a9f61e40-ff07-413a-96a2-44260fc1abab</RequestId>
+  <RequestId>e8f4437d-eb19-4eaa-94a5-bdd491ecc29f</RequestId>
 </ErrorResponse>
 ```
 
@@ -2904,6 +3535,11 @@ Returns information about DBProxyTarget objects.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 68
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBProxyTargets
 &Version=2014-10-31
@@ -2913,14 +3549,17 @@ Action=DescribeDBProxyTargets
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 2db981f3-59df-4d66-8e66-760649e0f68e
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>DBProxyNotFoundFault</Code>
-    <Message>DBProxy 'example' not found.</Message>
+    <Message>DBProxy &apos;example&apos; not found.</Message>
   </Error>
-  <RequestId>cc026334-c77a-459d-87ca-52e8c39741df</RequestId>
+  <RequestId>2db981f3-59df-4d66-8e66-760649e0f68e</RequestId>
 </ErrorResponse>
 ```
 
@@ -2932,6 +3571,11 @@ Describes the recommendations to resolve the issues for your DB instances, DB cl
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBRecommendations
 &Version=2014-10-31
@@ -2940,13 +3584,15 @@ Action=DescribeDBRecommendations
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 322
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBRecommendationsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBRecommendationsResult>
-    <DBRecommendations/>
+    <DBRecommendations></DBRecommendations>
   </DescribeDBRecommendationsResult>
   <ResponseMetadata>
-    <RequestId>b0040483-8206-47da-9272-abdabd55b4f0</RequestId>
+    <RequestId>6283bb3b-1e3a-4f5d-a0be-2e6432d21c38</RequestId>
   </ResponseMetadata>
 </DescribeDBRecommendationsResponse>
 ```
@@ -2959,6 +3605,11 @@ Returns a list of DBSecurityGroup descriptions.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 50
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBSecurityGroups
 &Version=2014-10-31
@@ -2967,13 +3618,15 @@ Action=DescribeDBSecurityGroups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 316
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBSecurityGroupsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBSecurityGroupsResult>
-    <DBSecurityGroups/>
+    <DBSecurityGroups></DBSecurityGroups>
   </DescribeDBSecurityGroupsResult>
   <ResponseMetadata>
-    <RequestId>78912712-620a-49d0-9c20-b0bc0cb1c5a0</RequestId>
+    <RequestId>3269297b-bdaa-4589-bf32-9b4768dac5d8</RequestId>
   </ResponseMetadata>
 </DescribeDBSecurityGroupsResponse>
 ```
@@ -2986,6 +3639,11 @@ Describes existing Aurora Limitless Database DB shard groups.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBShardGroups
 &Version=2014-10-31
@@ -2994,13 +3652,15 @@ Action=DescribeDBShardGroups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 298
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBShardGroupsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBShardGroupsResult>
-    <DBShardGroups/>
+    <DBShardGroups></DBShardGroups>
   </DescribeDBShardGroupsResult>
   <ResponseMetadata>
-    <RequestId>7c6d5f37-7915-4c9e-b8f9-67d7c32ac349</RequestId>
+    <RequestId>5f330da2-48d2-4496-a5c1-b57da9428a1a</RequestId>
   </ResponseMetadata>
 </DescribeDBShardGroupsResponse>
 ```
@@ -3015,6 +3675,11 @@ Returns a list of DB snapshot attribute names and values for a manual DB snapsho
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 83
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBSnapshotAttributes
 &Version=2014-10-31
@@ -3024,6 +3689,9 @@ Action=DescribeDBSnapshotAttributes
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: d3e36bb1-d9b2-40d2-90f8-99a552a26e57
+content-length: 252
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3031,7 +3699,7 @@ content-type: text/xml
     <Code>DBSnapshotNotFound</Code>
     <Message>DBSnapshot not found: example</Message>
   </Error>
-  <RequestId>f69da5cb-eaa3-461a-bbad-60cd621de669</RequestId>
+  <RequestId>d3e36bb1-d9b2-40d2-90f8-99a552a26e57</RequestId>
 </ErrorResponse>
 ```
 
@@ -3043,6 +3711,11 @@ Describes the tenant databases that exist in a DB snapshot.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 59
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBSnapshotTenantDatabases
 &Version=2014-10-31
@@ -3051,13 +3724,15 @@ Action=DescribeDBSnapshotTenantDatabases
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 370
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBSnapshotTenantDatabasesResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBSnapshotTenantDatabasesResult>
-    <DBSnapshotTenantDatabases/>
+    <DBSnapshotTenantDatabases></DBSnapshotTenantDatabases>
   </DescribeDBSnapshotTenantDatabasesResult>
   <ResponseMetadata>
-    <RequestId>befc87a9-9245-4339-b2ad-771ecbbaa6c9</RequestId>
+    <RequestId>307bac50-1b9b-44a3-ac61-1bac0091d83c</RequestId>
   </ResponseMetadata>
 </DescribeDBSnapshotTenantDatabasesResponse>
 ```
@@ -3070,6 +3745,11 @@ Returns information about DB snapshots.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBSnapshots
 &Version=2014-10-31
@@ -3078,13 +3758,15 @@ Action=DescribeDBSnapshots
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBSnapshotsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBSnapshotsResult>
-    <DBSnapshots/>
+    <DBSnapshots></DBSnapshots>
   </DescribeDBSnapshotsResult>
   <ResponseMetadata>
-    <RequestId>002dc8d3-867b-49c4-9291-6a2db3c9755a</RequestId>
+    <RequestId>4470b885-7aa2-403b-bd0f-8706d3da0983</RequestId>
   </ResponseMetadata>
 </DescribeDBSnapshotsResponse>
 ```
@@ -3097,6 +3779,11 @@ Returns a list of DBSubnetGroup descriptions.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 48
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeDBSubnetGroups
 &Version=2014-10-31
@@ -3105,6 +3792,8 @@ Action=DescribeDBSubnetGroups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 2042
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeDBSubnetGroupsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeDBSubnetGroupsResult>
@@ -3120,13 +3809,13 @@ content-type: text/xml
             <SubnetAvailabilityZone>
               <Name>us-east-1a</Name>
             </SubnetAvailabilityZone>
-            <SubnetOutpost/>
+            <SubnetOutpost></SubnetOutpost>
             <SubnetStatus>Active</SubnetStatus>
           </Subnet>
           <Subnet>
             <SubnetIdentifier>subnet-00000000000000009</SubnetIdentifier>
             <SubnetAvailabilityZone>
-… (25 more lines)
+… (49 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -3137,6 +3826,11 @@ Returns the default engine and system parameter information for the cluster data
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 95
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeEngineDefaultClusterParameters
 &Version=2014-10-31
@@ -3146,6 +3840,9 @@ Action=DescribeEngineDefaultClusterParameters
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 48f1dab5-314c-49e8-a5a6-057aa80e96cb
+content-length: 292
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3153,7 +3850,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>ParameterGroupFamily example is not a valid parameter group family</Message>
   </Error>
-  <RequestId>c82af792-16b1-4a64-b674-2bc7f9293f08</RequestId>
+  <RequestId>48f1dab5-314c-49e8-a5a6-057aa80e96cb</RequestId>
 </ErrorResponse>
 ```
 
@@ -3165,6 +3862,11 @@ Returns the default engine and system parameter information for the specified da
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 88
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeEngineDefaultParameters
 &Version=2014-10-31
@@ -3174,6 +3876,9 @@ Action=DescribeEngineDefaultParameters
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: cfaa6f09-3957-4a12-8caf-2f098a8598d5
+content-length: 292
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3181,7 +3886,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>ParameterGroupFamily example is not a valid parameter group family</Message>
   </Error>
-  <RequestId>fbd19e0d-e3cc-46f3-9ecf-6872a496a2c9</RequestId>
+  <RequestId>cfaa6f09-3957-4a12-8caf-2f098a8598d5</RequestId>
 </ErrorResponse>
 ```
 
@@ -3193,6 +3898,11 @@ Displays a list of categories for all event source types, or, if specified, for 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeEventCategories
 &Version=2014-10-31
@@ -3201,6 +3911,8 @@ Action=DescribeEventCategories
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 3874
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeEventCategoriesResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeEventCategoriesResult>
@@ -3222,7 +3934,7 @@ content-type: text/xml
       </EventCategoriesMap>
       <EventCategoriesMap>
         <SourceType>db-instance</SourceType>
-… (69 more lines)
+… (98 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -3233,6 +3945,11 @@ Lists all the subscription descriptions for a customer account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeEventSubscriptions
 &Version=2014-10-31
@@ -3241,13 +3958,15 @@ Action=DescribeEventSubscriptions
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 336
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeEventSubscriptionsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeEventSubscriptionsResult>
-    <EventSubscriptionsList/>
+    <EventSubscriptionsList></EventSubscriptionsList>
   </DescribeEventSubscriptionsResult>
   <ResponseMetadata>
-    <RequestId>feb618b2-f236-486b-b5bb-447b97348fa8</RequestId>
+    <RequestId>dab2c75f-af09-4ed2-860f-9c75a016131c</RequestId>
   </ResponseMetadata>
 </DescribeEventSubscriptionsResponse>
 ```
@@ -3260,6 +3979,11 @@ Returns events related to DB instances, DB clusters, DB parameter groups, DB sec
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 40
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeEvents
 &Version=2014-10-31
@@ -3268,6 +3992,8 @@ Action=DescribeEvents
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 1646
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeEventsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeEventsResult>
@@ -3279,7 +4005,7 @@ content-type: text/xml
         <EventCategories>
           <EventCategory>creation</EventCategory>
         </EventCategories>
-        <Date>2026-11-16T12:10:17.958351Z</Date>
+        <Date>2026-11-26T18:30:48.203969Z</Date>
         <SourceArn>arn:aws:rds:us-east-1:000000000000:db:docs-demo-pg</SourceArn>
       </Event>
       <Event>
@@ -3300,6 +4026,11 @@ Returns information about a snapshot or cluster export to Amazon S3.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeExportTasks
 &Version=2014-10-31
@@ -3308,13 +4039,15 @@ Action=DescribeExportTasks
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 286
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeExportTasksResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeExportTasksResult>
-    <ExportTasks/>
+    <ExportTasks></ExportTasks>
   </DescribeExportTasksResult>
   <ResponseMetadata>
-    <RequestId>0f80d1e3-3c9d-4a1f-a07c-c427f0303766</RequestId>
+    <RequestId>ed9ef8c9-9f3b-4f23-b642-af44cb584a05</RequestId>
   </ResponseMetadata>
 </DescribeExportTasksResponse>
 ```
@@ -3327,6 +4060,11 @@ Returns information about Aurora global database clusters.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 48
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeGlobalClusters
 &Version=2014-10-31
@@ -3335,13 +4073,15 @@ Action=DescribeGlobalClusters
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 304
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeGlobalClustersResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeGlobalClustersResult>
-    <GlobalClusters/>
+    <GlobalClusters></GlobalClusters>
   </DescribeGlobalClustersResult>
   <ResponseMetadata>
-    <RequestId>a7cefc05-a76a-427d-a9cf-03a9196ef2fc</RequestId>
+    <RequestId>4ef0c11e-125e-427e-8a26-b93ed8cf17f2</RequestId>
   </ResponseMetadata>
 </DescribeGlobalClustersResponse>
 ```
@@ -3354,6 +4094,11 @@ Describe one or more zero-ETL integrations with Amazon Redshift.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 46
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeIntegrations
 &Version=2014-10-31
@@ -3362,13 +4107,15 @@ Action=DescribeIntegrations
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 292
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeIntegrationsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeIntegrationsResult>
-    <Integrations/>
+    <Integrations></Integrations>
   </DescribeIntegrationsResult>
   <ResponseMetadata>
-    <RequestId>c2a5c844-f5c2-4abf-9887-24fd68045285</RequestId>
+    <RequestId>ef0c1cc9-e2a8-4792-9a61-dba71c99e561</RequestId>
   </ResponseMetadata>
 </DescribeIntegrationsResponse>
 ```
@@ -3381,6 +4128,11 @@ Describes all available options for the specified engine.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeOptionGroupOptions
 &Version=2014-10-31
@@ -3390,6 +4142,9 @@ Action=DescribeOptionGroupOptions
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: 9f9b550a-98ed-437d-89e1-9c95eda9acb7
+content-length: 308
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3397,7 +4152,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation DescribeOptionGroupOptions is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>fa15cc44-3ce8-486f-ad27-34bfb4c6d7a0</RequestId>
+  <RequestId>9f9b550a-98ed-437d-89e1-9c95eda9acb7</RequestId>
 </ErrorResponse>
 ```
 
@@ -3409,6 +4164,11 @@ Describes the available option groups.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 46
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeOptionGroups
 &Version=2014-10-31
@@ -3417,6 +4177,8 @@ Action=DescribeOptionGroups
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 17285
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeOptionGroupsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeOptionGroupsResult>
@@ -3426,7 +4188,7 @@ content-type: text/xml
         <OptionGroupDescription>Default option group for db2-ae 11.5</OptionGroupDescription>
         <EngineName>db2-ae</EngineName>
         <MajorEngineVersion>11.5</MajorEngineVersion>
-        <Options/>
+        <Options></Options>
         <AllowsVpcAndNonVpcInstanceMemberships>true</AllowsVpcAndNonVpcInstanceMemberships>
         <OptionGroupArn>arn:aws:rds:us-east-1:000000000000:og:default:db2-ae-11-5</OptionGroupArn>
       </OptionGroup>
@@ -3435,7 +4197,7 @@ content-type: text/xml
         <OptionGroupDescription>Default option group for db2-ae 12.1</OptionGroupDescription>
         <EngineName>db2-ae</EngineName>
         <MajorEngineVersion>12.1</MajorEngineVersion>
-        <Options/>
+        <Options></Options>
         <AllowsVpcAndNonVpcInstanceMemberships>true</AllowsVpcAndNonVpcInstanceMemberships>
         <OptionGroupArn>arn:aws:rds:us-east-1:000000000000:og:default:db2-ae-12-1</OptionGroupArn>
 … (331 more lines)
@@ -3449,6 +4211,11 @@ Describes the orderable DB instance options for a specified DB engine.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeOrderableDBInstanceOptions
 &Version=2014-10-31
@@ -3458,6 +4225,9 @@ Action=DescribeOrderableDBInstanceOptions
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: c4e14d39-5def-4ef6-8d20-e25847c161ef
+content-length: 243
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3465,7 +4235,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid DB engine</Message>
   </Error>
-  <RequestId>42b19cea-2b81-48af-b44d-36ce8e32fbdf</RequestId>
+  <RequestId>c4e14d39-5def-4ef6-8d20-e25847c161ef</RequestId>
 </ErrorResponse>
 ```
 
@@ -3477,6 +4247,11 @@ Returns a list of resources (for example, DB instances) that have at least one p
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 59
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribePendingMaintenanceActions
 &Version=2014-10-31
@@ -3485,13 +4260,15 @@ Action=DescribePendingMaintenanceActions
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 370
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribePendingMaintenanceActionsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribePendingMaintenanceActionsResult>
-    <PendingMaintenanceActions/>
+    <PendingMaintenanceActions></PendingMaintenanceActions>
   </DescribePendingMaintenanceActionsResult>
   <ResponseMetadata>
-    <RequestId>05c06f45-6519-433e-bba6-62189ae958ec</RequestId>
+    <RequestId>8409a050-ac02-4fa9-a386-775e96019dd1</RequestId>
   </ResponseMetadata>
 </DescribePendingMaintenanceActionsResponse>
 ```
@@ -3502,55 +4279,86 @@ Accepted: the emulator answered `200 OK` even with placeholder values.
 
 Returns information about reserved DB instances for this account, or about a specified reserved DB instance.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 53
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeReservedDBInstances
 &Version=2014-10-31
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 334
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
-<ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
-  <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DescribeReservedDBInstances is scaffolded but not implemented in this emulator</Message>
-  </Error>
-  <RequestId>6e14272f-4d44-489b-8137-4e6e049ee2e4</RequestId>
-</ErrorResponse>
+<DescribeReservedDBInstancesResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
+  <DescribeReservedDBInstancesResult>
+    <ReservedDBInstances></ReservedDBInstances>
+  </DescribeReservedDBInstancesResult>
+  <ResponseMetadata>
+    <RequestId>8ee037bf-8c60-4c3a-826e-80ba14754bfa</RequestId>
+  </ResponseMetadata>
+</DescribeReservedDBInstancesResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeReservedDBInstancesOfferings
 
 Lists available reserved DB instance offerings.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 62
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeReservedDBInstancesOfferings
 &Version=2014-10-31
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 62889
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
-<ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
-  <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation DescribeReservedDBInstancesOfferings is scaffolded but not implemented in this emulator</Message>
-  </Error>
-  <RequestId>4d3683cc-edb9-418f-9d64-2f5828a30456</RequestId>
-</ErrorResponse>
+<DescribeReservedDBInstancesOfferingsResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
+  <DescribeReservedDBInstancesOfferingsResult>
+    <Marker>MmFiMzA2ZjItMjEzMi0zYjkxLWJlYzctOGFmOGNmMWRmZjli</Marker>
+    <ReservedDBInstancesOfferings>
+      <ReservedDBInstancesOffering xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
+        <ReservedDBInstancesOfferingId>727096c2-0e6f-eaab-6c48-036d3fd6b744</ReservedDBInstancesOfferingId>
+        <DBInstanceClass>db.t3.micro</DBInstanceClass>
+        <Duration>31536000</Duration>
+        <FixedPrice>50.04</FixedPrice>
+        <UsagePrice>0.0</UsagePrice>
+        <CurrencyCode>USD</CurrencyCode>
+        <ProductDescription>aurora mysql</ProductDescription>
+        <OfferingType>Partial Upfront</OfferingType>
+        <MultiAZ>false</MultiAZ>
+        <RecurringCharges>
+          <RecurringCharge>
+            <RecurringChargeAmount>0.00571</RecurringChargeAmount>
+            <RecurringChargeFrequency>Hourly</RecurringChargeFrequency>
+          </RecurringCharge>
+        </RecurringCharges>
+… (1690 more lines)
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### DescribeServerlessV2PlatformVersions
 
@@ -3558,6 +4366,11 @@ Describes the properties of specific platform versions for Aurora Serverless v2.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 62
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeServerlessV2PlatformVersions
 &Version=2014-10-31
@@ -3566,6 +4379,9 @@ Action=DescribeServerlessV2PlatformVersions
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: 6b5a579c-4961-4720-b70b-1603620ec220
+content-length: 318
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3573,7 +4389,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation DescribeServerlessV2PlatformVersions is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>4932f3e1-e8e5-4dbf-866b-1251098f8d80</RequestId>
+  <RequestId>6b5a579c-4961-4720-b70b-1603620ec220</RequestId>
 </ErrorResponse>
 ```
 
@@ -3585,6 +4401,11 @@ Returns a list of the source Amazon Web Services Regions where the current Amazo
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeSourceRegions
 &Version=2014-10-31
@@ -3593,6 +4414,9 @@ Action=DescribeSourceRegions
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: e38cb3ed-90f8-4adc-8408-b508b8486720
+content-length: 303
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3600,7 +4424,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation DescribeSourceRegions is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>62d12ca2-c36b-4b7c-8b0f-83283d287358</RequestId>
+  <RequestId>e38cb3ed-90f8-4adc-8408-b508b8486720</RequestId>
 </ErrorResponse>
 ```
 
@@ -3612,6 +4436,11 @@ Describes the tenant databases in a DB instance that uses the multi-tenant confi
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeTenantDatabases
 &Version=2014-10-31
@@ -3620,13 +4449,15 @@ Action=DescribeTenantDatabases
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 310
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <DescribeTenantDatabasesResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <DescribeTenantDatabasesResult>
-    <TenantDatabases/>
+    <TenantDatabases></TenantDatabases>
   </DescribeTenantDatabasesResult>
   <ResponseMetadata>
-    <RequestId>10f87485-ac8d-4151-b126-5ef682ec8262</RequestId>
+    <RequestId>67ec8431-9eaa-445a-ab69-4bd9a9a53400</RequestId>
   </ResponseMetadata>
 </DescribeTenantDatabasesResponse>
 ```
@@ -3639,6 +4470,11 @@ You can call DescribeValidDBInstanceModifications to learn what modifications yo
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 91
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DescribeValidDBInstanceModifications
 &Version=2014-10-31
@@ -3648,6 +4484,9 @@ Action=DescribeValidDBInstanceModifications
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 75ad7d8c-1737-438c-8ff9-c75b138c89e9
+content-length: 252
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3655,7 +4494,7 @@ content-type: text/xml
     <Code>DBInstanceNotFound</Code>
     <Message>DBInstance not found: example</Message>
   </Error>
-  <RequestId>4217c8dd-499b-4e46-a7ce-dc864cb0f9d0</RequestId>
+  <RequestId>75ad7d8c-1737-438c-8ff9-c75b138c89e9</RequestId>
 </ErrorResponse>
 ```
 
@@ -3667,6 +4506,11 @@ Disables the HTTP endpoint for the specified DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 120
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DisableHttpEndpoint
 &Version=2014-10-31
@@ -3676,6 +4520,9 @@ Action=DisableHttpEndpoint
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 2f0f878f-a54d-4446-9fd9-59f1865bf373
+content-length: 299
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3683,7 +4530,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid resource name: arn:aws:rds:us-east-1:000000000000:example/example</Message>
   </Error>
-  <RequestId>dcce82b9-8eb6-4b20-9981-5c025063cd21</RequestId>
+  <RequestId>2f0f878f-a54d-4446-9fd9-59f1865bf373</RequestId>
 </ErrorResponse>
 ```
 
@@ -3695,6 +4542,11 @@ Downloads all or a portion of the specified log file, up to 1 MB in size.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 99
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DownloadDBLogFilePortion
 &Version=2014-10-31
@@ -3705,6 +4557,9 @@ Action=DownloadDBLogFilePortion
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 9dac1d75-b025-46df-ac01-f6787deada38
+content-length: 252
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3712,7 +4567,7 @@ content-type: text/xml
     <Code>DBInstanceNotFound</Code>
     <Message>DBInstance not found: example</Message>
   </Error>
-  <RequestId>bbe4a3f2-5bf6-496b-87b2-05a5487f6523</RequestId>
+  <RequestId>9dac1d75-b025-46df-ac01-f6787deada38</RequestId>
 </ErrorResponse>
 ```
 
@@ -3724,6 +4579,11 @@ Enables the HTTP endpoint for the DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 119
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=EnableHttpEndpoint
 &Version=2014-10-31
@@ -3733,6 +4593,9 @@ Action=EnableHttpEndpoint
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: ad34bdae-5a0d-4c64-9032-5b8945caeeba
+content-length: 299
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3740,7 +4603,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid resource name: arn:aws:rds:us-east-1:000000000000:example/example</Message>
   </Error>
-  <RequestId>384eb156-addc-4141-8662-2d295b471c80</RequestId>
+  <RequestId>ad34bdae-5a0d-4c64-9032-5b8945caeeba</RequestId>
 </ErrorResponse>
 ```
 
@@ -3752,6 +4615,11 @@ Forces a failover for a DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=FailoverDBCluster
 &Version=2014-10-31
@@ -3761,6 +4629,9 @@ Action=FailoverDBCluster
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: d35b5698-af4c-4da9-9839-76143d101e5b
+content-length: 295
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3768,7 +4639,7 @@ content-type: text/xml
     <Code>DBClusterNotFoundFault</Code>
     <Message>The source cluster could not be found or cannot be accessed: example</Message>
   </Error>
-  <RequestId>d068f2ab-e158-4a72-afe3-e3cbd6f2aa61</RequestId>
+  <RequestId>d35b5698-af4c-4da9-9839-76143d101e5b</RequestId>
 </ErrorResponse>
 ```
 
@@ -3780,6 +4651,11 @@ Promotes the specified secondary DB cluster to be the primary DB cluster in the 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 113
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=FailoverGlobalCluster
 &Version=2014-10-31
@@ -3790,14 +4666,17 @@ Action=FailoverGlobalCluster
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 432a5568-f2eb-476f-8044-653b2695cc9d
+content-length: 275
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>GlobalClusterNotFoundFault</Code>
-    <Message>Global cluster 'example' not found</Message>
+    <Message>Global cluster &apos;example&apos; not found</Message>
   </Error>
-  <RequestId>d706cfe6-ccd2-40f0-98d5-6c9ee4ff007a</RequestId>
+  <RequestId>432a5568-f2eb-476f-8044-653b2695cc9d</RequestId>
 </ErrorResponse>
 ```
 
@@ -3809,6 +4688,11 @@ Lists all tags on an Amazon RDS resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 66
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ListTagsForResource
 &Version=2014-10-31
@@ -3818,6 +4702,9 @@ Action=ListTagsForResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 93a547dc-f861-40f5-8cd7-427de6e80e2a
+content-length: 256
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3825,7 +4712,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid resource name: example</Message>
   </Error>
-  <RequestId>fb090085-114a-4084-a4c5-4c990bbca6c6</RequestId>
+  <RequestId>93a547dc-f861-40f5-8cd7-427de6e80e2a</RequestId>
 </ErrorResponse>
 ```
 
@@ -3839,6 +4726,11 @@ Changes the audit policy state of a database activity stream to either locked (d
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 46
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyActivityStream
 &Version=2014-10-31
@@ -3847,6 +4739,9 @@ Action=ModifyActivityStream
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 210dba06-ab41-474c-b1af-aeb807c56aae
+content-length: 291
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3854,7 +4749,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>The parameter ResourceArn must be provided and must not be blank.</Message>
   </Error>
-  <RequestId>a3af58b9-6afb-4992-bea4-d24d2d9df67e</RequestId>
+  <RequestId>210dba06-ab41-474c-b1af-aeb807c56aae</RequestId>
 </ErrorResponse>
 ```
 
@@ -3866,6 +4761,11 @@ Override the system-default Secure Sockets Layer/Transport Layer Security (SSL/T
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 44
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyCertificates
 &Version=2014-10-31
@@ -3874,6 +4774,9 @@ Action=ModifyCertificates
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 6d088f94-b016-4bf6-9522-2f6e17ac35e4
+content-length: 388
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3881,7 +4784,7 @@ content-type: text/xml
     <Code>InvalidParameterCombination</Code>
     <Message>Specify either CertificateIdentifier, to override the default certificate for new DB instances, or RemoveCustomerOverride, to remove an override that is set</Message>
   </Error>
-  <RequestId>e20250b1-889d-41a2-8dad-b1d784326d52</RequestId>
+  <RequestId>6d088f94-b016-4bf6-9522-2f6e17ac35e4</RequestId>
 </ErrorResponse>
 ```
 
@@ -3891,8 +4794,15 @@ content-type: text/xml
 
 Set the capacity of an Aurora Serverless v1 DB cluster to a specific value.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 84
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyCurrentDBClusterCapacity
 &Version=2014-10-31
@@ -3900,20 +4810,23 @@ Action=ModifyCurrentDBClusterCapacity
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: a2e0e487-57d2-4324-92f2-0eb83912a534
+content-length: 255
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ModifyCurrentDBClusterCapacity is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>DBClusterNotFoundFault</Code>
+    <Message>DBCluster example not found.</Message>
   </Error>
-  <RequestId>38d70555-2b55-41de-bd8c-abf223666bca</RequestId>
+  <RequestId>a2e0e487-57d2-4324-92f2-0eb83912a534</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `DBClusterNotFoundFault`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### ModifyCustomDBEngineVersion
 
@@ -3921,6 +4834,11 @@ Modifies the status of a custom engine version (CEV).
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 90
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyCustomDBEngineVersion
 &Version=2014-10-31
@@ -3931,14 +4849,17 @@ Action=ModifyCustomDBEngineVersion
 ```http
 HTTP/1.1 403 Forbidden
 content-type: text/xml
+x-amzn-requestid: c0f88e2b-dabb-4716-b883-d353738e8089
+content-length: 318
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>AccessDenied</Code>
-    <Message>The custom engine version you requested may not exist or you don't have the required permission.</Message>
+    <Message>The custom engine version you requested may not exist or you don&apos;t have the required permission.</Message>
   </Error>
-  <RequestId>eca34c5d-1007-4c0d-926a-adb3f5614ff1</RequestId>
+  <RequestId>c0f88e2b-dabb-4716-b883-d353738e8089</RequestId>
 </ErrorResponse>
 ```
 
@@ -3948,8 +4869,15 @@ content-type: text/xml
 
 Modifies a DB capacity reservation.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 93
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyDBCapacityReservation
 &Version=2014-10-31
@@ -3957,20 +4885,23 @@ Action=ModifyDBCapacityReservation
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 38b0f9ca-95db-4318-9cd7-4fea50bd960f
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation ModifyDBCapacityReservation is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>InvalidParameterCombination</Code>
+    <Message>No modifications were requested</Message>
   </Error>
-  <RequestId>0938dfec-8951-49c0-9f95-21fc694350d3</RequestId>
+  <RequestId>38b0f9ca-95db-4318-9cd7-4fea50bd960f</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterCombination`: the placeholder values failed the operation's input validation.
 
 ### ModifyDBCluster
 
@@ -3978,6 +4909,11 @@ Modifies the settings of an Amazon Aurora DB cluster or a Multi-AZ DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 69
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyDBCluster
 &Version=2014-10-31
@@ -3987,6 +4923,9 @@ Action=ModifyDBCluster
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: a628842c-e9f3-4c68-bb35-19a7148de494
+content-length: 246
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -3994,7 +4933,7 @@ content-type: text/xml
     <Code>DBClusterNotFoundFault</Code>
     <Message>DBCluster not found</Message>
   </Error>
-  <RequestId>219a46ed-ce0e-4f3c-8082-f269427cf421</RequestId>
+  <RequestId>a628842c-e9f3-4c68-bb35-19a7148de494</RequestId>
 </ErrorResponse>
 ```
 
@@ -4008,6 +4947,11 @@ Modifies the properties of an endpoint in an Amazon Aurora DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 85
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyDBClusterEndpoint
 &Version=2014-10-31
@@ -4017,6 +4961,9 @@ Action=ModifyDBClusterEndpoint
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: b504f2f0-a634-48a7-b63b-99a58a5970e2
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4024,7 +4971,7 @@ content-type: text/xml
     <Code>InvalidParameterCombination</Code>
     <Message>No modifications were requested</Message>
   </Error>
-  <RequestId>bb5a4475-6e51-4ec2-925d-46513c12148a</RequestId>
+  <RequestId>b504f2f0-a634-48a7-b63b-99a58a5970e2</RequestId>
 </ErrorResponse>
 ```
 
@@ -4036,6 +4983,11 @@ Modifies the parameters of a DB cluster parameter group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 91
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyDBClusterParameterGroup
 &Version=2014-10-31
@@ -4045,19 +4997,22 @@ Action=ModifyDBClusterParameterGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 2732a7ac-45b1-4e9d-bbec-647ac5b022e3
+content-length: 258
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>MalformedInput</Code>
-    <Message>1 validation error detected: Value null at 'parameters' failed to satisfy constraint: Member must not be null</Message>
+    <Code>InvalidParameterValue</Code>
+    <Message>Please specify a value for parameter &apos;parameters&apos;.</Message>
   </Error>
-  <RequestId>fb197544-2326-4a4e-ac6f-471954332f1d</RequestId>
+  <RequestId>2732a7ac-45b1-4e9d-bbec-647ac5b022e3</RequestId>
 </ErrorResponse>
 ```
 
-`400` `MalformedInput`: the placeholder values failed the operation's input validation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### ModifyDBClusterSnapshotAttribute
 
@@ -4065,6 +5020,11 @@ Adds an attribute and values to, or removes an attribute and values from, a manu
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 116
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyDBClusterSnapshotAttribute
 &Version=2014-10-31
@@ -4075,14 +5035,17 @@ Action=ModifyDBClusterSnapshotAttribute
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 58ec0236-5758-4741-8645-90cc3f8f4ce6
+content-length: 320
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationException</Code>
-    <Message>invalid value 'example' for AttributeName: the only valid value is 'restore'</Message>
+    <Message>invalid value &apos;example&apos; for AttributeName: the only valid value is &apos;restore&apos;</Message>
   </Error>
-  <RequestId>000fd8da-b787-4b6f-a77a-5a33e7e2d36d</RequestId>
+  <RequestId>58ec0236-5758-4741-8645-90cc3f8f4ce6</RequestId>
 </ErrorResponse>
 ```
 
@@ -4094,6 +5057,11 @@ Modifies settings for a DB instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyDBInstance
 &Version=2014-10-31
@@ -4103,6 +5071,9 @@ Action=ModifyDBInstance
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 055e76b3-8afc-401f-9dd3-8f7ff61bde1e
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4110,7 +5081,7 @@ content-type: text/xml
     <Code>DBInstanceNotFound</Code>
     <Message>DB instance not found: example</Message>
   </Error>
-  <RequestId>fc64d020-bfed-46ff-8458-1524dfe003bf</RequestId>
+  <RequestId>055e76b3-8afc-401f-9dd3-8f7ff61bde1e</RequestId>
 </ErrorResponse>
 ```
 
@@ -4122,6 +5093,11 @@ Modifies the parameters of a DB parameter group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyDBParameterGroup
 &Version=2014-10-31
@@ -4131,19 +5107,22 @@ Action=ModifyDBParameterGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 8e0597b2-039c-4c01-9c09-c038c6883f90
+content-length: 258
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
-    <Code>MalformedInput</Code>
-    <Message>1 validation error detected: Value null at 'parameters' failed to satisfy constraint: Member must not be null</Message>
+    <Code>InvalidParameterValue</Code>
+    <Message>Please specify a value for parameter &apos;parameters&apos;.</Message>
   </Error>
-  <RequestId>a6ab0b19-b7ae-4175-a0a4-90cf81dbef05</RequestId>
+  <RequestId>8e0597b2-039c-4c01-9c09-c038c6883f90</RequestId>
 </ErrorResponse>
 ```
 
-`400` `MalformedInput`: the placeholder values failed the operation's input validation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### ModifyDBProxy
 
@@ -4151,6 +5130,11 @@ Changes the settings for an existing DB proxy.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 59
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyDBProxy
 &Version=2014-10-31
@@ -4160,14 +5144,17 @@ Action=ModifyDBProxy
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 50d13582-20b3-4fab-bff8-7eea2dfb7494
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>DBProxyNotFoundFault</Code>
-    <Message>DBProxy 'example' not found.</Message>
+    <Message>DBProxy &apos;example&apos; not found.</Message>
   </Error>
-  <RequestId>8c795933-30a6-4b26-b28e-3e90713149a0</RequestId>
+  <RequestId>50d13582-20b3-4fab-bff8-7eea2dfb7494</RequestId>
 </ErrorResponse>
 ```
 
@@ -4179,6 +5166,11 @@ Changes the settings for an existing DB proxy endpoint.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyDBProxyEndpoint
 &Version=2014-10-31
@@ -4188,6 +5180,9 @@ Action=ModifyDBProxyEndpoint
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: c8c160d8-c213-43db-ba78-3e211f1e73e4
+content-length: 303
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4195,7 +5190,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation ModifyDBProxyEndpoint is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>c6b236e6-bc61-4f62-af5a-f56a66db7461</RequestId>
+  <RequestId>c8c160d8-c213-43db-ba78-3e211f1e73e4</RequestId>
 </ErrorResponse>
 ```
 
@@ -4207,6 +5202,11 @@ Modifies the properties of a DBProxyTargetGroup .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 94
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyDBProxyTargetGroup
 &Version=2014-10-31
@@ -4217,14 +5217,17 @@ Action=ModifyDBProxyTargetGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: b92efb09-bb73-4cc1-ac0f-a781712833e8
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>DBProxyNotFoundFault</Code>
-    <Message>DBProxy 'example' not found.</Message>
+    <Message>DBProxy &apos;example&apos; not found.</Message>
   </Error>
-  <RequestId>ea78a63e-2704-4ab5-8629-a5417affe495</RequestId>
+  <RequestId>b92efb09-bb73-4cc1-ac0f-a781712833e8</RequestId>
 </ErrorResponse>
 ```
 
@@ -4236,6 +5239,11 @@ Updates the recommendation status and recommended action status for the specifie
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 73
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyDBRecommendation
 &Version=2014-10-31
@@ -4245,6 +5253,9 @@ Action=ModifyDBRecommendation
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: fa7e088e-e0c5-43d2-890b-69acceb116c2
+content-length: 304
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4252,7 +5263,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation ModifyDBRecommendation is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>4e377c33-a603-43e4-bcc5-2cda7e143610</RequestId>
+  <RequestId>fa7e088e-e0c5-43d2-890b-69acceb116c2</RequestId>
 </ErrorResponse>
 ```
 
@@ -4264,6 +5275,11 @@ Modifies the settings of an Aurora Limitless Database DB shard group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyDBShardGroup
 &Version=2014-10-31
@@ -4273,14 +5289,17 @@ Action=ModifyDBShardGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 40fe441f-944c-473e-8fd1-5300c93ad139
+content-length: 310
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>DBShardGroupNotFound</Code>
-    <Message>The DB shard group with requested identifier in requested account doesn't exist.</Message>
+    <Message>The DB shard group with requested identifier in requested account doesn&apos;t exist.</Message>
   </Error>
-  <RequestId>d6ad77f2-df93-4e25-a14f-82a5b20a2799</RequestId>
+  <RequestId>40fe441f-944c-473e-8fd1-5300c93ad139</RequestId>
 </ErrorResponse>
 ```
 
@@ -4292,6 +5311,11 @@ Updates a manual DB snapshot with a new engine version.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyDBSnapshot
 &Version=2014-10-31
@@ -4301,6 +5325,9 @@ Action=ModifyDBSnapshot
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: text/xml
+x-amzn-requestid: cd028268-df59-4bee-b681-a1b79a18d2d2
+content-length: 298
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4308,7 +5335,7 @@ content-type: text/xml
     <Code>NotImplemented</Code>
     <Message>operation ModifyDBSnapshot is scaffolded but not implemented in this emulator</Message>
   </Error>
-  <RequestId>fd2e00f9-3500-4ef7-9a51-c290dcf6333d</RequestId>
+  <RequestId>cd028268-df59-4bee-b681-a1b79a18d2d2</RequestId>
 </ErrorResponse>
 ```
 
@@ -4322,6 +5349,11 @@ Adds an attribute and values to, or removes an attribute and values from, a manu
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 102
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyDBSnapshotAttribute
 &Version=2014-10-31
@@ -4332,14 +5364,17 @@ Action=ModifyDBSnapshotAttribute
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: e49cebf3-1c1b-457f-8e47-fcfc0b59ab05
+content-length: 320
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationException</Code>
-    <Message>invalid value 'example' for AttributeName: the only valid value is 'restore'</Message>
+    <Message>invalid value &apos;example&apos; for AttributeName: the only valid value is &apos;restore&apos;</Message>
   </Error>
-  <RequestId>aad89408-b9bf-4ad3-8b5e-09c79e096670</RequestId>
+  <RequestId>e49cebf3-1c1b-457f-8e47-fcfc0b59ab05</RequestId>
 </ErrorResponse>
 ```
 
@@ -4351,6 +5386,11 @@ Modifies an existing DB subnet group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 108
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyDBSubnetGroup
 &Version=2014-10-31
@@ -4361,14 +5401,17 @@ Action=ModifyDBSubnetGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 2000d6e2-1ebc-4f9a-a7b3-b798b724877e
+content-length: 323
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidSubnet</Code>
-    <Message>'example' is not an EC2 subnet id (expected subnet- followed by 8 or 17 hexadecimal characters)</Message>
+    <Message>&apos;example&apos; is not an EC2 subnet id (expected subnet- followed by 8 or 17 hexadecimal characters)</Message>
   </Error>
-  <RequestId>d61c7f18-08f3-4494-99b5-8e0d0fcc10e2</RequestId>
+  <RequestId>2000d6e2-1ebc-4f9a-a7b3-b798b724877e</RequestId>
 </ErrorResponse>
 ```
 
@@ -4380,6 +5423,11 @@ Modifies an existing RDS event notification subscription.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 74
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyEventSubscription
 &Version=2014-10-31
@@ -4389,6 +5437,9 @@ Action=ModifyEventSubscription
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 30e6c045-d5e2-4ff9-a210-751d629b06d5
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4396,7 +5447,7 @@ content-type: text/xml
     <Code>SubscriptionNotFound</Code>
     <Message>Event Subscription example not found.</Message>
   </Error>
-  <RequestId>37cbcfe0-2884-4ae4-9f28-ef11fe79f600</RequestId>
+  <RequestId>30e6c045-d5e2-4ff9-a210-751d629b06d5</RequestId>
 </ErrorResponse>
 ```
 
@@ -4408,6 +5459,11 @@ Modifies a setting for an Amazon Aurora global database cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 77
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyGlobalCluster
 &Version=2014-10-31
@@ -4417,14 +5473,17 @@ Action=ModifyGlobalCluster
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: f2cb64a2-f291-4558-bc9d-ad1244c90603
+content-length: 275
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>GlobalClusterNotFoundFault</Code>
-    <Message>Global cluster 'example' not found</Message>
+    <Message>Global cluster &apos;example&apos; not found</Message>
   </Error>
-  <RequestId>2e0e46ce-3d20-4cc5-8d70-bbd4cef2607d</RequestId>
+  <RequestId>f2cb64a2-f291-4558-bc9d-ad1244c90603</RequestId>
 </ErrorResponse>
 ```
 
@@ -4438,6 +5497,11 @@ Modifies a zero-ETL integration with Amazon Redshift.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 73
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyIntegration
 &Version=2014-10-31
@@ -4447,6 +5511,9 @@ Action=ModifyIntegration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 7c19791d-b004-4480-bf15-de478d2fddde
+content-length: 263
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4454,7 +5521,7 @@ content-type: text/xml
     <Code>InvalidParameterCombination</Code>
     <Message>No modifications were requested</Message>
   </Error>
-  <RequestId>63c14836-598e-428b-b767-3976d4ab5b5b</RequestId>
+  <RequestId>7c19791d-b004-4480-bf15-de478d2fddde</RequestId>
 </ErrorResponse>
 ```
 
@@ -4466,6 +5533,11 @@ Modifies an existing option group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyOptionGroup
 &Version=2014-10-31
@@ -4473,20 +5545,23 @@ Action=ModifyOptionGroup
 ```
 
 ```http
-HTTP/1.1 404 Not Found
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 79aa8829-bae7-47f5-96db-79969cac3c3e
+content-length: 282
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
-    <Code>OptionGroupNotFoundFault</Code>
-    <Message>Specified OptionGroupName: example not found.</Message>
+    <Code>InvalidParameterValue</Code>
+    <Message>At least one option must be added, modified, or removed.</Message>
   </Error>
-  <RequestId>91ebd26a-b386-42f2-bcb9-8f4ed1423ebc</RequestId>
+  <RequestId>79aa8829-bae7-47f5-96db-79969cac3c3e</RequestId>
 </ErrorResponse>
 ```
 
-`404` `OptionGroupNotFoundFault`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### ModifyTenantDatabase
 
@@ -4496,6 +5571,11 @@ Modifies an existing tenant database in a DB instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 96
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ModifyTenantDatabase
 &Version=2014-10-31
@@ -4506,6 +5586,9 @@ Action=ModifyTenantDatabase
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 9f27d31d-9a4f-4c4e-98a4-828643abbee4
+content-length: 252
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4513,7 +5596,7 @@ content-type: text/xml
     <Code>DBInstanceNotFound</Code>
     <Message>DBInstance not found: example</Message>
   </Error>
-  <RequestId>1737753e-ae52-47ef-aa28-3cc011aebf9e</RequestId>
+  <RequestId>9f27d31d-9a4f-4c4e-98a4-828643abbee4</RequestId>
 </ErrorResponse>
 ```
 
@@ -4525,6 +5608,11 @@ Promotes a read replica DB instance to a standalone DB instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 73
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PromoteReadReplica
 &Version=2014-10-31
@@ -4534,14 +5622,17 @@ Action=PromoteReadReplica
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: e6894d85-1556-4d73-b848-b642b1428369
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>DBInstanceNotFound</Code>
-    <Message>DBInstance example not found.</Message>
+    <Message>DB Instance not found: example</Message>
   </Error>
-  <RequestId>47a380e8-72e2-4e07-af1c-d9e224fd9cf8</RequestId>
+  <RequestId>e6894d85-1556-4d73-b848-b642b1428369</RequestId>
 </ErrorResponse>
 ```
 
@@ -4553,6 +5644,11 @@ Promotes a read replica DB cluster to a standalone DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 81
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PromoteReadReplicaDBCluster
 &Version=2014-10-31
@@ -4562,6 +5658,9 @@ Action=PromoteReadReplicaDBCluster
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 5d1a5ee4-cb2c-456d-8828-8dbd51867a21
+content-length: 295
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4569,7 +5668,7 @@ content-type: text/xml
     <Code>DBClusterNotFoundFault</Code>
     <Message>The source cluster could not be found or cannot be accessed: example</Message>
   </Error>
-  <RequestId>13aa0e62-b9f2-4075-804e-f3f3b9057cf1</RequestId>
+  <RequestId>5d1a5ee4-cb2c-456d-8828-8dbd51867a21</RequestId>
 </ErrorResponse>
 ```
 
@@ -4579,8 +5678,15 @@ content-type: text/xml
 
 Purchases a reserved DB instance offering.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 99
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=PurchaseReservedDBInstancesOffering
 &Version=2014-10-31
@@ -4588,20 +5694,23 @@ Action=PurchaseReservedDBInstancesOffering
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 498c45f8-00e2-41f9-a65f-28e4bbdecf1b
+content-length: 285
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation PurchaseReservedDBInstancesOffering is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>ReservedDBInstancesOfferingNotFound</Code>
+    <Message>ReservedDBInstanceOffering example not found.</Message>
   </Error>
-  <RequestId>f1ac1b6b-681a-4f05-b79e-3950999c1bce</RequestId>
+  <RequestId>498c45f8-00e2-41f9-a65f-28e4bbdecf1b</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `ReservedDBInstancesOfferingNotFound`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### RebootDBCluster
 
@@ -4609,6 +5718,11 @@ You might need to reboot your DB cluster, usually for maintenance reasons.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 69
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RebootDBCluster
 &Version=2014-10-31
@@ -4618,14 +5732,17 @@ Action=RebootDBCluster
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 157e0f5c-6db1-44dd-afa1-93393ff85ae6
+content-length: 295
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>DBClusterNotFoundFault</Code>
-    <Message>DBCluster example not found.</Message>
+    <Message>The source cluster could not be found or cannot be accessed: example</Message>
   </Error>
-  <RequestId>bbeb53cb-7d1e-49cb-9c32-87e0438a814e</RequestId>
+  <RequestId>157e0f5c-6db1-44dd-afa1-93393ff85ae6</RequestId>
 </ErrorResponse>
 ```
 
@@ -4637,6 +5754,11 @@ You might need to reboot your DB instance, usually for maintenance reasons.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RebootDBInstance
 &Version=2014-10-31
@@ -4646,6 +5768,9 @@ Action=RebootDBInstance
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 62bd6155-e13b-4dc2-bffa-2da4366659ce
+content-length: 252
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4653,7 +5778,7 @@ content-type: text/xml
     <Code>DBInstanceNotFound</Code>
     <Message>DBInstance not found: example</Message>
   </Error>
-  <RequestId>4d21bddb-da2a-45a9-899d-86b92e459e6c</RequestId>
+  <RequestId>62bd6155-e13b-4dc2-bffa-2da4366659ce</RequestId>
 </ErrorResponse>
 ```
 
@@ -4665,6 +5790,11 @@ You might need to reboot your DB shard group, usually for maintenance reasons.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RebootDBShardGroup
 &Version=2014-10-31
@@ -4674,6 +5804,9 @@ Action=RebootDBShardGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 949b729c-0194-4d8c-b24e-4a9d3d7eafd4
+content-length: 272
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4681,7 +5814,7 @@ content-type: text/xml
     <Code>DBShardGroupNotFound</Code>
     <Message>DB shard group not found or can not be accessed</Message>
   </Error>
-  <RequestId>4162c1f5-c427-47de-967a-3765aca5a705</RequestId>
+  <RequestId>949b729c-0194-4d8c-b24e-4a9d3d7eafd4</RequestId>
 </ErrorResponse>
 ```
 
@@ -4693,6 +5826,11 @@ Associate one or more DBProxyTarget data structures with a DBProxyTargetGroup .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 68
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RegisterDBProxyTargets
 &Version=2014-10-31
@@ -4702,6 +5840,9 @@ Action=RegisterDBProxyTargets
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: a6b362cf-df60-47a0-8ca7-24419515387f
+content-length: 277
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4709,7 +5850,7 @@ content-type: text/xml
     <Code>InvalidParameterCombination</Code>
     <Message>Missing DB instance or DB cluster identifier.</Message>
   </Error>
-  <RequestId>c757f72a-3bd2-4cff-ab60-588aaa13c6b2</RequestId>
+  <RequestId>a6b362cf-df60-47a0-8ca7-24419515387f</RequestId>
 </ErrorResponse>
 ```
 
@@ -4721,6 +5862,11 @@ Detaches an Aurora secondary cluster from an Aurora global database cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 109
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RemoveFromGlobalCluster
 &Version=2014-10-31
@@ -4731,14 +5877,17 @@ Action=RemoveFromGlobalCluster
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 17b7fbce-ef85-4041-a083-b37268656e50
+content-length: 275
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>GlobalClusterNotFoundFault</Code>
-    <Message>Global cluster 'example' not found</Message>
+    <Message>Global cluster &apos;example&apos; not found</Message>
   </Error>
-  <RequestId>bd2c5fa6-f5a8-40c7-9321-e54de3e08d81</RequestId>
+  <RequestId>17b7fbce-ef85-4041-a083-b37268656e50</RequestId>
 </ErrorResponse>
 ```
 
@@ -4750,6 +5899,11 @@ Removes the asssociation of an Amazon Web Services Identity and Access Managemen
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 106
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RemoveRoleFromDBCluster
 &Version=2014-10-31
@@ -4760,15 +5914,18 @@ Action=RemoveRoleFromDBCluster
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 651d271e-9ba7-45e5-bdec-d66c8ae98d67
+content-length: 401
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterValue</Code>
-    <Message>1 validation error detected: Value 'example0000000000000' at 'roleArn' failed to satisfy constraint: Member must satisfy regular expression pattern: ^arn:aws[a-z-]*:iam::[0-9]*:role/.*$</Message>
+    <Message>1 validation error detected: Value &apos;example0000000000000&apos; at &apos;roleArn&apos; failed to satisfy constraint: Member must satisfy regular expression pattern: arn:aws[a-z-]*:iam::[0-9]*:role/.*</Message>
   </Error>
-  <RequestId>0efdb2fe-1ce1-4507-8866-820bebbdc3c9</RequestId>
+  <RequestId>651d271e-9ba7-45e5-bdec-d66c8ae98d67</RequestId>
 </ErrorResponse>
 ```
 
@@ -4780,6 +5937,11 @@ Disassociates an Amazon Web Services Identity and Access Management (IAM) role f
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 170
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RemoveRoleFromDBInstance
 &Version=2014-10-31
@@ -4791,6 +5953,9 @@ Action=RemoveRoleFromDBInstance
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 6ceaffd2-1de4-41ab-b136-e0d4d0269b25
+content-length: 294
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4798,7 +5963,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid Role ARN: arn:aws:rds:us-east-1:000000000000:example/example</Message>
   </Error>
-  <RequestId>170010d1-1260-4aa2-b2e8-03c490cac300</RequestId>
+  <RequestId>6ceaffd2-1de4-41ab-b136-e0d4d0269b25</RequestId>
 </ErrorResponse>
 ```
 
@@ -4810,6 +5975,11 @@ Removes a source identifier from an existing RDS event notification subscription
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 114
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RemoveSourceIdentifierFromSubscription
 &Version=2014-10-31
@@ -4820,6 +5990,9 @@ Action=RemoveSourceIdentifierFromSubscription
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 445e6ae8-3e1d-4c7b-a959-2cfc09d41a10
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4827,7 +6000,7 @@ content-type: text/xml
     <Code>SubscriptionNotFound</Code>
     <Message>Event Subscription example not found.</Message>
   </Error>
-  <RequestId>9d4c3613-daa8-4361-8455-6c5e89ead343</RequestId>
+  <RequestId>445e6ae8-3e1d-4c7b-a959-2cfc09d41a10</RequestId>
 </ErrorResponse>
 ```
 
@@ -4839,6 +6012,11 @@ Removes metadata tags from an Amazon RDS resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 94
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RemoveTagsFromResource
 &Version=2014-10-31
@@ -4849,6 +6027,9 @@ Action=RemoveTagsFromResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 9e5a0258-a253-4613-a164-d7c1d8438222
+content-length: 256
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4856,7 +6037,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid resource name: example</Message>
   </Error>
-  <RequestId>6d5ccf7b-be2c-4d04-8469-abfe84eeb3f1</RequestId>
+  <RequestId>9e5a0258-a253-4613-a164-d7c1d8438222</RequestId>
 </ErrorResponse>
 ```
 
@@ -4868,6 +6049,11 @@ Modifies the parameters of a DB cluster parameter group to the default value.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 90
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ResetDBClusterParameterGroup
 &Version=2014-10-31
@@ -4877,6 +6063,9 @@ Action=ResetDBClusterParameterGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: bb32e709-b585-41cf-8700-6037aa4bf35a
+content-length: 271
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4884,7 +6073,7 @@ content-type: text/xml
     <Code>DBParameterGroupNotFound</Code>
     <Message>DBClusterParameterGroup not found: example</Message>
   </Error>
-  <RequestId>d2da8da7-52e5-4394-91cc-e62350b01c4b</RequestId>
+  <RequestId>bb32e709-b585-41cf-8700-6037aa4bf35a</RequestId>
 </ErrorResponse>
 ```
 
@@ -4896,6 +6085,11 @@ Modifies the parameters of a DB parameter group to the engine/system default val
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 76
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=ResetDBParameterGroup
 &Version=2014-10-31
@@ -4905,6 +6099,9 @@ Action=ResetDBParameterGroup
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 0c3bb9d2-1a7e-4b8f-9661-2b04f7f0e604
+content-length: 264
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -4912,7 +6109,7 @@ content-type: text/xml
     <Code>DBParameterGroupNotFound</Code>
     <Message>DBParameterGroup not found: example</Message>
   </Error>
-  <RequestId>9f7f6ad8-daf9-4521-8b73-7a1029f6cefd</RequestId>
+  <RequestId>0c3bb9d2-1a7e-4b8f-9661-2b04f7f0e604</RequestId>
 </ErrorResponse>
 ```
 
@@ -4926,6 +6123,11 @@ Creates an Amazon Aurora DB cluster from MySQL data stored in an Amazon S3 bucke
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 266
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RestoreDBClusterFromS3
 &Version=2014-10-31
@@ -4941,14 +6143,17 @@ Action=RestoreDBClusterFromS3
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 885a52c2-e5db-4aa6-aa4c-b564f6cabbe6
+content-length: 295
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterCombination</Code>
-    <Message>You can't restore to example from an S3 backup of example.</Message>
+    <Message>You can&apos;t restore to example from an S3 backup of example.</Message>
   </Error>
-  <RequestId>e3854f2c-21d2-4d00-83bf-67217ef45a6c</RequestId>
+  <RequestId>885a52c2-e5db-4aa6-aa4c-b564f6cabbe6</RequestId>
 </ErrorResponse>
 ```
 
@@ -4960,6 +6165,11 @@ Creates a new DB cluster from a DB snapshot or DB cluster snapshot.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 124
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RestoreDBClusterFromSnapshot
 &Version=2014-10-31
@@ -4971,14 +6181,17 @@ Action=RestoreDBClusterFromSnapshot
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 7280b2ca-8d48-4699-bf44-588cc63f873c
+content-length: 243
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterValue</Code>
-    <Message>Invalid DB engine: example is not one of aurora-mysql, aurora-postgresql, docdb, mysql, neptune, postgres</Message>
+    <Message>Invalid DB engine</Message>
   </Error>
-  <RequestId>54ea68a6-1491-4126-8d3a-4306b58ed2ac</RequestId>
+  <RequestId>7280b2ca-8d48-4699-bf44-588cc63f873c</RequestId>
 </ErrorResponse>
 ```
 
@@ -4992,6 +6205,11 @@ Restores a DB cluster to an arbitrary point in time.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 83
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RestoreDBClusterToPointInTime
 &Version=2014-10-31
@@ -5001,6 +6219,9 @@ Action=RestoreDBClusterToPointInTime
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 1b11b8e9-85d2-4b2e-8043-3471c6b84e3c
+content-length: 362
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -5008,7 +6229,7 @@ content-type: text/xml
     <Code>InvalidParameterCombination</Code>
     <Message>either SourceDBClusterIdentifier or SourceDbClusterResourceId must be specified: a point-in-time restore reads a source DB cluster</Message>
   </Error>
-  <RequestId>63d864a9-9877-49e0-b755-9fc354497a0c</RequestId>
+  <RequestId>1b11b8e9-85d2-4b2e-8043-3471c6b84e3c</RequestId>
 </ErrorResponse>
 ```
 
@@ -5020,6 +6241,11 @@ Creates a new DB instance from a DB snapshot.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 86
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RestoreDBInstanceFromDBSnapshot
 &Version=2014-10-31
@@ -5029,14 +6255,17 @@ Action=RestoreDBInstanceFromDBSnapshot
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 8cc5471c-680a-4faa-98ec-707591619925
+content-length: 324
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterCombination</Code>
-    <Message>DBSnapshotIdentifier must be specified when DBClusterSnapshotIdentifier isn't specified</Message>
+    <Message>DBSnapshotIdentifier must be specified when DBClusterSnapshotIdentifier isn&apos;t specified</Message>
   </Error>
-  <RequestId>2d4de323-1f48-49c4-a253-caf639b11669</RequestId>
+  <RequestId>8cc5471c-680a-4faa-98ec-707591619925</RequestId>
 </ErrorResponse>
 ```
 
@@ -5050,6 +6279,11 @@ Amazon Relational Database Service (Amazon RDS) supports importing MySQL databas
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 269
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RestoreDBInstanceFromS3
 &Version=2014-10-31
@@ -5065,14 +6299,17 @@ Action=RestoreDBInstanceFromS3
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 83114e1e-a226-4f0c-b7df-d227c6a35627
+content-length: 295
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>InvalidParameterCombination</Code>
-    <Message>You can't restore to example from an S3 backup of example.</Message>
+    <Message>You can&apos;t restore to example from an S3 backup of example.</Message>
   </Error>
-  <RequestId>811c0ad2-c41d-4c06-8139-68f8291d1ebc</RequestId>
+  <RequestId>83114e1e-a226-4f0c-b7df-d227c6a35627</RequestId>
 </ErrorResponse>
 ```
 
@@ -5086,6 +6323,11 @@ Restores a DB instance to an arbitrary point in time.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 91
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RestoreDBInstanceToPointInTime
 &Version=2014-10-31
@@ -5095,6 +6337,9 @@ Action=RestoreDBInstanceToPointInTime
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 6e5af218-c0ff-4ec7-af0a-7e85f7859127
+content-length: 313
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -5102,7 +6347,7 @@ content-type: text/xml
     <Code>InvalidParameterCombination</Code>
     <Message>If UseLatestRestoreTime is not true, the RestoreTime parameter must be specified.</Message>
   </Error>
-  <RequestId>b417b3b8-fb93-4205-97bd-ed28e0a9bb16</RequestId>
+  <RequestId>6e5af218-c0ff-4ec7-af0a-7e85f7859127</RequestId>
 </ErrorResponse>
 ```
 
@@ -5114,6 +6359,11 @@ Revokes ingress from a DBSecurityGroup for previously authorized IP ranges or EC
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 82
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=RevokeDBSecurityGroupIngress
 &Version=2014-10-31
@@ -5123,6 +6373,9 @@ Action=RevokeDBSecurityGroupIngress
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: acd30412-d395-4d85-b636-e7b23a59f4bd
+content-length: 262
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -5130,7 +6383,7 @@ content-type: text/xml
     <Code>DBSecurityGroupNotFound</Code>
     <Message>DBSecurityGroup not found: example</Message>
   </Error>
-  <RequestId>7610608c-e1e7-40db-b019-e8f62e716e46</RequestId>
+  <RequestId>acd30412-d395-4d85-b636-e7b23a59f4bd</RequestId>
 </ErrorResponse>
 ```
 
@@ -5140,8 +6393,15 @@ content-type: text/xml
 
 Starts a database activity stream to monitor activity on the database.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 147
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=StartActivityStream
 &Version=2014-10-31
@@ -5151,20 +6411,23 @@ Action=StartActivityStream
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: c47c91c0-f478-4320-bcfe-d9246d81a4e8
+content-length: 336
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation StartActivityStream is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>KMSKeyNotAccessibleFault</Code>
+    <Message>The specified KMS key [example] does not exist, is not enabled or you do not have permissions to access it.</Message>
   </Error>
-  <RequestId>8435bb3a-f3e2-4d8b-8ff9-20aee2d3c670</RequestId>
+  <RequestId>c47c91c0-f478-4320-bcfe-d9246d81a4e8</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `KMSKeyNotAccessibleFault`.
 
 ### StartDBCluster
 
@@ -5172,6 +6435,11 @@ Starts an Amazon Aurora DB cluster that was stopped using the Amazon Web Service
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 68
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=StartDBCluster
 &Version=2014-10-31
@@ -5181,6 +6449,9 @@ Action=StartDBCluster
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 33bcc739-2a8f-4bd3-9f04-897340334a9a
+content-length: 255
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -5188,7 +6459,7 @@ content-type: text/xml
     <Code>DBClusterNotFoundFault</Code>
     <Message>DBCluster example not found.</Message>
   </Error>
-  <RequestId>fa29685a-1fc8-4a06-b1ba-dbade8a831f8</RequestId>
+  <RequestId>33bcc739-2a8f-4bd3-9f04-897340334a9a</RequestId>
 </ErrorResponse>
 ```
 
@@ -5200,6 +6471,11 @@ Starts an Amazon RDS DB instance that was stopped using the Amazon Web Services 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=StartDBInstance
 &Version=2014-10-31
@@ -5209,6 +6485,9 @@ Action=StartDBInstance
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 2717a7d1-36d1-407a-9eb0-f1dcc50efc92
+content-length: 252
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -5216,7 +6495,7 @@ content-type: text/xml
     <Code>DBInstanceNotFound</Code>
     <Message>DBInstance example not found.</Message>
   </Error>
-  <RequestId>8a643355-ae2d-45bd-b7b9-a286db7b1f5d</RequestId>
+  <RequestId>2717a7d1-36d1-407a-9eb0-f1dcc50efc92</RequestId>
 </ErrorResponse>
 ```
 
@@ -5230,6 +6509,11 @@ Enables replication of automated backups to a different Amazon Web Services Regi
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 151
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=StartDBInstanceAutomatedBackupsReplication
 &Version=2014-10-31
@@ -5239,6 +6523,9 @@ Action=StartDBInstanceAutomatedBackupsReplication
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: f71badc4-3bee-4af3-9519-dd8659a3818c
+content-length: 351
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -5246,7 +6533,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>The parameter SourceDBInstanceArn must name the ARN of a DB instance; got arn:aws:rds:us-east-1:000000000000:example/example.</Message>
   </Error>
-  <RequestId>29d6170d-695a-4315-8f7e-0d59a7a4f085</RequestId>
+  <RequestId>f71badc4-3bee-4af3-9519-dd8659a3818c</RequestId>
 </ErrorResponse>
 ```
 
@@ -5258,6 +6545,11 @@ Starts an export of DB snapshot or DB cluster data to Amazon S3.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 255
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=StartExportTask
 &Version=2014-10-31
@@ -5271,14 +6563,17 @@ Action=StartExportTask
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 916c80af-b71b-4c9f-9766-9b734f4dee75
+content-length: 283
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>KMSKeyNotAccessibleFault</Code>
-    <Message>The KMS key example doesn't exist or is disabled.</Message>
+    <Message>The KMS key example doesn&apos;t exist or is disabled.</Message>
   </Error>
-  <RequestId>8e7adb99-98e6-471d-a623-95404504d9f1</RequestId>
+  <RequestId>916c80af-b71b-4c9f-9766-9b734f4dee75</RequestId>
 </ErrorResponse>
 ```
 
@@ -5288,8 +6583,15 @@ content-type: text/xml
 
 Stops a database activity stream that was started using the Amazon Web Services console, the start-activity-stream CLI command, or the StartActivityStream operation.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 119
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=StopActivityStream
 &Version=2014-10-31
@@ -5297,20 +6599,23 @@ Action=StopActivityStream
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 1fee975a-7d8b-4a35-8b7e-a81e201acba5
+content-length: 299
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
-    <Type>Receiver</Type>
-    <Code>NotImplemented</Code>
-    <Message>operation StopActivityStream is scaffolded but not implemented in this emulator</Message>
+    <Type>Sender</Type>
+    <Code>InvalidParameterValue</Code>
+    <Message>Invalid resource name: arn:aws:rds:us-east-1:000000000000:example/example</Message>
   </Error>
-  <RequestId>b1f8ff2f-9299-43f8-9c6b-ddf373d3fb74</RequestId>
+  <RequestId>1fee975a-7d8b-4a35-8b7e-a81e201acba5</RequestId>
 </ErrorResponse>
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`400` `InvalidParameterValue`: the placeholder values failed the operation's input validation.
 
 ### StopDBCluster
 
@@ -5318,6 +6623,11 @@ Stops an Amazon Aurora DB cluster.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=StopDBCluster
 &Version=2014-10-31
@@ -5327,6 +6637,9 @@ Action=StopDBCluster
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: a076cab9-0135-48d6-9e84-4aa10786184f
+content-length: 255
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -5334,7 +6647,7 @@ content-type: text/xml
     <Code>DBClusterNotFoundFault</Code>
     <Message>DBCluster example not found.</Message>
   </Error>
-  <RequestId>062bffb2-007a-4c37-a23c-20a00cc240e9</RequestId>
+  <RequestId>a076cab9-0135-48d6-9e84-4aa10786184f</RequestId>
 </ErrorResponse>
 ```
 
@@ -5346,6 +6659,11 @@ Stops an Amazon RDS DB instance temporarily.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 69
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=StopDBInstance
 &Version=2014-10-31
@@ -5355,6 +6673,9 @@ Action=StopDBInstance
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 7e206fc5-0063-4eff-9f8a-353c34773f85
+content-length: 252
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -5362,7 +6683,7 @@ content-type: text/xml
     <Code>DBInstanceNotFound</Code>
     <Message>DBInstance example not found.</Message>
   </Error>
-  <RequestId>b53c6730-3cb6-4f36-ad2f-74af1caf5d6d</RequestId>
+  <RequestId>7e206fc5-0063-4eff-9f8a-353c34773f85</RequestId>
 </ErrorResponse>
 ```
 
@@ -5376,6 +6697,11 @@ Stops automated backup replication for a DB instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 150
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=StopDBInstanceAutomatedBackupsReplication
 &Version=2014-10-31
@@ -5385,6 +6711,9 @@ Action=StopDBInstanceAutomatedBackupsReplication
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: d9303c26-9baf-4dfb-a1cc-80c4ec56068b
+content-length: 351
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -5392,7 +6721,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>The parameter SourceDBInstanceArn must name the ARN of a DB instance; got arn:aws:rds:us-east-1:000000000000:example/example.</Message>
   </Error>
-  <RequestId>7a1e3ea2-7640-46d1-8909-78aba40054b2</RequestId>
+  <RequestId>d9303c26-9baf-4dfb-a1cc-80c4ec56068b</RequestId>
 </ErrorResponse>
 ```
 
@@ -5406,6 +6735,11 @@ Switches over a blue/green deployment.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 93
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SwitchoverBlueGreenDeployment
 &Version=2014-10-31
@@ -5415,6 +6749,9 @@ Action=SwitchoverBlueGreenDeployment
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: e1d2e2e7-35f8-4866-9781-6b82c631607f
+content-length: 275
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
@@ -5422,7 +6759,7 @@ content-type: text/xml
     <Code>InvalidParameterValue</Code>
     <Message>Invalid blue-green deployment identifier: example</Message>
   </Error>
-  <RequestId>ac7e46bf-dd12-424a-9201-e2f68f7971e8</RequestId>
+  <RequestId>e1d2e2e7-35f8-4866-9781-6b82c631607f</RequestId>
 </ErrorResponse>
 ```
 
@@ -5434,6 +6771,11 @@ Switches over the specified secondary DB cluster to be the new primary DB cluste
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 115
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SwitchoverGlobalCluster
 &Version=2014-10-31
@@ -5444,14 +6786,17 @@ Action=SwitchoverGlobalCluster
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: e2a8d302-3a5b-426c-9ce3-b06a553c2f5f
+content-length: 275
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>GlobalClusterNotFoundFault</Code>
-    <Message>Global cluster 'example' not found</Message>
+    <Message>Global cluster &apos;example&apos; not found</Message>
   </Error>
-  <RequestId>8fd7ac4f-8ae7-455a-baff-cd45fe498e22</RequestId>
+  <RequestId>e2a8d302-3a5b-426c-9ce3-b06a553c2f5f</RequestId>
 </ErrorResponse>
 ```
 
@@ -5465,6 +6810,11 @@ Switches over an Oracle standby database in an Oracle Data Guard environment, ma
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183049Z
+Content-Length: 76
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/rds/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=SwitchoverReadReplica
 &Version=2014-10-31
@@ -5474,14 +6824,17 @@ Action=SwitchoverReadReplica
 ```http
 HTTP/1.1 404 Not Found
 content-type: text/xml
+x-amzn-requestid: 44a71c3b-e7a4-4105-99e8-e883d063e76d
+content-length: 266
+date: Thu, 26 Nov 2026 18:30:49 GMT
 
 <ErrorResponse xmlns="http://rds.amazonaws.com/doc/2014-10-31/">
   <Error>
     <Type>Sender</Type>
     <Code>DBInstanceNotFound</Code>
-    <Message>The DB instance wasn't found: example.</Message>
+    <Message>The DB instance wasn&apos;t found: example.</Message>
   </Error>
-  <RequestId>99afcb7d-07c7-41d5-9dea-c20832060489</RequestId>
+  <RequestId>44a71c3b-e7a4-4105-99e8-e883d063e76d</RequestId>
 </ErrorResponse>
 ```
 

@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `network-security-manager`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `network-security-manager`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListPolicies`:
 
@@ -36,9 +36,9 @@ Answers 201 with the policy's id and an `updateToken` that guards later writes.
 POST /policies HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121058Z
-Content-Length: 367
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 347
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "0a527e29-3085-4c74-a8b9-b10f2ee7b4df",
@@ -48,7 +48,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
   "firewallType": "WAF",
   "policyConfiguration": {
     "remediationEnabled": false,
-    "resourcesCleanUp": false,
+    "resourcesCleanUp": true,
     "wafConfig": {
       "existingCustomerWebACLResolution": "NO_REMEDIATION",
       "conflictResolution": "MERGE_WHERE_APPLICABLE"
@@ -62,31 +62,31 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 ```http
 HTTP/1.1 201 Created
 content-type: application/json
-content-length: 651
-date: Mon, 16 Nov 2026 12:10:58 GMT
+content-length: 660
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
-  "policyId": "5fc13387863d374ed2df2196259724f43",
-  "policyArn": "arn:aws:network-security-manager:us-east-1:000000000000:policy/5fc13387863d374ed2df2196259724f43",
+  "policyId": "52cefb6edc68f7faaeaae56b58eeab991",
+  "policyArn": "arn:aws:network-security-manager:us-east-1:000000000000:policy/52cefb6edc68f7faaeaae56b58eeab991",
   "policyName": "docs-demo-waf",
   "policyDescription": "baseline WAF policy",
   "status": "ACTIVE",
   "priority": 10,
   "associatedTemplateAndRuleList": [],
   "version": "1",
-  "updateToken": "210a0cf0-a58f-4170-908f-025a2fc54bd5",
+  "updateToken": "9f0a1c46-3bc2-4166-8bcf-c06090ea591c",
   "isSnapshot": false,
   "hasPublishedVersion": true,
   "firewallType": "WAF",
   "policyConfiguration": {
     "remediationEnabled": false,
-    "resourcesCleanUp": false,
+    "resourcesCleanUp": true,
     "wafConfig": {
       "existingCustomerWebACLResolution": "NO_REMEDIATION",
       "conflictResolution": "MERGE_WHERE_APPLICABLE"
     }
   },
-  "updatedAt": 1794831058.2312768
+  "updatedAt": "2026-11-26T18:30:47.976832Z"
 }
 ```
 
@@ -97,10 +97,10 @@ Reads the stored policy.
 **Request**
 
 ```http
-GET /policies/5fc13387863d374ed2df2196259724f43 HTTP/1.1
+GET /policies/52cefb6edc68f7faaeaae56b58eeab991 HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121058Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -108,31 +108,31 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
-content-length: 651
-date: Mon, 16 Nov 2026 12:10:58 GMT
+content-length: 660
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
-  "policyId": "5fc13387863d374ed2df2196259724f43",
-  "policyArn": "arn:aws:network-security-manager:us-east-1:000000000000:policy/5fc13387863d374ed2df2196259724f43",
+  "policyId": "52cefb6edc68f7faaeaae56b58eeab991",
+  "policyArn": "arn:aws:network-security-manager:us-east-1:000000000000:policy/52cefb6edc68f7faaeaae56b58eeab991",
   "policyName": "docs-demo-waf",
   "policyDescription": "baseline WAF policy",
   "status": "ACTIVE",
   "priority": 10,
   "associatedTemplateAndRuleList": [],
   "version": "1",
-  "updateToken": "210a0cf0-a58f-4170-908f-025a2fc54bd5",
+  "updateToken": "9f0a1c46-3bc2-4166-8bcf-c06090ea591c",
   "isSnapshot": false,
   "hasPublishedVersion": true,
   "firewallType": "WAF",
   "policyConfiguration": {
     "remediationEnabled": false,
-    "resourcesCleanUp": false,
+    "resourcesCleanUp": true,
     "wafConfig": {
       "existingCustomerWebACLResolution": "NO_REMEDIATION",
       "conflictResolution": "MERGE_WHERE_APPLICABLE"
     }
   },
-  "updatedAt": 1794831058.2312768
+  "updatedAt": "2026-11-26T18:30:47.976832Z"
 }
 ```
 
@@ -143,15 +143,15 @@ PATCH with the current update token; a new token comes back.
 **Request**
 
 ```http
-PATCH /policies/5fc13387863d374ed2df2196259724f43 HTTP/1.1
+PATCH /policies/52cefb6edc68f7faaeaae56b58eeab991 HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121058Z
-Content-Length: 147
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 140
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
-  "updateToken": "210a0cf0-a58f-4170-908f-025a2fc54bd5",
+  "updateToken": "9f0a1c46-3bc2-4166-8bcf-c06090ea591c",
   "priority": 20,
   "isPublished": true,
   "clientToken": "127c12be-416a-45a5-b873-49c38df5ee50"
@@ -163,31 +163,31 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
-content-length: 652
-date: Mon, 16 Nov 2026 12:10:58 GMT
+content-length: 660
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
-  "policyId": "5fc13387863d374ed2df2196259724f43",
-  "policyArn": "arn:aws:network-security-manager:us-east-1:000000000000:policy/5fc13387863d374ed2df2196259724f43",
+  "policyId": "52cefb6edc68f7faaeaae56b58eeab991",
+  "policyArn": "arn:aws:network-security-manager:us-east-1:000000000000:policy/52cefb6edc68f7faaeaae56b58eeab991",
   "policyName": "docs-demo-waf",
   "policyDescription": "baseline WAF policy",
   "status": "ACTIVE",
   "priority": 20,
   "associatedTemplateAndRuleList": [],
   "version": "2",
-  "updateToken": "6e515ea2-a1e8-4a24-90ed-b62091eb3118",
+  "updateToken": "7385f6c0-6af3-444e-9547-b4ccd6e56d07",
   "isSnapshot": false,
   "hasPublishedVersion": true,
   "firewallType": "WAF",
   "policyConfiguration": {
     "remediationEnabled": false,
-    "resourcesCleanUp": false,
+    "resourcesCleanUp": true,
     "wafConfig": {
       "existingCustomerWebACLResolution": "NO_REMEDIATION",
       "conflictResolution": "MERGE_WHERE_APPLICABLE"
     }
   },
-  "updatedAt": 1794831058.2515435
+  "updatedAt": "2026-11-26T18:30:47.979685Z"
 }
 ```
 
@@ -198,15 +198,15 @@ Reusing the old token is refused: concurrent writers cannot overwrite each other
 **Request**
 
 ```http
-PATCH /policies/5fc13387863d374ed2df2196259724f43 HTTP/1.1
+PATCH /policies/52cefb6edc68f7faaeaae56b58eeab991 HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121058Z
-Content-Length: 147
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 140
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
-  "updateToken": "210a0cf0-a58f-4170-908f-025a2fc54bd5",
+  "updateToken": "9f0a1c46-3bc2-4166-8bcf-c06090ea591c",
   "priority": 30,
   "isPublished": true,
   "clientToken": "9c8b0b4e-3c72-494e-b13a-6c6b804fe66f"
@@ -220,12 +220,12 @@ HTTP/1.1 409 Conflict
 content-type: application/json
 x-amzn-errortype: ConflictException
 content-length: 228
-date: Mon, 16 Nov 2026 12:10:58 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ConflictException",
   "message": "updateToken does not match the policy's current token; read the policy again and retry with the token it returns",
-  "resourceId": "5fc13387863d374ed2df2196259724f43",
+  "resourceId": "52cefb6edc68f7faaeaae56b58eeab991",
   "resourceType": "Policy"
 }
 ```
@@ -239,8 +239,8 @@ Policies of the account.
 ```http
 GET /policies HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121058Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -248,21 +248,21 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
-content-length: 330
-date: Mon, 16 Nov 2026 12:10:58 GMT
+content-length: 339
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "policies": [
     {
-      "policyId": "5fc13387863d374ed2df2196259724f43",
-      "policyArn": "arn:aws:network-security-manager:us-east-1:000000000000:policy/5fc13387863d374ed2df2196259724f43",
+      "policyId": "52cefb6edc68f7faaeaae56b58eeab991",
+      "policyArn": "arn:aws:network-security-manager:us-east-1:000000000000:policy/52cefb6edc68f7faaeaae56b58eeab991",
       "policyName": "docs-demo-waf",
       "status": "ACTIVE",
       "version": "2",
       "hasPublishedVersion": true,
       "firewallType": "WAF",
       "priority": 20,
-      "updatedAt": 1794831058.2515435
+      "updatedAt": "2026-11-26T18:30:47.979685Z"
     }
   ]
 }
@@ -275,10 +275,10 @@ Delete it.
 **Request**
 
 ```http
-DELETE /policies/5fc13387863d374ed2df2196259724f43 HTTP/1.1
+DELETE /policies/52cefb6edc68f7faaeaae56b58eeab991 HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121058Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -286,7 +286,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 ```http
 HTTP/1.1 204 No Content
 content-type: application/json
-date: Mon, 16 Nov 2026 12:10:58 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 ```
 
 ### 7. GetPolicy
@@ -296,10 +296,10 @@ Now 404.
 **Request**
 
 ```http
-GET /policies/5fc13387863d374ed2df2196259724f43 HTTP/1.1
+GET /policies/52cefb6edc68f7faaeaae56b58eeab991 HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121058Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -309,21 +309,21 @@ HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
 content-length: 197
-date: Mon, 16 Nov 2026 12:10:58 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
-  "message": "no policy answers to the identifier \"5fc13387863d374ed2df2196259724f43\"",
-  "resourceId": "5fc13387863d374ed2df2196259724f43",
+  "message": "no policy answers to the identifier \"52cefb6edc68f7faaeaae56b58eeab991\"",
+  "resourceId": "52cefb6edc68f7faaeaae56b58eeab991",
   "resourceType": "Policy"
 }
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
-Of 46 operations, 8 accepted the placeholder call, 26 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
+Of 46 operations, 9 accepted the placeholder call, 23 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.629* answered `501` in 1.0.595. Operations marked *Implemented as of emulator 1.0.595* answered `501` in 1.0.385 and were captured again on 2026-11-24.
 
 ### CreateDeployment
 
@@ -334,6 +334,10 @@ Creates a deployment.
 ```http
 POST /deployments HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 256
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "4b150168-77dd-49f0-b381-c8905acbbe5d",
@@ -358,6 +362,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 383
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -381,6 +387,10 @@ Creates a snapshot of the current published version of the specified deployment.
 ```http
 POST /deployments/example/snapshots HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "23270b5b-423a-405c-80ec-74de5852075f"
@@ -391,6 +401,8 @@ Content-Type: application/json
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -407,6 +419,10 @@ Creates a policy.
 ```http
 POST /policies HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 187
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "ed052113-5d86-499b-aa67-7acbd2b42eb1",
@@ -421,38 +437,40 @@ Content-Type: application/json
 ```
 
 ```http
-HTTP/1.1 201 Created
+HTTP/1.1 400 Bad Request
 content-type: application/json
+x-amzn-errortype: ValidationException
+content-length: 379
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
-  "policyId": "5d7cbe9ddb1c412a4b64bd2af8b02f3d4",
-  "policyArn": "arn:aws:network-security-manager:us-east-1:000000000000:policy/5d7cbe9ddb1c412a4b64bd2af8b02f3d4",
-  "policyName": "example",
-  "status": "ACTIVE",
-  "priority": 1,
-  "associatedTemplateAndRuleList": [],
-  "version": "1",
-  "updateToken": "140b2d3b-6cce-4269-b688-7c46287f3a35",
-  "isSnapshot": false,
-  "hasPublishedVersion": true,
-  "firewallType": "WAF",
-  "policyConfiguration": {
-    "remediationEnabled": false,
-    "resourcesCleanUp": false
-  },
-  "updatedAt": 1794831087.502944
+  "__type": "ValidationException",
+  "message": "existingCustomerWebACLResolution is required for WAF policies",
+  "reason": "FIELD_VALIDATION_FAILED",
+  "fieldList": [
+    {
+      "name": "policyConfiguration.wafConfig.existingCustomerWebACLResolution",
+      "message": "existingCustomerWebACLResolution must be specified when firewallType is WAF. Valid values: RETROFIT, OVERRIDE_ASSOCIATION, NO_REMEDIATION"
+    }
+  ]
 }
 ```
 
-Accepted: the emulator answered `201 Created` even with placeholder values. See [the walkthrough](#1-createpolicy) for a successful call.
+`400` `ValidationException`: the placeholder values failed the operation's input validation. See [the walkthrough](#1-createpolicy) for a successful call.
 
 ### CreatePolicySnapshot
 
 Creates a snapshot of the current published version of the specified policy.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST /policies/example/snapshots HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "d48d9deb-5da8-4b59-aa59-34e6fc106f4e"
@@ -460,17 +478,21 @@ Content-Type: application/json
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 404 Not Found
 content-type: application/json
-x-amzn-errortype: NotImplemented
+x-amzn-errortype: ResourceNotFoundException
+content-length: 135
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
-  "__type": "NotImplemented",
-  "message": "operation CreatePolicySnapshot is scaffolded but not implemented in this emulator"
+  "__type": "ResourceNotFoundException",
+  "message": "The requested resource was not found.",
+  "resourceId": "example",
+  "resourceType": "Policy"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+`404` `ResourceNotFoundException`: the placeholder identifiers name nothing that exists, so this is the operation's not-found error.
 
 ### CreateRule
 
@@ -481,6 +503,10 @@ Creates a rule.
 ```http
 POST /rules HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 142
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "9e3e718e-e8b4-4bce-9248-0858b3580eef",
@@ -494,20 +520,22 @@ Content-Type: application/json
 ```http
 HTTP/1.1 201 Created
 content-type: application/json
+content-length: 414
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
-  "ruleId": "7fcbe1a1aa5ee1268a8baccb042532381",
-  "ruleArn": "arn:aws:network-security-manager:us-east-1:000000000000:rule/7fcbe1a1aa5ee1268a8baccb042532381",
+  "ruleId": "89b613181be8e638fbd2b7071256ab581",
+  "ruleArn": "arn:aws:network-security-manager:us-east-1:000000000000:rule/89b613181be8e638fbd2b7071256ab581",
   "ruleName": "example",
   "firewallType": "WAF",
   "ruleType": "CONFIGURATION",
   "configuration": {},
   "status": "ACTIVE",
   "version": "1",
-  "updateToken": "faae2b05-8597-4bd7-b089-dca98512f3c1",
+  "updateToken": "67b5b9be-4399-45f9-8dbf-638938a99deb",
   "isSnapshot": false,
   "hasPublishedVersion": true,
-  "updatedAt": "2026-11-24T01:44:53.252952Z"
+  "updatedAt": "2026-11-26T18:30:47.987159Z"
 }
 ```
 
@@ -520,6 +548,10 @@ Creates a snapshot of the current published version of the specified rule.
 ```http
 POST /rules/example/snapshots HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "981dd5f2-1a1b-45eb-bc08-727f20346d8a"
@@ -530,6 +562,8 @@ Content-Type: application/json
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 119
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -548,6 +582,10 @@ Creates a scope.
 ```http
 POST /scopes HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 127
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "30393cbb-019e-48fc-a13b-ff43207a1401",
@@ -563,10 +601,12 @@ Content-Type: application/json
 ```http
 HTTP/1.1 201 Created
 content-type: application/json
+content-length: 402
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
-  "scopeId": "0d2624465b45bb3cde090764620edcf61",
-  "scopeArn": "arn:aws:network-security-manager:us-east-1:000000000000:scope/0d2624465b45bb3cde090764620edcf61",
+  "scopeId": "85314d12aa87b7b7e23d93731dda15a11",
+  "scopeArn": "arn:aws:network-security-manager:us-east-1:000000000000:scope/85314d12aa87b7b7e23d93731dda15a11",
   "scopeName": "example",
   "scopeConfiguration": {
     "resourceScopes": {
@@ -575,10 +615,10 @@ content-type: application/json
   },
   "status": "ACTIVE",
   "version": "1",
-  "updateToken": "adb73e77-860d-4d3a-9443-6955bd377687",
+  "updateToken": "81c605b4-2456-4b06-a610-15fdb6f52d7f",
   "isSnapshot": false,
   "hasPublishedVersion": true,
-  "updatedAt": "2026-11-24T01:44:53.339832Z"
+  "updatedAt": "2026-11-26T18:30:47.989107Z"
 }
 ```
 
@@ -591,6 +631,10 @@ Creates a snapshot of the current published version of the specified scope.
 ```http
 POST /scopes/example/snapshots HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "dd21483f-457a-45a6-942e-1bfe592b1be1"
@@ -601,6 +645,8 @@ Content-Type: application/json
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 116
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -619,6 +665,10 @@ Creates a template.
 ```http
 POST /templates HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 152
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "a698db72-af68-45ed-8df1-17dc2c15a847",
@@ -636,6 +686,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 373
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -659,6 +711,10 @@ Creates a snapshot of the current published version of the specified template.
 ```http
 POST /templates/example/snapshots HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientToken": "bb2f9a0e-240d-4201-8615-7a609f2eb09c"
@@ -669,6 +725,8 @@ Content-Type: application/json
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 123
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -684,12 +742,17 @@ Removes the specified AWS Network Security Manager administrator account.
 
 ```http
 DELETE /admin-account/100000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 119
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -705,12 +768,17 @@ Deletes the specified deployment.
 
 ```http
 DELETE /deployments/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 117
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -726,11 +794,15 @@ Deletes the specified policy.
 
 ```http
 DELETE /policies/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 204 No Content
 content-type: application/json
+date: Thu, 26 Nov 2026 18:30:47 GMT
 ```
 
 Accepted: the emulator answered `204 No Content` even with placeholder values. See [the walkthrough](#6-deletepolicy) for a successful call.
@@ -743,12 +815,17 @@ Deletes the specified rule.
 
 ```http
 DELETE /rules/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 122
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -765,12 +842,17 @@ Deletes the specified scope.
 
 ```http
 DELETE /scopes/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 112
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -788,11 +870,15 @@ Deletes the specified template.
 
 ```http
 DELETE /templates/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 204 No Content
 content-type: application/json
+date: Thu, 26 Nov 2026 18:30:47 GMT
 ```
 
 Accepted: the emulator answered `204 No Content` even with placeholder values.
@@ -804,6 +890,10 @@ Generates a rule configuration from a natural-language description.
 ```http
 POST /GenerateRuleConfiguration HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 125
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "prompt": "example",
@@ -817,6 +907,8 @@ Content-Type: application/json
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 126
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -832,12 +924,17 @@ Retrieves the details of the specified AWS Network Security Manager administrato
 
 ```http
 GET /admin-account/100000000000 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 117
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -855,12 +952,17 @@ Retrieves the details of the specified deployment, including coverage informatio
 
 ```http
 GET /deployments/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 139
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -878,12 +980,17 @@ Retrieves the details of the specified policy.
 
 ```http
 GET /policies/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 145
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -903,12 +1010,17 @@ Retrieves the details of the specified rule.
 
 ```http
 GET /rules/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 122
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -927,12 +1039,17 @@ Retrieves the details of the specified scope.
 
 ```http
 GET /scopes/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 134
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -952,12 +1069,17 @@ Retrieves the details of the specified template.
 
 ```http
 GET /templates/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 137
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -975,12 +1097,17 @@ Lists the AWS Network Security Manager administrator accounts in the organizatio
 
 ```http
 GET /admin-accounts HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 118
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "NotImplemented",
@@ -996,12 +1123,17 @@ Lists the aggregated synchronization statuses of resources across the deployment
 
 ```http
 GET /aggregate-sync-statuses HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 145
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "NotImplemented",
@@ -1017,12 +1149,17 @@ Lists the snapshots of the specified deployment.
 
 ```http
 GET /deployments/example/snapshots HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 124
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "NotImplemented",
@@ -1040,11 +1177,16 @@ Lists the deployments in the account.
 
 ```http
 GET /deployments HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 18
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "deployments": []
@@ -1059,26 +1201,19 @@ Lists the policies in the account.
 
 ```http
 GET /policies HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 15
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
-  "policies": [
-    {
-      "policyId": "5d7cbe9ddb1c412a4b64bd2af8b02f3d4",
-      "policyArn": "arn:aws:network-security-manager:us-east-1:000000000000:policy/5d7cbe9ddb1c412a4b64bd2af8b02f3d4",
-      "policyName": "example",
-      "status": "ACTIVE",
-      "version": "1",
-      "hasPublishedVersion": true,
-      "firewallType": "WAF",
-      "priority": 1,
-      "updatedAt": 1794831087.502944
-    }
-  ]
+  "policies": []
 }
 ```
 
@@ -1090,12 +1225,17 @@ Lists the snapshots of the specified policy.
 
 ```http
 GET /policies/example/snapshots HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 120
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "NotImplemented",
@@ -1111,12 +1251,17 @@ Lists the resources associated with the specified resource.
 
 ```http
 GET /resource-associations?resourceIdentifier=example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "NotImplemented",
@@ -1132,12 +1277,17 @@ Lists the synchronization statuses of the resources covered by the specified dep
 
 ```http
 GET /resource-sync-statuses?deploymentIdentifier=example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 136
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "NotImplemented",
@@ -1153,12 +1303,17 @@ Lists the snapshots of the specified rule.
 
 ```http
 GET /rules/example/snapshots HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 118
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "NotImplemented",
@@ -1172,22 +1327,39 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Lists the rules in the account.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 GET /rules HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: application/json
-x-amzn-errortype: NotImplemented
+content-length: 335
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
-  "__type": "NotImplemented",
-  "message": "operation ListRules is scaffolded but not implemented in this emulator"
+  "rules": [
+    {
+      "ruleId": "89b613181be8e638fbd2b7071256ab581",
+      "ruleArn": "arn:aws:network-security-manager:us-east-1:000000000000:rule/89b613181be8e638fbd2b7071256ab581",
+      "ruleName": "example",
+      "firewallType": "WAF",
+      "ruleType": "CONFIGURATION",
+      "status": "ACTIVE",
+      "version": "1",
+      "hasPublishedVersion": true,
+      "updatedAt": "2026-11-26T18:30:47.987159Z"
+    }
+  ]
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### ListScopeSnapshots
 
@@ -1195,12 +1367,17 @@ Lists the snapshots of the specified scope.
 
 ```http
 GET /scopes/example/snapshots HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 119
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "NotImplemented",
@@ -1214,22 +1391,37 @@ Not implemented in the emulator yet: it answers `501 NotImplemented` for every r
 
 Lists the scopes in the account.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 GET /scopes HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: application/json
-x-amzn-errortype: NotImplemented
+content-length: 292
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
-  "__type": "NotImplemented",
-  "message": "operation ListScopes is scaffolded but not implemented in this emulator"
+  "scopes": [
+    {
+      "scopeId": "85314d12aa87b7b7e23d93731dda15a11",
+      "scopeArn": "arn:aws:network-security-manager:us-east-1:000000000000:scope/85314d12aa87b7b7e23d93731dda15a11",
+      "scopeName": "example",
+      "status": "ACTIVE",
+      "version": "1",
+      "hasPublishedVersion": true,
+      "updatedAt": "2026-11-26T18:30:47.989107Z"
+    }
+  ]
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation.
+Accepted: the emulator answered `200 OK` even with placeholder values.
 
 ### ListTagsForResource
 
@@ -1237,12 +1429,17 @@ Lists the tags associated with the specified resource.
 
 ```http
 GET /tags/arn%3Aaws%3Anetworksecuritymanager%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 120
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "NotImplemented",
@@ -1258,12 +1455,17 @@ Lists the snapshots of the specified template.
 
 ```http
 GET /templates/example/snapshots HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 122
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "NotImplemented",
@@ -1281,11 +1483,16 @@ Lists the templates in the account.
 
 ```http
 GET /templates HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 16
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "templates": []
@@ -1301,6 +1508,10 @@ Sets the AWS account that serves as an AWS Network Security Manager administrato
 ```http
 PUT /admin-account HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Content-Length: 41
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "accountId": "100000000000",
@@ -1312,6 +1523,8 @@ Content-Type: application/json
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 104
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "NotImplemented",
@@ -1328,6 +1541,10 @@ Adds or overwrites the specified tags on the given resource.
 ```http
 POST /tags/arn%3Aaws%3Anetworksecuritymanager%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Content-Length: 26
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "tags": {
@@ -1340,6 +1557,8 @@ Content-Type: application/json
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 112
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "NotImplemented",
@@ -1355,12 +1574,17 @@ Removes the specified tags from the given resource.
 
 ```http
 DELETE /tags/arn%3Aaws%3Anetworksecuritymanager%3Aus-east-1%3A000000000000%3Aexample%2Fexample?tagKeys=example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 114
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "NotImplemented",
@@ -1377,6 +1601,10 @@ Updates the specified deployment.
 ```http
 PATCH /deployments/example HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Content-Length: 127
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "updateToken": "example00000000000000000000000000000",
@@ -1389,10 +1617,12 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "ValidationException",
-  "message": "1 validation error detected: Value 'example00000000000000000000000000000' at 'updateToken' failed to satisfy constraint: Member must satisfy regular expression pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$"
+  "message": "1 validation error detected: Value 'example00000000000000000000000000000' at 'updateToken' failed to satisfy constraint: Member must satisfy regular expression pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})"
 }
 ```
 
@@ -1405,6 +1635,10 @@ Updates the specified policy.
 ```http
 PATCH /policies/example HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Content-Length: 127
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "updateToken": "example00000000000000000000000000000",
@@ -1417,10 +1651,12 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "ValidationException",
-  "message": "1 validation error detected: Value 'example00000000000000000000000000000' at 'updateToken' failed to satisfy constraint: Member must satisfy regular expression pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$"
+  "message": "1 validation error detected: Value 'example00000000000000000000000000000' at 'updateToken' failed to satisfy constraint: Member must satisfy regular expression pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})"
 }
 ```
 
@@ -1433,6 +1669,10 @@ Updates the specified rule.
 ```http
 PATCH /rules/example HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Content-Length: 127
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "updateToken": "example00000000000000000000000000000",
@@ -1445,10 +1685,12 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "ValidationException",
-  "message": "1 validation error detected: Value 'example00000000000000000000000000000' at 'updateToken' failed to satisfy constraint: Member must satisfy regular expression pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$"
+  "message": "1 validation error detected: Value 'example00000000000000000000000000000' at 'updateToken' failed to satisfy constraint: Member must satisfy regular expression pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})"
 }
 ```
 
@@ -1461,6 +1703,10 @@ Updates the specified scope.
 ```http
 PATCH /scopes/example HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Content-Length: 127
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "updateToken": "example00000000000000000000000000000",
@@ -1473,6 +1719,8 @@ Content-Type: application/json
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 107
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "NotImplemented",
@@ -1489,6 +1737,10 @@ Updates the specified template.
 ```http
 PATCH /templates/example HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183048Z
+Content-Length: 127
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/network-security-manager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "updateToken": "example00000000000000000000000000000",
@@ -1501,10 +1753,12 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 259
+date: Thu, 26 Nov 2026 18:30:48 GMT
 
 {
   "__type": "ValidationException",
-  "message": "1 validation error detected: Value 'example00000000000000000000000000000' at 'updateToken' failed to satisfy constraint: Member must satisfy regular expression pattern: ^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$"
+  "message": "1 validation error detected: Value 'example00000000000000000000000000000' at 'updateToken' failed to satisfy constraint: Member must satisfy regular expression pattern: ([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})"
 }
 ```
 

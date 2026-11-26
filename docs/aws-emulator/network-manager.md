@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `networkmanager`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `networkmanager`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `DescribeGlobalNetworks`:
 
@@ -36,9 +36,9 @@ The global network is the container for everything else.
 POST /global-networks HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 28
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 27
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "Description": "docs demo"
@@ -51,14 +51,14 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 HTTP/1.1 200 OK
 content-type: application/json
 content-length: 265
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "GlobalNetwork": {
     "GlobalNetworkId": "global-network-00000000000000001",
     "GlobalNetworkArn": "arn:aws:networkmanager::000000000000:global-network/global-network-00000000000000001",
     "Description": "docs demo",
-    "CreatedAt": 1794831017.7951357,
+    "CreatedAt": 1795717847.7038841,
     "State": "PENDING",
     "Tags": []
   }
@@ -75,9 +75,9 @@ A site is a physical location.
 POST /global-networks/global-network-00000000000000001/sites HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 116
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 108
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "Description": "Seattle office",
@@ -95,7 +95,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 HTTP/1.1 200 OK
 content-type: application/json
 content-length: 375
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "Site": {
@@ -108,7 +108,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
       "Latitude": "47.6",
       "Longitude": "-122.3"
     },
-    "CreatedAt": 1794831017.8105862,
+    "CreatedAt": 1795717847.7059965,
     "State": "PENDING",
     "Tags": []
   }
@@ -125,9 +125,9 @@ A device lives at a site.
 POST /global-networks/global-network-00000000000000001/devices HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 105
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 98
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "Description": "edge router",
@@ -142,8 +142,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
-content-length: 376
-date: Mon, 16 Nov 2026 12:10:17 GMT
+content-length: 377
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "Device": {
@@ -154,7 +154,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
     "Type": "router",
     "Vendor": "example",
     "SiteId": "site-00000000000000002",
-    "CreatedAt": 1794831017.818318,
+    "CreatedAt": 1795717847.7076519,
     "State": "PENDING",
     "Tags": []
   }
@@ -171,9 +171,9 @@ A link is a site's connection to the internet.
 POST /global-networks/global-network-00000000000000001/links HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 149
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Content-Length: 139
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "Description": "ISP uplink",
@@ -192,7 +192,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 HTTP/1.1 200 OK
 content-type: application/json
 content-length: 406
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "Link": {
@@ -206,7 +206,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
       "DownloadSpeed": 500
     },
     "Provider": "example-isp",
-    "CreatedAt": 1794831017.8258035,
+    "CreatedAt": 1795717847.7091522,
     "State": "PENDING",
     "Tags": []
   }
@@ -222,8 +222,8 @@ Devices of the global network.
 ```http
 GET /global-networks/global-network-00000000000000001/devices HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -231,8 +231,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
-content-length: 379
-date: Mon, 16 Nov 2026 12:10:17 GMT
+content-length: 380
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "Devices": [
@@ -244,7 +244,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
       "Type": "router",
       "Vendor": "example",
       "SiteId": "site-00000000000000002",
-      "CreatedAt": 1794831017.818318,
+      "CreatedAt": 1795717847.7076519,
       "State": "PENDING",
       "Tags": []
     }
@@ -261,8 +261,8 @@ A site that still has a device and a link associated with it is refused with a `
 ```http
 DELETE /global-networks/global-network-00000000000000001/sites/site-00000000000000002 HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -272,7 +272,7 @@ HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
 content-length: 144
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -290,8 +290,8 @@ Remove the link ...
 ```http
 DELETE /global-networks/global-network-00000000000000001/links/link-00000000000000004 HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -300,7 +300,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 HTTP/1.1 200 OK
 content-type: application/json
 content-length: 407
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "Link": {
@@ -314,7 +314,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
       "DownloadSpeed": 500
     },
     "Provider": "example-isp",
-    "CreatedAt": 1794831017.8258035,
+    "CreatedAt": 1795717847.7091522,
     "State": "DELETING",
     "Tags": []
   }
@@ -330,8 +330,8 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
 ```http
 DELETE /global-networks/global-network-00000000000000001/devices/device-00000000000000003 HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -339,8 +339,8 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
-content-length: 377
-date: Mon, 16 Nov 2026 12:10:17 GMT
+content-length: 378
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "Device": {
@@ -351,7 +351,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
     "Type": "router",
     "Vendor": "example",
     "SiteId": "site-00000000000000002",
-    "CreatedAt": 1794831017.818318,
+    "CreatedAt": 1795717847.7076519,
     "State": "DELETING",
     "Tags": []
   }
@@ -367,8 +367,8 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
 ```http
 DELETE /global-networks/global-network-00000000000000001/sites/site-00000000000000002 HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -377,7 +377,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 HTTP/1.1 200 OK
 content-type: application/json
 content-length: 376
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "Site": {
@@ -390,7 +390,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
       "Latitude": "47.6",
       "Longitude": "-122.3"
     },
-    "CreatedAt": 1794831017.8105862,
+    "CreatedAt": 1795717847.7059965,
     "State": "DELETING",
     "Tags": []
   }
@@ -406,8 +406,8 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
 ```http
 DELETE /global-networks/global-network-00000000000000001 HTTP/1.1
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 **Response**
@@ -416,14 +416,14 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ne
 HTTP/1.1 200 OK
 content-type: application/json
 content-length: 266
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "GlobalNetwork": {
     "GlobalNetworkId": "global-network-00000000000000001",
     "GlobalNetworkArn": "arn:aws:networkmanager::000000000000:global-network/global-network-00000000000000001",
     "Description": "docs demo",
-    "CreatedAt": 1794831017.7951357,
+    "CreatedAt": 1795717847.7038841,
     "State": "DELETING",
     "Tags": []
   }
@@ -432,7 +432,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 95 operations, 8 accepted the placeholder call, 1 answer `501 NotImplemented`, and the rest refused it with a modelled error.
 
@@ -442,12 +442,17 @@ Accepts a core network attachment request.
 
 ```http
 POST /attachments/example/accept HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 215
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -464,6 +469,10 @@ Associates a core network Connect peer with a device and optionally, with a link
 ```http
 POST /global-networks/example/connect-peer-associations HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 48
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "ConnectPeerId": "example",
@@ -475,6 +484,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -491,6 +502,10 @@ Associates a customer gateway with a device and optionally, with a link.
 ```http
 POST /global-networks/example/customer-gateway-associations HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 107
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "CustomerGatewayArn": "arn:aws:networkmanager:us-east-1:000000000000:example/example",
@@ -502,6 +517,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 270
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -525,6 +542,10 @@ Associates a link to a device.
 ```http
 POST /global-networks/example/link-associations HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 41
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "DeviceId": "example",
@@ -536,6 +557,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 179
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -559,6 +582,10 @@ Associates a transit gateway Connect peer with a device, and optionally, with a 
 ```http
 POST /global-networks/example/transit-gateway-connect-peer-associations HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 117
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "TransitGatewayConnectPeerArn": "arn:aws:networkmanager:us-east-1:000000000000:example/example",
@@ -570,6 +597,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 270
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -593,6 +622,10 @@ Creates a core network Connect attachment from a specified core network attachme
 ```http
 POST /connect-attachments HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 152
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "CoreNetworkId": "example",
@@ -607,6 +640,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 371
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -623,6 +658,10 @@ Creates a core network Connect peer for a specified core network connect attachm
 ```http
 POST /connect-peers HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 110
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "ConnectAttachmentId": "example",
@@ -635,6 +674,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 222
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -651,6 +692,10 @@ Creates a connection between two devices.
 ```http
 POST /global-networks/example/connections HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 52
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "DeviceId": "example",
@@ -662,6 +707,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 179
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -685,6 +732,10 @@ Creates a core network as part of your global network, and optionally, with a co
 ```http
 POST /core-networks HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 82
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "GlobalNetworkId": "example",
@@ -696,6 +747,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 179
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -719,6 +772,10 @@ Creates an association between a core network and a prefix list for routing cont
 ```http
 POST /prefix-list HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 188
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "CoreNetworkId": "example",
@@ -732,6 +789,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -747,12 +806,17 @@ Creates a new device in a global network.
 
 ```http
 POST /global-networks/example/devices HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 179
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -776,6 +840,10 @@ Creates an Amazon Web Services Direct Connect gateway attachment
 ```http
 POST /direct-connect-gateway-attachments HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 144
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "CoreNetworkId": "example",
@@ -791,6 +859,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 441
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -806,17 +876,22 @@ Creates a new, empty global network.
 
 ```http
 POST /global-networks HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 239
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "GlobalNetwork": {
     "GlobalNetworkId": "global-network-00000000000000005",
     "GlobalNetworkArn": "arn:aws:networkmanager::000000000000:global-network/global-network-00000000000000005",
-    "CreatedAt": 1794831087.661513,
+    "CreatedAt": 1795717847.7284489,
     "State": "PENDING",
     "Tags": []
   }
@@ -832,6 +907,10 @@ Creates a new link for a specified site.
 ```http
 POST /global-networks/example/links HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 35
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "Bandwidth": {},
@@ -843,6 +922,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 150
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -865,12 +946,17 @@ Creates a new site in a global network.
 
 ```http
 POST /global-networks/example/sites HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 179
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -894,6 +980,10 @@ Creates an Amazon Web Services site-to-site VPN attachment on an edge location o
 ```http
 POST /site-to-site-vpn-attachments HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 109
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "CoreNetworkId": "example",
@@ -906,6 +996,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 415
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -922,6 +1014,10 @@ Creates a transit gateway peering connection.
 ```http
 POST /transit-gateway-peerings HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 164
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "CoreNetworkId": "example",
@@ -934,6 +1030,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -950,6 +1048,10 @@ Creates a transit gateway route table attachment.
 ```http
 POST /transit-gateway-route-table-attachments HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 170
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "PeeringId": "example",
@@ -962,6 +1064,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 209
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -978,6 +1082,10 @@ Creates a VPC attachment on an edge location of a core network.
 ```http
 POST /vpc-attachments HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 124
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "CoreNetworkId": "example",
@@ -993,6 +1101,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 591
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1008,12 +1118,17 @@ Deletes an attachment.
 
 ```http
 DELETE /attachments/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 215
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1029,12 +1144,17 @@ Deletes a Connect peer.
 
 ```http
 DELETE /connect-peers/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1050,12 +1170,17 @@ Deletes the specified connection in your global network.
 
 ```http
 DELETE /global-networks/example/connections/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1073,12 +1198,17 @@ Deletes a core network along with all core network policies.
 
 ```http
 DELETE /core-networks/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1094,12 +1224,17 @@ Deletes a policy version from a core network.
 
 ```http
 DELETE /core-networks/example/core-network-policy-versions/1 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1115,12 +1250,17 @@ Deletes an association between a core network and a prefix list.
 
 ```http
 DELETE /prefix-list/arn%3Aaws%3Anetworkmanager%3Aus-east-1%3A000000000000%3Aexample%2Fexample/core-network/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1136,12 +1276,17 @@ Deletes an existing device.
 
 ```http
 DELETE /global-networks/example/devices/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1159,12 +1304,17 @@ Deletes an existing global network.
 
 ```http
 DELETE /global-networks/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1182,12 +1332,17 @@ Deletes an existing link.
 
 ```http
 DELETE /global-networks/example/links/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1205,12 +1360,17 @@ Deletes an existing peering connection.
 
 ```http
 DELETE /peerings/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 209
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1226,11 +1386,16 @@ Deletes a resource policy for the specified resource.
 
 ```http
 DELETE /resource-policy/arn%3Aaws%3Anetworkmanager%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 2
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {}
 ```
@@ -1243,12 +1408,17 @@ Deletes an existing site.
 
 ```http
 DELETE /global-networks/example/sites/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1266,12 +1436,17 @@ Deregisters a transit gateway from your global network.
 
 ```http
 DELETE /global-networks/example/transit-gateway-registrations/arn%3Aaws%3Anetworkmanager%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 233
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1294,18 +1469,23 @@ Describes one or more global networks.
 
 ```http
 GET /global-networks HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 242
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "GlobalNetworks": [
     {
       "GlobalNetworkId": "global-network-00000000000000005",
       "GlobalNetworkArn": "arn:aws:networkmanager::000000000000:global-network/global-network-00000000000000005",
-      "CreatedAt": 1794831087.661513,
+      "CreatedAt": 1795717847.7284489,
       "State": "PENDING",
       "Tags": []
     }
@@ -1321,12 +1501,17 @@ Disassociates a core network Connect peer from a device and a link.
 
 ```http
 DELETE /global-networks/example/connect-peer-associations/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1342,12 +1527,17 @@ Disassociates a customer gateway from a device and a link.
 
 ```http
 DELETE /global-networks/example/customer-gateway-associations/arn%3Aaws%3Anetworkmanager%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 270
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1370,12 +1560,17 @@ Disassociates an existing device from a link.
 
 ```http
 DELETE /global-networks/example/link-associations?deviceId=example&linkId=example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1393,12 +1588,17 @@ Disassociates a transit gateway Connect peer from a device and link.
 
 ```http
 DELETE /global-networks/example/transit-gateway-connect-peer-associations/arn%3Aaws%3Anetworkmanager%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 270
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1421,12 +1621,17 @@ Executes a change set on your core network.
 
 ```http
 POST /core-networks/example/core-network-change-sets/1/execute HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1442,12 +1647,17 @@ Returns information about a core network Connect attachment.
 
 ```http
 GET /connect-attachments/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 215
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1463,12 +1673,17 @@ Returns information about a core network Connect peer.
 
 ```http
 GET /connect-peers/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1484,12 +1699,17 @@ Returns information about a core network Connect peer associations.
 
 ```http
 GET /global-networks/example/connect-peer-associations HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1507,12 +1727,17 @@ Gets information about one or more of your connections in a global network.
 
 ```http
 GET /global-networks/example/connections HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1530,12 +1755,17 @@ Returns information about the LIVE policy for a core network.
 
 ```http
 GET /core-networks/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1551,12 +1781,17 @@ Returns information about a core network change event.
 
 ```http
 GET /core-networks/example/core-network-change-events/1 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1572,12 +1807,17 @@ Returns a change set between the LIVE core network policy and a submitted policy
 
 ```http
 GET /core-networks/example/core-network-change-sets/1 HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1593,12 +1833,17 @@ Returns details about a core network policy.
 
 ```http
 GET /core-networks/example/core-network-policy HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1614,12 +1859,17 @@ Gets the association information for customer gateways that are associated with 
 
 ```http
 GET /global-networks/example/customer-gateway-associations HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1637,12 +1887,17 @@ Gets information about one or more of your devices in a global network.
 
 ```http
 GET /global-networks/example/devices HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1660,12 +1915,17 @@ Returns information about a specific Amazon Web Services Direct Connect gateway 
 
 ```http
 GET /direct-connect-gateway-attachments/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 215
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1681,12 +1941,17 @@ Gets the link associations for a device or a link.
 
 ```http
 GET /global-networks/example/link-associations HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 282
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1713,12 +1978,17 @@ Gets information about one or more links in a specified global network.
 
 ```http
 GET /global-networks/example/links HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1736,12 +2006,17 @@ Gets the count of network resources, by resource type, for the specified global 
 
 ```http
 GET /global-networks/example/network-resource-count HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 179
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1764,12 +2039,17 @@ Gets the network resource relationships for the specified global network.
 
 ```http
 GET /global-networks/example/network-resource-relationships HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1787,12 +2067,17 @@ Describes the network resources for the specified global network.
 
 ```http
 GET /global-networks/example/network-resources HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1811,6 +2096,10 @@ Gets the network routes of the specified global network.
 ```http
 POST /global-networks/example/network-routes HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 27
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "RouteTableIdentifier": {}
@@ -1821,6 +2110,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1838,12 +2129,17 @@ Gets the network telemetry of the specified global network.
 
 ```http
 GET /global-networks/example/network-telemetry HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1861,11 +2157,16 @@ Returns information about a resource policy.
 
 ```http
 GET /resource-policy/arn%3Aaws%3Anetworkmanager%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 2
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {}
 ```
@@ -1878,12 +2179,17 @@ Gets information about the specified route analysis.
 
 ```http
 GET /global-networks/example/route-analyses/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1901,12 +2207,17 @@ Returns information about a site-to-site VPN attachment.
 
 ```http
 GET /site-to-site-vpn-attachments/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 215
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1922,12 +2233,17 @@ Gets information about one or more of your sites in a global network.
 
 ```http
 GET /global-networks/example/sites HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1945,12 +2261,17 @@ Gets information about one or more of your transit gateway Connect peer associat
 
 ```http
 GET /global-networks/example/transit-gateway-connect-peer-associations HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -1968,12 +2289,17 @@ Returns information about a transit gateway peer.
 
 ```http
 GET /transit-gateway-peerings/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 209
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -1989,12 +2315,17 @@ Gets information about the transit gateway registrations in a specified global n
 
 ```http
 GET /global-networks/example/transit-gateway-registrations HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2012,12 +2343,17 @@ Returns information about a transit gateway route table attachment.
 
 ```http
 GET /transit-gateway-route-table-attachments/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 215
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2033,12 +2369,17 @@ Returns information about a VPC attachment.
 
 ```http
 GET /vpc-attachments/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 215
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2054,12 +2395,17 @@ Lists the routing policy associations for attachments in a core network.
 
 ```http
 GET /routing-policy-label/core-network/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2075,11 +2421,16 @@ Returns a list of core network attachments.
 
 ```http
 GET /attachments HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 18
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "Attachments": []
@@ -2094,11 +2445,16 @@ Returns a list of core network Connect peers.
 
 ```http
 GET /connect-peers HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 19
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "ConnectPeers": []
@@ -2113,12 +2469,17 @@ Returns a list of core network policy versions.
 
 ```http
 GET /core-networks/example/core-network-policy-versions HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2134,12 +2495,17 @@ Lists the prefix list associations for a core network.
 
 ```http
 GET /prefix-list/core-network/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2156,6 +2522,10 @@ Lists routing information for a core network, including routes and their attribu
 ```http
 POST /core-networks/example/core-network-routing-information HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 50
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "SegmentName": "example",
@@ -2167,6 +2537,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2182,12 +2554,17 @@ Returns a list of owned and shared core networks.
 
 ```http
 GET /core-networks HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 501 Not Implemented
 content-type: application/json
 x-amzn-errortype: NotImplemented
+content-length: 117
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "NotImplemented",
@@ -2203,11 +2580,16 @@ Gets the status of the Service Linked Role (SLR) deployment for the accounts in 
 
 ```http
 GET /organizations/service-access HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 2
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {}
 ```
@@ -2220,11 +2602,16 @@ Lists the peerings for a core network.
 
 ```http
 GET /peerings HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 200 OK
 content-type: application/json
+content-length: 15
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "Peerings": []
@@ -2239,12 +2626,17 @@ Lists the tags for a specified resource.
 
 ```http
 GET /tags/arn%3Aaws%3Anetworkmanager%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 118
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2263,6 +2655,10 @@ Applies a routing policy label to an attachment for traffic routing decisions.
 ```http
 POST /routing-policy-label HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 136
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "CoreNetworkId": "example",
@@ -2276,6 +2672,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 362
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2292,6 +2690,10 @@ Creates a new, immutable version of a core network policy.
 ```http
 POST /core-networks/example/core-network-policy HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 81
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "PolicyDocument": "example",
@@ -2303,6 +2705,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2319,6 +2723,10 @@ Creates or updates a resource policy.
 ```http
 POST /resource-policy/arn%3Aaws%3Anetworkmanager%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "PolicyDocument": "example"
@@ -2329,6 +2737,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 206
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2352,6 +2762,10 @@ Registers a transit gateway in your global network.
 ```http
 POST /global-networks/example/transit-gateway-registrations HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 85
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "TransitGatewayArn": "arn:aws:networkmanager:us-east-1:000000000000:example/example"
@@ -2362,6 +2776,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 233
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2384,12 +2800,17 @@ Rejects a core network attachment request.
 
 ```http
 POST /attachments/example/reject HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 215
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2405,12 +2826,17 @@ Removes a routing policy label from an attachment.
 
 ```http
 DELETE /routing-policy-label/core-network/example/attachment/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 362
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2426,12 +2852,17 @@ Restores a previous policy version as a new, immutable version of a core network
 
 ```http
 POST /core-networks/example/core-network-policy-versions/1/restore HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2448,6 +2879,10 @@ Enables the Network Manager service for an Amazon Web Services Organization.
 ```http
 POST /organizations/service-access HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 20
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "Action": "example"
@@ -2458,6 +2893,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 194
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2481,6 +2918,10 @@ Starts analyzing the routing path between the specified source and destination.
 ```http
 POST /global-networks/example/route-analyses HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 30
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "Source": {},
@@ -2492,6 +2933,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 179
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2515,6 +2958,10 @@ Tags a specified resource.
 ```http
 POST /tags/arn%3Aaws%3Anetworkmanager%3Aus-east-1%3A000000000000%3Aexample%2Fexample HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 13
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "Tags": [
@@ -2527,6 +2974,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 172
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2549,12 +2998,17 @@ Removes tags from a specified resource.
 
 ```http
 DELETE /tags/arn%3Aaws%3Anetworkmanager%3Aus-east-1%3A000000000000%3Aexample%2Fexample?tagKeys=example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 118
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2572,12 +3026,17 @@ Updates the information for an existing connection.
 
 ```http
 PATCH /global-networks/example/connections/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2595,12 +3054,17 @@ Updates the description of a core network.
 
 ```http
 PATCH /core-networks/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 218
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2616,12 +3080,17 @@ Updates the details for an existing device.
 
 ```http
 PATCH /global-networks/example/devices/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2639,12 +3108,17 @@ Updates the edge locations associated with an Amazon Web Services Direct Connect
 
 ```http
 PATCH /direct-connect-gateway-attachments/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 215
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",
@@ -2660,12 +3134,17 @@ Updates an existing global network.
 
 ```http
 PATCH /global-networks/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2683,12 +3162,17 @@ Updates the details for an existing link.
 
 ```http
 PATCH /global-networks/example/links/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2707,6 +3191,10 @@ Updates the resource metadata for the specified global network.
 ```http
 PATCH /global-networks/example/network-resources/arn%3Aaws%3Anetworkmanager%3Aus-east-1%3A000000000000%3Aexample%2Fexample/metadata HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Content-Length: 30
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "Metadata": {
@@ -2719,6 +3207,8 @@ Content-Type: application/json
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2736,12 +3226,17 @@ Updates the information for an existing site.
 
 ```http
 PATCH /global-networks/example/sites/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 404 Not Found
 content-type: application/json
 x-amzn-errortype: ResourceNotFoundException
+content-length: 125
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2759,12 +3254,17 @@ Updates a VPC attachment.
 
 ```http
 PATCH /vpc-attachments/example HTTP/1.1
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183047Z
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/networkmanager/aws4_request, SignedHeaders=host;x-amz-date, Signature=<signature>
 ```
 
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: ValidationException
+content-length: 215
+date: Thu, 26 Nov 2026 18:30:47 GMT
 
 {
   "__type": "ValidationException",

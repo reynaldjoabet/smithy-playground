@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `sso-oauth`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `sso-oauth`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `RegisterClient`:
 
@@ -39,9 +39,9 @@ The client id and secret (redacted here) authenticate the later calls; this oper
 POST /client/register HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 89
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sso-oauth/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Content-Length: 84
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso-oauth/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientName": "docs-demo-cli",
@@ -58,13 +58,13 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ss
 HTTP/1.1 200 OK
 content-type: application/json
 content-length: 226
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
-  "clientId": "c70a0f3917074293acedd07d7f90523960ef7d1978d740e09cb93a929bf21465",
+  "clientId": "3729f0b0462247e0a6f2cda4af75b6f896aa09dfdd124f93aae0161a8a5edbdb",
   "clientSecret": "<redacted>",
-  "clientIdIssuedAt": 1794831017,
-  "clientSecretExpiresAt": 1802607017
+  "clientIdIssuedAt": 1795717852,
+  "clientSecretExpiresAt": 1803493852
 }
 ```
 
@@ -79,9 +79,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListInstances
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
+X-Amz-Date: 20261126T183052Z
 Content-Length: 2
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -92,7 +92,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ss
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 624
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "Instances": [
@@ -102,14 +102,14 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
       "IdentityStoreArn": "arn:aws:identitystore::000000000000:identitystore/d-9067f3a1c2",
       "OwnerAccountId": "000000000000",
       "Name": "IdentityCenter",
-      "CreatedDate": 1794830491.9161334,
+      "CreatedDate": 1795717806.1406298,
       "Status": "ACTIVE",
       "PrimaryRegion": "us-east-1",
       "Regions": [
         {
           "RegionName": "us-east-1",
           "Status": "ACTIVE",
-          "AddedDate": 1794830491.9161334,
+          "AddedDate": 1795717806.1406298,
           "IsPrimaryRegion": true
         }
       ],
@@ -132,12 +132,12 @@ Returns the device code, the user code a person types into the verification page
 POST /device_authorization HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 218
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sso-oauth/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Content-Length: 213
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso-oauth/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
-  "clientId": "c70a0f3917074293acedd07d7f90523960ef7d1978d740e09cb93a929bf21465",
+  "clientId": "3729f0b0462247e0a6f2cda4af75b6f896aa09dfdd124f93aae0161a8a5edbdb",
   "clientSecret": "<redacted>",
   "startUrl": "https://d-9067f3a1c2.awsapps.com/start"
 }
@@ -149,13 +149,13 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ss
 HTTP/1.1 200 OK
 content-type: application/json
 content-length: 289
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "deviceCode": "<redacted>",
   "userCode": "<redacted>",
   "verificationUri": "https://device.sso.us-east-1.amazonaws.com/",
-  "verificationUriComplete": "https://device.sso.us-east-1.amazonaws.com/?user_code=7YUV-HUKU",
+  "verificationUriComplete": "https://device.sso.us-east-1.amazonaws.com/?user_code=<redacted>",
   "expiresIn": 600,
   "interval": 5
 }
@@ -171,12 +171,12 @@ Until a person approves the user code, polling answers `AuthorizationPendingExce
 POST /token HTTP/1.1
 Content-Type: application/json
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121017Z
-Content-Length: 307
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sso-oauth/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+X-Amz-Date: 20261126T183052Z
+Content-Length: 300
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso-oauth/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
-  "clientId": "c70a0f3917074293acedd07d7f90523960ef7d1978d740e09cb93a929bf21465",
+  "clientId": "3729f0b0462247e0a6f2cda4af75b6f896aa09dfdd124f93aae0161a8a5edbdb",
   "clientSecret": "<redacted>",
   "grantType": "urn:ietf:params:oauth:grant-type:device_code",
   "deviceCode": "<redacted>"
@@ -190,7 +190,7 @@ HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: AuthorizationPendingException
 content-length: 127
-date: Mon, 16 Nov 2026 12:10:17 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "AuthorizationPendingException",
@@ -201,7 +201,7 @@ date: Mon, 16 Nov 2026 12:10:17 GMT
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 4 operations, 0 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error.
 
@@ -212,6 +212,10 @@ Creates and returns access and refresh tokens for clients that are authenticated
 ```http
 POST /token HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 126
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso-oauth/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientId": "example",
@@ -224,6 +228,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: InvalidRequestException
+content-length: 100
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "InvalidRequestException",
@@ -241,6 +247,10 @@ Creates and returns access and refresh tokens for authorized client applications
 ```http
 POST /token?aws_iam=t HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 44
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso-oauth/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientId": "example",
@@ -252,6 +262,8 @@ Content-Type: application/json
 HTTP/1.1 401 Unauthorized
 content-type: application/json
 x-amzn-errortype: InvalidClientException
+content-length: 106
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "InvalidClientException",
@@ -269,6 +281,10 @@ Registers a public client with IAM Identity Center.
 ```http
 POST /client/register HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso-oauth/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientName": "example",
@@ -280,6 +296,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: InvalidClientMetadataException
+content-length: 128
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "InvalidClientMetadataException",
@@ -297,6 +315,10 @@ Initiates device authorization by requesting a pair of verification codes from t
 ```http
 POST /device_authorization HTTP/1.1
 Content-Type: application/json
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 125
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso-oauth/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 {
   "clientId": "example",
@@ -309,6 +331,8 @@ Content-Type: application/json
 HTTP/1.1 400 Bad Request
 content-type: application/json
 x-amzn-errortype: InvalidRequestException
+content-length: 100
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 {
   "__type": "InvalidRequestException",

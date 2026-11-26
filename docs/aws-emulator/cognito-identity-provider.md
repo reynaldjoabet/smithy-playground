@@ -11,7 +11,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `cognito-idp`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `cognito-idp`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListUserPools`:
 
@@ -42,9 +42,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.CreateUserPool
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124456Z
-Content-Length: 256
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183322Z
+Content-Length: 239
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "PoolName": "docs-demo-users",
@@ -71,13 +71,13 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/co
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-x-amzn-requestid: aea3dab9-874d-4554-8693-ab0463687ddd
-content-length: 4651
-date: Mon, 16 Nov 2026 12:44:56 GMT
+x-amzn-requestid: db439e14-c9de-4242-a568-c1b9b483105d
+content-length: 4828
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "UserPool": {
-    "Id": "us-east-1_3fc6a71aa",
+    "Id": "us-east-1_54b513520",
     "Name": "docs-demo-users",
     "Policies": {
       "PasswordPolicy": {
@@ -96,8 +96,8 @@ date: Mon, 16 Nov 2026 12:44:56 GMT
     },
     "DeletionProtection": "INACTIVE",
     "LambdaConfig": {},
-    "LastModifiedDate": 1794833096.6118102,
-    "CreationDate": 1794833096.6118102,
+    "LastModifiedDate": 1795718002.913,
+    "CreationDate": 1795718002.913,
     "SchemaAttributes": [
       {
         "Name": "sub",
@@ -135,7 +135,7 @@ date: Mon, 16 Nov 2026 12:44:56 GMT
       {
         "Name": "family_name",
         "AttributeDataType": "String",
-… (220 more lines)
+… (234 more lines)
 ```
 
 ### 2. CreateUserPoolClient
@@ -149,12 +149,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.CreateUserPoolClient
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124456Z
-Content-Length: 147
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183323Z
+Content-Length: 141
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "UserPoolId": "us-east-1_3fc6a71aa",
+  "UserPoolId": "us-east-1_54b513520",
   "ClientName": "docs-demo-web",
   "ExplicitAuthFlows": [
     "ALLOW_USER_PASSWORD_AUTH",
@@ -168,17 +168,17 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/co
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-x-amzn-requestid: 8eaf8a72-0110-49c0-809a-286a704b0022
-content-length: 504
-date: Mon, 16 Nov 2026 12:44:56 GMT
+x-amzn-requestid: f3537ca8-f578-4f37-90a4-bab1d3a8577c
+content-length: 517
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "UserPoolClient": {
-    "UserPoolId": "us-east-1_3fc6a71aa",
+    "UserPoolId": "us-east-1_54b513520",
     "ClientName": "docs-demo-web",
-    "ClientId": "50ade59e01f14ae6b7942f13ed",
-    "LastModifiedDate": 1794833096.9576101,
-    "CreationDate": 1794833096.9576101,
+    "ClientId": "447520a5b6d246f5ba960af563",
+    "LastModifiedDate": 1795718003.477,
+    "CreationDate": 1795718003.477,
     "RefreshTokenValidity": 30,
     "TokenValidityUnits": {},
     "ExplicitAuthFlows": [
@@ -189,7 +189,8 @@ date: Mon, 16 Nov 2026 12:44:56 GMT
     "PreventUserExistenceErrors": "LEGACY",
     "EnableTokenRevocation": true,
     "EnablePropagateAdditionalUserContextData": false,
-    "AuthSessionValidity": 3
+    "AuthSessionValidity": 3,
+    "ClientType": "REGULAR"
   }
 }
 ```
@@ -205,12 +206,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminCreateUser
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124456Z
-Content-Length: 244
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183323Z
+Content-Length: 232
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "UserPoolId": "us-east-1_3fc6a71aa",
+  "UserPoolId": "us-east-1_54b513520",
   "Username": "ada@example.com",
   "UserAttributes": [
     {
@@ -232,13 +233,13 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/co
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-x-amzn-requestid: 5950ffc7-1393-41ba-9278-11f34c2fb5c2
-content-length: 355
-date: Mon, 16 Nov 2026 12:44:56 GMT
+x-amzn-requestid: 4a40abb3-8256-4824-9e3b-1b67cd62589a
+content-length: 341
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "User": {
-    "Username": "aeff9250-f471-4e62-b632-ddcd8a504329",
+    "Username": "8436801b-50b9-41ec-a3f0-118eb00c8897",
     "Attributes": [
       {
         "Name": "email",
@@ -250,11 +251,11 @@ date: Mon, 16 Nov 2026 12:44:56 GMT
       },
       {
         "Name": "sub",
-        "Value": "aeff9250-f471-4e62-b632-ddcd8a504329"
+        "Value": "8436801b-50b9-41ec-a3f0-118eb00c8897"
       }
     ],
-    "UserCreateDate": 1794833096.9666524,
-    "UserLastModifiedDate": 1794833096.9666524,
+    "UserCreateDate": 1795718003.48,
+    "UserLastModifiedDate": 1795718003.48,
     "Enabled": true,
     "UserStatus": "FORCE_CHANGE_PASSWORD"
   }
@@ -272,9 +273,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.InitiateAuth
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124456Z
-Content-Length: 153
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183323Z
+Content-Length: 149
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AuthFlow": "USER_PASSWORD_AUTH",
@@ -282,7 +283,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/co
     "USERNAME": "ada@example.com",
     "PASSWORD": "<redacted>"
   },
-  "ClientId": "50ade59e01f14ae6b7942f13ed"
+  "ClientId": "447520a5b6d246f5ba960af563"
 }
 ```
 
@@ -291,24 +292,24 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/co
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-x-amzn-requestid: 36c80336-e323-49c7-82e3-50c284928986
-content-length: 304
-date: Mon, 16 Nov 2026 12:44:56 GMT
+x-amzn-requestid: 7645ea71-2132-48d1-aa36-d5d125914b0c
+content-length: 624
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "ChallengeName": "NEW_PASSWORD_REQUIRED",
   "Session": "<redacted>",
   "ChallengeParameters": {
-    "USER_ID_FOR_SRP": "aeff9250-f471-4e62-b632-ddcd8a504329",
+    "userAttributes": "{\"email\":\"ada@example.com\",\"email_verified\":\"true\"}",
     "requiredAttributes": "[]",
-    "userAttributes": "{\"email\":\"ada@example.com\",\"email_verified\":\"true\"}"
+    "USER_ID_FOR_SRP": "8436801b-50b9-41ec-a3f0-118eb00c8897"
   }
 }
 ```
 
 ### 5. RespondToAuthChallenge
 
-In AWS, answering the challenge with a new password completes sign-in. This emulator build answers `501 NotImplemented`, so the next step sets the password as an administrator instead.
+Answering the challenge with a new password (redacted) completes sign-in: the response carries the ID, access and refresh tokens (all redacted). Emulator 1.0.595 answered `501 NotImplemented` here; 1.0.629 implements it.
 
 **Request**
 
@@ -317,12 +318,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.RespondToAuthChallenge
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124456Z
-Content-Length: 253
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183323Z
+Content-Length: 567
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "ClientId": "50ade59e01f14ae6b7942f13ed",
+  "ClientId": "447520a5b6d246f5ba960af563",
   "ChallengeName": "NEW_PASSWORD_REQUIRED",
   "Session": "<redacted>",
   "ChallengeResponses": {
@@ -335,22 +336,27 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/co
 **Response**
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-x-amzn-errortype: NotImplemented:
-x-amzn-requestid: 04adb806-2e40-4f02-a486-4056dde3676b
-content-length: 164
-date: Mon, 16 Nov 2026 12:44:56 GMT
+x-amzn-requestid: ce4162a6-5987-4615-8a1d-cd7586b70a06
+content-length: 3506
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
-  "__type": "NotImplemented",
-  "message": "operation RespondToAuthChallenge with ChallengeName=NEW_PASSWORD_REQUIRED is scaffolded but not implemented in this emulator"
+  "ChallengeParameters": {},
+  "AuthenticationResult": {
+    "AccessToken": "<redacted>",
+    "ExpiresIn": 3600,
+    "TokenType": "Bearer",
+    "RefreshToken": "<redacted>",
+    "IdToken": "<redacted>"
+  }
 }
 ```
 
 ### 6. AdminSetUserPassword
 
-A permanent password (redacted) moves the user from `FORCE_CHANGE_PASSWORD` to `CONFIRMED`.
+An administrator can also set a permanent password (redacted), which moves a user out of `FORCE_CHANGE_PASSWORD` without the user's help. Here the user already changed it in step 5, and the call still succeeds.
 
 **Request**
 
@@ -359,12 +365,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminSetUserPassword
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124456Z
-Content-Length: 118
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183323Z
+Content-Length: 115
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "UserPoolId": "us-east-1_3fc6a71aa",
+  "UserPoolId": "us-east-1_54b513520",
   "Username": "ada@example.com",
   "Password": "<redacted>",
   "Permanent": true
@@ -376,9 +382,9 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/co
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-x-amzn-requestid: 617f364e-717e-4203-a9c5-23a6828e9f35
+x-amzn-requestid: cd4664b0-35b1-49ec-86ad-3a87ed9eaceb
 content-length: 2
-date: Mon, 16 Nov 2026 12:44:56 GMT
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {}
 ```
@@ -394,9 +400,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.InitiateAuth
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124456Z
-Content-Length: 158
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183323Z
+Content-Length: 154
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AuthFlow": "USER_PASSWORD_AUTH",
@@ -404,7 +410,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/co
     "USERNAME": "ada@example.com",
     "PASSWORD": "<redacted>"
   },
-  "ClientId": "50ade59e01f14ae6b7942f13ed"
+  "ClientId": "447520a5b6d246f5ba960af563"
 }
 ```
 
@@ -413,9 +419,9 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/co
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-x-amzn-requestid: 1dcada27-8e78-4cdf-b991-a4bf9e8932e5
-content-length: 3562
-date: Mon, 16 Nov 2026 12:44:56 GMT
+x-amzn-requestid: f6ddf38b-7a74-45b5-b9d3-37d906f68511
+content-length: 3506
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "ChallengeParameters": {},
@@ -440,9 +446,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GetUser
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124457Z
-Content-Length: 1035
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1006
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>"
@@ -454,12 +460,12 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/co
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-x-amzn-requestid: 42455ac5-09bf-4306-9e54-9ec0aeab902c
+x-amzn-requestid: 46deb47e-0993-4039-b23f-97c3f748a147
 content-length: 216
-date: Mon, 16 Nov 2026 12:44:57 GMT
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
-  "Username": "aeff9250-f471-4e62-b632-ddcd8a504329",
+  "Username": "8436801b-50b9-41ec-a3f0-118eb00c8897",
   "UserAttributes": [
     {
       "Name": "email",
@@ -471,7 +477,7 @@ date: Mon, 16 Nov 2026 12:44:57 GMT
     },
     {
       "Name": "sub",
-      "Value": "aeff9250-f471-4e62-b632-ddcd8a504329"
+      "Value": "8436801b-50b9-41ec-a3f0-118eb00c8897"
     }
   ]
 }
@@ -488,9 +494,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.InitiateAuth
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124457Z
-Content-Length: 154
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183323Z
+Content-Length: 150
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AuthFlow": "USER_PASSWORD_AUTH",
@@ -498,7 +504,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/co
     "USERNAME": "ada@example.com",
     "PASSWORD": "<redacted>"
   },
-  "ClientId": "50ade59e01f14ae6b7942f13ed"
+  "ClientId": "447520a5b6d246f5ba960af563"
 }
 ```
 
@@ -508,9 +514,9 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/co
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
-x-amzn-requestid: 809fa47c-a16a-47f1-a15e-b5560089ebe2
+x-amzn-requestid: 5b5b775d-f726-4a3f-9491-6654f055eea3
 content-length: 79
-date: Mon, 16 Nov 2026 12:44:57 GMT
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -529,12 +535,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminGetUser
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124457Z
-Content-Length: 68
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183323Z
+Content-Length: 65
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "UserPoolId": "us-east-1_3fc6a71aa",
+  "UserPoolId": "us-east-1_54b513520",
   "Username": "ada@example.com"
 }
 ```
@@ -544,12 +550,12 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/co
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-x-amzn-requestid: 59d33495-5e58-45fd-a7f0-7b4857577ee2
-content-length: 338
-date: Mon, 16 Nov 2026 12:44:57 GMT
+x-amzn-requestid: 8586b9b3-85e5-4396-b140-a83a1cceddf1
+content-length: 325
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
-  "Username": "aeff9250-f471-4e62-b632-ddcd8a504329",
+  "Username": "8436801b-50b9-41ec-a3f0-118eb00c8897",
   "UserAttributes": [
     {
       "Name": "email",
@@ -561,11 +567,11 @@ date: Mon, 16 Nov 2026 12:44:57 GMT
     },
     {
       "Name": "sub",
-      "Value": "aeff9250-f471-4e62-b632-ddcd8a504329"
+      "Value": "8436801b-50b9-41ec-a3f0-118eb00c8897"
     }
   ],
-  "UserCreateDate": 1794833096.9666524,
-  "UserLastModifiedDate": 1794833096.9938064,
+  "UserCreateDate": 1795718003.48,
+  "UserLastModifiedDate": 1795718003.489,
   "Enabled": true,
   "UserStatus": "CONFIRMED"
 }
@@ -582,12 +588,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DeleteUserPool
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T124457Z
-Content-Length: 37
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183323Z
+Content-Length: 36
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "UserPoolId": "us-east-1_3fc6a71aa"
+  "UserPoolId": "us-east-1_54b513520"
 }
 ```
 
@@ -596,18 +602,18 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/co
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
-x-amzn-requestid: abe4534b-81b4-46ea-8ff3-6919e006f9f0
+x-amzn-requestid: 0e5539db-8fd1-4162-9e45-a1bb203f1934
 content-length: 2
-date: Mon, 16 Nov 2026 12:44:57 GMT
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {}
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
-Of 132 operations, 3 accepted the placeholder call, 1 answer `501 NotImplemented`, and the rest refused it with a modelled error.
+Of 132 operations, 3 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error. Operations marked *Implemented as of emulator 1.0.629* answered `501` in 1.0.595.
 
 ### AddCustomAttributes
 
@@ -615,7 +621,12 @@ Adds additional user attributes to the user pool schema.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AddCustomAttributes
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 48
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -628,7 +639,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AddCustomAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 699d9eaf-572f-4fce-a54b-5f9705581fdc
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -644,7 +658,12 @@ Creates a new client secret for an existing confidential user pool app client.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AddUserPoolClientSecret
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -655,7 +674,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AddUserPoolClientSecret
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 90e81396-ea76-4caf-8d68-b1695c76ca4a
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -671,7 +693,12 @@ Adds a user to a group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminAddUserToGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -683,7 +710,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminAddUserToGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 8fa2eb07-f3b0-4bef-8bb9-9dfa12cd60fe
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -699,7 +729,12 @@ Confirms user sign-up as an administrator.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminConfirmSignUp
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -710,7 +745,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminConfirmSignUp
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: f2dadc8c-90ba-4203-a1e3-cf9d93485eb5
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -726,7 +764,12 @@ Creates a new user in the specified user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminCreateUser
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -737,7 +780,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminCreateUser
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 21810dc4-007a-4341-9a6b-de0592dfd1c9
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -753,7 +799,12 @@ Deletes a user's registered time-based one-time password (TOTP) multi-factor aut
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminDeleteSoftwareToken
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -764,7 +815,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminDeleteSoftwareToken
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 7927e0dc-6f5e-4cf5-b6d7-269e688c0bb5
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -780,7 +834,12 @@ Deletes a user profile in your user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminDeleteUser
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -791,7 +850,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminDeleteUser
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: da522f59-d3e3-4432-b768-18c991e2e509
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -807,7 +869,12 @@ Deletes attribute values from a user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminDeleteUserAttributes
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 78
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -821,7 +888,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminDeleteUserAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 548006be-e508-4e9a-935c-efd122c275f3
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -837,7 +907,12 @@ Prevents the user from signing in with the specified external (SAML or social) i
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminDisableProviderForUser
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 34
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -849,6 +924,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminDisableProviderForUser
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: InvalidParameterException:
+x-amzn-requestid: 7ec4b4b1-0427-46d1-bacb-971b2391448b
+content-length: 90
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -864,7 +942,12 @@ Deactivates a user profile and revokes all access tokens for the user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminDisableUser
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -875,7 +958,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminDisableUser
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 98b64987-58d6-45d5-aec5-2f5ffde9d5a9
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -891,7 +977,12 @@ Activates sign-in for a user profile that previously had sign-in access disabled
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminEnableUser
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -902,7 +993,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminEnableUser
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 37adfcc6-cf75-4f35-a874-125d4f4db43e
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -918,7 +1012,12 @@ Forgets, or deletes, a remembered device from a user's profile.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminForgetDevice
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -930,7 +1029,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminForgetDevice
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 6ecaee0d-f440-40d8-bcd5-6d6130854e15
 x-amzn-errortype: InvalidParameterException:
+content-length: 340
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -946,7 +1048,12 @@ Given the device key, returns details for a user's device.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminGetDevice
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DeviceKey": "example",
@@ -958,7 +1065,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminGetDevice
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 7c4c2db9-f3cd-4428-beac-7d9b11a2c570
 x-amzn-errortype: InvalidParameterException:
+content-length: 340
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -974,7 +1084,12 @@ Given a username, returns details about a user profile in a user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminGetUser
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -985,7 +1100,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminGetUser
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: df09fad5-cfab-4f5b-8b87-e41ae11ecb6c
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1001,7 +1119,12 @@ Lists the authentication options for a user in a user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminGetUserAuthFactors
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1012,7 +1135,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminGetUserAuthFactors
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: f268b68f-c8d0-4843-b737-0b61f01dfea7
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1028,7 +1154,12 @@ Starts sign-in for applications with a server-side component, for example a trad
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminInitiateAuth
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 72
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1040,7 +1171,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminInitiateAuth
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 1276f935-5d26-46bb-81f3-911bcbe1cd71
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1056,7 +1190,12 @@ Links an existing user account in a user pool, or DestinationUser , to an identi
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminLinkProviderForUser
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 61
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1069,6 +1208,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminLinkProviderForUser
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: InvalidParameterException:
+x-amzn-requestid: c9005895-52a4-445b-b4fe-97345bc39173
+content-length: 90
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1084,7 +1226,12 @@ Lists a user's registered devices.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminListDevices
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1095,7 +1242,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminListDevices
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: b249a4a6-32ff-44ef-949f-86254891d6a5
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1111,7 +1261,12 @@ Lists the groups that a user belongs to.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminListGroupsForUser
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Username": "example",
@@ -1122,7 +1277,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminListGroupsForUser
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 9c2520a1-6d18-4193-823c-933f2606121d
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1138,7 +1296,12 @@ Requests a history of user activity and any risks detected as part of Amazon Cog
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminListUserAuthEvents
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1149,7 +1312,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminListUserAuthEvents
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: f19dd093-617d-47c5-bffe-be968db82d36
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1165,7 +1331,12 @@ Given a username and a group name, removes them from the group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminRemoveUserFromGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1177,7 +1348,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminRemoveUserFromGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 4131684c-46dd-48f1-ba2b-1d0dd7d5860a
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1193,7 +1367,12 @@ Begins the password reset process.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminResetUserPassword
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1204,7 +1383,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminResetUserPassword
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: e9945f37-28b9-4677-966b-2e5162ed3a26
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1220,7 +1402,12 @@ Some API operations in a user pool generate a challenge, like a prompt for an MF
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminRespondToAuthChallenge
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1232,7 +1419,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminRespondToAuthChallenge
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 5ff5eaed-b627-4f86-83df-ffef6069ed69
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1248,7 +1438,12 @@ Sets the user's multi-factor authentication (MFA) preference, including which MF
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminSetUserMFAPreference
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Username": "example",
@@ -1259,7 +1454,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminSetUserMFAPreference
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 0da71bcc-eb48-47fc-af4a-24487c760195
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1275,7 +1473,12 @@ Sets the specified user's password in a user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminSetUserPassword
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 78
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1287,7 +1490,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminSetUserPassword
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: af528c7c-bf88-4318-9a7d-439c7d8605ef
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1303,7 +1509,12 @@ This action is no longer supported.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminSetUserSettings
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 63
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1317,7 +1528,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminSetUserSettings
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 55a38c62-c963-46ec-bb5d-9447eba1a7c8
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1333,7 +1547,12 @@ Provides the feedback for an authentication event generated by threat protection
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminUpdateAuthEventFeedback
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 89
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1346,7 +1565,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminUpdateAuthEventFeedback
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 2eb7ed65-c30b-4bc1-affc-b642fd1f032b
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1362,7 +1584,12 @@ Updates the status of a user's device so that it is marked as remembered or not 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminUpdateDeviceStatus
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1374,7 +1601,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminUpdateDeviceStatus
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: e2d3a569-9e73-4693-9bc5-4fd886b1bbc7
 x-amzn-errortype: InvalidParameterException:
+content-length: 340
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1390,7 +1620,12 @@ Updates the specified user's attributes.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminUpdateUserAttributes
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 83
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1406,7 +1641,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminUpdateUserAttributes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 4553c09c-8844-47a7-8b48-c3fcdce6593a
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1422,7 +1660,12 @@ Invalidates the identity, access, and refresh tokens that Amazon Cognito issued 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AdminUserGlobalSignOut
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1433,7 +1676,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AdminUserGlobalSignOut
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: a3cbfbda-a25d-42fc-ab51-b5c44b448356
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1449,7 +1695,12 @@ Begins setup of time-based one-time password (TOTP) multi-factor authentication 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.AssociateSoftwareToken
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1457,15 +1708,18 @@ X-Amz-Target: AWSCognitoIdentityProviderService.AssociateSoftwareToken
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
-x-amzn-errortype: InvalidParameterException:
+x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: f5655983-0391-4d7d-acb1-696b455282bf
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
-  "__type": "InvalidParameterException",
-  "message": "Invalid request. You can provide either an access token or a session ID in the request."
+  "__type": "NotAuthorizedException",
+  "message": "Invalid Access Token"
 }
 ```
 
-`400` `InvalidParameterException`: the placeholder values failed the operation's input validation.
+`400` `NotAuthorizedException`.
 
 ### ChangePassword
 
@@ -1473,10 +1727,15 @@ Changes the password for the currently signed-in user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ChangePassword
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1035
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "ProposedPassword": "example",
+  "ProposedPassword": "<redacted>",
   "AccessToken": "<redacted>"
 }
 ```
@@ -1485,6 +1744,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ChangePassword
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: b7e0f1a2-d4f8-4cb6-9f2e-00426ca70b39
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -1500,7 +1762,12 @@ Completes registration of a passkey authenticator for the currently signed-in us
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.CompleteWebAuthnRegistration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1022
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>",
@@ -1512,6 +1779,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.CompleteWebAuthnRegistration
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: 6706ee66-f5df-4310-acf9-de1ee18b7ea9
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -1527,7 +1797,12 @@ Confirms a device that a user wants to remember.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ConfirmDevice
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1028
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>",
@@ -1538,7 +1813,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ConfirmDevice
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 058f1599-baa5-45fe-80dd-43db9b3afb56
 x-amzn-errortype: InvalidParameterException:
+content-length: 207
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1554,7 +1832,12 @@ This public API operation accepts a confirmation code that Amazon Cognito sent t
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ConfirmForgotPassword
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 105
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClientId": "example",
@@ -1568,10 +1851,13 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ConfirmForgotPassword
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: ResourceNotFoundException:
+x-amzn-requestid: 3574e23d-3498-43ef-9c1f-87e133e5b80e
+content-length: 92
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "ResourceNotFoundException",
-  "message": "User pool client example does not exist."
+  "message": "Username/client id combination not found."
 }
 ```
 
@@ -1583,7 +1869,12 @@ Confirms the account of a new user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ConfirmSignUp
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 72
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClientId": "example",
@@ -1596,10 +1887,13 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ConfirmSignUp
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: ResourceNotFoundException:
+x-amzn-requestid: 44c3bc67-9353-419c-bfda-d7ccfdc63fc9
+content-length: 92
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "ResourceNotFoundException",
-  "message": "User pool client example does not exist."
+  "message": "Username/client id combination not found."
 }
 ```
 
@@ -1611,7 +1905,12 @@ Creates a new group in the specified user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.CreateGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 46
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "GroupName": "example",
@@ -1622,7 +1921,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.CreateGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 1af0afc9-c8ea-4d31-a151-e9b773019bc1
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1638,7 +1940,12 @@ Adds a configuration and trust relationship between a third-party identity provi
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.CreateIdentityProvider
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 107
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1653,7 +1960,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.CreateIdentityProvider
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 25f0b147-86f2-4146-8416-f812e727239a
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1669,7 +1979,12 @@ Creates a new set of branding settings for a user pool style and associates it w
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.CreateManagedLoginBranding
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1680,7 +1995,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.CreateManagedLoginBranding
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: a1f3bfd4-d8d1-43d0-ad4b-b19043a4391e
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1696,7 +2014,12 @@ Creates a new OAuth2.0 resource server and defines custom scopes within it.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.CreateResourceServer
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 64
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1708,7 +2031,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.CreateResourceServer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 4c78883c-06f9-4901-a827-ecdb4d8486de
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1724,7 +2050,12 @@ Creates terms documents for the requested app client.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.CreateTerms
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 109
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1738,7 +2069,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.CreateTerms
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: c86250ec-1057-4ffd-962b-f857701ca9ed
 x-amzn-errortype: InvalidParameterException:
+content-length: 353
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1754,7 +2088,12 @@ Creates a user import job.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.CreateUserImportJob
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 141
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "JobName": "example",
@@ -1766,7 +2105,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.CreateUserImportJob
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: ed943e1a-b828-44d0-8d49-b147b3014a3b
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1782,7 +2124,12 @@ Creates a new Amazon Cognito user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.CreateUserPool
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 22
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "PoolName": "example"
@@ -1792,10 +2139,13 @@ X-Amz-Target: AWSCognitoIdentityProviderService.CreateUserPool
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 71b66eff-b8b9-4661-bb27-e1b49b528c06
+content-length: 4753
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "UserPool": {
-    "Id": "us-east-1_84445d807",
+    "Id": "us-east-1_e921068cb",
     "Name": "example",
     "Policies": {
       "PasswordPolicy": {
@@ -1813,7 +2163,7 @@ content-type: application/x-amz-json-1.1
       }
     },
     "DeletionProtection": "INACTIVE",
-… (254 more lines)
+… (268 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values. See [the walkthrough](#1-createuserpool) for a successful call.
@@ -1824,7 +2174,12 @@ Creates an app client in a user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.CreateUserPoolClient
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1835,7 +2190,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.CreateUserPoolClient
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 25b5bba1-edb2-4373-ad2a-7b2d488bd3d6
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1851,7 +2209,12 @@ A user pool domain hosts managed login, an authorization server and web server f
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.CreateUserPoolDomain
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Domain": "example",
@@ -1862,7 +2225,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.CreateUserPoolDomain
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: efb4645a-8405-48a3-ae26-27b8d55ebc11
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1878,7 +2244,12 @@ Creates a replica of an existing user pool in a specified Amazon Web Services Re
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.CreateUserPoolReplica
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1889,7 +2260,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.CreateUserPoolReplica
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 8b17949b-21d1-4f76-8078-5a0de1b5e7b0
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1905,7 +2279,12 @@ Deletes a group from the specified user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DeleteGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 46
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "GroupName": "example",
@@ -1916,7 +2295,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DeleteGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 52c8c6d1-931c-4faa-974d-3e59bc085de9
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1932,7 +2314,12 @@ Deletes a user pool identity provider (IdP).
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DeleteIdentityProvider
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1943,7 +2330,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DeleteIdentityProvider
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 5be40c62-f501-42e5-9e2b-b08e41970f01
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1959,7 +2349,12 @@ Deletes a managed login branding style.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DeleteManagedLoginBranding
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 59
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ManagedLoginBrandingId": "example",
@@ -1970,7 +2365,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DeleteManagedLoginBranding
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 2086f58a-d3b1-48d3-83a2-452abe711fd0
 x-amzn-errortype: InvalidParameterException:
+content-length: 421
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -1986,7 +2384,12 @@ Deletes a resource server.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DeleteResourceServer
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -1997,7 +2400,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DeleteResourceServer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: ba628c23-2e78-4f86-9e99-a6cef39c0fbe
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2013,7 +2419,12 @@ Deletes the terms documents with the requested ID from your app client.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DeleteTerms
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 44
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TermsId": "example",
@@ -2024,7 +2435,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DeleteTerms
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 6eed3b0d-e1b5-4209-90d6-4fe5261a5454
 x-amzn-errortype: InvalidParameterException:
+content-length: 408
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2040,7 +2454,12 @@ Deletes the profile of the currently signed-in user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DeleteUser
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1006
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>"
@@ -2051,6 +2470,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DeleteUser
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: 4eabafba-4765-44e6-994e-c8c7feab7172
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -2066,7 +2488,12 @@ Deletes attributes from the currently signed-in user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DeleteUserAttributes
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1039
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserAttributeNames": [
@@ -2080,6 +2507,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DeleteUserAttributes
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: 311d25b5-eb2d-487e-826e-b84f90629828
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -2095,7 +2525,12 @@ Deletes a user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DeleteUserPool
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -2105,7 +2540,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DeleteUserPool
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: d5088445-d0bc-48c8-9a89-6306b94a19b2
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2121,7 +2559,12 @@ Deletes a user pool app client.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DeleteUserPoolClient
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -2132,7 +2575,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DeleteUserPoolClient
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 54cd1f14-43fa-456a-845f-96dadf031bd5
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2148,7 +2594,12 @@ Deletes a specific client secret from a user pool app client.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DeleteUserPoolClientSecret
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 72
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -2160,7 +2611,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DeleteUserPoolClientSecret
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 8938b461-b0b8-423f-8ce7-ff1a4997a08d
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2176,7 +2630,12 @@ Given a user pool ID and domain identifier, deletes a user pool domain.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DeleteUserPoolDomain
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Domain": "example",
@@ -2187,7 +2646,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DeleteUserPoolDomain
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: d6f14160-4c45-4ec1-b27d-4b7d60f1868b
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2203,7 +2665,12 @@ Deletes a secondary replica user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DeleteUserPoolReplica
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -2214,7 +2681,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DeleteUserPoolReplica
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: e6fee0ab-7429-4c18-8424-f1b5413c001c
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2230,7 +2700,12 @@ Deletes a registered passkey, or WebAuthn, authenticator for the currently signe
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DeleteWebAuthnCredential
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1031
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>",
@@ -2242,6 +2717,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DeleteWebAuthnCredential
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: d406b6c5-4586-4343-914d-a43328e83aa1
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -2257,7 +2735,12 @@ Given a user pool ID and identity provider (IdP) name, returns details about the
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DescribeIdentityProvider
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -2268,7 +2751,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DescribeIdentityProvider
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: f434cba2-526f-40fa-9eda-015ac0181fdc
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2284,7 +2770,12 @@ Given the ID of a managed login branding style, returns detailed information abo
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DescribeManagedLoginBranding
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 59
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -2295,7 +2786,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DescribeManagedLoginBranding
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 5393dcba-4db1-486a-8caf-2cbcb16e1d30
 x-amzn-errortype: InvalidParameterException:
+content-length: 421
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2311,7 +2805,12 @@ Given the ID of a user pool app client, returns detailed information about the s
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DescribeManagedLoginBrandingByClient
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -2322,7 +2821,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DescribeManagedLoginBrandingByCl
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 9777c822-055c-4de4-96b8-098d4d27f245
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2338,7 +2840,12 @@ Describes a resource server.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DescribeResourceServer
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 47
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -2349,7 +2856,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DescribeResourceServer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: c208885e-f4d9-4917-be1e-9f2ce1d4c96b
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2365,7 +2875,12 @@ Given an app client or user pool ID where threat protection is configured, descr
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DescribeRiskConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -2375,7 +2890,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DescribeRiskConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: e691426d-21b1-4458-b2b2-b8f6945d1f84
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2391,7 +2909,12 @@ Returns details for the requested terms documents ID.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DescribeTerms
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 44
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TermsId": "example",
@@ -2402,7 +2925,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DescribeTerms
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 98555573-9b76-4e5c-b40d-8dabefc2365b
 x-amzn-errortype: InvalidParameterException:
+content-length: 408
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2418,7 +2944,12 @@ Returns details for the terms documents that are associated with an app client, 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DescribeTermsByClient
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 67
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClientId": "example",
@@ -2430,7 +2961,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DescribeTermsByClient
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: bebe4ebd-40dc-41c0-be8c-fe9c827fa623
 x-amzn-errortype: InvalidParameterException:
+content-length: 353
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2446,7 +2980,12 @@ Describes a user import job.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DescribeUserImportJob
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 42
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -2457,7 +2996,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DescribeUserImportJob
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 7db71e72-9f55-46a4-b1a1-e222ff0bdc96
 x-amzn-errortype: InvalidParameterException:
+content-length: 338
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2473,7 +3015,12 @@ Given a user pool ID, returns configuration information.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DescribeUserPool
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -2483,7 +3030,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DescribeUserPool
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 78e3d811-34e2-423c-a549-b898b5c6e4e5
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2499,7 +3049,12 @@ Given an app client ID, returns configuration information.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DescribeUserPoolClient
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -2510,7 +3065,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DescribeUserPoolClient
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 9cf841f8-13b7-4779-9f15-12cc8aaceca5
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2526,7 +3084,12 @@ Given a user pool domain name, returns information about the domain configuratio
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.DescribeUserPoolDomain
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 20
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Domain": "example"
@@ -2536,6 +3099,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.DescribeUserPoolDomain
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: fa73211d-ce5b-4f8b-b726-40f3cfd12241
+content-length: 24
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "DomainDescription": {}
@@ -2550,7 +3116,12 @@ Given a device key, deletes a remembered device as the currently signed-in user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ForgetDevice
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DeviceKey": "example"
@@ -2560,7 +3131,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ForgetDevice
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 4d44c6fa-8223-4878-aa8c-fc55d1c2baa4
 x-amzn-errortype: InvalidParameterException:
+content-length: 207
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2576,7 +3150,12 @@ Sends a password-reset confirmation code to the email address or phone number of
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ForgotPassword
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClientId": "example",
@@ -2588,10 +3167,13 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ForgotPassword
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: ResourceNotFoundException:
+x-amzn-requestid: 3eb08085-02f4-4f84-a0fc-72e359de713e
+content-length: 92
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "ResourceNotFoundException",
-  "message": "User pool client example does not exist."
+  "message": "Username/client id combination not found."
 }
 ```
 
@@ -2603,7 +3185,12 @@ Given a user pool ID, generates a comma-separated value (CSV) list populated wit
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GetCSVHeader
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -2613,7 +3200,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.GetCSVHeader
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: c63afc81-b0be-46ba-ab4c-732ad8d8e883
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2629,7 +3219,12 @@ Issues an access token for machine-to-machine (M2M) authorization.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GetClientToken
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 58
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClientId": "example",
@@ -2641,6 +3236,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.GetClientToken
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: ResourceNotFoundException:
+x-amzn-requestid: 66e8bd6d-25cb-4879-bdb7-f0f48d295ce3
+content-length: 91
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2656,7 +3254,12 @@ Given a device key, returns information about a remembered device for the curren
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GetDevice
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 23
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "DeviceKey": "example"
@@ -2666,7 +3269,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.GetDevice
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 3575d025-c188-493b-b6c5-6c8d569f0e4e
 x-amzn-errortype: InvalidParameterException:
+content-length: 207
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2682,7 +3288,12 @@ Given a user pool ID and a group name, returns information about the user group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GetGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 46
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "GroupName": "example",
@@ -2693,7 +3304,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.GetGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 5366c5fc-9319-41ed-9c8f-1a25fc77b49a
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2709,7 +3323,12 @@ Given the identifier of an identity provider (IdP), for example examplecorp , re
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GetIdentityProviderByIdentifier
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 50
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -2720,7 +3339,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.GetIdentityProviderByIdentifier
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 58521218-0f7f-4967-868a-e7c67a726826
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2736,7 +3358,12 @@ Given a user pool ID, returns the logging configuration.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GetLogDeliveryConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -2746,7 +3373,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.GetLogDeliveryConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 963a2b3f-b5e5-4a7b-bc0e-68b3735eb62b
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2762,7 +3392,12 @@ Returns the current provisioned limit for a specific API category.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GetProvisionedLimit
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 80
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "LimitDefinition": {
@@ -2778,6 +3413,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.GetProvisionedLimit
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: InvalidParameterException:
+x-amzn-requestid: 02730be6-dde7-411d-b268-c8e28094deef
+content-length: 152
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2793,7 +3431,12 @@ Given a user pool ID, returns the signing certificate for SAML 2.0 federation.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GetSigningCertificate
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -2803,7 +3446,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.GetSigningCertificate
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 7e17fff9-524b-4141-83e9-e0c91ef7f755
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2819,7 +3465,12 @@ Given a refresh token, issues new ID, access, and optionally refresh tokens for 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GetTokensFromRefreshToken
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1425
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "RefreshToken": "<redacted>",
@@ -2831,6 +3482,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.GetTokensFromRefreshToken
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: ResourceNotFoundException:
+x-amzn-requestid: df889a70-3c8f-45a2-940a-7681180c0ea1
+content-length: 91
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -2846,7 +3500,12 @@ Given a user pool ID or app client, returns information about classic hosted UI 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GetUICustomization
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -2856,7 +3515,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.GetUICustomization
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 6b983fd4-c62f-4ab3-853a-16122d063def
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2872,7 +3534,12 @@ Gets user attributes and and MFA settings for the currently signed-in user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GetUser
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1006
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>"
@@ -2883,6 +3550,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.GetUser
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: ce5dc8fb-e277-4e76-914d-c1c444629230
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -2898,7 +3568,12 @@ Given an attribute name, sends a user attribute verification code for the specif
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GetUserAttributeVerificationCode
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1032
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>",
@@ -2910,6 +3585,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.GetUserAttributeVerificationCode
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: cea0ee21-4a26-400f-bc9b-7e7ab1a8cb20
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -2925,7 +3603,12 @@ Lists the authentication options for the currently signed-in user.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GetUserAuthFactors
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1006
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>"
@@ -2936,6 +3619,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.GetUserAuthFactors
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: bc352de7-3e8e-41cc-bf77-6f1ae32990e1
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -2951,7 +3637,12 @@ Given a user pool ID, returns configuration for sign-in with WebAuthn authentica
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GetUserPoolMfaConfig
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -2961,7 +3652,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.GetUserPoolMfaConfig
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 8cb37e62-945b-447e-84bc-40a98e41d761
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -2977,7 +3671,12 @@ Invalidates the identity, access, and refresh tokens that Amazon Cognito issued 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.GlobalSignOut
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1006
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>"
@@ -2988,6 +3687,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.GlobalSignOut
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: 85b65e04-273c-4ff4-9e35-12368520c749
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -3001,9 +3703,16 @@ x-amzn-errortype: NotAuthorizedException:
 
 Declares an authentication flow and initiates sign-in for a user in the Amazon Cognito user directory.
 
+*Implemented as of emulator 1.0.629 (captured 2026-11-26).*
+
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.InitiateAuth
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AuthFlow": "USER_SRP_AUTH",
@@ -3012,17 +3721,20 @@ X-Amz-Target: AWSCognitoIdentityProviderService.InitiateAuth
 ```
 
 ```http
-HTTP/1.1 501 Not Implemented
+HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
-x-amzn-errortype: NotImplemented:
+x-amzn-errortype: InvalidParameterException:
+x-amzn-requestid: d28e69ad-c9c7-4ae2-9043-2a3d0e185a5f
+content-length: 86
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
-  "__type": "NotImplemented",
-  "message": "operation InitiateAuth with AuthFlow=USER_SRP_AUTH is scaffolded but not implemented in this emulator"
+  "__type": "InvalidParameterException",
+  "message": "Missing required parameter USERNAME"
 }
 ```
 
-Not implemented in the emulator yet: it answers `501 NotImplemented` for every request to this operation. See [the walkthrough](#4-initiateauth) for a successful call.
+`400` `InvalidParameterException`: the placeholder values failed the operation's input validation. See [the walkthrough](#4-initiateauth) for a successful call.
 
 ### ListDevices
 
@@ -3030,7 +3742,12 @@ Lists the devices that Amazon Cognito has registered to the currently signed-in 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ListDevices
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1006
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>"
@@ -3041,6 +3758,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ListDevices
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: 95650d68-09c7-4a16-9ac2-5db8d7935ea5
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -3056,7 +3776,12 @@ Given a user pool ID, returns user pool groups and their details.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ListGroups
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -3066,7 +3791,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ListGroups
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 317d185d-9cc7-4b7e-acf0-030e24fc6da6
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3082,7 +3810,12 @@ Given a user pool ID, returns information about configured identity providers (I
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ListIdentityProviders
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -3092,7 +3825,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ListIdentityProviders
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 17bf3ff4-27c6-4382-b3a8-94cdb480f1a3
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3108,7 +3844,12 @@ Given a user pool ID, returns all resource servers and their details.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ListResourceServers
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -3118,7 +3859,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ListResourceServers
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: fe49289f-280d-4661-a379-5ea637d3c122
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3134,7 +3878,12 @@ Lists the tags that are assigned to an Amazon Cognito user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ListTagsForResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 88
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:cognitoidentityprovider:us-east-1:000000000000:example/example"
@@ -3145,10 +3894,13 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ListTagsForResource
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: InvalidParameterException:
+x-amzn-requestid: b814b23b-e086-4d8a-88ed-d4fd6434384c
+content-length: 144
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
-  "message": "ResourceArn 'arn:aws:cognitoidentityprovider:us-east-1:000000000000:example/example' is not the ARN of an Amazon Cognito user pool."
+  "message": "Invalid user pool ARN: arn:aws:cognitoidentityprovider:us-east-1:000000000000:example/example"
 }
 ```
 
@@ -3160,7 +3912,12 @@ Returns details about all terms documents for the requested user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ListTerms
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -3170,7 +3927,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ListTerms
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 570e61ab-0269-455b-8250-8c2db3b00199
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3186,7 +3946,12 @@ Given a user pool ID, returns user import jobs and their details.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ListUserImportJobs
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 39
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -3197,7 +3962,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ListUserImportJobs
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: bc99fbc8-8661-4077-b025-a58adc5235a4
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3213,7 +3981,12 @@ Lists all client secrets associated with a user pool app client.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ListUserPoolClientSecrets
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -3224,7 +3997,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ListUserPoolClientSecrets
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 37bec9b0-e847-4d5f-a626-7e8d60ada2cb
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3240,7 +4016,12 @@ Given a user pool ID, lists app clients.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ListUserPoolClients
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -3250,7 +4031,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ListUserPoolClients
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 59db830b-e543-4466-ac7e-5a004a707abc
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3266,7 +4050,12 @@ Lists all replicas for a user pool, including both primary and secondary replica
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ListUserPoolReplicas
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -3276,7 +4065,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ListUserPoolReplicas
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 88136ee6-8308-4e79-b790-710c48946ef5
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3292,7 +4084,12 @@ Lists user pools and their details in the current Amazon Web Services account.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ListUserPools
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 16
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "MaxResults": 1
@@ -3302,15 +4099,18 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ListUserPools
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 1a0fed41-4af5-488f-a1cd-a53fe711982c
+content-length: 174
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "UserPools": [
     {
-      "Id": "us-east-1_84445d807",
+      "Id": "us-east-1_e921068cb",
       "Name": "example",
       "LambdaConfig": {},
-      "LastModifiedDate": 1794833126.002344,
-      "CreationDate": 1794833126.002344,
+      "LastModifiedDate": 1795718003.569,
+      "CreationDate": 1795718003.569,
       "ReplicaRegions": [
         "us-east-1"
       ]
@@ -3327,7 +4127,12 @@ Given a user pool ID, returns a list of users and their basic details in a user 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ListUsers
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -3337,7 +4142,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ListUsers
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 90a9189b-a004-4a03-9a4d-4d2e55298678
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3353,7 +4161,12 @@ Given a user pool ID and a group name, returns a list of users in the group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ListUsersInGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 46
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -3364,7 +4177,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ListUsersInGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 69c3b249-dded-41ee-aba8-cbc0ef9406c4
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3380,7 +4196,12 @@ Generates a list of the currently signed-in user's registered passkey, or WebAut
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ListWebAuthnCredentials
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1006
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>"
@@ -3391,6 +4212,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ListWebAuthnCredentials
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: cd3de558-de73-4837-9e3d-7e339832903d
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -3406,7 +4230,12 @@ Resends the code that confirms a new account for a user who has signed up in you
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.ResendConfirmationCode
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClientId": "example",
@@ -3418,10 +4247,13 @@ X-Amz-Target: AWSCognitoIdentityProviderService.ResendConfirmationCode
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: ResourceNotFoundException:
+x-amzn-requestid: 3a162a13-c74c-4467-8c4c-30b4d5d439cd
+content-length: 92
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "ResourceNotFoundException",
-  "message": "User pool client example does not exist."
+  "message": "Username/client id combination not found."
 }
 ```
 
@@ -3433,7 +4265,12 @@ Some API operations in a user pool generate a challenge, like a prompt for an MF
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.RespondToAuthChallenge
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 48
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClientId": "example",
@@ -3445,6 +4282,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.RespondToAuthChallenge
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: InvalidParameterException:
+x-amzn-requestid: 44814015-02e7-4511-be10-8aedacf3239d
+content-length: 85
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3460,7 +4300,12 @@ Revokes all of the access tokens generated by, and at the same time as, the spec
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.RevokeToken
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1029
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Token": "<redacted>",
@@ -3472,6 +4317,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.RevokeToken
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: UnauthorizedException:
+x-amzn-requestid: 2de042b2-31ff-4cf6-af9f-7d47d4847250
+content-length: 65
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "UnauthorizedException",
@@ -3487,7 +4335,12 @@ Sets up or modifies the logging configuration of a user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.SetLogDeliveryConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 100
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -3503,7 +4356,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.SetLogDeliveryConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: c6e32c00-b9ee-44db-b761-7a6ef9996777
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3519,7 +4375,12 @@ Configures threat protection for a user pool or app client.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.SetRiskConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -3529,7 +4390,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.SetRiskConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 191a0ead-54f3-44e4-abb2-3914c60c8c0a
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3545,7 +4409,12 @@ Configures UI branding settings for domains with the hosted UI (classic) brandin
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.SetUICustomization
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -3555,7 +4424,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.SetUICustomization
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 83c03684-7f18-45bf-bb27-4d77829e5709
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3571,7 +4443,12 @@ Set the user's multi-factor authentication (MFA) method preference, including wh
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.SetUserMFAPreference
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1006
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>"
@@ -3582,6 +4459,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.SetUserMFAPreference
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: 3a3bf856-d033-4bd7-92b4-61f10b0e6194
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -3597,7 +4477,12 @@ Sets user pool multi-factor authentication (MFA) and passkey configuration.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.SetUserPoolMfaConfig
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -3607,7 +4492,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.SetUserPoolMfaConfig
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 0654e397-80c7-4107-8d56-816458a646fb
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3623,7 +4511,12 @@ This action is no longer supported.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.SetUserSettings
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1024
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>",
@@ -3637,6 +4530,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.SetUserSettings
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: cf93d768-7171-4f01-a84b-7fc13764196b
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -3652,7 +4548,12 @@ Registers a user with an app client and requests a user name, password, and user
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.SignUp
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClientId": "example",
@@ -3664,6 +4565,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.SignUp
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: ResourceNotFoundException:
+x-amzn-requestid: 6fa7dee9-8cce-4259-8c20-5072ba9bc0ee
+content-length: 91
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "ResourceNotFoundException",
@@ -3679,7 +4583,12 @@ Instructs your user pool to start importing users from a CSV file that contains 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.StartUserImportJob
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 42
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -3690,7 +4599,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.StartUserImportJob
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 9f69a612-9ddb-4c8b-b3fa-5082d0edbe22
 x-amzn-errortype: InvalidParameterException:
+content-length: 338
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3706,7 +4618,12 @@ Requests credential creation options from your user pool for the currently signe
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.StartWebAuthnRegistration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1006
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>"
@@ -3717,6 +4634,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.StartWebAuthnRegistration
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: 91cbe5c5-91a5-48c8-8d61-e6e6d0beea61
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -3732,7 +4652,12 @@ Instructs your user pool to stop a running job that's importing users from a CSV
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.StopUserImportJob
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 42
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -3743,7 +4668,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.StopUserImportJob
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 29a6ef8b-b7dd-4599-8790-fb0521aa93f4
 x-amzn-errortype: InvalidParameterException:
+content-length: 338
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3759,7 +4687,12 @@ Assigns a set of tags to an Amazon Cognito user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.TagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 113
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:cognitoidentityprovider:us-east-1:000000000000:example/example",
@@ -3773,10 +4706,13 @@ X-Amz-Target: AWSCognitoIdentityProviderService.TagResource
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: InvalidParameterException:
+x-amzn-requestid: a4ee0ea7-644d-44ff-8d83-e4890fab8655
+content-length: 144
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
-  "message": "ResourceArn 'arn:aws:cognitoidentityprovider:us-east-1:000000000000:example/example' is not the ARN of an Amazon Cognito user pool."
+  "message": "Invalid user pool ARN: arn:aws:cognitoidentityprovider:us-east-1:000000000000:example/example"
 }
 ```
 
@@ -3788,7 +4724,12 @@ Given tag IDs that you previously assigned to a user pool, removes them.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.UntagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 110
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "arn:aws:cognitoidentityprovider:us-east-1:000000000000:example/example",
@@ -3802,10 +4743,13 @@ X-Amz-Target: AWSCognitoIdentityProviderService.UntagResource
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: InvalidParameterException:
+x-amzn-requestid: 0657251a-5f2a-4a6a-bb83-4ab4c83fdca9
+content-length: 144
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
-  "message": "ResourceArn 'arn:aws:cognitoidentityprovider:us-east-1:000000000000:example/example' is not the ARN of an Amazon Cognito user pool."
+  "message": "Invalid user pool ARN: arn:aws:cognitoidentityprovider:us-east-1:000000000000:example/example"
 }
 ```
 
@@ -3817,7 +4761,12 @@ Provides the feedback for an authentication event generated by threat protection
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.UpdateAuthEventFeedback
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 115
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -3831,7 +4780,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.UpdateAuthEventFeedback
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 071ee92e-08cc-4cbb-82ee-dfc0a50480ec
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3847,7 +4799,12 @@ Updates the status of a the currently signed-in user's device so that it is mark
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.UpdateDeviceStatus
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1028
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>",
@@ -3858,7 +4815,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.UpdateDeviceStatus
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 4c0fc084-71e8-4e4b-8600-b2efe5eb36a3
 x-amzn-errortype: InvalidParameterException:
+content-length: 207
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3874,7 +4834,12 @@ Given the name of a user pool group, updates any of the properties for precedenc
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.UpdateGroup
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 46
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "GroupName": "example",
@@ -3885,7 +4850,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.UpdateGroup
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: fe4aa768-91c4-46f7-a254-1cdfc11d628f
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3901,7 +4869,12 @@ Modifies the configuration and trust relationship between a third-party identity
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.UpdateIdentityProvider
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -3912,7 +4885,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.UpdateIdentityProvider
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 9eadb287-51dd-4e24-aeae-cc3829961c96
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3928,7 +4904,12 @@ Configures the branding settings for a user pool style.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.UpdateManagedLoginBranding
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -3937,6 +4918,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.UpdateManagedLoginBranding
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: InvalidParameterException:
+x-amzn-requestid: 49183679-af2e-4e7c-851f-3b9f7e714d49
+content-length: 88
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3952,7 +4936,12 @@ Sets the provisioned limit for a specific API category.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.UpdateProvisionedLimit
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 104
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "LimitDefinition": {
@@ -3969,6 +4958,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.UpdateProvisionedLimit
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: InvalidParameterException:
+x-amzn-requestid: 79a21361-250f-4623-927c-03f31900934b
+content-length: 152
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -3984,7 +4976,12 @@ Updates the name and scopes of a resource server.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.UpdateResourceServer
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 64
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -3996,7 +4993,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.UpdateResourceServer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 99745ed8-aa7b-435b-b256-72526b5a21e7
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -4012,7 +5012,12 @@ Modifies existing terms documents for the requested app client.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.UpdateTerms
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 44
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TermsId": "example",
@@ -4023,7 +5028,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.UpdateTerms
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 7b8ad937-59a2-4fef-ad80-5ef115e67724
 x-amzn-errortype: InvalidParameterException:
+content-length: 408
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -4039,7 +5047,12 @@ Updates the currently signed-in user's attributes.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.UpdateUserAttributes
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1044
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserAttributes": [
@@ -4055,6 +5068,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.UpdateUserAttributes
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: beb84dbb-b5f9-4282-824b-b1c8ea5dc79d
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",
@@ -4070,7 +5086,12 @@ Updates the configuration of a user pool.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.UpdateUserPool
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 24
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example"
@@ -4080,7 +5101,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.UpdateUserPool
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: d29b061b-ad22-4ca5-8e02-7026e2955aaf
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -4096,7 +5120,12 @@ Given a user pool app client ID, updates the configuration.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.UpdateUserPoolClient
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -4107,7 +5136,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.UpdateUserPoolClient
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 9774cf2b-b83d-413f-9bab-b4564200c8bb
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -4123,7 +5155,12 @@ A user pool domain hosts managed login, an authorization server and web server f
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.UpdateUserPoolDomain
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Domain": "example",
@@ -4134,7 +5171,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.UpdateUserPoolDomain
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 3852cd37-5970-4dc5-aba6-bba757ddffda
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -4150,7 +5190,12 @@ Updates replica-specific settings for a user pool replica.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.UpdateUserPoolReplica
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 65
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserPoolId": "example",
@@ -4162,7 +5207,10 @@ X-Amz-Target: AWSCognitoIdentityProviderService.UpdateUserPoolReplica
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+x-amzn-requestid: 7bd894ae-b62e-4949-bc18-81ba68851eb0
 x-amzn-errortype: InvalidParameterException:
+content-length: 210
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "InvalidParameterException",
@@ -4178,7 +5226,12 @@ Registers the current user's time-based one-time password (TOTP) authenticator w
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.VerifySoftwareToken
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 21
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "UserCode": "100000"
@@ -4188,15 +5241,18 @@ X-Amz-Target: AWSCognitoIdentityProviderService.VerifySoftwareToken
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
-x-amzn-errortype: InvalidParameterException:
+x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: 3e0fed99-9f94-42ef-b64a-cfed5b2b2e0e
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
-  "__type": "InvalidParameterException",
-  "message": "Invalid request. You can provide either an access token or a session ID in the request."
+  "__type": "NotAuthorizedException",
+  "message": "Invalid Access Token"
 }
 ```
 
-`400` `InvalidParameterException`: the placeholder values failed the operation's input validation.
+`400` `NotAuthorizedException`.
 
 ### VerifyUserAttribute
 
@@ -4204,7 +5260,12 @@ Submits a verification code for a signed-in user who has added or changed a valu
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: AWSCognitoIdentityProviderService.VerifyUserAttribute
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183323Z
+Content-Length: 1049
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/cognito-idp/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "AccessToken": "<redacted>",
@@ -4217,6 +5278,9 @@ X-Amz-Target: AWSCognitoIdentityProviderService.VerifyUserAttribute
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 x-amzn-errortype: NotAuthorizedException:
+x-amzn-requestid: 962d10dc-ae93-43ca-ac04-15c9ee936f39
+content-length: 68
+date: Thu, 26 Nov 2026 18:33:23 GMT
 
 {
   "__type": "NotAuthorizedException",

@@ -11,7 +11,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `sso`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed.
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `sso`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed. Every header is shown exactly as it went over the wire, in order: the client sends no `User-Agent`, and each response keeps all of the emulator's headers.
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `ListInstances`:
 
@@ -42,9 +42,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListInstances
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121058Z
+X-Amz-Date: 20261126T183051Z
 Content-Length: 2
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -55,7 +55,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ss
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 624
-date: Mon, 16 Nov 2026 12:10:58 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "Instances": [
@@ -65,14 +65,14 @@ date: Mon, 16 Nov 2026 12:10:58 GMT
       "IdentityStoreArn": "arn:aws:identitystore::000000000000:identitystore/d-9067f3a1c2",
       "OwnerAccountId": "000000000000",
       "Name": "IdentityCenter",
-      "CreatedDate": 1794830491.9161334,
+      "CreatedDate": 1795717806.1406298,
       "Status": "ACTIVE",
       "PrimaryRegion": "us-east-1",
       "Regions": [
         {
           "RegionName": "us-east-1",
           "Status": "ACTIVE",
-          "AddedDate": 1794830491.9161334,
+          "AddedDate": 1795717806.1406298,
           "IsPrimaryRegion": true
         }
       ],
@@ -96,9 +96,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DescribeInstance
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121058Z
-Content-Length: 65
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 64
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "arn:aws:sso:::instance/ssoins-7223b1d1ac5e1f0e"
@@ -111,7 +111,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ss
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 1024
-date: Mon, 16 Nov 2026 12:10:58 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "InstanceArn": "arn:aws:sso:::instance/ssoins-7223b1d1ac5e1f0e",
@@ -119,14 +119,14 @@ date: Mon, 16 Nov 2026 12:10:58 GMT
   "IdentityStoreArn": "arn:aws:identitystore::000000000000:identitystore/d-9067f3a1c2",
   "OwnerAccountId": "000000000000",
   "Name": "IdentityCenter",
-  "CreatedDate": 1794830491.9161334,
+  "CreatedDate": 1795717806.1406298,
   "Status": "ACTIVE",
   "PrimaryRegion": "us-east-1",
   "Regions": [
     {
       "RegionName": "us-east-1",
       "Status": "ACTIVE",
-      "AddedDate": 1794830491.9161334,
+      "AddedDate": 1795717806.1406298,
       "IsPrimaryRegion": true
     }
   ],
@@ -141,14 +141,14 @@ date: Mon, 16 Nov 2026 12:10:58 GMT
     "IdentityStoreArn": "arn:aws:identitystore::000000000000:identitystore/d-9067f3a1c2",
     "OwnerAccountId": "000000000000",
     "Name": "IdentityCenter",
-    "CreatedDate": 1794830491.9161334,
+    "CreatedDate": 1795717806.1406298,
     "Status": "ACTIVE",
     "PrimaryRegion": "us-east-1",
     "Regions": [
       {
         "RegionName": "us-east-1",
         "Status": "ACTIVE",
-        "AddedDate": 1794830491.9161334,
+        "AddedDate": 1795717806.1406298,
         "IsPrimaryRegion": true
       }
     ],
@@ -170,9 +170,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.CreatePermissionSet
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121058Z
-Content-Length: 120
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 115
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "DocsDemoReadOnly",
@@ -187,7 +187,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ss
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 content-length: 122
-date: Mon, 16 Nov 2026 12:10:58 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -206,9 +206,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.CreateApplication
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121058Z
-Content-Length: 267
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 256
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "arn:aws:sso:::instance/ssoins-7223b1d1ac5e1f0e",
@@ -226,10 +226,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ss
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 250
-date: Mon, 16 Nov 2026 12:10:58 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
-  "ApplicationArn": "arn:aws:sso::000000000000:application/ssoins-7223b1d1ac5e1f0e/apl-5a9eddc257be3ff5",
+  "ApplicationArn": "arn:aws:sso::000000000000:application/ssoins-7223b1d1ac5e1f0e/apl-04ca4e75c6246978",
   "InstanceArn": "arn:aws:sso:::instance/ssoins-7223b1d1ac5e1f0e",
   "IdentityStoreArn": "arn:aws:identitystore::000000000000:identitystore/d-9067f3a1c2"
 }
@@ -246,12 +246,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DescribeApplication
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121058Z
-Content-Length: 104
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 103
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "ApplicationArn": "arn:aws:sso::000000000000:application/ssoins-7223b1d1ac5e1f0e/apl-5a9eddc257be3ff5"
+  "ApplicationArn": "arn:aws:sso::000000000000:application/ssoins-7223b1d1ac5e1f0e/apl-04ca4e75c6246978"
 }
 ```
 
@@ -261,10 +261,10 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ss
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 527
-date: Mon, 16 Nov 2026 12:10:58 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
-  "ApplicationArn": "arn:aws:sso::000000000000:application/ssoins-7223b1d1ac5e1f0e/apl-5a9eddc257be3ff5",
+  "ApplicationArn": "arn:aws:sso::000000000000:application/ssoins-7223b1d1ac5e1f0e/apl-04ca4e75c6246978",
   "ApplicationProviderArn": "arn:aws:sso::aws:applicationProvider/custom",
   "Name": "docs-demo-app",
   "ApplicationAccount": "000000000000",
@@ -275,7 +275,7 @@ date: Mon, 16 Nov 2026 12:10:58 GMT
     "Visibility": "ENABLED"
   },
   "Description": "docs demo",
-  "CreatedDate": 1794831058.1937187,
+  "CreatedDate": 1795717851.804251,
   "CreatedFrom": "us-east-1"
 }
 ```
@@ -291,9 +291,9 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListApplications
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121058Z
-Content-Length: 65
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 64
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "arn:aws:sso:::instance/ssoins-7223b1d1ac5e1f0e"
@@ -306,12 +306,12 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ss
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 546
-date: Mon, 16 Nov 2026 12:10:58 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "Applications": [
     {
-      "ApplicationArn": "arn:aws:sso::000000000000:application/ssoins-7223b1d1ac5e1f0e/apl-5a9eddc257be3ff5",
+      "ApplicationArn": "arn:aws:sso::000000000000:application/ssoins-7223b1d1ac5e1f0e/apl-04ca4e75c6246978",
       "ApplicationProviderArn": "arn:aws:sso::aws:applicationProvider/custom",
       "Name": "docs-demo-app",
       "ApplicationAccount": "000000000000",
@@ -322,7 +322,7 @@ date: Mon, 16 Nov 2026 12:10:58 GMT
         "Visibility": "ENABLED"
       },
       "Description": "docs demo",
-      "CreatedDate": 1794831058.1937187,
+      "CreatedDate": 1795717851.804251,
       "CreatedFrom": "us-east-1"
     }
   ]
@@ -340,12 +340,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DeleteApplication
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121058Z
-Content-Length: 104
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 103
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "ApplicationArn": "arn:aws:sso::000000000000:application/ssoins-7223b1d1ac5e1f0e/apl-5a9eddc257be3ff5"
+  "ApplicationArn": "arn:aws:sso::000000000000:application/ssoins-7223b1d1ac5e1f0e/apl-04ca4e75c6246978"
 }
 ```
 
@@ -355,7 +355,7 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ss
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
 content-length: 2
-date: Mon, 16 Nov 2026 12:10:58 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {}
 ```
@@ -371,12 +371,12 @@ POST / HTTP/1.1
 Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DescribeApplication
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T121058Z
-Content-Length: 104
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
+X-Amz-Date: 20261126T183051Z
+Content-Length: 103
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
-  "ApplicationArn": "arn:aws:sso::000000000000:application/ssoins-7223b1d1ac5e1f0e/apl-5a9eddc257be3ff5"
+  "ApplicationArn": "arn:aws:sso::000000000000:application/ssoins-7223b1d1ac5e1f0e/apl-04ca4e75c6246978"
 }
 ```
 
@@ -386,17 +386,17 @@ Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/ss
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
 content-length: 172
-date: Mon, 16 Nov 2026 12:10:58 GMT
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ResourceNotFoundException",
-  "Message": "No resource found for application arn: arn:aws:sso::000000000000:application/ssoins-7223b1d1ac5e1f0e/apl-5a9eddc257be3ff5"
+  "Message": "No resource found for application arn: arn:aws:sso::000000000000:application/ssoins-7223b1d1ac5e1f0e/apl-04ca4e75c6246978"
 }
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 79 operations, 2 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error.
 
@@ -406,7 +406,12 @@ Adds a Region to an IAM Identity Center instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.AddRegion
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -417,6 +422,8 @@ X-Amz-Target: SWBExternalService.AddRegion
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 345
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -432,7 +439,12 @@ Attaches the specified customer managed policy to the specified PermissionSet .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.AttachCustomerManagedPolicyReferenceToPermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 112
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -446,6 +458,8 @@ X-Amz-Target: SWBExternalService.AttachCustomerManagedPolicyReferenceToPermissio
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -461,7 +475,12 @@ Attaches an Amazon Web Services managed policy ARN to a permission set.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.AttachManagedPolicyToPermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 102
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -473,6 +492,8 @@ X-Amz-Target: SWBExternalService.AttachManagedPolicyToPermissionSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 639
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -488,7 +509,12 @@ Assigns access to a principal for a specified Amazon Web Services account using 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.CreateAccountAssignment
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 160
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -503,6 +529,8 @@ X-Amz-Target: SWBExternalService.CreateAccountAssignment
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 629
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -518,7 +546,12 @@ Creates an OAuth 2.0 customer managed application in IAM Identity Center for the
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.CreateApplication
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 136
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -531,6 +564,8 @@ X-Amz-Target: SWBExternalService.CreateApplication
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 409
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -546,7 +581,12 @@ Grant application access to a user or group.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.CreateApplicationAssignment
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 78
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000",
@@ -558,6 +598,8 @@ X-Amz-Target: SWBExternalService.CreateApplicationAssignment
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 453
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -573,7 +615,12 @@ Creates an instance of IAM Identity Center for a standalone Amazon Web Services 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.CreateInstance
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 54
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ClientToken": "c7c5b6c9-c81e-4f9e-8669-bacd6e8f2117"
@@ -583,6 +630,8 @@ X-Amz-Target: SWBExternalService.CreateInstance
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 239
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ServiceQuotaExceededException",
@@ -598,7 +647,12 @@ Enables the attributes-based access control (ABAC) feature for the specified IAM
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.CreateInstanceAccessControlAttributeConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 153
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -620,6 +674,8 @@ X-Amz-Target: SWBExternalService.CreateInstanceAccessControlAttributeConfigurati
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -635,7 +691,12 @@ Creates a permission set within a specified IAM Identity Center instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.CreatePermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 45
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Name": "example",
@@ -646,6 +707,8 @@ X-Amz-Target: SWBExternalService.CreatePermissionSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -661,7 +724,12 @@ Creates a connection to a trusted token issuer in an instance of IAM Identity Ce
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.CreateTrustedTokenIssuer
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 329
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -682,6 +750,8 @@ X-Amz-Target: SWBExternalService.CreateTrustedTokenIssuer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 445
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -697,7 +767,12 @@ Deletes a principal's access from a specified Amazon Web Services account using 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DeleteAccountAssignment
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 160
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -712,6 +787,8 @@ X-Amz-Target: SWBExternalService.DeleteAccountAssignment
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 629
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -727,7 +804,12 @@ Deletes the association with the application.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DeleteApplication
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000"
@@ -737,6 +819,8 @@ X-Amz-Target: SWBExternalService.DeleteApplication
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -752,7 +836,12 @@ Deletes an IAM Identity Center access scope from an application.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DeleteApplicationAccessScope
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000",
@@ -763,6 +852,8 @@ X-Amz-Target: SWBExternalService.DeleteApplicationAccessScope
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -778,7 +869,12 @@ Revoke application access to an application by deleting application assignments 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DeleteApplicationAssignment
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 78
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000",
@@ -790,6 +886,8 @@ X-Amz-Target: SWBExternalService.DeleteApplicationAssignment
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 453
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -805,7 +903,12 @@ Deletes an authentication method from an application.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DeleteApplicationAuthenticationMethod
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 64
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000",
@@ -816,6 +919,8 @@ X-Amz-Target: SWBExternalService.DeleteApplicationAuthenticationMethod
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -831,7 +936,12 @@ Deletes a grant from an application.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DeleteApplicationGrant
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 64
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000",
@@ -842,6 +952,8 @@ X-Amz-Target: SWBExternalService.DeleteApplicationGrant
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -857,7 +969,12 @@ Deletes the inline policy from a specified permission set.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DeleteInlinePolicyFromPermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 60
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -868,6 +985,8 @@ X-Amz-Target: SWBExternalService.DeleteInlinePolicyFromPermissionSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -883,7 +1002,12 @@ Deletes the instance of IAM Identity Center.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DeleteInstance
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000"
@@ -893,6 +1017,8 @@ X-Amz-Target: SWBExternalService.DeleteInstance
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -908,7 +1034,12 @@ Disables the attributes-based access control (ABAC) feature for the specified IA
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DeleteInstanceAccessControlAttributeConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000"
@@ -918,6 +1049,8 @@ X-Amz-Target: SWBExternalService.DeleteInstanceAccessControlAttributeConfigurati
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -933,7 +1066,12 @@ Deletes the specified permission set.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DeletePermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 60
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -944,6 +1082,8 @@ X-Amz-Target: SWBExternalService.DeletePermissionSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -959,7 +1099,12 @@ Deletes the permissions boundary from a specified PermissionSet .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DeletePermissionsBoundaryFromPermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 60
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -970,6 +1115,8 @@ X-Amz-Target: SWBExternalService.DeletePermissionsBoundaryFromPermissionSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -985,7 +1132,12 @@ Deletes a trusted token issuer configuration from an instance of IAM Identity Ce
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DeleteTrustedTokenIssuer
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 38
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TrustedTokenIssuerArn": "example000"
@@ -995,6 +1147,8 @@ X-Amz-Target: SWBExternalService.DeleteTrustedTokenIssuer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 312
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1010,7 +1164,12 @@ Describes the status of the assignment creation request.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DescribeAccountAssignmentCreationStatus
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 104
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -1021,6 +1180,8 @@ X-Amz-Target: SWBExternalService.DescribeAccountAssignmentCreationStatus
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 424
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1036,7 +1197,12 @@ Describes the status of the assignment deletion request.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DescribeAccountAssignmentDeletionStatus
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 104
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -1047,6 +1213,8 @@ X-Amz-Target: SWBExternalService.DescribeAccountAssignmentDeletionStatus
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 424
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1062,7 +1230,12 @@ Retrieves the details of an application associated with an instance of IAM Ident
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DescribeApplication
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000"
@@ -1072,6 +1245,8 @@ X-Amz-Target: SWBExternalService.DescribeApplication
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1087,7 +1262,12 @@ Retrieves a direct assignment of a user or group to an application.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DescribeApplicationAssignment
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 78
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000",
@@ -1099,6 +1279,8 @@ X-Amz-Target: SWBExternalService.DescribeApplicationAssignment
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 453
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1114,7 +1296,12 @@ Retrieves details about a provider that can be used to connect an Amazon Web Ser
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DescribeApplicationProvider
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 39
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationProviderArn": "example000"
@@ -1124,6 +1311,8 @@ X-Amz-Target: SWBExternalService.DescribeApplicationProvider
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 232
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1139,7 +1328,12 @@ Returns the details of an instance of IAM Identity Center.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DescribeInstance
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000"
@@ -1149,6 +1343,8 @@ X-Amz-Target: SWBExternalService.DescribeInstance
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1164,7 +1360,12 @@ Returns the list of IAM Identity Center identity store attributes that have been
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DescribeInstanceAccessControlAttributeConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000"
@@ -1174,6 +1375,8 @@ X-Amz-Target: SWBExternalService.DescribeInstanceAccessControlAttributeConfigura
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1189,7 +1392,12 @@ Gets the details of the permission set.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DescribePermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 60
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -1200,6 +1408,8 @@ X-Amz-Target: SWBExternalService.DescribePermissionSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1215,7 +1425,12 @@ Describes the status for the given permission set provisioning request.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DescribePermissionSetProvisioningStatus
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 101
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -1226,6 +1441,8 @@ X-Amz-Target: SWBExternalService.DescribePermissionSetProvisioningStatus
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 421
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1241,7 +1458,12 @@ Retrieves details about a specific Region enabled in an IAM Identity Center inst
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DescribeRegion
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -1252,6 +1474,8 @@ X-Amz-Target: SWBExternalService.DescribeRegion
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 345
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1267,7 +1491,12 @@ Retrieves details about a trusted token issuer configuration stored in an instan
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DescribeTrustedTokenIssuer
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 38
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TrustedTokenIssuerArn": "example000"
@@ -1277,6 +1506,8 @@ X-Amz-Target: SWBExternalService.DescribeTrustedTokenIssuer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 312
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1292,7 +1523,12 @@ Detaches the specified customer managed policy from the specified PermissionSet 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DetachCustomerManagedPolicyReferenceFromPermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 112
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -1306,6 +1542,8 @@ X-Amz-Target: SWBExternalService.DetachCustomerManagedPolicyReferenceFromPermiss
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1321,7 +1559,12 @@ Detaches the attached Amazon Web Services managed policy ARN from the specified 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.DetachManagedPolicyFromPermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 102
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -1333,6 +1576,8 @@ X-Amz-Target: SWBExternalService.DetachManagedPolicyFromPermissionSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 639
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1348,7 +1593,12 @@ Retrieves the authorized targets for an IAM Identity Center access scope for an 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.GetApplicationAccessScope
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000",
@@ -1359,6 +1609,8 @@ X-Amz-Target: SWBExternalService.GetApplicationAccessScope
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1374,7 +1626,12 @@ Retrieves the configuration of PutApplicationAssignmentConfiguration .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.GetApplicationAssignmentConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000"
@@ -1384,6 +1641,8 @@ X-Amz-Target: SWBExternalService.GetApplicationAssignmentConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1399,7 +1658,12 @@ Retrieves details about an authentication method used by an application.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.GetApplicationAuthenticationMethod
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 64
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000",
@@ -1410,6 +1674,8 @@ X-Amz-Target: SWBExternalService.GetApplicationAuthenticationMethod
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1425,7 +1691,12 @@ Retrieves details about an application grant.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.GetApplicationGrant
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 64
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000",
@@ -1436,6 +1707,8 @@ X-Amz-Target: SWBExternalService.GetApplicationGrant
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1451,7 +1724,12 @@ Retrieves the session configuration for an application in IAM Identity Center.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.GetApplicationSessionConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000"
@@ -1461,6 +1739,8 @@ X-Amz-Target: SWBExternalService.GetApplicationSessionConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1476,7 +1756,12 @@ Obtains the inline policy assigned to the permission set.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.GetInlinePolicyForPermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 60
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -1487,6 +1772,8 @@ X-Amz-Target: SWBExternalService.GetInlinePolicyForPermissionSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1502,7 +1789,12 @@ Obtains the permissions boundary for a specified PermissionSet .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.GetPermissionsBoundaryForPermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 60
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -1513,6 +1805,8 @@ X-Amz-Target: SWBExternalService.GetPermissionsBoundaryForPermissionSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1528,7 +1822,12 @@ Lists the status of the Amazon Web Services account assignment creation requests
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListAccountAssignmentCreationStatus
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000"
@@ -1538,6 +1837,8 @@ X-Amz-Target: SWBExternalService.ListAccountAssignmentCreationStatus
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1553,7 +1854,12 @@ Lists the status of the Amazon Web Services account assignment deletion requests
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListAccountAssignmentDeletionStatus
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000"
@@ -1563,6 +1869,8 @@ X-Amz-Target: SWBExternalService.ListAccountAssignmentDeletionStatus
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1578,7 +1886,12 @@ Lists the assignee of the specified Amazon Web Services account with the specifi
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListAccountAssignments
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 87
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -1590,6 +1903,8 @@ X-Amz-Target: SWBExternalService.ListAccountAssignments
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1605,7 +1920,12 @@ Retrieves a list of the IAM Identity Center associated Amazon Web Services accou
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListAccountAssignmentsForPrincipal
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -1617,6 +1937,8 @@ X-Amz-Target: SWBExternalService.ListAccountAssignmentsForPrincipal
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 420
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1632,7 +1954,12 @@ Lists all the Amazon Web Services accounts where the specified permission set is
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListAccountsForProvisionedPermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 60
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -1643,6 +1970,8 @@ X-Amz-Target: SWBExternalService.ListAccountsForProvisionedPermissionSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1658,7 +1987,12 @@ Lists the access scopes and authorized targets associated with an application.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListApplicationAccessScopes
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000"
@@ -1668,6 +2002,8 @@ X-Amz-Target: SWBExternalService.ListApplicationAccessScopes
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1683,7 +2019,12 @@ Lists Amazon Web Services account users that are assigned to an application.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListApplicationAssignments
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000"
@@ -1693,6 +2034,8 @@ X-Amz-Target: SWBExternalService.ListApplicationAssignments
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1708,7 +2051,12 @@ Lists the applications to which a specified principal is assigned.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListApplicationAssignmentsForPrincipal
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -1720,6 +2068,8 @@ X-Amz-Target: SWBExternalService.ListApplicationAssignmentsForPrincipal
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 420
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1735,7 +2085,12 @@ Lists all of the authentication methods supported by the specified application.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListApplicationAuthenticationMethods
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000"
@@ -1745,6 +2100,8 @@ X-Amz-Target: SWBExternalService.ListApplicationAuthenticationMethods
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1760,7 +2117,12 @@ List the grants associated with an application.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListApplicationGrants
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000"
@@ -1770,6 +2132,8 @@ X-Amz-Target: SWBExternalService.ListApplicationGrants
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1785,7 +2149,12 @@ Lists the application providers configured in the IAM Identity Center identity s
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListApplicationProviders
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1793,28 +2162,30 @@ X-Amz-Target: SWBExternalService.ListApplicationProviders
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 28973
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "ApplicationProviders": [
     {
-      "ApplicationProviderArn": "arn:aws:sso::aws:applicationProvider/custom",
-      "FederationProtocol": "OAUTH",
+      "ApplicationProviderArn": "arn:aws:sso::aws:applicationProvider/catalog/Statuspage",
+      "FederationProtocol": "SAML",
       "DisplayData": {
-        "DisplayName": "SSO Custom Application Provider",
-        "IconUrl": "https://static.global.sso.amazonaws.com/app-6cdfd271da635d49/icons/default.png",
-        "Description": "SSO Custom Application Provider Application"
+        "DisplayName": "Statuspage",
+        "IconUrl": "https://127.0.0.1:9297/_aws/sso-application-provider-icons/catalog/Statuspage/icon.png",
+        "Description": "Statuspage Application"
       }
     },
     {
-      "ApplicationProviderArn": "arn:aws:sso::aws:applicationProvider/athena",
-      "FederationProtocol": "OAUTH",
+      "ApplicationProviderArn": "arn:aws:sso::aws:applicationProvider/catalog/DuoNetworkGateway",
+      "FederationProtocol": "SAML",
       "DisplayData": {
-        "DisplayName": "Amazon Athena",
-        "IconUrl": "https://static.global.sso.amazonaws.com/app-084328c53a9de563/icons/default.png",
-        "Description": "Amazon Athena Application"
+        "DisplayName": "Duo Network Gateway",
+        "IconUrl": "https://127.0.0.1:9297/_aws/sso-application-provider-icons/catalog/DuoNetworkGateway/icon.png",
+        "Description": "Duo Network Gateway Application"
       }
     },
-… (917 more lines)
+… (909 more lines)
 ```
 
 Accepted: the emulator answered `200 OK` even with placeholder values.
@@ -1825,7 +2196,12 @@ Lists all applications associated with the instance of IAM Identity Center.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListApplications
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000"
@@ -1835,6 +2211,8 @@ X-Amz-Target: SWBExternalService.ListApplications
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1850,7 +2228,12 @@ Lists all customer managed policies attached to a specified PermissionSet .
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListCustomerManagedPolicyReferencesInPermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 60
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -1861,6 +2244,8 @@ X-Amz-Target: SWBExternalService.ListCustomerManagedPolicyReferencesInPermission
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1876,7 +2261,12 @@ Lists the details of the organization and account instances of IAM Identity Cent
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListInstances
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 2
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {}
 ```
@@ -1884,6 +2274,8 @@ X-Amz-Target: SWBExternalService.ListInstances
 ```http
 HTTP/1.1 200 OK
 content-type: application/x-amz-json-1.1
+content-length: 624
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "Instances": [
@@ -1893,14 +2285,14 @@ content-type: application/x-amz-json-1.1
       "IdentityStoreArn": "arn:aws:identitystore::000000000000:identitystore/d-9067f3a1c2",
       "OwnerAccountId": "000000000000",
       "Name": "IdentityCenter",
-      "CreatedDate": 1794830491.9161334,
+      "CreatedDate": 1795717806.1406298,
       "Status": "ACTIVE",
       "PrimaryRegion": "us-east-1",
       "Regions": [
         {
           "RegionName": "us-east-1",
           "Status": "ACTIVE",
-          "AddedDate": 1794830491.9161334,
+          "AddedDate": 1795717806.1406298,
           "IsPrimaryRegion": true
         }
       ],
@@ -1916,7 +2308,12 @@ Lists the Amazon Web Services managed policy that is attached to a specified per
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListManagedPoliciesInPermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 60
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -1927,6 +2324,8 @@ X-Amz-Target: SWBExternalService.ListManagedPoliciesInPermissionSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1942,7 +2341,12 @@ Lists the status of the permission set provisioning requests for a specified IAM
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListPermissionSetProvisioningStatus
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000"
@@ -1952,6 +2356,8 @@ X-Amz-Target: SWBExternalService.ListPermissionSetProvisioningStatus
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1967,7 +2373,12 @@ Lists the PermissionSet s in an IAM Identity Center instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListPermissionSets
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000"
@@ -1977,6 +2388,8 @@ X-Amz-Target: SWBExternalService.ListPermissionSets
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -1992,7 +2405,12 @@ Lists all the permission sets that are provisioned to a specified Amazon Web Ser
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListPermissionSetsProvisionedToAccount
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 55
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -2003,6 +2421,8 @@ X-Amz-Target: SWBExternalService.ListPermissionSetsProvisionedToAccount
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2018,7 +2438,12 @@ Lists all enabled Regions of an IAM Identity Center instance, including those th
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListRegions
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000"
@@ -2028,6 +2453,8 @@ X-Amz-Target: SWBExternalService.ListRegions
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2043,7 +2470,12 @@ Lists the tags that are attached to a specified resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListTagsForResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "example000"
@@ -2053,6 +2485,8 @@ X-Amz-Target: SWBExternalService.ListTagsForResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 483
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2068,7 +2502,12 @@ Lists all the trusted token issuers configured in an instance of IAM Identity Ce
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ListTrustedTokenIssuers
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000"
@@ -2078,6 +2517,8 @@ X-Amz-Target: SWBExternalService.ListTrustedTokenIssuers
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2093,7 +2534,12 @@ The process by which a specified permission set is provisioned to the specified 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.ProvisionPermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 87
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -2105,6 +2551,8 @@ X-Amz-Target: SWBExternalService.ProvisionPermissionSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2120,7 +2568,12 @@ Adds or updates the list of authorized targets for an IAM Identity Center access
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.PutApplicationAccessScope
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 49
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "Scope": "example",
@@ -2131,6 +2584,8 @@ X-Amz-Target: SWBExternalService.PutApplicationAccessScope
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2146,7 +2601,12 @@ Configure how users gain access to an application.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.PutApplicationAssignmentConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 58
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000",
@@ -2157,6 +2617,8 @@ X-Amz-Target: SWBExternalService.PutApplicationAssignmentConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2172,7 +2634,12 @@ Adds or updates an authentication method for an application.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.PutApplicationAuthenticationMethod
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 114
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000",
@@ -2188,6 +2655,8 @@ X-Amz-Target: SWBExternalService.PutApplicationAuthenticationMethod
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2203,7 +2672,12 @@ Creates a configuration for an application to use grants.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.PutApplicationGrant
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 97
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000",
@@ -2217,6 +2691,8 @@ X-Amz-Target: SWBExternalService.PutApplicationGrant
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2232,7 +2708,12 @@ Updates the session configuration for an application in IAM Identity Center.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.PutApplicationSessionConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000"
@@ -2242,6 +2723,8 @@ X-Amz-Target: SWBExternalService.PutApplicationSessionConfiguration
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2257,7 +2740,12 @@ Attaches an inline policy to a permission set.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.PutInlinePolicyToPermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 85
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -2269,6 +2757,8 @@ X-Amz-Target: SWBExternalService.PutInlinePolicyToPermissionSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2284,7 +2774,12 @@ Attaches an Amazon Web Services managed or customer managed policy to the specif
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.PutPermissionsBoundaryToPermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 85
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -2296,6 +2791,8 @@ X-Amz-Target: SWBExternalService.PutPermissionsBoundaryToPermissionSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2311,7 +2808,12 @@ Removes an additional Region from an IAM Identity Center instance.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.RemoveRegion
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 51
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -2322,6 +2824,8 @@ X-Amz-Target: SWBExternalService.RemoveRegion
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 345
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2337,7 +2841,12 @@ Associates a set of tags with a specified resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.TagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 73
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "example000",
@@ -2353,6 +2862,8 @@ X-Amz-Target: SWBExternalService.TagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 483
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2368,7 +2879,12 @@ Disassociates a set of tags from a specified resource.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.UntagResource
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 50
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ResourceArn": "example000",
@@ -2381,6 +2897,8 @@ X-Amz-Target: SWBExternalService.UntagResource
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 483
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2396,7 +2914,12 @@ Updates application properties.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.UpdateApplication
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 31
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "ApplicationArn": "example000"
@@ -2406,6 +2929,8 @@ X-Amz-Target: SWBExternalService.UpdateApplication
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 253
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2421,7 +2946,12 @@ Update the details for the instance of IAM Identity Center that is owned by the 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.UpdateInstance
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 28
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000"
@@ -2431,6 +2961,8 @@ X-Amz-Target: SWBExternalService.UpdateInstance
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2446,7 +2978,12 @@ Updates the IAM Identity Center identity store attributes that you can use with 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.UpdateInstanceAccessControlAttributeConfiguration
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 153
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -2468,6 +3005,8 @@ X-Amz-Target: SWBExternalService.UpdateInstanceAccessControlAttributeConfigurati
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 220
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2483,7 +3022,12 @@ Updates an existing permission set.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.UpdatePermissionSet
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 60
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "InstanceArn": "example000",
@@ -2494,6 +3038,8 @@ X-Amz-Target: SWBExternalService.UpdatePermissionSet
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 429
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",
@@ -2509,7 +3055,12 @@ Updates the name of the trusted token issuer, or the path of a source attribute 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.1
 X-Amz-Target: SWBExternalService.UpdateTrustedTokenIssuer
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183051Z
+Content-Length: 38
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sso/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date;x-amz-target, Signature=<signature>
 
 {
   "TrustedTokenIssuerArn": "example000"
@@ -2519,6 +3070,8 @@ X-Amz-Target: SWBExternalService.UpdateTrustedTokenIssuer
 ```http
 HTTP/1.1 400 Bad Request
 content-type: application/x-amz-json-1.1
+content-length: 312
+date: Thu, 26 Nov 2026 18:30:51 GMT
 
 {
   "__type": "ValidationException",

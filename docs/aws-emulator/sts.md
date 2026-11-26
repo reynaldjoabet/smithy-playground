@@ -10,7 +10,7 @@
 
 ## Calling the emulator
 
-Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-16. Requests are signed with SigV4 for Region `us-east-1` and signing name `sts`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
+Every request and response on this page was sent to and returned by a running AWS Emulator at `https://127.0.0.1:9297` on 2026-11-26 (emulator 1.0.629). Requests are signed with SigV4 for Region `us-east-1` and signing name `sts`, using the credentials the emulator writes to `~/.aws/emulator/9297/emulator_credentials`; its certificate authority is `~/.aws/emulator/9297/ca.pem`. The access key, signatures and any secrets the emulator returned are replaced with placeholders such as `<redacted>`, and bodies are pretty-printed (form-encoded bodies are shown one parameter per line; on the wire they are a single `&`-joined line).
 
 The AWS CLI and SDKs need nothing more than the environment variables from the [Docker setup](README.md#running-the-emulator-in-docker). With plain `curl`, which signs requests itself, this is `GetCallerIdentity`:
 
@@ -39,9 +39,9 @@ Every request is signed with the emulator's credentials, which belong to IAM use
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183052Z
 Content-Length: 43
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetCallerIdentity
 &Version=2011-06-15
@@ -53,7 +53,7 @@ Action=GetCallerIdentity
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 371
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <GetCallerIdentityResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <GetCallerIdentityResult>
@@ -62,7 +62,7 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
     <Arn>arn:aws:iam::000000000000:user/emulator</Arn>
   </GetCallerIdentityResult>
   <ResponseMetadata>
-    <RequestId>6eec8e9f-9fa3-43e0-b20c-c3c376087dbd</RequestId>
+    <RequestId>fdf8c6b8-9c78-4950-9f16-a948176fadde</RequestId>
   </ResponseMetadata>
 </GetCallerIdentityResponse>
 ```
@@ -77,9 +77,9 @@ Temporary credentials for the same user. The secret key and session token are re
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183052Z
 Content-Length: 61
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetSessionToken
 &Version=2011-06-15
@@ -92,21 +92,21 @@ Action=GetSessionToken
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 1322
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <GetSessionTokenResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <GetSessionTokenResult>
     <Credentials xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
-      <AccessKeyId>EMULATORAS3UHQ4Z7EQ5</AccessKeyId>
+      <AccessKeyId>EMULATORAS73WNJGKPIB</AccessKeyId>
       <SecretAccessKey><redacted></SecretAccessKey>
       <SessionToken><redacted></SessionToken>
-      <Expiration>2026-11-16T12:19:56Z</Expiration>
+      <Expiration>2026-11-26T18:45:52Z</Expiration>
     </Credentials>
     <SessionTokenUtilization>17</SessionTokenUtilization>
     <SessionTokenSize>712</SessionTokenSize>
   </GetSessionTokenResult>
   <ResponseMetadata>
-    <RequestId>605a1900-c0a6-469a-b3f4-538ea3374d25</RequestId>
+    <RequestId>4a9891b4-d8a1-4ab1-a6de-aeae9d9dd32d</RequestId>
   </ResponseMetadata>
 </GetSessionTokenResponse>
 ```
@@ -121,9 +121,9 @@ An IAM role whose trust policy lets principals of this account assume it.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183052Z
 Content-Length: 335
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=CreateRole
 &Version=2010-05-08
@@ -136,23 +136,25 @@ Action=CreateRole
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
-content-length: 799
-date: Mon, 16 Nov 2026 12:04:56 GMT
+content-length: 841
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <CreateRoleResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
   <CreateRoleResult>
     <Role xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
       <Path>/</Path>
       <RoleName>docs-demo-role</RoleName>
-      <RoleId>AROABGXEQES5NRCCJJWAN</RoleId>
+      <RoleId>AROAKWCHDRLOD744GNFOK</RoleId>
       <Arn>arn:aws:iam::000000000000:role/docs-demo-role</Arn>
-      <CreateDate>2026-11-16T12:04:56.437Z</CreateDate>
+      <CreateDate>2026-11-26T18:30:52.133Z</CreateDate>
       <AssumeRolePolicyDocument>%7B%22Version%22%3A%222012-10-17%22%2C%22Statement%22%3A%5B%7B%22Effect%22%3A%22Allow%22%2C%22Principal%22%3A%7B%22AWS%22%3A%22arn%3Aaws%3Aiam%3A%3A000000000000%3Aroot%22%7D%2C%22Action%22%3A%22sts%3AAssumeRole%22%7D%5D%7D</AssumeRolePolicyDocument>
       <MaxSessionDuration>3600</MaxSessionDuration>
+      <Tags></Tags>
+      <RoleLastUsed></RoleLastUsed>
     </Role>
   </CreateRoleResult>
   <ResponseMetadata>
-    <RequestId>994a3320-a08c-45a9-a8a6-064de4318192</RequestId>
+    <RequestId>8178d9a3-9a39-4ffe-8585-e8b6045dfe9f</RequestId>
   </ResponseMetadata>
 </CreateRoleResponse>
 ```
@@ -167,9 +169,9 @@ STS checks the role's trust policy and returns credentials for the role session,
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183052Z
 Content-Length: 148
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AssumeRole
 &Version=2011-06-15
@@ -184,26 +186,26 @@ Action=AssumeRole
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 1511
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <AssumeRoleResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <AssumeRoleResult>
     <Credentials xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
-      <AccessKeyId>EMULATORASUSRY23U66Z</AccessKeyId>
+      <AccessKeyId>EMULATORASVYYK2CIMMO</AccessKeyId>
       <SecretAccessKey><redacted></SecretAccessKey>
       <SessionToken><redacted></SessionToken>
-      <Expiration>2026-11-16T12:19:56Z</Expiration>
+      <Expiration>2026-11-26T18:45:52Z</Expiration>
     </Credentials>
     <AssumedRoleUser>
-      <AssumedRoleId>AROABGXEQES5NRCCJJWAN:docs-demo</AssumedRoleId>
+      <AssumedRoleId>AROAKWCHDRLOD744GNFOK:docs-demo</AssumedRoleId>
       <Arn>arn:aws:sts::000000000000:assumed-role/docs-demo-role/docs-demo</Arn>
     </AssumedRoleUser>
-    <PackedPolicySize>0</PackedPolicySize>
+    <PackedPolicySize>1</PackedPolicySize>
     <SessionTokenUtilization>17</SessionTokenUtilization>
     <SessionTokenSize>712</SessionTokenSize>
   </AssumeRoleResult>
   <ResponseMetadata>
-    <RequestId>921a16c0-77eb-4981-8ae0-aaf7034f03bb</RequestId>
+    <RequestId>d18f9403-d732-4385-9cd1-b6cc8ea935d1</RequestId>
   </ResponseMetadata>
 </AssumeRoleResponse>
 ```
@@ -218,9 +220,9 @@ A role that does not exist is refused with 403 `AccessDenied`, as AWS does, so a
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183052Z
 Content-Length: 128
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AssumeRole
 &Version=2011-06-15
@@ -233,9 +235,9 @@ Action=AssumeRole
 ```http
 HTTP/1.1 403 Forbidden
 content-type: text/xml
-x-amzn-requestid: 7895c9e2-d419-473c-907f-dd4fde3e2859
+x-amzn-requestid: 748cb7a4-4c60-4a93-89cf-bc9fb542886c
 content-length: 367
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <ErrorResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <Error>
@@ -243,7 +245,7 @@ date: Mon, 16 Nov 2026 12:04:56 GMT
     <Code>AccessDenied</Code>
     <Message>User: arn:aws:iam::000000000000:user/emulator is not authorized to perform: sts:AssumeRole on resource: arn:aws:iam::000000000000:role/does-not-exist</Message>
   </Error>
-  <RequestId>7895c9e2-d419-473c-907f-dd4fde3e2859</RequestId>
+  <RequestId>748cb7a4-4c60-4a93-89cf-bc9fb542886c</RequestId>
 </ErrorResponse>
 ```
 
@@ -257,9 +259,9 @@ Clean up.
 POST / HTTP/1.1
 Content-Type: application/x-www-form-urlencoded; charset=utf-8
 Host: 127.0.0.1:9297
-X-Amz-Date: 20261116T120456Z
+X-Amz-Date: 20261126T183052Z
 Content-Length: 60
-Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261116/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DeleteRole
 &Version=2010-05-08
@@ -272,19 +274,19 @@ Action=DeleteRole
 HTTP/1.1 200 OK
 content-type: text/xml
 content-length: 224
-date: Mon, 16 Nov 2026 12:04:56 GMT
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <DeleteRoleResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
-  <DeleteRoleResult/>
+  <DeleteRoleResult></DeleteRoleResult>
   <ResponseMetadata>
-    <RequestId>f6e77c26-d049-4be5-a7c1-47df19a08813</RequestId>
+    <RequestId>9015dc6d-5374-4414-9402-6b5a363f8b89</RequestId>
   </ResponseMetadata>
 </DeleteRoleResponse>
 ```
 
 ## Operations
 
-Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Headers repeated on every request (`Host`, `X-Amz-Date`, `Authorization`, `Content-Length`, and the fixed `Content-Type`) are left out here; the walkthrough shows them in full.
+Every operation of the model, each called once with placeholder values for its required members only (`example`, `1`, the first enum value, and so on), with the emulator's real answer. A placeholder rarely names a real resource, so most answers are the operation's validation or not-found error; that is still the exact response shape a client has to handle. Every request and response shows all of its headers, as in the walkthrough.
 
 Of 11 operations, 3 accepted the placeholder call, 0 answer `501 NotImplemented`, and the rest refused it with a modelled error.
 
@@ -294,6 +296,11 @@ Returns a set of temporary security credentials that you can use to access Amazo
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 131
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AssumeRole
 &Version=2011-06-15
@@ -304,14 +311,17 @@ Action=AssumeRole
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: cfe515ae-edc6-4413-920a-abc6a7e472c6
+content-length: 368
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <ErrorResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>RoleArn 'arn:aws:sts:us-east-1:000000000000:example/example' is not an IAM role ARN of the form arn:&lt;partition&gt;:iam::&lt;account&gt;:role/&lt;name&gt;</Message>
+    <Message>RoleArn 'arn:aws:sts:us-east-1:000000000000:example/example' is not an IAM role ARN of the form arn:&lt;partition>:iam::&lt;account>:role/&lt;name></Message>
   </Error>
-  <RequestId>8e364c59-da9d-4e52-bf85-dc9add81eb91</RequestId>
+  <RequestId>cfe515ae-edc6-4413-920a-abc6a7e472c6</RequestId>
 </ErrorResponse>
 ```
 
@@ -323,6 +333,11 @@ Returns a set of temporary security credentials for users who have been authenti
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 213
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AssumeRoleWithSAML
 &Version=2011-06-15
@@ -334,14 +349,17 @@ Action=AssumeRoleWithSAML
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 09c4ae08-512e-4945-81b8-168a529d59e5
+content-length: 368
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <ErrorResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
-    <Message>RoleArn 'arn:aws:sts:us-east-1:000000000000:example/example' is not an IAM role ARN of the form arn:&lt;partition&gt;:iam::&lt;account&gt;:role/&lt;name&gt;</Message>
+    <Message>RoleArn 'arn:aws:sts:us-east-1:000000000000:example/example' is not an IAM role ARN of the form arn:&lt;partition>:iam::&lt;account>:role/&lt;name></Message>
   </Error>
-  <RequestId>844a40fb-c295-4cd0-ba09-8027755c7aaa</RequestId>
+  <RequestId>09c4ae08-512e-4945-81b8-168a529d59e5</RequestId>
 </ErrorResponse>
 ```
 
@@ -353,6 +371,11 @@ Returns a set of temporary security credentials for users who have been authenti
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 171
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AssumeRoleWithWebIdentity
 &Version=2011-06-15
@@ -364,6 +387,9 @@ Action=AssumeRoleWithWebIdentity
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 96342659-1d45-46ce-952a-2d718cac74e6
+content-length: 320
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <ErrorResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <Error>
@@ -371,7 +397,7 @@ content-type: text/xml
     <Code>InvalidIdentityToken</Code>
     <Message>The ID Token provided is not a valid JWT. (You may see this error if you sent an Access Token)</Message>
   </Error>
-  <RequestId>1d1418af-70ed-43b4-a70c-405f8d631bcf</RequestId>
+  <RequestId>96342659-1d45-46ce-952a-2d718cac74e6</RequestId>
 </ErrorResponse>
 ```
 
@@ -383,6 +409,11 @@ Returns a set of short term credentials you can use to perform privileged tasks 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 65
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=AssumeRoot
 &Version=2011-06-15
@@ -392,15 +423,18 @@ Action=AssumeRoot
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 67800246-55ce-40b8-8c6b-2cbbeced00dd
+content-length: 304
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
-<?xml version="1.0" ?>
+<?xml version="1.0"?>
 <ErrorResponse>
   <Error>
     <Type>Sender</Type>
     <Code>ValidationError</Code>
     <Message>1 validation error detected: Value null at 'taskPolicyArn' failed to satisfy constraint: Member must not be null</Message>
   </Error>
-  <RequestId>58de53a8-776f-4d60-892a-5b703a948542</RequestId>
+  <RequestId>67800246-55ce-40b8-8c6b-2cbbeced00dd</RequestId>
 </ErrorResponse>
 ```
 
@@ -412,6 +446,11 @@ Decodes additional information about the authorization status of a request from 
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 75
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=DecodeAuthorizationMessage
 &Version=2011-06-15
@@ -421,6 +460,9 @@ Action=DecodeAuthorizationMessage
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: b4eab68e-bf68-45ce-9917-2db7f0421030
+content-length: 287
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <ErrorResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <Error>
@@ -428,7 +470,7 @@ content-type: text/xml
     <Code>InvalidAuthorizationMessageException</Code>
     <Message>Message is not valid: [123, 22, -90, -90, 87]</Message>
   </Error>
-  <RequestId>d9ebb8ab-d4b9-4319-85b6-c6d061ab6172</RequestId>
+  <RequestId>b4eab68e-bf68-45ce-9917-2db7f0421030</RequestId>
 </ErrorResponse>
 ```
 
@@ -440,6 +482,11 @@ Returns the account identifier for the specified access key ID.
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 71
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetAccessKeyInfo
 &Version=2011-06-15
@@ -449,6 +496,9 @@ Action=GetAccessKeyInfo
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: 7250c79f-c594-4809-b6f5-0b54b9f8c60b
+content-length: 248
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <ErrorResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <Error>
@@ -456,7 +506,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>Access key ID is not valid.</Message>
   </Error>
-  <RequestId>93ce01bc-ea95-4782-9635-949b741b2e1f</RequestId>
+  <RequestId>7250c79f-c594-4809-b6f5-0b54b9f8c60b</RequestId>
 </ErrorResponse>
 ```
 
@@ -468,6 +518,11 @@ Returns details about the IAM user or role whose credentials are used to call th
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetCallerIdentity
 &Version=2011-06-15
@@ -476,6 +531,8 @@ Action=GetCallerIdentity
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 371
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <GetCallerIdentityResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <GetCallerIdentityResult>
@@ -484,7 +541,7 @@ content-type: text/xml
     <Arn>arn:aws:iam::000000000000:user/emulator</Arn>
   </GetCallerIdentityResult>
   <ResponseMetadata>
-    <RequestId>0d3d912e-319d-4c87-a262-06654f87efe4</RequestId>
+    <RequestId>1f89ffd3-0fab-4f93-a365-8739f095d1c9</RequestId>
   </ResponseMetadata>
 </GetCallerIdentityResponse>
 ```
@@ -497,6 +554,11 @@ Exchanges a trade-in token for temporary Amazon Web Services credentials with th
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 70
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetDelegatedAccessToken
 &Version=2011-06-15
@@ -506,6 +568,9 @@ Action=GetDelegatedAccessToken
 ```http
 HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: e8a57fe7-5ce1-4cb0-afa2-558046fd0ab9
+content-length: 243
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <ErrorResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <Error>
@@ -513,7 +578,7 @@ content-type: text/xml
     <Code>ValidationError</Code>
     <Message>Invalid trade-in token</Message>
   </Error>
-  <RequestId>5c315069-d1fd-49e0-b3ab-c82f74a2dfe0</RequestId>
+  <RequestId>e8a57fe7-5ce1-4cb0-afa2-558046fd0ab9</RequestId>
 </ErrorResponse>
 ```
 
@@ -525,6 +590,11 @@ Returns a set of temporary security credentials (consisting of an access key ID,
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 57
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetFederationToken
 &Version=2011-06-15
@@ -534,25 +604,27 @@ Action=GetFederationToken
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 1517
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <GetFederationTokenResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <GetFederationTokenResult>
     <Credentials xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
-      <AccessKeyId>EMULATORASJQNPDGQHT7</AccessKeyId>
+      <AccessKeyId>EMULATORASXRXCDPOB5C</AccessKeyId>
       <SecretAccessKey><redacted></SecretAccessKey>
       <SessionToken><redacted></SessionToken>
-      <Expiration>2026-11-17T00:11:25Z</Expiration>
+      <Expiration>2026-11-27T06:30:52Z</Expiration>
     </Credentials>
     <FederatedUser>
       <FederatedUserId>000000000000:example</FederatedUserId>
       <Arn>arn:aws:sts::000000000000:federated-user/example</Arn>
     </FederatedUser>
-    <PackedPolicySize>0</PackedPolicySize>
+    <PackedPolicySize>1</PackedPolicySize>
     <SessionTokenUtilization>17</SessionTokenUtilization>
     <SessionTokenSize>712</SessionTokenSize>
   </GetFederationTokenResult>
   <ResponseMetadata>
-    <RequestId>bdbafc8d-6458-4578-bc7f-90f1ee977cac</RequestId>
+    <RequestId>f5fbb70e-1116-402a-a316-41f70ce9a364</RequestId>
   </ResponseMetadata>
 </GetFederationTokenResponse>
 ```
@@ -565,6 +637,11 @@ Returns a set of temporary credentials for an Amazon Web Services account or IAM
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 41
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetSessionToken
 &Version=2011-06-15
@@ -573,20 +650,22 @@ Action=GetSessionToken
 ```http
 HTTP/1.1 200 OK
 content-type: text/xml
+content-length: 1322
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <GetSessionTokenResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <GetSessionTokenResult>
     <Credentials xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
-      <AccessKeyId>EMULATORASKGAC7FLUTY</AccessKeyId>
+      <AccessKeyId>EMULATORASKRE5UZWO7V</AccessKeyId>
       <SecretAccessKey><redacted></SecretAccessKey>
       <SessionToken><redacted></SessionToken>
-      <Expiration>2026-11-17T00:11:25Z</Expiration>
+      <Expiration>2026-11-27T06:30:52Z</Expiration>
     </Credentials>
     <SessionTokenUtilization>17</SessionTokenUtilization>
     <SessionTokenSize>712</SessionTokenSize>
   </GetSessionTokenResult>
   <ResponseMetadata>
-    <RequestId>68ebc4bf-9727-48fc-a048-14267036b74d</RequestId>
+    <RequestId>63a66d8c-68b5-420e-ad52-4c14dea38dbf</RequestId>
   </ResponseMetadata>
 </GetSessionTokenResponse>
 ```
@@ -599,6 +678,11 @@ Returns a signed JSON Web Token (JWT) that represents the calling Amazon Web Ser
 
 ```http
 POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Host: 127.0.0.1:9297
+X-Amz-Date: 20261126T183052Z
+Content-Length: 94
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
 
 Action=GetWebIdentityToken
 &Version=2011-06-15
@@ -607,20 +691,23 @@ Action=GetWebIdentityToken
 ```
 
 ```http
-HTTP/1.1 403 Forbidden
+HTTP/1.1 400 Bad Request
 content-type: text/xml
+x-amzn-requestid: a8d0f7ec-ca85-47e3-9faf-74801a07bc0b
+content-length: 332
+date: Thu, 26 Nov 2026 18:30:52 GMT
 
 <ErrorResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
   <Error>
     <Type>Sender</Type>
-    <Code>OutboundWebIdentityFederationDisabledException</Code>
-    <Message>The outbound web identity federation feature is not enabled for this account. To use this feature, you must first enable it through the Amazon Web Services Management Console or API.</Message>
+    <Code>ValidationError</Code>
+    <Message>Requested SigningAlgorithm is not supported. See the GetWebIdentityToken documentation for supported algorithms</Message>
   </Error>
-  <RequestId>f5b3d023-61be-4150-9a54-3d07c0fb58de</RequestId>
+  <RequestId>a8d0f7ec-ca85-47e3-9faf-74801a07bc0b</RequestId>
 </ErrorResponse>
 ```
 
-`403` `OutboundWebIdentityFederationDisabledException`: the request was refused by authorization.
+`400` `ValidationError`: the placeholder values failed the operation's input validation.
 
 ## How it works
 
