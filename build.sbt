@@ -72,12 +72,28 @@ val jackson = Seq(
   "tools.jackson.module" %% "jackson-module-scala" % "3.3.0"
 )
 
+// ZIO Blocks schema and its format modules. JSON is built into zio-blocks-schema (zio.blocks.schema.json);
+// there is no separate JSON or Protobuf module. Stay on 0.0.x: the "0.017" on Maven Central is a stray,
+// mis-numbered release that sorts above 0.0.56, so sbt-updates will suggest it. Don't take it.
+val zioBlocksVersion = "0.0.56"
+
+val zioBlocks = Seq(
+  "dev.zio" %% "zio-blocks-schema"             % zioBlocksVersion,
+  "dev.zio" %% "zio-blocks-schema-avro"        % zioBlocksVersion,
+  "dev.zio" %% "zio-blocks-schema-thrift"      % zioBlocksVersion,
+  "dev.zio" %% "zio-blocks-schema-bson"        % zioBlocksVersion,
+  "dev.zio" %% "zio-blocks-schema-messagepack" % zioBlocksVersion,
+  "dev.zio" %% "zio-blocks-schema-toon"        % zioBlocksVersion,
+  "dev.zio" %% "zio-blocks-schema-csv"         % zioBlocksVersion,
+  "dev.zio" %% "zio-blocks-schema-xml"         % zioBlocksVersion,
+  "dev.zio" %% "zio-blocks-schema-yaml"        % zioBlocksVersion
+)
+
 lazy val root = rootProject
   .settings(
     name                 := "smithy-playground",
-    libraryDependencies  += munit      % Test,
-    libraryDependencies  += "dev.zio" %% "zio-blocks-smithy" % "0.0.56",
-    libraryDependencies ++= commonDependencies ++ jackson ++ fory
+    libraryDependencies  += munit % Test,
+    libraryDependencies ++= commonDependencies ++ jackson ++ fory ++ zioBlocks
   )
 
 // ---------------------------------------------------------------------------------------------
@@ -115,25 +131,26 @@ lazy val clientCodegen = project
     )
   )
 
-// Generated SQS and DynamoDB clients (regenerate with scripts/generate-scala-clients.sh).
+// Generated SQS, DynamoDB and Weather clients (regenerate with scripts/generate-scala-clients.sh). Their codecs
+// are derived with Hearth (the generator's default), so this depends on clientHearth; Mirror-derived copies in
+// its tests check that both derivations agree.
 lazy val clientExample = project
   .in(file("modules/client-example"))
-  .dependsOn(clientRuntime)
+  .dependsOn(clientRuntime, clientHearth)
   .settings(
     name                := "smithy-scala-client-example",
     libraryDependencies += munit % Test
   )
 
-// The alternative codec derivation, built on Hearth (https://github.com/kubuszok/hearth): generated code uses it
-// when the generator's derivation setting is "hearth". Its tests compare it with the runtime's Mirror derivation
-// on the same generated types, so they also see clientExample.
+// The codec derivation generated code uses by default, built on Hearth (https://github.com/kubuszok/hearth).
+// The runtime's own Mirror derivation stays available with the generator's --derivation=mirror.
 val hearthVersion = "0.4.5"
 
 lazy val clientHearth = project
   .in(file("modules/hearth"))
-  .dependsOn(clientRuntime, clientExample % Test)
+  .dependsOn(clientRuntime)
   .settings(
-    name                := "smithy-scala-client-hearth",
+    name                 := "smithy-scala-client-hearth",
     libraryDependencies ++= Seq(
       "com.kubuszok" %% "hearth" % hearthVersion,
       // Cross Quotes: Expr.quote / Expr.splice keep the Quotes context right inside Hearth's builders.

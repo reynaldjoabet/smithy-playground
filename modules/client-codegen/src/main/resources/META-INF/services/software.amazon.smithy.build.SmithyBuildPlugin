@@ -1,1 +1,2 @@
-smithyscala.codegen.ScalaClientCodegenPlugin
+smithy.scala.codegen.ScalaClientCodegenPlugin
+smithy.scala.codegen.ScalaServerCodegenPlugin
