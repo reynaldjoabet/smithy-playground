@@ -53,25 +53,130 @@ The generated SQS `SendMessageRequest`, for example, is [SendMessageRequest.scal
 
 ## Scala 3 features in use
 
-Generated code only describes shapes; the compiler writes the serialization code. The parts of Scala 3 that do it:
+The first version of the generator wrote serialization code as text. Every structure, union, list and map got hand-shaped `write` and `read` methods, about 24,000 lines across the three example clients. The second version uses Scala 3 to move that work into the compiler. Generated code now only describes shapes, and the runtime derives everything else.
 
-| Feature | Where | What it does |
+The table is the summary; each feature has a section after it saying why it was used and what it changed.
+
+| Feature | Where | Problem it solved |
 |---|---|---|
-| `Mirror` derivation with `inline`, `erasedValue`, `summonInline` | `ShapeCodec.struct` | Walks a case class's field types at compile time and summons a codec for each. Field `i` lines up with schema member `i`, so the codec writes `productElement(i)` with `members(i)` and builds the result with `mirror.fromProduct`. |
-| `Mirror.SumOf`, `constValue[MirroredLabel]` | `ShapeCodec.union` | One entry per enum case: its name, its value's codec (none for `Unit` members) and a constructor. The case's `ordinal` picks the schema member when writing. |
-| `summonFrom` and `ValueOf` | `ShapeCodec.enumValues` | Keeps the enum's singleton cases, so `knownValues` lists every value but `UnknownValue(raw)` with no hand-written list. |
-| A quoted macro (`scala.quoted`) | `Defaults.of` | `Mirror` doesn't expose default arguments, so a macro reads the constructor's `HasDefault` parameters and calls the companion's default getters. A `@default` member missing from a response gets its default. |
-| Inline tuple traversal and `compiletime.error` | `TypeRegistry.of` | `TypeRegistry.of[A *: B *: EmptyTuple]` summons each error's codec. A type that isn't a `ServiceException` fails to compile, which `DerivationSpec` checks with `compileErrors`. |
-| By-name context parameters | the `Option`, `List` and `Map` givens | `(using inner: => ShapeCodec[A])` lets recursive types such as DynamoDB's `AttributeValue`, a map of itself, resolve without an initialization loop. Derived codecs also look their field codecs up lazily. |
-| Context bounds with `as` | `Operation.of[I: SchemaCodec as in, O: SchemaCodec as out]` | Names the evidence of a context bound without a separate `using` clause. |
-| Opaque types | `Traits` | A plain `Map` at runtime, with only `has`, `get` and `++` visible outside. The trait ids are `inline val` constants. |
-| Named tuples | `Headers` | Header entries are `(name: String, value: String)`, read as `h.name` and `h.value`. |
-| Union types | `CallFailure = ServiceException \| TransportException` | The retry loop's failure type. `RetryStrategy.isRetryable` matches it exhaustively, with no catch-all case. |
-| Enums with `derives CanEqual` | generated unions and enums | Value equality under the build's `-language:strictEquality`. |
+| [Mirror derivation](#mirror-derivation-for-structures) | `ShapeCodec.struct` | A `write`/`read` pair generated as text for every structure |
+| [Sum mirrors](#sum-mirrors-for-unions) | `ShapeCodec.union` | The same for every union, plus pattern matches kept in sync by hand |
+| [`summonFrom` and `ValueOf`](#summonfrom-and-valueof-for-enum-values) | `ShapeCodec.enumValues` | A list of enum values written out a second time |
+| [A quoted macro](#a-quoted-macro-for-default-values) | `Defaults.of` | Default values duplicated in the reading code |
+| [Inline tuple traversal](#inline-tuple-traversal-for-error-registries) | `TypeRegistry.of` | Error registrations as boilerplate lambdas, with no type check |
+| [By-name context parameters](#by-name-context-parameters-for-recursive-shapes) | `Option`, `List`, `Map` codecs | Recursive shapes, which derivation alone would loop on |
+| [Context bounds with `as`](#context-bounds-with-as) | `Operation.of` | Seven positional constructor arguments per operation |
+| [Opaque types](#opaque-types-and-inline-val) | `Traits` | A wrapper object around a `Map` |
+| [Named tuples](#named-tuples) | `Headers` | `_1` and `_2`, or `(k, v)` patterns everywhere |
+| [Union types](#union-types) | `CallFailure` | A `Throwable` parameter with a catch-all case |
+| [`derives CanEqual`](#derives-canequal) | generated enums | Equality under `-language:strictEquality` |
 
-None of this uses experimental features. The build's strict flags (`-Wvalue-discard`, `-Wnonunit-statement`, `-language:strictEquality`, `-Xcheck-macros`) report nothing for the runtime or the 544 generated files.
+### Mirror derivation for structures
 
-Moving serialization out of the generated text shrank the generated sources from about 24,000 lines to about 11,000. In one run here, the example module also compiled in 42 seconds instead of 88.
+**Why.** A structure codec only needs two things: each field's type and its position. The generator was writing that knowledge out as text. For each structure it emitted one `var` per field, a `match` on member indexes, and the constructor call, for SQS's 100 shapes and DynamoDB's 400 alike. The same template ran hundreds of times, so a template bug became a bug in hundreds of files.
+
+**How.** A `Mirror.ProductOf[A]` gives the field types as a tuple type. `ShapeCodec.struct` walks it with `inline erasedValue[T] match` and `summonInline` to find a codec per field. At runtime, field `i` is written with schema member `i` (`productElement(i)`, `members(i)`) and built back with `mirror.fromProduct`.
+
+**What it changed.** A structure's companion went from about 40 lines to one:
+
+```scala
+given codec: rt.SchemaCodec[GetForecastInput] = rt.ShapeCodec.struct[GetForecastInput](schema)
+```
+
+The serialization logic now exists once, in [ShapeCodec.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/ShapeCodec.scala), where it's tested directly. If a field type has no codec, compiling the generated file fails, rather than the call failing at runtime.
+
+### Sum mirrors for unions
+
+**Why.** Generated unions had a `write` that matched every case and a `read` that switched on every member index. Both had to agree with the enum's case order, and nothing checked that.
+
+**How.** `Mirror.SumOf[U]` lists the cases in declaration order. For each case, `ShapeCodec.union` takes its name (`constValue[MirroredLabel]`), its value's codec, or none for a `Unit` member, and a constructor. Writing uses the case's `ordinal` as the member index. The generator only has to declare cases in member order, with `UnknownMember` last.
+
+**What it changed.** There are no per-union matches left to fall out of sync. `DerivationSpec` checks the mapping directly: `Kind.Sunny` writes `{"sunny":{}}`, `Kind.Rain(3)` writes `{"rain":3}`, and an unknown member reads as `UnknownMember("hail")`.
+
+### `summonFrom` and `ValueOf` for enum values
+
+**Why.** Every enum listed its values twice: once as cases, and again in a hand-built `knownValues` list. Adding a case meant changing both.
+
+**How.** `ShapeCodec.enumValues[E]` walks the enum's cases. `summonFrom { case v: ValueOf[C] => ... }` keeps the ones that are singletons, which is every case except `UnknownValue(raw)`.
+
+**What it changed.** `knownValues` is now `rt.ShapeCodec.enumValues[Units]`, so the cases are the only list. The test checks that `Units.knownValues == List(METRIC, IMPERIAL)`.
+
+### A quoted macro for default values
+
+**Why.** A `@default` member is a case-class parameter with a default. When it was missing from a response, the old `read` method used a copy of that default, which the generator wrote a second time. `Mirror` exposes field types and names, but not defaults, so derivation alone couldn't do this.
+
+**How.** [Defaults.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Defaults.scala) is a `scala.quoted` macro. It finds the constructor parameters flagged `HasDefault` and calls the companion's synthetic default getters, giving a `Map` from field index to default value.
+
+**What it changed.** Each default exists in one place, the case-class parameter list. The test reads `{"city":"Oslo"}` and gets `units = METRIC, detail = LOW`. It also checks `Defaults.of` directly.
+
+### Inline tuple traversal for error registries
+
+**Why.** Each operation registered its errors with one `new rt.ErrorType(X.schema, r => X.read(r, X.schema))` line per error, 13 lines for SQS `SendMessage`. Nothing stopped a non-error type from being listed.
+
+**How.** `TypeRegistry.of[E1 *: E2 *: EmptyTuple]` walks the tuple type at compile time. For each type it checks `case _: ServiceException`, summons the codec, and otherwise calls `compiletime.error`.
+
+**What it changed.** The registry is one type expression, and a wrong type is a compile error with a clear message. The test confirms this with munit's `compileErrors`: `TypeRegistry.of[String *: EmptyTuple]` fails with "every error type must extend ServiceException".
+
+### By-name context parameters for recursive shapes
+
+**Why.** DynamoDB's `AttributeValue` is a union whose `M` and `L` cases hold maps and lists of `AttributeValue`. To build the `Map` codec you need the `AttributeValue` codec, which is the very thing being built. If either were evaluated eagerly while the other is still being initialized, that would be an initialization loop.
+
+**How.** Two things defer the lookup:
+
+- The `Option`, `List` and `Map` givens take `(using inner: => ShapeCodec[A])` and keep it in a `lazy val`.
+- Derived structure and union codecs wrap their field codecs in a thunk.
+
+In both cases, nothing is resolved until the first `write` or `read`, after every companion's `given codec` exists.
+
+**What it changed.** Recursive models compile and run with nothing special in the generator. `DerivationSpec` round-trips a nested `M`-of-`L`-of-`M` value. This was the riskiest part of the change, which is why the DynamoDB client was compiled before anything else. Whether either deferral alone would be enough hasn't been tested. Both are cheap, so both stay.
+
+### Context bounds with `as`
+
+**Why.** `Operation` took seven positional arguments: id, input schema, input writer, output schema, output reader, errors and auth. The four serde arguments were the same pattern every time.
+
+**How.** `Operation.of[I: SchemaCodec as in, O: SchemaCodec as out](id, errors, auth)`. A codec carries its own schema, so the context bounds supply four of the seven arguments. `as` names the evidence without a separate `using` clause.
+
+**What it changed.** Each operation is now one line in the generated client.
+
+### Opaque types and `inline val`
+
+**Why.** `Traits` was a case class wrapping a `Map[String, String]`: an extra object per schema, and an API that leaked `values`.
+
+**How.** `opaque type Traits = Map[String, String]` exposes only `has`, `get` and `++` as extension methods. The trait ids (`Traits.JsonName` and so on) are `inline val`s, so uses compile to string literals.
+
+**What it changed.** There's no wrapper at runtime and nothing extra in the API. Generated code is unaffected: `rt.Traits("smithy.api#required" -> "")` reads the same.
+
+### Named tuples
+
+**Why.** Headers were `Vector[(String, String)]`, read with `(k, v)` patterns or `_1` and `_2`. SigV4 does a lot of header handling, and positional access there is easy to get wrong.
+
+**How.** `Vector[(name: String, value: String)]`. Named tuples are still tuples, so building and matching them works as before.
+
+**What it changed.** Code reads `h.name` and `h.value`. The transport's response-header conversion became a `for` comprehension that yields `(name = ..., value = ...)`.
+
+### Union types
+
+**Why.** `RetryStrategy.isRetryable` took a `Throwable`, so it needed a `case _ => false`. That catch-all would quietly swallow a new kind of failure.
+
+**How.** `type CallFailure = ServiceException | TransportException`. The retry loop's `Either` uses it, its `catch` catches exactly that union, and `isRetryable` matches the two cases with no default.
+
+**What it changed.** The compiler checks that every failure kind is handled. Adding a third kind would turn the match into a warning instead of hiding the gap.
+
+### `derives CanEqual`
+
+**Why.** The build turns on `-language:strictEquality`, so `==` only compiles between types that allow it. Generated enums are compared in `fromValue` and in tests.
+
+**How.** Generated unions and enums say `derives CanEqual`.
+
+**What it changed.** Equality keeps its type checks without casts. Comparing an enum with an unrelated type is still a compile error.
+
+### Costs
+
+- **Errors move.** A missing codec now shows up as a compile error in the generated file that uses it. That's earlier than before, but the message comes out of an inline expansion.
+- **Runtime type information is erased.** Derived codecs read fields as `productElement(i)` and keep codecs as `ShapeCodec[Any]`. That means some boxing and casts that the old hand-written code didn't need. The serde tests cover correctness, but nothing here measures speed.
+- **The macro needs separate compilation.** `Defaults` lives in the runtime module, compiled before the generated code that expands it.
+
+None of this uses experimental features. The build's strict flags (`-Wvalue-discard`, `-Wnonunit-statement`, `-language:strictEquality`, `-Xcheck-macros`) report nothing for the runtime or the 544 generated files. Overall, the generated sources shrank from about 24,000 lines to about 11,000. In one run here, the example module also compiled in 42 seconds instead of 88.
 
 ## Using a generated client
 

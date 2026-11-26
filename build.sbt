@@ -89,7 +89,7 @@ lazy val root = rootProject
 lazy val clientRuntime = project
   .in(file("modules/client-runtime"))
   .settings(
-    name                := "smithy-scala-client-runtime",
+    name                 := "smithy-scala-client-runtime",
     libraryDependencies ++= Seq(
       "tools.jackson.core" % "jackson-core"     % "3.3.0",
       "tools.jackson.core" % "jackson-databind" % "3.3.0",
@@ -101,7 +101,7 @@ lazy val clientRuntime = project
 lazy val clientCodegen = project
   .in(file("modules/client-codegen"))
   .settings(
-    name                := "smithy-scala-client-codegen",
+    name                 := "smithy-scala-client-codegen",
     libraryDependencies ++= Seq(
       "software.amazon.smithy" % "smithy-model"           % smithyVersion,
       "software.amazon.smithy" % "smithy-build"           % smithyVersion,
