@@ -52,7 +52,7 @@ object SigV4 {
     val toSign   = credentials.sessionToken.fold(withDate)(t => withDate.withHeader("X-Amz-Security-Token", t))
 
     val headers = (("host" -> hostHeader(request.uri)) +: toSign.headers.entries
-      .map((k, v) => k.toLowerCase -> v.trim.replaceAll("\\s+", " "))
+      .map(h => h.name.toLowerCase -> h.value.trim.replaceAll("\\s+", " "))
       .filterNot((k, _) => k == "host" || unsigned.contains(k)))
       .groupMap(_._1)(_._2)
       .toVector

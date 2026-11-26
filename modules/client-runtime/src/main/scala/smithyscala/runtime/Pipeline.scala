@@ -7,6 +7,9 @@ import java.util.concurrent.ThreadLocalRandom
 
 import scala.annotation.tailrec
 
+/** What can end an attempt: the service answered with an error, or nothing came back. */
+type CallFailure = ServiceException | TransportException
+
 /** Hooks into each attempt, in the spirit of smithy-java's interceptors. All are optional. */
 trait Interceptor {
   def modifyBeforeSigning(request: HttpRequest): HttpRequest  = request
@@ -22,14 +25,14 @@ final case class RetryStrategy(
 ) {
   import RetryStrategy.*
 
-  def isRetryable(error: Throwable): Boolean = error match {
+  /** Exhaustive over the union: the compiler checks that both kinds of failure are handled. */
+  def isRetryable(failure: CallFailure): Boolean = failure match {
     case _: TransportException => true
     case e: ServiceException =>
       val status = e.smithyMetadata.map(_.statusCode).getOrElse(0)
       val code   = e.smithyMetadata.map(_.code).getOrElse(e.smithyShapeId.name)
       e.smithyRetryable || RetryableStatus.contains(status) || ThrottlingCodes.contains(code) ||
       TransientCodes.contains(code)
-    case _ => false
   }
 
   def delayBeforeAttempt(attempt: Int): Duration = {
@@ -88,7 +91,7 @@ final class ClientPipeline(val service: ServiceInfo, val config: ClientConfig) {
 
   @tailrec
   private def attempt[I, O](operation: Operation[I, O], request: HttpRequest, n: Int): O = {
-    val outcome: Either[Throwable, O] =
+    val outcome: Either[CallFailure, O] =
       try {
         val beforeSigning = config.interceptors.foldLeft(request)((r, i) => i.modifyBeforeSigning(r))
         val signed        = sign(operation, beforeSigning)
@@ -103,8 +106,7 @@ final class ClientPipeline(val service: ServiceInfo, val config: ClientConfig) {
         config.interceptors.foreach(_.afterAttempt(toSend, Right(response)))
         Right(protocol.deserializeResponse(operation, response))
       } catch {
-        case e: ServiceException   => Left(e)
-        case e: TransportException => Left(e)
+        case e: (ServiceException | TransportException) => Left(e)
       }
 
     outcome match {

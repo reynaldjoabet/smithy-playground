@@ -10,17 +10,17 @@ import javax.net.ssl.SSLContext
 
 import scala.jdk.CollectionConverters.*
 
-/** Header names compare case-insensitively; order is kept. */
-final case class Headers(entries: Vector[(String, String)]) {
-  def get(name: String): Option[String] = entries.collectFirst { case (k, v) if k.equalsIgnoreCase(name) => v }
+/** Header names compare case-insensitively; order is kept. Entries are named tuples. */
+final case class Headers(entries: Vector[(name: String, value: String)]) {
+  def get(name: String): Option[String] = entries.find(_.name.equalsIgnoreCase(name)).map(_.value)
   def set(name: String, value: String): Headers =
-    Headers(entries.filterNot(_._1.equalsIgnoreCase(name)) :+ (name -> value))
-  override def toString: String = entries.map((k, v) => s"$k: $v").mkString("Headers(", ", ", ")")
+    Headers(entries.filterNot(_.name.equalsIgnoreCase(name)).appended((name = name, value = value)))
+  override def toString: String = entries.map(e => s"${e.name}: ${e.value}").mkString("Headers(", ", ", ")")
 }
 
 object Headers {
   val empty: Headers = Headers(Vector.empty)
-  def apply(pairs: (String, String)*): Headers = Headers(pairs.toVector)
+  def apply(pairs: (String, String)*): Headers = Headers(pairs.toVector.map((n, v) => (name = n, value = v)))
 }
 
 final case class HttpRequest(method: String, uri: URI, headers: Headers, body: Array[Byte]) {
@@ -48,15 +48,16 @@ final class JavaHttpTransport(client: HttpClient, timeout: Duration) extends Htt
       .newBuilder(request.uri)
       .timeout(timeout)
       .method(request.method, JRequest.BodyPublishers.ofByteArray(request.body))
-    request.headers.entries.foreach { (k, v) =>
-      if (!restricted.contains(k.toLowerCase)) builder.header(k, v): Unit
-    }
+    for (h <- request.headers.entries if !restricted.contains(h.name.toLowerCase)) builder.header(h.name, h.value): Unit
     val response =
       try client.send(builder.build(), JResponse.BodyHandlers.ofByteArray())
       catch {
         case e: IOException => throw new TransportException(s"${request.method} ${request.uri} failed: $e", e)
       }
-    val headers = response.headers().map().asScala.toVector.flatMap((k, vs) => vs.asScala.map(k -> _))
+    val headers = for {
+      (name, values) <- response.headers().map().asScala.toVector
+      value          <- values.asScala
+    } yield (name = name, value = value)
     HttpResponse(response.statusCode(), Headers(headers), response.body())
   }
 }

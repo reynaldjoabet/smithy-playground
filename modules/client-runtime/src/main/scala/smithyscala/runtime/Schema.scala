@@ -25,25 +25,28 @@ enum ShapeType derives CanEqual {
   * codec, protocol or the pipeline reads are kept (the "runtime traits"); values are the trait's
   * simple value as a string, or "" for annotation traits such as `@required`.
   */
-final case class Traits(values: Map[String, String]) {
-  def has(id: String): Boolean             = values.contains(id)
-  def get(id: String): Option[String]      = values.get(id)
-  def ++(other: Traits): Traits            = Traits(values ++ other.values)
-  override def toString: String            = values.mkString("Traits(", ", ", ")")
-}
+opaque type Traits = Map[String, String]
 
+/** An opaque type: a `Map` at runtime, with no wrapper object, but only this API outside. */
 object Traits {
-  val empty: Traits                        = Traits(Map.empty)
-  def apply(pairs: (String, String)*): Traits = Traits(pairs.toMap)
+  val empty: Traits                           = Map.empty
+  def apply(pairs: (String, String)*): Traits = pairs.toMap
 
-  val Required         = "smithy.api#required"
-  val JsonName         = "smithy.api#jsonName"
-  val TimestampFormat  = "smithy.api#timestampFormat"
-  val Sparse           = "smithy.api#sparse"
-  val Error            = "smithy.api#error"
-  val HttpError        = "smithy.api#httpError"
-  val Retryable        = "smithy.api#retryable"
-  val IdempotencyToken = "smithy.api#idempotencyToken"
+  extension (traits: Traits) {
+    def has(id: String): Boolean        = traits.contains(id)
+    def get(id: String): Option[String] = traits.get(id)
+    def ++(other: Traits): Traits       = traits.concat(other)
+  }
+
+  // `inline val`s are compile-time constants: uses compile to the string literal.
+  inline val Required         = "smithy.api#required"
+  inline val JsonName         = "smithy.api#jsonName"
+  inline val TimestampFormat  = "smithy.api#timestampFormat"
+  inline val Sparse           = "smithy.api#sparse"
+  inline val Error            = "smithy.api#error"
+  inline val HttpError        = "smithy.api#httpError"
+  inline val Retryable        = "smithy.api#retryable"
+  inline val IdempotencyToken = "smithy.api#idempotencyToken"
 }
 
 /**
