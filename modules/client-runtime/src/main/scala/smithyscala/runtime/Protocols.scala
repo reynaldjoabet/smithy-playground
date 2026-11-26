@@ -1,5 +1,7 @@
 package smithyscala.runtime
 
+import smithyscala.runtime.codecs.*
+
 import java.net.URI
 
 import tools.jackson.databind.JsonNode

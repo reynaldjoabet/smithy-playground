@@ -1,4 +1,5 @@
 package smithyscala.runtime
+package codecs
 
 import java.io.ByteArrayOutputStream
 import java.math.{BigDecimal as JBigDecimal}
@@ -25,8 +26,10 @@ import tools.jackson.databind.json.JsonMapper
   */
 final case class JsonSettings(useJsonName: Boolean, useTimestampFormat: Boolean)
 
-/** The JSON codec: knows the format, nothing about HTTP. */
-final class JsonCodec(val settings: JsonSettings) {
+/** The JSON codec: knows the format, nothing about HTTP. Used by awsJson1_0/1_1 and rpcv2Json. */
+final class JsonCodec(val settings: JsonSettings) extends Codec {
+  val mediaType: String = "application/json"
+
   private val mapper    = JsonMapper.builder().build()
   private val nameIndex = new ConcurrentHashMap[Schema, Map[String, Schema]]()
 
