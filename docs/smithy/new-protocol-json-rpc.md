@@ -55,6 +55,28 @@ JSON-RPC sits next to two protocols the stack already has. All three send an ope
 
 The first two put the protocol in HTTP, and the body is just the shape. JSON-RPC puts everything in the body and uses HTTP only as a pipe, which is why it also runs over WebSockets and stdio (MCP and LSP both use stdio).
 
+### `rpcv2Json` and JSON-RPC 2.0 side by side
+
+The names are close, but the protocols are unrelated. The "v2" in `rpcv2Json` means Smithy's second generation of RPC protocols, after `awsJson`. The "2.0" in JSON-RPC is the version of an independent spec. The `rpcv2Json` column follows the [Smithy RPC v2 JSON spec](https://smithy.io/2.0/additional-specs/protocols/smithy-rpc-v2-json.html).
+
+| | `rpcv2Json` | JSON-RPC 2.0 |
+|---|---|---|
+| Defined by | Smithy: the protocol trait `smithy.protocols#rpcv2Json`, the JSON sibling of `rpcv2Cbor` | An open spec at [jsonrpc.org](https://www.jsonrpc.org/specification), with no schema language |
+| Used by | Smithy services and clients | Language servers (LSP), MCP, Ethereum node APIs, and other blockchain node RPC interfaces |
+| Transport | HTTP only. The trait's `http` list names the versions (`h2`, `http/1.1`), and the protocol relies on HTTP paths, headers and status codes. | Transport-agnostic: the same messages go over HTTP, WebSockets, raw TCP or stdio |
+| Where the call goes | `POST {prefix?}/service/{serviceName}/operation/{operationName}`. Servers route on the last four path segments, so a prefix such as `/v1` can sit in front. Both names are shape names, never absolute shape ids. | Wherever the transport delivers it. Over HTTP the path isn't defined; the operation is `"method"` in the body. |
+| Required headers | `Smithy-Protocol: rpc-v2-json` on every request and response. `Content-Type: application/json` and `Accept: application/json` when there's a body. | None defined. Over HTTP, `Content-Type: application/json` by convention. |
+| Forbidden headers | `X-Amz-Target` and `X-Amzn-Target`: servers must reject requests that carry them | None |
+| Body marker | None. The body is the bare input or output structure. | `"jsonrpc": "2.0"` in every request and response object |
+| `Unit` input or output | No body, and no `Content-Type` | `params` left out, or `"result": null` |
+| Success | Status `200`, the output as the body | Over HTTP, usually `200`, with `{"jsonrpc": "2.0", "result": ..., "id": ...}` |
+| Error signalling | An HTTP status: the error's `@httpError`, else `500` for `@error("server")`, else `400` | Usually HTTP `200` as well. The spec doesn't define HTTP; the error is in the body. |
+| Error type | The body field `__type`, holding the error's absolute shape id. `X-Amzn-ErrorType` should not be sent and clients must ignore it; `code` and `Code` must not be used. | `{"error": {"code": -32004, "message": "...", "data": ...}}`, with a numeric code |
+| Correlation | One call per HTTP request; no ids | `id`, echoed back, so one connection can carry many calls, batches and notifications |
+| Malformed responses | If the `Smithy-Protocol` header doesn't match, the client handles the response by status code alone | No equivalent |
+
+In short, `rpcv2Json` is "Smithy shapes over HTTP": HTTP does the routing and error signalling, and the body is just the shape. JSON-RPC is "everything in the message": the envelope carries the method, the id and the error, and the transport is only a pipe.
+
 ## Step 1: the model
 
 ### The protocol trait and an error-code trait

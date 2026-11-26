@@ -137,4 +137,27 @@ Beyond protocol and auth, these traits are what make a generated client more tha
 
 The C2J format is why aws-sdk-java-v2 doesn't use a `smithy-build` plugin: its generator was written before Smithy, around that format, and still reads it. Its runtime has since adopted the parts of the Smithy reference architecture that matter at call time (identity and auth schemes, endpoint rules, the `rpcv2Cbor` protocol), as [the request lifecycle](request-lifecycle.md) shows.
 
+## Generator repositories and SDK repositories
+
+A Smithy generator repository holds the generator and the runtime, and tests against its own small models. The full set of AWS models usually lives with the SDK built from it. What differs is which repository runs the build. The counts below are files or directories in each repository's default branch on 2026-11-26. "Not counted" means the repository wasn't checked.
+
+| Generator | AWS models in the generator repository | AWS SDK, and where its models live | Model format | Who runs the generator |
+|---|---|---|---|---|
+| smithy-go | 0 | [aws-sdk-go-v2](https://github.com/aws/aws-sdk-go-v2): `codegen/sdk-codegen/aws-models/` (446) | Smithy JSON AST | aws-sdk-go-v2's Gradle build feeds each model to `go-codegen` |
+| smithy-kotlin | 0 | [aws-sdk-kotlin](https://github.com/awslabs/aws-sdk-kotlin): `codegen/sdk/aws-models/` (446) | Smithy JSON AST | aws-sdk-kotlin's build, with its own `codegen/aws-sdk-codegen` (smithy-kotlin's `codegen/aws-codegen` has the AWS protocol generators) |
+| smithy-rs | 27, a subset in `aws/sdk/aws-models/` | [aws-sdk-rust](https://github.com/awslabs/aws-sdk-rust): `aws-models/` (450+) | Smithy JSON AST | smithy-rs itself: its `aws/sdk` project generates the SDK, reading aws-sdk-rust's models through `-Paws.sdk.models.path` |
+| smithy-swift | not counted | [aws-sdk-swift](https://github.com/awslabs/aws-sdk-swift): `codegen/sdk-codegen/aws-models/` (446) | Smithy JSON AST | aws-sdk-swift's `codegen/` build |
+| smithy-typescript | not counted | [aws-sdk-js-v3](https://github.com/aws/aws-sdk-js-v3): `codegen/sdk-codegen/aws-models/` (about 446) | Smithy JSON AST | aws-sdk-js-v3's `codegen/` build |
+| smithy-python | not counted | [aws-sdk-python](https://github.com/awslabs/aws-sdk-python), the AWS SDK for Python v4 in Developer Preview: `codegen/aws-models/` (39), generated into `clients/` (40 packages) | Smithy JSON AST | aws-sdk-python's `codegen/` Gradle build (it has a `smithy-python.toml`) |
+| smithy-java | not counted; its `aws-service-bundle` modules package AWS models for runtime use | none: the AWS SDK for Java is aws-sdk-java-v2, below | | you, through `smithy-build` |
+| none (aws-sdk-java-v2's own generator) | | [aws-sdk-java-v2](https://github.com/aws/aws-sdk-java-v2): `services/<name>/src/main/resources/codegen-resources/` (446 services) | C2J `service-2.json` | aws-sdk-java-v2's `codegen-maven-plugin` |
+| none (aws-sdk-ruby's own generator) | | [aws-sdk-ruby](https://github.com/aws/aws-sdk-ruby): `apis/<service>/<version>/` (448) | C2J `api-2.json`, with paginators, waiters and endpoint rules | aws-sdk-ruby's `build_tools/aws-sdk-code-generator`, not smithy-ruby |
+| none (no generator) | | [aws-sdk-php](https://github.com/aws/aws-sdk-php): `src/data/<service>/<version>/` (461) | C2J `api-2.json`, plus `.json.php` copies | nothing: the PHP SDK loads the model data at runtime, and smithy-php isn't involved |
+
+So:
+- **The SDK repository holds the models and runs the generator** for Go, Kotlin, Swift, TypeScript and Python.
+- **Rust is reversed.** The generator repository runs the build, and aws-sdk-rust holds the models and the published output.
+- **Java, Ruby and PHP** use C2J models with their own tools, so a Smithy generator doesn't take part. C2J is a rendering of the same service, which is why each count is close to the 446 Smithy models.
+
+
 Next: [Code generation](code-generation.md).

@@ -256,10 +256,10 @@ The [pet-store example](https://github.com/smithy-lang/smithy-php/tree/main/exam
 | smithy-kotlin | Kotlin | JVM plugin | `kotlin-codegen` | Kotlin Multiplatform artifacts | aws-sdk-kotlin |
 | smithy-swift | Kotlin + Swift | JVM plugin, plus a SwiftPM build plugin | `swift-codegen`, `SmithyCodegenCLI` | Swift packages | AWS SDK for Swift |
 | smithy-typescript | Java | JVM plugin | `typescript-client-codegen` | `@smithy/*` npm packages | aws-sdk-js-v3 |
-| smithy-python | Java (+ experimental Python) | JVM plugin, or the JSON AST | `python-client-codegen`, `smithy-python` | Python packages | none yet |
+| smithy-python | Java (+ experimental Python) | JVM plugin, or the JSON AST | `python-client-codegen`, `smithy-python` | Python packages | AWS SDK for Python v4 (aws-sdk-python, Developer Preview) |
 | smithy-ruby | Ruby | `run::` plugin (model on stdin) | `smithy-ruby smith client` | Gems | none yet |
 | smithy-php | PHP | JSON AST from the `model` plugin | `smithy-php-codegen` | Nine Composer packages | none yet |
 
-The last column names an AWS SDK only where the repository itself says it builds or backs one. "None yet" means the repository doesn't name one.
+The last column names an AWS SDK only where the generator repository, or the SDK's own build, shows the link. "None yet" means neither does. aws-sdk-ruby and aws-sdk-php aren't built with smithy-ruby or smithy-php: they read C2J models (see [where SDKs keep their models](models.md#generator-repositories-and-sdk-repositories)).
 
 Next: [the protocol stack](protocol-stack.md).

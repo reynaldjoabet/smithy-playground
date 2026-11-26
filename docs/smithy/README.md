@@ -1,6 +1,6 @@
 # Smithy end to end
 
-How a Smithy model becomes a working SDK, explained with four real code bases:
+How a Smithy model becomes a working SDK, explained with four real code bases, then set beside smithy-rs, smithy-kotlin and smithy-python:
 
 | Repository | Language | What it is |
 |---|---|---|
@@ -51,6 +51,52 @@ The pages were written from the repositories as of 2026-11-26 (smithy-go `54a532
 ┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
 │ HTTPS request, signed with SigV4, to the AWS endpoint, or to https://127.0.0.1:9297 when you run │
 │ the AWS Emulator                                                                                 │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
+
+The same shape holds for the other generators. Here are three more: Rust, Kotlin and Python (details in [the Smithy ecosystem](ecosystem.md)):
+
+```text
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ Service model: any Smithy model, or the AWS service models for the AWS SDKs built on these       │
+│ generators                                                                                       │
+└──────────────────────────────────────────────────────────────────────────────────────────────────┘
+                │                                 │                                 │
+                ▼                                 ▼                                 ▼
+┌──────────────────────────────┐  ┌──────────────────────────────┐  ┌──────────────────────────────┐
+│ smithy-rs: any model; for    │  │ smithy-kotlin: any model;    │  │ smithy-python: any model;    │
+│ the AWS SDK, aws/sdk takes   │  │ aws-sdk-kotlin runs it on    │  │ aws-sdk-python (v4,          │
+│ the models from aws-sdk-rust │  │ the AWS service models       │  │ Developer Preview) runs it   │
+│ (-Paws.sdk.models.path)      │  │                              │  │ on 39 AWS models             │
+└──────────────────────────────┘  └──────────────────────────────┘  └──────────────────────────────┘
+                ▼                                 ▼                                 ▼
+┌──────────────────────────────┐  ┌──────────────────────────────┐  ┌──────────────────────────────┐
+│ smithy-build, plugin         │  │ smithy-build, plugin         │  │ smithy-build, plugin         │
+│ rust-client-codegen (Kotlin, │  │ kotlin-codegen (Kotlin); AWS │  │ python-client-codegen        │
+│ Gradle); AWS customizations  │  │ generation in                │  │ (Java); or the experimental  │
+│ in aws/codegen-aws-sdk       │  │ codegen/aws-codegen          │  │ smithy-python CLI            │
+└──────────────────────────────┘  └──────────────────────────────┘  └──────────────────────────────┘
+                ▼                                 ▼                                 ▼
+┌──────────────────────────────┐  ┌──────────────────────────────┐  ┌──────────────────────────────┐
+│ Generated: a crate per       │  │ Generated: a Kotlin          │  │ Generated: a client and      │
+│ service with the client,     │  │ Multiplatform client, model  │  │ models holding compact       │
+│ operations, types and        │  │ classes and operation        │  │ schemas; no serialization    │
+│ per-protocol serializers     │  │ serializers                  │  │ code                         │
+└──────────────────────────────┘  └──────────────────────────────┘  └──────────────────────────────┘
+                ▼                                 ▼                                 ▼
+┌──────────────────────────────┐  ┌──────────────────────────────┐  ┌──────────────────────────────┐
+│ Runtime: aws-smithy-runtime  │  │ Runtime: runtime-core,       │  │ Runtime: smithy-core         │
+│ (the orchestrator), codecs   │  │ serde-json and other serde   │  │ (pipeline, schemas, retries, │
+│ such as aws-smithy-json,     │  │ modules, aws-json-protocols, │  │ auth), the smithy-json,      │
+│ aws-smithy-http-client;      │  │ http-client-engines,         │  │ smithy-cbor and smithy-xml   │
+│ aws-sigv4, aws-config        │  │ aws-signing-default          │  │ codecs, smithy-http,         │
+│                              │  │                              │  │ aws-sdk-signers              │
+└──────────────────────────────┘  └──────────────────────────────┘  └──────────────────────────────┘
+                │                                 │                                 │
+                ▼                                 ▼                                 ▼
+┌──────────────────────────────────────────────────────────────────────────────────────────────────┐
+│ HTTPS request to the service: an AWS endpoint for the AWS SDKs for Rust, Kotlin and Python, or   │
+│ any Smithy service                                                                               │
 └──────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
