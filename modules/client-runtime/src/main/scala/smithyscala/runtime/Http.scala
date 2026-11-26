@@ -27,7 +27,8 @@ final case class HttpRequest(method: String, uri: URI, headers: Headers, body: A
   def withHeader(name: String, value: String): HttpRequest = copy(headers = headers.set(name, value))
 }
 
-final case class HttpResponse(status: Int, headers: Headers, body: Array[Byte])
+/** `protocol` is the HTTP version the transport actually used, such as `HTTP/1.1` or `HTTP/2`. */
+final case class HttpResponse(status: Int, headers: Headers, body: Array[Byte], protocol: String = "HTTP/1.1")
 
 /** The transport sends bytes and returns bytes. It knows nothing about Smithy. */
 trait HttpTransport {
@@ -42,6 +43,13 @@ final class JavaHttpTransport(client: HttpClient, timeout: Duration) extends Htt
 
   // java.net.http sets these itself and refuses them from callers.
   private val restricted = Set("host", "content-length", "connection", "expect", "upgrade")
+
+  /**
+    * The headers java.net.http adds to every request with a body, in the order it sends them:
+    * `Content-Length` and `Host`. Interceptors never see these; loggers can use this to show the
+    * request as it goes on the wire.
+    */
+  def addedHeaders(request: HttpRequest): Headers = JavaHttpTransport.addedHeaders(request)
 
   def send(request: HttpRequest): HttpResponse = {
     val builder = JRequest
@@ -58,11 +66,20 @@ final class JavaHttpTransport(client: HttpClient, timeout: Duration) extends Htt
       (name, values) <- response.headers().map().asScala.toVector
       value          <- values.asScala
     } yield (name = name, value = value)
-    HttpResponse(response.statusCode(), Headers(headers), response.body())
+    val protocol = if (response.version() eq HttpClient.Version.HTTP_2) "HTTP/2" else "HTTP/1.1"
+    HttpResponse(response.statusCode(), Headers(headers), response.body(), protocol)
   }
 }
 
 object JavaHttpTransport {
+  def addedHeaders(request: HttpRequest): Headers = {
+    val uri  = request.uri
+    val port = uri.getPort
+    val defaultPort = if (uri.getScheme.equalsIgnoreCase("https")) 443 else 80
+    val host = if (port == -1 || port == defaultPort) uri.getHost else s"${uri.getHost}:$port"
+    Headers("Content-Length" -> request.body.length.toString, "Host" -> host)
+  }
+
   lazy val default: JavaHttpTransport = apply()
 
   def apply(sslContext: Option[SSLContext] = None, timeout: Duration = Duration.ofSeconds(30)): JavaHttpTransport = {

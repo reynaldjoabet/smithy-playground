@@ -62,6 +62,7 @@ final case class ClientConfig(
     retry: RetryStrategy = RetryStrategy(),
     interceptors: List[Interceptor] = Nil,
     clock: () => Instant = () => Instant.now(),
+    userAgent: String = "smithy-scala-client/0.1.0",
     sleep: Duration => Unit = d => Thread.sleep(d.toMillis)
 )
 
@@ -74,7 +75,7 @@ final class ClientPipeline(val service: ServiceInfo, val config: ClientConfig) {
 
   def invoke[I, O](operation: Operation[I, O], input: I): O = {
     val endpoint = resolveEndpoint()
-    val request  = protocol.createRequest(operation, input, endpoint)
+    val request  = protocol.createRequest(operation, input, endpoint).withHeader("User-Agent", config.userAgent)
     attempt(operation, request, 1)
   }
 
