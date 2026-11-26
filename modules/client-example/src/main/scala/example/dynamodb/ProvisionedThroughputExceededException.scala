@@ -15,5 +15,5 @@ object ProvisionedThroughputExceededException {
     rt.MemberDef("ThrottlingReasons", () => ThrottlingReasonList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ProvisionedThroughputExceededException] = rt.ShapeCodec.struct[ProvisionedThroughputExceededException](schema)
+  given codec: rt.SchemaCodec[ProvisionedThroughputExceededException] = smithyscala.hearth.HearthCodec.derived[ProvisionedThroughputExceededException](schema)
 }

@@ -17,5 +17,5 @@ object GlobalSecondaryIndexUpdate {
     rt.MemberDef("Delete", () => DeleteGlobalSecondaryIndexAction.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[GlobalSecondaryIndexUpdate] = rt.ShapeCodec.struct[GlobalSecondaryIndexUpdate](schema)
+  given codec: rt.SchemaCodec[GlobalSecondaryIndexUpdate] = smithyscala.hearth.HearthCodec.derived[GlobalSecondaryIndexUpdate](schema)
 }

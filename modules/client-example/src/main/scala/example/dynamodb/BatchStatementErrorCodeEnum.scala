@@ -24,7 +24,7 @@ object BatchStatementErrorCodeEnum {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "BatchStatementErrorCodeEnum"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[BatchStatementErrorCodeEnum] = rt.ShapeCodec.enumValues[BatchStatementErrorCodeEnum]
+  lazy val knownValues: scala.collection.immutable.List[BatchStatementErrorCodeEnum] = smithyscala.hearth.HearthCodec.enumValues[BatchStatementErrorCodeEnum]
 
   def fromValue(value: java.lang.String): BatchStatementErrorCodeEnum = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

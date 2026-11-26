@@ -14,5 +14,5 @@ object ListBackupsOutput {
     rt.MemberDef("LastEvaluatedBackupArn", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListBackupsOutput] = rt.ShapeCodec.struct[ListBackupsOutput](schema)
+  given codec: rt.SchemaCodec[ListBackupsOutput] = smithyscala.hearth.HearthCodec.derived[ListBackupsOutput](schema)
 }

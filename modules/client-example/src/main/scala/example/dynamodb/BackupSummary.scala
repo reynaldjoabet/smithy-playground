@@ -31,5 +31,5 @@ object BackupSummary {
     rt.MemberDef("BackupSizeBytes", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BackupSummary] = rt.ShapeCodec.struct[BackupSummary](schema)
+  given codec: rt.SchemaCodec[BackupSummary] = smithyscala.hearth.HearthCodec.derived[BackupSummary](schema)
 }

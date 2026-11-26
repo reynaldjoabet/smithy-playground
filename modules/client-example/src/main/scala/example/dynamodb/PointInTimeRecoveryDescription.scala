@@ -19,5 +19,5 @@ object PointInTimeRecoveryDescription {
     rt.MemberDef("LatestRestorableDateTime", () => rt.Prelude.Timestamp, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[PointInTimeRecoveryDescription] = rt.ShapeCodec.struct[PointInTimeRecoveryDescription](schema)
+  given codec: rt.SchemaCodec[PointInTimeRecoveryDescription] = smithyscala.hearth.HearthCodec.derived[PointInTimeRecoveryDescription](schema)
 }

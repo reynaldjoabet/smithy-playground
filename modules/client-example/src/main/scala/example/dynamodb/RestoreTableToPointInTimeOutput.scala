@@ -12,5 +12,5 @@ object RestoreTableToPointInTimeOutput {
     rt.MemberDef("TableDescription", () => TableDescription.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[RestoreTableToPointInTimeOutput] = rt.ShapeCodec.struct[RestoreTableToPointInTimeOutput](schema)
+  given codec: rt.SchemaCodec[RestoreTableToPointInTimeOutput] = smithyscala.hearth.HearthCodec.derived[RestoreTableToPointInTimeOutput](schema)
 }

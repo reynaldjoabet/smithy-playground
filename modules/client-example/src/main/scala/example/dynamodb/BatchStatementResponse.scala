@@ -17,5 +17,5 @@ object BatchStatementResponse {
     rt.MemberDef("Item", () => AttributeMap.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BatchStatementResponse] = rt.ShapeCodec.struct[BatchStatementResponse](schema)
+  given codec: rt.SchemaCodec[BatchStatementResponse] = smithyscala.hearth.HearthCodec.derived[BatchStatementResponse](schema)
 }

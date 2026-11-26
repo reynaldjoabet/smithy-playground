@@ -13,5 +13,5 @@ object KmsDisabled {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[KmsDisabled] = rt.ShapeCodec.struct[KmsDisabled](schema)
+  given codec: rt.SchemaCodec[KmsDisabled] = smithyscala.hearth.HearthCodec.derived[KmsDisabled](schema)
 }

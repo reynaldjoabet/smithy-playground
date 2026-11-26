@@ -23,5 +23,5 @@ object BulkOperationUsage {
     rt.MemberDef("VectorIndexes", () => VectorIndexesBulkVectorBytesMap.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BulkOperationUsage] = rt.ShapeCodec.struct[BulkOperationUsage](schema)
+  given codec: rt.SchemaCodec[BulkOperationUsage] = smithyscala.hearth.HearthCodec.derived[BulkOperationUsage](schema)
 }

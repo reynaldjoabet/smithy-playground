@@ -21,5 +21,5 @@ object AutoScalingSettingsUpdate {
     rt.MemberDef("ScalingPolicyUpdate", () => AutoScalingPolicyUpdate.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[AutoScalingSettingsUpdate] = rt.ShapeCodec.struct[AutoScalingSettingsUpdate](schema)
+  given codec: rt.SchemaCodec[AutoScalingSettingsUpdate] = smithyscala.hearth.HearthCodec.derived[AutoScalingSettingsUpdate](schema)
 }

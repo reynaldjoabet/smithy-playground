@@ -13,5 +13,5 @@ object TooManyEntriesInBatchRequest {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TooManyEntriesInBatchRequest] = rt.ShapeCodec.struct[TooManyEntriesInBatchRequest](schema)
+  given codec: rt.SchemaCodec[TooManyEntriesInBatchRequest] = smithyscala.hearth.HearthCodec.derived[TooManyEntriesInBatchRequest](schema)
 }

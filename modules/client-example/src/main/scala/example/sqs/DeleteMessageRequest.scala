@@ -14,5 +14,5 @@ object DeleteMessageRequest {
     rt.MemberDef("ReceiptHandle", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DeleteMessageRequest] = rt.ShapeCodec.struct[DeleteMessageRequest](schema)
+  given codec: rt.SchemaCodec[DeleteMessageRequest] = smithyscala.hearth.HearthCodec.derived[DeleteMessageRequest](schema)
 }

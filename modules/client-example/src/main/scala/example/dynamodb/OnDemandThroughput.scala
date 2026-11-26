@@ -15,5 +15,5 @@ object OnDemandThroughput {
     rt.MemberDef("MaxWriteRequestUnits", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[OnDemandThroughput] = rt.ShapeCodec.struct[OnDemandThroughput](schema)
+  given codec: rt.SchemaCodec[OnDemandThroughput] = smithyscala.hearth.HearthCodec.derived[OnDemandThroughput](schema)
 }

@@ -15,5 +15,5 @@ object VectorIndexUpdate {
     rt.MemberDef("Delete", () => DeleteVectorIndexAction.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[VectorIndexUpdate] = rt.ShapeCodec.struct[VectorIndexUpdate](schema)
+  given codec: rt.SchemaCodec[VectorIndexUpdate] = smithyscala.hearth.HearthCodec.derived[VectorIndexUpdate](schema)
 }

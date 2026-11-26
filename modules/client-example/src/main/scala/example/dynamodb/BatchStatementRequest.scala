@@ -19,5 +19,5 @@ object BatchStatementRequest {
     rt.MemberDef("ReturnValuesOnConditionCheckFailure", () => ReturnValuesOnConditionCheckFailure.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BatchStatementRequest] = rt.ShapeCodec.struct[BatchStatementRequest](schema)
+  given codec: rt.SchemaCodec[BatchStatementRequest] = smithyscala.hearth.HearthCodec.derived[BatchStatementRequest](schema)
 }

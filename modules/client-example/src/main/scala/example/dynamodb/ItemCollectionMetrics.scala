@@ -15,5 +15,5 @@ object ItemCollectionMetrics {
     rt.MemberDef("SizeEstimateRangeGB", () => ItemCollectionSizeEstimateRange.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ItemCollectionMetrics] = rt.ShapeCodec.struct[ItemCollectionMetrics](schema)
+  given codec: rt.SchemaCodec[ItemCollectionMetrics] = smithyscala.hearth.HearthCodec.derived[ItemCollectionMetrics](schema)
 }

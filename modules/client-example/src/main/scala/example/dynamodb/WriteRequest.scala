@@ -15,5 +15,5 @@ object WriteRequest {
     rt.MemberDef("DeleteRequest", () => DeleteRequest.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[WriteRequest] = rt.ShapeCodec.struct[WriteRequest](schema)
+  given codec: rt.SchemaCodec[WriteRequest] = smithyscala.hearth.HearthCodec.derived[WriteRequest](schema)
 }

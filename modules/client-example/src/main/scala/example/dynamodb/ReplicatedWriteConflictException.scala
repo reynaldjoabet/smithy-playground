@@ -15,5 +15,5 @@ object ReplicatedWriteConflictException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ReplicatedWriteConflictException] = rt.ShapeCodec.struct[ReplicatedWriteConflictException](schema)
+  given codec: rt.SchemaCodec[ReplicatedWriteConflictException] = smithyscala.hearth.HearthCodec.derived[ReplicatedWriteConflictException](schema)
 }

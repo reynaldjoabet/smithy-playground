@@ -14,5 +14,5 @@ object ListBulkOperationsOutput {
     rt.MemberDef("NextToken", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListBulkOperationsOutput] = rt.ShapeCodec.struct[ListBulkOperationsOutput](schema)
+  given codec: rt.SchemaCodec[ListBulkOperationsOutput] = smithyscala.hearth.HearthCodec.derived[ListBulkOperationsOutput](schema)
 }

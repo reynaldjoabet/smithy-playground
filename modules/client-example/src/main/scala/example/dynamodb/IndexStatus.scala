@@ -17,7 +17,7 @@ object IndexStatus {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "IndexStatus"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[IndexStatus] = rt.ShapeCodec.enumValues[IndexStatus]
+  lazy val knownValues: scala.collection.immutable.List[IndexStatus] = smithyscala.hearth.HearthCodec.enumValues[IndexStatus]
 
   def fromValue(value: java.lang.String): IndexStatus = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

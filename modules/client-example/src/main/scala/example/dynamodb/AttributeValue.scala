@@ -34,5 +34,5 @@ object AttributeValue {
     rt.MemberDef("BOOL", () => rt.Prelude.Boolean, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[AttributeValue] = rt.ShapeCodec.union[AttributeValue](schema)
+  given codec: rt.SchemaCodec[AttributeValue] = smithyscala.hearth.HearthCodec.derived[AttributeValue](schema)
 }

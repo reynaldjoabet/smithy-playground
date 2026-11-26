@@ -33,5 +33,5 @@ object GlobalSecondaryIndexDescription {
     rt.MemberDef("WarmThroughput", () => GlobalSecondaryIndexWarmThroughputDescription.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[GlobalSecondaryIndexDescription] = rt.ShapeCodec.struct[GlobalSecondaryIndexDescription](schema)
+  given codec: rt.SchemaCodec[GlobalSecondaryIndexDescription] = smithyscala.hearth.HearthCodec.derived[GlobalSecondaryIndexDescription](schema)
 }

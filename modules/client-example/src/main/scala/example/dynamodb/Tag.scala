@@ -15,5 +15,5 @@ object Tag {
     rt.MemberDef("Value", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[Tag] = rt.ShapeCodec.struct[Tag](schema)
+  given codec: rt.SchemaCodec[Tag] = smithyscala.hearth.HearthCodec.derived[Tag](schema)
 }

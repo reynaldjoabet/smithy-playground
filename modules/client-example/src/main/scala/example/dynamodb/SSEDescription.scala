@@ -19,5 +19,5 @@ object SSEDescription {
     rt.MemberDef("InaccessibleEncryptionDateTime", () => rt.Prelude.Timestamp, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[SSEDescription] = rt.ShapeCodec.struct[SSEDescription](schema)
+  given codec: rt.SchemaCodec[SSEDescription] = smithyscala.hearth.HearthCodec.derived[SSEDescription](schema)
 }

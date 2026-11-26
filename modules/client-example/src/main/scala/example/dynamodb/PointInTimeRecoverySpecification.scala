@@ -15,5 +15,5 @@ object PointInTimeRecoverySpecification {
     rt.MemberDef("RecoveryPeriodInDays", () => rt.Prelude.Integer, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[PointInTimeRecoverySpecification] = rt.ShapeCodec.struct[PointInTimeRecoverySpecification](schema)
+  given codec: rt.SchemaCodec[PointInTimeRecoverySpecification] = smithyscala.hearth.HearthCodec.derived[PointInTimeRecoverySpecification](schema)
 }

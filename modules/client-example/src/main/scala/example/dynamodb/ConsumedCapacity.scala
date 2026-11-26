@@ -27,5 +27,5 @@ object ConsumedCapacity {
     rt.MemberDef("VectorIndexes", () => VectorIndexesCapacityMap.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ConsumedCapacity] = rt.ShapeCodec.struct[ConsumedCapacity](schema)
+  given codec: rt.SchemaCodec[ConsumedCapacity] = smithyscala.hearth.HearthCodec.derived[ConsumedCapacity](schema)
 }

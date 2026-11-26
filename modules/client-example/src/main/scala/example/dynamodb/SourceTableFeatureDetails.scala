@@ -23,5 +23,5 @@ object SourceTableFeatureDetails {
     rt.MemberDef("VectorIndexes", () => VectorIndexes.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[SourceTableFeatureDetails] = rt.ShapeCodec.struct[SourceTableFeatureDetails](schema)
+  given codec: rt.SchemaCodec[SourceTableFeatureDetails] = smithyscala.hearth.HearthCodec.derived[SourceTableFeatureDetails](schema)
 }

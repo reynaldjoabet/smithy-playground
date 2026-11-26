@@ -15,7 +15,7 @@ object ReturnValuesOnConditionCheckFailure {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ReturnValuesOnConditionCheckFailure"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[ReturnValuesOnConditionCheckFailure] = rt.ShapeCodec.enumValues[ReturnValuesOnConditionCheckFailure]
+  lazy val knownValues: scala.collection.immutable.List[ReturnValuesOnConditionCheckFailure] = smithyscala.hearth.HearthCodec.enumValues[ReturnValuesOnConditionCheckFailure]
 
   def fromValue(value: java.lang.String): ReturnValuesOnConditionCheckFailure = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

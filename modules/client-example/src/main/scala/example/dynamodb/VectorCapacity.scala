@@ -15,5 +15,5 @@ object VectorCapacity {
     rt.MemberDef("VectorWriteRequestBytes", () => rt.Prelude.Double, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[VectorCapacity] = rt.ShapeCodec.struct[VectorCapacity](schema)
+  given codec: rt.SchemaCodec[VectorCapacity] = smithyscala.hearth.HearthCodec.derived[VectorCapacity](schema)
 }

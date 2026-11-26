@@ -21,5 +21,5 @@ object GlobalSecondaryIndexInfo {
     rt.MemberDef("OnDemandThroughput", () => OnDemandThroughput.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[GlobalSecondaryIndexInfo] = rt.ShapeCodec.struct[GlobalSecondaryIndexInfo](schema)
+  given codec: rt.SchemaCodec[GlobalSecondaryIndexInfo] = smithyscala.hearth.HearthCodec.derived[GlobalSecondaryIndexInfo](schema)
 }

@@ -13,5 +13,5 @@ object ExportConflictException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ExportConflictException] = rt.ShapeCodec.struct[ExportConflictException](schema)
+  given codec: rt.SchemaCodec[ExportConflictException] = smithyscala.hearth.HearthCodec.derived[ExportConflictException](schema)
 }

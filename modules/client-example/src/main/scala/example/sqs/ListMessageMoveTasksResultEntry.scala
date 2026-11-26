@@ -29,5 +29,5 @@ object ListMessageMoveTasksResultEntry {
     rt.MemberDef("StartedTimestamp", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListMessageMoveTasksResultEntry] = rt.ShapeCodec.struct[ListMessageMoveTasksResultEntry](schema)
+  given codec: rt.SchemaCodec[ListMessageMoveTasksResultEntry] = smithyscala.hearth.HearthCodec.derived[ListMessageMoveTasksResultEntry](schema)
 }

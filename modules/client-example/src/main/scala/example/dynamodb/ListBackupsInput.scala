@@ -22,5 +22,5 @@ object ListBackupsInput {
     rt.MemberDef("BackupType", () => BackupTypeFilter.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListBackupsInput] = rt.ShapeCodec.struct[ListBackupsInput](schema)
+  given codec: rt.SchemaCodec[ListBackupsInput] = smithyscala.hearth.HearthCodec.derived[ListBackupsInput](schema)
 }

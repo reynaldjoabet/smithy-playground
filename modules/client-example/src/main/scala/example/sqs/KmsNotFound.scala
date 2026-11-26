@@ -13,5 +13,5 @@ object KmsNotFound {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[KmsNotFound] = rt.ShapeCodec.struct[KmsNotFound](schema)
+  given codec: rt.SchemaCodec[KmsNotFound] = smithyscala.hearth.HearthCodec.derived[KmsNotFound](schema)
 }

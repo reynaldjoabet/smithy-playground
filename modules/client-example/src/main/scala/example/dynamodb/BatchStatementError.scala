@@ -17,5 +17,5 @@ object BatchStatementError {
     rt.MemberDef("Item", () => AttributeMap.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BatchStatementError] = rt.ShapeCodec.struct[BatchStatementError](schema)
+  given codec: rt.SchemaCodec[BatchStatementError] = smithyscala.hearth.HearthCodec.derived[BatchStatementError](schema)
 }

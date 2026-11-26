@@ -17,5 +17,5 @@ object IncrementalExportSpecification {
     rt.MemberDef("ExportViewType", () => ExportViewType.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[IncrementalExportSpecification] = rt.ShapeCodec.struct[IncrementalExportSpecification](schema)
+  given codec: rt.SchemaCodec[IncrementalExportSpecification] = smithyscala.hearth.HearthCodec.derived[IncrementalExportSpecification](schema)
 }

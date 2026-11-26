@@ -16,5 +16,5 @@ object CreateQueueRequest {
     rt.MemberDef("tags", () => TagMap.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[CreateQueueRequest] = rt.ShapeCodec.struct[CreateQueueRequest](schema)
+  given codec: rt.SchemaCodec[CreateQueueRequest] = smithyscala.hearth.HearthCodec.derived[CreateQueueRequest](schema)
 }

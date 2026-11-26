@@ -9,5 +9,5 @@ final case class DescribeLimitsInput()
 object DescribeLimitsInput {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "DescribeLimitsInput"), rt.ShapeType.Structure, rt.Traits.empty)()
 
-  given codec: rt.SchemaCodec[DescribeLimitsInput] = rt.ShapeCodec.struct[DescribeLimitsInput](schema)
+  given codec: rt.SchemaCodec[DescribeLimitsInput] = smithyscala.hearth.HearthCodec.derived[DescribeLimitsInput](schema)
 }

@@ -13,5 +13,5 @@ object KmsInvalidKeyUsage {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[KmsInvalidKeyUsage] = rt.ShapeCodec.struct[KmsInvalidKeyUsage](schema)
+  given codec: rt.SchemaCodec[KmsInvalidKeyUsage] = smithyscala.hearth.HearthCodec.derived[KmsInvalidKeyUsage](schema)
 }

@@ -13,5 +13,5 @@ object ItemCollectionSizeLimitExceededException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ItemCollectionSizeLimitExceededException] = rt.ShapeCodec.struct[ItemCollectionSizeLimitExceededException](schema)
+  given codec: rt.SchemaCodec[ItemCollectionSizeLimitExceededException] = smithyscala.hearth.HearthCodec.derived[ItemCollectionSizeLimitExceededException](schema)
 }

@@ -15,5 +15,5 @@ object BatchGetItemInput {
     rt.MemberDef("ReturnConsumedCapacity", () => ReturnConsumedCapacity.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BatchGetItemInput] = rt.ShapeCodec.struct[BatchGetItemInput](schema)
+  given codec: rt.SchemaCodec[BatchGetItemInput] = smithyscala.hearth.HearthCodec.derived[BatchGetItemInput](schema)
 }

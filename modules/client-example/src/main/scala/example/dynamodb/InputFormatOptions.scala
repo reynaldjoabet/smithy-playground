@@ -13,5 +13,5 @@ object InputFormatOptions {
     rt.MemberDef("Csv", () => CsvOptions.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[InputFormatOptions] = rt.ShapeCodec.struct[InputFormatOptions](schema)
+  given codec: rt.SchemaCodec[InputFormatOptions] = smithyscala.hearth.HearthCodec.derived[InputFormatOptions](schema)
 }

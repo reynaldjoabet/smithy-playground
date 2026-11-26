@@ -17,5 +17,5 @@ object ArchivalSummary {
     rt.MemberDef("ArchivalBackupArn", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ArchivalSummary] = rt.ShapeCodec.struct[ArchivalSummary](schema)
+  given codec: rt.SchemaCodec[ArchivalSummary] = smithyscala.hearth.HearthCodec.derived[ArchivalSummary](schema)
 }

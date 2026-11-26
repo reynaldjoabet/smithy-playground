@@ -13,5 +13,5 @@ object TableAlreadyExistsException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TableAlreadyExistsException] = rt.ShapeCodec.struct[TableAlreadyExistsException](schema)
+  given codec: rt.SchemaCodec[TableAlreadyExistsException] = smithyscala.hearth.HearthCodec.derived[TableAlreadyExistsException](schema)
 }

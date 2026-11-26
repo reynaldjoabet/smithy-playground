@@ -29,5 +29,5 @@ object ReplicaSettingsDescription {
     rt.MemberDef("ReplicaTableClassSummary", () => TableClassSummary.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ReplicaSettingsDescription] = rt.ShapeCodec.struct[ReplicaSettingsDescription](schema)
+  given codec: rt.SchemaCodec[ReplicaSettingsDescription] = smithyscala.hearth.HearthCodec.derived[ReplicaSettingsDescription](schema)
 }

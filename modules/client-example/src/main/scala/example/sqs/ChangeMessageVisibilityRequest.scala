@@ -16,5 +16,5 @@ object ChangeMessageVisibilityRequest {
     rt.MemberDef("VisibilityTimeout", () => rt.Prelude.Integer, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[ChangeMessageVisibilityRequest] = rt.ShapeCodec.struct[ChangeMessageVisibilityRequest](schema)
+  given codec: rt.SchemaCodec[ChangeMessageVisibilityRequest] = smithyscala.hearth.HearthCodec.derived[ChangeMessageVisibilityRequest](schema)
 }

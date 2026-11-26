@@ -25,5 +25,5 @@ object BackupDetails {
     rt.MemberDef("BackupExpiryDateTime", () => rt.Prelude.Timestamp, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BackupDetails] = rt.ShapeCodec.struct[BackupDetails](schema)
+  given codec: rt.SchemaCodec[BackupDetails] = smithyscala.hearth.HearthCodec.derived[BackupDetails](schema)
 }

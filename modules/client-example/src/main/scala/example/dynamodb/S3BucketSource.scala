@@ -17,5 +17,5 @@ object S3BucketSource {
     rt.MemberDef("S3KeyPrefix", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[S3BucketSource] = rt.ShapeCodec.struct[S3BucketSource](schema)
+  given codec: rt.SchemaCodec[S3BucketSource] = smithyscala.hearth.HearthCodec.derived[S3BucketSource](schema)
 }

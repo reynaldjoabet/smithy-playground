@@ -12,5 +12,5 @@ object DescribeEndpointsResponse {
     rt.MemberDef("Endpoints", () => Endpoints.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DescribeEndpointsResponse] = rt.ShapeCodec.struct[DescribeEndpointsResponse](schema)
+  given codec: rt.SchemaCodec[DescribeEndpointsResponse] = smithyscala.hearth.HearthCodec.derived[DescribeEndpointsResponse](schema)
 }

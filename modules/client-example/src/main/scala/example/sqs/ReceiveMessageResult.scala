@@ -13,5 +13,5 @@ object ReceiveMessageResult {
     rt.MemberDef("Messages", () => MessageList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ReceiveMessageResult] = rt.ShapeCodec.struct[ReceiveMessageResult](schema)
+  given codec: rt.SchemaCodec[ReceiveMessageResult] = smithyscala.hearth.HearthCodec.derived[ReceiveMessageResult](schema)
 }

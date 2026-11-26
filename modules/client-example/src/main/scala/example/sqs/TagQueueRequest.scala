@@ -14,5 +14,5 @@ object TagQueueRequest {
     rt.MemberDef("Tags", () => TagMap.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[TagQueueRequest] = rt.ShapeCodec.struct[TagQueueRequest](schema)
+  given codec: rt.SchemaCodec[TagQueueRequest] = smithyscala.hearth.HearthCodec.derived[TagQueueRequest](schema)
 }

@@ -15,5 +15,5 @@ object TransactionCanceledException {
     rt.MemberDef("CancellationReasons", () => CancellationReasonList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TransactionCanceledException] = rt.ShapeCodec.struct[TransactionCanceledException](schema)
+  given codec: rt.SchemaCodec[TransactionCanceledException] = smithyscala.hearth.HearthCodec.derived[TransactionCanceledException](schema)
 }

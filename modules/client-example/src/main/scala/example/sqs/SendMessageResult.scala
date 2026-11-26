@@ -21,5 +21,5 @@ object SendMessageResult {
     rt.MemberDef("SequenceNumber", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[SendMessageResult] = rt.ShapeCodec.struct[SendMessageResult](schema)
+  given codec: rt.SchemaCodec[SendMessageResult] = smithyscala.hearth.HearthCodec.derived[SendMessageResult](schema)
 }

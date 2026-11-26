@@ -15,5 +15,5 @@ object TableClassSummary {
     rt.MemberDef("LastUpdateDateTime", () => rt.Prelude.Timestamp, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TableClassSummary] = rt.ShapeCodec.struct[TableClassSummary](schema)
+  given codec: rt.SchemaCodec[TableClassSummary] = smithyscala.hearth.HearthCodec.derived[TableClassSummary](schema)
 }

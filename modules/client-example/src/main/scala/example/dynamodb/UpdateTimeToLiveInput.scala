@@ -15,5 +15,5 @@ object UpdateTimeToLiveInput {
     rt.MemberDef("TimeToLiveSpecification", () => TimeToLiveSpecification.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[UpdateTimeToLiveInput] = rt.ShapeCodec.struct[UpdateTimeToLiveInput](schema)
+  given codec: rt.SchemaCodec[UpdateTimeToLiveInput] = smithyscala.hearth.HearthCodec.derived[UpdateTimeToLiveInput](schema)
 }

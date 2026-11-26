@@ -12,5 +12,5 @@ object DescribeGlobalTableInput {
     rt.MemberDef("GlobalTableName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DescribeGlobalTableInput] = rt.ShapeCodec.struct[DescribeGlobalTableInput](schema)
+  given codec: rt.SchemaCodec[DescribeGlobalTableInput] = smithyscala.hearth.HearthCodec.derived[DescribeGlobalTableInput](schema)
 }

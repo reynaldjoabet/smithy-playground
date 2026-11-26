@@ -13,5 +13,5 @@ object QueueNameExists {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[QueueNameExists] = rt.ShapeCodec.struct[QueueNameExists](schema)
+  given codec: rt.SchemaCodec[QueueNameExists] = smithyscala.hearth.HearthCodec.derived[QueueNameExists](schema)
 }

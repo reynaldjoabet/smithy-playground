@@ -16,7 +16,7 @@ object ScalarAttributeType {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ScalarAttributeType"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[ScalarAttributeType] = rt.ShapeCodec.enumValues[ScalarAttributeType]
+  lazy val knownValues: scala.collection.immutable.List[ScalarAttributeType] = smithyscala.hearth.HearthCodec.enumValues[ScalarAttributeType]
 
   def fromValue(value: java.lang.String): ScalarAttributeType = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

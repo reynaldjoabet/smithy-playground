@@ -15,7 +15,7 @@ object BulkOperationPerformanceTier {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "BulkOperationPerformanceTier"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[BulkOperationPerformanceTier] = rt.ShapeCodec.enumValues[BulkOperationPerformanceTier]
+  lazy val knownValues: scala.collection.immutable.List[BulkOperationPerformanceTier] = smithyscala.hearth.HearthCodec.enumValues[BulkOperationPerformanceTier]
 
   def fromValue(value: java.lang.String): BulkOperationPerformanceTier = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

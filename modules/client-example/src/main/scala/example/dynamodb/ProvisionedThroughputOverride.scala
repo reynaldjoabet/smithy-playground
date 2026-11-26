@@ -13,5 +13,5 @@ object ProvisionedThroughputOverride {
     rt.MemberDef("ReadCapacityUnits", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ProvisionedThroughputOverride] = rt.ShapeCodec.struct[ProvisionedThroughputOverride](schema)
+  given codec: rt.SchemaCodec[ProvisionedThroughputOverride] = smithyscala.hearth.HearthCodec.derived[ProvisionedThroughputOverride](schema)
 }

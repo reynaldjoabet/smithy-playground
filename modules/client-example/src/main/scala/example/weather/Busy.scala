@@ -15,5 +15,5 @@ object Busy {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[Busy] = rt.ShapeCodec.struct[Busy](schema)
+  given codec: rt.SchemaCodec[Busy] = smithyscala.hearth.HearthCodec.derived[Busy](schema)
 }

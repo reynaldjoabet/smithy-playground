@@ -34,5 +34,5 @@ object RestoreTableToPointInTimeInput {
     rt.MemberDef("VectorIndexOverride", () => VectorIndexList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[RestoreTableToPointInTimeInput] = rt.ShapeCodec.struct[RestoreTableToPointInTimeInput](schema)
+  given codec: rt.SchemaCodec[RestoreTableToPointInTimeInput] = smithyscala.hearth.HearthCodec.derived[RestoreTableToPointInTimeInput](schema)
 }

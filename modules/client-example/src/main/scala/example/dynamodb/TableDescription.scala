@@ -71,5 +71,5 @@ object TableDescription {
     rt.MemberDef("VectorIndexes", () => VectorIndexDescriptionList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TableDescription] = rt.ShapeCodec.struct[TableDescription](schema)
+  given codec: rt.SchemaCodec[TableDescription] = smithyscala.hearth.HearthCodec.derived[TableDescription](schema)
 }

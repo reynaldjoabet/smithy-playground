@@ -13,5 +13,5 @@ object UnsupportedOperation {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[UnsupportedOperation] = rt.ShapeCodec.struct[UnsupportedOperation](schema)
+  given codec: rt.SchemaCodec[UnsupportedOperation] = smithyscala.hearth.HearthCodec.derived[UnsupportedOperation](schema)
 }

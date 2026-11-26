@@ -14,5 +14,5 @@ object TransactGetItemsInput {
     rt.MemberDef("ReturnConsumedCapacity", () => ReturnConsumedCapacity.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TransactGetItemsInput] = rt.ShapeCodec.struct[TransactGetItemsInput](schema)
+  given codec: rt.SchemaCodec[TransactGetItemsInput] = smithyscala.hearth.HearthCodec.derived[TransactGetItemsInput](schema)
 }

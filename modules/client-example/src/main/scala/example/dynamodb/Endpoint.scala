@@ -15,5 +15,5 @@ object Endpoint {
     rt.MemberDef("CachePeriodInMinutes", () => rt.Prelude.Long, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[Endpoint] = rt.ShapeCodec.struct[Endpoint](schema)
+  given codec: rt.SchemaCodec[Endpoint] = smithyscala.hearth.HearthCodec.derived[Endpoint](schema)
 }

@@ -13,5 +13,5 @@ object QueueDoesNotExist {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[QueueDoesNotExist] = rt.ShapeCodec.struct[QueueDoesNotExist](schema)
+  given codec: rt.SchemaCodec[QueueDoesNotExist] = smithyscala.hearth.HearthCodec.derived[QueueDoesNotExist](schema)
 }

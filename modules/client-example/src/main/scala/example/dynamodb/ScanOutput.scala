@@ -21,5 +21,5 @@ object ScanOutput {
     rt.MemberDef("ConsumedCapacity", () => ConsumedCapacity.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ScanOutput] = rt.ShapeCodec.struct[ScanOutput](schema)
+  given codec: rt.SchemaCodec[ScanOutput] = smithyscala.hearth.HearthCodec.derived[ScanOutput](schema)
 }

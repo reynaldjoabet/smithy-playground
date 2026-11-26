@@ -15,5 +15,5 @@ object Projection {
     rt.MemberDef("NonKeyAttributes", () => NonKeyAttributeNameList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[Projection] = rt.ShapeCodec.struct[Projection](schema)
+  given codec: rt.SchemaCodec[Projection] = smithyscala.hearth.HearthCodec.derived[Projection](schema)
 }

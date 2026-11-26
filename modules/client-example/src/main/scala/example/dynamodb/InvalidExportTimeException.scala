@@ -13,5 +13,5 @@ object InvalidExportTimeException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[InvalidExportTimeException] = rt.ShapeCodec.struct[InvalidExportTimeException](schema)
+  given codec: rt.SchemaCodec[InvalidExportTimeException] = smithyscala.hearth.HearthCodec.derived[InvalidExportTimeException](schema)
 }

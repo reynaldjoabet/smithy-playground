@@ -12,5 +12,5 @@ object DeleteBackupOutput {
     rt.MemberDef("BackupDescription", () => BackupDescription.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[DeleteBackupOutput] = rt.ShapeCodec.struct[DeleteBackupOutput](schema)
+  given codec: rt.SchemaCodec[DeleteBackupOutput] = smithyscala.hearth.HearthCodec.derived[DeleteBackupOutput](schema)
 }

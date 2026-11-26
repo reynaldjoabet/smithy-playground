@@ -15,5 +15,5 @@ object GlobalTableWitnessGroupUpdate {
     rt.MemberDef("Delete", () => DeleteGlobalTableWitnessGroupMemberAction.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[GlobalTableWitnessGroupUpdate] = rt.ShapeCodec.struct[GlobalTableWitnessGroupUpdate](schema)
+  given codec: rt.SchemaCodec[GlobalTableWitnessGroupUpdate] = smithyscala.hearth.HearthCodec.derived[GlobalTableWitnessGroupUpdate](schema)
 }

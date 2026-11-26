@@ -15,7 +15,7 @@ object DisassociationMode {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "DisassociationMode"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[DisassociationMode] = rt.ShapeCodec.enumValues[DisassociationMode]
+  lazy val knownValues: scala.collection.immutable.List[DisassociationMode] = smithyscala.hearth.HearthCodec.enumValues[DisassociationMode]
 
   def fromValue(value: java.lang.String): DisassociationMode = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

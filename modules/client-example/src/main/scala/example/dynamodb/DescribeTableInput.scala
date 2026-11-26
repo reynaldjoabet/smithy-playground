@@ -13,5 +13,5 @@ object DescribeTableInput {
     rt.MemberDef("TableName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DescribeTableInput] = rt.ShapeCodec.struct[DescribeTableInput](schema)
+  given codec: rt.SchemaCodec[DescribeTableInput] = smithyscala.hearth.HearthCodec.derived[DescribeTableInput](schema)
 }

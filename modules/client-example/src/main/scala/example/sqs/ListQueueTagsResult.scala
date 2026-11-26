@@ -12,5 +12,5 @@ object ListQueueTagsResult {
     rt.MemberDef("Tags", () => TagMap.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListQueueTagsResult] = rt.ShapeCodec.struct[ListQueueTagsResult](schema)
+  given codec: rt.SchemaCodec[ListQueueTagsResult] = smithyscala.hearth.HearthCodec.derived[ListQueueTagsResult](schema)
 }

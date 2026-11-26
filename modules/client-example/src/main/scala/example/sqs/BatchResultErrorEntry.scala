@@ -19,5 +19,5 @@ object BatchResultErrorEntry {
     rt.MemberDef("Message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BatchResultErrorEntry] = rt.ShapeCodec.struct[BatchResultErrorEntry](schema)
+  given codec: rt.SchemaCodec[BatchResultErrorEntry] = smithyscala.hearth.HearthCodec.derived[BatchResultErrorEntry](schema)
 }

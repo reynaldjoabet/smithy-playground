@@ -13,5 +13,5 @@ object DeleteGlobalTableWitnessGroupMemberAction {
     rt.MemberDef("RegionName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DeleteGlobalTableWitnessGroupMemberAction] = rt.ShapeCodec.struct[DeleteGlobalTableWitnessGroupMemberAction](schema)
+  given codec: rt.SchemaCodec[DeleteGlobalTableWitnessGroupMemberAction] = smithyscala.hearth.HearthCodec.derived[DeleteGlobalTableWitnessGroupMemberAction](schema)
 }

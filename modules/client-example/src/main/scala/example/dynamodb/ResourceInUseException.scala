@@ -13,5 +13,5 @@ object ResourceInUseException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ResourceInUseException] = rt.ShapeCodec.struct[ResourceInUseException](schema)
+  given codec: rt.SchemaCodec[ResourceInUseException] = smithyscala.hearth.HearthCodec.derived[ResourceInUseException](schema)
 }

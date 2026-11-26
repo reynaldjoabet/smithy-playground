@@ -13,5 +13,5 @@ object DuplicateItemException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[DuplicateItemException] = rt.ShapeCodec.struct[DuplicateItemException](schema)
+  given codec: rt.SchemaCodec[DuplicateItemException] = smithyscala.hearth.HearthCodec.derived[DuplicateItemException](schema)
 }

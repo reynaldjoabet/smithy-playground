@@ -14,5 +14,5 @@ object GetQueueAttributesRequest {
     rt.MemberDef("AttributeNames", () => AttributeNameList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[GetQueueAttributesRequest] = rt.ShapeCodec.struct[GetQueueAttributesRequest](schema)
+  given codec: rt.SchemaCodec[GetQueueAttributesRequest] = smithyscala.hearth.HearthCodec.derived[GetQueueAttributesRequest](schema)
 }

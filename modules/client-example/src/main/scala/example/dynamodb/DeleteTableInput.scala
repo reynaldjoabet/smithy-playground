@@ -13,5 +13,5 @@ object DeleteTableInput {
     rt.MemberDef("TableName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DeleteTableInput] = rt.ShapeCodec.struct[DeleteTableInput](schema)
+  given codec: rt.SchemaCodec[DeleteTableInput] = smithyscala.hearth.HearthCodec.derived[DeleteTableInput](schema)
 }

@@ -13,5 +13,5 @@ object DeleteVectorIndexAction {
     rt.MemberDef("IndexName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DeleteVectorIndexAction] = rt.ShapeCodec.struct[DeleteVectorIndexAction](schema)
+  given codec: rt.SchemaCodec[DeleteVectorIndexAction] = smithyscala.hearth.HearthCodec.derived[DeleteVectorIndexAction](schema)
 }

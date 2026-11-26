@@ -15,5 +15,5 @@ object GlobalTable {
     rt.MemberDef("ReplicationGroup", () => ReplicaList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[GlobalTable] = rt.ShapeCodec.struct[GlobalTable](schema)
+  given codec: rt.SchemaCodec[GlobalTable] = smithyscala.hearth.HearthCodec.derived[GlobalTable](schema)
 }

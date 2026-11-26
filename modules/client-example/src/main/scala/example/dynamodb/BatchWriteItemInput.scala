@@ -17,5 +17,5 @@ object BatchWriteItemInput {
     rt.MemberDef("ReturnItemCollectionMetrics", () => ReturnItemCollectionMetrics.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BatchWriteItemInput] = rt.ShapeCodec.struct[BatchWriteItemInput](schema)
+  given codec: rt.SchemaCodec[BatchWriteItemInput] = smithyscala.hearth.HearthCodec.derived[BatchWriteItemInput](schema)
 }

@@ -17,5 +17,5 @@ object SSESpecification {
     rt.MemberDef("KMSMasterKeyId", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[SSESpecification] = rt.ShapeCodec.struct[SSESpecification](schema)
+  given codec: rt.SchemaCodec[SSESpecification] = smithyscala.hearth.HearthCodec.derived[SSESpecification](schema)
 }

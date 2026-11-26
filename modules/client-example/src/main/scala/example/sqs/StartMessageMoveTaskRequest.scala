@@ -16,5 +16,5 @@ object StartMessageMoveTaskRequest {
     rt.MemberDef("MaxNumberOfMessagesPerSecond", () => rt.Prelude.Integer, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[StartMessageMoveTaskRequest] = rt.ShapeCodec.struct[StartMessageMoveTaskRequest](schema)
+  given codec: rt.SchemaCodec[StartMessageMoveTaskRequest] = smithyscala.hearth.HearthCodec.derived[StartMessageMoveTaskRequest](schema)
 }

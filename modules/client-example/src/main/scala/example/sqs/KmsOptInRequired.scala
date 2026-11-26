@@ -13,5 +13,5 @@ object KmsOptInRequired {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[KmsOptInRequired] = rt.ShapeCodec.struct[KmsOptInRequired](schema)
+  given codec: rt.SchemaCodec[KmsOptInRequired] = smithyscala.hearth.HearthCodec.derived[KmsOptInRequired](schema)
 }

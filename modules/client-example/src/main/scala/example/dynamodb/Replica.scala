@@ -13,5 +13,5 @@ object Replica {
     rt.MemberDef("RegionName", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[Replica] = rt.ShapeCodec.struct[Replica](schema)
+  given codec: rt.SchemaCodec[Replica] = smithyscala.hearth.HearthCodec.derived[Replica](schema)
 }

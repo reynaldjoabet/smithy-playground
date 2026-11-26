@@ -13,5 +13,5 @@ object ResourceNotFoundException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ResourceNotFoundException] = rt.ShapeCodec.struct[ResourceNotFoundException](schema)
+  given codec: rt.SchemaCodec[ResourceNotFoundException] = smithyscala.hearth.HearthCodec.derived[ResourceNotFoundException](schema)
 }

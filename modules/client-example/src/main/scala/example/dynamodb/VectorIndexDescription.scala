@@ -33,5 +33,5 @@ object VectorIndexDescription {
     rt.MemberDef("IndexArn", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[VectorIndexDescription] = rt.ShapeCodec.struct[VectorIndexDescription](schema)
+  given codec: rt.SchemaCodec[VectorIndexDescription] = smithyscala.hearth.HearthCodec.derived[VectorIndexDescription](schema)
 }

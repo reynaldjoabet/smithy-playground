@@ -19,5 +19,5 @@ object ReplicationGroupUpdate {
     rt.MemberDef("Disassociate", () => DisassociateReplicationGroupMemberAction.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ReplicationGroupUpdate] = rt.ShapeCodec.struct[ReplicationGroupUpdate](schema)
+  given codec: rt.SchemaCodec[ReplicationGroupUpdate] = smithyscala.hearth.HearthCodec.derived[ReplicationGroupUpdate](schema)
 }

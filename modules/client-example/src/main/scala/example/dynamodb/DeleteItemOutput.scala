@@ -17,5 +17,5 @@ object DeleteItemOutput {
     rt.MemberDef("ItemCollectionMetrics", () => ItemCollectionMetrics.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[DeleteItemOutput] = rt.ShapeCodec.struct[DeleteItemOutput](schema)
+  given codec: rt.SchemaCodec[DeleteItemOutput] = smithyscala.hearth.HearthCodec.derived[DeleteItemOutput](schema)
 }

@@ -16,5 +16,5 @@ object ListGlobalTablesInput {
     rt.MemberDef("RegionName", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListGlobalTablesInput] = rt.ShapeCodec.struct[ListGlobalTablesInput](schema)
+  given codec: rt.SchemaCodec[ListGlobalTablesInput] = smithyscala.hearth.HearthCodec.derived[ListGlobalTablesInput](schema)
 }

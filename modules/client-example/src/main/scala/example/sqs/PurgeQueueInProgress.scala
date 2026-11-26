@@ -13,5 +13,5 @@ object PurgeQueueInProgress {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[PurgeQueueInProgress] = rt.ShapeCodec.struct[PurgeQueueInProgress](schema)
+  given codec: rt.SchemaCodec[PurgeQueueInProgress] = smithyscala.hearth.HearthCodec.derived[PurgeQueueInProgress](schema)
 }

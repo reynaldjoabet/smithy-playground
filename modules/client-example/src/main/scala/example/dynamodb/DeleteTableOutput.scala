@@ -13,5 +13,5 @@ object DeleteTableOutput {
     rt.MemberDef("TableDescription", () => TableDescription.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[DeleteTableOutput] = rt.ShapeCodec.struct[DeleteTableOutput](schema)
+  given codec: rt.SchemaCodec[DeleteTableOutput] = smithyscala.hearth.HearthCodec.derived[DeleteTableOutput](schema)
 }

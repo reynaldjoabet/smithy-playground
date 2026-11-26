@@ -12,5 +12,5 @@ object CancelMessageMoveTaskResult {
     rt.MemberDef("ApproximateNumberOfMessagesMoved", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[CancelMessageMoveTaskResult] = rt.ShapeCodec.struct[CancelMessageMoveTaskResult](schema)
+  given codec: rt.SchemaCodec[CancelMessageMoveTaskResult] = smithyscala.hearth.HearthCodec.derived[CancelMessageMoveTaskResult](schema)
 }

@@ -12,5 +12,5 @@ object DescribeTimeToLiveInput {
     rt.MemberDef("TableName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DescribeTimeToLiveInput] = rt.ShapeCodec.struct[DescribeTimeToLiveInput](schema)
+  given codec: rt.SchemaCodec[DescribeTimeToLiveInput] = smithyscala.hearth.HearthCodec.derived[DescribeTimeToLiveInput](schema)
 }

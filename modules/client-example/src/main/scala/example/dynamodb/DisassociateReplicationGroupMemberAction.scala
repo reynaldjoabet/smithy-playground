@@ -15,5 +15,5 @@ object DisassociateReplicationGroupMemberAction {
     rt.MemberDef("DisassociationMode", () => DisassociationMode.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DisassociateReplicationGroupMemberAction] = rt.ShapeCodec.struct[DisassociateReplicationGroupMemberAction](schema)
+  given codec: rt.SchemaCodec[DisassociateReplicationGroupMemberAction] = smithyscala.hearth.HearthCodec.derived[DisassociateReplicationGroupMemberAction](schema)
 }

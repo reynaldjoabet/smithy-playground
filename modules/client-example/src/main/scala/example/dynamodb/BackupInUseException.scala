@@ -13,5 +13,5 @@ object BackupInUseException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BackupInUseException] = rt.ShapeCodec.struct[BackupInUseException](schema)
+  given codec: rt.SchemaCodec[BackupInUseException] = smithyscala.hearth.HearthCodec.derived[BackupInUseException](schema)
 }

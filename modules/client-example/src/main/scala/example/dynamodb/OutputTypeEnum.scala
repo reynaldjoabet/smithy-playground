@@ -15,7 +15,7 @@ object OutputTypeEnum {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "OutputTypeEnum"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[OutputTypeEnum] = rt.ShapeCodec.enumValues[OutputTypeEnum]
+  lazy val knownValues: scala.collection.immutable.List[OutputTypeEnum] = smithyscala.hearth.HearthCodec.enumValues[OutputTypeEnum]
 
   def fromValue(value: java.lang.String): OutputTypeEnum = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

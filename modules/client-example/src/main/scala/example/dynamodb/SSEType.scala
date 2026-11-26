@@ -15,7 +15,7 @@ object SSEType {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "SSEType"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[SSEType] = rt.ShapeCodec.enumValues[SSEType]
+  lazy val knownValues: scala.collection.immutable.List[SSEType] = smithyscala.hearth.HearthCodec.enumValues[SSEType]
 
   def fromValue(value: java.lang.String): SSEType = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

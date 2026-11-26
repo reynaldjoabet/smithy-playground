@@ -17,5 +17,5 @@ object TableWarmThroughputDescription {
     rt.MemberDef("Status", () => TableStatus.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TableWarmThroughputDescription] = rt.ShapeCodec.struct[TableWarmThroughputDescription](schema)
+  given codec: rt.SchemaCodec[TableWarmThroughputDescription] = smithyscala.hearth.HearthCodec.derived[TableWarmThroughputDescription](schema)
 }

@@ -13,5 +13,5 @@ object InvalidMessageContents {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[InvalidMessageContents] = rt.ShapeCodec.struct[InvalidMessageContents](schema)
+  given codec: rt.SchemaCodec[InvalidMessageContents] = smithyscala.hearth.HearthCodec.derived[InvalidMessageContents](schema)
 }

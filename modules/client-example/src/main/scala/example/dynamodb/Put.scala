@@ -23,5 +23,5 @@ object Put {
     rt.MemberDef("ReturnValuesOnConditionCheckFailure", () => ReturnValuesOnConditionCheckFailure.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[Put] = rt.ShapeCodec.struct[Put](schema)
+  given codec: rt.SchemaCodec[Put] = smithyscala.hearth.HearthCodec.derived[Put](schema)
 }

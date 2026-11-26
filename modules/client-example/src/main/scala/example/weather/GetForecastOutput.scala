@@ -16,5 +16,5 @@ object GetForecastOutput {
     rt.MemberDef("type", () => Kind.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[GetForecastOutput] = rt.ShapeCodec.struct[GetForecastOutput](schema)
+  given codec: rt.SchemaCodec[GetForecastOutput] = smithyscala.hearth.HearthCodec.derived[GetForecastOutput](schema)
 }

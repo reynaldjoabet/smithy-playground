@@ -14,5 +14,5 @@ object ListGlobalTablesOutput {
     rt.MemberDef("LastEvaluatedGlobalTableName", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListGlobalTablesOutput] = rt.ShapeCodec.struct[ListGlobalTablesOutput](schema)
+  given codec: rt.SchemaCodec[ListGlobalTablesOutput] = smithyscala.hearth.HearthCodec.derived[ListGlobalTablesOutput](schema)
 }

@@ -13,5 +13,5 @@ object PointInTimeRecoveryUnavailableException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[PointInTimeRecoveryUnavailableException] = rt.ShapeCodec.struct[PointInTimeRecoveryUnavailableException](schema)
+  given codec: rt.SchemaCodec[PointInTimeRecoveryUnavailableException] = smithyscala.hearth.HearthCodec.derived[PointInTimeRecoveryUnavailableException](schema)
 }

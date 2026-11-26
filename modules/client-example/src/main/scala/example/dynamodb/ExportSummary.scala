@@ -17,5 +17,5 @@ object ExportSummary {
     rt.MemberDef("ExportType", () => ExportType.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ExportSummary] = rt.ShapeCodec.struct[ExportSummary](schema)
+  given codec: rt.SchemaCodec[ExportSummary] = smithyscala.hearth.HearthCodec.derived[ExportSummary](schema)
 }

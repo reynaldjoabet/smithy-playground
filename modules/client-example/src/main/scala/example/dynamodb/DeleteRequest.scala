@@ -13,5 +13,5 @@ object DeleteRequest {
     rt.MemberDef("Key", () => Key.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DeleteRequest] = rt.ShapeCodec.struct[DeleteRequest](schema)
+  given codec: rt.SchemaCodec[DeleteRequest] = smithyscala.hearth.HearthCodec.derived[DeleteRequest](schema)
 }

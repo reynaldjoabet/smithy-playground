@@ -15,5 +15,5 @@ object ListDeadLetterSourceQueuesResult {
     rt.MemberDef("NextToken", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListDeadLetterSourceQueuesResult] = rt.ShapeCodec.struct[ListDeadLetterSourceQueuesResult](schema)
+  given codec: rt.SchemaCodec[ListDeadLetterSourceQueuesResult] = smithyscala.hearth.HearthCodec.derived[ListDeadLetterSourceQueuesResult](schema)
 }

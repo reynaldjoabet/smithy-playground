@@ -15,5 +15,5 @@ object AttributeDefinition {
     rt.MemberDef("AttributeType", () => ScalarAttributeType.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[AttributeDefinition] = rt.ShapeCodec.struct[AttributeDefinition](schema)
+  given codec: rt.SchemaCodec[AttributeDefinition] = smithyscala.hearth.HearthCodec.derived[AttributeDefinition](schema)
 }

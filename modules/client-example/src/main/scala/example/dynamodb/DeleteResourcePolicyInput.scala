@@ -14,5 +14,5 @@ object DeleteResourcePolicyInput {
     rt.MemberDef("ExpectedRevisionId", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[DeleteResourcePolicyInput] = rt.ShapeCodec.struct[DeleteResourcePolicyInput](schema)
+  given codec: rt.SchemaCodec[DeleteResourcePolicyInput] = smithyscala.hearth.HearthCodec.derived[DeleteResourcePolicyInput](schema)
 }

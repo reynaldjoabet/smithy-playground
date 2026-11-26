@@ -14,5 +14,5 @@ object UpdateGlobalTableSettingsOutput {
     rt.MemberDef("ReplicaSettings", () => ReplicaSettingsDescriptionList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[UpdateGlobalTableSettingsOutput] = rt.ShapeCodec.struct[UpdateGlobalTableSettingsOutput](schema)
+  given codec: rt.SchemaCodec[UpdateGlobalTableSettingsOutput] = smithyscala.hearth.HearthCodec.derived[UpdateGlobalTableSettingsOutput](schema)
 }

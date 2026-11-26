@@ -12,5 +12,5 @@ object PurgeQueueRequest {
     rt.MemberDef("QueueUrl", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[PurgeQueueRequest] = rt.ShapeCodec.struct[PurgeQueueRequest](schema)
+  given codec: rt.SchemaCodec[PurgeQueueRequest] = smithyscala.hearth.HearthCodec.derived[PurgeQueueRequest](schema)
 }

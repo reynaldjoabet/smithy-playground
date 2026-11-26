@@ -55,5 +55,5 @@ object ExportDescription {
     rt.MemberDef("FilterSpecification", () => FilterSpecification.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ExportDescription] = rt.ShapeCodec.struct[ExportDescription](schema)
+  given codec: rt.SchemaCodec[ExportDescription] = smithyscala.hearth.HearthCodec.derived[ExportDescription](schema)
 }

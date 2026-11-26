@@ -14,5 +14,5 @@ object Day {
     rt.MemberDef("copy", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[Day] = rt.ShapeCodec.struct[Day](schema)
+  given codec: rt.SchemaCodec[Day] = smithyscala.hearth.HearthCodec.derived[Day](schema)
 }

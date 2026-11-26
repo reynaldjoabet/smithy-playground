@@ -21,5 +21,5 @@ object FilterSpecification {
     rt.MemberDef("ExpressionAttributeValues", () => ExpressionAttributeValueMap.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[FilterSpecification] = rt.ShapeCodec.struct[FilterSpecification](schema)
+  given codec: rt.SchemaCodec[FilterSpecification] = smithyscala.hearth.HearthCodec.derived[FilterSpecification](schema)
 }

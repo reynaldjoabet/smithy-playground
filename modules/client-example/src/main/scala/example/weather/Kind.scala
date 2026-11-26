@@ -17,5 +17,5 @@ object Kind {
     rt.MemberDef("rain", () => rt.Prelude.Integer, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[Kind] = rt.ShapeCodec.union[Kind](schema)
+  given codec: rt.SchemaCodec[Kind] = smithyscala.hearth.HearthCodec.derived[Kind](schema)
 }

@@ -15,7 +15,7 @@ object ExportViewType {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ExportViewType"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[ExportViewType] = rt.ShapeCodec.enumValues[ExportViewType]
+  lazy val knownValues: scala.collection.immutable.List[ExportViewType] = smithyscala.hearth.HearthCodec.enumValues[ExportViewType]
 
   def fromValue(value: java.lang.String): ExportViewType = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

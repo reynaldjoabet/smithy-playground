@@ -23,5 +23,5 @@ object ReplicaGlobalSecondaryIndexSettingsDescription {
     rt.MemberDef("ProvisionedWriteCapacityAutoScalingSettings", () => AutoScalingSettingsDescription.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ReplicaGlobalSecondaryIndexSettingsDescription] = rt.ShapeCodec.struct[ReplicaGlobalSecondaryIndexSettingsDescription](schema)
+  given codec: rt.SchemaCodec[ReplicaGlobalSecondaryIndexSettingsDescription] = smithyscala.hearth.HearthCodec.derived[ReplicaGlobalSecondaryIndexSettingsDescription](schema)
 }

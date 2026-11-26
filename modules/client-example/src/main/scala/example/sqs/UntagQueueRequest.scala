@@ -14,5 +14,5 @@ object UntagQueueRequest {
     rt.MemberDef("TagKeys", () => TagKeyList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[UntagQueueRequest] = rt.ShapeCodec.struct[UntagQueueRequest](schema)
+  given codec: rt.SchemaCodec[UntagQueueRequest] = smithyscala.hearth.HearthCodec.derived[UntagQueueRequest](schema)
 }

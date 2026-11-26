@@ -15,5 +15,5 @@ object SearchSchemaElement {
     rt.MemberDef("SearchSchemaElementType", () => SearchSchemaElementType.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[SearchSchemaElement] = rt.ShapeCodec.struct[SearchSchemaElement](schema)
+  given codec: rt.SchemaCodec[SearchSchemaElement] = smithyscala.hearth.HearthCodec.derived[SearchSchemaElement](schema)
 }

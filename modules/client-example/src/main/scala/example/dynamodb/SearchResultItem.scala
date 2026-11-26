@@ -15,5 +15,5 @@ object SearchResultItem {
     rt.MemberDef("Score", () => rt.Prelude.Double, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[SearchResultItem] = rt.ShapeCodec.struct[SearchResultItem](schema)
+  given codec: rt.SchemaCodec[SearchResultItem] = smithyscala.hearth.HearthCodec.derived[SearchResultItem](schema)
 }

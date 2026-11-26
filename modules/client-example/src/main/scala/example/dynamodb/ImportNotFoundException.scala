@@ -13,5 +13,5 @@ object ImportNotFoundException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ImportNotFoundException] = rt.ShapeCodec.struct[ImportNotFoundException](schema)
+  given codec: rt.SchemaCodec[ImportNotFoundException] = smithyscala.hearth.HearthCodec.derived[ImportNotFoundException](schema)
 }

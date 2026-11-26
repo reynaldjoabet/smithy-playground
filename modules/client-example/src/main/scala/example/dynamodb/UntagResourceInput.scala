@@ -14,5 +14,5 @@ object UntagResourceInput {
     rt.MemberDef("TagKeys", () => TagKeyList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[UntagResourceInput] = rt.ShapeCodec.struct[UntagResourceInput](schema)
+  given codec: rt.SchemaCodec[UntagResourceInput] = smithyscala.hearth.HearthCodec.derived[UntagResourceInput](schema)
 }

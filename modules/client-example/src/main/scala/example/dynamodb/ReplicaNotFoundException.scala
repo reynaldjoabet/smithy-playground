@@ -13,5 +13,5 @@ object ReplicaNotFoundException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ReplicaNotFoundException] = rt.ShapeCodec.struct[ReplicaNotFoundException](schema)
+  given codec: rt.SchemaCodec[ReplicaNotFoundException] = smithyscala.hearth.HearthCodec.derived[ReplicaNotFoundException](schema)
 }

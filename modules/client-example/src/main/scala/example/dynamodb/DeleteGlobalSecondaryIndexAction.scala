@@ -13,5 +13,5 @@ object DeleteGlobalSecondaryIndexAction {
     rt.MemberDef("IndexName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DeleteGlobalSecondaryIndexAction] = rt.ShapeCodec.struct[DeleteGlobalSecondaryIndexAction](schema)
+  given codec: rt.SchemaCodec[DeleteGlobalSecondaryIndexAction] = smithyscala.hearth.HearthCodec.derived[DeleteGlobalSecondaryIndexAction](schema)
 }

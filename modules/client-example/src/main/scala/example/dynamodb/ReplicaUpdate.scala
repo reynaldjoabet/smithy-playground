@@ -15,5 +15,5 @@ object ReplicaUpdate {
     rt.MemberDef("Delete", () => DeleteReplicaAction.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ReplicaUpdate] = rt.ShapeCodec.struct[ReplicaUpdate](schema)
+  given codec: rt.SchemaCodec[ReplicaUpdate] = smithyscala.hearth.HearthCodec.derived[ReplicaUpdate](schema)
 }

@@ -15,5 +15,5 @@ object ChangeMessageVisibilityBatchResult {
     rt.MemberDef("Failed", () => BatchResultErrorEntryList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[ChangeMessageVisibilityBatchResult] = rt.ShapeCodec.struct[ChangeMessageVisibilityBatchResult](schema)
+  given codec: rt.SchemaCodec[ChangeMessageVisibilityBatchResult] = smithyscala.hearth.HearthCodec.derived[ChangeMessageVisibilityBatchResult](schema)
 }

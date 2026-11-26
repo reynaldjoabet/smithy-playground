@@ -16,5 +16,5 @@ object ListExportsInput {
     rt.MemberDef("NextToken", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListExportsInput] = rt.ShapeCodec.struct[ListExportsInput](schema)
+  given codec: rt.SchemaCodec[ListExportsInput] = smithyscala.hearth.HearthCodec.derived[ListExportsInput](schema)
 }

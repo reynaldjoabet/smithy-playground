@@ -13,5 +13,5 @@ object ExportNotFoundException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ExportNotFoundException] = rt.ShapeCodec.struct[ExportNotFoundException](schema)
+  given codec: rt.SchemaCodec[ExportNotFoundException] = smithyscala.hearth.HearthCodec.derived[ExportNotFoundException](schema)
 }

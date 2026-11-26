@@ -13,5 +13,5 @@ object EmptyBatchRequest {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[EmptyBatchRequest] = rt.ShapeCodec.struct[EmptyBatchRequest](schema)
+  given codec: rt.SchemaCodec[EmptyBatchRequest] = smithyscala.hearth.HearthCodec.derived[EmptyBatchRequest](schema)
 }

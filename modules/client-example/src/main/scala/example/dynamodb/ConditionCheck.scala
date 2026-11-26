@@ -23,5 +23,5 @@ object ConditionCheck {
     rt.MemberDef("ReturnValuesOnConditionCheckFailure", () => ReturnValuesOnConditionCheckFailure.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ConditionCheck] = rt.ShapeCodec.struct[ConditionCheck](schema)
+  given codec: rt.SchemaCodec[ConditionCheck] = smithyscala.hearth.HearthCodec.derived[ConditionCheck](schema)
 }

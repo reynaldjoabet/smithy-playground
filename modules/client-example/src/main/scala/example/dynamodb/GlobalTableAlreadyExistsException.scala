@@ -13,5 +13,5 @@ object GlobalTableAlreadyExistsException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[GlobalTableAlreadyExistsException] = rt.ShapeCodec.struct[GlobalTableAlreadyExistsException](schema)
+  given codec: rt.SchemaCodec[GlobalTableAlreadyExistsException] = smithyscala.hearth.HearthCodec.derived[GlobalTableAlreadyExistsException](schema)
 }

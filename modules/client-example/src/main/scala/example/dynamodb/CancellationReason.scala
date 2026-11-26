@@ -17,5 +17,5 @@ object CancellationReason {
     rt.MemberDef("Message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[CancellationReason] = rt.ShapeCodec.struct[CancellationReason](schema)
+  given codec: rt.SchemaCodec[CancellationReason] = smithyscala.hearth.HearthCodec.derived[CancellationReason](schema)
 }

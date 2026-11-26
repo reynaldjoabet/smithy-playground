@@ -27,5 +27,5 @@ object ImportSummary {
     rt.MemberDef("EndTime", () => rt.Prelude.Timestamp, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ImportSummary] = rt.ShapeCodec.struct[ImportSummary](schema)
+  given codec: rt.SchemaCodec[ImportSummary] = smithyscala.hearth.HearthCodec.derived[ImportSummary](schema)
 }

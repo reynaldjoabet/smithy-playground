@@ -45,5 +45,5 @@ object QueryInput {
     rt.MemberDef("ExpressionAttributeValues", () => ExpressionAttributeValueMap.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[QueryInput] = rt.ShapeCodec.struct[QueryInput](schema)
+  given codec: rt.SchemaCodec[QueryInput] = smithyscala.hearth.HearthCodec.derived[QueryInput](schema)
 }

@@ -13,5 +13,5 @@ object BackupNotFoundException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BackupNotFoundException] = rt.ShapeCodec.struct[BackupNotFoundException](schema)
+  given codec: rt.SchemaCodec[BackupNotFoundException] = smithyscala.hearth.HearthCodec.derived[BackupNotFoundException](schema)
 }

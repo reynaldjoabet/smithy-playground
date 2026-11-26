@@ -17,7 +17,7 @@ object BackupTypeFilter {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "BackupTypeFilter"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[BackupTypeFilter] = rt.ShapeCodec.enumValues[BackupTypeFilter]
+  lazy val knownValues: scala.collection.immutable.List[BackupTypeFilter] = smithyscala.hearth.HearthCodec.enumValues[BackupTypeFilter]
 
   def fromValue(value: java.lang.String): BackupTypeFilter = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

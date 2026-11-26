@@ -14,5 +14,5 @@ object CancelBulkOperationOutput {
     rt.MemberDef("BulkOperationStatus", () => BulkOperationStatus.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[CancelBulkOperationOutput] = rt.ShapeCodec.struct[CancelBulkOperationOutput](schema)
+  given codec: rt.SchemaCodec[CancelBulkOperationOutput] = smithyscala.hearth.HearthCodec.derived[CancelBulkOperationOutput](schema)
 }

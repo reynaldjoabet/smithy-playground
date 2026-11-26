@@ -25,5 +25,5 @@ object SendMessageBatchRequestEntry {
     rt.MemberDef("MessageGroupId", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[SendMessageBatchRequestEntry] = rt.ShapeCodec.struct[SendMessageBatchRequestEntry](schema)
+  given codec: rt.SchemaCodec[SendMessageBatchRequestEntry] = smithyscala.hearth.HearthCodec.derived[SendMessageBatchRequestEntry](schema)
 }

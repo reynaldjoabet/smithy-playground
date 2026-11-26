@@ -12,5 +12,5 @@ object DescribeBulkOperationOutput {
     rt.MemberDef("BulkOperationDescription", () => BulkOperationDescription.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DescribeBulkOperationOutput] = rt.ShapeCodec.struct[DescribeBulkOperationOutput](schema)
+  given codec: rt.SchemaCodec[DescribeBulkOperationOutput] = smithyscala.hearth.HearthCodec.derived[DescribeBulkOperationOutput](schema)
 }

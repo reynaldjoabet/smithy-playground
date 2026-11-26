@@ -14,5 +14,5 @@ object ExecuteTransactionOutput {
     rt.MemberDef("ConsumedCapacity", () => ConsumedCapacityMultiple.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ExecuteTransactionOutput] = rt.ShapeCodec.struct[ExecuteTransactionOutput](schema)
+  given codec: rt.SchemaCodec[ExecuteTransactionOutput] = smithyscala.hearth.HearthCodec.derived[ExecuteTransactionOutput](schema)
 }

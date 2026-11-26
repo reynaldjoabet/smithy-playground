@@ -15,7 +15,7 @@ object S3SseAlgorithm {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "S3SseAlgorithm"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[S3SseAlgorithm] = rt.ShapeCodec.enumValues[S3SseAlgorithm]
+  lazy val knownValues: scala.collection.immutable.List[S3SseAlgorithm] = smithyscala.hearth.HearthCodec.enumValues[S3SseAlgorithm]
 
   def fromValue(value: java.lang.String): S3SseAlgorithm = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

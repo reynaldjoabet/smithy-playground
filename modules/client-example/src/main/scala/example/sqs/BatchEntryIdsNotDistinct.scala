@@ -13,5 +13,5 @@ object BatchEntryIdsNotDistinct {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BatchEntryIdsNotDistinct] = rt.ShapeCodec.struct[BatchEntryIdsNotDistinct](schema)
+  given codec: rt.SchemaCodec[BatchEntryIdsNotDistinct] = smithyscala.hearth.HearthCodec.derived[BatchEntryIdsNotDistinct](schema)
 }

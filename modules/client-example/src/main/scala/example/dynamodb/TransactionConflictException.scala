@@ -13,5 +13,5 @@ object TransactionConflictException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TransactionConflictException] = rt.ShapeCodec.struct[TransactionConflictException](schema)
+  given codec: rt.SchemaCodec[TransactionConflictException] = smithyscala.hearth.HearthCodec.derived[TransactionConflictException](schema)
 }

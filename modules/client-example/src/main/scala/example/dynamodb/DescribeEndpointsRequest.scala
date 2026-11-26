@@ -8,5 +8,5 @@ final case class DescribeEndpointsRequest()
 object DescribeEndpointsRequest {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "DescribeEndpointsRequest"), rt.ShapeType.Structure, rt.Traits.empty)()
 
-  given codec: rt.SchemaCodec[DescribeEndpointsRequest] = rt.ShapeCodec.struct[DescribeEndpointsRequest](schema)
+  given codec: rt.SchemaCodec[DescribeEndpointsRequest] = smithyscala.hearth.HearthCodec.derived[DescribeEndpointsRequest](schema)
 }

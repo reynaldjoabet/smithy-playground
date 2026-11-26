@@ -13,5 +13,5 @@ object InvalidBatchEntryId {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[InvalidBatchEntryId] = rt.ShapeCodec.struct[InvalidBatchEntryId](schema)
+  given codec: rt.SchemaCodec[InvalidBatchEntryId] = smithyscala.hearth.HearthCodec.derived[InvalidBatchEntryId](schema)
 }

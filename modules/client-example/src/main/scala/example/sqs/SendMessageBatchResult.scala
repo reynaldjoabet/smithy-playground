@@ -15,5 +15,5 @@ object SendMessageBatchResult {
     rt.MemberDef("Failed", () => BatchResultErrorEntryList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[SendMessageBatchResult] = rt.ShapeCodec.struct[SendMessageBatchResult](schema)
+  given codec: rt.SchemaCodec[SendMessageBatchResult] = smithyscala.hearth.HearthCodec.derived[SendMessageBatchResult](schema)
 }

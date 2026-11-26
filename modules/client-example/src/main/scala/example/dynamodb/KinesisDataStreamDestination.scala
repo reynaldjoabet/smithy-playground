@@ -19,5 +19,5 @@ object KinesisDataStreamDestination {
     rt.MemberDef("ApproximateCreationDateTimePrecision", () => ApproximateCreationDateTimePrecision.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[KinesisDataStreamDestination] = rt.ShapeCodec.struct[KinesisDataStreamDestination](schema)
+  given codec: rt.SchemaCodec[KinesisDataStreamDestination] = smithyscala.hearth.HearthCodec.derived[KinesisDataStreamDestination](schema)
 }

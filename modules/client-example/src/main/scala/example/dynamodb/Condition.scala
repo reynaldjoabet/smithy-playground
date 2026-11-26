@@ -15,5 +15,5 @@ object Condition {
     rt.MemberDef("ComparisonOperator", () => ComparisonOperator.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[Condition] = rt.ShapeCodec.struct[Condition](schema)
+  given codec: rt.SchemaCodec[Condition] = smithyscala.hearth.HearthCodec.derived[Condition](schema)
 }

@@ -18,7 +18,7 @@ object ReturnValue {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ReturnValue"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[ReturnValue] = rt.ShapeCodec.enumValues[ReturnValue]
+  lazy val knownValues: scala.collection.immutable.List[ReturnValue] = smithyscala.hearth.HearthCodec.enumValues[ReturnValue]
 
   def fromValue(value: java.lang.String): ReturnValue = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

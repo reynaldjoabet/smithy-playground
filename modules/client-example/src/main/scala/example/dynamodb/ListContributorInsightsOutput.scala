@@ -14,5 +14,5 @@ object ListContributorInsightsOutput {
     rt.MemberDef("NextToken", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListContributorInsightsOutput] = rt.ShapeCodec.struct[ListContributorInsightsOutput](schema)
+  given codec: rt.SchemaCodec[ListContributorInsightsOutput] = smithyscala.hearth.HearthCodec.derived[ListContributorInsightsOutput](schema)
 }

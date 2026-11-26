@@ -12,5 +12,5 @@ object InvalidEndpointException {
     rt.MemberDef("Message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[InvalidEndpointException] = rt.ShapeCodec.struct[InvalidEndpointException](schema)
+  given codec: rt.SchemaCodec[InvalidEndpointException] = smithyscala.hearth.HearthCodec.derived[InvalidEndpointException](schema)
 }

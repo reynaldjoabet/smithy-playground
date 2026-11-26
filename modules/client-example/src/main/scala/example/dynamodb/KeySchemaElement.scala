@@ -15,5 +15,5 @@ object KeySchemaElement {
     rt.MemberDef("KeyType", () => KeyType.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[KeySchemaElement] = rt.ShapeCodec.struct[KeySchemaElement](schema)
+  given codec: rt.SchemaCodec[KeySchemaElement] = smithyscala.hearth.HearthCodec.derived[KeySchemaElement](schema)
 }

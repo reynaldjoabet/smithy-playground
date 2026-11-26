@@ -14,5 +14,5 @@ object SearchVectorsOutput {
     rt.MemberDef("SearchResults", () => SearchResultList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[SearchVectorsOutput] = rt.ShapeCodec.struct[SearchVectorsOutput](schema)
+  given codec: rt.SchemaCodec[SearchVectorsOutput] = smithyscala.hearth.HearthCodec.derived[SearchVectorsOutput](schema)
 }

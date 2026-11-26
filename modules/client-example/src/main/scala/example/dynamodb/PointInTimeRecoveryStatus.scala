@@ -15,7 +15,7 @@ object PointInTimeRecoveryStatus {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "PointInTimeRecoveryStatus"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[PointInTimeRecoveryStatus] = rt.ShapeCodec.enumValues[PointInTimeRecoveryStatus]
+  lazy val knownValues: scala.collection.immutable.List[PointInTimeRecoveryStatus] = smithyscala.hearth.HearthCodec.enumValues[PointInTimeRecoveryStatus]
 
   def fromValue(value: java.lang.String): PointInTimeRecoveryStatus = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

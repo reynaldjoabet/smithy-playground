@@ -35,15 +35,17 @@ object ScalaClientGenerator {
       model: Model,
       serviceId: ShapeId,
       packageName: String,
-      derivation: Derivation = Derivation.Mirror
+      derivation: Derivation = Derivation.Hearth
   ): Map[String, String] =
     new Generator(model, model.expectShape(serviceId, classOf[ServiceShape]), packageName, derivation).files()
 }
 
 /**
   * Which compile-time derivation the generated `given codec`s call:
-  *   - `Mirror`: the runtime's own `ShapeCodec.struct` / `union` / `enumValues` (Scala 3 `Mirror`s and inline code);
-  *   - `Hearth`: `smithyscala.hearth.HearthCodec` from the `clientHearth` module (a Hearth macro).
+  *   - `Hearth` (the default): `smithyscala.hearth.HearthCodec` from the `clientHearth` module (a Hearth macro), so
+  *     generated code needs that module, Hearth and its Cross Quotes plugin;
+  *   - `Mirror`: the runtime's own `ShapeCodec.struct` / `union` / `enumValues` (Scala 3 `Mirror`s and inline code),
+  *     which needs nothing beyond the runtime.
   */
 enum Derivation(val struct: String, val union: String, val enumValues: String) derives CanEqual {
   case Mirror extends Derivation("rt.ShapeCodec.struct", "rt.ShapeCodec.union", "rt.ShapeCodec.enumValues")

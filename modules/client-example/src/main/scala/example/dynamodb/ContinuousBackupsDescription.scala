@@ -15,5 +15,5 @@ object ContinuousBackupsDescription {
     rt.MemberDef("PointInTimeRecoveryDescription", () => PointInTimeRecoveryDescription.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ContinuousBackupsDescription] = rt.ShapeCodec.struct[ContinuousBackupsDescription](schema)
+  given codec: rt.SchemaCodec[ContinuousBackupsDescription] = smithyscala.hearth.HearthCodec.derived[ContinuousBackupsDescription](schema)
 }

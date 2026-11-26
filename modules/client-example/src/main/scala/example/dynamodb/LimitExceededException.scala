@@ -13,5 +13,5 @@ object LimitExceededException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[LimitExceededException] = rt.ShapeCodec.struct[LimitExceededException](schema)
+  given codec: rt.SchemaCodec[LimitExceededException] = smithyscala.hearth.HearthCodec.derived[LimitExceededException](schema)
 }

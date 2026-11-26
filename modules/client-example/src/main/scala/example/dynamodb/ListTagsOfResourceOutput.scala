@@ -14,5 +14,5 @@ object ListTagsOfResourceOutput {
     rt.MemberDef("NextToken", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListTagsOfResourceOutput] = rt.ShapeCodec.struct[ListTagsOfResourceOutput](schema)
+  given codec: rt.SchemaCodec[ListTagsOfResourceOutput] = smithyscala.hearth.HearthCodec.derived[ListTagsOfResourceOutput](schema)
 }

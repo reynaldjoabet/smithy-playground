@@ -13,5 +13,5 @@ object InternalServerError {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[InternalServerError] = rt.ShapeCodec.struct[InternalServerError](schema)
+  given codec: rt.SchemaCodec[InternalServerError] = smithyscala.hearth.HearthCodec.derived[InternalServerError](schema)
 }

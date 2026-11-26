@@ -15,7 +15,7 @@ object ReturnItemCollectionMetrics {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ReturnItemCollectionMetrics"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[ReturnItemCollectionMetrics] = rt.ShapeCodec.enumValues[ReturnItemCollectionMetrics]
+  lazy val knownValues: scala.collection.immutable.List[ReturnItemCollectionMetrics] = smithyscala.hearth.HearthCodec.enumValues[ReturnItemCollectionMetrics]
 
   def fromValue(value: java.lang.String): ReturnItemCollectionMetrics = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

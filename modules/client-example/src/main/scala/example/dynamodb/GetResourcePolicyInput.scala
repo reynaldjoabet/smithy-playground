@@ -12,5 +12,5 @@ object GetResourcePolicyInput {
     rt.MemberDef("ResourceArn", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[GetResourcePolicyInput] = rt.ShapeCodec.struct[GetResourcePolicyInput](schema)
+  given codec: rt.SchemaCodec[GetResourcePolicyInput] = smithyscala.hearth.HearthCodec.derived[GetResourcePolicyInput](schema)
 }

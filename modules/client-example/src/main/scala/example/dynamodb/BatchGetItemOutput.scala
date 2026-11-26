@@ -17,5 +17,5 @@ object BatchGetItemOutput {
     rt.MemberDef("ConsumedCapacity", () => ConsumedCapacityMultiple.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BatchGetItemOutput] = rt.ShapeCodec.struct[BatchGetItemOutput](schema)
+  given codec: rt.SchemaCodec[BatchGetItemOutput] = smithyscala.hearth.HearthCodec.derived[BatchGetItemOutput](schema)
 }

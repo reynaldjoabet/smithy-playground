@@ -47,5 +47,5 @@ object CreateTableInput {
     rt.MemberDef("VectorIndexes", () => VectorIndexList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[CreateTableInput] = rt.ShapeCodec.struct[CreateTableInput](schema)
+  given codec: rt.SchemaCodec[CreateTableInput] = smithyscala.hearth.HearthCodec.derived[CreateTableInput](schema)
 }

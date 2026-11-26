@@ -28,5 +28,5 @@ object SearchVectorsInput {
     rt.MemberDef("TopK", () => rt.Prelude.Integer, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[SearchVectorsInput] = rt.ShapeCodec.struct[SearchVectorsInput](schema)
+  given codec: rt.SchemaCodec[SearchVectorsInput] = smithyscala.hearth.HearthCodec.derived[SearchVectorsInput](schema)
 }

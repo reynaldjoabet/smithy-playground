@@ -24,5 +24,5 @@ object ExecuteStatementInput {
     rt.MemberDef("ReturnValuesOnConditionCheckFailure", () => ReturnValuesOnConditionCheckFailure.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ExecuteStatementInput] = rt.ShapeCodec.struct[ExecuteStatementInput](schema)
+  given codec: rt.SchemaCodec[ExecuteStatementInput] = smithyscala.hearth.HearthCodec.derived[ExecuteStatementInput](schema)
 }

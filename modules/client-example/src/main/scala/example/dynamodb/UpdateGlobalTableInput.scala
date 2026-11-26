@@ -14,5 +14,5 @@ object UpdateGlobalTableInput {
     rt.MemberDef("ReplicaUpdates", () => ReplicaUpdateList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[UpdateGlobalTableInput] = rt.ShapeCodec.struct[UpdateGlobalTableInput](schema)
+  given codec: rt.SchemaCodec[UpdateGlobalTableInput] = smithyscala.hearth.HearthCodec.derived[UpdateGlobalTableInput](schema)
 }

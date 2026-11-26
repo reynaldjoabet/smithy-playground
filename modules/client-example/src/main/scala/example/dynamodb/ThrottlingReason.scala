@@ -15,5 +15,5 @@ object ThrottlingReason {
     rt.MemberDef("resource", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ThrottlingReason] = rt.ShapeCodec.struct[ThrottlingReason](schema)
+  given codec: rt.SchemaCodec[ThrottlingReason] = smithyscala.hearth.HearthCodec.derived[ThrottlingReason](schema)
 }

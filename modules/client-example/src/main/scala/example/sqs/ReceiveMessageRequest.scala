@@ -27,5 +27,5 @@ object ReceiveMessageRequest {
     rt.MemberDef("ReceiveRequestAttemptId", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ReceiveMessageRequest] = rt.ShapeCodec.struct[ReceiveMessageRequest](schema)
+  given codec: rt.SchemaCodec[ReceiveMessageRequest] = smithyscala.hearth.HearthCodec.derived[ReceiveMessageRequest](schema)
 }

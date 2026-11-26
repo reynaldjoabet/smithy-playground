@@ -15,5 +15,5 @@ object BillingModeSummary {
     rt.MemberDef("LastUpdateToPayPerRequestDateTime", () => rt.Prelude.Timestamp, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BillingModeSummary] = rt.ShapeCodec.struct[BillingModeSummary](schema)
+  given codec: rt.SchemaCodec[BillingModeSummary] = smithyscala.hearth.HearthCodec.derived[BillingModeSummary](schema)
 }

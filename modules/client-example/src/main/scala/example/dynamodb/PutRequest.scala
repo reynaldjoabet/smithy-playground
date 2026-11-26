@@ -13,5 +13,5 @@ object PutRequest {
     rt.MemberDef("Item", () => PutItemInputAttributeMap.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[PutRequest] = rt.ShapeCodec.struct[PutRequest](schema)
+  given codec: rt.SchemaCodec[PutRequest] = smithyscala.hearth.HearthCodec.derived[PutRequest](schema)
 }

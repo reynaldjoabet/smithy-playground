@@ -15,5 +15,5 @@ object StreamSpecification {
     rt.MemberDef("StreamViewType", () => StreamViewType.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[StreamSpecification] = rt.ShapeCodec.struct[StreamSpecification](schema)
+  given codec: rt.SchemaCodec[StreamSpecification] = smithyscala.hearth.HearthCodec.derived[StreamSpecification](schema)
 }

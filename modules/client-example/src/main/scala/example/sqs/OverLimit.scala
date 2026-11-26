@@ -13,5 +13,5 @@ object OverLimit {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[OverLimit] = rt.ShapeCodec.struct[OverLimit](schema)
+  given codec: rt.SchemaCodec[OverLimit] = smithyscala.hearth.HearthCodec.derived[OverLimit](schema)
 }

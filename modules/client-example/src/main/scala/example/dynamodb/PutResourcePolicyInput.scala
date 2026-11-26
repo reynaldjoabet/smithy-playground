@@ -18,5 +18,5 @@ object PutResourcePolicyInput {
     rt.MemberDef("ConfirmRemoveSelfResourceAccess", () => rt.Prelude.Boolean, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[PutResourcePolicyInput] = rt.ShapeCodec.struct[PutResourcePolicyInput](schema)
+  given codec: rt.SchemaCodec[PutResourcePolicyInput] = smithyscala.hearth.HearthCodec.derived[PutResourcePolicyInput](schema)
 }

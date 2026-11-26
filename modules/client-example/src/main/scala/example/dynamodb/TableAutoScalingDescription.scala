@@ -17,5 +17,5 @@ object TableAutoScalingDescription {
     rt.MemberDef("Replicas", () => ReplicaAutoScalingDescriptionList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TableAutoScalingDescription] = rt.ShapeCodec.struct[TableAutoScalingDescription](schema)
+  given codec: rt.SchemaCodec[TableAutoScalingDescription] = smithyscala.hearth.HearthCodec.derived[TableAutoScalingDescription](schema)
 }

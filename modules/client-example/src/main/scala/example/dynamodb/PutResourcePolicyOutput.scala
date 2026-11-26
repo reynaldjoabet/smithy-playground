@@ -12,5 +12,5 @@ object PutResourcePolicyOutput {
     rt.MemberDef("RevisionId", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[PutResourcePolicyOutput] = rt.ShapeCodec.struct[PutResourcePolicyOutput](schema)
+  given codec: rt.SchemaCodec[PutResourcePolicyOutput] = smithyscala.hearth.HearthCodec.derived[PutResourcePolicyOutput](schema)
 }

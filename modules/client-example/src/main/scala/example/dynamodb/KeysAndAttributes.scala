@@ -21,5 +21,5 @@ object KeysAndAttributes {
     rt.MemberDef("ExpressionAttributeNames", () => ExpressionAttributeNameMap.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[KeysAndAttributes] = rt.ShapeCodec.struct[KeysAndAttributes](schema)
+  given codec: rt.SchemaCodec[KeysAndAttributes] = smithyscala.hearth.HearthCodec.derived[KeysAndAttributes](schema)
 }

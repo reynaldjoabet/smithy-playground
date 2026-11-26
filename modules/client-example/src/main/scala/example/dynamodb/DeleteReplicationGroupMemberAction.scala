@@ -13,5 +13,5 @@ object DeleteReplicationGroupMemberAction {
     rt.MemberDef("RegionName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DeleteReplicationGroupMemberAction] = rt.ShapeCodec.struct[DeleteReplicationGroupMemberAction](schema)
+  given codec: rt.SchemaCodec[DeleteReplicationGroupMemberAction] = smithyscala.hearth.HearthCodec.derived[DeleteReplicationGroupMemberAction](schema)
 }

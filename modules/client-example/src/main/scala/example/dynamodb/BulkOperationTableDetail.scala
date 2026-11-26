@@ -15,5 +15,5 @@ object BulkOperationTableDetail {
     rt.MemberDef("TableId", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BulkOperationTableDetail] = rt.ShapeCodec.struct[BulkOperationTableDetail](schema)
+  given codec: rt.SchemaCodec[BulkOperationTableDetail] = smithyscala.hearth.HearthCodec.derived[BulkOperationTableDetail](schema)
 }

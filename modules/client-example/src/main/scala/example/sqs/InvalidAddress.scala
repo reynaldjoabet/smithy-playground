@@ -13,5 +13,5 @@ object InvalidAddress {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[InvalidAddress] = rt.ShapeCodec.struct[InvalidAddress](schema)
+  given codec: rt.SchemaCodec[InvalidAddress] = smithyscala.hearth.HearthCodec.derived[InvalidAddress](schema)
 }

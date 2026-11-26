@@ -15,5 +15,5 @@ object RequestLimitExceeded {
     rt.MemberDef("ThrottlingReasons", () => ThrottlingReasonList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[RequestLimitExceeded] = rt.ShapeCodec.struct[RequestLimitExceeded](schema)
+  given codec: rt.SchemaCodec[RequestLimitExceeded] = smithyscala.hearth.HearthCodec.derived[RequestLimitExceeded](schema)
 }

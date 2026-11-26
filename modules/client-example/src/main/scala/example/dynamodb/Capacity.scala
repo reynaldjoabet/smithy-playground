@@ -17,5 +17,5 @@ object Capacity {
     rt.MemberDef("CapacityUnits", () => rt.Prelude.Double, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[Capacity] = rt.ShapeCodec.struct[Capacity](schema)
+  given codec: rt.SchemaCodec[Capacity] = smithyscala.hearth.HearthCodec.derived[Capacity](schema)
 }

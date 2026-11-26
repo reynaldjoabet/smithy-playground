@@ -13,5 +13,5 @@ object TransactGetItem {
     rt.MemberDef("Get", () => Get.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[TransactGetItem] = rt.ShapeCodec.struct[TransactGetItem](schema)
+  given codec: rt.SchemaCodec[TransactGetItem] = smithyscala.hearth.HearthCodec.derived[TransactGetItem](schema)
 }

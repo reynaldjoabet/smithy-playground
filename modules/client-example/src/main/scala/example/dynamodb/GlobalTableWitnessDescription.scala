@@ -15,5 +15,5 @@ object GlobalTableWitnessDescription {
     rt.MemberDef("WitnessStatus", () => WitnessStatus.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[GlobalTableWitnessDescription] = rt.ShapeCodec.struct[GlobalTableWitnessDescription](schema)
+  given codec: rt.SchemaCodec[GlobalTableWitnessDescription] = smithyscala.hearth.HearthCodec.derived[GlobalTableWitnessDescription](schema)
 }

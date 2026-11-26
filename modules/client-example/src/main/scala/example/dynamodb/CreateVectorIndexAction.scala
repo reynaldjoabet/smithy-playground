@@ -23,5 +23,5 @@ object CreateVectorIndexAction {
     rt.MemberDef("DistanceFunction", () => VectorDistanceFunction.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[CreateVectorIndexAction] = rt.ShapeCodec.struct[CreateVectorIndexAction](schema)
+  given codec: rt.SchemaCodec[CreateVectorIndexAction] = smithyscala.hearth.HearthCodec.derived[CreateVectorIndexAction](schema)
 }

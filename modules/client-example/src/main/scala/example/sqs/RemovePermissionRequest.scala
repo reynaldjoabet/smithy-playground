@@ -14,5 +14,5 @@ object RemovePermissionRequest {
     rt.MemberDef("Label", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[RemovePermissionRequest] = rt.ShapeCodec.struct[RemovePermissionRequest](schema)
+  given codec: rt.SchemaCodec[RemovePermissionRequest] = smithyscala.hearth.HearthCodec.derived[RemovePermissionRequest](schema)
 }

@@ -19,5 +19,5 @@ object TransactWriteItem {
     rt.MemberDef("Update", () => Update.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TransactWriteItem] = rt.ShapeCodec.struct[TransactWriteItem](schema)
+  given codec: rt.SchemaCodec[TransactWriteItem] = smithyscala.hearth.HearthCodec.derived[TransactWriteItem](schema)
 }

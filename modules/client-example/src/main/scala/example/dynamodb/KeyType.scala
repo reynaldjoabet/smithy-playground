@@ -15,7 +15,7 @@ object KeyType {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "KeyType"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[KeyType] = rt.ShapeCodec.enumValues[KeyType]
+  lazy val knownValues: scala.collection.immutable.List[KeyType] = smithyscala.hearth.HearthCodec.enumValues[KeyType]
 
   def fromValue(value: java.lang.String): KeyType = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

@@ -13,5 +13,5 @@ object GlobalTableNotFoundException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[GlobalTableNotFoundException] = rt.ShapeCodec.struct[GlobalTableNotFoundException](schema)
+  given codec: rt.SchemaCodec[GlobalTableNotFoundException] = smithyscala.hearth.HearthCodec.derived[GlobalTableNotFoundException](schema)
 }

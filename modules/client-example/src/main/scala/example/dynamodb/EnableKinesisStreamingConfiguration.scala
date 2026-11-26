@@ -13,5 +13,5 @@ object EnableKinesisStreamingConfiguration {
     rt.MemberDef("ApproximateCreationDateTimePrecision", () => ApproximateCreationDateTimePrecision.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[EnableKinesisStreamingConfiguration] = rt.ShapeCodec.struct[EnableKinesisStreamingConfiguration](schema)
+  given codec: rt.SchemaCodec[EnableKinesisStreamingConfiguration] = smithyscala.hearth.HearthCodec.derived[EnableKinesisStreamingConfiguration](schema)
 }

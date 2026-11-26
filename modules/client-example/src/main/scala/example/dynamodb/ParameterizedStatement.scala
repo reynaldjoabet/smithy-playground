@@ -17,5 +17,5 @@ object ParameterizedStatement {
     rt.MemberDef("ReturnValuesOnConditionCheckFailure", () => ReturnValuesOnConditionCheckFailure.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ParameterizedStatement] = rt.ShapeCodec.struct[ParameterizedStatement](schema)
+  given codec: rt.SchemaCodec[ParameterizedStatement] = smithyscala.hearth.HearthCodec.derived[ParameterizedStatement](schema)
 }

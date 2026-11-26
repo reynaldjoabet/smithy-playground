@@ -13,5 +13,5 @@ object IdempotentParameterMismatchException {
     rt.MemberDef("Message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[IdempotentParameterMismatchException] = rt.ShapeCodec.struct[IdempotentParameterMismatchException](schema)
+  given codec: rt.SchemaCodec[IdempotentParameterMismatchException] = smithyscala.hearth.HearthCodec.derived[IdempotentParameterMismatchException](schema)
 }

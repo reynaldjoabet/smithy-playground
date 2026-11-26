@@ -14,5 +14,5 @@ object ChangeMessageVisibilityBatchRequest {
     rt.MemberDef("Entries", () => ChangeMessageVisibilityBatchRequestEntryList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[ChangeMessageVisibilityBatchRequest] = rt.ShapeCodec.struct[ChangeMessageVisibilityBatchRequest](schema)
+  given codec: rt.SchemaCodec[ChangeMessageVisibilityBatchRequest] = smithyscala.hearth.HearthCodec.derived[ChangeMessageVisibilityBatchRequest](schema)
 }

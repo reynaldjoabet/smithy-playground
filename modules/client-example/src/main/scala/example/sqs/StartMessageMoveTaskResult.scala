@@ -12,5 +12,5 @@ object StartMessageMoveTaskResult {
     rt.MemberDef("TaskHandle", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[StartMessageMoveTaskResult] = rt.ShapeCodec.struct[StartMessageMoveTaskResult](schema)
+  given codec: rt.SchemaCodec[StartMessageMoveTaskResult] = smithyscala.hearth.HearthCodec.derived[StartMessageMoveTaskResult](schema)
 }

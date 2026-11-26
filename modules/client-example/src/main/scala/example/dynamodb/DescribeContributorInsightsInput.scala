@@ -14,5 +14,5 @@ object DescribeContributorInsightsInput {
     rt.MemberDef("IndexName", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[DescribeContributorInsightsInput] = rt.ShapeCodec.struct[DescribeContributorInsightsInput](schema)
+  given codec: rt.SchemaCodec[DescribeContributorInsightsInput] = smithyscala.hearth.HearthCodec.derived[DescribeContributorInsightsInput](schema)
 }

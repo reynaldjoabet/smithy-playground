@@ -19,5 +19,5 @@ object RestoreSummary {
     rt.MemberDef("RestoreInProgress", () => rt.Prelude.Boolean, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[RestoreSummary] = rt.ShapeCodec.struct[RestoreSummary](schema)
+  given codec: rt.SchemaCodec[RestoreSummary] = smithyscala.hearth.HearthCodec.derived[RestoreSummary](schema)
 }

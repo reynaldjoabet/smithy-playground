@@ -13,5 +13,5 @@ object TableNotFoundException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TableNotFoundException] = rt.ShapeCodec.struct[TableNotFoundException](schema)
+  given codec: rt.SchemaCodec[TableNotFoundException] = smithyscala.hearth.HearthCodec.derived[TableNotFoundException](schema)
 }

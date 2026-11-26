@@ -15,5 +15,5 @@ object ConditionalCheckFailedException {
     rt.MemberDef("Item", () => AttributeMap.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ConditionalCheckFailedException] = rt.ShapeCodec.struct[ConditionalCheckFailedException](schema)
+  given codec: rt.SchemaCodec[ConditionalCheckFailedException] = smithyscala.hearth.HearthCodec.derived[ConditionalCheckFailedException](schema)
 }

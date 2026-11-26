@@ -14,5 +14,5 @@ object UpdateContinuousBackupsInput {
     rt.MemberDef("PointInTimeRecoverySpecification", () => PointInTimeRecoverySpecification.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[UpdateContinuousBackupsInput] = rt.ShapeCodec.struct[UpdateContinuousBackupsInput](schema)
+  given codec: rt.SchemaCodec[UpdateContinuousBackupsInput] = smithyscala.hearth.HearthCodec.derived[UpdateContinuousBackupsInput](schema)
 }

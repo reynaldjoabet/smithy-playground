@@ -45,5 +45,5 @@ object UpdateTableInput {
     rt.MemberDef("VectorIndexUpdates", () => VectorIndexUpdateList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[UpdateTableInput] = rt.ShapeCodec.struct[UpdateTableInput](schema)
+  given codec: rt.SchemaCodec[UpdateTableInput] = smithyscala.hearth.HearthCodec.derived[UpdateTableInput](schema)
 }

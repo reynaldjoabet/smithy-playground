@@ -13,5 +13,5 @@ object CreateReplicaAction {
     rt.MemberDef("RegionName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[CreateReplicaAction] = rt.ShapeCodec.struct[CreateReplicaAction](schema)
+  given codec: rt.SchemaCodec[CreateReplicaAction] = smithyscala.hearth.HearthCodec.derived[CreateReplicaAction](schema)
 }

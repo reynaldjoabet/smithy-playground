@@ -15,5 +15,5 @@ object FailureException {
     rt.MemberDef("ExceptionDescription", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[FailureException] = rt.ShapeCodec.struct[FailureException](schema)
+  given codec: rt.SchemaCodec[FailureException] = smithyscala.hearth.HearthCodec.derived[FailureException](schema)
 }

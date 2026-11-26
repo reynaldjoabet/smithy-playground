@@ -18,5 +18,5 @@ object ExecuteStatementOutput {
     rt.MemberDef("LastEvaluatedKey", () => Key.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ExecuteStatementOutput] = rt.ShapeCodec.struct[ExecuteStatementOutput](schema)
+  given codec: rt.SchemaCodec[ExecuteStatementOutput] = smithyscala.hearth.HearthCodec.derived[ExecuteStatementOutput](schema)
 }

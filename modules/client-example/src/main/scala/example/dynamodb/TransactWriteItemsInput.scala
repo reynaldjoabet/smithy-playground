@@ -18,5 +18,5 @@ object TransactWriteItemsInput {
     rt.MemberDef("ClientRequestToken", () => rt.Prelude.String, rt.Traits("smithy.api#idempotencyToken" -> ""))
   )
 
-  given codec: rt.SchemaCodec[TransactWriteItemsInput] = rt.ShapeCodec.struct[TransactWriteItemsInput](schema)
+  given codec: rt.SchemaCodec[TransactWriteItemsInput] = smithyscala.hearth.HearthCodec.derived[TransactWriteItemsInput](schema)
 }

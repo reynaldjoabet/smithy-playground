@@ -43,5 +43,5 @@ object ScanInput {
     rt.MemberDef("ConsistentRead", () => rt.Prelude.Boolean, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ScanInput] = rt.ShapeCodec.struct[ScanInput](schema)
+  given codec: rt.SchemaCodec[ScanInput] = smithyscala.hearth.HearthCodec.derived[ScanInput](schema)
 }

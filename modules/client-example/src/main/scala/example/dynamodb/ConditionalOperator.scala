@@ -15,7 +15,7 @@ object ConditionalOperator {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ConditionalOperator"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[ConditionalOperator] = rt.ShapeCodec.enumValues[ConditionalOperator]
+  lazy val knownValues: scala.collection.immutable.List[ConditionalOperator] = smithyscala.hearth.HearthCodec.enumValues[ConditionalOperator]
 
   def fromValue(value: java.lang.String): ConditionalOperator = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

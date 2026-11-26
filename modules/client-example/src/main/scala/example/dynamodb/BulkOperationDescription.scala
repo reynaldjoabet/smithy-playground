@@ -45,5 +45,5 @@ object BulkOperationDescription {
     rt.MemberDef("PerformanceTier", () => BulkOperationPerformanceTier.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BulkOperationDescription] = rt.ShapeCodec.struct[BulkOperationDescription](schema)
+  given codec: rt.SchemaCodec[BulkOperationDescription] = smithyscala.hearth.HearthCodec.derived[BulkOperationDescription](schema)
 }

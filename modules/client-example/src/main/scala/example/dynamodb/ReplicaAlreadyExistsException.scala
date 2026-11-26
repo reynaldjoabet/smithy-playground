@@ -13,5 +13,5 @@ object ReplicaAlreadyExistsException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ReplicaAlreadyExistsException] = rt.ShapeCodec.struct[ReplicaAlreadyExistsException](schema)
+  given codec: rt.SchemaCodec[ReplicaAlreadyExistsException] = smithyscala.hearth.HearthCodec.derived[ReplicaAlreadyExistsException](schema)
 }

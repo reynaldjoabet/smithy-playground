@@ -15,5 +15,5 @@ object AttributeValueUpdate {
     rt.MemberDef("Action", () => AttributeAction.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[AttributeValueUpdate] = rt.ShapeCodec.struct[AttributeValueUpdate](schema)
+  given codec: rt.SchemaCodec[AttributeValueUpdate] = smithyscala.hearth.HearthCodec.derived[AttributeValueUpdate](schema)
 }

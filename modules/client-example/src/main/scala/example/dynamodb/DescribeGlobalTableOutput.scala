@@ -12,5 +12,5 @@ object DescribeGlobalTableOutput {
     rt.MemberDef("GlobalTableDescription", () => GlobalTableDescription.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[DescribeGlobalTableOutput] = rt.ShapeCodec.struct[DescribeGlobalTableOutput](schema)
+  given codec: rt.SchemaCodec[DescribeGlobalTableOutput] = smithyscala.hearth.HearthCodec.derived[DescribeGlobalTableOutput](schema)
 }

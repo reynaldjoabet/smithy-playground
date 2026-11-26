@@ -13,5 +13,5 @@ object BulkOperationBytes {
     rt.MemberDef("BulkPutBytes", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BulkOperationBytes] = rt.ShapeCodec.struct[BulkOperationBytes](schema)
+  given codec: rt.SchemaCodec[BulkOperationBytes] = smithyscala.hearth.HearthCodec.derived[BulkOperationBytes](schema)
 }

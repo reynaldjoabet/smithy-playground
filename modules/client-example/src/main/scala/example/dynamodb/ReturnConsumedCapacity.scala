@@ -17,7 +17,7 @@ object ReturnConsumedCapacity {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ReturnConsumedCapacity"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[ReturnConsumedCapacity] = rt.ShapeCodec.enumValues[ReturnConsumedCapacity]
+  lazy val knownValues: scala.collection.immutable.List[ReturnConsumedCapacity] = smithyscala.hearth.HearthCodec.enumValues[ReturnConsumedCapacity]
 
   def fromValue(value: java.lang.String): ReturnConsumedCapacity = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

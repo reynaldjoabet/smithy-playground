@@ -19,5 +19,5 @@ object BulkOperationSummary {
     rt.MemberDef("EndTime", () => rt.Prelude.Timestamp, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BulkOperationSummary] = rt.ShapeCodec.struct[BulkOperationSummary](schema)
+  given codec: rt.SchemaCodec[BulkOperationSummary] = smithyscala.hearth.HearthCodec.derived[BulkOperationSummary](schema)
 }

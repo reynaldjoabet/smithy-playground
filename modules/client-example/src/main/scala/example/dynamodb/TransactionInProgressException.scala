@@ -13,5 +13,5 @@ object TransactionInProgressException {
     rt.MemberDef("Message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TransactionInProgressException] = rt.ShapeCodec.struct[TransactionInProgressException](schema)
+  given codec: rt.SchemaCodec[TransactionInProgressException] = smithyscala.hearth.HearthCodec.derived[TransactionInProgressException](schema)
 }

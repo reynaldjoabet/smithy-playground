@@ -16,5 +16,5 @@ object ListContributorInsightsInput {
     rt.MemberDef("MaxResults", () => rt.Prelude.Integer, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListContributorInsightsInput] = rt.ShapeCodec.struct[ListContributorInsightsInput](schema)
+  given codec: rt.SchemaCodec[ListContributorInsightsInput] = smithyscala.hearth.HearthCodec.derived[ListContributorInsightsInput](schema)
 }

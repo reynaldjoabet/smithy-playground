@@ -34,5 +34,5 @@ object ExportTableToPointInTimeInput {
     rt.MemberDef("FilterSpecification", () => FilterSpecification.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ExportTableToPointInTimeInput] = rt.ShapeCodec.struct[ExportTableToPointInTimeInput](schema)
+  given codec: rt.SchemaCodec[ExportTableToPointInTimeInput] = smithyscala.hearth.HearthCodec.derived[ExportTableToPointInTimeInput](schema)
 }

@@ -15,7 +15,7 @@ object MultiRegionConsistency {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "MultiRegionConsistency"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[MultiRegionConsistency] = rt.ShapeCodec.enumValues[MultiRegionConsistency]
+  lazy val knownValues: scala.collection.immutable.List[MultiRegionConsistency] = smithyscala.hearth.HearthCodec.enumValues[MultiRegionConsistency]
 
   def fromValue(value: java.lang.String): MultiRegionConsistency = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

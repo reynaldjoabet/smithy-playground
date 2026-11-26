@@ -16,7 +16,7 @@ object InputFormat {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "InputFormat"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[InputFormat] = rt.ShapeCodec.enumValues[InputFormat]
+  lazy val knownValues: scala.collection.immutable.List[InputFormat] = smithyscala.hearth.HearthCodec.enumValues[InputFormat]
 
   def fromValue(value: java.lang.String): InputFormat = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

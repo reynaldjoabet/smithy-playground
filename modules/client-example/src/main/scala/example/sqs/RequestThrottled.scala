@@ -13,5 +13,5 @@ object RequestThrottled {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[RequestThrottled] = rt.ShapeCodec.struct[RequestThrottled](schema)
+  given codec: rt.SchemaCodec[RequestThrottled] = smithyscala.hearth.HearthCodec.derived[RequestThrottled](schema)
 }

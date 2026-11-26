@@ -15,5 +15,5 @@ object ReplicaGlobalSecondaryIndexAutoScalingUpdate {
     rt.MemberDef("ProvisionedReadCapacityAutoScalingUpdate", () => AutoScalingSettingsUpdate.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ReplicaGlobalSecondaryIndexAutoScalingUpdate] = rt.ShapeCodec.struct[ReplicaGlobalSecondaryIndexAutoScalingUpdate](schema)
+  given codec: rt.SchemaCodec[ReplicaGlobalSecondaryIndexAutoScalingUpdate] = smithyscala.hearth.HearthCodec.derived[ReplicaGlobalSecondaryIndexAutoScalingUpdate](schema)
 }

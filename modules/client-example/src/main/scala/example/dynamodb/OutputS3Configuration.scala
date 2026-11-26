@@ -23,5 +23,5 @@ object OutputS3Configuration {
     rt.MemberDef("OutputType", () => OutputTypeList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[OutputS3Configuration] = rt.ShapeCodec.struct[OutputS3Configuration](schema)
+  given codec: rt.SchemaCodec[OutputS3Configuration] = smithyscala.hearth.HearthCodec.derived[OutputS3Configuration](schema)
 }

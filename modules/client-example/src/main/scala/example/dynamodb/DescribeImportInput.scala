@@ -12,5 +12,5 @@ object DescribeImportInput {
     rt.MemberDef("ImportArn", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DescribeImportInput] = rt.ShapeCodec.struct[DescribeImportInput](schema)
+  given codec: rt.SchemaCodec[DescribeImportInput] = smithyscala.hearth.HearthCodec.derived[DescribeImportInput](schema)
 }

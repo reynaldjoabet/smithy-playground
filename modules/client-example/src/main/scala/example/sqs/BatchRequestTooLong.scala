@@ -13,5 +13,5 @@ object BatchRequestTooLong {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BatchRequestTooLong] = rt.ShapeCodec.struct[BatchRequestTooLong](schema)
+  given codec: rt.SchemaCodec[BatchRequestTooLong] = smithyscala.hearth.HearthCodec.derived[BatchRequestTooLong](schema)
 }

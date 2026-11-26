@@ -28,5 +28,5 @@ object RestoreTableFromBackupInput {
     rt.MemberDef("VectorIndexOverride", () => VectorIndexList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[RestoreTableFromBackupInput] = rt.ShapeCodec.struct[RestoreTableFromBackupInput](schema)
+  given codec: rt.SchemaCodec[RestoreTableFromBackupInput] = smithyscala.hearth.HearthCodec.derived[RestoreTableFromBackupInput](schema)
 }

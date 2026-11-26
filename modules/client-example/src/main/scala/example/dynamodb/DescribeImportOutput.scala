@@ -12,5 +12,5 @@ object DescribeImportOutput {
     rt.MemberDef("ImportTableDescription", () => ImportTableDescription.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DescribeImportOutput] = rt.ShapeCodec.struct[DescribeImportOutput](schema)
+  given codec: rt.SchemaCodec[DescribeImportOutput] = smithyscala.hearth.HearthCodec.derived[DescribeImportOutput](schema)
 }

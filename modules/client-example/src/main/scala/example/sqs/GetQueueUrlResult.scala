@@ -13,5 +13,5 @@ object GetQueueUrlResult {
     rt.MemberDef("QueueUrl", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[GetQueueUrlResult] = rt.ShapeCodec.struct[GetQueueUrlResult](schema)
+  given codec: rt.SchemaCodec[GetQueueUrlResult] = smithyscala.hearth.HearthCodec.derived[GetQueueUrlResult](schema)
 }

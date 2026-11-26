@@ -19,5 +19,5 @@ object DescribeLimitsOutput {
     rt.MemberDef("TableMaxWriteCapacityUnits", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[DescribeLimitsOutput] = rt.ShapeCodec.struct[DescribeLimitsOutput](schema)
+  given codec: rt.SchemaCodec[DescribeLimitsOutput] = smithyscala.hearth.HearthCodec.derived[DescribeLimitsOutput](schema)
 }

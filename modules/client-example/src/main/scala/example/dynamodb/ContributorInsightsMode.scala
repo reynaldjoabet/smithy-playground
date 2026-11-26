@@ -15,7 +15,7 @@ object ContributorInsightsMode {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ContributorInsightsMode"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[ContributorInsightsMode] = rt.ShapeCodec.enumValues[ContributorInsightsMode]
+  lazy val knownValues: scala.collection.immutable.List[ContributorInsightsMode] = smithyscala.hearth.HearthCodec.enumValues[ContributorInsightsMode]
 
   def fromValue(value: java.lang.String): ContributorInsightsMode = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

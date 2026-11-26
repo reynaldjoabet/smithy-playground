@@ -17,5 +17,5 @@ object ReplicaAutoScalingUpdate {
     rt.MemberDef("ReplicaProvisionedReadCapacityAutoScalingUpdate", () => AutoScalingSettingsUpdate.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ReplicaAutoScalingUpdate] = rt.ShapeCodec.struct[ReplicaAutoScalingUpdate](schema)
+  given codec: rt.SchemaCodec[ReplicaAutoScalingUpdate] = smithyscala.hearth.HearthCodec.derived[ReplicaAutoScalingUpdate](schema)
 }

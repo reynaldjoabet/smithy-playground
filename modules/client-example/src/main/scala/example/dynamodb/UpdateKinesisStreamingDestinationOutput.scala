@@ -18,5 +18,5 @@ object UpdateKinesisStreamingDestinationOutput {
     rt.MemberDef("UpdateKinesisStreamingConfiguration", () => UpdateKinesisStreamingConfiguration.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[UpdateKinesisStreamingDestinationOutput] = rt.ShapeCodec.struct[UpdateKinesisStreamingDestinationOutput](schema)
+  given codec: rt.SchemaCodec[UpdateKinesisStreamingDestinationOutput] = smithyscala.hearth.HearthCodec.derived[UpdateKinesisStreamingDestinationOutput](schema)
 }

@@ -14,5 +14,5 @@ object TransactWriteItemsOutput {
     rt.MemberDef("ItemCollectionMetrics", () => ItemCollectionMetricsPerTable.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TransactWriteItemsOutput] = rt.ShapeCodec.struct[TransactWriteItemsOutput](schema)
+  given codec: rt.SchemaCodec[TransactWriteItemsOutput] = smithyscala.hearth.HearthCodec.derived[TransactWriteItemsOutput](schema)
 }

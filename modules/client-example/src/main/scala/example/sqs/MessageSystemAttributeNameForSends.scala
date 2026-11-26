@@ -14,7 +14,7 @@ object MessageSystemAttributeNameForSends {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.sqs", "MessageSystemAttributeNameForSends"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[MessageSystemAttributeNameForSends] = rt.ShapeCodec.enumValues[MessageSystemAttributeNameForSends]
+  lazy val knownValues: scala.collection.immutable.List[MessageSystemAttributeNameForSends] = smithyscala.hearth.HearthCodec.enumValues[MessageSystemAttributeNameForSends]
 
   def fromValue(value: java.lang.String): MessageSystemAttributeNameForSends = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

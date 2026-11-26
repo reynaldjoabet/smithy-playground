@@ -12,5 +12,5 @@ object ExportTableToPointInTimeOutput {
     rt.MemberDef("ExportDescription", () => ExportDescription.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ExportTableToPointInTimeOutput] = rt.ShapeCodec.struct[ExportTableToPointInTimeOutput](schema)
+  given codec: rt.SchemaCodec[ExportTableToPointInTimeOutput] = smithyscala.hearth.HearthCodec.derived[ExportTableToPointInTimeOutput](schema)
 }

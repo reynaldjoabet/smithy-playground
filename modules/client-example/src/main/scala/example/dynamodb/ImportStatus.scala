@@ -18,7 +18,7 @@ object ImportStatus {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ImportStatus"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[ImportStatus] = rt.ShapeCodec.enumValues[ImportStatus]
+  lazy val knownValues: scala.collection.immutable.List[ImportStatus] = smithyscala.hearth.HearthCodec.enumValues[ImportStatus]
 
   def fromValue(value: java.lang.String): ImportStatus = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

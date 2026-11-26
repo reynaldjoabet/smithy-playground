@@ -12,5 +12,5 @@ object ListQueueTagsRequest {
     rt.MemberDef("QueueUrl", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[ListQueueTagsRequest] = rt.ShapeCodec.struct[ListQueueTagsRequest](schema)
+  given codec: rt.SchemaCodec[ListQueueTagsRequest] = smithyscala.hearth.HearthCodec.derived[ListQueueTagsRequest](schema)
 }

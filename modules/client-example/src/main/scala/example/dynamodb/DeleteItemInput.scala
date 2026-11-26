@@ -33,5 +33,5 @@ object DeleteItemInput {
     rt.MemberDef("ReturnValuesOnConditionCheckFailure", () => ReturnValuesOnConditionCheckFailure.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[DeleteItemInput] = rt.ShapeCodec.struct[DeleteItemInput](schema)
+  given codec: rt.SchemaCodec[DeleteItemInput] = smithyscala.hearth.HearthCodec.derived[DeleteItemInput](schema)
 }

@@ -22,5 +22,5 @@ object StartBulkPutItemsInput {
     rt.MemberDef("PerformanceTier", () => BulkOperationPerformanceTier.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[StartBulkPutItemsInput] = rt.ShapeCodec.struct[StartBulkPutItemsInput](schema)
+  given codec: rt.SchemaCodec[StartBulkPutItemsInput] = smithyscala.hearth.HearthCodec.derived[StartBulkPutItemsInput](schema)
 }

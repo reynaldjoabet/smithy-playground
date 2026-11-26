@@ -14,5 +14,5 @@ object CreateGlobalTableInput {
     rt.MemberDef("ReplicationGroup", () => ReplicaList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[CreateGlobalTableInput] = rt.ShapeCodec.struct[CreateGlobalTableInput](schema)
+  given codec: rt.SchemaCodec[CreateGlobalTableInput] = smithyscala.hearth.HearthCodec.derived[CreateGlobalTableInput](schema)
 }

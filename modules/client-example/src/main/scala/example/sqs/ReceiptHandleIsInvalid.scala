@@ -13,5 +13,5 @@ object ReceiptHandleIsInvalid {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ReceiptHandleIsInvalid] = rt.ShapeCodec.struct[ReceiptHandleIsInvalid](schema)
+  given codec: rt.SchemaCodec[ReceiptHandleIsInvalid] = smithyscala.hearth.HearthCodec.derived[ReceiptHandleIsInvalid](schema)
 }

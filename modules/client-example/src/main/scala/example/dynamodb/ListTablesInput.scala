@@ -15,5 +15,5 @@ object ListTablesInput {
     rt.MemberDef("Limit", () => rt.Prelude.Integer, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListTablesInput] = rt.ShapeCodec.struct[ListTablesInput](schema)
+  given codec: rt.SchemaCodec[ListTablesInput] = smithyscala.hearth.HearthCodec.derived[ListTablesInput](schema)
 }

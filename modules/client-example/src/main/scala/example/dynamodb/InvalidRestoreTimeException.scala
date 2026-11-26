@@ -13,5 +13,5 @@ object InvalidRestoreTimeException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[InvalidRestoreTimeException] = rt.ShapeCodec.struct[InvalidRestoreTimeException](schema)
+  given codec: rt.SchemaCodec[InvalidRestoreTimeException] = smithyscala.hearth.HearthCodec.derived[InvalidRestoreTimeException](schema)
 }

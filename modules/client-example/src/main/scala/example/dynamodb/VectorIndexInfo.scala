@@ -23,5 +23,5 @@ object VectorIndexInfo {
     rt.MemberDef("DistanceFunction", () => VectorDistanceFunction.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[VectorIndexInfo] = rt.ShapeCodec.struct[VectorIndexInfo](schema)
+  given codec: rt.SchemaCodec[VectorIndexInfo] = smithyscala.hearth.HearthCodec.derived[VectorIndexInfo](schema)
 }

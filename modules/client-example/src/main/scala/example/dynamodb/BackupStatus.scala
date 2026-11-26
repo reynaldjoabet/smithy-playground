@@ -16,7 +16,7 @@ object BackupStatus {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "BackupStatus"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[BackupStatus] = rt.ShapeCodec.enumValues[BackupStatus]
+  lazy val knownValues: scala.collection.immutable.List[BackupStatus] = smithyscala.hearth.HearthCodec.enumValues[BackupStatus]
 
   def fromValue(value: java.lang.String): BackupStatus = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

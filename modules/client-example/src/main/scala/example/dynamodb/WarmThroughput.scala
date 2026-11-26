@@ -15,5 +15,5 @@ object WarmThroughput {
     rt.MemberDef("WriteUnitsPerSecond", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[WarmThroughput] = rt.ShapeCodec.struct[WarmThroughput](schema)
+  given codec: rt.SchemaCodec[WarmThroughput] = smithyscala.hearth.HearthCodec.derived[WarmThroughput](schema)
 }

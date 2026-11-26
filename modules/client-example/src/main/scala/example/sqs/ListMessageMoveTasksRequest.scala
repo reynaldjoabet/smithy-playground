@@ -14,5 +14,5 @@ object ListMessageMoveTasksRequest {
     rt.MemberDef("MaxResults", () => rt.Prelude.Integer, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListMessageMoveTasksRequest] = rt.ShapeCodec.struct[ListMessageMoveTasksRequest](schema)
+  given codec: rt.SchemaCodec[ListMessageMoveTasksRequest] = smithyscala.hearth.HearthCodec.derived[ListMessageMoveTasksRequest](schema)
 }

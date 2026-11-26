@@ -13,5 +13,5 @@ object InvalidAttributeValue {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[InvalidAttributeValue] = rt.ShapeCodec.struct[InvalidAttributeValue](schema)
+  given codec: rt.SchemaCodec[InvalidAttributeValue] = smithyscala.hearth.HearthCodec.derived[InvalidAttributeValue](schema)
 }

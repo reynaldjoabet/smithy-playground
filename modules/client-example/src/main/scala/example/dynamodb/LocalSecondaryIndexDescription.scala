@@ -23,5 +23,5 @@ object LocalSecondaryIndexDescription {
     rt.MemberDef("IndexArn", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[LocalSecondaryIndexDescription] = rt.ShapeCodec.struct[LocalSecondaryIndexDescription](schema)
+  given codec: rt.SchemaCodec[LocalSecondaryIndexDescription] = smithyscala.hearth.HearthCodec.derived[LocalSecondaryIndexDescription](schema)
 }

@@ -14,5 +14,5 @@ object SetQueueAttributesRequest {
     rt.MemberDef("Attributes", () => QueueAttributeMap.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[SetQueueAttributesRequest] = rt.ShapeCodec.struct[SetQueueAttributesRequest](schema)
+  given codec: rt.SchemaCodec[SetQueueAttributesRequest] = smithyscala.hearth.HearthCodec.derived[SetQueueAttributesRequest](schema)
 }

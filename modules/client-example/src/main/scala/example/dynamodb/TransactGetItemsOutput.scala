@@ -14,5 +14,5 @@ object TransactGetItemsOutput {
     rt.MemberDef("Responses", () => ItemResponseList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TransactGetItemsOutput] = rt.ShapeCodec.struct[TransactGetItemsOutput](schema)
+  given codec: rt.SchemaCodec[TransactGetItemsOutput] = smithyscala.hearth.HearthCodec.derived[TransactGetItemsOutput](schema)
 }

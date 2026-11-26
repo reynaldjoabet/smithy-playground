@@ -17,5 +17,5 @@ object BackupDescription {
     rt.MemberDef("SourceTableFeatureDetails", () => SourceTableFeatureDetails.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[BackupDescription] = rt.ShapeCodec.struct[BackupDescription](schema)
+  given codec: rt.SchemaCodec[BackupDescription] = smithyscala.hearth.HearthCodec.derived[BackupDescription](schema)
 }

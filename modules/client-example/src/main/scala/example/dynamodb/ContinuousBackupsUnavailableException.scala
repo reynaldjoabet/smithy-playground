@@ -13,5 +13,5 @@ object ContinuousBackupsUnavailableException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ContinuousBackupsUnavailableException] = rt.ShapeCodec.struct[ContinuousBackupsUnavailableException](schema)
+  given codec: rt.SchemaCodec[ContinuousBackupsUnavailableException] = smithyscala.hearth.HearthCodec.derived[ContinuousBackupsUnavailableException](schema)
 }

@@ -12,5 +12,5 @@ object CancelMessageMoveTaskRequest {
     rt.MemberDef("TaskHandle", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[CancelMessageMoveTaskRequest] = rt.ShapeCodec.struct[CancelMessageMoveTaskRequest](schema)
+  given codec: rt.SchemaCodec[CancelMessageMoveTaskRequest] = smithyscala.hearth.HearthCodec.derived[CancelMessageMoveTaskRequest](schema)
 }

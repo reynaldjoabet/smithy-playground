@@ -22,5 +22,5 @@ object ImportTableInput {
     rt.MemberDef("TableCreationParameters", () => TableCreationParameters.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[ImportTableInput] = rt.ShapeCodec.struct[ImportTableInput](schema)
+  given codec: rt.SchemaCodec[ImportTableInput] = smithyscala.hearth.HearthCodec.derived[ImportTableInput](schema)
 }

@@ -19,5 +19,5 @@ object UpdateGlobalSecondaryIndexAction {
     rt.MemberDef("WarmThroughput", () => WarmThroughput.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[UpdateGlobalSecondaryIndexAction] = rt.ShapeCodec.struct[UpdateGlobalSecondaryIndexAction](schema)
+  given codec: rt.SchemaCodec[UpdateGlobalSecondaryIndexAction] = smithyscala.hearth.HearthCodec.derived[UpdateGlobalSecondaryIndexAction](schema)
 }

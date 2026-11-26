@@ -21,5 +21,5 @@ object MessageAttributeValue {
     rt.MemberDef("DataType", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[MessageAttributeValue] = rt.ShapeCodec.struct[MessageAttributeValue](schema)
+  given codec: rt.SchemaCodec[MessageAttributeValue] = smithyscala.hearth.HearthCodec.derived[MessageAttributeValue](schema)
 }

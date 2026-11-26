@@ -21,5 +21,5 @@ object ProvisionedThroughputDescription {
     rt.MemberDef("WriteCapacityUnits", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ProvisionedThroughputDescription] = rt.ShapeCodec.struct[ProvisionedThroughputDescription](schema)
+  given codec: rt.SchemaCodec[ProvisionedThroughputDescription] = smithyscala.hearth.HearthCodec.derived[ProvisionedThroughputDescription](schema)
 }

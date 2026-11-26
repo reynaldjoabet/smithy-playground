@@ -17,7 +17,7 @@ object StreamViewType {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "StreamViewType"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[StreamViewType] = rt.ShapeCodec.enumValues[StreamViewType]
+  lazy val knownValues: scala.collection.immutable.List[StreamViewType] = smithyscala.hearth.HearthCodec.enumValues[StreamViewType]
 
   def fromValue(value: java.lang.String): StreamViewType = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

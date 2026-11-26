@@ -18,5 +18,5 @@ object UpdateContributorInsightsInput {
     rt.MemberDef("ContributorInsightsMode", () => ContributorInsightsMode.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[UpdateContributorInsightsInput] = rt.ShapeCodec.struct[UpdateContributorInsightsInput](schema)
+  given codec: rt.SchemaCodec[UpdateContributorInsightsInput] = smithyscala.hearth.HearthCodec.derived[UpdateContributorInsightsInput](schema)
 }

@@ -13,5 +13,5 @@ object IndexNotFoundException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[IndexNotFoundException] = rt.ShapeCodec.struct[IndexNotFoundException](schema)
+  given codec: rt.SchemaCodec[IndexNotFoundException] = smithyscala.hearth.HearthCodec.derived[IndexNotFoundException](schema)
 }

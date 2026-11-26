@@ -12,5 +12,5 @@ object CancelBulkOperationInput {
     rt.MemberDef("BulkOperationArn", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[CancelBulkOperationInput] = rt.ShapeCodec.struct[CancelBulkOperationInput](schema)
+  given codec: rt.SchemaCodec[CancelBulkOperationInput] = smithyscala.hearth.HearthCodec.derived[CancelBulkOperationInput](schema)
 }

@@ -49,5 +49,5 @@ object ImportTableDescription {
     rt.MemberDef("FailureMessage", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ImportTableDescription] = rt.ShapeCodec.struct[ImportTableDescription](schema)
+  given codec: rt.SchemaCodec[ImportTableDescription] = smithyscala.hearth.HearthCodec.derived[ImportTableDescription](schema)
 }

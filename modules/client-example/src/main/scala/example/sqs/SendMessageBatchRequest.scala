@@ -14,5 +14,5 @@ object SendMessageBatchRequest {
     rt.MemberDef("Entries", () => SendMessageBatchRequestEntryList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[SendMessageBatchRequest] = rt.ShapeCodec.struct[SendMessageBatchRequest](schema)
+  given codec: rt.SchemaCodec[SendMessageBatchRequest] = smithyscala.hearth.HearthCodec.derived[SendMessageBatchRequest](schema)
 }

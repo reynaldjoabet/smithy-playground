@@ -13,5 +13,5 @@ object PolicyNotFoundException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[PolicyNotFoundException] = rt.ShapeCodec.struct[PolicyNotFoundException](schema)
+  given codec: rt.SchemaCodec[PolicyNotFoundException] = smithyscala.hearth.HearthCodec.derived[PolicyNotFoundException](schema)
 }

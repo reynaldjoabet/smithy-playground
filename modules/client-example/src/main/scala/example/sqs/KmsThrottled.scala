@@ -13,5 +13,5 @@ object KmsThrottled {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[KmsThrottled] = rt.ShapeCodec.struct[KmsThrottled](schema)
+  given codec: rt.SchemaCodec[KmsThrottled] = smithyscala.hearth.HearthCodec.derived[KmsThrottled](schema)
 }

@@ -12,5 +12,5 @@ object DeleteQueueRequest {
     rt.MemberDef("QueueUrl", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DeleteQueueRequest] = rt.ShapeCodec.struct[DeleteQueueRequest](schema)
+  given codec: rt.SchemaCodec[DeleteQueueRequest] = smithyscala.hearth.HearthCodec.derived[DeleteQueueRequest](schema)
 }

@@ -16,5 +16,5 @@ object ListDeadLetterSourceQueuesRequest {
     rt.MemberDef("MaxResults", () => rt.Prelude.Integer, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListDeadLetterSourceQueuesRequest] = rt.ShapeCodec.struct[ListDeadLetterSourceQueuesRequest](schema)
+  given codec: rt.SchemaCodec[ListDeadLetterSourceQueuesRequest] = smithyscala.hearth.HearthCodec.derived[ListDeadLetterSourceQueuesRequest](schema)
 }

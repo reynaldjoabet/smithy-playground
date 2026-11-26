@@ -25,5 +25,5 @@ object Message {
     rt.MemberDef("MessageAttributes", () => MessageBodyAttributeMap.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[Message] = rt.ShapeCodec.struct[Message](schema)
+  given codec: rt.SchemaCodec[Message] = smithyscala.hearth.HearthCodec.derived[Message](schema)
 }

@@ -13,5 +13,5 @@ object TableInUseException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TableInUseException] = rt.ShapeCodec.struct[TableInUseException](schema)
+  given codec: rt.SchemaCodec[TableInUseException] = smithyscala.hearth.HearthCodec.derived[TableInUseException](schema)
 }

@@ -19,5 +19,5 @@ object AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
     rt.MemberDef("TargetValue", () => rt.Prelude.Double, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[AutoScalingTargetTrackingScalingPolicyConfigurationDescription] = rt.ShapeCodec.struct[AutoScalingTargetTrackingScalingPolicyConfigurationDescription](schema)
+  given codec: rt.SchemaCodec[AutoScalingTargetTrackingScalingPolicyConfigurationDescription] = smithyscala.hearth.HearthCodec.derived[AutoScalingTargetTrackingScalingPolicyConfigurationDescription](schema)
 }

@@ -31,5 +31,5 @@ object SourceTableDetails {
     rt.MemberDef("BillingMode", () => BillingMode.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[SourceTableDetails] = rt.ShapeCodec.struct[SourceTableDetails](schema)
+  given codec: rt.SchemaCodec[SourceTableDetails] = smithyscala.hearth.HearthCodec.derived[SourceTableDetails](schema)
 }

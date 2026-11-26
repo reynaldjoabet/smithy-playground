@@ -15,5 +15,5 @@ object CsvOptions {
     rt.MemberDef("HeaderList", () => CsvHeaderList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[CsvOptions] = rt.ShapeCodec.struct[CsvOptions](schema)
+  given codec: rt.SchemaCodec[CsvOptions] = smithyscala.hearth.HearthCodec.derived[CsvOptions](schema)
 }

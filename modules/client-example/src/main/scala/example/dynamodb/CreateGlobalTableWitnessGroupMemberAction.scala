@@ -13,5 +13,5 @@ object CreateGlobalTableWitnessGroupMemberAction {
     rt.MemberDef("RegionName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[CreateGlobalTableWitnessGroupMemberAction] = rt.ShapeCodec.struct[CreateGlobalTableWitnessGroupMemberAction](schema)
+  given codec: rt.SchemaCodec[CreateGlobalTableWitnessGroupMemberAction] = smithyscala.hearth.HearthCodec.derived[CreateGlobalTableWitnessGroupMemberAction](schema)
 }

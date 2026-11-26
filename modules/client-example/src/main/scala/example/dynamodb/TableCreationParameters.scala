@@ -29,5 +29,5 @@ object TableCreationParameters {
     rt.MemberDef("VectorIndexes", () => VectorIndexList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[TableCreationParameters] = rt.ShapeCodec.struct[TableCreationParameters](schema)
+  given codec: rt.SchemaCodec[TableCreationParameters] = smithyscala.hearth.HearthCodec.derived[TableCreationParameters](schema)
 }

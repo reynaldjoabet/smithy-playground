@@ -16,7 +16,7 @@ object AttributeAction {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "AttributeAction"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[AttributeAction] = rt.ShapeCodec.enumValues[AttributeAction]
+  lazy val knownValues: scala.collection.immutable.List[AttributeAction] = smithyscala.hearth.HearthCodec.enumValues[AttributeAction]
 
   def fromValue(value: java.lang.String): AttributeAction = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

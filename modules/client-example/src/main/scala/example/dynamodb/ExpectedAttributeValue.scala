@@ -19,5 +19,5 @@ object ExpectedAttributeValue {
     rt.MemberDef("AttributeValueList", () => AttributeValueList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ExpectedAttributeValue] = rt.ShapeCodec.struct[ExpectedAttributeValue](schema)
+  given codec: rt.SchemaCodec[ExpectedAttributeValue] = smithyscala.hearth.HearthCodec.derived[ExpectedAttributeValue](schema)
 }

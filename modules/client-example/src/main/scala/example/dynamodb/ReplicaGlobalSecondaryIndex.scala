@@ -17,5 +17,5 @@ object ReplicaGlobalSecondaryIndex {
     rt.MemberDef("OnDemandThroughputOverride", () => OnDemandThroughputOverride.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ReplicaGlobalSecondaryIndex] = rt.ShapeCodec.struct[ReplicaGlobalSecondaryIndex](schema)
+  given codec: rt.SchemaCodec[ReplicaGlobalSecondaryIndex] = smithyscala.hearth.HearthCodec.derived[ReplicaGlobalSecondaryIndex](schema)
 }

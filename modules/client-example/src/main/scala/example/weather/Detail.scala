@@ -15,7 +15,7 @@ object Detail {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("example.weather", "Detail"), rt.ShapeType.IntEnum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[Detail] = rt.ShapeCodec.enumValues[Detail]
+  lazy val knownValues: scala.collection.immutable.List[Detail] = smithyscala.hearth.HearthCodec.enumValues[Detail]
 
   def fromValue(value: scala.Int): Detail = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

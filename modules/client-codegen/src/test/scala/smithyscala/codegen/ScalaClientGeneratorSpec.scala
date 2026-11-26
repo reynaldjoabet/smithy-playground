@@ -134,21 +134,21 @@ class ScalaClientGeneratorSpec extends munit.FunSuite {
   }
 
   test("codecs are derived, not generated") {
-    assert(src("GetForecastInput").contains("given codec: rt.SchemaCodec[GetForecastInput] = rt.ShapeCodec.struct[GetForecastInput](schema)"))
-    assert(src("Kind").contains("given codec: rt.SchemaCodec[Kind] = rt.ShapeCodec.union[Kind](schema)"))
-    assert(src("Units").contains("lazy val knownValues: scala.collection.immutable.List[Units] = rt.ShapeCodec.enumValues[Units]"))
+    assert(src("GetForecastInput").contains("given codec: rt.SchemaCodec[GetForecastInput] = smithyscala.hearth.HearthCodec.derived[GetForecastInput](schema)"))
+    assert(src("Kind").contains("given codec: rt.SchemaCodec[Kind] = smithyscala.hearth.HearthCodec.derived[Kind](schema)"))
+    assert(src("Units").contains("lazy val knownValues: scala.collection.immutable.List[Units] = smithyscala.hearth.HearthCodec.enumValues[Units]"))
     assert(src("Detail").contains("rt.ShapeCodec.intEnum(fromValue, _.value)"))
     assert(!src("Days").contains("def write"))
     assert(src("WeatherClient").contains("rt.TypeRegistry.of[Busy *: EmptyTuple]"))
   }
 
-  test("derivation = hearth: the given codecs and enum values call HearthCodec instead") {
-    val hearth = ScalaClientGenerator.generate(model, ShapeId.from("example.weather#Weather"), "gen.weather", Derivation.Hearth)
-    def file(n: String) = hearth(s"gen/weather/$n.scala")
-    assert(file("GetForecastInput").contains("= smithyscala.hearth.HearthCodec.derived[GetForecastInput](schema)"))
-    assert(file("Kind").contains("= smithyscala.hearth.HearthCodec.derived[Kind](schema)"))
-    assert(file("Units").contains("= smithyscala.hearth.HearthCodec.enumValues[Units]"))
-    assert(!file("GetForecastInput").contains("ShapeCodec.struct"))
+  test("derivation = mirror: the given codecs and enum values call the runtime's Mirror derivation instead") {
+    val mirror = ScalaClientGenerator.generate(model, ShapeId.from("example.weather#Weather"), "gen.weather", Derivation.Mirror)
+    def file(n: String) = mirror(s"gen/weather/$n.scala")
+    assert(file("GetForecastInput").contains("= rt.ShapeCodec.struct[GetForecastInput](schema)"))
+    assert(file("Kind").contains("= rt.ShapeCodec.union[Kind](schema)"))
+    assert(file("Units").contains("= rt.ShapeCodec.enumValues[Units]"))
+    assert(!file("GetForecastInput").contains("HearthCodec"))
   }
 
   test("services without a supported protocol are rejected with the reason") {

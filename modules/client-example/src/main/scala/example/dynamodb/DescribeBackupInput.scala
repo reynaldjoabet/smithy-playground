@@ -12,5 +12,5 @@ object DescribeBackupInput {
     rt.MemberDef("BackupArn", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DescribeBackupInput] = rt.ShapeCodec.struct[DescribeBackupInput](schema)
+  given codec: rt.SchemaCodec[DescribeBackupInput] = smithyscala.hearth.HearthCodec.derived[DescribeBackupInput](schema)
 }

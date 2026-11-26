@@ -26,7 +26,7 @@ object ComparisonOperator {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ComparisonOperator"), rt.ShapeType.Enum)
 
   /** The known values, found from the enum's Mirror at compile time. */
-  lazy val knownValues: scala.collection.immutable.List[ComparisonOperator] = rt.ShapeCodec.enumValues[ComparisonOperator]
+  lazy val knownValues: scala.collection.immutable.List[ComparisonOperator] = smithyscala.hearth.HearthCodec.enumValues[ComparisonOperator]
 
   def fromValue(value: java.lang.String): ComparisonOperator = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
 

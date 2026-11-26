@@ -16,5 +16,5 @@ object ListQueuesRequest {
     rt.MemberDef("MaxResults", () => rt.Prelude.Integer, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListQueuesRequest] = rt.ShapeCodec.struct[ListQueuesRequest](schema)
+  given codec: rt.SchemaCodec[ListQueuesRequest] = smithyscala.hearth.HearthCodec.derived[ListQueuesRequest](schema)
 }

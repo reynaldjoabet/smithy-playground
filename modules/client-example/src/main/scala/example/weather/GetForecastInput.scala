@@ -20,5 +20,5 @@ object GetForecastInput {
     rt.MemberDef("detail", () => Detail.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[GetForecastInput] = rt.ShapeCodec.struct[GetForecastInput](schema)
+  given codec: rt.SchemaCodec[GetForecastInput] = smithyscala.hearth.HearthCodec.derived[GetForecastInput](schema)
 }

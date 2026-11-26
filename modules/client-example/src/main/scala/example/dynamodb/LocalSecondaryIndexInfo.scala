@@ -17,5 +17,5 @@ object LocalSecondaryIndexInfo {
     rt.MemberDef("Projection", () => Projection.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[LocalSecondaryIndexInfo] = rt.ShapeCodec.struct[LocalSecondaryIndexInfo](schema)
+  given codec: rt.SchemaCodec[LocalSecondaryIndexInfo] = smithyscala.hearth.HearthCodec.derived[LocalSecondaryIndexInfo](schema)
 }

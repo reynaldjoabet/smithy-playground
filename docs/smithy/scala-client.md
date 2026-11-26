@@ -8,8 +8,8 @@ This playground includes a small Smithy client generator for Scala 3, built the 
 |---|---|---|
 | `clientRuntime` | [modules/client-runtime](../../modules/client-runtime) | The runtime generated code runs on. Depends only on Jackson 3 (`tools.jackson.core`). |
 | `clientCodegen` | [modules/client-codegen](../../modules/client-codegen) | The generator. Reads a model with the Smithy Java libraries and writes Scala sources. Also a smithy-build plugin. |
-| `clientExample` | [modules/client-example](../../modules/client-example) | Generated SQS (`awsJson1_0`), DynamoDB (`awsJson1_0`) and Weather (`rpcv2Json`) clients, and tests that run them against a local HTTP server. |
-| `clientHearth` | [modules/hearth](../../modules/hearth) | The [second derivation](#a-second-derivation-hearth), built on Hearth, with Hearth-derived copies of the DynamoDB and Weather clients in its tests. |
+| `clientExample` | [modules/client-example](../../modules/client-example) | Generated SQS (`awsJson1_0`), DynamoDB (`awsJson1_0`) and Weather (`rpcv2Json`) clients, with codecs derived by Hearth (the default), and tests that run them against a local HTTP server. Its tests also hold Mirror-derived copies of the DynamoDB and Weather clients (`example.mirror.*`). |
+| `clientHearth` | [modules/hearth](../../modules/hearth) | The [Hearth derivation](#the-hearth-derivation-the-default) that generated code uses by default. |
 
 Like aws-sdk-go-v2, the generated code is written into the source tree rather than generated during the build, so it can be read and reviewed. Regenerate it with:
 
@@ -108,10 +108,10 @@ For each shape in the service closure ([Walker](https://github.com/smithy-lang/s
 
 | Smithy | Scala |
 |---|---|
-| `structure` | a `final case class`. `@required` members are plain types, `@default` members get the default value, everything else is an `Option` defaulting to `None`. The companion has `schema` and `given codec = rt.ShapeCodec.struct[X](schema)`: no serialization code. |
+| `structure` | a `final case class`. `@required` members are plain types, `@default` members get the default value, everything else is an `Option` defaulting to `None`. The companion has `schema` and `given codec = smithyscala.hearth.HearthCodec.derived[X](schema)` (`rt.ShapeCodec.struct[X](schema)` with `--derivation=mirror`): no serialization code. |
 | `@error` structure | the same, extending `rt.ServiceException`; `@retryable` overrides `smithyRetryable` (and `smithyThrottling`). |
-| `union` | an `enum` with one case per member, in member order (no fields for `Unit` members), plus `UnknownMember(name)` last. The companion has `schema` and `given codec = rt.ShapeCodec.union[X](schema)`. |
-| `enum`, `intEnum` | an `enum` with a `value`, plus `UnknownValue(raw)`. `knownValues` is `rt.ShapeCodec.enumValues[X]`, `fromValue` looks a value up, and the codec is built from the two. |
+| `union` | an `enum` with one case per member, in member order (no fields for `Unit` members), plus `UnknownMember(name)` last. The companion has `schema` and `given codec = smithyscala.hearth.HearthCodec.derived[X](schema)` (`rt.ShapeCodec.union[X](schema)` with `--derivation=mirror`). |
+| `enum`, `intEnum` | an `enum` with a `value`, plus `UnknownValue(raw)`. `knownValues` is `smithyscala.hearth.HearthCodec.enumValues[X]` (`rt.ShapeCodec.enumValues[X]` with `--derivation=mirror`), `fromValue` looks a value up, and the codec is built from the two. |
 | `list`, `map` | a type alias to `List` or `Map[String, _]` (elements are `Option` when `@sparse`), and a companion with just `schema`. The runtime's generic `List` and `Map` codecs read the element schema from the member. |
 | `service` | `<SdkId>Client`: a trait with a method per operation and a `<operation>Paginator` per `@paginated` operation, a companion with `ServiceInfo`, one `rt.Operation.of[I, O](id, rt.TypeRegistry.of[...], auth)` per operation, and `apply(config)`. |
 
@@ -122,6 +122,8 @@ The generated SQS `SendMessageRequest`, for example, is [SendMessageRequest.scal
 ## Scala 3 features in use
 
 The first version of the generator wrote serialization code as text. Every structure, union, list and map got hand-shaped `write` and `read` methods, about 24,000 lines across the three example clients. The second version uses Scala 3 to move that work into the compiler. Generated code now only describes shapes, and the runtime derives everything else.
+
+The sections below describe the runtime's own `Mirror` derivation, which needs nothing beyond the runtime and is what `--derivation=mirror` generates. Generated clients use [the Hearth derivation](#the-hearth-derivation-the-default) by default.
 
 The table is the summary; each feature has a section after it saying why it was used and what it changed.
 
@@ -246,19 +248,19 @@ In both cases, nothing is resolved until the first `write` or `read`, after ever
 
 None of this uses experimental features. The build's strict flags (`-Wvalue-discard`, `-Wnonunit-statement`, `-language:strictEquality`, `-Xcheck-macros`) report nothing for the runtime or the 544 generated files. Overall, the generated sources shrank from about 24,000 lines to about 11,000. In one run here, the example module also compiled in 42 seconds instead of 88.
 
-## A second derivation: Hearth
+## The Hearth derivation (the default)
 
-The runtime's own derivation is the `Mirror` one above. [modules/hearth](../../modules/hearth) (sbt project `clientHearth`) holds a second, built on [Hearth](https://github.com/kubuszok/hearth), the macro standard library behind [Kindlings](https://github.com/kubuszok/kindlings)' circe and jsoniter derivations. It follows Hearth's [derivation checklist](https://github.com/kubuszok/hearth/blob/master/docs/user-guide/derivation-checklist.md). The runtime doesn't depend on it.
+The runtime's own derivation is the `Mirror` one above. [modules/hearth](../../modules/hearth) (sbt project `clientHearth`) holds a second, which generated code uses by default. It is built on [Hearth](https://github.com/kubuszok/hearth), the macro standard library behind [Kindlings](https://github.com/kubuszok/kindlings)' circe and jsoniter derivations. It follows Hearth's [derivation checklist](https://github.com/kubuszok/hearth/blob/master/docs/user-guide/derivation-checklist.md). The runtime doesn't depend on it, but generated code does, so a project using the generated clients depends on `clientHearth`: Hearth and its Cross Quotes compiler plugin come with it.
 
 The generator picks one with its `derivation` setting:
 
 ```sh
-sbt --client "clientCodegen/runMain smithyscala.codegen.Main --derivation=hearth <model> <service id> <package> <output dir>"
+sbt --client "clientCodegen/runMain smithyscala.codegen.Main --derivation=mirror <model> <service id> <package> <output dir>"
 ```
 
-In smithy-build, add `"derivation": "hearth"` to the `scala-client-codegen` plugin settings. The default is `mirror`, and the generated code differs only in what its `given codec`s and `knownValues` call:
+In smithy-build, add `"derivation": "mirror"` to the `scala-client-codegen` plugin settings. The default is `hearth`, and the generated code differs only in what its `given codec`s and `knownValues` call:
 
-| | `mirror` (default) | `hearth` |
+| | `mirror` | `hearth` (default) |
 |---|---|---|
 | Structures | `rt.ShapeCodec.struct[X](schema)` | `smithyscala.hearth.HearthCodec.derived[X](schema)` |
 | Unions | `rt.ShapeCodec.union[X](schema)` | `smithyscala.hearth.HearthCodec.derived[X](schema)` |
@@ -272,7 +274,7 @@ In smithy-build, add `"derivation": "hearth"` to the `scala-client-codegen` plug
 | A type it can't handle | the first missing given, from inside an inline expansion | every failure, each with its reasons, and a hint about logging |
 | Derivation log | none | `import smithyscala.hearth.debug.logDerivation`, or `-Xmacro-settings:smithyscala.hearth.logDerivation=true` |
 
-`scripts/generate-scala-clients.sh` also generates Hearth-derived copies of the DynamoDB and Weather clients (packages `example.hearth.*`) into the module's tests. [ParitySpec](../../modules/hearth/src/test/scala/smithyscala/hearth/ParitySpec.scala) checks that both derivations write the same JSON and read each other's, for:
+`scripts/generate-scala-clients.sh` also generates Mirror-derived copies of the DynamoDB and Weather clients (packages `example.mirror.*`) into `clientExample`'s tests. [ParitySpec](../../modules/client-example/src/test/scala/example/ParitySpec.scala) checks that both derivations write the same JSON and read each other's, for:
 - recursive `AttributeValue` items;
 - unknown union members;
 - missing required members (the same error);
@@ -399,8 +401,8 @@ To talk to the [AWS Emulator](../aws-emulator/README.md), pass `transport = Java
 | [JsonCodecSpec](../../modules/client-runtime/src/test/scala/smithyscala/runtime/JsonCodecSpec.scala) | `@jsonName` and `@timestampFormat` per protocol settings, `NaN`, base64 blobs, skipping unknown fields. |
 | [ScalaClientGeneratorSpec](../../modules/client-codegen/src/test/scala/smithyscala/codegen/ScalaClientGeneratorSpec.scala) | Generator output for a small model, rejection of unsupported protocols, and a run through `SmithyBuild` as a plugin. |
 | [HearthDerivationSpec](../../modules/hearth/src/test/scala/smithyscala/hearth/HearthDerivationSpec.scala) | The Hearth derivation: a user-provided codec wins, a recursive case class derives as is, and an unsupported type reports every reason in one error. |
-| [ParitySpec](../../modules/hearth/src/test/scala/smithyscala/hearth/ParitySpec.scala) | Both derivations on the same generated types write the same JSON and read each other's. |
-| [DerivationSpec](../../modules/client-example/src/test/scala/example/DerivationSpec.scala) | The derived codecs: defaults from the macro, error correction, enum values from the `Mirror`, union ordinals, recursive round-trips, and the compile error from `TypeRegistry.of`. |
+| [ParitySpec](../../modules/client-example/src/test/scala/example/ParitySpec.scala) | Both derivations on the same generated types (the default Hearth clients and their Mirror copies) write the same JSON and read each other's. |
+| [DerivationSpec](../../modules/client-example/src/test/scala/example/DerivationSpec.scala) | The derived codecs on the generated clients: default values, error correction, enum values, union ordinals, recursive round-trips, and the compile error from `TypeRegistry.of`. |
 | [GeneratedClientSpec](../../modules/client-example/src/test/scala/example/GeneratedClientSpec.scala) | The generated SQS, DynamoDB and Weather clients against a local server: wire format, signing, modelled and unknown errors, retries, paginators, recursive unions, idempotency tokens, `rpcv2Json` paths and Unit input. |
 
 Run them all with `sbt --client "clientRuntime/test; clientCodegen/test; clientExample/test; clientHearth/test"`.

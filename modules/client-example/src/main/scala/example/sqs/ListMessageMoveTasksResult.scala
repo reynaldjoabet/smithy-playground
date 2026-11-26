@@ -12,5 +12,5 @@ object ListMessageMoveTasksResult {
     rt.MemberDef("Results", () => ListMessageMoveTasksResultEntryList.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListMessageMoveTasksResult] = rt.ShapeCodec.struct[ListMessageMoveTasksResult](schema)
+  given codec: rt.SchemaCodec[ListMessageMoveTasksResult] = smithyscala.hearth.HearthCodec.derived[ListMessageMoveTasksResult](schema)
 }

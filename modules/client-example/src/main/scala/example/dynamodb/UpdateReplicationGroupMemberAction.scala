@@ -23,5 +23,5 @@ object UpdateReplicationGroupMemberAction {
     rt.MemberDef("TableClassOverride", () => TableClass.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[UpdateReplicationGroupMemberAction] = rt.ShapeCodec.struct[UpdateReplicationGroupMemberAction](schema)
+  given codec: rt.SchemaCodec[UpdateReplicationGroupMemberAction] = smithyscala.hearth.HearthCodec.derived[UpdateReplicationGroupMemberAction](schema)
 }

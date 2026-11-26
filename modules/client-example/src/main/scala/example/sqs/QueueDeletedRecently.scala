@@ -13,5 +13,5 @@ object QueueDeletedRecently {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[QueueDeletedRecently] = rt.ShapeCodec.struct[QueueDeletedRecently](schema)
+  given codec: rt.SchemaCodec[QueueDeletedRecently] = smithyscala.hearth.HearthCodec.derived[QueueDeletedRecently](schema)
 }

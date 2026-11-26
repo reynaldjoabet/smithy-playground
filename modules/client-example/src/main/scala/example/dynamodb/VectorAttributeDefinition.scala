@@ -13,5 +13,5 @@ object VectorAttributeDefinition {
     rt.MemberDef("AttributeName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[VectorAttributeDefinition] = rt.ShapeCodec.struct[VectorAttributeDefinition](schema)
+  given codec: rt.SchemaCodec[VectorAttributeDefinition] = smithyscala.hearth.HearthCodec.derived[VectorAttributeDefinition](schema)
 }

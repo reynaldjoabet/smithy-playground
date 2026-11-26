@@ -9,7 +9,7 @@ import smithyscala.runtime.*
 import example.dynamodb.AttributeValue
 import example.weather.*
 
-/** The compile-time pieces: Mirror-derived codecs, the defaults macro, TypeRegistry.of. */
+/** The compile-time pieces on the generated clients: derived codecs (Hearth, the default), enum values, TypeRegistry.of. */
 class DerivationSpec extends munit.FunSuite {
   private val codec = new JsonCodec(JsonSettings(useJsonName = false, useTimestampFormat = false))
 
@@ -19,8 +19,9 @@ class DerivationSpec extends munit.FunSuite {
   private def write[A](value: A)(using c: SchemaCodec[A]): String =
     new String(codec.serialize(w => c.write(w, c.schema, value)), UTF_8)
 
-  test("missing @default members get the case class default, read by the Defaults macro") {
+  test("missing @default members get the case class default") {
     assertEquals(read[GetForecastInput]("""{"city":"Oslo"}"""), GetForecastInput("Oslo", units = Units.METRIC, detail = Detail.LOW))
+    // The runtime's Defaults macro (used by the Mirror derivation) reads the same defaults.
     assertEquals(Defaults.of[GetForecastInput], Map(1 -> None, 2 -> None, 3 -> Units.METRIC, 4 -> Detail.LOW))
   }
 
@@ -33,7 +34,7 @@ class DerivationSpec extends munit.FunSuite {
     assert(e.getMessage.contains("GlobalSecondaryIndex$Projection"), e.getMessage)
   }
 
-  test("enum values come from the Mirror: singletons only, in declaration order") {
+  test("enum values are found at compile time: singletons only, in declaration order") {
     assertEquals(Units.knownValues, List(Units.METRIC, Units.IMPERIAL))
     assertEquals(Detail.knownValues.map(_.value), List(1, 2))
     assertEquals(Units.fromValue("KELVIN"), Units.UnknownValue("KELVIN"))

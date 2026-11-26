@@ -12,5 +12,5 @@ object RestoreTableFromBackupOutput {
     rt.MemberDef("TableDescription", () => TableDescription.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[RestoreTableFromBackupOutput] = rt.ShapeCodec.struct[RestoreTableFromBackupOutput](schema)
+  given codec: rt.SchemaCodec[RestoreTableFromBackupOutput] = smithyscala.hearth.HearthCodec.derived[RestoreTableFromBackupOutput](schema)
 }

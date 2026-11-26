@@ -12,5 +12,5 @@ object DescribeTimeToLiveOutput {
     rt.MemberDef("TimeToLiveDescription", () => TimeToLiveDescription.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[DescribeTimeToLiveOutput] = rt.ShapeCodec.struct[DescribeTimeToLiveOutput](schema)
+  given codec: rt.SchemaCodec[DescribeTimeToLiveOutput] = smithyscala.hearth.HearthCodec.derived[DescribeTimeToLiveOutput](schema)
 }

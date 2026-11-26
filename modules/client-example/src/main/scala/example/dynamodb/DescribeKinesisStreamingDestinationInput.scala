@@ -12,5 +12,5 @@ object DescribeKinesisStreamingDestinationInput {
     rt.MemberDef("TableName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DescribeKinesisStreamingDestinationInput] = rt.ShapeCodec.struct[DescribeKinesisStreamingDestinationInput](schema)
+  given codec: rt.SchemaCodec[DescribeKinesisStreamingDestinationInput] = smithyscala.hearth.HearthCodec.derived[DescribeKinesisStreamingDestinationInput](schema)
 }

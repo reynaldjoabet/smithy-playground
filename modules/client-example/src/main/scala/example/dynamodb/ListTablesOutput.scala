@@ -15,5 +15,5 @@ object ListTablesOutput {
     rt.MemberDef("LastEvaluatedTableName", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ListTablesOutput] = rt.ShapeCodec.struct[ListTablesOutput](schema)
+  given codec: rt.SchemaCodec[ListTablesOutput] = smithyscala.hearth.HearthCodec.derived[ListTablesOutput](schema)
 }

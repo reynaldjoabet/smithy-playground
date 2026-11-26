@@ -13,5 +13,5 @@ object DeleteMessageBatchResultEntry {
     rt.MemberDef("Id", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DeleteMessageBatchResultEntry] = rt.ShapeCodec.struct[DeleteMessageBatchResultEntry](schema)
+  given codec: rt.SchemaCodec[DeleteMessageBatchResultEntry] = smithyscala.hearth.HearthCodec.derived[DeleteMessageBatchResultEntry](schema)
 }

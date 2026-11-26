@@ -9,5 +9,5 @@ final case class InvalidIdFormat() extends rt.ServiceException(rt.ShapeId("com.a
 object InvalidIdFormat {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "InvalidIdFormat"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client"))()
 
-  given codec: rt.SchemaCodec[InvalidIdFormat] = rt.ShapeCodec.struct[InvalidIdFormat](schema)
+  given codec: rt.SchemaCodec[InvalidIdFormat] = smithyscala.hearth.HearthCodec.derived[InvalidIdFormat](schema)
 }

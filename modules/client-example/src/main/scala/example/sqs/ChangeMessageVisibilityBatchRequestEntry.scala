@@ -17,5 +17,5 @@ object ChangeMessageVisibilityBatchRequestEntry {
     rt.MemberDef("VisibilityTimeout", () => rt.Prelude.Integer, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ChangeMessageVisibilityBatchRequestEntry] = rt.ShapeCodec.struct[ChangeMessageVisibilityBatchRequestEntry](schema)
+  given codec: rt.SchemaCodec[ChangeMessageVisibilityBatchRequestEntry] = smithyscala.hearth.HearthCodec.derived[ChangeMessageVisibilityBatchRequestEntry](schema)
 }

@@ -13,5 +13,5 @@ object ItemResponse {
     rt.MemberDef("Item", () => AttributeMap.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[ItemResponse] = rt.ShapeCodec.struct[ItemResponse](schema)
+  given codec: rt.SchemaCodec[ItemResponse] = smithyscala.hearth.HearthCodec.derived[ItemResponse](schema)
 }

@@ -21,5 +21,5 @@ object InputS3Configuration {
     rt.MemberDef("InputCompressionType", () => InputCompressionType.schema, rt.Traits.empty)
   )
 
-  given codec: rt.SchemaCodec[InputS3Configuration] = rt.ShapeCodec.struct[InputS3Configuration](schema)
+  given codec: rt.SchemaCodec[InputS3Configuration] = smithyscala.hearth.HearthCodec.derived[InputS3Configuration](schema)
 }

@@ -12,5 +12,5 @@ object DescribeTableReplicaAutoScalingInput {
     rt.MemberDef("TableName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  given codec: rt.SchemaCodec[DescribeTableReplicaAutoScalingInput] = rt.ShapeCodec.struct[DescribeTableReplicaAutoScalingInput](schema)
+  given codec: rt.SchemaCodec[DescribeTableReplicaAutoScalingInput] = smithyscala.hearth.HearthCodec.derived[DescribeTableReplicaAutoScalingInput](schema)
 }
