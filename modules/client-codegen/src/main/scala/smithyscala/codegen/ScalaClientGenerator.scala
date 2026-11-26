@@ -31,11 +31,39 @@ import Naming.*
 object ScalaClientGenerator {
 
   /** Returns generated files as relative path -> source. */
-  def generate(model: Model, serviceId: ShapeId, packageName: String): Map[String, String] =
-    new Generator(model, model.expectShape(serviceId, classOf[ServiceShape]), packageName).files()
+  def generate(
+      model: Model,
+      serviceId: ShapeId,
+      packageName: String,
+      derivation: Derivation = Derivation.Mirror
+  ): Map[String, String] =
+    new Generator(model, model.expectShape(serviceId, classOf[ServiceShape]), packageName, derivation).files()
 }
 
-private final class Generator(model: Model, service: ServiceShape, pkg: String) {
+/**
+  * Which compile-time derivation the generated `given codec`s call:
+  *   - `Mirror`: the runtime's own `ShapeCodec.struct` / `union` / `enumValues` (Scala 3 `Mirror`s and inline code);
+  *   - `Hearth`: `smithyscala.hearth.HearthCodec` from the `clientHearth` module (a Hearth macro).
+  */
+enum Derivation(val struct: String, val union: String, val enumValues: String) derives CanEqual {
+  case Mirror extends Derivation("rt.ShapeCodec.struct", "rt.ShapeCodec.union", "rt.ShapeCodec.enumValues")
+  case Hearth
+      extends Derivation(
+        "smithyscala.hearth.HearthCodec.derived",
+        "smithyscala.hearth.HearthCodec.derived",
+        "smithyscala.hearth.HearthCodec.enumValues"
+      )
+}
+
+object Derivation {
+  def parse(name: String): Derivation = name.toLowerCase match {
+    case "mirror" => Mirror
+    case "hearth" => Hearth
+    case other    => throw new IllegalArgumentException(s"derivation must be mirror or hearth, not $other")
+  }
+}
+
+private final class Generator(model: Model, service: ServiceShape, pkg: String, derivation: Derivation) {
 
   private val opIndex      = OperationIndex.of(model)
   private val serviceIndex = ServiceIndex.of(model)
@@ -248,7 +276,7 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String) 
       else s"final case class $name(\n${params.mkString(",\n")}\n)$extendsClause$retry\n"
 
     doc(s, "") + header + s"\nobject $name {\n" + schemaVal(s, "Structure") + "\n" +
-      s"  given codec: rt.SchemaCodec[$name] = rt.ShapeCodec.struct[$name](schema)\n}\n"
+      s"  given codec: rt.SchemaCodec[$name] = ${derivation.struct}[$name](schema)\n}\n"
   }
 
   // ----------------------------------------------------------------------------------------------- unions
@@ -269,7 +297,7 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String) 
     doc(u, "") +
       s"enum $name derives CanEqual {\n${cases.mkString("\n")}\n\n  /** A member this client doesn't know (added to the model later). */\n" +
       s"  case UnknownMember(name: java.lang.String)\n}\n\nobject $name {\n" + schemaVal(u, "Union") + "\n" +
-      s"  given codec: rt.SchemaCodec[$name] = rt.ShapeCodec.union[$name](schema)\n}\n"
+      s"  given codec: rt.SchemaCodec[$name] = ${derivation.union}[$name](schema)\n}\n"
   }
 
   // ----------------------------------------------------------------------------------------------- enums
@@ -290,7 +318,7 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String) 
       s"\n\n  /** A value this client doesn't know (added to the model later). */\n  case UnknownValue(raw: $valueType) extends $name(raw)\n}\n\n" +
       s"object $name {\n  lazy val schema: rt.Schema = rt.Schema.simple(${shapeIdExpr(s.getId)}, rt.ShapeType.$shapeType)\n\n" +
       s"  /** The known values, found from the enum's Mirror at compile time. */\n" +
-      s"  lazy val knownValues: $List_[$name] = rt.ShapeCodec.enumValues[$name]\n\n" +
+      s"  lazy val knownValues: $List_[$name] = ${derivation.enumValues}[$name]\n\n" +
       s"  def fromValue(value: $valueType): $name = knownValues.find(_.value == value).getOrElse(UnknownValue(value))\n\n" +
       s"  given codec: rt.ShapeCodec[$name] = rt.ShapeCodec.$codecFactory(fromValue, _.value)\n}\n"
   }

@@ -142,6 +142,15 @@ class ScalaClientGeneratorSpec extends munit.FunSuite {
     assert(src("WeatherClient").contains("rt.TypeRegistry.of[Busy *: EmptyTuple]"))
   }
 
+  test("derivation = hearth: the given codecs and enum values call HearthCodec instead") {
+    val hearth = ScalaClientGenerator.generate(model, ShapeId.from("example.weather#Weather"), "gen.weather", Derivation.Hearth)
+    def file(n: String) = hearth(s"gen/weather/$n.scala")
+    assert(file("GetForecastInput").contains("= smithyscala.hearth.HearthCodec.derived[GetForecastInput](schema)"))
+    assert(file("Kind").contains("= smithyscala.hearth.HearthCodec.derived[Kind](schema)"))
+    assert(file("Units").contains("= smithyscala.hearth.HearthCodec.enumValues[Units]"))
+    assert(!file("GetForecastInput").contains("ShapeCodec.struct"))
+  }
+
   test("services without a supported protocol are rejected with the reason") {
     val restJson = Model.assembler().discoverModels()
       .addUnparsedModel("r.smithy", "$version: \"2\"\nnamespace x\nuse aws.protocols#restJson1\n@restJson1\nservice S {}\n")

@@ -14,16 +14,24 @@ import software.amazon.smithy.model.loader.ModelAssembler
 import software.amazon.smithy.model.shapes.ShapeId
 
 /**
-  * Command line: `Main <model file or directory> <service shape id> <scala package> <output dir>`.
+  * Command line: `Main [--derivation=mirror|hearth] <model file or directory> <service shape id> <scala package>
+  * <output dir>`.
   *
   * The package directory under the output directory is replaced, so files for shapes that left
   * the model don't linger.
   */
 object Main {
-  def main(args: Array[String]): Unit = args match {
+  def main(args: Array[String]): Unit = {
+    val (options, positional) = args.partition(_.startsWith("--"))
+    val derivation = options.collectFirst { case o if o.startsWith("--derivation=") => o.stripPrefix("--derivation=") }
+      .fold(Derivation.Mirror)(Derivation.parse)
+    run(positional, derivation)
+  }
+
+  private def run(args: Array[String], derivation: Derivation): Unit = args match {
     case Array(modelPath, service, pkg, outDir) =>
       val model = loadModel(Paths.get(modelPath))
-      val files = ScalaClientGenerator.generate(model, ShapeId.from(service), pkg)
+      val files = ScalaClientGenerator.generate(model, ShapeId.from(service), pkg, derivation)
       val root  = Paths.get(outDir)
       deleteRecursively(root.resolve(pkg.replace('.', '/')))
       files.foreach { (rel, src) =>
@@ -33,7 +41,7 @@ object Main {
       }
       println(s"Generated ${files.size} files for $service into ${root.resolve(pkg.replace('.', '/'))}")
     case _ =>
-      System.err.println("usage: Main <model> <service shape id> <scala package> <output dir>")
+      System.err.println("usage: Main [--derivation=mirror|hearth] <model> <service shape id> <scala package> <output dir>")
       sys.exit(2)
   }
 
@@ -59,7 +67,7 @@ object Main {
   *
   * {{{
   * "plugins": {
-  *   "scala-client-codegen": { "service": "com.amazonaws.sqs#AmazonSQS", "package": "example.sqs" }
+  *   "scala-client-codegen": { "service": "com.amazonaws.sqs#AmazonSQS", "package": "example.sqs", "derivation": "hearth" }
   * }
   * }}}
   */
@@ -70,8 +78,9 @@ final class ScalaClientCodegenPlugin extends SmithyBuildPlugin {
     val settings = context.getSettings
     val service  = ShapeId.from(settings.expectStringMember("service").getValue)
     val pkg      = settings.expectStringMember("package").getValue
+    val derivation = settings.getStringMember("derivation").map(n => Derivation.parse(n.getValue)).orElse(Derivation.Mirror)
     val manifest: FileManifest = context.getFileManifest
-    ScalaClientGenerator.generate(context.getModel, service, pkg).foreach { (rel, src) =>
+    ScalaClientGenerator.generate(context.getModel, service, pkg, derivation).foreach { (rel, src) =>
       manifest.writeFile(rel, src): Unit
     }
   }

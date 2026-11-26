@@ -123,3 +123,21 @@ lazy val clientExample = project
     name                := "smithy-scala-client-example",
     libraryDependencies += munit % Test
   )
+
+// The alternative codec derivation, built on Hearth (https://github.com/kubuszok/hearth): generated code uses it
+// when the generator's derivation setting is "hearth". Its tests compare it with the runtime's Mirror derivation
+// on the same generated types, so they also see clientExample.
+val hearthVersion = "0.4.5"
+
+lazy val clientHearth = project
+  .in(file("modules/hearth"))
+  .dependsOn(clientRuntime, clientExample % Test)
+  .settings(
+    name                := "smithy-scala-client-hearth",
+    libraryDependencies ++= Seq(
+      "com.kubuszok" %% "hearth" % hearthVersion,
+      // Cross Quotes: Expr.quote / Expr.splice keep the Quotes context right inside Hearth's builders.
+      compilerPlugin("com.kubuszok" % "hearth-cross-quotes_3" % hearthVersion),
+      munit % Test
+    )
+  )
