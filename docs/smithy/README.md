@@ -110,6 +110,8 @@ Because the generator and runtime are shared, adding a service to an SDK is a mo
 
 ## Pages
 
+New to HTTP, JSON or RPC protocols? Start with [HTTP, data formats and protocols](http-and-formats.md), which explains how they fit together.
+
 Read them in order the first time:
 
 1. [The model](models.md): what the input looks like, which traits SDKs depend on, and where each repository gets its models.
