@@ -9,17 +9,4 @@ object CsvHeaderList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "CsvHeaderList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => rt.Prelude.String, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: CsvHeaderList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = CsvHeaderList.schema.members(0)
-      value.foreach(x => lw.writeString(m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): CsvHeaderList = {
-      val m = CsvHeaderList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[java.lang.String]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(er.readString(m)): scala.Unit))
-    b.result()
-  }
 }

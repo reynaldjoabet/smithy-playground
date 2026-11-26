@@ -14,7 +14,10 @@ enum BillingMode(val value: java.lang.String) derives CanEqual {
 object BillingMode {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "BillingMode"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[BillingMode] = scala.collection.immutable.List(PROVISIONED, PAY_PER_REQUEST)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[BillingMode] = rt.ShapeCodec.enumValues[BillingMode]
 
   def fromValue(value: java.lang.String): BillingMode = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[BillingMode] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

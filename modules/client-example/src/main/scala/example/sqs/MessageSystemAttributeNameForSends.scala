@@ -13,7 +13,10 @@ enum MessageSystemAttributeNameForSends(val value: java.lang.String) derives Can
 object MessageSystemAttributeNameForSends {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.sqs", "MessageSystemAttributeNameForSends"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[MessageSystemAttributeNameForSends] = scala.collection.immutable.List(AWSTraceHeader)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[MessageSystemAttributeNameForSends] = rt.ShapeCodec.enumValues[MessageSystemAttributeNameForSends]
 
   def fromValue(value: java.lang.String): MessageSystemAttributeNameForSends = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[MessageSystemAttributeNameForSends] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

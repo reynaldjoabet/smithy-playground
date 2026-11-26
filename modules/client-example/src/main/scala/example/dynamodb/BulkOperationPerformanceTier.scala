@@ -14,7 +14,10 @@ enum BulkOperationPerformanceTier(val value: java.lang.String) derives CanEqual 
 object BulkOperationPerformanceTier {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "BulkOperationPerformanceTier"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[BulkOperationPerformanceTier] = scala.collection.immutable.List(STANDARD, ACCELERATED)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[BulkOperationPerformanceTier] = rt.ShapeCodec.enumValues[BulkOperationPerformanceTier]
 
   def fromValue(value: java.lang.String): BulkOperationPerformanceTier = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[BulkOperationPerformanceTier] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

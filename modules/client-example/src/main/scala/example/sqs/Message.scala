@@ -25,48 +25,5 @@ object Message {
     rt.MemberDef("MessageAttributes", () => MessageBodyAttributeMap.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: Message): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = Message.schema.members
-      value.messageId.foreach(x => s.writeString(ms(0), x))
-      value.receiptHandle.foreach(x => s.writeString(ms(1), x))
-      value.md5OfBody.foreach(x => s.writeString(ms(2), x))
-      value.body.foreach(x => s.writeString(ms(3), x))
-      value.attributes.foreach(x => MessageSystemAttributeMap.write(s, ms(4), x))
-      value.md5OfMessageAttributes.foreach(x => s.writeString(ms(5), x))
-      value.messageAttributes.foreach(x => MessageBodyAttributeMap.write(s, ms(6), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): Message = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    var f3: scala.Option[java.lang.String] = scala.None
-    var f4: scala.Option[MessageSystemAttributeMap] = scala.None
-    var f5: scala.Option[java.lang.String] = scala.None
-    var f6: scala.Option[MessageBodyAttributeMap] = scala.None
-    r.readStruct(Message.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case 3 => f3 = scala.Some(mr.readString(m))
-          case 4 => f4 = scala.Some(MessageSystemAttributeMap.read(mr, m))
-          case 5 => f5 = scala.Some(mr.readString(m))
-          case 6 => f6 = scala.Some(MessageBodyAttributeMap.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    Message(
-      f0,
-      f1,
-      f2,
-      f3,
-      f4,
-      f5,
-      f6
-    )
-  }
+  given codec: rt.SchemaCodec[Message] = rt.ShapeCodec.struct[Message](schema)
 }

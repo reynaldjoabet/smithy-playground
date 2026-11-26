@@ -15,28 +15,5 @@ object ListTablesOutput {
     rt.MemberDef("LastEvaluatedTableName", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ListTablesOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ListTablesOutput.schema.members
-      value.tableNames.foreach(x => TableNameList.write(s, ms(0), x))
-      value.lastEvaluatedTableName.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ListTablesOutput = {
-    var f0: scala.Option[TableNameList] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ListTablesOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(TableNameList.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ListTablesOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ListTablesOutput] = rt.ShapeCodec.struct[ListTablesOutput](schema)
 }

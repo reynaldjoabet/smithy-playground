@@ -16,32 +16,5 @@ object ListContributorInsightsInput {
     rt.MemberDef("MaxResults", () => rt.Prelude.Integer, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ListContributorInsightsInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ListContributorInsightsInput.schema.members
-      value.tableName.foreach(x => s.writeString(ms(0), x))
-      value.nextToken.foreach(x => s.writeString(ms(1), x))
-      s.writeInteger(ms(2), value.maxResults)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ListContributorInsightsInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[scala.Int] = scala.None
-    r.readStruct(ListContributorInsightsInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readInteger(m))
-          case _ => ()
-        }
-      }
-    }
-    ListContributorInsightsInput(
-      f0,
-      f1,
-      f2.getOrElse(0)
-    )
-  }
+  given codec: rt.SchemaCodec[ListContributorInsightsInput] = rt.ShapeCodec.struct[ListContributorInsightsInput](schema)
 }

@@ -15,28 +15,5 @@ object ReplicaGlobalSecondaryIndexAutoScalingUpdate {
     rt.MemberDef("ProvisionedReadCapacityAutoScalingUpdate", () => AutoScalingSettingsUpdate.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ReplicaGlobalSecondaryIndexAutoScalingUpdate): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ReplicaGlobalSecondaryIndexAutoScalingUpdate.schema.members
-      value.indexName.foreach(x => s.writeString(ms(0), x))
-      value.provisionedReadCapacityAutoScalingUpdate.foreach(x => AutoScalingSettingsUpdate.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ReplicaGlobalSecondaryIndexAutoScalingUpdate = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[AutoScalingSettingsUpdate] = scala.None
-    r.readStruct(ReplicaGlobalSecondaryIndexAutoScalingUpdate.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(AutoScalingSettingsUpdate.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ReplicaGlobalSecondaryIndexAutoScalingUpdate(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ReplicaGlobalSecondaryIndexAutoScalingUpdate] = rt.ShapeCodec.struct[ReplicaGlobalSecondaryIndexAutoScalingUpdate](schema)
 }

@@ -13,24 +13,5 @@ object BulkOperationVectorBytes {
     rt.MemberDef("BulkPutVectorBytes", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BulkOperationVectorBytes): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = BulkOperationVectorBytes.schema.members
-      value.bulkPutVectorBytes.foreach(x => s.writeLong(ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BulkOperationVectorBytes = {
-    var f0: scala.Option[scala.Long] = scala.None
-    r.readStruct(BulkOperationVectorBytes.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readLong(m))
-          case _ => ()
-        }
-      }
-    }
-    BulkOperationVectorBytes(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[BulkOperationVectorBytes] = rt.ShapeCodec.struct[BulkOperationVectorBytes](schema)
 }

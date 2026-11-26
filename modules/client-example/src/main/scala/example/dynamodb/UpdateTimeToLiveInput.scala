@@ -15,28 +15,5 @@ object UpdateTimeToLiveInput {
     rt.MemberDef("TimeToLiveSpecification", () => TimeToLiveSpecification.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: UpdateTimeToLiveInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = UpdateTimeToLiveInput.schema.members
-      s.writeString(ms(0), value.tableName)
-      TimeToLiveSpecification.write(s, ms(1), value.timeToLiveSpecification)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): UpdateTimeToLiveInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[TimeToLiveSpecification] = scala.None
-    r.readStruct(UpdateTimeToLiveInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(TimeToLiveSpecification.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    UpdateTimeToLiveInput(
-      f0.getOrElse(""),
-      f1.getOrElse(throw new rt.SerializationException("Missing required member UpdateTimeToLiveInput.TimeToLiveSpecification"))
-    )
-  }
+  given codec: rt.SchemaCodec[UpdateTimeToLiveInput] = rt.ShapeCodec.struct[UpdateTimeToLiveInput](schema)
 }

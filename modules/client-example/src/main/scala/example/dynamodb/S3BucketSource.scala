@@ -17,32 +17,5 @@ object S3BucketSource {
     rt.MemberDef("S3KeyPrefix", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: S3BucketSource): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = S3BucketSource.schema.members
-      value.s3BucketOwner.foreach(x => s.writeString(ms(0), x))
-      s.writeString(ms(1), value.s3Bucket)
-      value.s3KeyPrefix.foreach(x => s.writeString(ms(2), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): S3BucketSource = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    r.readStruct(S3BucketSource.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    S3BucketSource(
-      f0,
-      f1.getOrElse(""),
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[S3BucketSource] = rt.ShapeCodec.struct[S3BucketSource](schema)
 }

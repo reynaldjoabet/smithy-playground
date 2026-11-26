@@ -10,17 +10,4 @@ object ItemCollectionMetricsPerTable {
     rt.MemberDef("key", () => rt.Prelude.String, rt.Traits.empty),
     rt.MemberDef("value", () => ItemCollectionMetricsMultiple.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ItemCollectionMetricsPerTable): scala.Unit =
-    w.writeMap(schema, value.size) { mw =>
-      val vm = ItemCollectionMetricsPerTable.schema.members(1)
-      value.foreach((k, x) => mw.writeEntry(k)(vw => ItemCollectionMetricsMultiple.write(vw, vm, x)))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ItemCollectionMetricsPerTable = {
-    val vm = ItemCollectionMetricsPerTable.schema.members(1)
-    val b = scala.collection.immutable.Map.newBuilder[java.lang.String, ItemCollectionMetricsMultiple]
-    r.readMap(schema)((k, vr) => if (!vr.isNull) (b.addOne(k -> ItemCollectionMetricsMultiple.read(vr, vm)): scala.Unit))
-    b.result()
-  }
 }

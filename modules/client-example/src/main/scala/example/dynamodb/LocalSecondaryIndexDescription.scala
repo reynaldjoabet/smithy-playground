@@ -23,44 +23,5 @@ object LocalSecondaryIndexDescription {
     rt.MemberDef("IndexArn", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: LocalSecondaryIndexDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = LocalSecondaryIndexDescription.schema.members
-      value.indexName.foreach(x => s.writeString(ms(0), x))
-      value.keySchema.foreach(x => KeySchema.write(s, ms(1), x))
-      value.projection.foreach(x => Projection.write(s, ms(2), x))
-      value.indexSizeBytes.foreach(x => s.writeLong(ms(3), x))
-      value.itemCount.foreach(x => s.writeLong(ms(4), x))
-      value.indexArn.foreach(x => s.writeString(ms(5), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): LocalSecondaryIndexDescription = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[KeySchema] = scala.None
-    var f2: scala.Option[Projection] = scala.None
-    var f3: scala.Option[scala.Long] = scala.None
-    var f4: scala.Option[scala.Long] = scala.None
-    var f5: scala.Option[java.lang.String] = scala.None
-    r.readStruct(LocalSecondaryIndexDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(KeySchema.read(mr, m))
-          case 2 => f2 = scala.Some(Projection.read(mr, m))
-          case 3 => f3 = scala.Some(mr.readLong(m))
-          case 4 => f4 = scala.Some(mr.readLong(m))
-          case 5 => f5 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    LocalSecondaryIndexDescription(
-      f0,
-      f1,
-      f2,
-      f3,
-      f4,
-      f5
-    )
-  }
+  given codec: rt.SchemaCodec[LocalSecondaryIndexDescription] = rt.ShapeCodec.struct[LocalSecondaryIndexDescription](schema)
 }

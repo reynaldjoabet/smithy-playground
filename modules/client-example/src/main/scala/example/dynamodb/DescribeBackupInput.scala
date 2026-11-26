@@ -12,24 +12,5 @@ object DescribeBackupInput {
     rt.MemberDef("BackupArn", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DescribeBackupInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DescribeBackupInput.schema.members
-      s.writeString(ms(0), value.backupArn)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DescribeBackupInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(DescribeBackupInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    DescribeBackupInput(
-      f0.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[DescribeBackupInput] = rt.ShapeCodec.struct[DescribeBackupInput](schema)
 }

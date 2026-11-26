@@ -19,36 +19,5 @@ object ReplicaGlobalSecondaryIndexDescription {
     rt.MemberDef("WarmThroughput", () => GlobalSecondaryIndexWarmThroughputDescription.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ReplicaGlobalSecondaryIndexDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ReplicaGlobalSecondaryIndexDescription.schema.members
-      value.indexName.foreach(x => s.writeString(ms(0), x))
-      value.provisionedThroughputOverride.foreach(x => ProvisionedThroughputOverride.write(s, ms(1), x))
-      value.onDemandThroughputOverride.foreach(x => OnDemandThroughputOverride.write(s, ms(2), x))
-      value.warmThroughput.foreach(x => GlobalSecondaryIndexWarmThroughputDescription.write(s, ms(3), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ReplicaGlobalSecondaryIndexDescription = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[ProvisionedThroughputOverride] = scala.None
-    var f2: scala.Option[OnDemandThroughputOverride] = scala.None
-    var f3: scala.Option[GlobalSecondaryIndexWarmThroughputDescription] = scala.None
-    r.readStruct(ReplicaGlobalSecondaryIndexDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(ProvisionedThroughputOverride.read(mr, m))
-          case 2 => f2 = scala.Some(OnDemandThroughputOverride.read(mr, m))
-          case 3 => f3 = scala.Some(GlobalSecondaryIndexWarmThroughputDescription.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ReplicaGlobalSecondaryIndexDescription(
-      f0,
-      f1,
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[ReplicaGlobalSecondaryIndexDescription] = rt.ShapeCodec.struct[ReplicaGlobalSecondaryIndexDescription](schema)
 }

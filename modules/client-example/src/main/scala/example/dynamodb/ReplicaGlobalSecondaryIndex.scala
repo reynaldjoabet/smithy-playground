@@ -17,32 +17,5 @@ object ReplicaGlobalSecondaryIndex {
     rt.MemberDef("OnDemandThroughputOverride", () => OnDemandThroughputOverride.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ReplicaGlobalSecondaryIndex): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ReplicaGlobalSecondaryIndex.schema.members
-      s.writeString(ms(0), value.indexName)
-      value.provisionedThroughputOverride.foreach(x => ProvisionedThroughputOverride.write(s, ms(1), x))
-      value.onDemandThroughputOverride.foreach(x => OnDemandThroughputOverride.write(s, ms(2), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ReplicaGlobalSecondaryIndex = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[ProvisionedThroughputOverride] = scala.None
-    var f2: scala.Option[OnDemandThroughputOverride] = scala.None
-    r.readStruct(ReplicaGlobalSecondaryIndex.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(ProvisionedThroughputOverride.read(mr, m))
-          case 2 => f2 = scala.Some(OnDemandThroughputOverride.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ReplicaGlobalSecondaryIndex(
-      f0.getOrElse(""),
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[ReplicaGlobalSecondaryIndex] = rt.ShapeCodec.struct[ReplicaGlobalSecondaryIndex](schema)
 }

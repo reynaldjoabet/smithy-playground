@@ -15,28 +15,5 @@ object Endpoint {
     rt.MemberDef("CachePeriodInMinutes", () => rt.Prelude.Long, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: Endpoint): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = Endpoint.schema.members
-      s.writeString(ms(0), value.address)
-      s.writeLong(ms(1), value.cachePeriodInMinutes)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): Endpoint = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[scala.Long] = scala.None
-    r.readStruct(Endpoint.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readLong(m))
-          case _ => ()
-        }
-      }
-    }
-    Endpoint(
-      f0.getOrElse(""),
-      f1.getOrElse(0L)
-    )
-  }
+  given codec: rt.SchemaCodec[Endpoint] = rt.ShapeCodec.struct[Endpoint](schema)
 }

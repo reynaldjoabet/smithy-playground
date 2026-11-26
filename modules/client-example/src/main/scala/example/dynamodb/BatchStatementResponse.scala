@@ -17,32 +17,5 @@ object BatchStatementResponse {
     rt.MemberDef("Item", () => AttributeMap.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BatchStatementResponse): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = BatchStatementResponse.schema.members
-      value.error.foreach(x => BatchStatementError.write(s, ms(0), x))
-      value.tableName.foreach(x => s.writeString(ms(1), x))
-      value.item.foreach(x => AttributeMap.write(s, ms(2), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BatchStatementResponse = {
-    var f0: scala.Option[BatchStatementError] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[AttributeMap] = scala.None
-    r.readStruct(BatchStatementResponse.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(BatchStatementError.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(AttributeMap.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    BatchStatementResponse(
-      f0,
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[BatchStatementResponse] = rt.ShapeCodec.struct[BatchStatementResponse](schema)
 }

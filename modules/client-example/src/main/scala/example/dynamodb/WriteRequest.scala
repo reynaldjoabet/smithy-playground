@@ -15,28 +15,5 @@ object WriteRequest {
     rt.MemberDef("DeleteRequest", () => DeleteRequest.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: WriteRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = WriteRequest.schema.members
-      value.putRequest.foreach(x => PutRequest.write(s, ms(0), x))
-      value.deleteRequest.foreach(x => DeleteRequest.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): WriteRequest = {
-    var f0: scala.Option[PutRequest] = scala.None
-    var f1: scala.Option[DeleteRequest] = scala.None
-    r.readStruct(WriteRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(PutRequest.read(mr, m))
-          case 1 => f1 = scala.Some(DeleteRequest.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    WriteRequest(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[WriteRequest] = rt.ShapeCodec.struct[WriteRequest](schema)
 }

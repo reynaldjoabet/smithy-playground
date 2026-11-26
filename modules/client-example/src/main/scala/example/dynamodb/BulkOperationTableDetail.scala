@@ -15,28 +15,5 @@ object BulkOperationTableDetail {
     rt.MemberDef("TableId", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BulkOperationTableDetail): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = BulkOperationTableDetail.schema.members
-      value.tableName.foreach(x => s.writeString(ms(0), x))
-      value.tableId.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BulkOperationTableDetail = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(BulkOperationTableDetail.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    BulkOperationTableDetail(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[BulkOperationTableDetail] = rt.ShapeCodec.struct[BulkOperationTableDetail](schema)
 }

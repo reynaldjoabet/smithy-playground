@@ -27,52 +27,5 @@ object ImportSummary {
     rt.MemberDef("EndTime", () => rt.Prelude.Timestamp, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ImportSummary): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ImportSummary.schema.members
-      value.importArn.foreach(x => s.writeString(ms(0), x))
-      value.importStatus.foreach(x => s.writeString(ms(1), x.value))
-      value.tableArn.foreach(x => s.writeString(ms(2), x))
-      value.s3BucketSource.foreach(x => S3BucketSource.write(s, ms(3), x))
-      value.cloudWatchLogGroupArn.foreach(x => s.writeString(ms(4), x))
-      value.inputFormat.foreach(x => s.writeString(ms(5), x.value))
-      value.startTime.foreach(x => s.writeTimestamp(ms(6), x))
-      value.endTime.foreach(x => s.writeTimestamp(ms(7), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ImportSummary = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[ImportStatus] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    var f3: scala.Option[S3BucketSource] = scala.None
-    var f4: scala.Option[java.lang.String] = scala.None
-    var f5: scala.Option[InputFormat] = scala.None
-    var f6: scala.Option[java.time.Instant] = scala.None
-    var f7: scala.Option[java.time.Instant] = scala.None
-    r.readStruct(ImportSummary.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(ImportStatus.fromValue(mr.readString(m)))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case 3 => f3 = scala.Some(S3BucketSource.read(mr, m))
-          case 4 => f4 = scala.Some(mr.readString(m))
-          case 5 => f5 = scala.Some(InputFormat.fromValue(mr.readString(m)))
-          case 6 => f6 = scala.Some(mr.readTimestamp(m))
-          case 7 => f7 = scala.Some(mr.readTimestamp(m))
-          case _ => ()
-        }
-      }
-    }
-    ImportSummary(
-      f0,
-      f1,
-      f2,
-      f3,
-      f4,
-      f5,
-      f6,
-      f7
-    )
-  }
+  given codec: rt.SchemaCodec[ImportSummary] = rt.ShapeCodec.struct[ImportSummary](schema)
 }

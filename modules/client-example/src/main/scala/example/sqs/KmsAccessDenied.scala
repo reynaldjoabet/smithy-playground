@@ -13,24 +13,5 @@ object KmsAccessDenied {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: KmsAccessDenied): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = KmsAccessDenied.schema.members
-      value.message.foreach(x => s.writeString(ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): KmsAccessDenied = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(KmsAccessDenied.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    KmsAccessDenied(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[KmsAccessDenied] = rt.ShapeCodec.struct[KmsAccessDenied](schema)
 }

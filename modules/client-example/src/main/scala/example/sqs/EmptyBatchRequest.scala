@@ -13,24 +13,5 @@ object EmptyBatchRequest {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: EmptyBatchRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = EmptyBatchRequest.schema.members
-      value.message.foreach(x => s.writeString(ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): EmptyBatchRequest = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(EmptyBatchRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    EmptyBatchRequest(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[EmptyBatchRequest] = rt.ShapeCodec.struct[EmptyBatchRequest](schema)
 }

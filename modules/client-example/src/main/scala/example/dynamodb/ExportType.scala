@@ -14,7 +14,10 @@ enum ExportType(val value: java.lang.String) derives CanEqual {
 object ExportType {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ExportType"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[ExportType] = scala.collection.immutable.List(FULL_EXPORT, INCREMENTAL_EXPORT)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[ExportType] = rt.ShapeCodec.enumValues[ExportType]
 
   def fromValue(value: java.lang.String): ExportType = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[ExportType] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

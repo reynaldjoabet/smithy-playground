@@ -12,24 +12,5 @@ object DescribeExportOutput {
     rt.MemberDef("ExportDescription", () => ExportDescription.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DescribeExportOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DescribeExportOutput.schema.members
-      value.exportDescription.foreach(x => ExportDescription.write(s, ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DescribeExportOutput = {
-    var f0: scala.Option[ExportDescription] = scala.None
-    r.readStruct(DescribeExportOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ExportDescription.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    DescribeExportOutput(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[DescribeExportOutput] = rt.ShapeCodec.struct[DescribeExportOutput](schema)
 }

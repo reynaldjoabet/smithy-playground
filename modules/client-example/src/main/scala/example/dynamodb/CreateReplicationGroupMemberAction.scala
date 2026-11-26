@@ -23,44 +23,5 @@ object CreateReplicationGroupMemberAction {
     rt.MemberDef("TableClassOverride", () => TableClass.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: CreateReplicationGroupMemberAction): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = CreateReplicationGroupMemberAction.schema.members
-      s.writeString(ms(0), value.regionName)
-      value.kmsMasterKeyId.foreach(x => s.writeString(ms(1), x))
-      value.provisionedThroughputOverride.foreach(x => ProvisionedThroughputOverride.write(s, ms(2), x))
-      value.onDemandThroughputOverride.foreach(x => OnDemandThroughputOverride.write(s, ms(3), x))
-      value.globalSecondaryIndexes.foreach(x => ReplicaGlobalSecondaryIndexList.write(s, ms(4), x))
-      value.tableClassOverride.foreach(x => s.writeString(ms(5), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): CreateReplicationGroupMemberAction = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[ProvisionedThroughputOverride] = scala.None
-    var f3: scala.Option[OnDemandThroughputOverride] = scala.None
-    var f4: scala.Option[ReplicaGlobalSecondaryIndexList] = scala.None
-    var f5: scala.Option[TableClass] = scala.None
-    r.readStruct(CreateReplicationGroupMemberAction.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(ProvisionedThroughputOverride.read(mr, m))
-          case 3 => f3 = scala.Some(OnDemandThroughputOverride.read(mr, m))
-          case 4 => f4 = scala.Some(ReplicaGlobalSecondaryIndexList.read(mr, m))
-          case 5 => f5 = scala.Some(TableClass.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    CreateReplicationGroupMemberAction(
-      f0.getOrElse(""),
-      f1,
-      f2,
-      f3,
-      f4,
-      f5
-    )
-  }
+  given codec: rt.SchemaCodec[CreateReplicationGroupMemberAction] = rt.ShapeCodec.struct[CreateReplicationGroupMemberAction](schema)
 }

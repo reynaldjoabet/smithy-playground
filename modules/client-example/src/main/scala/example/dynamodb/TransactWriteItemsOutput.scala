@@ -14,28 +14,5 @@ object TransactWriteItemsOutput {
     rt.MemberDef("ItemCollectionMetrics", () => ItemCollectionMetricsPerTable.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TransactWriteItemsOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = TransactWriteItemsOutput.schema.members
-      value.consumedCapacity.foreach(x => ConsumedCapacityMultiple.write(s, ms(0), x))
-      value.itemCollectionMetrics.foreach(x => ItemCollectionMetricsPerTable.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TransactWriteItemsOutput = {
-    var f0: scala.Option[ConsumedCapacityMultiple] = scala.None
-    var f1: scala.Option[ItemCollectionMetricsPerTable] = scala.None
-    r.readStruct(TransactWriteItemsOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ConsumedCapacityMultiple.read(mr, m))
-          case 1 => f1 = scala.Some(ItemCollectionMetricsPerTable.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    TransactWriteItemsOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[TransactWriteItemsOutput] = rt.ShapeCodec.struct[TransactWriteItemsOutput](schema)
 }

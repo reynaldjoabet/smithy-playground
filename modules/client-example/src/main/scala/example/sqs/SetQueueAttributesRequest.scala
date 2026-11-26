@@ -14,28 +14,5 @@ object SetQueueAttributesRequest {
     rt.MemberDef("Attributes", () => QueueAttributeMap.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: SetQueueAttributesRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = SetQueueAttributesRequest.schema.members
-      s.writeString(ms(0), value.queueUrl)
-      QueueAttributeMap.write(s, ms(1), value.attributes)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): SetQueueAttributesRequest = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[QueueAttributeMap] = scala.None
-    r.readStruct(SetQueueAttributesRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(QueueAttributeMap.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    SetQueueAttributesRequest(
-      f0.getOrElse(""),
-      f1.getOrElse(scala.collection.immutable.Map.empty)
-    )
-  }
+  given codec: rt.SchemaCodec[SetQueueAttributesRequest] = rt.ShapeCodec.struct[SetQueueAttributesRequest](schema)
 }

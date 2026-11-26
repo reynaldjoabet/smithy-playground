@@ -113,52 +113,6 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String) 
     case Kind.UnitK           => "scala.Unit"
   }
 
-  private def writeStmt(w: String, m: String, x: String, id: ShapeId): String = kind(id) match {
-    case Kind.Simple(method, _, _) => s"$w.write$method($m, $x)"
-    case Kind.EnumK(_)             => s"$w.writeString($m, $x.value)"
-    case Kind.IntEnumK(_)          => s"$w.writeInteger($m, $x.value)"
-    case Kind.Aggregate(n)         => s"$n.write($w, $m, $x)"
-    case Kind.UnitK                => s"$w.writeStruct($m)(_ => ())"
-  }
-
-  private def readExpr(r: String, m: String, id: ShapeId): String = kind(id) match {
-    case Kind.Simple(method, _, _) => s"$r.read$method($m)"
-    case Kind.EnumK(n)             => s"$n.fromValue($r.readString($m))"
-    case Kind.IntEnumK(n)          => s"$n.fromValue($r.readInteger($m))"
-    case Kind.Aggregate(n)         => s"$n.read($r, $m)"
-    case Kind.UnitK                => "()"
-  }
-
-  /** The value used when a required member is missing from a response (Smithy's error correction). */
-  private def zero(id: ShapeId, what: String): String = kind(id) match {
-    case Kind.Simple(method, _, _) =>
-      method match {
-        case "Boolean"    => "false"
-        case "Byte"       => "0.toByte"
-        case "Short"      => "0.toShort"
-        case "Integer"    => "0"
-        case "Long"       => "0L"
-        case "Float"      => "0f"
-        case "Double"     => "0.0"
-        case "BigInteger" => "scala.math.BigInt(0)"
-        case "BigDecimal" => "scala.math.BigDecimal(0)"
-        case "String"     => "\"\""
-        case "Blob"       => "rt.Blob.empty"
-        case "Timestamp"  => "java.time.Instant.EPOCH"
-        case _            => "rt.Document.DNull"
-      }
-    case Kind.EnumK(n)  => s"$n.UnknownValue(\"\")"
-    case Kind.IntEnumK(n) => s"$n.UnknownValue(0)"
-    case Kind.UnitK     => "()"
-    case Kind.Aggregate(n) =>
-      model.expectShape(id) match {
-        case _: ListShape  => "scala.Nil"
-        case _: MapShape   => s"$Map_.empty"
-        case _: UnionShape => s"$n.UnknownMember(\"\")"
-        case _             => s"throw new rt.SerializationException(${lit(s"Missing required member $what")})"
-      }
-  }
-
   /** A Scala literal for a `@default` value, if this generator supports it. */
   private def defaultExpr(node: Node, id: ShapeId): Option[String] =
     if (node.isNullNode) None
@@ -293,42 +247,8 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String) 
       if (params.isEmpty) s"final case class $name()$extendsClause$retry\n"
       else s"final case class $name(\n${params.mkString(",\n")}\n)$extendsClause$retry\n"
 
-    val writes = fs.map { f =>
-      val m = s"ms(${f.index})"
-      val v = s"value.${f.name}"
-      f.mode match {
-        case Mode.Optional if f.member.hasTrait(classOf[IdempotencyTokenTrait]) =>
-          "      " + writeStmt("s", m, s"$v.getOrElse(java.util.UUID.randomUUID().toString)", f.member.getTarget)
-        case Mode.Optional => s"      $v.foreach(x => ${writeStmt("s", m, "x", f.member.getTarget)})"
-        case _             => "      " + writeStmt("s", m, v, f.member.getTarget)
-      }
-    }
-    val write =
-      if (fs.isEmpty) s"  def write(w: rt.ShapeWriter, schema: rt.Schema, value: $name): scala.Unit =\n    w.writeStruct(schema)(_ => ())\n"
-      else
-        s"  def write(w: rt.ShapeWriter, schema: rt.Schema, value: $name): scala.Unit =\n" +
-          s"    w.writeStruct(schema) { s =>\n      val ms = $name.schema.members\n${writes.mkString("\n")}\n    }\n"
-
-    val read =
-      if (fs.isEmpty)
-        s"  def read(r: rt.ShapeReader, schema: rt.Schema): $name = {\n    r.readStruct($name.schema)((_, _) => ())\n    $name()\n  }\n"
-      else {
-        val vars  = fs.map(f => s"    var f${f.index}: scala.Option[${f.elemType}] = scala.None")
-        val cases = fs.map(f => s"          case ${f.index} => f${f.index} = scala.Some(${readExpr("mr", "m", f.member.getTarget)})")
-        val args = fs.map { f =>
-          f.mode match {
-            case Mode.Optional      => s"f${f.index}"
-            case Mode.Default(expr) => s"f${f.index}.getOrElse($expr)"
-            case Mode.Required      => s"f${f.index}.getOrElse(${zero(f.member.getTarget, s"${s.getId.getName}.${f.member.getMemberName}")})"
-          }
-        }
-        s"  def read(r: rt.ShapeReader, schema: rt.Schema): $name = {\n${vars.mkString("\n")}\n" +
-          s"    r.readStruct($name.schema) { (m, mr) =>\n      if (!mr.isNull) {\n        m.memberIndex match {\n" +
-          s"${cases.mkString("\n")}\n          case _ => ()\n        }\n      }\n    }\n" +
-          s"    $name(\n${args.map("      " + _).mkString(",\n")}\n    )\n  }\n"
-      }
-
-    doc(s, "") + header + s"\nobject $name {\n" + schemaVal(s, "Structure") + "\n" + write + "\n" + read + "}\n"
+    doc(s, "") + header + s"\nobject $name {\n" + schemaVal(s, "Structure") + "\n" +
+      s"  given codec: rt.SchemaCodec[$name] = rt.ShapeCodec.struct[$name](schema)\n}\n"
   }
 
   // ----------------------------------------------------------------------------------------------- unions
@@ -346,32 +266,17 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String) 
     val cases = members.zip(caseNames).map { case ((m, _), c) =>
       if (m.getTarget.equals(UnitId)) s"  case $c" else s"  case $c(value: ${scalaType(m.getTarget)})"
     }
-    val writeCases = members.zip(caseNames).map { case ((m, i), c) =>
-      if (m.getTarget.equals(UnitId)) s"        case $name.$c => s.writeStruct(ms($i))(_ => ())"
-      else s"        case $name.$c(x) => ${writeStmt("s", s"ms($i)", "x", m.getTarget)}"
-    }
-    val readCases = members.zip(caseNames).map { case ((m, i), c) =>
-      if (m.getTarget.equals(UnitId)) s"          case $i => result = scala.Some($name.$c)"
-      else s"          case $i => result = scala.Some($name.$c(${readExpr("mr", "m", m.getTarget)}))"
-    }
     doc(u, "") +
       s"enum $name derives CanEqual {\n${cases.mkString("\n")}\n\n  /** A member this client doesn't know (added to the model later). */\n" +
       s"  case UnknownMember(name: java.lang.String)\n}\n\nobject $name {\n" + schemaVal(u, "Union") + "\n" +
-      s"  def write(w: rt.ShapeWriter, schema: rt.Schema, value: $name): scala.Unit =\n" +
-      s"    w.writeStruct(schema) { s =>\n      val ms = $name.schema.members\n      value match {\n${writeCases.mkString("\n")}\n" +
-      s"        case $name.UnknownMember(n) => throw new rt.SerializationException(\"Cannot serialize unknown union member \" + n)\n" +
-      s"      }\n    }\n\n" +
-      s"  def read(r: rt.ShapeReader, schema: rt.Schema): $name = {\n" +
-      s"    var result: scala.Option[$name] = scala.None\n    var unknown = \"\"\n" +
-      s"    r.readStruct($name.schema, n => unknown = n) { (m, mr) =>\n      if (!mr.isNull) {\n        m.memberIndex match {\n" +
-      s"${readCases.mkString("\n")}\n          case _ => ()\n        }\n      }\n    }\n" +
-      s"    result.getOrElse($name.UnknownMember(unknown))\n  }\n}\n"
+      s"  given codec: rt.SchemaCodec[$name] = rt.ShapeCodec.union[$name](schema)\n}\n"
   }
 
   // ----------------------------------------------------------------------------------------------- enums
 
   private def enumeration(s: Shape, values: List[(String, String)], valueType: String, shapeType: String): String = {
-    val name = typeName(s.getId)
+    val name         = typeName(s.getId)
+    val codecFactory = if (shapeType == "IntEnum") "intEnum" else "stringEnum"
     val used = scala.collection.mutable.Set("UnknownValue", "knownValues", "fromValue", "schema", "value", "ordinal")
     val cases = values.map { (memberName, literal) =>
       var n = escape(memberName)
@@ -384,46 +289,28 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String) 
       cases.map((n, v) => s"  case $n extends $name($v)").mkString("\n") +
       s"\n\n  /** A value this client doesn't know (added to the model later). */\n  case UnknownValue(raw: $valueType) extends $name(raw)\n}\n\n" +
       s"object $name {\n  lazy val schema: rt.Schema = rt.Schema.simple(${shapeIdExpr(s.getId)}, rt.ShapeType.$shapeType)\n\n" +
-      s"  lazy val knownValues: $List_[$name] = $List_(${cases.map(_._1).mkString(", ")})\n\n" +
-      s"  def fromValue(value: $valueType): $name = knownValues.find(_.value == value).getOrElse(UnknownValue(value))\n}\n"
+      s"  /** The known values, found from the enum's Mirror at compile time. */\n" +
+      s"  lazy val knownValues: $List_[$name] = rt.ShapeCodec.enumValues[$name]\n\n" +
+      s"  def fromValue(value: $valueType): $name = knownValues.find(_.value == value).getOrElse(UnknownValue(value))\n\n" +
+      s"  given codec: rt.ShapeCodec[$name] = rt.ShapeCodec.$codecFactory(fromValue, _.value)\n}\n"
   }
 
   // ----------------------------------------------------------------------------------------------- collections
 
+  // Lists and maps need no codec of their own: the runtime's generic List and Map givens read
+  // the element schema from the member schema they're given.
+
   private def list(l: ListShape): String = {
-    val name   = typeName(l.getId)
     val target = l.getMember.getTarget
-    val sparse = l.hasTrait(classOf[SparseTrait])
-    val elem   = if (sparse) s"scala.Option[${scalaType(target)}]" else scalaType(target)
-    val writeEach =
-      if (sparse) s"value.foreach(e => e.fold(lw.writeNull(m))(x => ${writeStmt("lw", "m", "x", target)}))"
-      else s"value.foreach(x => ${writeStmt("lw", "m", "x", target)})"
-    val readEach =
-      if (sparse) s"(b.addOne(if (er.isNull) scala.None else scala.Some(${readExpr("er", "m", target)})): scala.Unit)"
-      else s"if (!er.isNull) (b.addOne(${readExpr("er", "m", target)}): scala.Unit)"
-    doc(l, "") + s"type $name = $List_[$elem]\n\nobject $name {\n" + schemaVal(l, "List") + "\n" +
-      s"  def write(w: rt.ShapeWriter, schema: rt.Schema, value: $name): scala.Unit =\n" +
-      s"    w.writeList(schema, value.size) { lw =>\n      val m = $name.schema.members(0)\n      $writeEach\n    }\n\n" +
-      s"  def read(r: rt.ShapeReader, schema: rt.Schema): $name = {\n      val m = $name.schema.members(0)\n" +
-      s"    val b = $List_.newBuilder[$elem]\n    r.readList(schema)(er => $readEach)\n    b.result()\n  }\n}\n"
+    val elem   = if (l.hasTrait(classOf[SparseTrait])) s"scala.Option[${scalaType(target)}]" else scalaType(target)
+    doc(l, "") + s"type ${typeName(l.getId)} = $List_[$elem]\n\nobject ${typeName(l.getId)} {\n" + schemaVal(l, "List") + "}\n"
   }
 
   private def map(mp: MapShape): String = {
-    val name   = typeName(mp.getId)
     val target = mp.getValue.getTarget
-    val sparse = mp.hasTrait(classOf[SparseTrait])
-    val v      = if (sparse) s"scala.Option[${scalaType(target)}]" else scalaType(target)
-    val writeEach =
-      if (sparse) s"value.foreach((k, e) => mw.writeEntry(k)(vw => e.fold(vw.writeNull(vm))(x => ${writeStmt("vw", "vm", "x", target)})))"
-      else s"value.foreach((k, x) => mw.writeEntry(k)(vw => ${writeStmt("vw", "vm", "x", target)}))"
-    val readEach =
-      if (sparse) s"(b.addOne(k -> (if (vr.isNull) scala.None else scala.Some(${readExpr("vr", "vm", target)}))): scala.Unit)"
-      else s"if (!vr.isNull) (b.addOne(k -> ${readExpr("vr", "vm", target)}): scala.Unit)"
-    doc(mp, "") + s"type $name = $Map_[java.lang.String, $v]\n\nobject $name {\n" + schemaVal(mp, "Map") + "\n" +
-      s"  def write(w: rt.ShapeWriter, schema: rt.Schema, value: $name): scala.Unit =\n" +
-      s"    w.writeMap(schema, value.size) { mw =>\n      val vm = $name.schema.members(1)\n      $writeEach\n    }\n\n" +
-      s"  def read(r: rt.ShapeReader, schema: rt.Schema): $name = {\n    val vm = $name.schema.members(1)\n" +
-      s"    val b = $Map_.newBuilder[java.lang.String, $v]\n    r.readMap(schema)((k, vr) => $readEach)\n    b.result()\n  }\n}\n"
+    val v      = if (mp.hasTrait(classOf[SparseTrait])) s"scala.Option[${scalaType(target)}]" else scalaType(target)
+    doc(mp, "") + s"type ${typeName(mp.getId)} = $Map_[java.lang.String, $v]\n\nobject ${typeName(mp.getId)} {\n" +
+      schemaVal(mp, "Map") + "}\n"
   }
 
   // ----------------------------------------------------------------------------------------------- client
@@ -453,10 +340,11 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String) 
       val method  = escape(lowerCamel(op.getId.getName))
       val signature =
         if (op.getInputShape.equals(UnitId)) s"def $method(): $out" else s"def $method(input: $in): $out"
-      (op, in, out, method, signature)
+      (op = op, in = in, out = out, method = method, signature = signature)
     }
 
-    val paginators = ops.flatMap { (op, in, out, method, _) =>
+    val paginators = ops.flatMap { o =>
+      val (op, in, out, method) = (o.op, o.in, o.out, o.method)
       pagIndex.getPaginationInfo(service, op).toScala.flatMap { info =>
         val outPath = info.getOutputTokenMemberPath.asScala.toList
         val inField = fields(model.expectShape(op.getInputShape)).find(_.member.getMemberName == info.getInputTokenMember.getMemberName)
@@ -476,27 +364,16 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String) 
       }
     }
 
-    val operationVals = ops.map { (op, in, out, _, _) =>
-      val writeIn =
-        if (op.getInputShape.equals(UnitId)) "(w, _) => w.writeStruct(rt.Prelude.Unit)(_ => ())"
-        else s"(w, in) => $in.write(w, $in.schema, in)"
-      val readOut = if (op.getOutputShape.equals(UnitId)) "_ => ()" else s"r => $out.read(r, $out.schema)"
-      val inSchema  = if (op.getInputShape.equals(UnitId)) "rt.Prelude.Unit" else s"$in.schema"
-      val outSchema = if (op.getOutputShape.equals(UnitId)) "rt.Prelude.Unit" else s"$out.schema"
-      val errors = opIndex.getErrors(service, op).asScala.toList.map { e =>
-        val n = typeName(e.getId)
-        s"        new rt.ErrorType($n.schema, r => $n.read(r, $n.schema))"
-      }
-      val auth = serviceIndex.getEffectiveAuthSchemes(service, op).keySet.asScala.toList.map(id => lit(id.toString))
-      s"    lazy val ${op.getId.getName}: rt.Operation[$in, $out] = new rt.Operation[$in, $out](\n" +
-        s"      ${shapeIdExpr(op.getId)},\n      $inSchema,\n      $writeIn,\n      $outSchema,\n      $readOut,\n" +
-        s"      new rt.TypeRegistry($List_(\n${errors.mkString(",\n")}\n      )),\n" +
-        s"      $List_(${auth.mkString(", ")})\n    )\n"
+    val operationVals = ops.map { o =>
+      val errors = opIndex.getErrors(service, o.op).asScala.toList.map(e => typeName(e.getId) + " *: ").mkString
+      val auth   = serviceIndex.getEffectiveAuthSchemes(service, o.op).keySet.asScala.toList.map(id => lit(id.toString))
+      s"    lazy val ${o.op.getId.getName}: rt.Operation[${o.in}, ${o.out}] =\n" +
+        s"      rt.Operation.of[${o.in}, ${o.out}](${shapeIdExpr(o.op.getId)}, rt.TypeRegistry.of[${errors}EmptyTuple], $List_(${auth.mkString(", ")}))\n"
     }
 
-    val impls = ops.map { (op, _, _, _, signature) =>
-      val arg = if (op.getInputShape.equals(UnitId)) "()" else "input"
-      s"    $signature = pipeline.invoke(Operations.${op.getId.getName}, $arg)"
+    val impls = ops.map { o =>
+      val arg = if (o.op.getInputShape.equals(UnitId)) "()" else "input"
+      s"    ${o.signature} = pipeline.invoke(Operations.${o.op.getId.getName}, $arg)"
     }
 
     val endpointPrefix =
@@ -506,7 +383,7 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String) 
 
     doc(service, "") +
       s"trait $clientName {\n" +
-      ops.map((op, _, _, _, signature) => doc(op, "  ") + s"  $signature\n").mkString("\n") +
+      ops.map(o => doc(o.op, "  ") + s"  ${o.signature}\n").mkString("\n") +
       (if (paginators.isEmpty) "" else "\n" + paginators.mkString("\n")) +
       s"}\n\nobject $clientName {\n" +
       s"  val service: rt.ServiceInfo = rt.ServiceInfo(\n    ${shapeIdExpr(service.getId)},\n    ${lit(sdkId)},\n" +

@@ -13,24 +13,5 @@ object InputFormatOptions {
     rt.MemberDef("Csv", () => CsvOptions.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: InputFormatOptions): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = InputFormatOptions.schema.members
-      value.csv.foreach(x => CsvOptions.write(s, ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): InputFormatOptions = {
-    var f0: scala.Option[CsvOptions] = scala.None
-    r.readStruct(InputFormatOptions.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(CsvOptions.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    InputFormatOptions(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[InputFormatOptions] = rt.ShapeCodec.struct[InputFormatOptions](schema)
 }

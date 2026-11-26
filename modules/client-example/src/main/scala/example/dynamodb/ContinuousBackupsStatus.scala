@@ -14,7 +14,10 @@ enum ContinuousBackupsStatus(val value: java.lang.String) derives CanEqual {
 object ContinuousBackupsStatus {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ContinuousBackupsStatus"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[ContinuousBackupsStatus] = scala.collection.immutable.List(ENABLED, DISABLED)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[ContinuousBackupsStatus] = rt.ShapeCodec.enumValues[ContinuousBackupsStatus]
 
   def fromValue(value: java.lang.String): ContinuousBackupsStatus = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[ContinuousBackupsStatus] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

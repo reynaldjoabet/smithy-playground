@@ -15,28 +15,5 @@ object TableClassSummary {
     rt.MemberDef("LastUpdateDateTime", () => rt.Prelude.Timestamp, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TableClassSummary): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = TableClassSummary.schema.members
-      value.tableClass.foreach(x => s.writeString(ms(0), x.value))
-      value.lastUpdateDateTime.foreach(x => s.writeTimestamp(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TableClassSummary = {
-    var f0: scala.Option[TableClass] = scala.None
-    var f1: scala.Option[java.time.Instant] = scala.None
-    r.readStruct(TableClassSummary.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(TableClass.fromValue(mr.readString(m)))
-          case 1 => f1 = scala.Some(mr.readTimestamp(m))
-          case _ => ()
-        }
-      }
-    }
-    TableClassSummary(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[TableClassSummary] = rt.ShapeCodec.struct[TableClassSummary](schema)
 }

@@ -10,17 +10,4 @@ object BatchGetRequestMap {
     rt.MemberDef("key", () => rt.Prelude.String, rt.Traits.empty),
     rt.MemberDef("value", () => KeysAndAttributes.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BatchGetRequestMap): scala.Unit =
-    w.writeMap(schema, value.size) { mw =>
-      val vm = BatchGetRequestMap.schema.members(1)
-      value.foreach((k, x) => mw.writeEntry(k)(vw => KeysAndAttributes.write(vw, vm, x)))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BatchGetRequestMap = {
-    val vm = BatchGetRequestMap.schema.members(1)
-    val b = scala.collection.immutable.Map.newBuilder[java.lang.String, KeysAndAttributes]
-    r.readMap(schema)((k, vr) => if (!vr.isNull) (b.addOne(k -> KeysAndAttributes.read(vr, vm)): scala.Unit))
-    b.result()
-  }
 }

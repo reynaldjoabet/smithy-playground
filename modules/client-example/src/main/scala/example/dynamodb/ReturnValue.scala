@@ -17,7 +17,10 @@ enum ReturnValue(val value: java.lang.String) derives CanEqual {
 object ReturnValue {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ReturnValue"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[ReturnValue] = scala.collection.immutable.List(NONE, ALL_OLD, UPDATED_OLD, ALL_NEW, UPDATED_NEW)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[ReturnValue] = rt.ShapeCodec.enumValues[ReturnValue]
 
   def fromValue(value: java.lang.String): ReturnValue = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[ReturnValue] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

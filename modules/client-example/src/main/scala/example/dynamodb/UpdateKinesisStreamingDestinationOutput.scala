@@ -18,36 +18,5 @@ object UpdateKinesisStreamingDestinationOutput {
     rt.MemberDef("UpdateKinesisStreamingConfiguration", () => UpdateKinesisStreamingConfiguration.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: UpdateKinesisStreamingDestinationOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = UpdateKinesisStreamingDestinationOutput.schema.members
-      value.tableName.foreach(x => s.writeString(ms(0), x))
-      value.streamArn.foreach(x => s.writeString(ms(1), x))
-      value.destinationStatus.foreach(x => s.writeString(ms(2), x.value))
-      value.updateKinesisStreamingConfiguration.foreach(x => UpdateKinesisStreamingConfiguration.write(s, ms(3), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): UpdateKinesisStreamingDestinationOutput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[DestinationStatus] = scala.None
-    var f3: scala.Option[UpdateKinesisStreamingConfiguration] = scala.None
-    r.readStruct(UpdateKinesisStreamingDestinationOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(DestinationStatus.fromValue(mr.readString(m)))
-          case 3 => f3 = scala.Some(UpdateKinesisStreamingConfiguration.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    UpdateKinesisStreamingDestinationOutput(
-      f0,
-      f1,
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[UpdateKinesisStreamingDestinationOutput] = rt.ShapeCodec.struct[UpdateKinesisStreamingDestinationOutput](schema)
 }

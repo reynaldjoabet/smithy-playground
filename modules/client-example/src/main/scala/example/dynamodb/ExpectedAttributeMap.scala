@@ -10,17 +10,4 @@ object ExpectedAttributeMap {
     rt.MemberDef("key", () => rt.Prelude.String, rt.Traits.empty),
     rt.MemberDef("value", () => ExpectedAttributeValue.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ExpectedAttributeMap): scala.Unit =
-    w.writeMap(schema, value.size) { mw =>
-      val vm = ExpectedAttributeMap.schema.members(1)
-      value.foreach((k, x) => mw.writeEntry(k)(vw => ExpectedAttributeValue.write(vw, vm, x)))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ExpectedAttributeMap = {
-    val vm = ExpectedAttributeMap.schema.members(1)
-    val b = scala.collection.immutable.Map.newBuilder[java.lang.String, ExpectedAttributeValue]
-    r.readMap(schema)((k, vr) => if (!vr.isNull) (b.addOne(k -> ExpectedAttributeValue.read(vr, vm)): scala.Unit))
-    b.result()
-  }
 }

@@ -12,24 +12,5 @@ object DescribeImportOutput {
     rt.MemberDef("ImportTableDescription", () => ImportTableDescription.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DescribeImportOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DescribeImportOutput.schema.members
-      ImportTableDescription.write(s, ms(0), value.importTableDescription)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DescribeImportOutput = {
-    var f0: scala.Option[ImportTableDescription] = scala.None
-    r.readStruct(DescribeImportOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ImportTableDescription.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    DescribeImportOutput(
-      f0.getOrElse(throw new rt.SerializationException("Missing required member DescribeImportOutput.ImportTableDescription"))
-    )
-  }
+  given codec: rt.SchemaCodec[DescribeImportOutput] = rt.ShapeCodec.struct[DescribeImportOutput](schema)
 }

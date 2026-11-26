@@ -17,7 +17,10 @@ enum ContributorInsightsStatus(val value: java.lang.String) derives CanEqual {
 object ContributorInsightsStatus {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ContributorInsightsStatus"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[ContributorInsightsStatus] = scala.collection.immutable.List(ENABLING, ENABLED, DISABLING, DISABLED, FAILED)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[ContributorInsightsStatus] = rt.ShapeCodec.enumValues[ContributorInsightsStatus]
 
   def fromValue(value: java.lang.String): ContributorInsightsStatus = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[ContributorInsightsStatus] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

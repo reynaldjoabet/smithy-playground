@@ -15,28 +15,5 @@ object StreamSpecification {
     rt.MemberDef("StreamViewType", () => StreamViewType.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: StreamSpecification): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = StreamSpecification.schema.members
-      s.writeBoolean(ms(0), value.streamEnabled)
-      value.streamViewType.foreach(x => s.writeString(ms(1), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): StreamSpecification = {
-    var f0: scala.Option[scala.Boolean] = scala.None
-    var f1: scala.Option[StreamViewType] = scala.None
-    r.readStruct(StreamSpecification.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readBoolean(m))
-          case 1 => f1 = scala.Some(StreamViewType.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    StreamSpecification(
-      f0.getOrElse(false),
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[StreamSpecification] = rt.ShapeCodec.struct[StreamSpecification](schema)
 }

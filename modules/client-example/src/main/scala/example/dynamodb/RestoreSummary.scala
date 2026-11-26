@@ -19,36 +19,5 @@ object RestoreSummary {
     rt.MemberDef("RestoreInProgress", () => rt.Prelude.Boolean, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: RestoreSummary): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = RestoreSummary.schema.members
-      value.sourceBackupArn.foreach(x => s.writeString(ms(0), x))
-      value.sourceTableArn.foreach(x => s.writeString(ms(1), x))
-      s.writeTimestamp(ms(2), value.restoreDateTime)
-      s.writeBoolean(ms(3), value.restoreInProgress)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): RestoreSummary = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[java.time.Instant] = scala.None
-    var f3: scala.Option[scala.Boolean] = scala.None
-    r.readStruct(RestoreSummary.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readTimestamp(m))
-          case 3 => f3 = scala.Some(mr.readBoolean(m))
-          case _ => ()
-        }
-      }
-    }
-    RestoreSummary(
-      f0,
-      f1,
-      f2.getOrElse(java.time.Instant.EPOCH),
-      f3.getOrElse(false)
-    )
-  }
+  given codec: rt.SchemaCodec[RestoreSummary] = rt.ShapeCodec.struct[RestoreSummary](schema)
 }

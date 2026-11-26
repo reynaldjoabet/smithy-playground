@@ -10,17 +10,4 @@ object AttributeUpdates {
     rt.MemberDef("key", () => rt.Prelude.String, rt.Traits.empty),
     rt.MemberDef("value", () => AttributeValueUpdate.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: AttributeUpdates): scala.Unit =
-    w.writeMap(schema, value.size) { mw =>
-      val vm = AttributeUpdates.schema.members(1)
-      value.foreach((k, x) => mw.writeEntry(k)(vw => AttributeValueUpdate.write(vw, vm, x)))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): AttributeUpdates = {
-    val vm = AttributeUpdates.schema.members(1)
-    val b = scala.collection.immutable.Map.newBuilder[java.lang.String, AttributeValueUpdate]
-    r.readMap(schema)((k, vr) => if (!vr.isNull) (b.addOne(k -> AttributeValueUpdate.read(vr, vm)): scala.Unit))
-    b.result()
-  }
 }

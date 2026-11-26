@@ -14,28 +14,5 @@ object TransactGetItemsOutput {
     rt.MemberDef("Responses", () => ItemResponseList.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TransactGetItemsOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = TransactGetItemsOutput.schema.members
-      value.consumedCapacity.foreach(x => ConsumedCapacityMultiple.write(s, ms(0), x))
-      value.responses.foreach(x => ItemResponseList.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TransactGetItemsOutput = {
-    var f0: scala.Option[ConsumedCapacityMultiple] = scala.None
-    var f1: scala.Option[ItemResponseList] = scala.None
-    r.readStruct(TransactGetItemsOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ConsumedCapacityMultiple.read(mr, m))
-          case 1 => f1 = scala.Some(ItemResponseList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    TransactGetItemsOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[TransactGetItemsOutput] = rt.ShapeCodec.struct[TransactGetItemsOutput](schema)
 }

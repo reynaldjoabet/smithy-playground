@@ -9,17 +9,4 @@ object ItemCollectionSizeEstimateRange {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "ItemCollectionSizeEstimateRange"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => rt.Prelude.Double, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ItemCollectionSizeEstimateRange): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = ItemCollectionSizeEstimateRange.schema.members(0)
-      value.foreach(x => lw.writeDouble(m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ItemCollectionSizeEstimateRange = {
-      val m = ItemCollectionSizeEstimateRange.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[scala.Double]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(er.readDouble(m)): scala.Unit))
-    b.result()
-  }
 }

@@ -14,7 +14,10 @@ enum Units(val value: java.lang.String) derives CanEqual {
 object Units {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("example.weather", "Units"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[Units] = scala.collection.immutable.List(METRIC, IMPERIAL)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[Units] = rt.ShapeCodec.enumValues[Units]
 
   def fromValue(value: java.lang.String): Units = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[Units] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

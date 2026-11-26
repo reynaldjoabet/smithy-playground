@@ -9,11 +9,5 @@ final case class DescribeLimitsInput()
 object DescribeLimitsInput {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "DescribeLimitsInput"), rt.ShapeType.Structure, rt.Traits.empty)()
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DescribeLimitsInput): scala.Unit =
-    w.writeStruct(schema)(_ => ())
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DescribeLimitsInput = {
-    r.readStruct(DescribeLimitsInput.schema)((_, _) => ())
-    DescribeLimitsInput()
-  }
+  given codec: rt.SchemaCodec[DescribeLimitsInput] = rt.ShapeCodec.struct[DescribeLimitsInput](schema)
 }

@@ -95,421 +95,74 @@ object SQSClient {
   def apply(config: rt.ClientConfig = rt.ClientConfig()): SQSClient = new Impl(new rt.ClientPipeline(service, config))
 
   object Operations {
-    lazy val AddPermission: rt.Operation[AddPermissionRequest, scala.Unit] = new rt.Operation[AddPermissionRequest, scala.Unit](
-      rt.ShapeId("com.amazonaws.sqs", "AddPermission"),
-      AddPermissionRequest.schema,
-      (w, in) => AddPermissionRequest.write(w, AddPermissionRequest.schema, in),
-      rt.Prelude.Unit,
-      _ => (),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(OverLimit.schema, r => OverLimit.read(r, OverLimit.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val AddPermission: rt.Operation[AddPermissionRequest, scala.Unit] =
+      rt.Operation.of[AddPermissionRequest, scala.Unit](rt.ShapeId("com.amazonaws.sqs", "AddPermission"), rt.TypeRegistry.of[InvalidAddress *: InvalidSecurity *: OverLimit *: QueueDoesNotExist *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val CancelMessageMoveTask: rt.Operation[CancelMessageMoveTaskRequest, CancelMessageMoveTaskResult] = new rt.Operation[CancelMessageMoveTaskRequest, CancelMessageMoveTaskResult](
-      rt.ShapeId("com.amazonaws.sqs", "CancelMessageMoveTask"),
-      CancelMessageMoveTaskRequest.schema,
-      (w, in) => CancelMessageMoveTaskRequest.write(w, CancelMessageMoveTaskRequest.schema, in),
-      CancelMessageMoveTaskResult.schema,
-      r => CancelMessageMoveTaskResult.read(r, CancelMessageMoveTaskResult.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val CancelMessageMoveTask: rt.Operation[CancelMessageMoveTaskRequest, CancelMessageMoveTaskResult] =
+      rt.Operation.of[CancelMessageMoveTaskRequest, CancelMessageMoveTaskResult](rt.ShapeId("com.amazonaws.sqs", "CancelMessageMoveTask"), rt.TypeRegistry.of[InvalidAddress *: InvalidSecurity *: RequestThrottled *: ResourceNotFoundException *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ChangeMessageVisibility: rt.Operation[ChangeMessageVisibilityRequest, scala.Unit] = new rt.Operation[ChangeMessageVisibilityRequest, scala.Unit](
-      rt.ShapeId("com.amazonaws.sqs", "ChangeMessageVisibility"),
-      ChangeMessageVisibilityRequest.schema,
-      (w, in) => ChangeMessageVisibilityRequest.write(w, ChangeMessageVisibilityRequest.schema, in),
-      rt.Prelude.Unit,
-      _ => (),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(MessageNotInflight.schema, r => MessageNotInflight.read(r, MessageNotInflight.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(ReceiptHandleIsInvalid.schema, r => ReceiptHandleIsInvalid.read(r, ReceiptHandleIsInvalid.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ChangeMessageVisibility: rt.Operation[ChangeMessageVisibilityRequest, scala.Unit] =
+      rt.Operation.of[ChangeMessageVisibilityRequest, scala.Unit](rt.ShapeId("com.amazonaws.sqs", "ChangeMessageVisibility"), rt.TypeRegistry.of[InvalidAddress *: InvalidSecurity *: MessageNotInflight *: QueueDoesNotExist *: ReceiptHandleIsInvalid *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ChangeMessageVisibilityBatch: rt.Operation[ChangeMessageVisibilityBatchRequest, ChangeMessageVisibilityBatchResult] = new rt.Operation[ChangeMessageVisibilityBatchRequest, ChangeMessageVisibilityBatchResult](
-      rt.ShapeId("com.amazonaws.sqs", "ChangeMessageVisibilityBatch"),
-      ChangeMessageVisibilityBatchRequest.schema,
-      (w, in) => ChangeMessageVisibilityBatchRequest.write(w, ChangeMessageVisibilityBatchRequest.schema, in),
-      ChangeMessageVisibilityBatchResult.schema,
-      r => ChangeMessageVisibilityBatchResult.read(r, ChangeMessageVisibilityBatchResult.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(BatchEntryIdsNotDistinct.schema, r => BatchEntryIdsNotDistinct.read(r, BatchEntryIdsNotDistinct.schema)),
-        new rt.ErrorType(EmptyBatchRequest.schema, r => EmptyBatchRequest.read(r, EmptyBatchRequest.schema)),
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidBatchEntryId.schema, r => InvalidBatchEntryId.read(r, InvalidBatchEntryId.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(TooManyEntriesInBatchRequest.schema, r => TooManyEntriesInBatchRequest.read(r, TooManyEntriesInBatchRequest.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ChangeMessageVisibilityBatch: rt.Operation[ChangeMessageVisibilityBatchRequest, ChangeMessageVisibilityBatchResult] =
+      rt.Operation.of[ChangeMessageVisibilityBatchRequest, ChangeMessageVisibilityBatchResult](rt.ShapeId("com.amazonaws.sqs", "ChangeMessageVisibilityBatch"), rt.TypeRegistry.of[BatchEntryIdsNotDistinct *: EmptyBatchRequest *: InvalidAddress *: InvalidBatchEntryId *: InvalidSecurity *: QueueDoesNotExist *: RequestThrottled *: TooManyEntriesInBatchRequest *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val CreateQueue: rt.Operation[CreateQueueRequest, CreateQueueResult] = new rt.Operation[CreateQueueRequest, CreateQueueResult](
-      rt.ShapeId("com.amazonaws.sqs", "CreateQueue"),
-      CreateQueueRequest.schema,
-      (w, in) => CreateQueueRequest.write(w, CreateQueueRequest.schema, in),
-      CreateQueueResult.schema,
-      r => CreateQueueResult.read(r, CreateQueueResult.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidAttributeName.schema, r => InvalidAttributeName.read(r, InvalidAttributeName.schema)),
-        new rt.ErrorType(InvalidAttributeValue.schema, r => InvalidAttributeValue.read(r, InvalidAttributeValue.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(QueueDeletedRecently.schema, r => QueueDeletedRecently.read(r, QueueDeletedRecently.schema)),
-        new rt.ErrorType(QueueNameExists.schema, r => QueueNameExists.read(r, QueueNameExists.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val CreateQueue: rt.Operation[CreateQueueRequest, CreateQueueResult] =
+      rt.Operation.of[CreateQueueRequest, CreateQueueResult](rt.ShapeId("com.amazonaws.sqs", "CreateQueue"), rt.TypeRegistry.of[InvalidAddress *: InvalidAttributeName *: InvalidAttributeValue *: InvalidSecurity *: QueueDeletedRecently *: QueueNameExists *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DeleteMessage: rt.Operation[DeleteMessageRequest, scala.Unit] = new rt.Operation[DeleteMessageRequest, scala.Unit](
-      rt.ShapeId("com.amazonaws.sqs", "DeleteMessage"),
-      DeleteMessageRequest.schema,
-      (w, in) => DeleteMessageRequest.write(w, DeleteMessageRequest.schema, in),
-      rt.Prelude.Unit,
-      _ => (),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidIdFormat.schema, r => InvalidIdFormat.read(r, InvalidIdFormat.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(ReceiptHandleIsInvalid.schema, r => ReceiptHandleIsInvalid.read(r, ReceiptHandleIsInvalid.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DeleteMessage: rt.Operation[DeleteMessageRequest, scala.Unit] =
+      rt.Operation.of[DeleteMessageRequest, scala.Unit](rt.ShapeId("com.amazonaws.sqs", "DeleteMessage"), rt.TypeRegistry.of[InvalidAddress *: InvalidIdFormat *: InvalidSecurity *: QueueDoesNotExist *: ReceiptHandleIsInvalid *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DeleteMessageBatch: rt.Operation[DeleteMessageBatchRequest, DeleteMessageBatchResult] = new rt.Operation[DeleteMessageBatchRequest, DeleteMessageBatchResult](
-      rt.ShapeId("com.amazonaws.sqs", "DeleteMessageBatch"),
-      DeleteMessageBatchRequest.schema,
-      (w, in) => DeleteMessageBatchRequest.write(w, DeleteMessageBatchRequest.schema, in),
-      DeleteMessageBatchResult.schema,
-      r => DeleteMessageBatchResult.read(r, DeleteMessageBatchResult.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(BatchEntryIdsNotDistinct.schema, r => BatchEntryIdsNotDistinct.read(r, BatchEntryIdsNotDistinct.schema)),
-        new rt.ErrorType(EmptyBatchRequest.schema, r => EmptyBatchRequest.read(r, EmptyBatchRequest.schema)),
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidBatchEntryId.schema, r => InvalidBatchEntryId.read(r, InvalidBatchEntryId.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(TooManyEntriesInBatchRequest.schema, r => TooManyEntriesInBatchRequest.read(r, TooManyEntriesInBatchRequest.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DeleteMessageBatch: rt.Operation[DeleteMessageBatchRequest, DeleteMessageBatchResult] =
+      rt.Operation.of[DeleteMessageBatchRequest, DeleteMessageBatchResult](rt.ShapeId("com.amazonaws.sqs", "DeleteMessageBatch"), rt.TypeRegistry.of[BatchEntryIdsNotDistinct *: EmptyBatchRequest *: InvalidAddress *: InvalidBatchEntryId *: InvalidSecurity *: QueueDoesNotExist *: RequestThrottled *: TooManyEntriesInBatchRequest *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DeleteQueue: rt.Operation[DeleteQueueRequest, scala.Unit] = new rt.Operation[DeleteQueueRequest, scala.Unit](
-      rt.ShapeId("com.amazonaws.sqs", "DeleteQueue"),
-      DeleteQueueRequest.schema,
-      (w, in) => DeleteQueueRequest.write(w, DeleteQueueRequest.schema, in),
-      rt.Prelude.Unit,
-      _ => (),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DeleteQueue: rt.Operation[DeleteQueueRequest, scala.Unit] =
+      rt.Operation.of[DeleteQueueRequest, scala.Unit](rt.ShapeId("com.amazonaws.sqs", "DeleteQueue"), rt.TypeRegistry.of[InvalidAddress *: InvalidSecurity *: QueueDoesNotExist *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val GetQueueAttributes: rt.Operation[GetQueueAttributesRequest, GetQueueAttributesResult] = new rt.Operation[GetQueueAttributesRequest, GetQueueAttributesResult](
-      rt.ShapeId("com.amazonaws.sqs", "GetQueueAttributes"),
-      GetQueueAttributesRequest.schema,
-      (w, in) => GetQueueAttributesRequest.write(w, GetQueueAttributesRequest.schema, in),
-      GetQueueAttributesResult.schema,
-      r => GetQueueAttributesResult.read(r, GetQueueAttributesResult.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidAttributeName.schema, r => InvalidAttributeName.read(r, InvalidAttributeName.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val GetQueueAttributes: rt.Operation[GetQueueAttributesRequest, GetQueueAttributesResult] =
+      rt.Operation.of[GetQueueAttributesRequest, GetQueueAttributesResult](rt.ShapeId("com.amazonaws.sqs", "GetQueueAttributes"), rt.TypeRegistry.of[InvalidAddress *: InvalidAttributeName *: InvalidSecurity *: QueueDoesNotExist *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val GetQueueUrl: rt.Operation[GetQueueUrlRequest, GetQueueUrlResult] = new rt.Operation[GetQueueUrlRequest, GetQueueUrlResult](
-      rt.ShapeId("com.amazonaws.sqs", "GetQueueUrl"),
-      GetQueueUrlRequest.schema,
-      (w, in) => GetQueueUrlRequest.write(w, GetQueueUrlRequest.schema, in),
-      GetQueueUrlResult.schema,
-      r => GetQueueUrlResult.read(r, GetQueueUrlResult.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val GetQueueUrl: rt.Operation[GetQueueUrlRequest, GetQueueUrlResult] =
+      rt.Operation.of[GetQueueUrlRequest, GetQueueUrlResult](rt.ShapeId("com.amazonaws.sqs", "GetQueueUrl"), rt.TypeRegistry.of[InvalidAddress *: InvalidSecurity *: QueueDoesNotExist *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ListDeadLetterSourceQueues: rt.Operation[ListDeadLetterSourceQueuesRequest, ListDeadLetterSourceQueuesResult] = new rt.Operation[ListDeadLetterSourceQueuesRequest, ListDeadLetterSourceQueuesResult](
-      rt.ShapeId("com.amazonaws.sqs", "ListDeadLetterSourceQueues"),
-      ListDeadLetterSourceQueuesRequest.schema,
-      (w, in) => ListDeadLetterSourceQueuesRequest.write(w, ListDeadLetterSourceQueuesRequest.schema, in),
-      ListDeadLetterSourceQueuesResult.schema,
-      r => ListDeadLetterSourceQueuesResult.read(r, ListDeadLetterSourceQueuesResult.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ListDeadLetterSourceQueues: rt.Operation[ListDeadLetterSourceQueuesRequest, ListDeadLetterSourceQueuesResult] =
+      rt.Operation.of[ListDeadLetterSourceQueuesRequest, ListDeadLetterSourceQueuesResult](rt.ShapeId("com.amazonaws.sqs", "ListDeadLetterSourceQueues"), rt.TypeRegistry.of[InvalidAddress *: InvalidSecurity *: QueueDoesNotExist *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ListMessageMoveTasks: rt.Operation[ListMessageMoveTasksRequest, ListMessageMoveTasksResult] = new rt.Operation[ListMessageMoveTasksRequest, ListMessageMoveTasksResult](
-      rt.ShapeId("com.amazonaws.sqs", "ListMessageMoveTasks"),
-      ListMessageMoveTasksRequest.schema,
-      (w, in) => ListMessageMoveTasksRequest.write(w, ListMessageMoveTasksRequest.schema, in),
-      ListMessageMoveTasksResult.schema,
-      r => ListMessageMoveTasksResult.read(r, ListMessageMoveTasksResult.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ListMessageMoveTasks: rt.Operation[ListMessageMoveTasksRequest, ListMessageMoveTasksResult] =
+      rt.Operation.of[ListMessageMoveTasksRequest, ListMessageMoveTasksResult](rt.ShapeId("com.amazonaws.sqs", "ListMessageMoveTasks"), rt.TypeRegistry.of[InvalidAddress *: InvalidSecurity *: RequestThrottled *: ResourceNotFoundException *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ListQueueTags: rt.Operation[ListQueueTagsRequest, ListQueueTagsResult] = new rt.Operation[ListQueueTagsRequest, ListQueueTagsResult](
-      rt.ShapeId("com.amazonaws.sqs", "ListQueueTags"),
-      ListQueueTagsRequest.schema,
-      (w, in) => ListQueueTagsRequest.write(w, ListQueueTagsRequest.schema, in),
-      ListQueueTagsResult.schema,
-      r => ListQueueTagsResult.read(r, ListQueueTagsResult.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ListQueueTags: rt.Operation[ListQueueTagsRequest, ListQueueTagsResult] =
+      rt.Operation.of[ListQueueTagsRequest, ListQueueTagsResult](rt.ShapeId("com.amazonaws.sqs", "ListQueueTags"), rt.TypeRegistry.of[InvalidAddress *: InvalidSecurity *: QueueDoesNotExist *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ListQueues: rt.Operation[ListQueuesRequest, ListQueuesResult] = new rt.Operation[ListQueuesRequest, ListQueuesResult](
-      rt.ShapeId("com.amazonaws.sqs", "ListQueues"),
-      ListQueuesRequest.schema,
-      (w, in) => ListQueuesRequest.write(w, ListQueuesRequest.schema, in),
-      ListQueuesResult.schema,
-      r => ListQueuesResult.read(r, ListQueuesResult.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ListQueues: rt.Operation[ListQueuesRequest, ListQueuesResult] =
+      rt.Operation.of[ListQueuesRequest, ListQueuesResult](rt.ShapeId("com.amazonaws.sqs", "ListQueues"), rt.TypeRegistry.of[InvalidAddress *: InvalidSecurity *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val PurgeQueue: rt.Operation[PurgeQueueRequest, scala.Unit] = new rt.Operation[PurgeQueueRequest, scala.Unit](
-      rt.ShapeId("com.amazonaws.sqs", "PurgeQueue"),
-      PurgeQueueRequest.schema,
-      (w, in) => PurgeQueueRequest.write(w, PurgeQueueRequest.schema, in),
-      rt.Prelude.Unit,
-      _ => (),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(PurgeQueueInProgress.schema, r => PurgeQueueInProgress.read(r, PurgeQueueInProgress.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val PurgeQueue: rt.Operation[PurgeQueueRequest, scala.Unit] =
+      rt.Operation.of[PurgeQueueRequest, scala.Unit](rt.ShapeId("com.amazonaws.sqs", "PurgeQueue"), rt.TypeRegistry.of[InvalidAddress *: InvalidSecurity *: PurgeQueueInProgress *: QueueDoesNotExist *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ReceiveMessage: rt.Operation[ReceiveMessageRequest, ReceiveMessageResult] = new rt.Operation[ReceiveMessageRequest, ReceiveMessageResult](
-      rt.ShapeId("com.amazonaws.sqs", "ReceiveMessage"),
-      ReceiveMessageRequest.schema,
-      (w, in) => ReceiveMessageRequest.write(w, ReceiveMessageRequest.schema, in),
-      ReceiveMessageResult.schema,
-      r => ReceiveMessageResult.read(r, ReceiveMessageResult.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(KmsAccessDenied.schema, r => KmsAccessDenied.read(r, KmsAccessDenied.schema)),
-        new rt.ErrorType(KmsDisabled.schema, r => KmsDisabled.read(r, KmsDisabled.schema)),
-        new rt.ErrorType(KmsInvalidKeyUsage.schema, r => KmsInvalidKeyUsage.read(r, KmsInvalidKeyUsage.schema)),
-        new rt.ErrorType(KmsInvalidState.schema, r => KmsInvalidState.read(r, KmsInvalidState.schema)),
-        new rt.ErrorType(KmsNotFound.schema, r => KmsNotFound.read(r, KmsNotFound.schema)),
-        new rt.ErrorType(KmsOptInRequired.schema, r => KmsOptInRequired.read(r, KmsOptInRequired.schema)),
-        new rt.ErrorType(KmsThrottled.schema, r => KmsThrottled.read(r, KmsThrottled.schema)),
-        new rt.ErrorType(OverLimit.schema, r => OverLimit.read(r, OverLimit.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ReceiveMessage: rt.Operation[ReceiveMessageRequest, ReceiveMessageResult] =
+      rt.Operation.of[ReceiveMessageRequest, ReceiveMessageResult](rt.ShapeId("com.amazonaws.sqs", "ReceiveMessage"), rt.TypeRegistry.of[InvalidAddress *: InvalidSecurity *: KmsAccessDenied *: KmsDisabled *: KmsInvalidKeyUsage *: KmsInvalidState *: KmsNotFound *: KmsOptInRequired *: KmsThrottled *: OverLimit *: QueueDoesNotExist *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val RemovePermission: rt.Operation[RemovePermissionRequest, scala.Unit] = new rt.Operation[RemovePermissionRequest, scala.Unit](
-      rt.ShapeId("com.amazonaws.sqs", "RemovePermission"),
-      RemovePermissionRequest.schema,
-      (w, in) => RemovePermissionRequest.write(w, RemovePermissionRequest.schema, in),
-      rt.Prelude.Unit,
-      _ => (),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val RemovePermission: rt.Operation[RemovePermissionRequest, scala.Unit] =
+      rt.Operation.of[RemovePermissionRequest, scala.Unit](rt.ShapeId("com.amazonaws.sqs", "RemovePermission"), rt.TypeRegistry.of[InvalidAddress *: InvalidSecurity *: QueueDoesNotExist *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val SendMessage: rt.Operation[SendMessageRequest, SendMessageResult] = new rt.Operation[SendMessageRequest, SendMessageResult](
-      rt.ShapeId("com.amazonaws.sqs", "SendMessage"),
-      SendMessageRequest.schema,
-      (w, in) => SendMessageRequest.write(w, SendMessageRequest.schema, in),
-      SendMessageResult.schema,
-      r => SendMessageResult.read(r, SendMessageResult.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidMessageContents.schema, r => InvalidMessageContents.read(r, InvalidMessageContents.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(KmsAccessDenied.schema, r => KmsAccessDenied.read(r, KmsAccessDenied.schema)),
-        new rt.ErrorType(KmsDisabled.schema, r => KmsDisabled.read(r, KmsDisabled.schema)),
-        new rt.ErrorType(KmsInvalidKeyUsage.schema, r => KmsInvalidKeyUsage.read(r, KmsInvalidKeyUsage.schema)),
-        new rt.ErrorType(KmsInvalidState.schema, r => KmsInvalidState.read(r, KmsInvalidState.schema)),
-        new rt.ErrorType(KmsNotFound.schema, r => KmsNotFound.read(r, KmsNotFound.schema)),
-        new rt.ErrorType(KmsOptInRequired.schema, r => KmsOptInRequired.read(r, KmsOptInRequired.schema)),
-        new rt.ErrorType(KmsThrottled.schema, r => KmsThrottled.read(r, KmsThrottled.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val SendMessage: rt.Operation[SendMessageRequest, SendMessageResult] =
+      rt.Operation.of[SendMessageRequest, SendMessageResult](rt.ShapeId("com.amazonaws.sqs", "SendMessage"), rt.TypeRegistry.of[InvalidAddress *: InvalidMessageContents *: InvalidSecurity *: KmsAccessDenied *: KmsDisabled *: KmsInvalidKeyUsage *: KmsInvalidState *: KmsNotFound *: KmsOptInRequired *: KmsThrottled *: QueueDoesNotExist *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val SendMessageBatch: rt.Operation[SendMessageBatchRequest, SendMessageBatchResult] = new rt.Operation[SendMessageBatchRequest, SendMessageBatchResult](
-      rt.ShapeId("com.amazonaws.sqs", "SendMessageBatch"),
-      SendMessageBatchRequest.schema,
-      (w, in) => SendMessageBatchRequest.write(w, SendMessageBatchRequest.schema, in),
-      SendMessageBatchResult.schema,
-      r => SendMessageBatchResult.read(r, SendMessageBatchResult.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(BatchEntryIdsNotDistinct.schema, r => BatchEntryIdsNotDistinct.read(r, BatchEntryIdsNotDistinct.schema)),
-        new rt.ErrorType(BatchRequestTooLong.schema, r => BatchRequestTooLong.read(r, BatchRequestTooLong.schema)),
-        new rt.ErrorType(EmptyBatchRequest.schema, r => EmptyBatchRequest.read(r, EmptyBatchRequest.schema)),
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidBatchEntryId.schema, r => InvalidBatchEntryId.read(r, InvalidBatchEntryId.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(KmsAccessDenied.schema, r => KmsAccessDenied.read(r, KmsAccessDenied.schema)),
-        new rt.ErrorType(KmsDisabled.schema, r => KmsDisabled.read(r, KmsDisabled.schema)),
-        new rt.ErrorType(KmsInvalidKeyUsage.schema, r => KmsInvalidKeyUsage.read(r, KmsInvalidKeyUsage.schema)),
-        new rt.ErrorType(KmsInvalidState.schema, r => KmsInvalidState.read(r, KmsInvalidState.schema)),
-        new rt.ErrorType(KmsNotFound.schema, r => KmsNotFound.read(r, KmsNotFound.schema)),
-        new rt.ErrorType(KmsOptInRequired.schema, r => KmsOptInRequired.read(r, KmsOptInRequired.schema)),
-        new rt.ErrorType(KmsThrottled.schema, r => KmsThrottled.read(r, KmsThrottled.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(TooManyEntriesInBatchRequest.schema, r => TooManyEntriesInBatchRequest.read(r, TooManyEntriesInBatchRequest.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val SendMessageBatch: rt.Operation[SendMessageBatchRequest, SendMessageBatchResult] =
+      rt.Operation.of[SendMessageBatchRequest, SendMessageBatchResult](rt.ShapeId("com.amazonaws.sqs", "SendMessageBatch"), rt.TypeRegistry.of[BatchEntryIdsNotDistinct *: BatchRequestTooLong *: EmptyBatchRequest *: InvalidAddress *: InvalidBatchEntryId *: InvalidSecurity *: KmsAccessDenied *: KmsDisabled *: KmsInvalidKeyUsage *: KmsInvalidState *: KmsNotFound *: KmsOptInRequired *: KmsThrottled *: QueueDoesNotExist *: RequestThrottled *: TooManyEntriesInBatchRequest *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val SetQueueAttributes: rt.Operation[SetQueueAttributesRequest, scala.Unit] = new rt.Operation[SetQueueAttributesRequest, scala.Unit](
-      rt.ShapeId("com.amazonaws.sqs", "SetQueueAttributes"),
-      SetQueueAttributesRequest.schema,
-      (w, in) => SetQueueAttributesRequest.write(w, SetQueueAttributesRequest.schema, in),
-      rt.Prelude.Unit,
-      _ => (),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidAttributeName.schema, r => InvalidAttributeName.read(r, InvalidAttributeName.schema)),
-        new rt.ErrorType(InvalidAttributeValue.schema, r => InvalidAttributeValue.read(r, InvalidAttributeValue.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(OverLimit.schema, r => OverLimit.read(r, OverLimit.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val SetQueueAttributes: rt.Operation[SetQueueAttributesRequest, scala.Unit] =
+      rt.Operation.of[SetQueueAttributesRequest, scala.Unit](rt.ShapeId("com.amazonaws.sqs", "SetQueueAttributes"), rt.TypeRegistry.of[InvalidAddress *: InvalidAttributeName *: InvalidAttributeValue *: InvalidSecurity *: OverLimit *: QueueDoesNotExist *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val StartMessageMoveTask: rt.Operation[StartMessageMoveTaskRequest, StartMessageMoveTaskResult] = new rt.Operation[StartMessageMoveTaskRequest, StartMessageMoveTaskResult](
-      rt.ShapeId("com.amazonaws.sqs", "StartMessageMoveTask"),
-      StartMessageMoveTaskRequest.schema,
-      (w, in) => StartMessageMoveTaskRequest.write(w, StartMessageMoveTaskRequest.schema, in),
-      StartMessageMoveTaskResult.schema,
-      r => StartMessageMoveTaskResult.read(r, StartMessageMoveTaskResult.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val StartMessageMoveTask: rt.Operation[StartMessageMoveTaskRequest, StartMessageMoveTaskResult] =
+      rt.Operation.of[StartMessageMoveTaskRequest, StartMessageMoveTaskResult](rt.ShapeId("com.amazonaws.sqs", "StartMessageMoveTask"), rt.TypeRegistry.of[InvalidAddress *: InvalidSecurity *: RequestThrottled *: ResourceNotFoundException *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val TagQueue: rt.Operation[TagQueueRequest, scala.Unit] = new rt.Operation[TagQueueRequest, scala.Unit](
-      rt.ShapeId("com.amazonaws.sqs", "TagQueue"),
-      TagQueueRequest.schema,
-      (w, in) => TagQueueRequest.write(w, TagQueueRequest.schema, in),
-      rt.Prelude.Unit,
-      _ => (),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val TagQueue: rt.Operation[TagQueueRequest, scala.Unit] =
+      rt.Operation.of[TagQueueRequest, scala.Unit](rt.ShapeId("com.amazonaws.sqs", "TagQueue"), rt.TypeRegistry.of[InvalidAddress *: InvalidSecurity *: QueueDoesNotExist *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val UntagQueue: rt.Operation[UntagQueueRequest, scala.Unit] = new rt.Operation[UntagQueueRequest, scala.Unit](
-      rt.ShapeId("com.amazonaws.sqs", "UntagQueue"),
-      UntagQueueRequest.schema,
-      (w, in) => UntagQueueRequest.write(w, UntagQueueRequest.schema, in),
-      rt.Prelude.Unit,
-      _ => (),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidAddress.schema, r => InvalidAddress.read(r, InvalidAddress.schema)),
-        new rt.ErrorType(InvalidSecurity.schema, r => InvalidSecurity.read(r, InvalidSecurity.schema)),
-        new rt.ErrorType(QueueDoesNotExist.schema, r => QueueDoesNotExist.read(r, QueueDoesNotExist.schema)),
-        new rt.ErrorType(RequestThrottled.schema, r => RequestThrottled.read(r, RequestThrottled.schema)),
-        new rt.ErrorType(UnsupportedOperation.schema, r => UnsupportedOperation.read(r, UnsupportedOperation.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val UntagQueue: rt.Operation[UntagQueueRequest, scala.Unit] =
+      rt.Operation.of[UntagQueueRequest, scala.Unit](rt.ShapeId("com.amazonaws.sqs", "UntagQueue"), rt.TypeRegistry.of[InvalidAddress *: InvalidSecurity *: QueueDoesNotExist *: RequestThrottled *: UnsupportedOperation *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
   }
 
   private final class Impl(pipeline: rt.ClientPipeline) extends SQSClient {

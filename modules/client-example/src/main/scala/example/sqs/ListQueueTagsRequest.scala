@@ -12,24 +12,5 @@ object ListQueueTagsRequest {
     rt.MemberDef("QueueUrl", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ListQueueTagsRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ListQueueTagsRequest.schema.members
-      s.writeString(ms(0), value.queueUrl)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ListQueueTagsRequest = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ListQueueTagsRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ListQueueTagsRequest(
-      f0.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[ListQueueTagsRequest] = rt.ShapeCodec.struct[ListQueueTagsRequest](schema)
 }

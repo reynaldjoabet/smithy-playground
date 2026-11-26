@@ -18,36 +18,5 @@ object AddPermissionRequest {
     rt.MemberDef("Actions", () => ActionNameList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: AddPermissionRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = AddPermissionRequest.schema.members
-      s.writeString(ms(0), value.queueUrl)
-      s.writeString(ms(1), value.label)
-      AWSAccountIdList.write(s, ms(2), value.awsAccountIds)
-      ActionNameList.write(s, ms(3), value.actions)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): AddPermissionRequest = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[AWSAccountIdList] = scala.None
-    var f3: scala.Option[ActionNameList] = scala.None
-    r.readStruct(AddPermissionRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(AWSAccountIdList.read(mr, m))
-          case 3 => f3 = scala.Some(ActionNameList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    AddPermissionRequest(
-      f0.getOrElse(""),
-      f1.getOrElse(""),
-      f2.getOrElse(scala.Nil),
-      f3.getOrElse(scala.Nil)
-    )
-  }
+  given codec: rt.SchemaCodec[AddPermissionRequest] = rt.ShapeCodec.struct[AddPermissionRequest](schema)
 }

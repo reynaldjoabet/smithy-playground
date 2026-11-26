@@ -12,24 +12,5 @@ object DeleteQueueRequest {
     rt.MemberDef("QueueUrl", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DeleteQueueRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DeleteQueueRequest.schema.members
-      s.writeString(ms(0), value.queueUrl)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DeleteQueueRequest = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(DeleteQueueRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    DeleteQueueRequest(
-      f0.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[DeleteQueueRequest] = rt.ShapeCodec.struct[DeleteQueueRequest](schema)
 }

@@ -12,24 +12,5 @@ object DescribeGlobalTableSettingsInput {
     rt.MemberDef("GlobalTableName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DescribeGlobalTableSettingsInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DescribeGlobalTableSettingsInput.schema.members
-      s.writeString(ms(0), value.globalTableName)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DescribeGlobalTableSettingsInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(DescribeGlobalTableSettingsInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    DescribeGlobalTableSettingsInput(
-      f0.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[DescribeGlobalTableSettingsInput] = rt.ShapeCodec.struct[DescribeGlobalTableSettingsInput](schema)
 }

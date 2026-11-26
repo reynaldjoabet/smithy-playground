@@ -9,17 +9,4 @@ object ActionNameList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "ActionNameList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => rt.Prelude.String, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ActionNameList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = ActionNameList.schema.members(0)
-      value.foreach(x => lw.writeString(m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ActionNameList = {
-      val m = ActionNameList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[java.lang.String]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(er.readString(m)): scala.Unit))
-    b.result()
-  }
 }

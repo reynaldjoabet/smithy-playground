@@ -15,28 +15,5 @@ object ChangeMessageVisibilityBatchResult {
     rt.MemberDef("Failed", () => BatchResultErrorEntryList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ChangeMessageVisibilityBatchResult): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ChangeMessageVisibilityBatchResult.schema.members
-      ChangeMessageVisibilityBatchResultEntryList.write(s, ms(0), value.successful)
-      BatchResultErrorEntryList.write(s, ms(1), value.failed)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ChangeMessageVisibilityBatchResult = {
-    var f0: scala.Option[ChangeMessageVisibilityBatchResultEntryList] = scala.None
-    var f1: scala.Option[BatchResultErrorEntryList] = scala.None
-    r.readStruct(ChangeMessageVisibilityBatchResult.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ChangeMessageVisibilityBatchResultEntryList.read(mr, m))
-          case 1 => f1 = scala.Some(BatchResultErrorEntryList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ChangeMessageVisibilityBatchResult(
-      f0.getOrElse(scala.Nil),
-      f1.getOrElse(scala.Nil)
-    )
-  }
+  given codec: rt.SchemaCodec[ChangeMessageVisibilityBatchResult] = rt.ShapeCodec.struct[ChangeMessageVisibilityBatchResult](schema)
 }

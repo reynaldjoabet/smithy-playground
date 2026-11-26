@@ -14,28 +14,5 @@ object ListImportsOutput {
     rt.MemberDef("NextToken", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ListImportsOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ListImportsOutput.schema.members
-      value.importSummaryList.foreach(x => ImportSummaryList.write(s, ms(0), x))
-      value.nextToken.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ListImportsOutput = {
-    var f0: scala.Option[ImportSummaryList] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ListImportsOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ImportSummaryList.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ListImportsOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ListImportsOutput] = rt.ShapeCodec.struct[ListImportsOutput](schema)
 }

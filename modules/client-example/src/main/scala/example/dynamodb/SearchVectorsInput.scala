@@ -28,56 +28,5 @@ object SearchVectorsInput {
     rt.MemberDef("TopK", () => rt.Prelude.Integer, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: SearchVectorsInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = SearchVectorsInput.schema.members
-      s.writeString(ms(0), value.tableName)
-      s.writeString(ms(1), value.indexName)
-      value.returnConsumedCapacity.foreach(x => s.writeString(ms(2), x.value))
-      value.expressionAttributeNames.foreach(x => ExpressionAttributeNameMap.write(s, ms(3), x))
-      value.expressionAttributeValues.foreach(x => ExpressionAttributeValueMap.write(s, ms(4), x))
-      value.projectionExpression.foreach(x => s.writeString(ms(5), x))
-      SearchVectorList.write(s, ms(6), value.searchVector)
-      value.searchConditionExpression.foreach(x => s.writeString(ms(7), x))
-      s.writeInteger(ms(8), value.topK)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): SearchVectorsInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[ReturnConsumedCapacity] = scala.None
-    var f3: scala.Option[ExpressionAttributeNameMap] = scala.None
-    var f4: scala.Option[ExpressionAttributeValueMap] = scala.None
-    var f5: scala.Option[java.lang.String] = scala.None
-    var f6: scala.Option[SearchVectorList] = scala.None
-    var f7: scala.Option[java.lang.String] = scala.None
-    var f8: scala.Option[scala.Int] = scala.None
-    r.readStruct(SearchVectorsInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(ReturnConsumedCapacity.fromValue(mr.readString(m)))
-          case 3 => f3 = scala.Some(ExpressionAttributeNameMap.read(mr, m))
-          case 4 => f4 = scala.Some(ExpressionAttributeValueMap.read(mr, m))
-          case 5 => f5 = scala.Some(mr.readString(m))
-          case 6 => f6 = scala.Some(SearchVectorList.read(mr, m))
-          case 7 => f7 = scala.Some(mr.readString(m))
-          case 8 => f8 = scala.Some(mr.readInteger(m))
-          case _ => ()
-        }
-      }
-    }
-    SearchVectorsInput(
-      f0.getOrElse(""),
-      f1.getOrElse(""),
-      f2,
-      f3,
-      f4,
-      f5,
-      f6.getOrElse(scala.Nil),
-      f7,
-      f8.getOrElse(0)
-    )
-  }
+  given codec: rt.SchemaCodec[SearchVectorsInput] = rt.ShapeCodec.struct[SearchVectorsInput](schema)
 }

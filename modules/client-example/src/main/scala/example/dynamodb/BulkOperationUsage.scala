@@ -23,44 +23,5 @@ object BulkOperationUsage {
     rt.MemberDef("VectorIndexes", () => VectorIndexesBulkVectorBytesMap.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BulkOperationUsage): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = BulkOperationUsage.schema.members
-      value.tableName.foreach(x => s.writeString(ms(0), x))
-      value.bulkPutBytes.foreach(x => s.writeLong(ms(1), x))
-      value.table.foreach(x => BulkOperationBytes.write(s, ms(2), x))
-      value.localSecondaryIndexes.foreach(x => SecondaryIndexesBulkBytesMap.write(s, ms(3), x))
-      value.globalSecondaryIndexes.foreach(x => SecondaryIndexesBulkBytesMap.write(s, ms(4), x))
-      value.vectorIndexes.foreach(x => VectorIndexesBulkVectorBytesMap.write(s, ms(5), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BulkOperationUsage = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[scala.Long] = scala.None
-    var f2: scala.Option[BulkOperationBytes] = scala.None
-    var f3: scala.Option[SecondaryIndexesBulkBytesMap] = scala.None
-    var f4: scala.Option[SecondaryIndexesBulkBytesMap] = scala.None
-    var f5: scala.Option[VectorIndexesBulkVectorBytesMap] = scala.None
-    r.readStruct(BulkOperationUsage.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readLong(m))
-          case 2 => f2 = scala.Some(BulkOperationBytes.read(mr, m))
-          case 3 => f3 = scala.Some(SecondaryIndexesBulkBytesMap.read(mr, m))
-          case 4 => f4 = scala.Some(SecondaryIndexesBulkBytesMap.read(mr, m))
-          case 5 => f5 = scala.Some(VectorIndexesBulkVectorBytesMap.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    BulkOperationUsage(
-      f0,
-      f1,
-      f2,
-      f3,
-      f4,
-      f5
-    )
-  }
+  given codec: rt.SchemaCodec[BulkOperationUsage] = rt.ShapeCodec.struct[BulkOperationUsage](schema)
 }

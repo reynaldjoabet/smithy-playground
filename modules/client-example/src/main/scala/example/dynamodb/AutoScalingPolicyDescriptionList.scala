@@ -9,17 +9,4 @@ object AutoScalingPolicyDescriptionList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "AutoScalingPolicyDescriptionList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => AutoScalingPolicyDescription.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: AutoScalingPolicyDescriptionList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = AutoScalingPolicyDescriptionList.schema.members(0)
-      value.foreach(x => AutoScalingPolicyDescription.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): AutoScalingPolicyDescriptionList = {
-      val m = AutoScalingPolicyDescriptionList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[AutoScalingPolicyDescription]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(AutoScalingPolicyDescription.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

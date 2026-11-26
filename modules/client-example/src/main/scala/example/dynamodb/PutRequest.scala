@@ -13,24 +13,5 @@ object PutRequest {
     rt.MemberDef("Item", () => PutItemInputAttributeMap.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: PutRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = PutRequest.schema.members
-      PutItemInputAttributeMap.write(s, ms(0), value.item)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): PutRequest = {
-    var f0: scala.Option[PutItemInputAttributeMap] = scala.None
-    r.readStruct(PutRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(PutItemInputAttributeMap.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    PutRequest(
-      f0.getOrElse(scala.collection.immutable.Map.empty)
-    )
-  }
+  given codec: rt.SchemaCodec[PutRequest] = rt.ShapeCodec.struct[PutRequest](schema)
 }

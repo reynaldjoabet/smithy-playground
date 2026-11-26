@@ -9,17 +9,4 @@ object Days {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("example.weather", "Days"), rt.ShapeType.List, rt.Traits("smithy.api#sparse" -> ""))(
     rt.MemberDef("member", () => Day.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: Days): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = Days.schema.members(0)
-      value.foreach(e => e.fold(lw.writeNull(m))(x => Day.write(lw, m, x)))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): Days = {
-      val m = Days.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[scala.Option[Day]]
-    r.readList(schema)(er => (b.addOne(if (er.isNull) scala.None else scala.Some(Day.read(er, m))): scala.Unit))
-    b.result()
-  }
 }

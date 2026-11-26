@@ -15,28 +15,5 @@ object DeleteMessageBatchRequestEntry {
     rt.MemberDef("ReceiptHandle", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DeleteMessageBatchRequestEntry): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DeleteMessageBatchRequestEntry.schema.members
-      s.writeString(ms(0), value.id)
-      s.writeString(ms(1), value.receiptHandle)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DeleteMessageBatchRequestEntry = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(DeleteMessageBatchRequestEntry.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    DeleteMessageBatchRequestEntry(
-      f0.getOrElse(""),
-      f1.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[DeleteMessageBatchRequestEntry] = rt.ShapeCodec.struct[DeleteMessageBatchRequestEntry](schema)
 }

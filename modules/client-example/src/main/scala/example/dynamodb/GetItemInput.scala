@@ -25,48 +25,5 @@ object GetItemInput {
     rt.MemberDef("ExpressionAttributeNames", () => ExpressionAttributeNameMap.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: GetItemInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = GetItemInput.schema.members
-      s.writeString(ms(0), value.tableName)
-      Key.write(s, ms(1), value.key)
-      value.attributesToGet.foreach(x => AttributeNameList.write(s, ms(2), x))
-      value.consistentRead.foreach(x => s.writeBoolean(ms(3), x))
-      value.returnConsumedCapacity.foreach(x => s.writeString(ms(4), x.value))
-      value.projectionExpression.foreach(x => s.writeString(ms(5), x))
-      value.expressionAttributeNames.foreach(x => ExpressionAttributeNameMap.write(s, ms(6), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): GetItemInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[Key] = scala.None
-    var f2: scala.Option[AttributeNameList] = scala.None
-    var f3: scala.Option[scala.Boolean] = scala.None
-    var f4: scala.Option[ReturnConsumedCapacity] = scala.None
-    var f5: scala.Option[java.lang.String] = scala.None
-    var f6: scala.Option[ExpressionAttributeNameMap] = scala.None
-    r.readStruct(GetItemInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(Key.read(mr, m))
-          case 2 => f2 = scala.Some(AttributeNameList.read(mr, m))
-          case 3 => f3 = scala.Some(mr.readBoolean(m))
-          case 4 => f4 = scala.Some(ReturnConsumedCapacity.fromValue(mr.readString(m)))
-          case 5 => f5 = scala.Some(mr.readString(m))
-          case 6 => f6 = scala.Some(ExpressionAttributeNameMap.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    GetItemInput(
-      f0.getOrElse(""),
-      f1.getOrElse(scala.collection.immutable.Map.empty),
-      f2,
-      f3,
-      f4,
-      f5,
-      f6
-    )
-  }
+  given codec: rt.SchemaCodec[GetItemInput] = rt.ShapeCodec.struct[GetItemInput](schema)
 }

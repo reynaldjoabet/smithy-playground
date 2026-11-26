@@ -19,36 +19,5 @@ object ExpectedAttributeValue {
     rt.MemberDef("AttributeValueList", () => AttributeValueList.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ExpectedAttributeValue): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ExpectedAttributeValue.schema.members
-      value.value.foreach(x => AttributeValue.write(s, ms(0), x))
-      value.exists.foreach(x => s.writeBoolean(ms(1), x))
-      value.comparisonOperator.foreach(x => s.writeString(ms(2), x.value))
-      value.attributeValueList.foreach(x => AttributeValueList.write(s, ms(3), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ExpectedAttributeValue = {
-    var f0: scala.Option[AttributeValue] = scala.None
-    var f1: scala.Option[scala.Boolean] = scala.None
-    var f2: scala.Option[ComparisonOperator] = scala.None
-    var f3: scala.Option[AttributeValueList] = scala.None
-    r.readStruct(ExpectedAttributeValue.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(AttributeValue.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readBoolean(m))
-          case 2 => f2 = scala.Some(ComparisonOperator.fromValue(mr.readString(m)))
-          case 3 => f3 = scala.Some(AttributeValueList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ExpectedAttributeValue(
-      f0,
-      f1,
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[ExpectedAttributeValue] = rt.ShapeCodec.struct[ExpectedAttributeValue](schema)
 }

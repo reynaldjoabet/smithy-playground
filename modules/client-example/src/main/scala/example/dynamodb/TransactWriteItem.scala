@@ -19,36 +19,5 @@ object TransactWriteItem {
     rt.MemberDef("Update", () => Update.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TransactWriteItem): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = TransactWriteItem.schema.members
-      value.conditionCheck.foreach(x => ConditionCheck.write(s, ms(0), x))
-      value.put.foreach(x => Put.write(s, ms(1), x))
-      value.delete.foreach(x => Delete.write(s, ms(2), x))
-      value.update.foreach(x => Update.write(s, ms(3), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TransactWriteItem = {
-    var f0: scala.Option[ConditionCheck] = scala.None
-    var f1: scala.Option[Put] = scala.None
-    var f2: scala.Option[Delete] = scala.None
-    var f3: scala.Option[Update] = scala.None
-    r.readStruct(TransactWriteItem.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ConditionCheck.read(mr, m))
-          case 1 => f1 = scala.Some(Put.read(mr, m))
-          case 2 => f2 = scala.Some(Delete.read(mr, m))
-          case 3 => f3 = scala.Some(Update.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    TransactWriteItem(
-      f0,
-      f1,
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[TransactWriteItem] = rt.ShapeCodec.struct[TransactWriteItem](schema)
 }

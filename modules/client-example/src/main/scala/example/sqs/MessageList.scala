@@ -9,17 +9,4 @@ object MessageList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "MessageList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => Message.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: MessageList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = MessageList.schema.members(0)
-      value.foreach(x => Message.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): MessageList = {
-      val m = MessageList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[Message]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(Message.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

@@ -9,17 +9,4 @@ object VectorIndexUpdateList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "VectorIndexUpdateList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => VectorIndexUpdate.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: VectorIndexUpdateList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = VectorIndexUpdateList.schema.members(0)
-      value.foreach(x => VectorIndexUpdate.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): VectorIndexUpdateList = {
-      val m = VectorIndexUpdateList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[VectorIndexUpdate]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(VectorIndexUpdate.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

@@ -13,24 +13,5 @@ object DeleteReplicaAction {
     rt.MemberDef("RegionName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DeleteReplicaAction): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DeleteReplicaAction.schema.members
-      s.writeString(ms(0), value.regionName)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DeleteReplicaAction = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(DeleteReplicaAction.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    DeleteReplicaAction(
-      f0.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[DeleteReplicaAction] = rt.ShapeCodec.struct[DeleteReplicaAction](schema)
 }

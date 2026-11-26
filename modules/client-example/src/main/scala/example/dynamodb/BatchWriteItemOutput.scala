@@ -17,32 +17,5 @@ object BatchWriteItemOutput {
     rt.MemberDef("ConsumedCapacity", () => ConsumedCapacityMultiple.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BatchWriteItemOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = BatchWriteItemOutput.schema.members
-      value.unprocessedItems.foreach(x => BatchWriteItemRequestMap.write(s, ms(0), x))
-      value.itemCollectionMetrics.foreach(x => ItemCollectionMetricsPerTable.write(s, ms(1), x))
-      value.consumedCapacity.foreach(x => ConsumedCapacityMultiple.write(s, ms(2), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BatchWriteItemOutput = {
-    var f0: scala.Option[BatchWriteItemRequestMap] = scala.None
-    var f1: scala.Option[ItemCollectionMetricsPerTable] = scala.None
-    var f2: scala.Option[ConsumedCapacityMultiple] = scala.None
-    r.readStruct(BatchWriteItemOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(BatchWriteItemRequestMap.read(mr, m))
-          case 1 => f1 = scala.Some(ItemCollectionMetricsPerTable.read(mr, m))
-          case 2 => f2 = scala.Some(ConsumedCapacityMultiple.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    BatchWriteItemOutput(
-      f0,
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[BatchWriteItemOutput] = rt.ShapeCodec.struct[BatchWriteItemOutput](schema)
 }

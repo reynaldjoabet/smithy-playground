@@ -17,7 +17,10 @@ enum SSEStatus(val value: java.lang.String) derives CanEqual {
 object SSEStatus {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "SSEStatus"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[SSEStatus] = scala.collection.immutable.List(ENABLING, ENABLED, DISABLING, DISABLED, UPDATING)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[SSEStatus] = rt.ShapeCodec.enumValues[SSEStatus]
 
   def fromValue(value: java.lang.String): SSEStatus = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[SSEStatus] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

@@ -9,17 +9,4 @@ object Endpoints {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "Endpoints"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => Endpoint.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: Endpoints): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = Endpoints.schema.members(0)
-      value.foreach(x => Endpoint.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): Endpoints = {
-      val m = Endpoints.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[Endpoint]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(Endpoint.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

@@ -15,7 +15,10 @@ enum GlobalTableSettingsReplicationMode(val value: java.lang.String) derives Can
 object GlobalTableSettingsReplicationMode {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "GlobalTableSettingsReplicationMode"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[GlobalTableSettingsReplicationMode] = scala.collection.immutable.List(ENABLED, DISABLED, ENABLED_WITH_OVERRIDES)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[GlobalTableSettingsReplicationMode] = rt.ShapeCodec.enumValues[GlobalTableSettingsReplicationMode]
 
   def fromValue(value: java.lang.String): GlobalTableSettingsReplicationMode = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[GlobalTableSettingsReplicationMode] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

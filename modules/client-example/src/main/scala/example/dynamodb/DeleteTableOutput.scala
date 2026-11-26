@@ -13,24 +13,5 @@ object DeleteTableOutput {
     rt.MemberDef("TableDescription", () => TableDescription.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DeleteTableOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DeleteTableOutput.schema.members
-      value.tableDescription.foreach(x => TableDescription.write(s, ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DeleteTableOutput = {
-    var f0: scala.Option[TableDescription] = scala.None
-    r.readStruct(DeleteTableOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(TableDescription.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    DeleteTableOutput(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[DeleteTableOutput] = rt.ShapeCodec.struct[DeleteTableOutput](schema)
 }

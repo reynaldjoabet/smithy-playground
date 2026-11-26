@@ -13,24 +13,5 @@ object BackupInUseException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BackupInUseException): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = BackupInUseException.schema.members
-      value.message.foreach(x => s.writeString(ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BackupInUseException = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(BackupInUseException.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    BackupInUseException(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[BackupInUseException] = rt.ShapeCodec.struct[BackupInUseException](schema)
 }

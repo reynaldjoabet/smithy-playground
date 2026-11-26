@@ -22,44 +22,5 @@ object StartBulkPutItemsInput {
     rt.MemberDef("PerformanceTier", () => BulkOperationPerformanceTier.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: StartBulkPutItemsInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = StartBulkPutItemsInput.schema.members
-      s.writeString(ms(0), value.clientToken.getOrElse(java.util.UUID.randomUUID().toString))
-      InputS3Configuration.write(s, ms(1), value.inputS3Configuration)
-      OutputS3Configuration.write(s, ms(2), value.outputS3Configuration)
-      s.writeString(ms(3), value.tableName)
-      value.maxWriteRequestUnits.foreach(x => s.writeLong(ms(4), x))
-      value.performanceTier.foreach(x => s.writeString(ms(5), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): StartBulkPutItemsInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[InputS3Configuration] = scala.None
-    var f2: scala.Option[OutputS3Configuration] = scala.None
-    var f3: scala.Option[java.lang.String] = scala.None
-    var f4: scala.Option[scala.Long] = scala.None
-    var f5: scala.Option[BulkOperationPerformanceTier] = scala.None
-    r.readStruct(StartBulkPutItemsInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(InputS3Configuration.read(mr, m))
-          case 2 => f2 = scala.Some(OutputS3Configuration.read(mr, m))
-          case 3 => f3 = scala.Some(mr.readString(m))
-          case 4 => f4 = scala.Some(mr.readLong(m))
-          case 5 => f5 = scala.Some(BulkOperationPerformanceTier.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    StartBulkPutItemsInput(
-      f0,
-      f1.getOrElse(throw new rt.SerializationException("Missing required member StartBulkPutItemsInput.InputS3Configuration")),
-      f2.getOrElse(throw new rt.SerializationException("Missing required member StartBulkPutItemsInput.OutputS3Configuration")),
-      f3.getOrElse(""),
-      f4,
-      f5
-    )
-  }
+  given codec: rt.SchemaCodec[StartBulkPutItemsInput] = rt.ShapeCodec.struct[StartBulkPutItemsInput](schema)
 }

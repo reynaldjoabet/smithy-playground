@@ -14,7 +14,10 @@ enum SearchSchemaElementType(val value: java.lang.String) derives CanEqual {
 object SearchSchemaElementType {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "SearchSchemaElementType"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[SearchSchemaElementType] = scala.collection.immutable.List(HASH, INLINE_FILTER)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[SearchSchemaElementType] = rt.ShapeCodec.enumValues[SearchSchemaElementType]
 
   def fromValue(value: java.lang.String): SearchSchemaElementType = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[SearchSchemaElementType] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

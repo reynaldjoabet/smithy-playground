@@ -14,28 +14,5 @@ object UntagResourceInput {
     rt.MemberDef("TagKeys", () => TagKeyList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: UntagResourceInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = UntagResourceInput.schema.members
-      s.writeString(ms(0), value.resourceArn)
-      TagKeyList.write(s, ms(1), value.tagKeys)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): UntagResourceInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[TagKeyList] = scala.None
-    r.readStruct(UntagResourceInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(TagKeyList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    UntagResourceInput(
-      f0.getOrElse(""),
-      f1.getOrElse(scala.Nil)
-    )
-  }
+  given codec: rt.SchemaCodec[UntagResourceInput] = rt.ShapeCodec.struct[UntagResourceInput](schema)
 }

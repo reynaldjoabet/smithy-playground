@@ -9,17 +9,4 @@ object BackupSummaries {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "BackupSummaries"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => BackupSummary.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BackupSummaries): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = BackupSummaries.schema.members(0)
-      value.foreach(x => BackupSummary.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BackupSummaries = {
-      val m = BackupSummaries.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[BackupSummary]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(BackupSummary.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

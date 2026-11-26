@@ -29,56 +29,5 @@ object ListMessageMoveTasksResultEntry {
     rt.MemberDef("StartedTimestamp", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ListMessageMoveTasksResultEntry): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ListMessageMoveTasksResultEntry.schema.members
-      value.taskHandle.foreach(x => s.writeString(ms(0), x))
-      value.status.foreach(x => s.writeString(ms(1), x))
-      value.sourceArn.foreach(x => s.writeString(ms(2), x))
-      value.destinationArn.foreach(x => s.writeString(ms(3), x))
-      value.maxNumberOfMessagesPerSecond.foreach(x => s.writeInteger(ms(4), x))
-      s.writeLong(ms(5), value.approximateNumberOfMessagesMoved)
-      value.approximateNumberOfMessagesToMove.foreach(x => s.writeLong(ms(6), x))
-      value.failureReason.foreach(x => s.writeString(ms(7), x))
-      s.writeLong(ms(8), value.startedTimestamp)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ListMessageMoveTasksResultEntry = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    var f3: scala.Option[java.lang.String] = scala.None
-    var f4: scala.Option[scala.Int] = scala.None
-    var f5: scala.Option[scala.Long] = scala.None
-    var f6: scala.Option[scala.Long] = scala.None
-    var f7: scala.Option[java.lang.String] = scala.None
-    var f8: scala.Option[scala.Long] = scala.None
-    r.readStruct(ListMessageMoveTasksResultEntry.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case 3 => f3 = scala.Some(mr.readString(m))
-          case 4 => f4 = scala.Some(mr.readInteger(m))
-          case 5 => f5 = scala.Some(mr.readLong(m))
-          case 6 => f6 = scala.Some(mr.readLong(m))
-          case 7 => f7 = scala.Some(mr.readString(m))
-          case 8 => f8 = scala.Some(mr.readLong(m))
-          case _ => ()
-        }
-      }
-    }
-    ListMessageMoveTasksResultEntry(
-      f0,
-      f1,
-      f2,
-      f3,
-      f4,
-      f5.getOrElse(0L),
-      f6,
-      f7,
-      f8.getOrElse(0L)
-    )
-  }
+  given codec: rt.SchemaCodec[ListMessageMoveTasksResultEntry] = rt.ShapeCodec.struct[ListMessageMoveTasksResultEntry](schema)
 }

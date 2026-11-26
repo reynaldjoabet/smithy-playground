@@ -18,36 +18,5 @@ object TransactWriteItemsInput {
     rt.MemberDef("ClientRequestToken", () => rt.Prelude.String, rt.Traits("smithy.api#idempotencyToken" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TransactWriteItemsInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = TransactWriteItemsInput.schema.members
-      TransactWriteItemList.write(s, ms(0), value.transactItems)
-      value.returnConsumedCapacity.foreach(x => s.writeString(ms(1), x.value))
-      value.returnItemCollectionMetrics.foreach(x => s.writeString(ms(2), x.value))
-      s.writeString(ms(3), value.clientRequestToken.getOrElse(java.util.UUID.randomUUID().toString))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TransactWriteItemsInput = {
-    var f0: scala.Option[TransactWriteItemList] = scala.None
-    var f1: scala.Option[ReturnConsumedCapacity] = scala.None
-    var f2: scala.Option[ReturnItemCollectionMetrics] = scala.None
-    var f3: scala.Option[java.lang.String] = scala.None
-    r.readStruct(TransactWriteItemsInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(TransactWriteItemList.read(mr, m))
-          case 1 => f1 = scala.Some(ReturnConsumedCapacity.fromValue(mr.readString(m)))
-          case 2 => f2 = scala.Some(ReturnItemCollectionMetrics.fromValue(mr.readString(m)))
-          case 3 => f3 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    TransactWriteItemsInput(
-      f0.getOrElse(scala.Nil),
-      f1,
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[TransactWriteItemsInput] = rt.ShapeCodec.struct[TransactWriteItemsInput](schema)
 }

@@ -16,7 +16,10 @@ enum ReturnConsumedCapacity(val value: java.lang.String) derives CanEqual {
 object ReturnConsumedCapacity {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ReturnConsumedCapacity"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[ReturnConsumedCapacity] = scala.collection.immutable.List(INDEXES, TOTAL, NONE)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[ReturnConsumedCapacity] = rt.ShapeCodec.enumValues[ReturnConsumedCapacity]
 
   def fromValue(value: java.lang.String): ReturnConsumedCapacity = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[ReturnConsumedCapacity] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

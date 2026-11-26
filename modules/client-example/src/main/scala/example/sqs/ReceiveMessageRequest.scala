@@ -27,52 +27,5 @@ object ReceiveMessageRequest {
     rt.MemberDef("ReceiveRequestAttemptId", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ReceiveMessageRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ReceiveMessageRequest.schema.members
-      s.writeString(ms(0), value.queueUrl)
-      value.attributeNames.foreach(x => AttributeNameList.write(s, ms(1), x))
-      value.messageSystemAttributeNames.foreach(x => MessageSystemAttributeList.write(s, ms(2), x))
-      value.messageAttributeNames.foreach(x => MessageAttributeNameList.write(s, ms(3), x))
-      value.maxNumberOfMessages.foreach(x => s.writeInteger(ms(4), x))
-      value.visibilityTimeout.foreach(x => s.writeInteger(ms(5), x))
-      value.waitTimeSeconds.foreach(x => s.writeInteger(ms(6), x))
-      value.receiveRequestAttemptId.foreach(x => s.writeString(ms(7), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ReceiveMessageRequest = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[AttributeNameList] = scala.None
-    var f2: scala.Option[MessageSystemAttributeList] = scala.None
-    var f3: scala.Option[MessageAttributeNameList] = scala.None
-    var f4: scala.Option[scala.Int] = scala.None
-    var f5: scala.Option[scala.Int] = scala.None
-    var f6: scala.Option[scala.Int] = scala.None
-    var f7: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ReceiveMessageRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(AttributeNameList.read(mr, m))
-          case 2 => f2 = scala.Some(MessageSystemAttributeList.read(mr, m))
-          case 3 => f3 = scala.Some(MessageAttributeNameList.read(mr, m))
-          case 4 => f4 = scala.Some(mr.readInteger(m))
-          case 5 => f5 = scala.Some(mr.readInteger(m))
-          case 6 => f6 = scala.Some(mr.readInteger(m))
-          case 7 => f7 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ReceiveMessageRequest(
-      f0.getOrElse(""),
-      f1,
-      f2,
-      f3,
-      f4,
-      f5,
-      f6,
-      f7
-    )
-  }
+  given codec: rt.SchemaCodec[ReceiveMessageRequest] = rt.ShapeCodec.struct[ReceiveMessageRequest](schema)
 }

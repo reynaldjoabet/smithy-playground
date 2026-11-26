@@ -12,24 +12,5 @@ object DeleteBackupInput {
     rt.MemberDef("BackupArn", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DeleteBackupInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DeleteBackupInput.schema.members
-      s.writeString(ms(0), value.backupArn)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DeleteBackupInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(DeleteBackupInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    DeleteBackupInput(
-      f0.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[DeleteBackupInput] = rt.ShapeCodec.struct[DeleteBackupInput](schema)
 }

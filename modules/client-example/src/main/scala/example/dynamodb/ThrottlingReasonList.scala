@@ -9,17 +9,4 @@ object ThrottlingReasonList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "ThrottlingReasonList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => ThrottlingReason.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ThrottlingReasonList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = ThrottlingReasonList.schema.members(0)
-      value.foreach(x => ThrottlingReason.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ThrottlingReasonList = {
-      val m = ThrottlingReasonList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[ThrottlingReason]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(ThrottlingReason.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

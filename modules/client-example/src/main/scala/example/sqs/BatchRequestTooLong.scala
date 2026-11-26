@@ -13,24 +13,5 @@ object BatchRequestTooLong {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BatchRequestTooLong): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = BatchRequestTooLong.schema.members
-      value.message.foreach(x => s.writeString(ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BatchRequestTooLong = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(BatchRequestTooLong.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    BatchRequestTooLong(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[BatchRequestTooLong] = rt.ShapeCodec.struct[BatchRequestTooLong](schema)
 }

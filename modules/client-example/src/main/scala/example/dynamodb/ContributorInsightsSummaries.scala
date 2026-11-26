@@ -9,17 +9,4 @@ object ContributorInsightsSummaries {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "ContributorInsightsSummaries"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => ContributorInsightsSummary.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ContributorInsightsSummaries): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = ContributorInsightsSummaries.schema.members(0)
-      value.foreach(x => ContributorInsightsSummary.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ContributorInsightsSummaries = {
-      val m = ContributorInsightsSummaries.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[ContributorInsightsSummary]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(ContributorInsightsSummary.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

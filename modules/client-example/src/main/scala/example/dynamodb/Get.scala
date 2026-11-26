@@ -19,36 +19,5 @@ object Get {
     rt.MemberDef("ExpressionAttributeNames", () => ExpressionAttributeNameMap.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: Get): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = Get.schema.members
-      Key.write(s, ms(0), value.key)
-      s.writeString(ms(1), value.tableName)
-      value.projectionExpression.foreach(x => s.writeString(ms(2), x))
-      value.expressionAttributeNames.foreach(x => ExpressionAttributeNameMap.write(s, ms(3), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): Get = {
-    var f0: scala.Option[Key] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    var f3: scala.Option[ExpressionAttributeNameMap] = scala.None
-    r.readStruct(Get.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(Key.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case 3 => f3 = scala.Some(ExpressionAttributeNameMap.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    Get(
-      f0.getOrElse(scala.collection.immutable.Map.empty),
-      f1.getOrElse(""),
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[Get] = rt.ShapeCodec.struct[Get](schema)
 }

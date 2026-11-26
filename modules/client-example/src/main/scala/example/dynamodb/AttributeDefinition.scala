@@ -15,28 +15,5 @@ object AttributeDefinition {
     rt.MemberDef("AttributeType", () => ScalarAttributeType.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: AttributeDefinition): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = AttributeDefinition.schema.members
-      s.writeString(ms(0), value.attributeName)
-      s.writeString(ms(1), value.attributeType.value)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): AttributeDefinition = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[ScalarAttributeType] = scala.None
-    r.readStruct(AttributeDefinition.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(ScalarAttributeType.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    AttributeDefinition(
-      f0.getOrElse(""),
-      f1.getOrElse(ScalarAttributeType.UnknownValue(""))
-    )
-  }
+  given codec: rt.SchemaCodec[AttributeDefinition] = rt.ShapeCodec.struct[AttributeDefinition](schema)
 }

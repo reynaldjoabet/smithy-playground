@@ -9,17 +9,4 @@ object GlobalTableWitnessDescriptionList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "GlobalTableWitnessDescriptionList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => GlobalTableWitnessDescription.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: GlobalTableWitnessDescriptionList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = GlobalTableWitnessDescriptionList.schema.members(0)
-      value.foreach(x => GlobalTableWitnessDescription.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): GlobalTableWitnessDescriptionList = {
-      val m = GlobalTableWitnessDescriptionList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[GlobalTableWitnessDescription]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(GlobalTableWitnessDescription.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

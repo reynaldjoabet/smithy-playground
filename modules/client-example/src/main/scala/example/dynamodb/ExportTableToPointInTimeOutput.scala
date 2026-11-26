@@ -12,24 +12,5 @@ object ExportTableToPointInTimeOutput {
     rt.MemberDef("ExportDescription", () => ExportDescription.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ExportTableToPointInTimeOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ExportTableToPointInTimeOutput.schema.members
-      value.exportDescription.foreach(x => ExportDescription.write(s, ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ExportTableToPointInTimeOutput = {
-    var f0: scala.Option[ExportDescription] = scala.None
-    r.readStruct(ExportTableToPointInTimeOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ExportDescription.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ExportTableToPointInTimeOutput(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[ExportTableToPointInTimeOutput] = rt.ShapeCodec.struct[ExportTableToPointInTimeOutput](schema)
 }

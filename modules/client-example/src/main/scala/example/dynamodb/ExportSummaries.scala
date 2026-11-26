@@ -9,17 +9,4 @@ object ExportSummaries {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "ExportSummaries"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => ExportSummary.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ExportSummaries): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = ExportSummaries.schema.members(0)
-      value.foreach(x => ExportSummary.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ExportSummaries = {
-      val m = ExportSummaries.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[ExportSummary]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(ExportSummary.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

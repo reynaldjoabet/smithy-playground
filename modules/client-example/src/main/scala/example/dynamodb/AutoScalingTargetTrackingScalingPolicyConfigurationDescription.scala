@@ -19,36 +19,5 @@ object AutoScalingTargetTrackingScalingPolicyConfigurationDescription {
     rt.MemberDef("TargetValue", () => rt.Prelude.Double, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: AutoScalingTargetTrackingScalingPolicyConfigurationDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = AutoScalingTargetTrackingScalingPolicyConfigurationDescription.schema.members
-      value.disableScaleIn.foreach(x => s.writeBoolean(ms(0), x))
-      value.scaleInCooldown.foreach(x => s.writeInteger(ms(1), x))
-      value.scaleOutCooldown.foreach(x => s.writeInteger(ms(2), x))
-      s.writeDouble(ms(3), value.targetValue)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): AutoScalingTargetTrackingScalingPolicyConfigurationDescription = {
-    var f0: scala.Option[scala.Boolean] = scala.None
-    var f1: scala.Option[scala.Int] = scala.None
-    var f2: scala.Option[scala.Int] = scala.None
-    var f3: scala.Option[scala.Double] = scala.None
-    r.readStruct(AutoScalingTargetTrackingScalingPolicyConfigurationDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readBoolean(m))
-          case 1 => f1 = scala.Some(mr.readInteger(m))
-          case 2 => f2 = scala.Some(mr.readInteger(m))
-          case 3 => f3 = scala.Some(mr.readDouble(m))
-          case _ => ()
-        }
-      }
-    }
-    AutoScalingTargetTrackingScalingPolicyConfigurationDescription(
-      f0,
-      f1,
-      f2,
-      f3.getOrElse(0.0)
-    )
-  }
+  given codec: rt.SchemaCodec[AutoScalingTargetTrackingScalingPolicyConfigurationDescription] = rt.ShapeCodec.struct[AutoScalingTargetTrackingScalingPolicyConfigurationDescription](schema)
 }

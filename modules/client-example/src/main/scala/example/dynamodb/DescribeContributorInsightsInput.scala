@@ -14,28 +14,5 @@ object DescribeContributorInsightsInput {
     rt.MemberDef("IndexName", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DescribeContributorInsightsInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DescribeContributorInsightsInput.schema.members
-      s.writeString(ms(0), value.tableName)
-      value.indexName.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DescribeContributorInsightsInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(DescribeContributorInsightsInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    DescribeContributorInsightsInput(
-      f0.getOrElse(""),
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[DescribeContributorInsightsInput] = rt.ShapeCodec.struct[DescribeContributorInsightsInput](schema)
 }

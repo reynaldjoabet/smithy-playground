@@ -13,24 +13,5 @@ object CreateReplicaAction {
     rt.MemberDef("RegionName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: CreateReplicaAction): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = CreateReplicaAction.schema.members
-      s.writeString(ms(0), value.regionName)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): CreateReplicaAction = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(CreateReplicaAction.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    CreateReplicaAction(
-      f0.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[CreateReplicaAction] = rt.ShapeCodec.struct[CreateReplicaAction](schema)
 }

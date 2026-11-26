@@ -9,17 +9,4 @@ object BinaryList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "BinaryList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => rt.Prelude.Blob, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BinaryList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = BinaryList.schema.members(0)
-      value.foreach(x => lw.writeBlob(m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BinaryList = {
-      val m = BinaryList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[rt.Blob]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(er.readBlob(m)): scala.Unit))
-    b.result()
-  }
 }

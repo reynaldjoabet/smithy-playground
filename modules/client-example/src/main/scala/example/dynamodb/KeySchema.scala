@@ -9,17 +9,4 @@ object KeySchema {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "KeySchema"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => KeySchemaElement.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: KeySchema): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = KeySchema.schema.members(0)
-      value.foreach(x => KeySchemaElement.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): KeySchema = {
-      val m = KeySchema.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[KeySchemaElement]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(KeySchemaElement.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

@@ -17,32 +17,5 @@ object GlobalSecondaryIndexWarmThroughputDescription {
     rt.MemberDef("Status", () => IndexStatus.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: GlobalSecondaryIndexWarmThroughputDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = GlobalSecondaryIndexWarmThroughputDescription.schema.members
-      value.readUnitsPerSecond.foreach(x => s.writeLong(ms(0), x))
-      value.writeUnitsPerSecond.foreach(x => s.writeLong(ms(1), x))
-      value.status.foreach(x => s.writeString(ms(2), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): GlobalSecondaryIndexWarmThroughputDescription = {
-    var f0: scala.Option[scala.Long] = scala.None
-    var f1: scala.Option[scala.Long] = scala.None
-    var f2: scala.Option[IndexStatus] = scala.None
-    r.readStruct(GlobalSecondaryIndexWarmThroughputDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readLong(m))
-          case 1 => f1 = scala.Some(mr.readLong(m))
-          case 2 => f2 = scala.Some(IndexStatus.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    GlobalSecondaryIndexWarmThroughputDescription(
-      f0,
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[GlobalSecondaryIndexWarmThroughputDescription] = rt.ShapeCodec.struct[GlobalSecondaryIndexWarmThroughputDescription](schema)
 }

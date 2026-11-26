@@ -12,24 +12,5 @@ object DescribeContinuousBackupsInput {
     rt.MemberDef("TableName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DescribeContinuousBackupsInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DescribeContinuousBackupsInput.schema.members
-      s.writeString(ms(0), value.tableName)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DescribeContinuousBackupsInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(DescribeContinuousBackupsInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    DescribeContinuousBackupsInput(
-      f0.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[DescribeContinuousBackupsInput] = rt.ShapeCodec.struct[DescribeContinuousBackupsInput](schema)
 }

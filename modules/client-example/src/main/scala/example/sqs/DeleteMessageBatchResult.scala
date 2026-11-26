@@ -15,28 +15,5 @@ object DeleteMessageBatchResult {
     rt.MemberDef("Failed", () => BatchResultErrorEntryList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DeleteMessageBatchResult): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DeleteMessageBatchResult.schema.members
-      DeleteMessageBatchResultEntryList.write(s, ms(0), value.successful)
-      BatchResultErrorEntryList.write(s, ms(1), value.failed)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DeleteMessageBatchResult = {
-    var f0: scala.Option[DeleteMessageBatchResultEntryList] = scala.None
-    var f1: scala.Option[BatchResultErrorEntryList] = scala.None
-    r.readStruct(DeleteMessageBatchResult.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(DeleteMessageBatchResultEntryList.read(mr, m))
-          case 1 => f1 = scala.Some(BatchResultErrorEntryList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    DeleteMessageBatchResult(
-      f0.getOrElse(scala.Nil),
-      f1.getOrElse(scala.Nil)
-    )
-  }
+  given codec: rt.SchemaCodec[DeleteMessageBatchResult] = rt.ShapeCodec.struct[DeleteMessageBatchResult](schema)
 }

@@ -9,11 +9,5 @@ final case class MessageNotInflight() extends rt.ServiceException(rt.ShapeId("co
 object MessageNotInflight {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "MessageNotInflight"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client", "smithy.api#httpError" -> "400"))()
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: MessageNotInflight): scala.Unit =
-    w.writeStruct(schema)(_ => ())
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): MessageNotInflight = {
-    r.readStruct(MessageNotInflight.schema)((_, _) => ())
-    MessageNotInflight()
-  }
+  given codec: rt.SchemaCodec[MessageNotInflight] = rt.ShapeCodec.struct[MessageNotInflight](schema)
 }

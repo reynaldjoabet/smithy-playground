@@ -21,40 +21,5 @@ object InputS3Configuration {
     rt.MemberDef("InputCompressionType", () => InputCompressionType.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: InputS3Configuration): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = InputS3Configuration.schema.members
-      value.s3BucketOwner.foreach(x => s.writeString(ms(0), x))
-      s.writeString(ms(1), value.s3Bucket)
-      value.s3KeyPrefix.foreach(x => s.writeString(ms(2), x))
-      s.writeString(ms(3), value.inputFormat.value)
-      value.inputCompressionType.foreach(x => s.writeString(ms(4), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): InputS3Configuration = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    var f3: scala.Option[BulkOperationInputFormat] = scala.None
-    var f4: scala.Option[InputCompressionType] = scala.None
-    r.readStruct(InputS3Configuration.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case 3 => f3 = scala.Some(BulkOperationInputFormat.fromValue(mr.readString(m)))
-          case 4 => f4 = scala.Some(InputCompressionType.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    InputS3Configuration(
-      f0,
-      f1.getOrElse(""),
-      f2,
-      f3.getOrElse(BulkOperationInputFormat.UnknownValue("")),
-      f4
-    )
-  }
+  given codec: rt.SchemaCodec[InputS3Configuration] = rt.ShapeCodec.struct[InputS3Configuration](schema)
 }

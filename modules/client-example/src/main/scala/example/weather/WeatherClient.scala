@@ -24,29 +24,11 @@ object WeatherClient {
   def apply(config: rt.ClientConfig = rt.ClientConfig()): WeatherClient = new Impl(new rt.ClientPipeline(service, config))
 
   object Operations {
-    lazy val GetForecast: rt.Operation[GetForecastInput, GetForecastOutput] = new rt.Operation[GetForecastInput, GetForecastOutput](
-      rt.ShapeId("example.weather", "GetForecast"),
-      GetForecastInput.schema,
-      (w, in) => GetForecastInput.write(w, GetForecastInput.schema, in),
-      GetForecastOutput.schema,
-      r => GetForecastOutput.read(r, GetForecastOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(Busy.schema, r => Busy.read(r, Busy.schema))
-      )),
-      scala.collection.immutable.List()
-    )
+    lazy val GetForecast: rt.Operation[GetForecastInput, GetForecastOutput] =
+      rt.Operation.of[GetForecastInput, GetForecastOutput](rt.ShapeId("example.weather", "GetForecast"), rt.TypeRegistry.of[Busy *: EmptyTuple], scala.collection.immutable.List())
 
-    lazy val Ping: rt.Operation[scala.Unit, scala.Unit] = new rt.Operation[scala.Unit, scala.Unit](
-      rt.ShapeId("example.weather", "Ping"),
-      rt.Prelude.Unit,
-      (w, _) => w.writeStruct(rt.Prelude.Unit)(_ => ()),
-      rt.Prelude.Unit,
-      _ => (),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-
-      )),
-      scala.collection.immutable.List()
-    )
+    lazy val Ping: rt.Operation[scala.Unit, scala.Unit] =
+      rt.Operation.of[scala.Unit, scala.Unit](rt.ShapeId("example.weather", "Ping"), rt.TypeRegistry.of[EmptyTuple], scala.collection.immutable.List())
   }
 
   private final class Impl(pipeline: rt.ClientPipeline) extends WeatherClient {

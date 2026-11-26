@@ -12,24 +12,5 @@ object UpdateContinuousBackupsOutput {
     rt.MemberDef("ContinuousBackupsDescription", () => ContinuousBackupsDescription.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: UpdateContinuousBackupsOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = UpdateContinuousBackupsOutput.schema.members
-      value.continuousBackupsDescription.foreach(x => ContinuousBackupsDescription.write(s, ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): UpdateContinuousBackupsOutput = {
-    var f0: scala.Option[ContinuousBackupsDescription] = scala.None
-    r.readStruct(UpdateContinuousBackupsOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ContinuousBackupsDescription.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    UpdateContinuousBackupsOutput(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[UpdateContinuousBackupsOutput] = rt.ShapeCodec.struct[UpdateContinuousBackupsOutput](schema)
 }

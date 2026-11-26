@@ -15,28 +15,5 @@ object BatchGetItemInput {
     rt.MemberDef("ReturnConsumedCapacity", () => ReturnConsumedCapacity.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BatchGetItemInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = BatchGetItemInput.schema.members
-      BatchGetRequestMap.write(s, ms(0), value.requestItems)
-      value.returnConsumedCapacity.foreach(x => s.writeString(ms(1), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BatchGetItemInput = {
-    var f0: scala.Option[BatchGetRequestMap] = scala.None
-    var f1: scala.Option[ReturnConsumedCapacity] = scala.None
-    r.readStruct(BatchGetItemInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(BatchGetRequestMap.read(mr, m))
-          case 1 => f1 = scala.Some(ReturnConsumedCapacity.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    BatchGetItemInput(
-      f0.getOrElse(scala.collection.immutable.Map.empty),
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[BatchGetItemInput] = rt.ShapeCodec.struct[BatchGetItemInput](schema)
 }

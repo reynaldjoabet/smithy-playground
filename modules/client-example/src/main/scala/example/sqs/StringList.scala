@@ -9,17 +9,4 @@ object StringList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "StringList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => rt.Prelude.String, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: StringList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = StringList.schema.members(0)
-      value.foreach(x => lw.writeString(m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): StringList = {
-      val m = StringList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[java.lang.String]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(er.readString(m)): scala.Unit))
-    b.result()
-  }
 }

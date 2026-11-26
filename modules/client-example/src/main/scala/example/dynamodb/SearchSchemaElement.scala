@@ -15,28 +15,5 @@ object SearchSchemaElement {
     rt.MemberDef("SearchSchemaElementType", () => SearchSchemaElementType.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: SearchSchemaElement): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = SearchSchemaElement.schema.members
-      s.writeString(ms(0), value.attributeName)
-      s.writeString(ms(1), value.searchSchemaElementType.value)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): SearchSchemaElement = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[SearchSchemaElementType] = scala.None
-    r.readStruct(SearchSchemaElement.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(SearchSchemaElementType.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    SearchSchemaElement(
-      f0.getOrElse(""),
-      f1.getOrElse(SearchSchemaElementType.UnknownValue(""))
-    )
-  }
+  given codec: rt.SchemaCodec[SearchSchemaElement] = rt.ShapeCodec.struct[SearchSchemaElement](schema)
 }

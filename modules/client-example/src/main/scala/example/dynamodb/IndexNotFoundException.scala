@@ -13,24 +13,5 @@ object IndexNotFoundException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: IndexNotFoundException): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = IndexNotFoundException.schema.members
-      value.message.foreach(x => s.writeString(ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): IndexNotFoundException = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(IndexNotFoundException.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    IndexNotFoundException(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[IndexNotFoundException] = rt.ShapeCodec.struct[IndexNotFoundException](schema)
 }

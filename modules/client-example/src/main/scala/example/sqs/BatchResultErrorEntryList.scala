@@ -9,17 +9,4 @@ object BatchResultErrorEntryList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "BatchResultErrorEntryList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => BatchResultErrorEntry.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BatchResultErrorEntryList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = BatchResultErrorEntryList.schema.members(0)
-      value.foreach(x => BatchResultErrorEntry.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BatchResultErrorEntryList = {
-      val m = BatchResultErrorEntryList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[BatchResultErrorEntry]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(BatchResultErrorEntry.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

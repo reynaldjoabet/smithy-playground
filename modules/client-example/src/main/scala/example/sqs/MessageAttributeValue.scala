@@ -21,40 +21,5 @@ object MessageAttributeValue {
     rt.MemberDef("DataType", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: MessageAttributeValue): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = MessageAttributeValue.schema.members
-      value.stringValue.foreach(x => s.writeString(ms(0), x))
-      value.binaryValue.foreach(x => s.writeBlob(ms(1), x))
-      value.stringListValues.foreach(x => StringList.write(s, ms(2), x))
-      value.binaryListValues.foreach(x => BinaryList.write(s, ms(3), x))
-      s.writeString(ms(4), value.dataType)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): MessageAttributeValue = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[rt.Blob] = scala.None
-    var f2: scala.Option[StringList] = scala.None
-    var f3: scala.Option[BinaryList] = scala.None
-    var f4: scala.Option[java.lang.String] = scala.None
-    r.readStruct(MessageAttributeValue.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readBlob(m))
-          case 2 => f2 = scala.Some(StringList.read(mr, m))
-          case 3 => f3 = scala.Some(BinaryList.read(mr, m))
-          case 4 => f4 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    MessageAttributeValue(
-      f0,
-      f1,
-      f2,
-      f3,
-      f4.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[MessageAttributeValue] = rt.ShapeCodec.struct[MessageAttributeValue](schema)
 }

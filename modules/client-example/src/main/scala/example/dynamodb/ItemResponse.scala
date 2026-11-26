@@ -13,24 +13,5 @@ object ItemResponse {
     rt.MemberDef("Item", () => AttributeMap.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ItemResponse): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ItemResponse.schema.members
-      value.item.foreach(x => AttributeMap.write(s, ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ItemResponse = {
-    var f0: scala.Option[AttributeMap] = scala.None
-    r.readStruct(ItemResponse.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(AttributeMap.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ItemResponse(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[ItemResponse] = rt.ShapeCodec.struct[ItemResponse](schema)
 }

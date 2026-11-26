@@ -9,17 +9,4 @@ object DeleteMessageBatchRequestEntryList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "DeleteMessageBatchRequestEntryList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => DeleteMessageBatchRequestEntry.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DeleteMessageBatchRequestEntryList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = DeleteMessageBatchRequestEntryList.schema.members(0)
-      value.foreach(x => DeleteMessageBatchRequestEntry.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DeleteMessageBatchRequestEntryList = {
-      val m = DeleteMessageBatchRequestEntryList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[DeleteMessageBatchRequestEntry]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(DeleteMessageBatchRequestEntry.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

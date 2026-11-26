@@ -17,32 +17,5 @@ object SSESpecification {
     rt.MemberDef("KMSMasterKeyId", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: SSESpecification): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = SSESpecification.schema.members
-      value.enabled.foreach(x => s.writeBoolean(ms(0), x))
-      value.sseType.foreach(x => s.writeString(ms(1), x.value))
-      value.kmsMasterKeyId.foreach(x => s.writeString(ms(2), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): SSESpecification = {
-    var f0: scala.Option[scala.Boolean] = scala.None
-    var f1: scala.Option[SSEType] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    r.readStruct(SSESpecification.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readBoolean(m))
-          case 1 => f1 = scala.Some(SSEType.fromValue(mr.readString(m)))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    SSESpecification(
-      f0,
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[SSESpecification] = rt.ShapeCodec.struct[SSESpecification](schema)
 }

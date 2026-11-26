@@ -23,44 +23,5 @@ object SendMessageBatchResultEntry {
     rt.MemberDef("SequenceNumber", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: SendMessageBatchResultEntry): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = SendMessageBatchResultEntry.schema.members
-      s.writeString(ms(0), value.id)
-      s.writeString(ms(1), value.messageId)
-      s.writeString(ms(2), value.md5OfMessageBody)
-      value.md5OfMessageAttributes.foreach(x => s.writeString(ms(3), x))
-      value.md5OfMessageSystemAttributes.foreach(x => s.writeString(ms(4), x))
-      value.sequenceNumber.foreach(x => s.writeString(ms(5), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): SendMessageBatchResultEntry = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    var f3: scala.Option[java.lang.String] = scala.None
-    var f4: scala.Option[java.lang.String] = scala.None
-    var f5: scala.Option[java.lang.String] = scala.None
-    r.readStruct(SendMessageBatchResultEntry.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case 3 => f3 = scala.Some(mr.readString(m))
-          case 4 => f4 = scala.Some(mr.readString(m))
-          case 5 => f5 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    SendMessageBatchResultEntry(
-      f0.getOrElse(""),
-      f1.getOrElse(""),
-      f2.getOrElse(""),
-      f3,
-      f4,
-      f5
-    )
-  }
+  given codec: rt.SchemaCodec[SendMessageBatchResultEntry] = rt.ShapeCodec.struct[SendMessageBatchResultEntry](schema)
 }

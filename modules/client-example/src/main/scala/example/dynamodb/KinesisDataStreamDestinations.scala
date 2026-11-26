@@ -9,17 +9,4 @@ object KinesisDataStreamDestinations {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "KinesisDataStreamDestinations"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => KinesisDataStreamDestination.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: KinesisDataStreamDestinations): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = KinesisDataStreamDestinations.schema.members(0)
-      value.foreach(x => KinesisDataStreamDestination.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): KinesisDataStreamDestinations = {
-      val m = KinesisDataStreamDestinations.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[KinesisDataStreamDestination]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(KinesisDataStreamDestination.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

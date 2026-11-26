@@ -12,24 +12,5 @@ object StartBulkPutItemsOutput {
     rt.MemberDef("BulkOperationDescription", () => BulkOperationDescription.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: StartBulkPutItemsOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = StartBulkPutItemsOutput.schema.members
-      BulkOperationDescription.write(s, ms(0), value.bulkOperationDescription)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): StartBulkPutItemsOutput = {
-    var f0: scala.Option[BulkOperationDescription] = scala.None
-    r.readStruct(StartBulkPutItemsOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(BulkOperationDescription.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    StartBulkPutItemsOutput(
-      f0.getOrElse(throw new rt.SerializationException("Missing required member StartBulkPutItemsOutput.BulkOperationDescription"))
-    )
-  }
+  given codec: rt.SchemaCodec[StartBulkPutItemsOutput] = rt.ShapeCodec.struct[StartBulkPutItemsOutput](schema)
 }

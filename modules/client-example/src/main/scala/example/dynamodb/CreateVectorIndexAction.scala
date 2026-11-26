@@ -23,44 +23,5 @@ object CreateVectorIndexAction {
     rt.MemberDef("DistanceFunction", () => VectorDistanceFunction.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: CreateVectorIndexAction): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = CreateVectorIndexAction.schema.members
-      s.writeString(ms(0), value.indexName)
-      VectorAttributeDefinition.write(s, ms(1), value.vectorAttribute)
-      value.searchSchema.foreach(x => SearchSchema.write(s, ms(2), x))
-      Projection.write(s, ms(3), value.projection)
-      s.writeLong(ms(4), value.dimensions)
-      s.writeString(ms(5), value.distanceFunction.value)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): CreateVectorIndexAction = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[VectorAttributeDefinition] = scala.None
-    var f2: scala.Option[SearchSchema] = scala.None
-    var f3: scala.Option[Projection] = scala.None
-    var f4: scala.Option[scala.Long] = scala.None
-    var f5: scala.Option[VectorDistanceFunction] = scala.None
-    r.readStruct(CreateVectorIndexAction.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(VectorAttributeDefinition.read(mr, m))
-          case 2 => f2 = scala.Some(SearchSchema.read(mr, m))
-          case 3 => f3 = scala.Some(Projection.read(mr, m))
-          case 4 => f4 = scala.Some(mr.readLong(m))
-          case 5 => f5 = scala.Some(VectorDistanceFunction.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    CreateVectorIndexAction(
-      f0.getOrElse(""),
-      f1.getOrElse(throw new rt.SerializationException("Missing required member CreateVectorIndexAction.VectorAttribute")),
-      f2,
-      f3.getOrElse(throw new rt.SerializationException("Missing required member CreateVectorIndexAction.Projection")),
-      f4.getOrElse(0L),
-      f5.getOrElse(VectorDistanceFunction.UnknownValue(""))
-    )
-  }
+  given codec: rt.SchemaCodec[CreateVectorIndexAction] = rt.ShapeCodec.struct[CreateVectorIndexAction](schema)
 }

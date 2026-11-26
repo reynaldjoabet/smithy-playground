@@ -15,28 +15,5 @@ object ListDeadLetterSourceQueuesResult {
     rt.MemberDef("NextToken", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ListDeadLetterSourceQueuesResult): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ListDeadLetterSourceQueuesResult.schema.members
-      QueueUrlList.write(s, ms(0), value.queueUrls)
-      value.nextToken.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ListDeadLetterSourceQueuesResult = {
-    var f0: scala.Option[QueueUrlList] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ListDeadLetterSourceQueuesResult.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(QueueUrlList.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ListDeadLetterSourceQueuesResult(
-      f0.getOrElse(scala.Nil),
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ListDeadLetterSourceQueuesResult] = rt.ShapeCodec.struct[ListDeadLetterSourceQueuesResult](schema)
 }

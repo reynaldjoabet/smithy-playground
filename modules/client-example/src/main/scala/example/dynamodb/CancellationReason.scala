@@ -17,32 +17,5 @@ object CancellationReason {
     rt.MemberDef("Message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: CancellationReason): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = CancellationReason.schema.members
-      value.item.foreach(x => AttributeMap.write(s, ms(0), x))
-      value.code.foreach(x => s.writeString(ms(1), x))
-      value.message.foreach(x => s.writeString(ms(2), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): CancellationReason = {
-    var f0: scala.Option[AttributeMap] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    r.readStruct(CancellationReason.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(AttributeMap.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    CancellationReason(
-      f0,
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[CancellationReason] = rt.ShapeCodec.struct[CancellationReason](schema)
 }

@@ -21,40 +21,5 @@ object ScanOutput {
     rt.MemberDef("ConsumedCapacity", () => ConsumedCapacity.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ScanOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ScanOutput.schema.members
-      value.items.foreach(x => ItemList.write(s, ms(0), x))
-      s.writeInteger(ms(1), value.count)
-      s.writeInteger(ms(2), value.scannedCount)
-      value.lastEvaluatedKey.foreach(x => Key.write(s, ms(3), x))
-      value.consumedCapacity.foreach(x => ConsumedCapacity.write(s, ms(4), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ScanOutput = {
-    var f0: scala.Option[ItemList] = scala.None
-    var f1: scala.Option[scala.Int] = scala.None
-    var f2: scala.Option[scala.Int] = scala.None
-    var f3: scala.Option[Key] = scala.None
-    var f4: scala.Option[ConsumedCapacity] = scala.None
-    r.readStruct(ScanOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ItemList.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readInteger(m))
-          case 2 => f2 = scala.Some(mr.readInteger(m))
-          case 3 => f3 = scala.Some(Key.read(mr, m))
-          case 4 => f4 = scala.Some(ConsumedCapacity.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ScanOutput(
-      f0,
-      f1.getOrElse(0),
-      f2.getOrElse(0),
-      f3,
-      f4
-    )
-  }
+  given codec: rt.SchemaCodec[ScanOutput] = rt.ShapeCodec.struct[ScanOutput](schema)
 }

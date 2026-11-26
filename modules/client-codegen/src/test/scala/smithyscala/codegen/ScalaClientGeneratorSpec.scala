@@ -133,6 +133,15 @@ class ScalaClientGeneratorSpec extends munit.FunSuite {
     assert(c.contains("in.copy(token = scala.Some(t))"), c)
   }
 
+  test("codecs are derived, not generated") {
+    assert(src("GetForecastInput").contains("given codec: rt.SchemaCodec[GetForecastInput] = rt.ShapeCodec.struct[GetForecastInput](schema)"))
+    assert(src("Kind").contains("given codec: rt.SchemaCodec[Kind] = rt.ShapeCodec.union[Kind](schema)"))
+    assert(src("Units").contains("lazy val knownValues: scala.collection.immutable.List[Units] = rt.ShapeCodec.enumValues[Units]"))
+    assert(src("Detail").contains("rt.ShapeCodec.intEnum(fromValue, _.value)"))
+    assert(!src("Days").contains("def write"))
+    assert(src("WeatherClient").contains("rt.TypeRegistry.of[Busy *: EmptyTuple]"))
+  }
+
   test("services without a supported protocol are rejected with the reason") {
     val restJson = Model.assembler().discoverModels()
       .addUnparsedModel("r.smithy", "$version: \"2\"\nnamespace x\nuse aws.protocols#restJson1\n@restJson1\nservice S {}\n")

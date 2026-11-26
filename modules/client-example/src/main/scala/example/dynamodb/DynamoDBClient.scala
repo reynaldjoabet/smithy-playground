@@ -232,969 +232,191 @@ object DynamoDBClient {
   def apply(config: rt.ClientConfig = rt.ClientConfig()): DynamoDBClient = new Impl(new rt.ClientPipeline(service, config))
 
   object Operations {
-    lazy val BatchExecuteStatement: rt.Operation[BatchExecuteStatementInput, BatchExecuteStatementOutput] = new rt.Operation[BatchExecuteStatementInput, BatchExecuteStatementOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "BatchExecuteStatement"),
-      BatchExecuteStatementInput.schema,
-      (w, in) => BatchExecuteStatementInput.write(w, BatchExecuteStatementInput.schema, in),
-      BatchExecuteStatementOutput.schema,
-      r => BatchExecuteStatementOutput.read(r, BatchExecuteStatementOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(RequestLimitExceeded.schema, r => RequestLimitExceeded.read(r, RequestLimitExceeded.schema)),
-        new rt.ErrorType(ThrottlingException.schema, r => ThrottlingException.read(r, ThrottlingException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val BatchExecuteStatement: rt.Operation[BatchExecuteStatementInput, BatchExecuteStatementOutput] =
+      rt.Operation.of[BatchExecuteStatementInput, BatchExecuteStatementOutput](rt.ShapeId("com.amazonaws.dynamodb", "BatchExecuteStatement"), rt.TypeRegistry.of[InternalServerError *: RequestLimitExceeded *: ThrottlingException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val BatchGetItem: rt.Operation[BatchGetItemInput, BatchGetItemOutput] = new rt.Operation[BatchGetItemInput, BatchGetItemOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "BatchGetItem"),
-      BatchGetItemInput.schema,
-      (w, in) => BatchGetItemInput.write(w, BatchGetItemInput.schema, in),
-      BatchGetItemOutput.schema,
-      r => BatchGetItemOutput.read(r, BatchGetItemOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ProvisionedThroughputExceededException.schema, r => ProvisionedThroughputExceededException.read(r, ProvisionedThroughputExceededException.schema)),
-        new rt.ErrorType(RequestLimitExceeded.schema, r => RequestLimitExceeded.read(r, RequestLimitExceeded.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(ThrottlingException.schema, r => ThrottlingException.read(r, ThrottlingException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val BatchGetItem: rt.Operation[BatchGetItemInput, BatchGetItemOutput] =
+      rt.Operation.of[BatchGetItemInput, BatchGetItemOutput](rt.ShapeId("com.amazonaws.dynamodb", "BatchGetItem"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: ProvisionedThroughputExceededException *: RequestLimitExceeded *: ResourceNotFoundException *: ThrottlingException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val BatchWriteItem: rt.Operation[BatchWriteItemInput, BatchWriteItemOutput] = new rt.Operation[BatchWriteItemInput, BatchWriteItemOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "BatchWriteItem"),
-      BatchWriteItemInput.schema,
-      (w, in) => BatchWriteItemInput.write(w, BatchWriteItemInput.schema, in),
-      BatchWriteItemOutput.schema,
-      r => BatchWriteItemOutput.read(r, BatchWriteItemOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ItemCollectionSizeLimitExceededException.schema, r => ItemCollectionSizeLimitExceededException.read(r, ItemCollectionSizeLimitExceededException.schema)),
-        new rt.ErrorType(ProvisionedThroughputExceededException.schema, r => ProvisionedThroughputExceededException.read(r, ProvisionedThroughputExceededException.schema)),
-        new rt.ErrorType(ReplicatedWriteConflictException.schema, r => ReplicatedWriteConflictException.read(r, ReplicatedWriteConflictException.schema)),
-        new rt.ErrorType(RequestLimitExceeded.schema, r => RequestLimitExceeded.read(r, RequestLimitExceeded.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(ThrottlingException.schema, r => ThrottlingException.read(r, ThrottlingException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val BatchWriteItem: rt.Operation[BatchWriteItemInput, BatchWriteItemOutput] =
+      rt.Operation.of[BatchWriteItemInput, BatchWriteItemOutput](rt.ShapeId("com.amazonaws.dynamodb", "BatchWriteItem"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: ItemCollectionSizeLimitExceededException *: ProvisionedThroughputExceededException *: ReplicatedWriteConflictException *: RequestLimitExceeded *: ResourceNotFoundException *: ThrottlingException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val CancelBulkOperation: rt.Operation[CancelBulkOperationInput, CancelBulkOperationOutput] = new rt.Operation[CancelBulkOperationInput, CancelBulkOperationOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "CancelBulkOperation"),
-      CancelBulkOperationInput.schema,
-      (w, in) => CancelBulkOperationInput.write(w, CancelBulkOperationInput.schema, in),
-      CancelBulkOperationOutput.schema,
-      r => CancelBulkOperationOutput.read(r, CancelBulkOperationOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val CancelBulkOperation: rt.Operation[CancelBulkOperationInput, CancelBulkOperationOutput] =
+      rt.Operation.of[CancelBulkOperationInput, CancelBulkOperationOutput](rt.ShapeId("com.amazonaws.dynamodb", "CancelBulkOperation"), rt.TypeRegistry.of[InvalidEndpointException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val CreateBackup: rt.Operation[CreateBackupInput, CreateBackupOutput] = new rt.Operation[CreateBackupInput, CreateBackupOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "CreateBackup"),
-      CreateBackupInput.schema,
-      (w, in) => CreateBackupInput.write(w, CreateBackupInput.schema, in),
-      CreateBackupOutput.schema,
-      r => CreateBackupOutput.read(r, CreateBackupOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(BackupInUseException.schema, r => BackupInUseException.read(r, BackupInUseException.schema)),
-        new rt.ErrorType(ContinuousBackupsUnavailableException.schema, r => ContinuousBackupsUnavailableException.read(r, ContinuousBackupsUnavailableException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(TableInUseException.schema, r => TableInUseException.read(r, TableInUseException.schema)),
-        new rt.ErrorType(TableNotFoundException.schema, r => TableNotFoundException.read(r, TableNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val CreateBackup: rt.Operation[CreateBackupInput, CreateBackupOutput] =
+      rt.Operation.of[CreateBackupInput, CreateBackupOutput](rt.ShapeId("com.amazonaws.dynamodb", "CreateBackup"), rt.TypeRegistry.of[BackupInUseException *: ContinuousBackupsUnavailableException *: InternalServerError *: InvalidEndpointException *: LimitExceededException *: TableInUseException *: TableNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val CreateGlobalTable: rt.Operation[CreateGlobalTableInput, CreateGlobalTableOutput] = new rt.Operation[CreateGlobalTableInput, CreateGlobalTableOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "CreateGlobalTable"),
-      CreateGlobalTableInput.schema,
-      (w, in) => CreateGlobalTableInput.write(w, CreateGlobalTableInput.schema, in),
-      CreateGlobalTableOutput.schema,
-      r => CreateGlobalTableOutput.read(r, CreateGlobalTableOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(GlobalTableAlreadyExistsException.schema, r => GlobalTableAlreadyExistsException.read(r, GlobalTableAlreadyExistsException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(TableNotFoundException.schema, r => TableNotFoundException.read(r, TableNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val CreateGlobalTable: rt.Operation[CreateGlobalTableInput, CreateGlobalTableOutput] =
+      rt.Operation.of[CreateGlobalTableInput, CreateGlobalTableOutput](rt.ShapeId("com.amazonaws.dynamodb", "CreateGlobalTable"), rt.TypeRegistry.of[GlobalTableAlreadyExistsException *: InternalServerError *: InvalidEndpointException *: LimitExceededException *: TableNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val CreateTable: rt.Operation[CreateTableInput, CreateTableOutput] = new rt.Operation[CreateTableInput, CreateTableOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "CreateTable"),
-      CreateTableInput.schema,
-      (w, in) => CreateTableInput.write(w, CreateTableInput.schema, in),
-      CreateTableOutput.schema,
-      r => CreateTableOutput.read(r, CreateTableOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(ResourceInUseException.schema, r => ResourceInUseException.read(r, ResourceInUseException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val CreateTable: rt.Operation[CreateTableInput, CreateTableOutput] =
+      rt.Operation.of[CreateTableInput, CreateTableOutput](rt.ShapeId("com.amazonaws.dynamodb", "CreateTable"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: LimitExceededException *: ResourceInUseException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DeleteBackup: rt.Operation[DeleteBackupInput, DeleteBackupOutput] = new rt.Operation[DeleteBackupInput, DeleteBackupOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DeleteBackup"),
-      DeleteBackupInput.schema,
-      (w, in) => DeleteBackupInput.write(w, DeleteBackupInput.schema, in),
-      DeleteBackupOutput.schema,
-      r => DeleteBackupOutput.read(r, DeleteBackupOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(BackupInUseException.schema, r => BackupInUseException.read(r, BackupInUseException.schema)),
-        new rt.ErrorType(BackupNotFoundException.schema, r => BackupNotFoundException.read(r, BackupNotFoundException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DeleteBackup: rt.Operation[DeleteBackupInput, DeleteBackupOutput] =
+      rt.Operation.of[DeleteBackupInput, DeleteBackupOutput](rt.ShapeId("com.amazonaws.dynamodb", "DeleteBackup"), rt.TypeRegistry.of[BackupInUseException *: BackupNotFoundException *: InternalServerError *: InvalidEndpointException *: LimitExceededException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DeleteItem: rt.Operation[DeleteItemInput, DeleteItemOutput] = new rt.Operation[DeleteItemInput, DeleteItemOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DeleteItem"),
-      DeleteItemInput.schema,
-      (w, in) => DeleteItemInput.write(w, DeleteItemInput.schema, in),
-      DeleteItemOutput.schema,
-      r => DeleteItemOutput.read(r, DeleteItemOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(ConditionalCheckFailedException.schema, r => ConditionalCheckFailedException.read(r, ConditionalCheckFailedException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ItemCollectionSizeLimitExceededException.schema, r => ItemCollectionSizeLimitExceededException.read(r, ItemCollectionSizeLimitExceededException.schema)),
-        new rt.ErrorType(ProvisionedThroughputExceededException.schema, r => ProvisionedThroughputExceededException.read(r, ProvisionedThroughputExceededException.schema)),
-        new rt.ErrorType(ReplicatedWriteConflictException.schema, r => ReplicatedWriteConflictException.read(r, ReplicatedWriteConflictException.schema)),
-        new rt.ErrorType(RequestLimitExceeded.schema, r => RequestLimitExceeded.read(r, RequestLimitExceeded.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(ThrottlingException.schema, r => ThrottlingException.read(r, ThrottlingException.schema)),
-        new rt.ErrorType(TransactionConflictException.schema, r => TransactionConflictException.read(r, TransactionConflictException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DeleteItem: rt.Operation[DeleteItemInput, DeleteItemOutput] =
+      rt.Operation.of[DeleteItemInput, DeleteItemOutput](rt.ShapeId("com.amazonaws.dynamodb", "DeleteItem"), rt.TypeRegistry.of[ConditionalCheckFailedException *: InternalServerError *: InvalidEndpointException *: ItemCollectionSizeLimitExceededException *: ProvisionedThroughputExceededException *: ReplicatedWriteConflictException *: RequestLimitExceeded *: ResourceNotFoundException *: ThrottlingException *: TransactionConflictException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DeleteResourcePolicy: rt.Operation[DeleteResourcePolicyInput, DeleteResourcePolicyOutput] = new rt.Operation[DeleteResourcePolicyInput, DeleteResourcePolicyOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DeleteResourcePolicy"),
-      DeleteResourcePolicyInput.schema,
-      (w, in) => DeleteResourcePolicyInput.write(w, DeleteResourcePolicyInput.schema, in),
-      DeleteResourcePolicyOutput.schema,
-      r => DeleteResourcePolicyOutput.read(r, DeleteResourcePolicyOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(PolicyNotFoundException.schema, r => PolicyNotFoundException.read(r, PolicyNotFoundException.schema)),
-        new rt.ErrorType(ResourceInUseException.schema, r => ResourceInUseException.read(r, ResourceInUseException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DeleteResourcePolicy: rt.Operation[DeleteResourcePolicyInput, DeleteResourcePolicyOutput] =
+      rt.Operation.of[DeleteResourcePolicyInput, DeleteResourcePolicyOutput](rt.ShapeId("com.amazonaws.dynamodb", "DeleteResourcePolicy"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: LimitExceededException *: PolicyNotFoundException *: ResourceInUseException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DeleteTable: rt.Operation[DeleteTableInput, DeleteTableOutput] = new rt.Operation[DeleteTableInput, DeleteTableOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DeleteTable"),
-      DeleteTableInput.schema,
-      (w, in) => DeleteTableInput.write(w, DeleteTableInput.schema, in),
-      DeleteTableOutput.schema,
-      r => DeleteTableOutput.read(r, DeleteTableOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(ResourceInUseException.schema, r => ResourceInUseException.read(r, ResourceInUseException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DeleteTable: rt.Operation[DeleteTableInput, DeleteTableOutput] =
+      rt.Operation.of[DeleteTableInput, DeleteTableOutput](rt.ShapeId("com.amazonaws.dynamodb", "DeleteTable"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: LimitExceededException *: ResourceInUseException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DescribeBackup: rt.Operation[DescribeBackupInput, DescribeBackupOutput] = new rt.Operation[DescribeBackupInput, DescribeBackupOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DescribeBackup"),
-      DescribeBackupInput.schema,
-      (w, in) => DescribeBackupInput.write(w, DescribeBackupInput.schema, in),
-      DescribeBackupOutput.schema,
-      r => DescribeBackupOutput.read(r, DescribeBackupOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(BackupNotFoundException.schema, r => BackupNotFoundException.read(r, BackupNotFoundException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DescribeBackup: rt.Operation[DescribeBackupInput, DescribeBackupOutput] =
+      rt.Operation.of[DescribeBackupInput, DescribeBackupOutput](rt.ShapeId("com.amazonaws.dynamodb", "DescribeBackup"), rt.TypeRegistry.of[BackupNotFoundException *: InternalServerError *: InvalidEndpointException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DescribeBulkOperation: rt.Operation[DescribeBulkOperationInput, DescribeBulkOperationOutput] = new rt.Operation[DescribeBulkOperationInput, DescribeBulkOperationOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DescribeBulkOperation"),
-      DescribeBulkOperationInput.schema,
-      (w, in) => DescribeBulkOperationInput.write(w, DescribeBulkOperationInput.schema, in),
-      DescribeBulkOperationOutput.schema,
-      r => DescribeBulkOperationOutput.read(r, DescribeBulkOperationOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DescribeBulkOperation: rt.Operation[DescribeBulkOperationInput, DescribeBulkOperationOutput] =
+      rt.Operation.of[DescribeBulkOperationInput, DescribeBulkOperationOutput](rt.ShapeId("com.amazonaws.dynamodb", "DescribeBulkOperation"), rt.TypeRegistry.of[InvalidEndpointException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DescribeContinuousBackups: rt.Operation[DescribeContinuousBackupsInput, DescribeContinuousBackupsOutput] = new rt.Operation[DescribeContinuousBackupsInput, DescribeContinuousBackupsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DescribeContinuousBackups"),
-      DescribeContinuousBackupsInput.schema,
-      (w, in) => DescribeContinuousBackupsInput.write(w, DescribeContinuousBackupsInput.schema, in),
-      DescribeContinuousBackupsOutput.schema,
-      r => DescribeContinuousBackupsOutput.read(r, DescribeContinuousBackupsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(TableNotFoundException.schema, r => TableNotFoundException.read(r, TableNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DescribeContinuousBackups: rt.Operation[DescribeContinuousBackupsInput, DescribeContinuousBackupsOutput] =
+      rt.Operation.of[DescribeContinuousBackupsInput, DescribeContinuousBackupsOutput](rt.ShapeId("com.amazonaws.dynamodb", "DescribeContinuousBackups"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: TableNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DescribeContributorInsights: rt.Operation[DescribeContributorInsightsInput, DescribeContributorInsightsOutput] = new rt.Operation[DescribeContributorInsightsInput, DescribeContributorInsightsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DescribeContributorInsights"),
-      DescribeContributorInsightsInput.schema,
-      (w, in) => DescribeContributorInsightsInput.write(w, DescribeContributorInsightsInput.schema, in),
-      DescribeContributorInsightsOutput.schema,
-      r => DescribeContributorInsightsOutput.read(r, DescribeContributorInsightsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DescribeContributorInsights: rt.Operation[DescribeContributorInsightsInput, DescribeContributorInsightsOutput] =
+      rt.Operation.of[DescribeContributorInsightsInput, DescribeContributorInsightsOutput](rt.ShapeId("com.amazonaws.dynamodb", "DescribeContributorInsights"), rt.TypeRegistry.of[InternalServerError *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DescribeEndpoints: rt.Operation[DescribeEndpointsRequest, DescribeEndpointsResponse] = new rt.Operation[DescribeEndpointsRequest, DescribeEndpointsResponse](
-      rt.ShapeId("com.amazonaws.dynamodb", "DescribeEndpoints"),
-      DescribeEndpointsRequest.schema,
-      (w, in) => DescribeEndpointsRequest.write(w, DescribeEndpointsRequest.schema, in),
-      DescribeEndpointsResponse.schema,
-      r => DescribeEndpointsResponse.read(r, DescribeEndpointsResponse.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
+    lazy val DescribeEndpoints: rt.Operation[DescribeEndpointsRequest, DescribeEndpointsResponse] =
+      rt.Operation.of[DescribeEndpointsRequest, DescribeEndpointsResponse](rt.ShapeId("com.amazonaws.dynamodb", "DescribeEndpoints"), rt.TypeRegistry.of[EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DescribeExport: rt.Operation[DescribeExportInput, DescribeExportOutput] =
+      rt.Operation.of[DescribeExportInput, DescribeExportOutput](rt.ShapeId("com.amazonaws.dynamodb", "DescribeExport"), rt.TypeRegistry.of[ExportNotFoundException *: InternalServerError *: LimitExceededException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DescribeExport: rt.Operation[DescribeExportInput, DescribeExportOutput] = new rt.Operation[DescribeExportInput, DescribeExportOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DescribeExport"),
-      DescribeExportInput.schema,
-      (w, in) => DescribeExportInput.write(w, DescribeExportInput.schema, in),
-      DescribeExportOutput.schema,
-      r => DescribeExportOutput.read(r, DescribeExportOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(ExportNotFoundException.schema, r => ExportNotFoundException.read(r, ExportNotFoundException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DescribeGlobalTable: rt.Operation[DescribeGlobalTableInput, DescribeGlobalTableOutput] =
+      rt.Operation.of[DescribeGlobalTableInput, DescribeGlobalTableOutput](rt.ShapeId("com.amazonaws.dynamodb", "DescribeGlobalTable"), rt.TypeRegistry.of[GlobalTableNotFoundException *: InternalServerError *: InvalidEndpointException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DescribeGlobalTable: rt.Operation[DescribeGlobalTableInput, DescribeGlobalTableOutput] = new rt.Operation[DescribeGlobalTableInput, DescribeGlobalTableOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DescribeGlobalTable"),
-      DescribeGlobalTableInput.schema,
-      (w, in) => DescribeGlobalTableInput.write(w, DescribeGlobalTableInput.schema, in),
-      DescribeGlobalTableOutput.schema,
-      r => DescribeGlobalTableOutput.read(r, DescribeGlobalTableOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(GlobalTableNotFoundException.schema, r => GlobalTableNotFoundException.read(r, GlobalTableNotFoundException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DescribeGlobalTableSettings: rt.Operation[DescribeGlobalTableSettingsInput, DescribeGlobalTableSettingsOutput] =
+      rt.Operation.of[DescribeGlobalTableSettingsInput, DescribeGlobalTableSettingsOutput](rt.ShapeId("com.amazonaws.dynamodb", "DescribeGlobalTableSettings"), rt.TypeRegistry.of[GlobalTableNotFoundException *: InternalServerError *: InvalidEndpointException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DescribeGlobalTableSettings: rt.Operation[DescribeGlobalTableSettingsInput, DescribeGlobalTableSettingsOutput] = new rt.Operation[DescribeGlobalTableSettingsInput, DescribeGlobalTableSettingsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DescribeGlobalTableSettings"),
-      DescribeGlobalTableSettingsInput.schema,
-      (w, in) => DescribeGlobalTableSettingsInput.write(w, DescribeGlobalTableSettingsInput.schema, in),
-      DescribeGlobalTableSettingsOutput.schema,
-      r => DescribeGlobalTableSettingsOutput.read(r, DescribeGlobalTableSettingsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(GlobalTableNotFoundException.schema, r => GlobalTableNotFoundException.read(r, GlobalTableNotFoundException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DescribeImport: rt.Operation[DescribeImportInput, DescribeImportOutput] =
+      rt.Operation.of[DescribeImportInput, DescribeImportOutput](rt.ShapeId("com.amazonaws.dynamodb", "DescribeImport"), rt.TypeRegistry.of[ImportNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DescribeImport: rt.Operation[DescribeImportInput, DescribeImportOutput] = new rt.Operation[DescribeImportInput, DescribeImportOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DescribeImport"),
-      DescribeImportInput.schema,
-      (w, in) => DescribeImportInput.write(w, DescribeImportInput.schema, in),
-      DescribeImportOutput.schema,
-      r => DescribeImportOutput.read(r, DescribeImportOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(ImportNotFoundException.schema, r => ImportNotFoundException.read(r, ImportNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DescribeKinesisStreamingDestination: rt.Operation[DescribeKinesisStreamingDestinationInput, DescribeKinesisStreamingDestinationOutput] =
+      rt.Operation.of[DescribeKinesisStreamingDestinationInput, DescribeKinesisStreamingDestinationOutput](rt.ShapeId("com.amazonaws.dynamodb", "DescribeKinesisStreamingDestination"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DescribeKinesisStreamingDestination: rt.Operation[DescribeKinesisStreamingDestinationInput, DescribeKinesisStreamingDestinationOutput] = new rt.Operation[DescribeKinesisStreamingDestinationInput, DescribeKinesisStreamingDestinationOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DescribeKinesisStreamingDestination"),
-      DescribeKinesisStreamingDestinationInput.schema,
-      (w, in) => DescribeKinesisStreamingDestinationInput.write(w, DescribeKinesisStreamingDestinationInput.schema, in),
-      DescribeKinesisStreamingDestinationOutput.schema,
-      r => DescribeKinesisStreamingDestinationOutput.read(r, DescribeKinesisStreamingDestinationOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DescribeLimits: rt.Operation[DescribeLimitsInput, DescribeLimitsOutput] =
+      rt.Operation.of[DescribeLimitsInput, DescribeLimitsOutput](rt.ShapeId("com.amazonaws.dynamodb", "DescribeLimits"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DescribeLimits: rt.Operation[DescribeLimitsInput, DescribeLimitsOutput] = new rt.Operation[DescribeLimitsInput, DescribeLimitsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DescribeLimits"),
-      DescribeLimitsInput.schema,
-      (w, in) => DescribeLimitsInput.write(w, DescribeLimitsInput.schema, in),
-      DescribeLimitsOutput.schema,
-      r => DescribeLimitsOutput.read(r, DescribeLimitsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DescribeTable: rt.Operation[DescribeTableInput, DescribeTableOutput] =
+      rt.Operation.of[DescribeTableInput, DescribeTableOutput](rt.ShapeId("com.amazonaws.dynamodb", "DescribeTable"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DescribeTable: rt.Operation[DescribeTableInput, DescribeTableOutput] = new rt.Operation[DescribeTableInput, DescribeTableOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DescribeTable"),
-      DescribeTableInput.schema,
-      (w, in) => DescribeTableInput.write(w, DescribeTableInput.schema, in),
-      DescribeTableOutput.schema,
-      r => DescribeTableOutput.read(r, DescribeTableOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DescribeTableReplicaAutoScaling: rt.Operation[DescribeTableReplicaAutoScalingInput, DescribeTableReplicaAutoScalingOutput] =
+      rt.Operation.of[DescribeTableReplicaAutoScalingInput, DescribeTableReplicaAutoScalingOutput](rt.ShapeId("com.amazonaws.dynamodb", "DescribeTableReplicaAutoScaling"), rt.TypeRegistry.of[InternalServerError *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DescribeTableReplicaAutoScaling: rt.Operation[DescribeTableReplicaAutoScalingInput, DescribeTableReplicaAutoScalingOutput] = new rt.Operation[DescribeTableReplicaAutoScalingInput, DescribeTableReplicaAutoScalingOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DescribeTableReplicaAutoScaling"),
-      DescribeTableReplicaAutoScalingInput.schema,
-      (w, in) => DescribeTableReplicaAutoScalingInput.write(w, DescribeTableReplicaAutoScalingInput.schema, in),
-      DescribeTableReplicaAutoScalingOutput.schema,
-      r => DescribeTableReplicaAutoScalingOutput.read(r, DescribeTableReplicaAutoScalingOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DescribeTimeToLive: rt.Operation[DescribeTimeToLiveInput, DescribeTimeToLiveOutput] =
+      rt.Operation.of[DescribeTimeToLiveInput, DescribeTimeToLiveOutput](rt.ShapeId("com.amazonaws.dynamodb", "DescribeTimeToLive"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DescribeTimeToLive: rt.Operation[DescribeTimeToLiveInput, DescribeTimeToLiveOutput] = new rt.Operation[DescribeTimeToLiveInput, DescribeTimeToLiveOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DescribeTimeToLive"),
-      DescribeTimeToLiveInput.schema,
-      (w, in) => DescribeTimeToLiveInput.write(w, DescribeTimeToLiveInput.schema, in),
-      DescribeTimeToLiveOutput.schema,
-      r => DescribeTimeToLiveOutput.read(r, DescribeTimeToLiveOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val DisableKinesisStreamingDestination: rt.Operation[KinesisStreamingDestinationInput, KinesisStreamingDestinationOutput] =
+      rt.Operation.of[KinesisStreamingDestinationInput, KinesisStreamingDestinationOutput](rt.ShapeId("com.amazonaws.dynamodb", "DisableKinesisStreamingDestination"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: LimitExceededException *: ResourceInUseException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val DisableKinesisStreamingDestination: rt.Operation[KinesisStreamingDestinationInput, KinesisStreamingDestinationOutput] = new rt.Operation[KinesisStreamingDestinationInput, KinesisStreamingDestinationOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "DisableKinesisStreamingDestination"),
-      KinesisStreamingDestinationInput.schema,
-      (w, in) => KinesisStreamingDestinationInput.write(w, KinesisStreamingDestinationInput.schema, in),
-      KinesisStreamingDestinationOutput.schema,
-      r => KinesisStreamingDestinationOutput.read(r, KinesisStreamingDestinationOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(ResourceInUseException.schema, r => ResourceInUseException.read(r, ResourceInUseException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val EnableKinesisStreamingDestination: rt.Operation[KinesisStreamingDestinationInput, KinesisStreamingDestinationOutput] =
+      rt.Operation.of[KinesisStreamingDestinationInput, KinesisStreamingDestinationOutput](rt.ShapeId("com.amazonaws.dynamodb", "EnableKinesisStreamingDestination"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: LimitExceededException *: ResourceInUseException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val EnableKinesisStreamingDestination: rt.Operation[KinesisStreamingDestinationInput, KinesisStreamingDestinationOutput] = new rt.Operation[KinesisStreamingDestinationInput, KinesisStreamingDestinationOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "EnableKinesisStreamingDestination"),
-      KinesisStreamingDestinationInput.schema,
-      (w, in) => KinesisStreamingDestinationInput.write(w, KinesisStreamingDestinationInput.schema, in),
-      KinesisStreamingDestinationOutput.schema,
-      r => KinesisStreamingDestinationOutput.read(r, KinesisStreamingDestinationOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(ResourceInUseException.schema, r => ResourceInUseException.read(r, ResourceInUseException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ExecuteStatement: rt.Operation[ExecuteStatementInput, ExecuteStatementOutput] =
+      rt.Operation.of[ExecuteStatementInput, ExecuteStatementOutput](rt.ShapeId("com.amazonaws.dynamodb", "ExecuteStatement"), rt.TypeRegistry.of[ConditionalCheckFailedException *: DuplicateItemException *: InternalServerError *: ItemCollectionSizeLimitExceededException *: ProvisionedThroughputExceededException *: RequestLimitExceeded *: ResourceNotFoundException *: ThrottlingException *: TransactionConflictException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ExecuteStatement: rt.Operation[ExecuteStatementInput, ExecuteStatementOutput] = new rt.Operation[ExecuteStatementInput, ExecuteStatementOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "ExecuteStatement"),
-      ExecuteStatementInput.schema,
-      (w, in) => ExecuteStatementInput.write(w, ExecuteStatementInput.schema, in),
-      ExecuteStatementOutput.schema,
-      r => ExecuteStatementOutput.read(r, ExecuteStatementOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(ConditionalCheckFailedException.schema, r => ConditionalCheckFailedException.read(r, ConditionalCheckFailedException.schema)),
-        new rt.ErrorType(DuplicateItemException.schema, r => DuplicateItemException.read(r, DuplicateItemException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(ItemCollectionSizeLimitExceededException.schema, r => ItemCollectionSizeLimitExceededException.read(r, ItemCollectionSizeLimitExceededException.schema)),
-        new rt.ErrorType(ProvisionedThroughputExceededException.schema, r => ProvisionedThroughputExceededException.read(r, ProvisionedThroughputExceededException.schema)),
-        new rt.ErrorType(RequestLimitExceeded.schema, r => RequestLimitExceeded.read(r, RequestLimitExceeded.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(ThrottlingException.schema, r => ThrottlingException.read(r, ThrottlingException.schema)),
-        new rt.ErrorType(TransactionConflictException.schema, r => TransactionConflictException.read(r, TransactionConflictException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ExecuteTransaction: rt.Operation[ExecuteTransactionInput, ExecuteTransactionOutput] =
+      rt.Operation.of[ExecuteTransactionInput, ExecuteTransactionOutput](rt.ShapeId("com.amazonaws.dynamodb", "ExecuteTransaction"), rt.TypeRegistry.of[IdempotentParameterMismatchException *: InternalServerError *: ProvisionedThroughputExceededException *: RequestLimitExceeded *: ResourceNotFoundException *: ThrottlingException *: TransactionCanceledException *: TransactionInProgressException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ExecuteTransaction: rt.Operation[ExecuteTransactionInput, ExecuteTransactionOutput] = new rt.Operation[ExecuteTransactionInput, ExecuteTransactionOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "ExecuteTransaction"),
-      ExecuteTransactionInput.schema,
-      (w, in) => ExecuteTransactionInput.write(w, ExecuteTransactionInput.schema, in),
-      ExecuteTransactionOutput.schema,
-      r => ExecuteTransactionOutput.read(r, ExecuteTransactionOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(IdempotentParameterMismatchException.schema, r => IdempotentParameterMismatchException.read(r, IdempotentParameterMismatchException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(ProvisionedThroughputExceededException.schema, r => ProvisionedThroughputExceededException.read(r, ProvisionedThroughputExceededException.schema)),
-        new rt.ErrorType(RequestLimitExceeded.schema, r => RequestLimitExceeded.read(r, RequestLimitExceeded.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(ThrottlingException.schema, r => ThrottlingException.read(r, ThrottlingException.schema)),
-        new rt.ErrorType(TransactionCanceledException.schema, r => TransactionCanceledException.read(r, TransactionCanceledException.schema)),
-        new rt.ErrorType(TransactionInProgressException.schema, r => TransactionInProgressException.read(r, TransactionInProgressException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ExportTableToPointInTime: rt.Operation[ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput] =
+      rt.Operation.of[ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput](rt.ShapeId("com.amazonaws.dynamodb", "ExportTableToPointInTime"), rt.TypeRegistry.of[ExportConflictException *: InternalServerError *: InvalidExportTimeException *: LimitExceededException *: PointInTimeRecoveryUnavailableException *: TableNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ExportTableToPointInTime: rt.Operation[ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput] = new rt.Operation[ExportTableToPointInTimeInput, ExportTableToPointInTimeOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "ExportTableToPointInTime"),
-      ExportTableToPointInTimeInput.schema,
-      (w, in) => ExportTableToPointInTimeInput.write(w, ExportTableToPointInTimeInput.schema, in),
-      ExportTableToPointInTimeOutput.schema,
-      r => ExportTableToPointInTimeOutput.read(r, ExportTableToPointInTimeOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(ExportConflictException.schema, r => ExportConflictException.read(r, ExportConflictException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidExportTimeException.schema, r => InvalidExportTimeException.read(r, InvalidExportTimeException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(PointInTimeRecoveryUnavailableException.schema, r => PointInTimeRecoveryUnavailableException.read(r, PointInTimeRecoveryUnavailableException.schema)),
-        new rt.ErrorType(TableNotFoundException.schema, r => TableNotFoundException.read(r, TableNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val GetItem: rt.Operation[GetItemInput, GetItemOutput] =
+      rt.Operation.of[GetItemInput, GetItemOutput](rt.ShapeId("com.amazonaws.dynamodb", "GetItem"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: ProvisionedThroughputExceededException *: RequestLimitExceeded *: ResourceNotFoundException *: ThrottlingException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val GetItem: rt.Operation[GetItemInput, GetItemOutput] = new rt.Operation[GetItemInput, GetItemOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "GetItem"),
-      GetItemInput.schema,
-      (w, in) => GetItemInput.write(w, GetItemInput.schema, in),
-      GetItemOutput.schema,
-      r => GetItemOutput.read(r, GetItemOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ProvisionedThroughputExceededException.schema, r => ProvisionedThroughputExceededException.read(r, ProvisionedThroughputExceededException.schema)),
-        new rt.ErrorType(RequestLimitExceeded.schema, r => RequestLimitExceeded.read(r, RequestLimitExceeded.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(ThrottlingException.schema, r => ThrottlingException.read(r, ThrottlingException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val GetResourcePolicy: rt.Operation[GetResourcePolicyInput, GetResourcePolicyOutput] =
+      rt.Operation.of[GetResourcePolicyInput, GetResourcePolicyOutput](rt.ShapeId("com.amazonaws.dynamodb", "GetResourcePolicy"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: PolicyNotFoundException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val GetResourcePolicy: rt.Operation[GetResourcePolicyInput, GetResourcePolicyOutput] = new rt.Operation[GetResourcePolicyInput, GetResourcePolicyOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "GetResourcePolicy"),
-      GetResourcePolicyInput.schema,
-      (w, in) => GetResourcePolicyInput.write(w, GetResourcePolicyInput.schema, in),
-      GetResourcePolicyOutput.schema,
-      r => GetResourcePolicyOutput.read(r, GetResourcePolicyOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(PolicyNotFoundException.schema, r => PolicyNotFoundException.read(r, PolicyNotFoundException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ImportTable: rt.Operation[ImportTableInput, ImportTableOutput] =
+      rt.Operation.of[ImportTableInput, ImportTableOutput](rt.ShapeId("com.amazonaws.dynamodb", "ImportTable"), rt.TypeRegistry.of[ImportConflictException *: LimitExceededException *: ResourceInUseException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ImportTable: rt.Operation[ImportTableInput, ImportTableOutput] = new rt.Operation[ImportTableInput, ImportTableOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "ImportTable"),
-      ImportTableInput.schema,
-      (w, in) => ImportTableInput.write(w, ImportTableInput.schema, in),
-      ImportTableOutput.schema,
-      r => ImportTableOutput.read(r, ImportTableOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(ImportConflictException.schema, r => ImportConflictException.read(r, ImportConflictException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(ResourceInUseException.schema, r => ResourceInUseException.read(r, ResourceInUseException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ListBackups: rt.Operation[ListBackupsInput, ListBackupsOutput] =
+      rt.Operation.of[ListBackupsInput, ListBackupsOutput](rt.ShapeId("com.amazonaws.dynamodb", "ListBackups"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ListBackups: rt.Operation[ListBackupsInput, ListBackupsOutput] = new rt.Operation[ListBackupsInput, ListBackupsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "ListBackups"),
-      ListBackupsInput.schema,
-      (w, in) => ListBackupsInput.write(w, ListBackupsInput.schema, in),
-      ListBackupsOutput.schema,
-      r => ListBackupsOutput.read(r, ListBackupsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ListBulkOperations: rt.Operation[ListBulkOperationsInput, ListBulkOperationsOutput] =
+      rt.Operation.of[ListBulkOperationsInput, ListBulkOperationsOutput](rt.ShapeId("com.amazonaws.dynamodb", "ListBulkOperations"), rt.TypeRegistry.of[InvalidEndpointException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ListBulkOperations: rt.Operation[ListBulkOperationsInput, ListBulkOperationsOutput] = new rt.Operation[ListBulkOperationsInput, ListBulkOperationsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "ListBulkOperations"),
-      ListBulkOperationsInput.schema,
-      (w, in) => ListBulkOperationsInput.write(w, ListBulkOperationsInput.schema, in),
-      ListBulkOperationsOutput.schema,
-      r => ListBulkOperationsOutput.read(r, ListBulkOperationsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ListContributorInsights: rt.Operation[ListContributorInsightsInput, ListContributorInsightsOutput] =
+      rt.Operation.of[ListContributorInsightsInput, ListContributorInsightsOutput](rt.ShapeId("com.amazonaws.dynamodb", "ListContributorInsights"), rt.TypeRegistry.of[InternalServerError *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ListContributorInsights: rt.Operation[ListContributorInsightsInput, ListContributorInsightsOutput] = new rt.Operation[ListContributorInsightsInput, ListContributorInsightsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "ListContributorInsights"),
-      ListContributorInsightsInput.schema,
-      (w, in) => ListContributorInsightsInput.write(w, ListContributorInsightsInput.schema, in),
-      ListContributorInsightsOutput.schema,
-      r => ListContributorInsightsOutput.read(r, ListContributorInsightsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ListExports: rt.Operation[ListExportsInput, ListExportsOutput] =
+      rt.Operation.of[ListExportsInput, ListExportsOutput](rt.ShapeId("com.amazonaws.dynamodb", "ListExports"), rt.TypeRegistry.of[InternalServerError *: LimitExceededException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ListExports: rt.Operation[ListExportsInput, ListExportsOutput] = new rt.Operation[ListExportsInput, ListExportsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "ListExports"),
-      ListExportsInput.schema,
-      (w, in) => ListExportsInput.write(w, ListExportsInput.schema, in),
-      ListExportsOutput.schema,
-      r => ListExportsOutput.read(r, ListExportsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ListGlobalTables: rt.Operation[ListGlobalTablesInput, ListGlobalTablesOutput] =
+      rt.Operation.of[ListGlobalTablesInput, ListGlobalTablesOutput](rt.ShapeId("com.amazonaws.dynamodb", "ListGlobalTables"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ListGlobalTables: rt.Operation[ListGlobalTablesInput, ListGlobalTablesOutput] = new rt.Operation[ListGlobalTablesInput, ListGlobalTablesOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "ListGlobalTables"),
-      ListGlobalTablesInput.schema,
-      (w, in) => ListGlobalTablesInput.write(w, ListGlobalTablesInput.schema, in),
-      ListGlobalTablesOutput.schema,
-      r => ListGlobalTablesOutput.read(r, ListGlobalTablesOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ListImports: rt.Operation[ListImportsInput, ListImportsOutput] =
+      rt.Operation.of[ListImportsInput, ListImportsOutput](rt.ShapeId("com.amazonaws.dynamodb", "ListImports"), rt.TypeRegistry.of[LimitExceededException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ListImports: rt.Operation[ListImportsInput, ListImportsOutput] = new rt.Operation[ListImportsInput, ListImportsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "ListImports"),
-      ListImportsInput.schema,
-      (w, in) => ListImportsInput.write(w, ListImportsInput.schema, in),
-      ListImportsOutput.schema,
-      r => ListImportsOutput.read(r, ListImportsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ListTables: rt.Operation[ListTablesInput, ListTablesOutput] =
+      rt.Operation.of[ListTablesInput, ListTablesOutput](rt.ShapeId("com.amazonaws.dynamodb", "ListTables"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ListTables: rt.Operation[ListTablesInput, ListTablesOutput] = new rt.Operation[ListTablesInput, ListTablesOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "ListTables"),
-      ListTablesInput.schema,
-      (w, in) => ListTablesInput.write(w, ListTablesInput.schema, in),
-      ListTablesOutput.schema,
-      r => ListTablesOutput.read(r, ListTablesOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val ListTagsOfResource: rt.Operation[ListTagsOfResourceInput, ListTagsOfResourceOutput] =
+      rt.Operation.of[ListTagsOfResourceInput, ListTagsOfResourceOutput](rt.ShapeId("com.amazonaws.dynamodb", "ListTagsOfResource"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val ListTagsOfResource: rt.Operation[ListTagsOfResourceInput, ListTagsOfResourceOutput] = new rt.Operation[ListTagsOfResourceInput, ListTagsOfResourceOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "ListTagsOfResource"),
-      ListTagsOfResourceInput.schema,
-      (w, in) => ListTagsOfResourceInput.write(w, ListTagsOfResourceInput.schema, in),
-      ListTagsOfResourceOutput.schema,
-      r => ListTagsOfResourceOutput.read(r, ListTagsOfResourceOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val PutItem: rt.Operation[PutItemInput, PutItemOutput] =
+      rt.Operation.of[PutItemInput, PutItemOutput](rt.ShapeId("com.amazonaws.dynamodb", "PutItem"), rt.TypeRegistry.of[ConditionalCheckFailedException *: InternalServerError *: InvalidEndpointException *: ItemCollectionSizeLimitExceededException *: ProvisionedThroughputExceededException *: ReplicatedWriteConflictException *: RequestLimitExceeded *: ResourceNotFoundException *: ThrottlingException *: TransactionConflictException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val PutItem: rt.Operation[PutItemInput, PutItemOutput] = new rt.Operation[PutItemInput, PutItemOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "PutItem"),
-      PutItemInput.schema,
-      (w, in) => PutItemInput.write(w, PutItemInput.schema, in),
-      PutItemOutput.schema,
-      r => PutItemOutput.read(r, PutItemOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(ConditionalCheckFailedException.schema, r => ConditionalCheckFailedException.read(r, ConditionalCheckFailedException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ItemCollectionSizeLimitExceededException.schema, r => ItemCollectionSizeLimitExceededException.read(r, ItemCollectionSizeLimitExceededException.schema)),
-        new rt.ErrorType(ProvisionedThroughputExceededException.schema, r => ProvisionedThroughputExceededException.read(r, ProvisionedThroughputExceededException.schema)),
-        new rt.ErrorType(ReplicatedWriteConflictException.schema, r => ReplicatedWriteConflictException.read(r, ReplicatedWriteConflictException.schema)),
-        new rt.ErrorType(RequestLimitExceeded.schema, r => RequestLimitExceeded.read(r, RequestLimitExceeded.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(ThrottlingException.schema, r => ThrottlingException.read(r, ThrottlingException.schema)),
-        new rt.ErrorType(TransactionConflictException.schema, r => TransactionConflictException.read(r, TransactionConflictException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val PutResourcePolicy: rt.Operation[PutResourcePolicyInput, PutResourcePolicyOutput] =
+      rt.Operation.of[PutResourcePolicyInput, PutResourcePolicyOutput](rt.ShapeId("com.amazonaws.dynamodb", "PutResourcePolicy"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: LimitExceededException *: PolicyNotFoundException *: ResourceInUseException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val PutResourcePolicy: rt.Operation[PutResourcePolicyInput, PutResourcePolicyOutput] = new rt.Operation[PutResourcePolicyInput, PutResourcePolicyOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "PutResourcePolicy"),
-      PutResourcePolicyInput.schema,
-      (w, in) => PutResourcePolicyInput.write(w, PutResourcePolicyInput.schema, in),
-      PutResourcePolicyOutput.schema,
-      r => PutResourcePolicyOutput.read(r, PutResourcePolicyOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(PolicyNotFoundException.schema, r => PolicyNotFoundException.read(r, PolicyNotFoundException.schema)),
-        new rt.ErrorType(ResourceInUseException.schema, r => ResourceInUseException.read(r, ResourceInUseException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val Query: rt.Operation[QueryInput, QueryOutput] =
+      rt.Operation.of[QueryInput, QueryOutput](rt.ShapeId("com.amazonaws.dynamodb", "Query"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: ProvisionedThroughputExceededException *: RequestLimitExceeded *: ResourceNotFoundException *: ThrottlingException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val Query: rt.Operation[QueryInput, QueryOutput] = new rt.Operation[QueryInput, QueryOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "Query"),
-      QueryInput.schema,
-      (w, in) => QueryInput.write(w, QueryInput.schema, in),
-      QueryOutput.schema,
-      r => QueryOutput.read(r, QueryOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ProvisionedThroughputExceededException.schema, r => ProvisionedThroughputExceededException.read(r, ProvisionedThroughputExceededException.schema)),
-        new rt.ErrorType(RequestLimitExceeded.schema, r => RequestLimitExceeded.read(r, RequestLimitExceeded.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(ThrottlingException.schema, r => ThrottlingException.read(r, ThrottlingException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val RestoreTableFromBackup: rt.Operation[RestoreTableFromBackupInput, RestoreTableFromBackupOutput] =
+      rt.Operation.of[RestoreTableFromBackupInput, RestoreTableFromBackupOutput](rt.ShapeId("com.amazonaws.dynamodb", "RestoreTableFromBackup"), rt.TypeRegistry.of[BackupInUseException *: BackupNotFoundException *: InternalServerError *: InvalidEndpointException *: LimitExceededException *: TableAlreadyExistsException *: TableInUseException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val RestoreTableFromBackup: rt.Operation[RestoreTableFromBackupInput, RestoreTableFromBackupOutput] = new rt.Operation[RestoreTableFromBackupInput, RestoreTableFromBackupOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "RestoreTableFromBackup"),
-      RestoreTableFromBackupInput.schema,
-      (w, in) => RestoreTableFromBackupInput.write(w, RestoreTableFromBackupInput.schema, in),
-      RestoreTableFromBackupOutput.schema,
-      r => RestoreTableFromBackupOutput.read(r, RestoreTableFromBackupOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(BackupInUseException.schema, r => BackupInUseException.read(r, BackupInUseException.schema)),
-        new rt.ErrorType(BackupNotFoundException.schema, r => BackupNotFoundException.read(r, BackupNotFoundException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(TableAlreadyExistsException.schema, r => TableAlreadyExistsException.read(r, TableAlreadyExistsException.schema)),
-        new rt.ErrorType(TableInUseException.schema, r => TableInUseException.read(r, TableInUseException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val RestoreTableToPointInTime: rt.Operation[RestoreTableToPointInTimeInput, RestoreTableToPointInTimeOutput] =
+      rt.Operation.of[RestoreTableToPointInTimeInput, RestoreTableToPointInTimeOutput](rt.ShapeId("com.amazonaws.dynamodb", "RestoreTableToPointInTime"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: InvalidRestoreTimeException *: LimitExceededException *: PointInTimeRecoveryUnavailableException *: TableAlreadyExistsException *: TableInUseException *: TableNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val RestoreTableToPointInTime: rt.Operation[RestoreTableToPointInTimeInput, RestoreTableToPointInTimeOutput] = new rt.Operation[RestoreTableToPointInTimeInput, RestoreTableToPointInTimeOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "RestoreTableToPointInTime"),
-      RestoreTableToPointInTimeInput.schema,
-      (w, in) => RestoreTableToPointInTimeInput.write(w, RestoreTableToPointInTimeInput.schema, in),
-      RestoreTableToPointInTimeOutput.schema,
-      r => RestoreTableToPointInTimeOutput.read(r, RestoreTableToPointInTimeOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(InvalidRestoreTimeException.schema, r => InvalidRestoreTimeException.read(r, InvalidRestoreTimeException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(PointInTimeRecoveryUnavailableException.schema, r => PointInTimeRecoveryUnavailableException.read(r, PointInTimeRecoveryUnavailableException.schema)),
-        new rt.ErrorType(TableAlreadyExistsException.schema, r => TableAlreadyExistsException.read(r, TableAlreadyExistsException.schema)),
-        new rt.ErrorType(TableInUseException.schema, r => TableInUseException.read(r, TableInUseException.schema)),
-        new rt.ErrorType(TableNotFoundException.schema, r => TableNotFoundException.read(r, TableNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val Scan: rt.Operation[ScanInput, ScanOutput] =
+      rt.Operation.of[ScanInput, ScanOutput](rt.ShapeId("com.amazonaws.dynamodb", "Scan"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: ProvisionedThroughputExceededException *: RequestLimitExceeded *: ResourceNotFoundException *: ThrottlingException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val Scan: rt.Operation[ScanInput, ScanOutput] = new rt.Operation[ScanInput, ScanOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "Scan"),
-      ScanInput.schema,
-      (w, in) => ScanInput.write(w, ScanInput.schema, in),
-      ScanOutput.schema,
-      r => ScanOutput.read(r, ScanOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ProvisionedThroughputExceededException.schema, r => ProvisionedThroughputExceededException.read(r, ProvisionedThroughputExceededException.schema)),
-        new rt.ErrorType(RequestLimitExceeded.schema, r => RequestLimitExceeded.read(r, RequestLimitExceeded.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(ThrottlingException.schema, r => ThrottlingException.read(r, ThrottlingException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val SearchVectors: rt.Operation[SearchVectorsInput, SearchVectorsOutput] =
+      rt.Operation.of[SearchVectorsInput, SearchVectorsOutput](rt.ShapeId("com.amazonaws.dynamodb", "SearchVectors"), rt.TypeRegistry.of[InternalServerError *: RequestLimitExceeded *: ResourceNotFoundException *: ThrottlingException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val SearchVectors: rt.Operation[SearchVectorsInput, SearchVectorsOutput] = new rt.Operation[SearchVectorsInput, SearchVectorsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "SearchVectors"),
-      SearchVectorsInput.schema,
-      (w, in) => SearchVectorsInput.write(w, SearchVectorsInput.schema, in),
-      SearchVectorsOutput.schema,
-      r => SearchVectorsOutput.read(r, SearchVectorsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(RequestLimitExceeded.schema, r => RequestLimitExceeded.read(r, RequestLimitExceeded.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(ThrottlingException.schema, r => ThrottlingException.read(r, ThrottlingException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val StartBulkPutItems: rt.Operation[StartBulkPutItemsInput, StartBulkPutItemsOutput] =
+      rt.Operation.of[StartBulkPutItemsInput, StartBulkPutItemsOutput](rt.ShapeId("com.amazonaws.dynamodb", "StartBulkPutItems"), rt.TypeRegistry.of[IdempotentParameterMismatchException *: InvalidEndpointException *: LimitExceededException *: ResourceInUseException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val StartBulkPutItems: rt.Operation[StartBulkPutItemsInput, StartBulkPutItemsOutput] = new rt.Operation[StartBulkPutItemsInput, StartBulkPutItemsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "StartBulkPutItems"),
-      StartBulkPutItemsInput.schema,
-      (w, in) => StartBulkPutItemsInput.write(w, StartBulkPutItemsInput.schema, in),
-      StartBulkPutItemsOutput.schema,
-      r => StartBulkPutItemsOutput.read(r, StartBulkPutItemsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(IdempotentParameterMismatchException.schema, r => IdempotentParameterMismatchException.read(r, IdempotentParameterMismatchException.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(ResourceInUseException.schema, r => ResourceInUseException.read(r, ResourceInUseException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val TagResource: rt.Operation[TagResourceInput, scala.Unit] =
+      rt.Operation.of[TagResourceInput, scala.Unit](rt.ShapeId("com.amazonaws.dynamodb", "TagResource"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: LimitExceededException *: ResourceInUseException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val TagResource: rt.Operation[TagResourceInput, scala.Unit] = new rt.Operation[TagResourceInput, scala.Unit](
-      rt.ShapeId("com.amazonaws.dynamodb", "TagResource"),
-      TagResourceInput.schema,
-      (w, in) => TagResourceInput.write(w, TagResourceInput.schema, in),
-      rt.Prelude.Unit,
-      _ => (),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(ResourceInUseException.schema, r => ResourceInUseException.read(r, ResourceInUseException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val TransactGetItems: rt.Operation[TransactGetItemsInput, TransactGetItemsOutput] =
+      rt.Operation.of[TransactGetItemsInput, TransactGetItemsOutput](rt.ShapeId("com.amazonaws.dynamodb", "TransactGetItems"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: ProvisionedThroughputExceededException *: RequestLimitExceeded *: ResourceNotFoundException *: ThrottlingException *: TransactionCanceledException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val TransactGetItems: rt.Operation[TransactGetItemsInput, TransactGetItemsOutput] = new rt.Operation[TransactGetItemsInput, TransactGetItemsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "TransactGetItems"),
-      TransactGetItemsInput.schema,
-      (w, in) => TransactGetItemsInput.write(w, TransactGetItemsInput.schema, in),
-      TransactGetItemsOutput.schema,
-      r => TransactGetItemsOutput.read(r, TransactGetItemsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ProvisionedThroughputExceededException.schema, r => ProvisionedThroughputExceededException.read(r, ProvisionedThroughputExceededException.schema)),
-        new rt.ErrorType(RequestLimitExceeded.schema, r => RequestLimitExceeded.read(r, RequestLimitExceeded.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(ThrottlingException.schema, r => ThrottlingException.read(r, ThrottlingException.schema)),
-        new rt.ErrorType(TransactionCanceledException.schema, r => TransactionCanceledException.read(r, TransactionCanceledException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val TransactWriteItems: rt.Operation[TransactWriteItemsInput, TransactWriteItemsOutput] =
+      rt.Operation.of[TransactWriteItemsInput, TransactWriteItemsOutput](rt.ShapeId("com.amazonaws.dynamodb", "TransactWriteItems"), rt.TypeRegistry.of[IdempotentParameterMismatchException *: InternalServerError *: InvalidEndpointException *: ProvisionedThroughputExceededException *: RequestLimitExceeded *: ResourceNotFoundException *: ThrottlingException *: TransactionCanceledException *: TransactionInProgressException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val TransactWriteItems: rt.Operation[TransactWriteItemsInput, TransactWriteItemsOutput] = new rt.Operation[TransactWriteItemsInput, TransactWriteItemsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "TransactWriteItems"),
-      TransactWriteItemsInput.schema,
-      (w, in) => TransactWriteItemsInput.write(w, TransactWriteItemsInput.schema, in),
-      TransactWriteItemsOutput.schema,
-      r => TransactWriteItemsOutput.read(r, TransactWriteItemsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(IdempotentParameterMismatchException.schema, r => IdempotentParameterMismatchException.read(r, IdempotentParameterMismatchException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ProvisionedThroughputExceededException.schema, r => ProvisionedThroughputExceededException.read(r, ProvisionedThroughputExceededException.schema)),
-        new rt.ErrorType(RequestLimitExceeded.schema, r => RequestLimitExceeded.read(r, RequestLimitExceeded.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(ThrottlingException.schema, r => ThrottlingException.read(r, ThrottlingException.schema)),
-        new rt.ErrorType(TransactionCanceledException.schema, r => TransactionCanceledException.read(r, TransactionCanceledException.schema)),
-        new rt.ErrorType(TransactionInProgressException.schema, r => TransactionInProgressException.read(r, TransactionInProgressException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val UntagResource: rt.Operation[UntagResourceInput, scala.Unit] =
+      rt.Operation.of[UntagResourceInput, scala.Unit](rt.ShapeId("com.amazonaws.dynamodb", "UntagResource"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: LimitExceededException *: ResourceInUseException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val UntagResource: rt.Operation[UntagResourceInput, scala.Unit] = new rt.Operation[UntagResourceInput, scala.Unit](
-      rt.ShapeId("com.amazonaws.dynamodb", "UntagResource"),
-      UntagResourceInput.schema,
-      (w, in) => UntagResourceInput.write(w, UntagResourceInput.schema, in),
-      rt.Prelude.Unit,
-      _ => (),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(ResourceInUseException.schema, r => ResourceInUseException.read(r, ResourceInUseException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val UpdateContinuousBackups: rt.Operation[UpdateContinuousBackupsInput, UpdateContinuousBackupsOutput] =
+      rt.Operation.of[UpdateContinuousBackupsInput, UpdateContinuousBackupsOutput](rt.ShapeId("com.amazonaws.dynamodb", "UpdateContinuousBackups"), rt.TypeRegistry.of[ContinuousBackupsUnavailableException *: InternalServerError *: InvalidEndpointException *: TableNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val UpdateContinuousBackups: rt.Operation[UpdateContinuousBackupsInput, UpdateContinuousBackupsOutput] = new rt.Operation[UpdateContinuousBackupsInput, UpdateContinuousBackupsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "UpdateContinuousBackups"),
-      UpdateContinuousBackupsInput.schema,
-      (w, in) => UpdateContinuousBackupsInput.write(w, UpdateContinuousBackupsInput.schema, in),
-      UpdateContinuousBackupsOutput.schema,
-      r => UpdateContinuousBackupsOutput.read(r, UpdateContinuousBackupsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(ContinuousBackupsUnavailableException.schema, r => ContinuousBackupsUnavailableException.read(r, ContinuousBackupsUnavailableException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(TableNotFoundException.schema, r => TableNotFoundException.read(r, TableNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val UpdateContributorInsights: rt.Operation[UpdateContributorInsightsInput, UpdateContributorInsightsOutput] =
+      rt.Operation.of[UpdateContributorInsightsInput, UpdateContributorInsightsOutput](rt.ShapeId("com.amazonaws.dynamodb", "UpdateContributorInsights"), rt.TypeRegistry.of[InternalServerError *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val UpdateContributorInsights: rt.Operation[UpdateContributorInsightsInput, UpdateContributorInsightsOutput] = new rt.Operation[UpdateContributorInsightsInput, UpdateContributorInsightsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "UpdateContributorInsights"),
-      UpdateContributorInsightsInput.schema,
-      (w, in) => UpdateContributorInsightsInput.write(w, UpdateContributorInsightsInput.schema, in),
-      UpdateContributorInsightsOutput.schema,
-      r => UpdateContributorInsightsOutput.read(r, UpdateContributorInsightsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val UpdateGlobalTable: rt.Operation[UpdateGlobalTableInput, UpdateGlobalTableOutput] =
+      rt.Operation.of[UpdateGlobalTableInput, UpdateGlobalTableOutput](rt.ShapeId("com.amazonaws.dynamodb", "UpdateGlobalTable"), rt.TypeRegistry.of[GlobalTableNotFoundException *: InternalServerError *: InvalidEndpointException *: ReplicaAlreadyExistsException *: ReplicaNotFoundException *: TableNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val UpdateGlobalTable: rt.Operation[UpdateGlobalTableInput, UpdateGlobalTableOutput] = new rt.Operation[UpdateGlobalTableInput, UpdateGlobalTableOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "UpdateGlobalTable"),
-      UpdateGlobalTableInput.schema,
-      (w, in) => UpdateGlobalTableInput.write(w, UpdateGlobalTableInput.schema, in),
-      UpdateGlobalTableOutput.schema,
-      r => UpdateGlobalTableOutput.read(r, UpdateGlobalTableOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(GlobalTableNotFoundException.schema, r => GlobalTableNotFoundException.read(r, GlobalTableNotFoundException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ReplicaAlreadyExistsException.schema, r => ReplicaAlreadyExistsException.read(r, ReplicaAlreadyExistsException.schema)),
-        new rt.ErrorType(ReplicaNotFoundException.schema, r => ReplicaNotFoundException.read(r, ReplicaNotFoundException.schema)),
-        new rt.ErrorType(TableNotFoundException.schema, r => TableNotFoundException.read(r, TableNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val UpdateGlobalTableSettings: rt.Operation[UpdateGlobalTableSettingsInput, UpdateGlobalTableSettingsOutput] =
+      rt.Operation.of[UpdateGlobalTableSettingsInput, UpdateGlobalTableSettingsOutput](rt.ShapeId("com.amazonaws.dynamodb", "UpdateGlobalTableSettings"), rt.TypeRegistry.of[GlobalTableNotFoundException *: IndexNotFoundException *: InternalServerError *: InvalidEndpointException *: LimitExceededException *: ReplicaNotFoundException *: ResourceInUseException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val UpdateGlobalTableSettings: rt.Operation[UpdateGlobalTableSettingsInput, UpdateGlobalTableSettingsOutput] = new rt.Operation[UpdateGlobalTableSettingsInput, UpdateGlobalTableSettingsOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "UpdateGlobalTableSettings"),
-      UpdateGlobalTableSettingsInput.schema,
-      (w, in) => UpdateGlobalTableSettingsInput.write(w, UpdateGlobalTableSettingsInput.schema, in),
-      UpdateGlobalTableSettingsOutput.schema,
-      r => UpdateGlobalTableSettingsOutput.read(r, UpdateGlobalTableSettingsOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(GlobalTableNotFoundException.schema, r => GlobalTableNotFoundException.read(r, GlobalTableNotFoundException.schema)),
-        new rt.ErrorType(IndexNotFoundException.schema, r => IndexNotFoundException.read(r, IndexNotFoundException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(ReplicaNotFoundException.schema, r => ReplicaNotFoundException.read(r, ReplicaNotFoundException.schema)),
-        new rt.ErrorType(ResourceInUseException.schema, r => ResourceInUseException.read(r, ResourceInUseException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val UpdateItem: rt.Operation[UpdateItemInput, UpdateItemOutput] =
+      rt.Operation.of[UpdateItemInput, UpdateItemOutput](rt.ShapeId("com.amazonaws.dynamodb", "UpdateItem"), rt.TypeRegistry.of[ConditionalCheckFailedException *: InternalServerError *: InvalidEndpointException *: ItemCollectionSizeLimitExceededException *: ProvisionedThroughputExceededException *: ReplicatedWriteConflictException *: RequestLimitExceeded *: ResourceNotFoundException *: ThrottlingException *: TransactionConflictException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val UpdateItem: rt.Operation[UpdateItemInput, UpdateItemOutput] = new rt.Operation[UpdateItemInput, UpdateItemOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "UpdateItem"),
-      UpdateItemInput.schema,
-      (w, in) => UpdateItemInput.write(w, UpdateItemInput.schema, in),
-      UpdateItemOutput.schema,
-      r => UpdateItemOutput.read(r, UpdateItemOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(ConditionalCheckFailedException.schema, r => ConditionalCheckFailedException.read(r, ConditionalCheckFailedException.schema)),
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(ItemCollectionSizeLimitExceededException.schema, r => ItemCollectionSizeLimitExceededException.read(r, ItemCollectionSizeLimitExceededException.schema)),
-        new rt.ErrorType(ProvisionedThroughputExceededException.schema, r => ProvisionedThroughputExceededException.read(r, ProvisionedThroughputExceededException.schema)),
-        new rt.ErrorType(ReplicatedWriteConflictException.schema, r => ReplicatedWriteConflictException.read(r, ReplicatedWriteConflictException.schema)),
-        new rt.ErrorType(RequestLimitExceeded.schema, r => RequestLimitExceeded.read(r, RequestLimitExceeded.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema)),
-        new rt.ErrorType(ThrottlingException.schema, r => ThrottlingException.read(r, ThrottlingException.schema)),
-        new rt.ErrorType(TransactionConflictException.schema, r => TransactionConflictException.read(r, TransactionConflictException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val UpdateKinesisStreamingDestination: rt.Operation[UpdateKinesisStreamingDestinationInput, UpdateKinesisStreamingDestinationOutput] =
+      rt.Operation.of[UpdateKinesisStreamingDestinationInput, UpdateKinesisStreamingDestinationOutput](rt.ShapeId("com.amazonaws.dynamodb", "UpdateKinesisStreamingDestination"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: LimitExceededException *: ResourceInUseException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val UpdateKinesisStreamingDestination: rt.Operation[UpdateKinesisStreamingDestinationInput, UpdateKinesisStreamingDestinationOutput] = new rt.Operation[UpdateKinesisStreamingDestinationInput, UpdateKinesisStreamingDestinationOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "UpdateKinesisStreamingDestination"),
-      UpdateKinesisStreamingDestinationInput.schema,
-      (w, in) => UpdateKinesisStreamingDestinationInput.write(w, UpdateKinesisStreamingDestinationInput.schema, in),
-      UpdateKinesisStreamingDestinationOutput.schema,
-      r => UpdateKinesisStreamingDestinationOutput.read(r, UpdateKinesisStreamingDestinationOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(ResourceInUseException.schema, r => ResourceInUseException.read(r, ResourceInUseException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val UpdateTable: rt.Operation[UpdateTableInput, UpdateTableOutput] =
+      rt.Operation.of[UpdateTableInput, UpdateTableOutput](rt.ShapeId("com.amazonaws.dynamodb", "UpdateTable"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: LimitExceededException *: ResourceInUseException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val UpdateTable: rt.Operation[UpdateTableInput, UpdateTableOutput] = new rt.Operation[UpdateTableInput, UpdateTableOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "UpdateTable"),
-      UpdateTableInput.schema,
-      (w, in) => UpdateTableInput.write(w, UpdateTableInput.schema, in),
-      UpdateTableOutput.schema,
-      r => UpdateTableOutput.read(r, UpdateTableOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(ResourceInUseException.schema, r => ResourceInUseException.read(r, ResourceInUseException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val UpdateTableReplicaAutoScaling: rt.Operation[UpdateTableReplicaAutoScalingInput, UpdateTableReplicaAutoScalingOutput] =
+      rt.Operation.of[UpdateTableReplicaAutoScalingInput, UpdateTableReplicaAutoScalingOutput](rt.ShapeId("com.amazonaws.dynamodb", "UpdateTableReplicaAutoScaling"), rt.TypeRegistry.of[InternalServerError *: LimitExceededException *: ResourceInUseException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
 
-    lazy val UpdateTableReplicaAutoScaling: rt.Operation[UpdateTableReplicaAutoScalingInput, UpdateTableReplicaAutoScalingOutput] = new rt.Operation[UpdateTableReplicaAutoScalingInput, UpdateTableReplicaAutoScalingOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "UpdateTableReplicaAutoScaling"),
-      UpdateTableReplicaAutoScalingInput.schema,
-      (w, in) => UpdateTableReplicaAutoScalingInput.write(w, UpdateTableReplicaAutoScalingInput.schema, in),
-      UpdateTableReplicaAutoScalingOutput.schema,
-      r => UpdateTableReplicaAutoScalingOutput.read(r, UpdateTableReplicaAutoScalingOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(ResourceInUseException.schema, r => ResourceInUseException.read(r, ResourceInUseException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
-
-    lazy val UpdateTimeToLive: rt.Operation[UpdateTimeToLiveInput, UpdateTimeToLiveOutput] = new rt.Operation[UpdateTimeToLiveInput, UpdateTimeToLiveOutput](
-      rt.ShapeId("com.amazonaws.dynamodb", "UpdateTimeToLive"),
-      UpdateTimeToLiveInput.schema,
-      (w, in) => UpdateTimeToLiveInput.write(w, UpdateTimeToLiveInput.schema, in),
-      UpdateTimeToLiveOutput.schema,
-      r => UpdateTimeToLiveOutput.read(r, UpdateTimeToLiveOutput.schema),
-      new rt.TypeRegistry(scala.collection.immutable.List(
-        new rt.ErrorType(InternalServerError.schema, r => InternalServerError.read(r, InternalServerError.schema)),
-        new rt.ErrorType(InvalidEndpointException.schema, r => InvalidEndpointException.read(r, InvalidEndpointException.schema)),
-        new rt.ErrorType(LimitExceededException.schema, r => LimitExceededException.read(r, LimitExceededException.schema)),
-        new rt.ErrorType(ResourceInUseException.schema, r => ResourceInUseException.read(r, ResourceInUseException.schema)),
-        new rt.ErrorType(ResourceNotFoundException.schema, r => ResourceNotFoundException.read(r, ResourceNotFoundException.schema))
-      )),
-      scala.collection.immutable.List("aws.auth#sigv4")
-    )
+    lazy val UpdateTimeToLive: rt.Operation[UpdateTimeToLiveInput, UpdateTimeToLiveOutput] =
+      rt.Operation.of[UpdateTimeToLiveInput, UpdateTimeToLiveOutput](rt.ShapeId("com.amazonaws.dynamodb", "UpdateTimeToLive"), rt.TypeRegistry.of[InternalServerError *: InvalidEndpointException *: LimitExceededException *: ResourceInUseException *: ResourceNotFoundException *: EmptyTuple], scala.collection.immutable.List("aws.auth#sigv4"))
   }
 
   private final class Impl(pipeline: rt.ClientPipeline) extends DynamoDBClient {

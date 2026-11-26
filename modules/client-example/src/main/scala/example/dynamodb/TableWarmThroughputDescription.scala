@@ -17,32 +17,5 @@ object TableWarmThroughputDescription {
     rt.MemberDef("Status", () => TableStatus.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TableWarmThroughputDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = TableWarmThroughputDescription.schema.members
-      value.readUnitsPerSecond.foreach(x => s.writeLong(ms(0), x))
-      value.writeUnitsPerSecond.foreach(x => s.writeLong(ms(1), x))
-      value.status.foreach(x => s.writeString(ms(2), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TableWarmThroughputDescription = {
-    var f0: scala.Option[scala.Long] = scala.None
-    var f1: scala.Option[scala.Long] = scala.None
-    var f2: scala.Option[TableStatus] = scala.None
-    r.readStruct(TableWarmThroughputDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readLong(m))
-          case 1 => f1 = scala.Some(mr.readLong(m))
-          case 2 => f2 = scala.Some(TableStatus.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    TableWarmThroughputDescription(
-      f0,
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[TableWarmThroughputDescription] = rt.ShapeCodec.struct[TableWarmThroughputDescription](schema)
 }

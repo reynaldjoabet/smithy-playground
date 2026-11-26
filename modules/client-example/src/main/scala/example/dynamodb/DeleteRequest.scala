@@ -13,24 +13,5 @@ object DeleteRequest {
     rt.MemberDef("Key", () => Key.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DeleteRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DeleteRequest.schema.members
-      Key.write(s, ms(0), value.key)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DeleteRequest = {
-    var f0: scala.Option[Key] = scala.None
-    r.readStruct(DeleteRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(Key.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    DeleteRequest(
-      f0.getOrElse(scala.collection.immutable.Map.empty)
-    )
-  }
+  given codec: rt.SchemaCodec[DeleteRequest] = rt.ShapeCodec.struct[DeleteRequest](schema)
 }

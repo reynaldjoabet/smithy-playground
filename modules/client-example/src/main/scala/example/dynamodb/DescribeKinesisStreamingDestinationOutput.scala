@@ -14,28 +14,5 @@ object DescribeKinesisStreamingDestinationOutput {
     rt.MemberDef("KinesisDataStreamDestinations", () => KinesisDataStreamDestinations.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DescribeKinesisStreamingDestinationOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DescribeKinesisStreamingDestinationOutput.schema.members
-      value.tableName.foreach(x => s.writeString(ms(0), x))
-      value.kinesisDataStreamDestinations.foreach(x => KinesisDataStreamDestinations.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DescribeKinesisStreamingDestinationOutput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[KinesisDataStreamDestinations] = scala.None
-    r.readStruct(DescribeKinesisStreamingDestinationOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(KinesisDataStreamDestinations.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    DescribeKinesisStreamingDestinationOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[DescribeKinesisStreamingDestinationOutput] = rt.ShapeCodec.struct[DescribeKinesisStreamingDestinationOutput](schema)
 }

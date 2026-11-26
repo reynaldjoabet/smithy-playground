@@ -23,44 +23,5 @@ object SourceTableFeatureDetails {
     rt.MemberDef("VectorIndexes", () => VectorIndexes.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: SourceTableFeatureDetails): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = SourceTableFeatureDetails.schema.members
-      value.localSecondaryIndexes.foreach(x => LocalSecondaryIndexes.write(s, ms(0), x))
-      value.globalSecondaryIndexes.foreach(x => GlobalSecondaryIndexes.write(s, ms(1), x))
-      value.streamDescription.foreach(x => StreamSpecification.write(s, ms(2), x))
-      value.timeToLiveDescription.foreach(x => TimeToLiveDescription.write(s, ms(3), x))
-      value.sseDescription.foreach(x => SSEDescription.write(s, ms(4), x))
-      value.vectorIndexes.foreach(x => VectorIndexes.write(s, ms(5), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): SourceTableFeatureDetails = {
-    var f0: scala.Option[LocalSecondaryIndexes] = scala.None
-    var f1: scala.Option[GlobalSecondaryIndexes] = scala.None
-    var f2: scala.Option[StreamSpecification] = scala.None
-    var f3: scala.Option[TimeToLiveDescription] = scala.None
-    var f4: scala.Option[SSEDescription] = scala.None
-    var f5: scala.Option[VectorIndexes] = scala.None
-    r.readStruct(SourceTableFeatureDetails.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(LocalSecondaryIndexes.read(mr, m))
-          case 1 => f1 = scala.Some(GlobalSecondaryIndexes.read(mr, m))
-          case 2 => f2 = scala.Some(StreamSpecification.read(mr, m))
-          case 3 => f3 = scala.Some(TimeToLiveDescription.read(mr, m))
-          case 4 => f4 = scala.Some(SSEDescription.read(mr, m))
-          case 5 => f5 = scala.Some(VectorIndexes.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    SourceTableFeatureDetails(
-      f0,
-      f1,
-      f2,
-      f3,
-      f4,
-      f5
-    )
-  }
+  given codec: rt.SchemaCodec[SourceTableFeatureDetails] = rt.ShapeCodec.struct[SourceTableFeatureDetails](schema)
 }

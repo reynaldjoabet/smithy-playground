@@ -14,28 +14,5 @@ object ListMessageMoveTasksRequest {
     rt.MemberDef("MaxResults", () => rt.Prelude.Integer, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ListMessageMoveTasksRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ListMessageMoveTasksRequest.schema.members
-      s.writeString(ms(0), value.sourceArn)
-      value.maxResults.foreach(x => s.writeInteger(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ListMessageMoveTasksRequest = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[scala.Int] = scala.None
-    r.readStruct(ListMessageMoveTasksRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readInteger(m))
-          case _ => ()
-        }
-      }
-    }
-    ListMessageMoveTasksRequest(
-      f0.getOrElse(""),
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ListMessageMoveTasksRequest] = rt.ShapeCodec.struct[ListMessageMoveTasksRequest](schema)
 }

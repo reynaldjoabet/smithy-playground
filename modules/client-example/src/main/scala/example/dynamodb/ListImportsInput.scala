@@ -16,32 +16,5 @@ object ListImportsInput {
     rt.MemberDef("NextToken", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ListImportsInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ListImportsInput.schema.members
-      value.tableArn.foreach(x => s.writeString(ms(0), x))
-      value.pageSize.foreach(x => s.writeInteger(ms(1), x))
-      value.nextToken.foreach(x => s.writeString(ms(2), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ListImportsInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[scala.Int] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ListImportsInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readInteger(m))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ListImportsInput(
-      f0,
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[ListImportsInput] = rt.ShapeCodec.struct[ListImportsInput](schema)
 }

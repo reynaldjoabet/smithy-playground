@@ -15,28 +15,5 @@ object TimeToLiveSpecification {
     rt.MemberDef("AttributeName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TimeToLiveSpecification): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = TimeToLiveSpecification.schema.members
-      s.writeBoolean(ms(0), value.enabled)
-      s.writeString(ms(1), value.attributeName)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TimeToLiveSpecification = {
-    var f0: scala.Option[scala.Boolean] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(TimeToLiveSpecification.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readBoolean(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    TimeToLiveSpecification(
-      f0.getOrElse(false),
-      f1.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[TimeToLiveSpecification] = rt.ShapeCodec.struct[TimeToLiveSpecification](schema)
 }

@@ -19,36 +19,5 @@ object ReplicaGlobalSecondaryIndexAutoScalingDescription {
     rt.MemberDef("ProvisionedWriteCapacityAutoScalingSettings", () => AutoScalingSettingsDescription.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ReplicaGlobalSecondaryIndexAutoScalingDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ReplicaGlobalSecondaryIndexAutoScalingDescription.schema.members
-      value.indexName.foreach(x => s.writeString(ms(0), x))
-      value.indexStatus.foreach(x => s.writeString(ms(1), x.value))
-      value.provisionedReadCapacityAutoScalingSettings.foreach(x => AutoScalingSettingsDescription.write(s, ms(2), x))
-      value.provisionedWriteCapacityAutoScalingSettings.foreach(x => AutoScalingSettingsDescription.write(s, ms(3), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ReplicaGlobalSecondaryIndexAutoScalingDescription = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[IndexStatus] = scala.None
-    var f2: scala.Option[AutoScalingSettingsDescription] = scala.None
-    var f3: scala.Option[AutoScalingSettingsDescription] = scala.None
-    r.readStruct(ReplicaGlobalSecondaryIndexAutoScalingDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(IndexStatus.fromValue(mr.readString(m)))
-          case 2 => f2 = scala.Some(AutoScalingSettingsDescription.read(mr, m))
-          case 3 => f3 = scala.Some(AutoScalingSettingsDescription.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ReplicaGlobalSecondaryIndexAutoScalingDescription(
-      f0,
-      f1,
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[ReplicaGlobalSecondaryIndexAutoScalingDescription] = rt.ShapeCodec.struct[ReplicaGlobalSecondaryIndexAutoScalingDescription](schema)
 }

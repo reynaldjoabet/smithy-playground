@@ -9,17 +9,4 @@ object OutputTypeList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "OutputTypeList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => OutputTypeEnum.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: OutputTypeList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = OutputTypeList.schema.members(0)
-      value.foreach(x => lw.writeString(m, x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): OutputTypeList = {
-      val m = OutputTypeList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[OutputTypeEnum]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(OutputTypeEnum.fromValue(er.readString(m))): scala.Unit))
-    b.result()
-  }
 }

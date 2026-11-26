@@ -19,36 +19,5 @@ object BatchStatementRequest {
     rt.MemberDef("ReturnValuesOnConditionCheckFailure", () => ReturnValuesOnConditionCheckFailure.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BatchStatementRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = BatchStatementRequest.schema.members
-      s.writeString(ms(0), value.statement)
-      value.parameters.foreach(x => PreparedStatementParameters.write(s, ms(1), x))
-      value.consistentRead.foreach(x => s.writeBoolean(ms(2), x))
-      value.returnValuesOnConditionCheckFailure.foreach(x => s.writeString(ms(3), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BatchStatementRequest = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[PreparedStatementParameters] = scala.None
-    var f2: scala.Option[scala.Boolean] = scala.None
-    var f3: scala.Option[ReturnValuesOnConditionCheckFailure] = scala.None
-    r.readStruct(BatchStatementRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(PreparedStatementParameters.read(mr, m))
-          case 2 => f2 = scala.Some(mr.readBoolean(m))
-          case 3 => f3 = scala.Some(ReturnValuesOnConditionCheckFailure.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    BatchStatementRequest(
-      f0.getOrElse(""),
-      f1,
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[BatchStatementRequest] = rt.ShapeCodec.struct[BatchStatementRequest](schema)
 }

@@ -15,28 +15,5 @@ object GetQueueUrlRequest {
     rt.MemberDef("QueueOwnerAWSAccountId", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: GetQueueUrlRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = GetQueueUrlRequest.schema.members
-      s.writeString(ms(0), value.queueName)
-      value.queueOwnerAWSAccountId.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): GetQueueUrlRequest = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(GetQueueUrlRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    GetQueueUrlRequest(
-      f0.getOrElse(""),
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[GetQueueUrlRequest] = rt.ShapeCodec.struct[GetQueueUrlRequest](schema)
 }

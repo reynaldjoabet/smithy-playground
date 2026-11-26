@@ -29,56 +29,5 @@ object TableCreationParameters {
     rt.MemberDef("VectorIndexes", () => VectorIndexList.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TableCreationParameters): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = TableCreationParameters.schema.members
-      s.writeString(ms(0), value.tableName)
-      AttributeDefinitions.write(s, ms(1), value.attributeDefinitions)
-      KeySchema.write(s, ms(2), value.keySchema)
-      value.billingMode.foreach(x => s.writeString(ms(3), x.value))
-      value.provisionedThroughput.foreach(x => ProvisionedThroughput.write(s, ms(4), x))
-      value.onDemandThroughput.foreach(x => OnDemandThroughput.write(s, ms(5), x))
-      value.sseSpecification.foreach(x => SSESpecification.write(s, ms(6), x))
-      value.globalSecondaryIndexes.foreach(x => GlobalSecondaryIndexList.write(s, ms(7), x))
-      value.vectorIndexes.foreach(x => VectorIndexList.write(s, ms(8), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TableCreationParameters = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[AttributeDefinitions] = scala.None
-    var f2: scala.Option[KeySchema] = scala.None
-    var f3: scala.Option[BillingMode] = scala.None
-    var f4: scala.Option[ProvisionedThroughput] = scala.None
-    var f5: scala.Option[OnDemandThroughput] = scala.None
-    var f6: scala.Option[SSESpecification] = scala.None
-    var f7: scala.Option[GlobalSecondaryIndexList] = scala.None
-    var f8: scala.Option[VectorIndexList] = scala.None
-    r.readStruct(TableCreationParameters.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(AttributeDefinitions.read(mr, m))
-          case 2 => f2 = scala.Some(KeySchema.read(mr, m))
-          case 3 => f3 = scala.Some(BillingMode.fromValue(mr.readString(m)))
-          case 4 => f4 = scala.Some(ProvisionedThroughput.read(mr, m))
-          case 5 => f5 = scala.Some(OnDemandThroughput.read(mr, m))
-          case 6 => f6 = scala.Some(SSESpecification.read(mr, m))
-          case 7 => f7 = scala.Some(GlobalSecondaryIndexList.read(mr, m))
-          case 8 => f8 = scala.Some(VectorIndexList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    TableCreationParameters(
-      f0.getOrElse(""),
-      f1.getOrElse(scala.Nil),
-      f2.getOrElse(scala.Nil),
-      f3,
-      f4,
-      f5,
-      f6,
-      f7,
-      f8
-    )
-  }
+  given codec: rt.SchemaCodec[TableCreationParameters] = rt.ShapeCodec.struct[TableCreationParameters](schema)
 }

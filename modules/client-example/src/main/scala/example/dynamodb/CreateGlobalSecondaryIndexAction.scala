@@ -23,44 +23,5 @@ object CreateGlobalSecondaryIndexAction {
     rt.MemberDef("WarmThroughput", () => WarmThroughput.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: CreateGlobalSecondaryIndexAction): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = CreateGlobalSecondaryIndexAction.schema.members
-      s.writeString(ms(0), value.indexName)
-      KeySchema.write(s, ms(1), value.keySchema)
-      Projection.write(s, ms(2), value.projection)
-      value.provisionedThroughput.foreach(x => ProvisionedThroughput.write(s, ms(3), x))
-      value.onDemandThroughput.foreach(x => OnDemandThroughput.write(s, ms(4), x))
-      value.warmThroughput.foreach(x => WarmThroughput.write(s, ms(5), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): CreateGlobalSecondaryIndexAction = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[KeySchema] = scala.None
-    var f2: scala.Option[Projection] = scala.None
-    var f3: scala.Option[ProvisionedThroughput] = scala.None
-    var f4: scala.Option[OnDemandThroughput] = scala.None
-    var f5: scala.Option[WarmThroughput] = scala.None
-    r.readStruct(CreateGlobalSecondaryIndexAction.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(KeySchema.read(mr, m))
-          case 2 => f2 = scala.Some(Projection.read(mr, m))
-          case 3 => f3 = scala.Some(ProvisionedThroughput.read(mr, m))
-          case 4 => f4 = scala.Some(OnDemandThroughput.read(mr, m))
-          case 5 => f5 = scala.Some(WarmThroughput.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    CreateGlobalSecondaryIndexAction(
-      f0.getOrElse(""),
-      f1.getOrElse(scala.Nil),
-      f2.getOrElse(throw new rt.SerializationException("Missing required member CreateGlobalSecondaryIndexAction.Projection")),
-      f3,
-      f4,
-      f5
-    )
-  }
+  given codec: rt.SchemaCodec[CreateGlobalSecondaryIndexAction] = rt.ShapeCodec.struct[CreateGlobalSecondaryIndexAction](schema)
 }

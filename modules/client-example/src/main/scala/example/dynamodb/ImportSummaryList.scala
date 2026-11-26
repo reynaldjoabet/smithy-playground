@@ -9,17 +9,4 @@ object ImportSummaryList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "ImportSummaryList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => ImportSummary.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ImportSummaryList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = ImportSummaryList.schema.members(0)
-      value.foreach(x => ImportSummary.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ImportSummaryList = {
-      val m = ImportSummaryList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[ImportSummary]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(ImportSummary.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

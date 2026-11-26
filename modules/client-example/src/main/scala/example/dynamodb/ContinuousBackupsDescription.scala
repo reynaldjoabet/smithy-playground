@@ -15,28 +15,5 @@ object ContinuousBackupsDescription {
     rt.MemberDef("PointInTimeRecoveryDescription", () => PointInTimeRecoveryDescription.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ContinuousBackupsDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ContinuousBackupsDescription.schema.members
-      s.writeString(ms(0), value.continuousBackupsStatus.value)
-      value.pointInTimeRecoveryDescription.foreach(x => PointInTimeRecoveryDescription.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ContinuousBackupsDescription = {
-    var f0: scala.Option[ContinuousBackupsStatus] = scala.None
-    var f1: scala.Option[PointInTimeRecoveryDescription] = scala.None
-    r.readStruct(ContinuousBackupsDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ContinuousBackupsStatus.fromValue(mr.readString(m)))
-          case 1 => f1 = scala.Some(PointInTimeRecoveryDescription.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ContinuousBackupsDescription(
-      f0.getOrElse(ContinuousBackupsStatus.UnknownValue("")),
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ContinuousBackupsDescription] = rt.ShapeCodec.struct[ContinuousBackupsDescription](schema)
 }

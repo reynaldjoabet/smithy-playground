@@ -19,36 +19,5 @@ object UpdateGlobalSecondaryIndexAction {
     rt.MemberDef("WarmThroughput", () => WarmThroughput.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: UpdateGlobalSecondaryIndexAction): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = UpdateGlobalSecondaryIndexAction.schema.members
-      s.writeString(ms(0), value.indexName)
-      value.provisionedThroughput.foreach(x => ProvisionedThroughput.write(s, ms(1), x))
-      value.onDemandThroughput.foreach(x => OnDemandThroughput.write(s, ms(2), x))
-      value.warmThroughput.foreach(x => WarmThroughput.write(s, ms(3), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): UpdateGlobalSecondaryIndexAction = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[ProvisionedThroughput] = scala.None
-    var f2: scala.Option[OnDemandThroughput] = scala.None
-    var f3: scala.Option[WarmThroughput] = scala.None
-    r.readStruct(UpdateGlobalSecondaryIndexAction.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(ProvisionedThroughput.read(mr, m))
-          case 2 => f2 = scala.Some(OnDemandThroughput.read(mr, m))
-          case 3 => f3 = scala.Some(WarmThroughput.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    UpdateGlobalSecondaryIndexAction(
-      f0.getOrElse(""),
-      f1,
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[UpdateGlobalSecondaryIndexAction] = rt.ShapeCodec.struct[UpdateGlobalSecondaryIndexAction](schema)
 }

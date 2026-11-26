@@ -34,7 +34,10 @@ enum QueueAttributeName(val value: java.lang.String) derives CanEqual {
 object QueueAttributeName {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.sqs", "QueueAttributeName"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[QueueAttributeName] = scala.collection.immutable.List(All, Policy, VisibilityTimeout, MaximumMessageSize, MessageRetentionPeriod, ApproximateNumberOfMessages, ApproximateNumberOfMessagesNotVisible, CreatedTimestamp, LastModifiedTimestamp, QueueArn, ApproximateNumberOfMessagesDelayed, DelaySeconds, ReceiveMessageWaitTimeSeconds, RedrivePolicy, FifoQueue, ContentBasedDeduplication, KmsMasterKeyId, KmsDataKeyReusePeriodSeconds, DeduplicationScope, FifoThroughputLimit, RedriveAllowPolicy, SqsManagedSseEnabled)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[QueueAttributeName] = rt.ShapeCodec.enumValues[QueueAttributeName]
 
   def fromValue(value: java.lang.String): QueueAttributeName = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[QueueAttributeName] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

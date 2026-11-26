@@ -16,7 +16,10 @@ enum Select(val value: java.lang.String) derives CanEqual {
 object Select {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "Select"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[Select] = scala.collection.immutable.List(ALL_ATTRIBUTES, ALL_PROJECTED_ATTRIBUTES, SPECIFIC_ATTRIBUTES, COUNT)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[Select] = rt.ShapeCodec.enumValues[Select]
 
   def fromValue(value: java.lang.String): Select = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[Select] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

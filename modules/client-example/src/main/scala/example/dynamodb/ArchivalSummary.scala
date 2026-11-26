@@ -17,32 +17,5 @@ object ArchivalSummary {
     rt.MemberDef("ArchivalBackupArn", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ArchivalSummary): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ArchivalSummary.schema.members
-      value.archivalDateTime.foreach(x => s.writeTimestamp(ms(0), x))
-      value.archivalReason.foreach(x => s.writeString(ms(1), x))
-      value.archivalBackupArn.foreach(x => s.writeString(ms(2), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ArchivalSummary = {
-    var f0: scala.Option[java.time.Instant] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ArchivalSummary.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readTimestamp(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ArchivalSummary(
-      f0,
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[ArchivalSummary] = rt.ShapeCodec.struct[ArchivalSummary](schema)
 }

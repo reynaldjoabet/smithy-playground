@@ -9,17 +9,4 @@ object LocalSecondaryIndexDescriptionList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "LocalSecondaryIndexDescriptionList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => LocalSecondaryIndexDescription.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: LocalSecondaryIndexDescriptionList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = LocalSecondaryIndexDescriptionList.schema.members(0)
-      value.foreach(x => LocalSecondaryIndexDescription.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): LocalSecondaryIndexDescriptionList = {
-      val m = LocalSecondaryIndexDescriptionList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[LocalSecondaryIndexDescription]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(LocalSecondaryIndexDescription.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

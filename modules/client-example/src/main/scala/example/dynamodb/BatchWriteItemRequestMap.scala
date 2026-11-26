@@ -10,17 +10,4 @@ object BatchWriteItemRequestMap {
     rt.MemberDef("key", () => rt.Prelude.String, rt.Traits.empty),
     rt.MemberDef("value", () => WriteRequests.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BatchWriteItemRequestMap): scala.Unit =
-    w.writeMap(schema, value.size) { mw =>
-      val vm = BatchWriteItemRequestMap.schema.members(1)
-      value.foreach((k, x) => mw.writeEntry(k)(vw => WriteRequests.write(vw, vm, x)))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BatchWriteItemRequestMap = {
-    val vm = BatchWriteItemRequestMap.schema.members(1)
-    val b = scala.collection.immutable.Map.newBuilder[java.lang.String, WriteRequests]
-    r.readMap(schema)((k, vr) => if (!vr.isNull) (b.addOne(k -> WriteRequests.read(vr, vm)): scala.Unit))
-    b.result()
-  }
 }

@@ -15,28 +15,5 @@ object ProvisionedThroughput {
     rt.MemberDef("WriteCapacityUnits", () => rt.Prelude.Long, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ProvisionedThroughput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ProvisionedThroughput.schema.members
-      s.writeLong(ms(0), value.readCapacityUnits)
-      s.writeLong(ms(1), value.writeCapacityUnits)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ProvisionedThroughput = {
-    var f0: scala.Option[scala.Long] = scala.None
-    var f1: scala.Option[scala.Long] = scala.None
-    r.readStruct(ProvisionedThroughput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readLong(m))
-          case 1 => f1 = scala.Some(mr.readLong(m))
-          case _ => ()
-        }
-      }
-    }
-    ProvisionedThroughput(
-      f0.getOrElse(0L),
-      f1.getOrElse(0L)
-    )
-  }
+  given codec: rt.SchemaCodec[ProvisionedThroughput] = rt.ShapeCodec.struct[ProvisionedThroughput](schema)
 }

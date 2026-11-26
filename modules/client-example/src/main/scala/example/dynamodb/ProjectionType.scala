@@ -15,7 +15,10 @@ enum ProjectionType(val value: java.lang.String) derives CanEqual {
 object ProjectionType {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ProjectionType"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[ProjectionType] = scala.collection.immutable.List(ALL, KEYS_ONLY, INCLUDE)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[ProjectionType] = rt.ShapeCodec.enumValues[ProjectionType]
 
   def fromValue(value: java.lang.String): ProjectionType = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[ProjectionType] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

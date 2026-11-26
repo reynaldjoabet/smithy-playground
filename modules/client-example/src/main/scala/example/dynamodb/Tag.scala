@@ -15,28 +15,5 @@ object Tag {
     rt.MemberDef("Value", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: Tag): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = Tag.schema.members
-      s.writeString(ms(0), value.key)
-      s.writeString(ms(1), value.value)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): Tag = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(Tag.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    Tag(
-      f0.getOrElse(""),
-      f1.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[Tag] = rt.ShapeCodec.struct[Tag](schema)
 }

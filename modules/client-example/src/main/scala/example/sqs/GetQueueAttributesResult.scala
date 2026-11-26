@@ -13,24 +13,5 @@ object GetQueueAttributesResult {
     rt.MemberDef("Attributes", () => QueueAttributeMap.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: GetQueueAttributesResult): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = GetQueueAttributesResult.schema.members
-      value.attributes.foreach(x => QueueAttributeMap.write(s, ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): GetQueueAttributesResult = {
-    var f0: scala.Option[QueueAttributeMap] = scala.None
-    r.readStruct(GetQueueAttributesResult.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(QueueAttributeMap.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    GetQueueAttributesResult(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[GetQueueAttributesResult] = rt.ShapeCodec.struct[GetQueueAttributesResult](schema)
 }

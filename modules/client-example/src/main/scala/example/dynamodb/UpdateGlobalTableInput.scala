@@ -14,28 +14,5 @@ object UpdateGlobalTableInput {
     rt.MemberDef("ReplicaUpdates", () => ReplicaUpdateList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: UpdateGlobalTableInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = UpdateGlobalTableInput.schema.members
-      s.writeString(ms(0), value.globalTableName)
-      ReplicaUpdateList.write(s, ms(1), value.replicaUpdates)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): UpdateGlobalTableInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[ReplicaUpdateList] = scala.None
-    r.readStruct(UpdateGlobalTableInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(ReplicaUpdateList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    UpdateGlobalTableInput(
-      f0.getOrElse(""),
-      f1.getOrElse(scala.Nil)
-    )
-  }
+  given codec: rt.SchemaCodec[UpdateGlobalTableInput] = rt.ShapeCodec.struct[UpdateGlobalTableInput](schema)
 }

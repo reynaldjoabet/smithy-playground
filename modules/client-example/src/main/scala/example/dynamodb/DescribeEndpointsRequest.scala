@@ -8,11 +8,5 @@ final case class DescribeEndpointsRequest()
 object DescribeEndpointsRequest {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "DescribeEndpointsRequest"), rt.ShapeType.Structure, rt.Traits.empty)()
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DescribeEndpointsRequest): scala.Unit =
-    w.writeStruct(schema)(_ => ())
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DescribeEndpointsRequest = {
-    r.readStruct(DescribeEndpointsRequest.schema)((_, _) => ())
-    DescribeEndpointsRequest()
-  }
+  given codec: rt.SchemaCodec[DescribeEndpointsRequest] = rt.ShapeCodec.struct[DescribeEndpointsRequest](schema)
 }

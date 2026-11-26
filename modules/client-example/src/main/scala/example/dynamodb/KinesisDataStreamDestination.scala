@@ -19,36 +19,5 @@ object KinesisDataStreamDestination {
     rt.MemberDef("ApproximateCreationDateTimePrecision", () => ApproximateCreationDateTimePrecision.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: KinesisDataStreamDestination): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = KinesisDataStreamDestination.schema.members
-      value.streamArn.foreach(x => s.writeString(ms(0), x))
-      value.destinationStatus.foreach(x => s.writeString(ms(1), x.value))
-      value.destinationStatusDescription.foreach(x => s.writeString(ms(2), x))
-      value.approximateCreationDateTimePrecision.foreach(x => s.writeString(ms(3), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): KinesisDataStreamDestination = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[DestinationStatus] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    var f3: scala.Option[ApproximateCreationDateTimePrecision] = scala.None
-    r.readStruct(KinesisDataStreamDestination.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(DestinationStatus.fromValue(mr.readString(m)))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case 3 => f3 = scala.Some(ApproximateCreationDateTimePrecision.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    KinesisDataStreamDestination(
-      f0,
-      f1,
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[KinesisDataStreamDestination] = rt.ShapeCodec.struct[KinesisDataStreamDestination](schema)
 }

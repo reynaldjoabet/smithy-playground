@@ -15,7 +15,10 @@ enum AttributeAction(val value: java.lang.String) derives CanEqual {
 object AttributeAction {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "AttributeAction"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[AttributeAction] = scala.collection.immutable.List(ADD, PUT, DELETE)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[AttributeAction] = rt.ShapeCodec.enumValues[AttributeAction]
 
   def fromValue(value: java.lang.String): AttributeAction = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[AttributeAction] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

@@ -16,7 +16,10 @@ enum IndexStatus(val value: java.lang.String) derives CanEqual {
 object IndexStatus {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "IndexStatus"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[IndexStatus] = scala.collection.immutable.List(CREATING, UPDATING, DELETING, ACTIVE)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[IndexStatus] = rt.ShapeCodec.enumValues[IndexStatus]
 
   def fromValue(value: java.lang.String): IndexStatus = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[IndexStatus] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

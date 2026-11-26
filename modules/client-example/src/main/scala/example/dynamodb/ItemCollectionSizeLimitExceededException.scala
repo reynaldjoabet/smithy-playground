@@ -13,24 +13,5 @@ object ItemCollectionSizeLimitExceededException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ItemCollectionSizeLimitExceededException): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ItemCollectionSizeLimitExceededException.schema.members
-      value.message.foreach(x => s.writeString(ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ItemCollectionSizeLimitExceededException = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ItemCollectionSizeLimitExceededException.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ItemCollectionSizeLimitExceededException(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[ItemCollectionSizeLimitExceededException] = rt.ShapeCodec.struct[ItemCollectionSizeLimitExceededException](schema)
 }

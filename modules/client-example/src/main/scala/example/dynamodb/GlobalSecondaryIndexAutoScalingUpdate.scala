@@ -15,28 +15,5 @@ object GlobalSecondaryIndexAutoScalingUpdate {
     rt.MemberDef("ProvisionedWriteCapacityAutoScalingUpdate", () => AutoScalingSettingsUpdate.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: GlobalSecondaryIndexAutoScalingUpdate): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = GlobalSecondaryIndexAutoScalingUpdate.schema.members
-      value.indexName.foreach(x => s.writeString(ms(0), x))
-      value.provisionedWriteCapacityAutoScalingUpdate.foreach(x => AutoScalingSettingsUpdate.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): GlobalSecondaryIndexAutoScalingUpdate = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[AutoScalingSettingsUpdate] = scala.None
-    r.readStruct(GlobalSecondaryIndexAutoScalingUpdate.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(AutoScalingSettingsUpdate.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    GlobalSecondaryIndexAutoScalingUpdate(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[GlobalSecondaryIndexAutoScalingUpdate] = rt.ShapeCodec.struct[GlobalSecondaryIndexAutoScalingUpdate](schema)
 }

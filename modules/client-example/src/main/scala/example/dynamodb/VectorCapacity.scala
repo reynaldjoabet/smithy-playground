@@ -15,28 +15,5 @@ object VectorCapacity {
     rt.MemberDef("VectorWriteRequestBytes", () => rt.Prelude.Double, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: VectorCapacity): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = VectorCapacity.schema.members
-      value.vectorSearchRequestBytes.foreach(x => s.writeDouble(ms(0), x))
-      value.vectorWriteRequestBytes.foreach(x => s.writeDouble(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): VectorCapacity = {
-    var f0: scala.Option[scala.Double] = scala.None
-    var f1: scala.Option[scala.Double] = scala.None
-    r.readStruct(VectorCapacity.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readDouble(m))
-          case 1 => f1 = scala.Some(mr.readDouble(m))
-          case _ => ()
-        }
-      }
-    }
-    VectorCapacity(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[VectorCapacity] = rt.ShapeCodec.struct[VectorCapacity](schema)
 }

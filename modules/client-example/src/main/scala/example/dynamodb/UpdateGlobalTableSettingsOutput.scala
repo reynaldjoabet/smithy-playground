@@ -14,28 +14,5 @@ object UpdateGlobalTableSettingsOutput {
     rt.MemberDef("ReplicaSettings", () => ReplicaSettingsDescriptionList.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: UpdateGlobalTableSettingsOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = UpdateGlobalTableSettingsOutput.schema.members
-      value.globalTableName.foreach(x => s.writeString(ms(0), x))
-      value.replicaSettings.foreach(x => ReplicaSettingsDescriptionList.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): UpdateGlobalTableSettingsOutput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[ReplicaSettingsDescriptionList] = scala.None
-    r.readStruct(UpdateGlobalTableSettingsOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(ReplicaSettingsDescriptionList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    UpdateGlobalTableSettingsOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[UpdateGlobalTableSettingsOutput] = rt.ShapeCodec.struct[UpdateGlobalTableSettingsOutput](schema)
 }

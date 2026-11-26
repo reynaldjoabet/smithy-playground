@@ -17,32 +17,5 @@ object Capacity {
     rt.MemberDef("CapacityUnits", () => rt.Prelude.Double, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: Capacity): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = Capacity.schema.members
-      value.readCapacityUnits.foreach(x => s.writeDouble(ms(0), x))
-      value.writeCapacityUnits.foreach(x => s.writeDouble(ms(1), x))
-      value.capacityUnits.foreach(x => s.writeDouble(ms(2), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): Capacity = {
-    var f0: scala.Option[scala.Double] = scala.None
-    var f1: scala.Option[scala.Double] = scala.None
-    var f2: scala.Option[scala.Double] = scala.None
-    r.readStruct(Capacity.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readDouble(m))
-          case 1 => f1 = scala.Some(mr.readDouble(m))
-          case 2 => f2 = scala.Some(mr.readDouble(m))
-          case _ => ()
-        }
-      }
-    }
-    Capacity(
-      f0,
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[Capacity] = rt.ShapeCodec.struct[Capacity](schema)
 }

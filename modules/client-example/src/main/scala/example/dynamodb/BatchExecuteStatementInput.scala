@@ -14,28 +14,5 @@ object BatchExecuteStatementInput {
     rt.MemberDef("ReturnConsumedCapacity", () => ReturnConsumedCapacity.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BatchExecuteStatementInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = BatchExecuteStatementInput.schema.members
-      PartiQLBatchRequest.write(s, ms(0), value.statements)
-      value.returnConsumedCapacity.foreach(x => s.writeString(ms(1), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BatchExecuteStatementInput = {
-    var f0: scala.Option[PartiQLBatchRequest] = scala.None
-    var f1: scala.Option[ReturnConsumedCapacity] = scala.None
-    r.readStruct(BatchExecuteStatementInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(PartiQLBatchRequest.read(mr, m))
-          case 1 => f1 = scala.Some(ReturnConsumedCapacity.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    BatchExecuteStatementInput(
-      f0.getOrElse(scala.Nil),
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[BatchExecuteStatementInput] = rt.ShapeCodec.struct[BatchExecuteStatementInput](schema)
 }

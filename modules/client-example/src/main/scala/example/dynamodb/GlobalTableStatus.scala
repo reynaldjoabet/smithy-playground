@@ -16,7 +16,10 @@ enum GlobalTableStatus(val value: java.lang.String) derives CanEqual {
 object GlobalTableStatus {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "GlobalTableStatus"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[GlobalTableStatus] = scala.collection.immutable.List(CREATING, ACTIVE, DELETING, UPDATING)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[GlobalTableStatus] = rt.ShapeCodec.enumValues[GlobalTableStatus]
 
   def fromValue(value: java.lang.String): GlobalTableStatus = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[GlobalTableStatus] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

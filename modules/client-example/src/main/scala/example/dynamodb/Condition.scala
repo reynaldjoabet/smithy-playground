@@ -15,28 +15,5 @@ object Condition {
     rt.MemberDef("ComparisonOperator", () => ComparisonOperator.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: Condition): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = Condition.schema.members
-      value.attributeValueList.foreach(x => AttributeValueList.write(s, ms(0), x))
-      s.writeString(ms(1), value.comparisonOperator.value)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): Condition = {
-    var f0: scala.Option[AttributeValueList] = scala.None
-    var f1: scala.Option[ComparisonOperator] = scala.None
-    r.readStruct(Condition.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(AttributeValueList.read(mr, m))
-          case 1 => f1 = scala.Some(ComparisonOperator.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    Condition(
-      f0,
-      f1.getOrElse(ComparisonOperator.UnknownValue(""))
-    )
-  }
+  given codec: rt.SchemaCodec[Condition] = rt.ShapeCodec.struct[Condition](schema)
 }

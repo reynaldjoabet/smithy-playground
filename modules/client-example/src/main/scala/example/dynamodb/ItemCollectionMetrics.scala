@@ -15,28 +15,5 @@ object ItemCollectionMetrics {
     rt.MemberDef("SizeEstimateRangeGB", () => ItemCollectionSizeEstimateRange.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ItemCollectionMetrics): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ItemCollectionMetrics.schema.members
-      value.itemCollectionKey.foreach(x => ItemCollectionKeyAttributeMap.write(s, ms(0), x))
-      value.sizeEstimateRangeGB.foreach(x => ItemCollectionSizeEstimateRange.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ItemCollectionMetrics = {
-    var f0: scala.Option[ItemCollectionKeyAttributeMap] = scala.None
-    var f1: scala.Option[ItemCollectionSizeEstimateRange] = scala.None
-    r.readStruct(ItemCollectionMetrics.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ItemCollectionKeyAttributeMap.read(mr, m))
-          case 1 => f1 = scala.Some(ItemCollectionSizeEstimateRange.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ItemCollectionMetrics(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ItemCollectionMetrics] = rt.ShapeCodec.struct[ItemCollectionMetrics](schema)
 }

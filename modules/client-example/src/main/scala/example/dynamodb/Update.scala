@@ -25,48 +25,5 @@ object Update {
     rt.MemberDef("ReturnValuesOnConditionCheckFailure", () => ReturnValuesOnConditionCheckFailure.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: Update): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = Update.schema.members
-      Key.write(s, ms(0), value.key)
-      s.writeString(ms(1), value.updateExpression)
-      s.writeString(ms(2), value.tableName)
-      value.conditionExpression.foreach(x => s.writeString(ms(3), x))
-      value.expressionAttributeNames.foreach(x => ExpressionAttributeNameMap.write(s, ms(4), x))
-      value.expressionAttributeValues.foreach(x => ExpressionAttributeValueMap.write(s, ms(5), x))
-      value.returnValuesOnConditionCheckFailure.foreach(x => s.writeString(ms(6), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): Update = {
-    var f0: scala.Option[Key] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    var f3: scala.Option[java.lang.String] = scala.None
-    var f4: scala.Option[ExpressionAttributeNameMap] = scala.None
-    var f5: scala.Option[ExpressionAttributeValueMap] = scala.None
-    var f6: scala.Option[ReturnValuesOnConditionCheckFailure] = scala.None
-    r.readStruct(Update.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(Key.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case 3 => f3 = scala.Some(mr.readString(m))
-          case 4 => f4 = scala.Some(ExpressionAttributeNameMap.read(mr, m))
-          case 5 => f5 = scala.Some(ExpressionAttributeValueMap.read(mr, m))
-          case 6 => f6 = scala.Some(ReturnValuesOnConditionCheckFailure.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    Update(
-      f0.getOrElse(scala.collection.immutable.Map.empty),
-      f1.getOrElse(""),
-      f2.getOrElse(""),
-      f3,
-      f4,
-      f5,
-      f6
-    )
-  }
+  given codec: rt.SchemaCodec[Update] = rt.ShapeCodec.struct[Update](schema)
 }

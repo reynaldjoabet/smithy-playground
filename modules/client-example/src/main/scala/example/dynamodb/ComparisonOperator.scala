@@ -25,7 +25,10 @@ enum ComparisonOperator(val value: java.lang.String) derives CanEqual {
 object ComparisonOperator {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ComparisonOperator"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[ComparisonOperator] = scala.collection.immutable.List(EQ, NE, IN, LE, LT, GE, GT, BETWEEN, NOT_NULL, NULL, CONTAINS, NOT_CONTAINS, BEGINS_WITH)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[ComparisonOperator] = rt.ShapeCodec.enumValues[ComparisonOperator]
 
   def fromValue(value: java.lang.String): ComparisonOperator = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[ComparisonOperator] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

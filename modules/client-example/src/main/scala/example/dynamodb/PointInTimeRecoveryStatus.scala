@@ -14,7 +14,10 @@ enum PointInTimeRecoveryStatus(val value: java.lang.String) derives CanEqual {
 object PointInTimeRecoveryStatus {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "PointInTimeRecoveryStatus"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[PointInTimeRecoveryStatus] = scala.collection.immutable.List(ENABLED, DISABLED)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[PointInTimeRecoveryStatus] = rt.ShapeCodec.enumValues[PointInTimeRecoveryStatus]
 
   def fromValue(value: java.lang.String): PointInTimeRecoveryStatus = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[PointInTimeRecoveryStatus] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

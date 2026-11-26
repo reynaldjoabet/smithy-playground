@@ -15,28 +15,5 @@ object GetItemOutput {
     rt.MemberDef("ConsumedCapacity", () => ConsumedCapacity.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: GetItemOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = GetItemOutput.schema.members
-      value.item.foreach(x => AttributeMap.write(s, ms(0), x))
-      value.consumedCapacity.foreach(x => ConsumedCapacity.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): GetItemOutput = {
-    var f0: scala.Option[AttributeMap] = scala.None
-    var f1: scala.Option[ConsumedCapacity] = scala.None
-    r.readStruct(GetItemOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(AttributeMap.read(mr, m))
-          case 1 => f1 = scala.Some(ConsumedCapacity.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    GetItemOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[GetItemOutput] = rt.ShapeCodec.struct[GetItemOutput](schema)
 }

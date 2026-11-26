@@ -15,28 +15,5 @@ object SearchResultItem {
     rt.MemberDef("Score", () => rt.Prelude.Double, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: SearchResultItem): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = SearchResultItem.schema.members
-      value.item.foreach(x => AttributeMap.write(s, ms(0), x))
-      s.writeDouble(ms(1), value.score)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): SearchResultItem = {
-    var f0: scala.Option[AttributeMap] = scala.None
-    var f1: scala.Option[scala.Double] = scala.None
-    r.readStruct(SearchResultItem.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(AttributeMap.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readDouble(m))
-          case _ => ()
-        }
-      }
-    }
-    SearchResultItem(
-      f0,
-      f1.getOrElse(0.0)
-    )
-  }
+  given codec: rt.SchemaCodec[SearchResultItem] = rt.ShapeCodec.struct[SearchResultItem](schema)
 }

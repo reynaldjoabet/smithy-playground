@@ -9,17 +9,4 @@ object SearchVectorList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "SearchVectorList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => AttributeValue.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: SearchVectorList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = SearchVectorList.schema.members(0)
-      value.foreach(x => AttributeValue.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): SearchVectorList = {
-      val m = SearchVectorList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[AttributeValue]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(AttributeValue.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

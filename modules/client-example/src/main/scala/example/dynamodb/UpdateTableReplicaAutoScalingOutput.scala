@@ -12,24 +12,5 @@ object UpdateTableReplicaAutoScalingOutput {
     rt.MemberDef("TableAutoScalingDescription", () => TableAutoScalingDescription.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: UpdateTableReplicaAutoScalingOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = UpdateTableReplicaAutoScalingOutput.schema.members
-      value.tableAutoScalingDescription.foreach(x => TableAutoScalingDescription.write(s, ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): UpdateTableReplicaAutoScalingOutput = {
-    var f0: scala.Option[TableAutoScalingDescription] = scala.None
-    r.readStruct(UpdateTableReplicaAutoScalingOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(TableAutoScalingDescription.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    UpdateTableReplicaAutoScalingOutput(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[UpdateTableReplicaAutoScalingOutput] = rt.ShapeCodec.struct[UpdateTableReplicaAutoScalingOutput](schema)
 }

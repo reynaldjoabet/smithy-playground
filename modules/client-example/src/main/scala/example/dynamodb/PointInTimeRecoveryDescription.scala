@@ -19,36 +19,5 @@ object PointInTimeRecoveryDescription {
     rt.MemberDef("LatestRestorableDateTime", () => rt.Prelude.Timestamp, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: PointInTimeRecoveryDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = PointInTimeRecoveryDescription.schema.members
-      value.pointInTimeRecoveryStatus.foreach(x => s.writeString(ms(0), x.value))
-      value.recoveryPeriodInDays.foreach(x => s.writeInteger(ms(1), x))
-      value.earliestRestorableDateTime.foreach(x => s.writeTimestamp(ms(2), x))
-      value.latestRestorableDateTime.foreach(x => s.writeTimestamp(ms(3), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): PointInTimeRecoveryDescription = {
-    var f0: scala.Option[PointInTimeRecoveryStatus] = scala.None
-    var f1: scala.Option[scala.Int] = scala.None
-    var f2: scala.Option[java.time.Instant] = scala.None
-    var f3: scala.Option[java.time.Instant] = scala.None
-    r.readStruct(PointInTimeRecoveryDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(PointInTimeRecoveryStatus.fromValue(mr.readString(m)))
-          case 1 => f1 = scala.Some(mr.readInteger(m))
-          case 2 => f2 = scala.Some(mr.readTimestamp(m))
-          case 3 => f3 = scala.Some(mr.readTimestamp(m))
-          case _ => ()
-        }
-      }
-    }
-    PointInTimeRecoveryDescription(
-      f0,
-      f1,
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[PointInTimeRecoveryDescription] = rt.ShapeCodec.struct[PointInTimeRecoveryDescription](schema)
 }

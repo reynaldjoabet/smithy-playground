@@ -14,28 +14,5 @@ object TagQueueRequest {
     rt.MemberDef("Tags", () => TagMap.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TagQueueRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = TagQueueRequest.schema.members
-      s.writeString(ms(0), value.queueUrl)
-      TagMap.write(s, ms(1), value.tags)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TagQueueRequest = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[TagMap] = scala.None
-    r.readStruct(TagQueueRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(TagMap.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    TagQueueRequest(
-      f0.getOrElse(""),
-      f1.getOrElse(scala.collection.immutable.Map.empty)
-    )
-  }
+  given codec: rt.SchemaCodec[TagQueueRequest] = rt.ShapeCodec.struct[TagQueueRequest](schema)
 }

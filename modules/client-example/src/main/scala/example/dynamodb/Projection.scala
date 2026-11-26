@@ -15,28 +15,5 @@ object Projection {
     rt.MemberDef("NonKeyAttributes", () => NonKeyAttributeNameList.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: Projection): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = Projection.schema.members
-      value.projectionType.foreach(x => s.writeString(ms(0), x.value))
-      value.nonKeyAttributes.foreach(x => NonKeyAttributeNameList.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): Projection = {
-    var f0: scala.Option[ProjectionType] = scala.None
-    var f1: scala.Option[NonKeyAttributeNameList] = scala.None
-    r.readStruct(Projection.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ProjectionType.fromValue(mr.readString(m)))
-          case 1 => f1 = scala.Some(NonKeyAttributeNameList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    Projection(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[Projection] = rt.ShapeCodec.struct[Projection](schema)
 }

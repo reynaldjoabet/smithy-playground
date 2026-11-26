@@ -14,28 +14,5 @@ object UpdateContinuousBackupsInput {
     rt.MemberDef("PointInTimeRecoverySpecification", () => PointInTimeRecoverySpecification.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: UpdateContinuousBackupsInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = UpdateContinuousBackupsInput.schema.members
-      s.writeString(ms(0), value.tableName)
-      PointInTimeRecoverySpecification.write(s, ms(1), value.pointInTimeRecoverySpecification)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): UpdateContinuousBackupsInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[PointInTimeRecoverySpecification] = scala.None
-    r.readStruct(UpdateContinuousBackupsInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(PointInTimeRecoverySpecification.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    UpdateContinuousBackupsInput(
-      f0.getOrElse(""),
-      f1.getOrElse(throw new rt.SerializationException("Missing required member UpdateContinuousBackupsInput.PointInTimeRecoverySpecification"))
-    )
-  }
+  given codec: rt.SchemaCodec[UpdateContinuousBackupsInput] = rt.ShapeCodec.struct[UpdateContinuousBackupsInput](schema)
 }

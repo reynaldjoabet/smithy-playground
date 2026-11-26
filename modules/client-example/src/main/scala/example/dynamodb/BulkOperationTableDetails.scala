@@ -9,17 +9,4 @@ object BulkOperationTableDetails {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "BulkOperationTableDetails"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => BulkOperationTableDetail.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BulkOperationTableDetails): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = BulkOperationTableDetails.schema.members(0)
-      value.foreach(x => BulkOperationTableDetail.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BulkOperationTableDetails = {
-      val m = BulkOperationTableDetails.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[BulkOperationTableDetail]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(BulkOperationTableDetail.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

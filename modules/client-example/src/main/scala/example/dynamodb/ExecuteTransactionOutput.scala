@@ -14,28 +14,5 @@ object ExecuteTransactionOutput {
     rt.MemberDef("ConsumedCapacity", () => ConsumedCapacityMultiple.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ExecuteTransactionOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ExecuteTransactionOutput.schema.members
-      value.responses.foreach(x => ItemResponseList.write(s, ms(0), x))
-      value.consumedCapacity.foreach(x => ConsumedCapacityMultiple.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ExecuteTransactionOutput = {
-    var f0: scala.Option[ItemResponseList] = scala.None
-    var f1: scala.Option[ConsumedCapacityMultiple] = scala.None
-    r.readStruct(ExecuteTransactionOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ItemResponseList.read(mr, m))
-          case 1 => f1 = scala.Some(ConsumedCapacityMultiple.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ExecuteTransactionOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ExecuteTransactionOutput] = rt.ShapeCodec.struct[ExecuteTransactionOutput](schema)
 }

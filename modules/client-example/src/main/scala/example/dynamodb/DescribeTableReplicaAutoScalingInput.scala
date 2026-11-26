@@ -12,24 +12,5 @@ object DescribeTableReplicaAutoScalingInput {
     rt.MemberDef("TableName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DescribeTableReplicaAutoScalingInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DescribeTableReplicaAutoScalingInput.schema.members
-      s.writeString(ms(0), value.tableName)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DescribeTableReplicaAutoScalingInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(DescribeTableReplicaAutoScalingInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    DescribeTableReplicaAutoScalingInput(
-      f0.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[DescribeTableReplicaAutoScalingInput] = rt.ShapeCodec.struct[DescribeTableReplicaAutoScalingInput](schema)
 }

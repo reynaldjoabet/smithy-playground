@@ -15,28 +15,5 @@ object AutoScalingPolicyDescription {
     rt.MemberDef("TargetTrackingScalingPolicyConfiguration", () => AutoScalingTargetTrackingScalingPolicyConfigurationDescription.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: AutoScalingPolicyDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = AutoScalingPolicyDescription.schema.members
-      value.policyName.foreach(x => s.writeString(ms(0), x))
-      value.targetTrackingScalingPolicyConfiguration.foreach(x => AutoScalingTargetTrackingScalingPolicyConfigurationDescription.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): AutoScalingPolicyDescription = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[AutoScalingTargetTrackingScalingPolicyConfigurationDescription] = scala.None
-    r.readStruct(AutoScalingPolicyDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(AutoScalingTargetTrackingScalingPolicyConfigurationDescription.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    AutoScalingPolicyDescription(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[AutoScalingPolicyDescription] = rt.ShapeCodec.struct[AutoScalingPolicyDescription](schema)
 }

@@ -9,17 +9,4 @@ object ConsumedCapacityMultiple {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "ConsumedCapacityMultiple"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => ConsumedCapacity.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ConsumedCapacityMultiple): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = ConsumedCapacityMultiple.schema.members(0)
-      value.foreach(x => ConsumedCapacity.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ConsumedCapacityMultiple = {
-      val m = ConsumedCapacityMultiple.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[ConsumedCapacity]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(ConsumedCapacity.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

@@ -10,17 +10,4 @@ object TagMap {
     rt.MemberDef("key", () => rt.Prelude.String, rt.Traits.empty),
     rt.MemberDef("value", () => rt.Prelude.String, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TagMap): scala.Unit =
-    w.writeMap(schema, value.size) { mw =>
-      val vm = TagMap.schema.members(1)
-      value.foreach((k, x) => mw.writeEntry(k)(vw => vw.writeString(vm, x)))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TagMap = {
-    val vm = TagMap.schema.members(1)
-    val b = scala.collection.immutable.Map.newBuilder[java.lang.String, java.lang.String]
-    r.readMap(schema)((k, vr) => if (!vr.isNull) (b.addOne(k -> vr.readString(vm)): scala.Unit))
-    b.result()
-  }
 }

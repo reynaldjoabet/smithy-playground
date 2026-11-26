@@ -17,28 +17,5 @@ object Kind {
     rt.MemberDef("rain", () => rt.Prelude.Integer, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: Kind): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = Kind.schema.members
-      value match {
-        case Kind.Sunny => s.writeStruct(ms(0))(_ => ())
-        case Kind.Rain(x) => s.writeInteger(ms(1), x)
-        case Kind.UnknownMember(n) => throw new rt.SerializationException("Cannot serialize unknown union member " + n)
-      }
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): Kind = {
-    var result: scala.Option[Kind] = scala.None
-    var unknown = ""
-    r.readStruct(Kind.schema, n => unknown = n) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => result = scala.Some(Kind.Sunny)
-          case 1 => result = scala.Some(Kind.Rain(mr.readInteger(m)))
-          case _ => ()
-        }
-      }
-    }
-    result.getOrElse(Kind.UnknownMember(unknown))
-  }
+  given codec: rt.SchemaCodec[Kind] = rt.ShapeCodec.union[Kind](schema)
 }

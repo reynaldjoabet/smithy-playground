@@ -34,44 +34,5 @@ object AttributeValue {
     rt.MemberDef("BOOL", () => rt.Prelude.Boolean, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: AttributeValue): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = AttributeValue.schema.members
-      value match {
-        case AttributeValue.S(x) => s.writeString(ms(0), x)
-        case AttributeValue.N(x) => s.writeString(ms(1), x)
-        case AttributeValue.B(x) => s.writeBlob(ms(2), x)
-        case AttributeValue.SS(x) => StringSetAttributeValue.write(s, ms(3), x)
-        case AttributeValue.NS(x) => NumberSetAttributeValue.write(s, ms(4), x)
-        case AttributeValue.BS(x) => BinarySetAttributeValue.write(s, ms(5), x)
-        case AttributeValue.M(x) => MapAttributeValue.write(s, ms(6), x)
-        case AttributeValue.L(x) => ListAttributeValue.write(s, ms(7), x)
-        case AttributeValue.NULL(x) => s.writeBoolean(ms(8), x)
-        case AttributeValue.BOOL(x) => s.writeBoolean(ms(9), x)
-        case AttributeValue.UnknownMember(n) => throw new rt.SerializationException("Cannot serialize unknown union member " + n)
-      }
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): AttributeValue = {
-    var result: scala.Option[AttributeValue] = scala.None
-    var unknown = ""
-    r.readStruct(AttributeValue.schema, n => unknown = n) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => result = scala.Some(AttributeValue.S(mr.readString(m)))
-          case 1 => result = scala.Some(AttributeValue.N(mr.readString(m)))
-          case 2 => result = scala.Some(AttributeValue.B(mr.readBlob(m)))
-          case 3 => result = scala.Some(AttributeValue.SS(StringSetAttributeValue.read(mr, m)))
-          case 4 => result = scala.Some(AttributeValue.NS(NumberSetAttributeValue.read(mr, m)))
-          case 5 => result = scala.Some(AttributeValue.BS(BinarySetAttributeValue.read(mr, m)))
-          case 6 => result = scala.Some(AttributeValue.M(MapAttributeValue.read(mr, m)))
-          case 7 => result = scala.Some(AttributeValue.L(ListAttributeValue.read(mr, m)))
-          case 8 => result = scala.Some(AttributeValue.NULL(mr.readBoolean(m)))
-          case 9 => result = scala.Some(AttributeValue.BOOL(mr.readBoolean(m)))
-          case _ => ()
-        }
-      }
-    }
-    result.getOrElse(AttributeValue.UnknownMember(unknown))
-  }
+  given codec: rt.SchemaCodec[AttributeValue] = rt.ShapeCodec.union[AttributeValue](schema)
 }

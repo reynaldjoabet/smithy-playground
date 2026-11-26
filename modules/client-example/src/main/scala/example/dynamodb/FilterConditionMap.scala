@@ -10,17 +10,4 @@ object FilterConditionMap {
     rt.MemberDef("key", () => rt.Prelude.String, rt.Traits.empty),
     rt.MemberDef("value", () => Condition.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: FilterConditionMap): scala.Unit =
-    w.writeMap(schema, value.size) { mw =>
-      val vm = FilterConditionMap.schema.members(1)
-      value.foreach((k, x) => mw.writeEntry(k)(vw => Condition.write(vw, vm, x)))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): FilterConditionMap = {
-    val vm = FilterConditionMap.schema.members(1)
-    val b = scala.collection.immutable.Map.newBuilder[java.lang.String, Condition]
-    r.readMap(schema)((k, vr) => if (!vr.isNull) (b.addOne(k -> Condition.read(vr, vm)): scala.Unit))
-    b.result()
-  }
 }

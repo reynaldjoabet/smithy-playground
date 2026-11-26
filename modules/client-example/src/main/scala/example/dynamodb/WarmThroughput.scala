@@ -15,28 +15,5 @@ object WarmThroughput {
     rt.MemberDef("WriteUnitsPerSecond", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: WarmThroughput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = WarmThroughput.schema.members
-      value.readUnitsPerSecond.foreach(x => s.writeLong(ms(0), x))
-      value.writeUnitsPerSecond.foreach(x => s.writeLong(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): WarmThroughput = {
-    var f0: scala.Option[scala.Long] = scala.None
-    var f1: scala.Option[scala.Long] = scala.None
-    r.readStruct(WarmThroughput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readLong(m))
-          case 1 => f1 = scala.Some(mr.readLong(m))
-          case _ => ()
-        }
-      }
-    }
-    WarmThroughput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[WarmThroughput] = rt.ShapeCodec.struct[WarmThroughput](schema)
 }

@@ -12,24 +12,5 @@ object DescribeImportInput {
     rt.MemberDef("ImportArn", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DescribeImportInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DescribeImportInput.schema.members
-      s.writeString(ms(0), value.importArn)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DescribeImportInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(DescribeImportInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    DescribeImportInput(
-      f0.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[DescribeImportInput] = rt.ShapeCodec.struct[DescribeImportInput](schema)
 }

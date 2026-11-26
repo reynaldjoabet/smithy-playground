@@ -23,44 +23,5 @@ object ReplicaGlobalSecondaryIndexSettingsDescription {
     rt.MemberDef("ProvisionedWriteCapacityAutoScalingSettings", () => AutoScalingSettingsDescription.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ReplicaGlobalSecondaryIndexSettingsDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ReplicaGlobalSecondaryIndexSettingsDescription.schema.members
-      s.writeString(ms(0), value.indexName)
-      value.indexStatus.foreach(x => s.writeString(ms(1), x.value))
-      value.provisionedReadCapacityUnits.foreach(x => s.writeLong(ms(2), x))
-      value.provisionedReadCapacityAutoScalingSettings.foreach(x => AutoScalingSettingsDescription.write(s, ms(3), x))
-      value.provisionedWriteCapacityUnits.foreach(x => s.writeLong(ms(4), x))
-      value.provisionedWriteCapacityAutoScalingSettings.foreach(x => AutoScalingSettingsDescription.write(s, ms(5), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ReplicaGlobalSecondaryIndexSettingsDescription = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[IndexStatus] = scala.None
-    var f2: scala.Option[scala.Long] = scala.None
-    var f3: scala.Option[AutoScalingSettingsDescription] = scala.None
-    var f4: scala.Option[scala.Long] = scala.None
-    var f5: scala.Option[AutoScalingSettingsDescription] = scala.None
-    r.readStruct(ReplicaGlobalSecondaryIndexSettingsDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(IndexStatus.fromValue(mr.readString(m)))
-          case 2 => f2 = scala.Some(mr.readLong(m))
-          case 3 => f3 = scala.Some(AutoScalingSettingsDescription.read(mr, m))
-          case 4 => f4 = scala.Some(mr.readLong(m))
-          case 5 => f5 = scala.Some(AutoScalingSettingsDescription.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ReplicaGlobalSecondaryIndexSettingsDescription(
-      f0.getOrElse(""),
-      f1,
-      f2,
-      f3,
-      f4,
-      f5
-    )
-  }
+  given codec: rt.SchemaCodec[ReplicaGlobalSecondaryIndexSettingsDescription] = rt.ShapeCodec.struct[ReplicaGlobalSecondaryIndexSettingsDescription](schema)
 }

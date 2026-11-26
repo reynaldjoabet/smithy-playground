@@ -13,24 +13,5 @@ object EnableKinesisStreamingConfiguration {
     rt.MemberDef("ApproximateCreationDateTimePrecision", () => ApproximateCreationDateTimePrecision.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: EnableKinesisStreamingConfiguration): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = EnableKinesisStreamingConfiguration.schema.members
-      value.approximateCreationDateTimePrecision.foreach(x => s.writeString(ms(0), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): EnableKinesisStreamingConfiguration = {
-    var f0: scala.Option[ApproximateCreationDateTimePrecision] = scala.None
-    r.readStruct(EnableKinesisStreamingConfiguration.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ApproximateCreationDateTimePrecision.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    EnableKinesisStreamingConfiguration(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[EnableKinesisStreamingConfiguration] = rt.ShapeCodec.struct[EnableKinesisStreamingConfiguration](schema)
 }

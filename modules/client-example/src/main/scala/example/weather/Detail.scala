@@ -14,7 +14,10 @@ enum Detail(val value: scala.Int) derives CanEqual {
 object Detail {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("example.weather", "Detail"), rt.ShapeType.IntEnum)
 
-  lazy val knownValues: scala.collection.immutable.List[Detail] = scala.collection.immutable.List(LOW, HIGH)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[Detail] = rt.ShapeCodec.enumValues[Detail]
 
   def fromValue(value: scala.Int): Detail = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[Detail] = rt.ShapeCodec.intEnum(fromValue, _.value)
 }

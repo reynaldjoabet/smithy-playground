@@ -18,36 +18,5 @@ object PutResourcePolicyInput {
     rt.MemberDef("ConfirmRemoveSelfResourceAccess", () => rt.Prelude.Boolean, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: PutResourcePolicyInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = PutResourcePolicyInput.schema.members
-      s.writeString(ms(0), value.resourceArn)
-      s.writeString(ms(1), value.policy)
-      value.expectedRevisionId.foreach(x => s.writeString(ms(2), x))
-      s.writeBoolean(ms(3), value.confirmRemoveSelfResourceAccess)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): PutResourcePolicyInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    var f3: scala.Option[scala.Boolean] = scala.None
-    r.readStruct(PutResourcePolicyInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case 3 => f3 = scala.Some(mr.readBoolean(m))
-          case _ => ()
-        }
-      }
-    }
-    PutResourcePolicyInput(
-      f0.getOrElse(""),
-      f1.getOrElse(""),
-      f2,
-      f3.getOrElse(false)
-    )
-  }
+  given codec: rt.SchemaCodec[PutResourcePolicyInput] = rt.ShapeCodec.struct[PutResourcePolicyInput](schema)
 }

@@ -14,28 +14,5 @@ object SearchVectorsOutput {
     rt.MemberDef("SearchResults", () => SearchResultList.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: SearchVectorsOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = SearchVectorsOutput.schema.members
-      value.consumedCapacity.foreach(x => VectorCapacity.write(s, ms(0), x))
-      value.searchResults.foreach(x => SearchResultList.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): SearchVectorsOutput = {
-    var f0: scala.Option[VectorCapacity] = scala.None
-    var f1: scala.Option[SearchResultList] = scala.None
-    r.readStruct(SearchVectorsOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(VectorCapacity.read(mr, m))
-          case 1 => f1 = scala.Some(SearchResultList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    SearchVectorsOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[SearchVectorsOutput] = rt.ShapeCodec.struct[SearchVectorsOutput](schema)
 }

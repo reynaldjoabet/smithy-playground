@@ -15,28 +15,5 @@ object VectorIndexUpdate {
     rt.MemberDef("Delete", () => DeleteVectorIndexAction.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: VectorIndexUpdate): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = VectorIndexUpdate.schema.members
-      value.create.foreach(x => CreateVectorIndexAction.write(s, ms(0), x))
-      value.delete.foreach(x => DeleteVectorIndexAction.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): VectorIndexUpdate = {
-    var f0: scala.Option[CreateVectorIndexAction] = scala.None
-    var f1: scala.Option[DeleteVectorIndexAction] = scala.None
-    r.readStruct(VectorIndexUpdate.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(CreateVectorIndexAction.read(mr, m))
-          case 1 => f1 = scala.Some(DeleteVectorIndexAction.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    VectorIndexUpdate(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[VectorIndexUpdate] = rt.ShapeCodec.struct[VectorIndexUpdate](schema)
 }

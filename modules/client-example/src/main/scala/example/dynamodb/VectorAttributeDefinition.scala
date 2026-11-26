@@ -13,24 +13,5 @@ object VectorAttributeDefinition {
     rt.MemberDef("AttributeName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: VectorAttributeDefinition): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = VectorAttributeDefinition.schema.members
-      s.writeString(ms(0), value.attributeName)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): VectorAttributeDefinition = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(VectorAttributeDefinition.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    VectorAttributeDefinition(
-      f0.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[VectorAttributeDefinition] = rt.ShapeCodec.struct[VectorAttributeDefinition](schema)
 }

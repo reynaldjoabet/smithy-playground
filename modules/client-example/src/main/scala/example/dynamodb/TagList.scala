@@ -9,17 +9,4 @@ object TagList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "TagList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => Tag.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TagList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = TagList.schema.members(0)
-      value.foreach(x => Tag.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TagList = {
-      val m = TagList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[Tag]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(Tag.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

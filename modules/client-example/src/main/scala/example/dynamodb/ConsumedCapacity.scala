@@ -27,52 +27,5 @@ object ConsumedCapacity {
     rt.MemberDef("VectorIndexes", () => VectorIndexesCapacityMap.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ConsumedCapacity): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ConsumedCapacity.schema.members
-      value.tableName.foreach(x => s.writeString(ms(0), x))
-      value.capacityUnits.foreach(x => s.writeDouble(ms(1), x))
-      value.readCapacityUnits.foreach(x => s.writeDouble(ms(2), x))
-      value.writeCapacityUnits.foreach(x => s.writeDouble(ms(3), x))
-      value.table.foreach(x => Capacity.write(s, ms(4), x))
-      value.localSecondaryIndexes.foreach(x => SecondaryIndexesCapacityMap.write(s, ms(5), x))
-      value.globalSecondaryIndexes.foreach(x => SecondaryIndexesCapacityMap.write(s, ms(6), x))
-      value.vectorIndexes.foreach(x => VectorIndexesCapacityMap.write(s, ms(7), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ConsumedCapacity = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[scala.Double] = scala.None
-    var f2: scala.Option[scala.Double] = scala.None
-    var f3: scala.Option[scala.Double] = scala.None
-    var f4: scala.Option[Capacity] = scala.None
-    var f5: scala.Option[SecondaryIndexesCapacityMap] = scala.None
-    var f6: scala.Option[SecondaryIndexesCapacityMap] = scala.None
-    var f7: scala.Option[VectorIndexesCapacityMap] = scala.None
-    r.readStruct(ConsumedCapacity.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readDouble(m))
-          case 2 => f2 = scala.Some(mr.readDouble(m))
-          case 3 => f3 = scala.Some(mr.readDouble(m))
-          case 4 => f4 = scala.Some(Capacity.read(mr, m))
-          case 5 => f5 = scala.Some(SecondaryIndexesCapacityMap.read(mr, m))
-          case 6 => f6 = scala.Some(SecondaryIndexesCapacityMap.read(mr, m))
-          case 7 => f7 = scala.Some(VectorIndexesCapacityMap.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ConsumedCapacity(
-      f0,
-      f1,
-      f2,
-      f3,
-      f4,
-      f5,
-      f6,
-      f7
-    )
-  }
+  given codec: rt.SchemaCodec[ConsumedCapacity] = rt.ShapeCodec.struct[ConsumedCapacity](schema)
 }

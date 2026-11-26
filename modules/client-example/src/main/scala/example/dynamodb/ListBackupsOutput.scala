@@ -14,28 +14,5 @@ object ListBackupsOutput {
     rt.MemberDef("LastEvaluatedBackupArn", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ListBackupsOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ListBackupsOutput.schema.members
-      value.backupSummaries.foreach(x => BackupSummaries.write(s, ms(0), x))
-      value.lastEvaluatedBackupArn.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ListBackupsOutput = {
-    var f0: scala.Option[BackupSummaries] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ListBackupsOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(BackupSummaries.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ListBackupsOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ListBackupsOutput] = rt.ShapeCodec.struct[ListBackupsOutput](schema)
 }

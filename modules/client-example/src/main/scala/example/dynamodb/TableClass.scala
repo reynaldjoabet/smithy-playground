@@ -14,7 +14,10 @@ enum TableClass(val value: java.lang.String) derives CanEqual {
 object TableClass {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "TableClass"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[TableClass] = scala.collection.immutable.List(STANDARD, STANDARD_INFREQUENT_ACCESS)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[TableClass] = rt.ShapeCodec.enumValues[TableClass]
 
   def fromValue(value: java.lang.String): TableClass = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[TableClass] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

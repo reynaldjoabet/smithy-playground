@@ -12,24 +12,5 @@ object CancelMessageMoveTaskResult {
     rt.MemberDef("ApproximateNumberOfMessagesMoved", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: CancelMessageMoveTaskResult): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = CancelMessageMoveTaskResult.schema.members
-      s.writeLong(ms(0), value.approximateNumberOfMessagesMoved)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): CancelMessageMoveTaskResult = {
-    var f0: scala.Option[scala.Long] = scala.None
-    r.readStruct(CancelMessageMoveTaskResult.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readLong(m))
-          case _ => ()
-        }
-      }
-    }
-    CancelMessageMoveTaskResult(
-      f0.getOrElse(0L)
-    )
-  }
+  given codec: rt.SchemaCodec[CancelMessageMoveTaskResult] = rt.ShapeCodec.struct[CancelMessageMoveTaskResult](schema)
 }

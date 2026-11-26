@@ -19,36 +19,5 @@ object DescribeLimitsOutput {
     rt.MemberDef("TableMaxWriteCapacityUnits", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DescribeLimitsOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DescribeLimitsOutput.schema.members
-      value.accountMaxReadCapacityUnits.foreach(x => s.writeLong(ms(0), x))
-      value.accountMaxWriteCapacityUnits.foreach(x => s.writeLong(ms(1), x))
-      value.tableMaxReadCapacityUnits.foreach(x => s.writeLong(ms(2), x))
-      value.tableMaxWriteCapacityUnits.foreach(x => s.writeLong(ms(3), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DescribeLimitsOutput = {
-    var f0: scala.Option[scala.Long] = scala.None
-    var f1: scala.Option[scala.Long] = scala.None
-    var f2: scala.Option[scala.Long] = scala.None
-    var f3: scala.Option[scala.Long] = scala.None
-    r.readStruct(DescribeLimitsOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readLong(m))
-          case 1 => f1 = scala.Some(mr.readLong(m))
-          case 2 => f2 = scala.Some(mr.readLong(m))
-          case 3 => f3 = scala.Some(mr.readLong(m))
-          case _ => ()
-        }
-      }
-    }
-    DescribeLimitsOutput(
-      f0,
-      f1,
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[DescribeLimitsOutput] = rt.ShapeCodec.struct[DescribeLimitsOutput](schema)
 }

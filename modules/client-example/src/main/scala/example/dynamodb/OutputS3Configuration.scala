@@ -23,44 +23,5 @@ object OutputS3Configuration {
     rt.MemberDef("OutputType", () => OutputTypeList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: OutputS3Configuration): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = OutputS3Configuration.schema.members
-      value.s3BucketOwner.foreach(x => s.writeString(ms(0), x))
-      value.s3Bucket.foreach(x => s.writeString(ms(1), x))
-      value.s3KeyPrefix.foreach(x => s.writeString(ms(2), x))
-      value.s3SseAlgorithm.foreach(x => s.writeString(ms(3), x.value))
-      value.s3SseKmsKeyId.foreach(x => s.writeString(ms(4), x))
-      OutputTypeList.write(s, ms(5), value.outputType)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): OutputS3Configuration = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    var f3: scala.Option[S3SseAlgorithm] = scala.None
-    var f4: scala.Option[java.lang.String] = scala.None
-    var f5: scala.Option[OutputTypeList] = scala.None
-    r.readStruct(OutputS3Configuration.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case 3 => f3 = scala.Some(S3SseAlgorithm.fromValue(mr.readString(m)))
-          case 4 => f4 = scala.Some(mr.readString(m))
-          case 5 => f5 = scala.Some(OutputTypeList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    OutputS3Configuration(
-      f0,
-      f1,
-      f2,
-      f3,
-      f4,
-      f5.getOrElse(scala.Nil)
-    )
-  }
+  given codec: rt.SchemaCodec[OutputS3Configuration] = rt.ShapeCodec.struct[OutputS3Configuration](schema)
 }

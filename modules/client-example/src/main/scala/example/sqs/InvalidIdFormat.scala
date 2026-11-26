@@ -9,11 +9,5 @@ final case class InvalidIdFormat() extends rt.ServiceException(rt.ShapeId("com.a
 object InvalidIdFormat {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "InvalidIdFormat"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client"))()
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: InvalidIdFormat): scala.Unit =
-    w.writeStruct(schema)(_ => ())
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): InvalidIdFormat = {
-    r.readStruct(InvalidIdFormat.schema)((_, _) => ())
-    InvalidIdFormat()
-  }
+  given codec: rt.SchemaCodec[InvalidIdFormat] = rt.ShapeCodec.struct[InvalidIdFormat](schema)
 }

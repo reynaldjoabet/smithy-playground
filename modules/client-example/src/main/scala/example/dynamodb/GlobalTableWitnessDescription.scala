@@ -15,28 +15,5 @@ object GlobalTableWitnessDescription {
     rt.MemberDef("WitnessStatus", () => WitnessStatus.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: GlobalTableWitnessDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = GlobalTableWitnessDescription.schema.members
-      value.regionName.foreach(x => s.writeString(ms(0), x))
-      value.witnessStatus.foreach(x => s.writeString(ms(1), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): GlobalTableWitnessDescription = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[WitnessStatus] = scala.None
-    r.readStruct(GlobalTableWitnessDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(WitnessStatus.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    GlobalTableWitnessDescription(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[GlobalTableWitnessDescription] = rt.ShapeCodec.struct[GlobalTableWitnessDescription](schema)
 }

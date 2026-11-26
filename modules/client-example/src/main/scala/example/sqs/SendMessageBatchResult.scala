@@ -15,28 +15,5 @@ object SendMessageBatchResult {
     rt.MemberDef("Failed", () => BatchResultErrorEntryList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: SendMessageBatchResult): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = SendMessageBatchResult.schema.members
-      SendMessageBatchResultEntryList.write(s, ms(0), value.successful)
-      BatchResultErrorEntryList.write(s, ms(1), value.failed)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): SendMessageBatchResult = {
-    var f0: scala.Option[SendMessageBatchResultEntryList] = scala.None
-    var f1: scala.Option[BatchResultErrorEntryList] = scala.None
-    r.readStruct(SendMessageBatchResult.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(SendMessageBatchResultEntryList.read(mr, m))
-          case 1 => f1 = scala.Some(BatchResultErrorEntryList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    SendMessageBatchResult(
-      f0.getOrElse(scala.Nil),
-      f1.getOrElse(scala.Nil)
-    )
-  }
+  given codec: rt.SchemaCodec[SendMessageBatchResult] = rt.ShapeCodec.struct[SendMessageBatchResult](schema)
 }

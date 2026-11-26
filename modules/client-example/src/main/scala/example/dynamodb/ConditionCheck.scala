@@ -23,44 +23,5 @@ object ConditionCheck {
     rt.MemberDef("ReturnValuesOnConditionCheckFailure", () => ReturnValuesOnConditionCheckFailure.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ConditionCheck): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ConditionCheck.schema.members
-      Key.write(s, ms(0), value.key)
-      s.writeString(ms(1), value.tableName)
-      s.writeString(ms(2), value.conditionExpression)
-      value.expressionAttributeNames.foreach(x => ExpressionAttributeNameMap.write(s, ms(3), x))
-      value.expressionAttributeValues.foreach(x => ExpressionAttributeValueMap.write(s, ms(4), x))
-      value.returnValuesOnConditionCheckFailure.foreach(x => s.writeString(ms(5), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ConditionCheck = {
-    var f0: scala.Option[Key] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    var f3: scala.Option[ExpressionAttributeNameMap] = scala.None
-    var f4: scala.Option[ExpressionAttributeValueMap] = scala.None
-    var f5: scala.Option[ReturnValuesOnConditionCheckFailure] = scala.None
-    r.readStruct(ConditionCheck.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(Key.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case 3 => f3 = scala.Some(ExpressionAttributeNameMap.read(mr, m))
-          case 4 => f4 = scala.Some(ExpressionAttributeValueMap.read(mr, m))
-          case 5 => f5 = scala.Some(ReturnValuesOnConditionCheckFailure.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    ConditionCheck(
-      f0.getOrElse(scala.collection.immutable.Map.empty),
-      f1.getOrElse(""),
-      f2.getOrElse(""),
-      f3,
-      f4,
-      f5
-    )
-  }
+  given codec: rt.SchemaCodec[ConditionCheck] = rt.ShapeCodec.struct[ConditionCheck](schema)
 }

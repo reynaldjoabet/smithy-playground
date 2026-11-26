@@ -13,24 +13,5 @@ object InvalidSecurity {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: InvalidSecurity): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = InvalidSecurity.schema.members
-      value.message.foreach(x => s.writeString(ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): InvalidSecurity = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(InvalidSecurity.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    InvalidSecurity(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[InvalidSecurity] = rt.ShapeCodec.struct[InvalidSecurity](schema)
 }

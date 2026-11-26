@@ -22,44 +22,5 @@ object ImportTableInput {
     rt.MemberDef("TableCreationParameters", () => TableCreationParameters.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ImportTableInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ImportTableInput.schema.members
-      s.writeString(ms(0), value.clientToken.getOrElse(java.util.UUID.randomUUID().toString))
-      S3BucketSource.write(s, ms(1), value.s3BucketSource)
-      s.writeString(ms(2), value.inputFormat.value)
-      value.inputFormatOptions.foreach(x => InputFormatOptions.write(s, ms(3), x))
-      value.inputCompressionType.foreach(x => s.writeString(ms(4), x.value))
-      TableCreationParameters.write(s, ms(5), value.tableCreationParameters)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ImportTableInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[S3BucketSource] = scala.None
-    var f2: scala.Option[InputFormat] = scala.None
-    var f3: scala.Option[InputFormatOptions] = scala.None
-    var f4: scala.Option[InputCompressionType] = scala.None
-    var f5: scala.Option[TableCreationParameters] = scala.None
-    r.readStruct(ImportTableInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(S3BucketSource.read(mr, m))
-          case 2 => f2 = scala.Some(InputFormat.fromValue(mr.readString(m)))
-          case 3 => f3 = scala.Some(InputFormatOptions.read(mr, m))
-          case 4 => f4 = scala.Some(InputCompressionType.fromValue(mr.readString(m)))
-          case 5 => f5 = scala.Some(TableCreationParameters.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ImportTableInput(
-      f0,
-      f1.getOrElse(throw new rt.SerializationException("Missing required member ImportTableInput.S3BucketSource")),
-      f2.getOrElse(InputFormat.UnknownValue("")),
-      f3,
-      f4,
-      f5.getOrElse(throw new rt.SerializationException("Missing required member ImportTableInput.TableCreationParameters"))
-    )
-  }
+  given codec: rt.SchemaCodec[ImportTableInput] = rt.ShapeCodec.struct[ImportTableInput](schema)
 }

@@ -1,5 +1,9 @@
 package smithyscala.runtime
 
+import scala.compiletime.erasedValue
+import scala.compiletime.error
+import scala.compiletime.summonInline
+
 /** Details of a modelled error a response turned into, filled in by the protocol. */
 final case class ErrorMetadata(code: String, statusCode: Int, requestId: Option[String], headers: Headers)
 
@@ -36,17 +40,46 @@ final class TypeRegistry(types: Seq[ErrorType]) {
     else byName.get(code)
 }
 
+object TypeRegistry {
+
+  /**
+    * A registry from a tuple of error types, `TypeRegistry.of[A *: B *: EmptyTuple]`. The tuple is
+    * walked at compile time: each type's codec is summoned, and a type that isn't a
+    * `ServiceException` is a compile error rather than a runtime surprise.
+    */
+  inline def of[Es <: Tuple]: TypeRegistry = new TypeRegistry(errorTypes[Es])
+
+  private inline def errorTypes[Es <: Tuple]: List[ErrorType] = inline erasedValue[Es] match {
+    case _: EmptyTuple => Nil
+    case _: (e *: es) =>
+      inline erasedValue[e] match {
+        case _: ServiceException =>
+          val codec = summonInline[SchemaCodec[e]]
+          ErrorType(codec.schema, r => codec.read(r, codec.schema).asInstanceOf[ServiceException]) :: errorTypes[es]
+        case _ => error("TypeRegistry.of: every error type must extend ServiceException")
+      }
+  }
+}
+
 /** Everything the pipeline needs to call one operation. Generated once per operation. */
 final class Operation[I, O](
     val id: ShapeId,
-    val inputSchema: Schema,
-    val writeInput: (ShapeWriter, I) => Unit,
-    val outputSchema: Schema,
-    val readOutput: ShapeReader => O,
+    input: SchemaCodec[I],
+    output: SchemaCodec[O],
     val errors: TypeRegistry,
     val authSchemes: List[String]
 ) {
-  def name: String = id.name
+  def name: String                                = id.name
+  def inputSchema: Schema                         = input.schema
+  def writeInput(w: ShapeWriter, value: I): Unit  = input.write(w, input.schema, value)
+  def readOutput(r: ShapeReader): O               = output.read(r, output.schema)
+}
+
+object Operation {
+
+  /** The input and output codecs come from context bounds, named with `as`. */
+  def of[I: SchemaCodec as in, O: SchemaCodec as out](id: ShapeId, errors: TypeRegistry, authSchemes: List[String]): Operation[I, O] =
+    new Operation(id, in, out, errors, authSchemes)
 }
 
 enum ProtocolInfo derives CanEqual {

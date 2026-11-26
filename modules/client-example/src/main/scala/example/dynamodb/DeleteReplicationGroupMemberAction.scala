@@ -13,24 +13,5 @@ object DeleteReplicationGroupMemberAction {
     rt.MemberDef("RegionName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DeleteReplicationGroupMemberAction): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DeleteReplicationGroupMemberAction.schema.members
-      s.writeString(ms(0), value.regionName)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DeleteReplicationGroupMemberAction = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(DeleteReplicationGroupMemberAction.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    DeleteReplicationGroupMemberAction(
-      f0.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[DeleteReplicationGroupMemberAction] = rt.ShapeCodec.struct[DeleteReplicationGroupMemberAction](schema)
 }

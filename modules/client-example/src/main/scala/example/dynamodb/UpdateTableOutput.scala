@@ -13,24 +13,5 @@ object UpdateTableOutput {
     rt.MemberDef("TableDescription", () => TableDescription.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: UpdateTableOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = UpdateTableOutput.schema.members
-      value.tableDescription.foreach(x => TableDescription.write(s, ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): UpdateTableOutput = {
-    var f0: scala.Option[TableDescription] = scala.None
-    r.readStruct(UpdateTableOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(TableDescription.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    UpdateTableOutput(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[UpdateTableOutput] = rt.ShapeCodec.struct[UpdateTableOutput](schema)
 }

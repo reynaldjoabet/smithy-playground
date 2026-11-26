@@ -14,28 +14,5 @@ object ChangeMessageVisibilityBatchRequest {
     rt.MemberDef("Entries", () => ChangeMessageVisibilityBatchRequestEntryList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ChangeMessageVisibilityBatchRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ChangeMessageVisibilityBatchRequest.schema.members
-      s.writeString(ms(0), value.queueUrl)
-      ChangeMessageVisibilityBatchRequestEntryList.write(s, ms(1), value.entries)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ChangeMessageVisibilityBatchRequest = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[ChangeMessageVisibilityBatchRequestEntryList] = scala.None
-    r.readStruct(ChangeMessageVisibilityBatchRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(ChangeMessageVisibilityBatchRequestEntryList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ChangeMessageVisibilityBatchRequest(
-      f0.getOrElse(""),
-      f1.getOrElse(scala.Nil)
-    )
-  }
+  given codec: rt.SchemaCodec[ChangeMessageVisibilityBatchRequest] = rt.ShapeCodec.struct[ChangeMessageVisibilityBatchRequest](schema)
 }

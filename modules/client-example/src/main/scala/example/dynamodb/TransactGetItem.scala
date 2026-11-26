@@ -13,24 +13,5 @@ object TransactGetItem {
     rt.MemberDef("Get", () => Get.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TransactGetItem): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = TransactGetItem.schema.members
-      Get.write(s, ms(0), value.get)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TransactGetItem = {
-    var f0: scala.Option[Get] = scala.None
-    r.readStruct(TransactGetItem.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(Get.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    TransactGetItem(
-      f0.getOrElse(throw new rt.SerializationException("Missing required member TransactGetItem.Get"))
-    )
-  }
+  given codec: rt.SchemaCodec[TransactGetItem] = rt.ShapeCodec.struct[TransactGetItem](schema)
 }

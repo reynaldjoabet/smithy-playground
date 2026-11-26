@@ -16,32 +16,5 @@ object StartMessageMoveTaskRequest {
     rt.MemberDef("MaxNumberOfMessagesPerSecond", () => rt.Prelude.Integer, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: StartMessageMoveTaskRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = StartMessageMoveTaskRequest.schema.members
-      s.writeString(ms(0), value.sourceArn)
-      value.destinationArn.foreach(x => s.writeString(ms(1), x))
-      value.maxNumberOfMessagesPerSecond.foreach(x => s.writeInteger(ms(2), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): StartMessageMoveTaskRequest = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[scala.Int] = scala.None
-    r.readStruct(StartMessageMoveTaskRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readInteger(m))
-          case _ => ()
-        }
-      }
-    }
-    StartMessageMoveTaskRequest(
-      f0.getOrElse(""),
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[StartMessageMoveTaskRequest] = rt.ShapeCodec.struct[StartMessageMoveTaskRequest](schema)
 }

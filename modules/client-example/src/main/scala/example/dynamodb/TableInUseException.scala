@@ -13,24 +13,5 @@ object TableInUseException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TableInUseException): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = TableInUseException.schema.members
-      value.message.foreach(x => s.writeString(ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TableInUseException = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(TableInUseException.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    TableInUseException(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[TableInUseException] = rt.ShapeCodec.struct[TableInUseException](schema)
 }

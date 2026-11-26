@@ -18,36 +18,5 @@ object UpdateTableReplicaAutoScalingInput {
     rt.MemberDef("ReplicaUpdates", () => ReplicaAutoScalingUpdateList.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: UpdateTableReplicaAutoScalingInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = UpdateTableReplicaAutoScalingInput.schema.members
-      value.globalSecondaryIndexUpdates.foreach(x => GlobalSecondaryIndexAutoScalingUpdateList.write(s, ms(0), x))
-      s.writeString(ms(1), value.tableName)
-      value.provisionedWriteCapacityAutoScalingUpdate.foreach(x => AutoScalingSettingsUpdate.write(s, ms(2), x))
-      value.replicaUpdates.foreach(x => ReplicaAutoScalingUpdateList.write(s, ms(3), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): UpdateTableReplicaAutoScalingInput = {
-    var f0: scala.Option[GlobalSecondaryIndexAutoScalingUpdateList] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[AutoScalingSettingsUpdate] = scala.None
-    var f3: scala.Option[ReplicaAutoScalingUpdateList] = scala.None
-    r.readStruct(UpdateTableReplicaAutoScalingInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(GlobalSecondaryIndexAutoScalingUpdateList.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(AutoScalingSettingsUpdate.read(mr, m))
-          case 3 => f3 = scala.Some(ReplicaAutoScalingUpdateList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    UpdateTableReplicaAutoScalingInput(
-      f0,
-      f1.getOrElse(""),
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[UpdateTableReplicaAutoScalingInput] = rt.ShapeCodec.struct[UpdateTableReplicaAutoScalingInput](schema)
 }

@@ -18,36 +18,5 @@ object ExecuteStatementOutput {
     rt.MemberDef("LastEvaluatedKey", () => Key.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ExecuteStatementOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ExecuteStatementOutput.schema.members
-      value.items.foreach(x => ItemList.write(s, ms(0), x))
-      value.nextToken.foreach(x => s.writeString(ms(1), x))
-      value.consumedCapacity.foreach(x => ConsumedCapacity.write(s, ms(2), x))
-      value.lastEvaluatedKey.foreach(x => Key.write(s, ms(3), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ExecuteStatementOutput = {
-    var f0: scala.Option[ItemList] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[ConsumedCapacity] = scala.None
-    var f3: scala.Option[Key] = scala.None
-    r.readStruct(ExecuteStatementOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ItemList.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(ConsumedCapacity.read(mr, m))
-          case 3 => f3 = scala.Some(Key.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ExecuteStatementOutput(
-      f0,
-      f1,
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[ExecuteStatementOutput] = rt.ShapeCodec.struct[ExecuteStatementOutput](schema)
 }

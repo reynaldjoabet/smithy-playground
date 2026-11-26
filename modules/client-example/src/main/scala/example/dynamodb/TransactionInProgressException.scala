@@ -13,24 +13,5 @@ object TransactionInProgressException {
     rt.MemberDef("Message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TransactionInProgressException): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = TransactionInProgressException.schema.members
-      value.message.foreach(x => s.writeString(ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TransactionInProgressException = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(TransactionInProgressException.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    TransactionInProgressException(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[TransactionInProgressException] = rt.ShapeCodec.struct[TransactionInProgressException](schema)
 }

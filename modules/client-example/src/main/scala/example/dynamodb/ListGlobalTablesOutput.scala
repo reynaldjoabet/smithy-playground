@@ -14,28 +14,5 @@ object ListGlobalTablesOutput {
     rt.MemberDef("LastEvaluatedGlobalTableName", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ListGlobalTablesOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ListGlobalTablesOutput.schema.members
-      value.globalTables.foreach(x => GlobalTableList.write(s, ms(0), x))
-      value.lastEvaluatedGlobalTableName.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ListGlobalTablesOutput = {
-    var f0: scala.Option[GlobalTableList] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ListGlobalTablesOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(GlobalTableList.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ListGlobalTablesOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ListGlobalTablesOutput] = rt.ShapeCodec.struct[ListGlobalTablesOutput](schema)
 }

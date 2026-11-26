@@ -9,17 +9,4 @@ object ListMessageMoveTasksResultEntryList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "ListMessageMoveTasksResultEntryList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => ListMessageMoveTasksResultEntry.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ListMessageMoveTasksResultEntryList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = ListMessageMoveTasksResultEntryList.schema.members(0)
-      value.foreach(x => ListMessageMoveTasksResultEntry.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ListMessageMoveTasksResultEntryList = {
-      val m = ListMessageMoveTasksResultEntryList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[ListMessageMoveTasksResultEntry]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(ListMessageMoveTasksResultEntry.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

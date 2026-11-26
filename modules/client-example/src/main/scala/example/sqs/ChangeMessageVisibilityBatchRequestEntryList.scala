@@ -9,17 +9,4 @@ object ChangeMessageVisibilityBatchRequestEntryList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "ChangeMessageVisibilityBatchRequestEntryList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => ChangeMessageVisibilityBatchRequestEntry.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ChangeMessageVisibilityBatchRequestEntryList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = ChangeMessageVisibilityBatchRequestEntryList.schema.members(0)
-      value.foreach(x => ChangeMessageVisibilityBatchRequestEntry.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ChangeMessageVisibilityBatchRequestEntryList = {
-      val m = ChangeMessageVisibilityBatchRequestEntryList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[ChangeMessageVisibilityBatchRequestEntry]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(ChangeMessageVisibilityBatchRequestEntry.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

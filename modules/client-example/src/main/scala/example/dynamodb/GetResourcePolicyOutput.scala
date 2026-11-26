@@ -14,28 +14,5 @@ object GetResourcePolicyOutput {
     rt.MemberDef("RevisionId", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: GetResourcePolicyOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = GetResourcePolicyOutput.schema.members
-      value.policy.foreach(x => s.writeString(ms(0), x))
-      value.revisionId.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): GetResourcePolicyOutput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(GetResourcePolicyOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    GetResourcePolicyOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[GetResourcePolicyOutput] = rt.ShapeCodec.struct[GetResourcePolicyOutput](schema)
 }

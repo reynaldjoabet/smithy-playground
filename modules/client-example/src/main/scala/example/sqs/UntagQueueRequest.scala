@@ -14,28 +14,5 @@ object UntagQueueRequest {
     rt.MemberDef("TagKeys", () => TagKeyList.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: UntagQueueRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = UntagQueueRequest.schema.members
-      s.writeString(ms(0), value.queueUrl)
-      TagKeyList.write(s, ms(1), value.tagKeys)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): UntagQueueRequest = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[TagKeyList] = scala.None
-    r.readStruct(UntagQueueRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(TagKeyList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    UntagQueueRequest(
-      f0.getOrElse(""),
-      f1.getOrElse(scala.Nil)
-    )
-  }
+  given codec: rt.SchemaCodec[UntagQueueRequest] = rt.ShapeCodec.struct[UntagQueueRequest](schema)
 }

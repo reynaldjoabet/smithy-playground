@@ -14,28 +14,5 @@ object ListExportsOutput {
     rt.MemberDef("NextToken", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ListExportsOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ListExportsOutput.schema.members
-      value.exportSummaries.foreach(x => ExportSummaries.write(s, ms(0), x))
-      value.nextToken.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ListExportsOutput = {
-    var f0: scala.Option[ExportSummaries] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ListExportsOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ExportSummaries.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ListExportsOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ListExportsOutput] = rt.ShapeCodec.struct[ListExportsOutput](schema)
 }

@@ -13,24 +13,5 @@ object ProvisionedThroughputOverride {
     rt.MemberDef("ReadCapacityUnits", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ProvisionedThroughputOverride): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ProvisionedThroughputOverride.schema.members
-      value.readCapacityUnits.foreach(x => s.writeLong(ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ProvisionedThroughputOverride = {
-    var f0: scala.Option[scala.Long] = scala.None
-    r.readStruct(ProvisionedThroughputOverride.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readLong(m))
-          case _ => ()
-        }
-      }
-    }
-    ProvisionedThroughputOverride(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[ProvisionedThroughputOverride] = rt.ShapeCodec.struct[ProvisionedThroughputOverride](schema)
 }

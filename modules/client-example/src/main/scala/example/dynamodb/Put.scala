@@ -23,44 +23,5 @@ object Put {
     rt.MemberDef("ReturnValuesOnConditionCheckFailure", () => ReturnValuesOnConditionCheckFailure.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: Put): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = Put.schema.members
-      PutItemInputAttributeMap.write(s, ms(0), value.item)
-      s.writeString(ms(1), value.tableName)
-      value.conditionExpression.foreach(x => s.writeString(ms(2), x))
-      value.expressionAttributeNames.foreach(x => ExpressionAttributeNameMap.write(s, ms(3), x))
-      value.expressionAttributeValues.foreach(x => ExpressionAttributeValueMap.write(s, ms(4), x))
-      value.returnValuesOnConditionCheckFailure.foreach(x => s.writeString(ms(5), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): Put = {
-    var f0: scala.Option[PutItemInputAttributeMap] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[java.lang.String] = scala.None
-    var f3: scala.Option[ExpressionAttributeNameMap] = scala.None
-    var f4: scala.Option[ExpressionAttributeValueMap] = scala.None
-    var f5: scala.Option[ReturnValuesOnConditionCheckFailure] = scala.None
-    r.readStruct(Put.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(PutItemInputAttributeMap.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readString(m))
-          case 3 => f3 = scala.Some(ExpressionAttributeNameMap.read(mr, m))
-          case 4 => f4 = scala.Some(ExpressionAttributeValueMap.read(mr, m))
-          case 5 => f5 = scala.Some(ReturnValuesOnConditionCheckFailure.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    Put(
-      f0.getOrElse(scala.collection.immutable.Map.empty),
-      f1.getOrElse(""),
-      f2,
-      f3,
-      f4,
-      f5
-    )
-  }
+  given codec: rt.SchemaCodec[Put] = rt.ShapeCodec.struct[Put](schema)
 }

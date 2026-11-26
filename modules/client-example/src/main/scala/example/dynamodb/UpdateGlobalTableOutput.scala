@@ -12,24 +12,5 @@ object UpdateGlobalTableOutput {
     rt.MemberDef("GlobalTableDescription", () => GlobalTableDescription.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: UpdateGlobalTableOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = UpdateGlobalTableOutput.schema.members
-      value.globalTableDescription.foreach(x => GlobalTableDescription.write(s, ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): UpdateGlobalTableOutput = {
-    var f0: scala.Option[GlobalTableDescription] = scala.None
-    r.readStruct(UpdateGlobalTableOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(GlobalTableDescription.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    UpdateGlobalTableOutput(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[UpdateGlobalTableOutput] = rt.ShapeCodec.struct[UpdateGlobalTableOutput](schema)
 }

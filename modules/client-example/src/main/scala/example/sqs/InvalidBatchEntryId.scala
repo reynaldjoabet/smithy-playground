@@ -13,24 +13,5 @@ object InvalidBatchEntryId {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: InvalidBatchEntryId): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = InvalidBatchEntryId.schema.members
-      value.message.foreach(x => s.writeString(ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): InvalidBatchEntryId = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(InvalidBatchEntryId.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    InvalidBatchEntryId(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[InvalidBatchEntryId] = rt.ShapeCodec.struct[InvalidBatchEntryId](schema)
 }

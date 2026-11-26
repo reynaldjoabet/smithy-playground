@@ -15,28 +15,5 @@ object KeySchemaElement {
     rt.MemberDef("KeyType", () => KeyType.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: KeySchemaElement): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = KeySchemaElement.schema.members
-      s.writeString(ms(0), value.attributeName)
-      s.writeString(ms(1), value.keyType.value)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): KeySchemaElement = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[KeyType] = scala.None
-    r.readStruct(KeySchemaElement.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(KeyType.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    KeySchemaElement(
-      f0.getOrElse(""),
-      f1.getOrElse(KeyType.UnknownValue(""))
-    )
-  }
+  given codec: rt.SchemaCodec[KeySchemaElement] = rt.ShapeCodec.struct[KeySchemaElement](schema)
 }

@@ -28,56 +28,5 @@ object RestoreTableFromBackupInput {
     rt.MemberDef("VectorIndexOverride", () => VectorIndexList.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: RestoreTableFromBackupInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = RestoreTableFromBackupInput.schema.members
-      s.writeString(ms(0), value.targetTableName)
-      s.writeString(ms(1), value.backupArn)
-      value.billingModeOverride.foreach(x => s.writeString(ms(2), x.value))
-      value.globalSecondaryIndexOverride.foreach(x => GlobalSecondaryIndexList.write(s, ms(3), x))
-      value.localSecondaryIndexOverride.foreach(x => LocalSecondaryIndexList.write(s, ms(4), x))
-      value.provisionedThroughputOverride.foreach(x => ProvisionedThroughput.write(s, ms(5), x))
-      value.onDemandThroughputOverride.foreach(x => OnDemandThroughput.write(s, ms(6), x))
-      value.sseSpecificationOverride.foreach(x => SSESpecification.write(s, ms(7), x))
-      value.vectorIndexOverride.foreach(x => VectorIndexList.write(s, ms(8), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): RestoreTableFromBackupInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[BillingMode] = scala.None
-    var f3: scala.Option[GlobalSecondaryIndexList] = scala.None
-    var f4: scala.Option[LocalSecondaryIndexList] = scala.None
-    var f5: scala.Option[ProvisionedThroughput] = scala.None
-    var f6: scala.Option[OnDemandThroughput] = scala.None
-    var f7: scala.Option[SSESpecification] = scala.None
-    var f8: scala.Option[VectorIndexList] = scala.None
-    r.readStruct(RestoreTableFromBackupInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(BillingMode.fromValue(mr.readString(m)))
-          case 3 => f3 = scala.Some(GlobalSecondaryIndexList.read(mr, m))
-          case 4 => f4 = scala.Some(LocalSecondaryIndexList.read(mr, m))
-          case 5 => f5 = scala.Some(ProvisionedThroughput.read(mr, m))
-          case 6 => f6 = scala.Some(OnDemandThroughput.read(mr, m))
-          case 7 => f7 = scala.Some(SSESpecification.read(mr, m))
-          case 8 => f8 = scala.Some(VectorIndexList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    RestoreTableFromBackupInput(
-      f0.getOrElse(""),
-      f1.getOrElse(""),
-      f2,
-      f3,
-      f4,
-      f5,
-      f6,
-      f7,
-      f8
-    )
-  }
+  given codec: rt.SchemaCodec[RestoreTableFromBackupInput] = rt.ShapeCodec.struct[RestoreTableFromBackupInput](schema)
 }

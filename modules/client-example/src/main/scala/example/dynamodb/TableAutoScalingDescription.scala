@@ -17,32 +17,5 @@ object TableAutoScalingDescription {
     rt.MemberDef("Replicas", () => ReplicaAutoScalingDescriptionList.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TableAutoScalingDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = TableAutoScalingDescription.schema.members
-      value.tableName.foreach(x => s.writeString(ms(0), x))
-      value.tableStatus.foreach(x => s.writeString(ms(1), x.value))
-      value.replicas.foreach(x => ReplicaAutoScalingDescriptionList.write(s, ms(2), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TableAutoScalingDescription = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[TableStatus] = scala.None
-    var f2: scala.Option[ReplicaAutoScalingDescriptionList] = scala.None
-    r.readStruct(TableAutoScalingDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(TableStatus.fromValue(mr.readString(m)))
-          case 2 => f2 = scala.Some(ReplicaAutoScalingDescriptionList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    TableAutoScalingDescription(
-      f0,
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[TableAutoScalingDescription] = rt.ShapeCodec.struct[TableAutoScalingDescription](schema)
 }

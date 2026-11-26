@@ -13,24 +13,5 @@ object ExportConflictException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ExportConflictException): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ExportConflictException.schema.members
-      value.message.foreach(x => s.writeString(ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ExportConflictException = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ExportConflictException.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ExportConflictException(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[ExportConflictException] = rt.ShapeCodec.struct[ExportConflictException](schema)
 }

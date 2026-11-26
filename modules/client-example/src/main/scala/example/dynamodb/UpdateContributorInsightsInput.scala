@@ -18,36 +18,5 @@ object UpdateContributorInsightsInput {
     rt.MemberDef("ContributorInsightsMode", () => ContributorInsightsMode.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: UpdateContributorInsightsInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = UpdateContributorInsightsInput.schema.members
-      s.writeString(ms(0), value.tableName)
-      value.indexName.foreach(x => s.writeString(ms(1), x))
-      s.writeString(ms(2), value.contributorInsightsAction.value)
-      value.contributorInsightsMode.foreach(x => s.writeString(ms(3), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): UpdateContributorInsightsInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[ContributorInsightsAction] = scala.None
-    var f3: scala.Option[ContributorInsightsMode] = scala.None
-    r.readStruct(UpdateContributorInsightsInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(ContributorInsightsAction.fromValue(mr.readString(m)))
-          case 3 => f3 = scala.Some(ContributorInsightsMode.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    UpdateContributorInsightsInput(
-      f0.getOrElse(""),
-      f1,
-      f2.getOrElse(ContributorInsightsAction.UnknownValue("")),
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[UpdateContributorInsightsInput] = rt.ShapeCodec.struct[UpdateContributorInsightsInput](schema)
 }

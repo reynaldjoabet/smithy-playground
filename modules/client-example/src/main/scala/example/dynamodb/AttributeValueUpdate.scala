@@ -15,28 +15,5 @@ object AttributeValueUpdate {
     rt.MemberDef("Action", () => AttributeAction.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: AttributeValueUpdate): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = AttributeValueUpdate.schema.members
-      value.value.foreach(x => AttributeValue.write(s, ms(0), x))
-      value.action.foreach(x => s.writeString(ms(1), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): AttributeValueUpdate = {
-    var f0: scala.Option[AttributeValue] = scala.None
-    var f1: scala.Option[AttributeAction] = scala.None
-    r.readStruct(AttributeValueUpdate.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(AttributeValue.read(mr, m))
-          case 1 => f1 = scala.Some(AttributeAction.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    AttributeValueUpdate(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[AttributeValueUpdate] = rt.ShapeCodec.struct[AttributeValueUpdate](schema)
 }

@@ -14,28 +14,5 @@ object ListTagsOfResourceOutput {
     rt.MemberDef("NextToken", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ListTagsOfResourceOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ListTagsOfResourceOutput.schema.members
-      value.tags.foreach(x => TagList.write(s, ms(0), x))
-      value.nextToken.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ListTagsOfResourceOutput = {
-    var f0: scala.Option[TagList] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ListTagsOfResourceOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(TagList.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ListTagsOfResourceOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ListTagsOfResourceOutput] = rt.ShapeCodec.struct[ListTagsOfResourceOutput](schema)
 }

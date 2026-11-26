@@ -15,28 +15,5 @@ object ReplicaUpdate {
     rt.MemberDef("Delete", () => DeleteReplicaAction.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ReplicaUpdate): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ReplicaUpdate.schema.members
-      value.create.foreach(x => CreateReplicaAction.write(s, ms(0), x))
-      value.delete.foreach(x => DeleteReplicaAction.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ReplicaUpdate = {
-    var f0: scala.Option[CreateReplicaAction] = scala.None
-    var f1: scala.Option[DeleteReplicaAction] = scala.None
-    r.readStruct(ReplicaUpdate.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(CreateReplicaAction.read(mr, m))
-          case 1 => f1 = scala.Some(DeleteReplicaAction.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ReplicaUpdate(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ReplicaUpdate] = rt.ShapeCodec.struct[ReplicaUpdate](schema)
 }

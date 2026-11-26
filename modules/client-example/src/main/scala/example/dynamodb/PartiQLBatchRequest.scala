@@ -9,17 +9,4 @@ object PartiQLBatchRequest {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "PartiQLBatchRequest"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => BatchStatementRequest.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: PartiQLBatchRequest): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = PartiQLBatchRequest.schema.members(0)
-      value.foreach(x => BatchStatementRequest.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): PartiQLBatchRequest = {
-      val m = PartiQLBatchRequest.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[BatchStatementRequest]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(BatchStatementRequest.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

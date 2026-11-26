@@ -9,17 +9,4 @@ object NumberSetAttributeValue {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "NumberSetAttributeValue"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => rt.Prelude.String, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: NumberSetAttributeValue): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = NumberSetAttributeValue.schema.members(0)
-      value.foreach(x => lw.writeString(m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): NumberSetAttributeValue = {
-      val m = NumberSetAttributeValue.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[java.lang.String]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(er.readString(m)): scala.Unit))
-    b.result()
-  }
 }

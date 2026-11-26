@@ -12,24 +12,5 @@ object DescribeEndpointsResponse {
     rt.MemberDef("Endpoints", () => Endpoints.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DescribeEndpointsResponse): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DescribeEndpointsResponse.schema.members
-      Endpoints.write(s, ms(0), value.endpoints)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DescribeEndpointsResponse = {
-    var f0: scala.Option[Endpoints] = scala.None
-    r.readStruct(DescribeEndpointsResponse.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(Endpoints.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    DescribeEndpointsResponse(
-      f0.getOrElse(scala.Nil)
-    )
-  }
+  given codec: rt.SchemaCodec[DescribeEndpointsResponse] = rt.ShapeCodec.struct[DescribeEndpointsResponse](schema)
 }

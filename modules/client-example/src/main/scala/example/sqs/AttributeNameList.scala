@@ -9,17 +9,4 @@ object AttributeNameList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "AttributeNameList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => QueueAttributeName.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: AttributeNameList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = AttributeNameList.schema.members(0)
-      value.foreach(x => lw.writeString(m, x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): AttributeNameList = {
-      val m = AttributeNameList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[QueueAttributeName]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(QueueAttributeName.fromValue(er.readString(m))): scala.Unit))
-    b.result()
-  }
 }

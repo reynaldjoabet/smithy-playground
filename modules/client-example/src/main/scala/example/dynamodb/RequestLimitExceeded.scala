@@ -15,28 +15,5 @@ object RequestLimitExceeded {
     rt.MemberDef("ThrottlingReasons", () => ThrottlingReasonList.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: RequestLimitExceeded): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = RequestLimitExceeded.schema.members
-      value.message.foreach(x => s.writeString(ms(0), x))
-      value.throttlingReasons.foreach(x => ThrottlingReasonList.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): RequestLimitExceeded = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[ThrottlingReasonList] = scala.None
-    r.readStruct(RequestLimitExceeded.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(ThrottlingReasonList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    RequestLimitExceeded(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[RequestLimitExceeded] = rt.ShapeCodec.struct[RequestLimitExceeded](schema)
 }

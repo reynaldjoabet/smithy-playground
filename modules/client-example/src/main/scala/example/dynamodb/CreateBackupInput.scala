@@ -14,28 +14,5 @@ object CreateBackupInput {
     rt.MemberDef("BackupName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: CreateBackupInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = CreateBackupInput.schema.members
-      s.writeString(ms(0), value.tableName)
-      s.writeString(ms(1), value.backupName)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): CreateBackupInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(CreateBackupInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    CreateBackupInput(
-      f0.getOrElse(""),
-      f1.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[CreateBackupInput] = rt.ShapeCodec.struct[CreateBackupInput](schema)
 }

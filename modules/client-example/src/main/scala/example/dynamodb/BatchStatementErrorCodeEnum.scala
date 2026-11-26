@@ -23,7 +23,10 @@ enum BatchStatementErrorCodeEnum(val value: java.lang.String) derives CanEqual {
 object BatchStatementErrorCodeEnum {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "BatchStatementErrorCodeEnum"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[BatchStatementErrorCodeEnum] = scala.collection.immutable.List(ConditionalCheckFailed, ItemCollectionSizeLimitExceeded, RequestLimitExceeded, ValidationError, ProvisionedThroughputExceeded, TransactionConflict, ThrottlingError, InternalServerError, ResourceNotFound, AccessDenied, DuplicateItem)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[BatchStatementErrorCodeEnum] = rt.ShapeCodec.enumValues[BatchStatementErrorCodeEnum]
 
   def fromValue(value: java.lang.String): BatchStatementErrorCodeEnum = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[BatchStatementErrorCodeEnum] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

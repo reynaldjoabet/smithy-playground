@@ -14,28 +14,5 @@ object ListContributorInsightsOutput {
     rt.MemberDef("NextToken", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ListContributorInsightsOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ListContributorInsightsOutput.schema.members
-      value.contributorInsightsSummaries.foreach(x => ContributorInsightsSummaries.write(s, ms(0), x))
-      value.nextToken.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ListContributorInsightsOutput = {
-    var f0: scala.Option[ContributorInsightsSummaries] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ListContributorInsightsOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ContributorInsightsSummaries.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ListContributorInsightsOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ListContributorInsightsOutput] = rt.ShapeCodec.struct[ListContributorInsightsOutput](schema)
 }

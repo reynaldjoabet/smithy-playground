@@ -9,17 +9,4 @@ object AttributeDefinitions {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "AttributeDefinitions"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => AttributeDefinition.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: AttributeDefinitions): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = AttributeDefinitions.schema.members(0)
-      value.foreach(x => AttributeDefinition.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): AttributeDefinitions = {
-      val m = AttributeDefinitions.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[AttributeDefinition]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(AttributeDefinition.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

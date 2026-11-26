@@ -13,24 +13,5 @@ object ExportNotFoundException {
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ExportNotFoundException): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ExportNotFoundException.schema.members
-      value.message.foreach(x => s.writeString(ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ExportNotFoundException = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ExportNotFoundException.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ExportNotFoundException(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[ExportNotFoundException] = rt.ShapeCodec.struct[ExportNotFoundException](schema)
 }

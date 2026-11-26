@@ -14,28 +14,5 @@ object ListBulkOperationsOutput {
     rt.MemberDef("NextToken", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ListBulkOperationsOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ListBulkOperationsOutput.schema.members
-      value.bulkOperationsSummaryList.foreach(x => BulkOperationsSummaryList.write(s, ms(0), x))
-      value.nextToken.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ListBulkOperationsOutput = {
-    var f0: scala.Option[BulkOperationsSummaryList] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(ListBulkOperationsOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(BulkOperationsSummaryList.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    ListBulkOperationsOutput(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ListBulkOperationsOutput] = rt.ShapeCodec.struct[ListBulkOperationsOutput](schema)
 }

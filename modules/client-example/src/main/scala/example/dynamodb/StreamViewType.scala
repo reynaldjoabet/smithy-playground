@@ -16,7 +16,10 @@ enum StreamViewType(val value: java.lang.String) derives CanEqual {
 object StreamViewType {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "StreamViewType"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[StreamViewType] = scala.collection.immutable.List(NEW_IMAGE, OLD_IMAGE, NEW_AND_OLD_IMAGES, KEYS_ONLY)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[StreamViewType] = rt.ShapeCodec.enumValues[StreamViewType]
 
   def fromValue(value: java.lang.String): StreamViewType = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[StreamViewType] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

@@ -17,32 +17,5 @@ object ExportSummary {
     rt.MemberDef("ExportType", () => ExportType.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ExportSummary): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ExportSummary.schema.members
-      value.exportArn.foreach(x => s.writeString(ms(0), x))
-      value.exportStatus.foreach(x => s.writeString(ms(1), x.value))
-      value.exportType.foreach(x => s.writeString(ms(2), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ExportSummary = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[ExportStatus] = scala.None
-    var f2: scala.Option[ExportType] = scala.None
-    r.readStruct(ExportSummary.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(ExportStatus.fromValue(mr.readString(m)))
-          case 2 => f2 = scala.Some(ExportType.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    ExportSummary(
-      f0,
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[ExportSummary] = rt.ShapeCodec.struct[ExportSummary](schema)
 }

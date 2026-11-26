@@ -15,28 +15,5 @@ object GlobalTableWitnessGroupUpdate {
     rt.MemberDef("Delete", () => DeleteGlobalTableWitnessGroupMemberAction.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: GlobalTableWitnessGroupUpdate): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = GlobalTableWitnessGroupUpdate.schema.members
-      value.create.foreach(x => CreateGlobalTableWitnessGroupMemberAction.write(s, ms(0), x))
-      value.delete.foreach(x => DeleteGlobalTableWitnessGroupMemberAction.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): GlobalTableWitnessGroupUpdate = {
-    var f0: scala.Option[CreateGlobalTableWitnessGroupMemberAction] = scala.None
-    var f1: scala.Option[DeleteGlobalTableWitnessGroupMemberAction] = scala.None
-    r.readStruct(GlobalTableWitnessGroupUpdate.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(CreateGlobalTableWitnessGroupMemberAction.read(mr, m))
-          case 1 => f1 = scala.Some(DeleteGlobalTableWitnessGroupMemberAction.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    GlobalTableWitnessGroupUpdate(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[GlobalTableWitnessGroupUpdate] = rt.ShapeCodec.struct[GlobalTableWitnessGroupUpdate](schema)
 }

@@ -20,7 +20,10 @@ enum TableStatus(val value: java.lang.String) derives CanEqual {
 object TableStatus {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "TableStatus"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[TableStatus] = scala.collection.immutable.List(CREATING, UPDATING, DELETING, ACTIVE, INACCESSIBLE_ENCRYPTION_CREDENTIALS, ARCHIVING, ARCHIVED, REPLICATION_NOT_AUTHORIZED)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[TableStatus] = rt.ShapeCodec.enumValues[TableStatus]
 
   def fromValue(value: java.lang.String): TableStatus = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[TableStatus] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

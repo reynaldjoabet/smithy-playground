@@ -15,28 +15,5 @@ object PointInTimeRecoverySpecification {
     rt.MemberDef("RecoveryPeriodInDays", () => rt.Prelude.Integer, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: PointInTimeRecoverySpecification): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = PointInTimeRecoverySpecification.schema.members
-      s.writeBoolean(ms(0), value.pointInTimeRecoveryEnabled)
-      value.recoveryPeriodInDays.foreach(x => s.writeInteger(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): PointInTimeRecoverySpecification = {
-    var f0: scala.Option[scala.Boolean] = scala.None
-    var f1: scala.Option[scala.Int] = scala.None
-    r.readStruct(PointInTimeRecoverySpecification.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readBoolean(m))
-          case 1 => f1 = scala.Some(mr.readInteger(m))
-          case _ => ()
-        }
-      }
-    }
-    PointInTimeRecoverySpecification(
-      f0.getOrElse(false),
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[PointInTimeRecoverySpecification] = rt.ShapeCodec.struct[PointInTimeRecoverySpecification](schema)
 }

@@ -18,36 +18,5 @@ object KinesisStreamingDestinationOutput {
     rt.MemberDef("EnableKinesisStreamingConfiguration", () => EnableKinesisStreamingConfiguration.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: KinesisStreamingDestinationOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = KinesisStreamingDestinationOutput.schema.members
-      value.tableName.foreach(x => s.writeString(ms(0), x))
-      value.streamArn.foreach(x => s.writeString(ms(1), x))
-      value.destinationStatus.foreach(x => s.writeString(ms(2), x.value))
-      value.enableKinesisStreamingConfiguration.foreach(x => EnableKinesisStreamingConfiguration.write(s, ms(3), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): KinesisStreamingDestinationOutput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[DestinationStatus] = scala.None
-    var f3: scala.Option[EnableKinesisStreamingConfiguration] = scala.None
-    r.readStruct(KinesisStreamingDestinationOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(DestinationStatus.fromValue(mr.readString(m)))
-          case 3 => f3 = scala.Some(EnableKinesisStreamingConfiguration.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    KinesisStreamingDestinationOutput(
-      f0,
-      f1,
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[KinesisStreamingDestinationOutput] = rt.ShapeCodec.struct[KinesisStreamingDestinationOutput](schema)
 }

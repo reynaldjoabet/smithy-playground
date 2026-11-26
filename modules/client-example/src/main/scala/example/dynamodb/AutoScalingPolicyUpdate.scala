@@ -15,28 +15,5 @@ object AutoScalingPolicyUpdate {
     rt.MemberDef("TargetTrackingScalingPolicyConfiguration", () => AutoScalingTargetTrackingScalingPolicyConfigurationUpdate.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: AutoScalingPolicyUpdate): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = AutoScalingPolicyUpdate.schema.members
-      value.policyName.foreach(x => s.writeString(ms(0), x))
-      AutoScalingTargetTrackingScalingPolicyConfigurationUpdate.write(s, ms(1), value.targetTrackingScalingPolicyConfiguration)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): AutoScalingPolicyUpdate = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[AutoScalingTargetTrackingScalingPolicyConfigurationUpdate] = scala.None
-    r.readStruct(AutoScalingPolicyUpdate.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(AutoScalingTargetTrackingScalingPolicyConfigurationUpdate.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    AutoScalingPolicyUpdate(
-      f0,
-      f1.getOrElse(throw new rt.SerializationException("Missing required member AutoScalingPolicyUpdate.TargetTrackingScalingPolicyConfiguration"))
-    )
-  }
+  given codec: rt.SchemaCodec[AutoScalingPolicyUpdate] = rt.ShapeCodec.struct[AutoScalingPolicyUpdate](schema)
 }

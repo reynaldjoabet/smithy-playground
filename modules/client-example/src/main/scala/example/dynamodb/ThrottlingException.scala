@@ -15,28 +15,5 @@ object ThrottlingException {
     rt.MemberDef("throttlingReasons", () => ThrottlingReasonList.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ThrottlingException): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ThrottlingException.schema.members
-      value.message.foreach(x => s.writeString(ms(0), x))
-      value.throttlingReasons.foreach(x => ThrottlingReasonList.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ThrottlingException = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[ThrottlingReasonList] = scala.None
-    r.readStruct(ThrottlingException.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(ThrottlingReasonList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ThrottlingException(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[ThrottlingException] = rt.ShapeCodec.struct[ThrottlingException](schema)
 }

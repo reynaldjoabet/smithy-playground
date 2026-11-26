@@ -14,7 +14,10 @@ enum ApproximateCreationDateTimePrecision(val value: java.lang.String) derives C
 object ApproximateCreationDateTimePrecision {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "ApproximateCreationDateTimePrecision"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[ApproximateCreationDateTimePrecision] = scala.collection.immutable.List(MILLISECOND, MICROSECOND)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[ApproximateCreationDateTimePrecision] = rt.ShapeCodec.enumValues[ApproximateCreationDateTimePrecision]
 
   def fromValue(value: java.lang.String): ApproximateCreationDateTimePrecision = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[ApproximateCreationDateTimePrecision] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

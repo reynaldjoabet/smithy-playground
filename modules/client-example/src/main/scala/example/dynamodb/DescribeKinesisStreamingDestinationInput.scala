@@ -12,24 +12,5 @@ object DescribeKinesisStreamingDestinationInput {
     rt.MemberDef("TableName", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DescribeKinesisStreamingDestinationInput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DescribeKinesisStreamingDestinationInput.schema.members
-      s.writeString(ms(0), value.tableName)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DescribeKinesisStreamingDestinationInput = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    r.readStruct(DescribeKinesisStreamingDestinationInput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    DescribeKinesisStreamingDestinationInput(
-      f0.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[DescribeKinesisStreamingDestinationInput] = rt.ShapeCodec.struct[DescribeKinesisStreamingDestinationInput](schema)
 }

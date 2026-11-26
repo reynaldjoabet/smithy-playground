@@ -9,17 +9,4 @@ object ReplicaAutoScalingDescriptionList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "ReplicaAutoScalingDescriptionList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => ReplicaAutoScalingDescription.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ReplicaAutoScalingDescriptionList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = ReplicaAutoScalingDescriptionList.schema.members(0)
-      value.foreach(x => ReplicaAutoScalingDescription.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ReplicaAutoScalingDescriptionList = {
-      val m = ReplicaAutoScalingDescriptionList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[ReplicaAutoScalingDescription]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(ReplicaAutoScalingDescription.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

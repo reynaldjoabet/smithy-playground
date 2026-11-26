@@ -13,24 +13,5 @@ object OnDemandThroughputOverride {
     rt.MemberDef("MaxReadRequestUnits", () => rt.Prelude.Long, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: OnDemandThroughputOverride): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = OnDemandThroughputOverride.schema.members
-      value.maxReadRequestUnits.foreach(x => s.writeLong(ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): OnDemandThroughputOverride = {
-    var f0: scala.Option[scala.Long] = scala.None
-    r.readStruct(OnDemandThroughputOverride.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readLong(m))
-          case _ => ()
-        }
-      }
-    }
-    OnDemandThroughputOverride(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[OnDemandThroughputOverride] = rt.ShapeCodec.struct[OnDemandThroughputOverride](schema)
 }

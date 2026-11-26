@@ -23,44 +23,5 @@ object VectorIndexInfo {
     rt.MemberDef("DistanceFunction", () => VectorDistanceFunction.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: VectorIndexInfo): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = VectorIndexInfo.schema.members
-      value.indexName.foreach(x => s.writeString(ms(0), x))
-      value.vectorAttribute.foreach(x => VectorAttributeDefinition.write(s, ms(1), x))
-      value.searchSchema.foreach(x => SearchSchema.write(s, ms(2), x))
-      value.projection.foreach(x => Projection.write(s, ms(3), x))
-      value.dimensions.foreach(x => s.writeLong(ms(4), x))
-      value.distanceFunction.foreach(x => s.writeString(ms(5), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): VectorIndexInfo = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[VectorAttributeDefinition] = scala.None
-    var f2: scala.Option[SearchSchema] = scala.None
-    var f3: scala.Option[Projection] = scala.None
-    var f4: scala.Option[scala.Long] = scala.None
-    var f5: scala.Option[VectorDistanceFunction] = scala.None
-    r.readStruct(VectorIndexInfo.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(VectorAttributeDefinition.read(mr, m))
-          case 2 => f2 = scala.Some(SearchSchema.read(mr, m))
-          case 3 => f3 = scala.Some(Projection.read(mr, m))
-          case 4 => f4 = scala.Some(mr.readLong(m))
-          case 5 => f5 = scala.Some(VectorDistanceFunction.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    VectorIndexInfo(
-      f0,
-      f1,
-      f2,
-      f3,
-      f4,
-      f5
-    )
-  }
+  given codec: rt.SchemaCodec[VectorIndexInfo] = rt.ShapeCodec.struct[VectorIndexInfo](schema)
 }

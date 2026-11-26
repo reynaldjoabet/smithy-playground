@@ -17,32 +17,5 @@ object GlobalSecondaryIndexUpdate {
     rt.MemberDef("Delete", () => DeleteGlobalSecondaryIndexAction.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: GlobalSecondaryIndexUpdate): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = GlobalSecondaryIndexUpdate.schema.members
-      value.update.foreach(x => UpdateGlobalSecondaryIndexAction.write(s, ms(0), x))
-      value.create.foreach(x => CreateGlobalSecondaryIndexAction.write(s, ms(1), x))
-      value.delete.foreach(x => DeleteGlobalSecondaryIndexAction.write(s, ms(2), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): GlobalSecondaryIndexUpdate = {
-    var f0: scala.Option[UpdateGlobalSecondaryIndexAction] = scala.None
-    var f1: scala.Option[CreateGlobalSecondaryIndexAction] = scala.None
-    var f2: scala.Option[DeleteGlobalSecondaryIndexAction] = scala.None
-    r.readStruct(GlobalSecondaryIndexUpdate.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(UpdateGlobalSecondaryIndexAction.read(mr, m))
-          case 1 => f1 = scala.Some(CreateGlobalSecondaryIndexAction.read(mr, m))
-          case 2 => f2 = scala.Some(DeleteGlobalSecondaryIndexAction.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    GlobalSecondaryIndexUpdate(
-      f0,
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[GlobalSecondaryIndexUpdate] = rt.ShapeCodec.struct[GlobalSecondaryIndexUpdate](schema)
 }

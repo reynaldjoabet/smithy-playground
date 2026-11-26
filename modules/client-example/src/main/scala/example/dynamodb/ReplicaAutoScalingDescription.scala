@@ -21,40 +21,5 @@ object ReplicaAutoScalingDescription {
     rt.MemberDef("ReplicaStatus", () => ReplicaStatus.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ReplicaAutoScalingDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ReplicaAutoScalingDescription.schema.members
-      value.regionName.foreach(x => s.writeString(ms(0), x))
-      value.globalSecondaryIndexes.foreach(x => ReplicaGlobalSecondaryIndexAutoScalingDescriptionList.write(s, ms(1), x))
-      value.replicaProvisionedReadCapacityAutoScalingSettings.foreach(x => AutoScalingSettingsDescription.write(s, ms(2), x))
-      value.replicaProvisionedWriteCapacityAutoScalingSettings.foreach(x => AutoScalingSettingsDescription.write(s, ms(3), x))
-      value.replicaStatus.foreach(x => s.writeString(ms(4), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ReplicaAutoScalingDescription = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[ReplicaGlobalSecondaryIndexAutoScalingDescriptionList] = scala.None
-    var f2: scala.Option[AutoScalingSettingsDescription] = scala.None
-    var f3: scala.Option[AutoScalingSettingsDescription] = scala.None
-    var f4: scala.Option[ReplicaStatus] = scala.None
-    r.readStruct(ReplicaAutoScalingDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(ReplicaGlobalSecondaryIndexAutoScalingDescriptionList.read(mr, m))
-          case 2 => f2 = scala.Some(AutoScalingSettingsDescription.read(mr, m))
-          case 3 => f3 = scala.Some(AutoScalingSettingsDescription.read(mr, m))
-          case 4 => f4 = scala.Some(ReplicaStatus.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    ReplicaAutoScalingDescription(
-      f0,
-      f1,
-      f2,
-      f3,
-      f4
-    )
-  }
+  given codec: rt.SchemaCodec[ReplicaAutoScalingDescription] = rt.ShapeCodec.struct[ReplicaAutoScalingDescription](schema)
 }

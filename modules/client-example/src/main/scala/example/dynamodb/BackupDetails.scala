@@ -25,48 +25,5 @@ object BackupDetails {
     rt.MemberDef("BackupExpiryDateTime", () => rt.Prelude.Timestamp, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BackupDetails): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = BackupDetails.schema.members
-      s.writeString(ms(0), value.backupArn)
-      s.writeString(ms(1), value.backupName)
-      value.backupSizeBytes.foreach(x => s.writeLong(ms(2), x))
-      s.writeString(ms(3), value.backupStatus.value)
-      s.writeString(ms(4), value.backupType.value)
-      s.writeTimestamp(ms(5), value.backupCreationDateTime)
-      value.backupExpiryDateTime.foreach(x => s.writeTimestamp(ms(6), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BackupDetails = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[scala.Long] = scala.None
-    var f3: scala.Option[BackupStatus] = scala.None
-    var f4: scala.Option[BackupType] = scala.None
-    var f5: scala.Option[java.time.Instant] = scala.None
-    var f6: scala.Option[java.time.Instant] = scala.None
-    r.readStruct(BackupDetails.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readLong(m))
-          case 3 => f3 = scala.Some(BackupStatus.fromValue(mr.readString(m)))
-          case 4 => f4 = scala.Some(BackupType.fromValue(mr.readString(m)))
-          case 5 => f5 = scala.Some(mr.readTimestamp(m))
-          case 6 => f6 = scala.Some(mr.readTimestamp(m))
-          case _ => ()
-        }
-      }
-    }
-    BackupDetails(
-      f0.getOrElse(""),
-      f1.getOrElse(""),
-      f2,
-      f3.getOrElse(BackupStatus.UnknownValue("")),
-      f4.getOrElse(BackupType.UnknownValue("")),
-      f5.getOrElse(java.time.Instant.EPOCH),
-      f6
-    )
-  }
+  given codec: rt.SchemaCodec[BackupDetails] = rt.ShapeCodec.struct[BackupDetails](schema)
 }

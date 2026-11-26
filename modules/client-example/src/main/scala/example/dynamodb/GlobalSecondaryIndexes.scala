@@ -9,17 +9,4 @@ object GlobalSecondaryIndexes {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "GlobalSecondaryIndexes"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => GlobalSecondaryIndexInfo.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: GlobalSecondaryIndexes): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = GlobalSecondaryIndexes.schema.members(0)
-      value.foreach(x => GlobalSecondaryIndexInfo.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): GlobalSecondaryIndexes = {
-      val m = GlobalSecondaryIndexes.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[GlobalSecondaryIndexInfo]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(GlobalSecondaryIndexInfo.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

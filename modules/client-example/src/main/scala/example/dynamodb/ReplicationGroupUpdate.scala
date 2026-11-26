@@ -19,36 +19,5 @@ object ReplicationGroupUpdate {
     rt.MemberDef("Disassociate", () => DisassociateReplicationGroupMemberAction.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ReplicationGroupUpdate): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ReplicationGroupUpdate.schema.members
-      value.create.foreach(x => CreateReplicationGroupMemberAction.write(s, ms(0), x))
-      value.update.foreach(x => UpdateReplicationGroupMemberAction.write(s, ms(1), x))
-      value.delete.foreach(x => DeleteReplicationGroupMemberAction.write(s, ms(2), x))
-      value.disassociate.foreach(x => DisassociateReplicationGroupMemberAction.write(s, ms(3), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ReplicationGroupUpdate = {
-    var f0: scala.Option[CreateReplicationGroupMemberAction] = scala.None
-    var f1: scala.Option[UpdateReplicationGroupMemberAction] = scala.None
-    var f2: scala.Option[DeleteReplicationGroupMemberAction] = scala.None
-    var f3: scala.Option[DisassociateReplicationGroupMemberAction] = scala.None
-    r.readStruct(ReplicationGroupUpdate.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(CreateReplicationGroupMemberAction.read(mr, m))
-          case 1 => f1 = scala.Some(UpdateReplicationGroupMemberAction.read(mr, m))
-          case 2 => f2 = scala.Some(DeleteReplicationGroupMemberAction.read(mr, m))
-          case 3 => f3 = scala.Some(DisassociateReplicationGroupMemberAction.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    ReplicationGroupUpdate(
-      f0,
-      f1,
-      f2,
-      f3
-    )
-  }
+  given codec: rt.SchemaCodec[ReplicationGroupUpdate] = rt.ShapeCodec.struct[ReplicationGroupUpdate](schema)
 }

@@ -12,24 +12,5 @@ object DescribeBackupOutput {
     rt.MemberDef("BackupDescription", () => BackupDescription.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: DescribeBackupOutput): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = DescribeBackupOutput.schema.members
-      value.backupDescription.foreach(x => BackupDescription.write(s, ms(0), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): DescribeBackupOutput = {
-    var f0: scala.Option[BackupDescription] = scala.None
-    r.readStruct(DescribeBackupOutput.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(BackupDescription.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    DescribeBackupOutput(
-      f0
-    )
-  }
+  given codec: rt.SchemaCodec[DescribeBackupOutput] = rt.ShapeCodec.struct[DescribeBackupOutput](schema)
 }

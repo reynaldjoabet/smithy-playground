@@ -21,40 +21,5 @@ object GlobalTableDescription {
     rt.MemberDef("GlobalTableName", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: GlobalTableDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = GlobalTableDescription.schema.members
-      value.replicationGroup.foreach(x => ReplicaDescriptionList.write(s, ms(0), x))
-      value.globalTableArn.foreach(x => s.writeString(ms(1), x))
-      value.creationDateTime.foreach(x => s.writeTimestamp(ms(2), x))
-      value.globalTableStatus.foreach(x => s.writeString(ms(3), x.value))
-      value.globalTableName.foreach(x => s.writeString(ms(4), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): GlobalTableDescription = {
-    var f0: scala.Option[ReplicaDescriptionList] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[java.time.Instant] = scala.None
-    var f3: scala.Option[GlobalTableStatus] = scala.None
-    var f4: scala.Option[java.lang.String] = scala.None
-    r.readStruct(GlobalTableDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(ReplicaDescriptionList.read(mr, m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readTimestamp(m))
-          case 3 => f3 = scala.Some(GlobalTableStatus.fromValue(mr.readString(m)))
-          case 4 => f4 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    GlobalTableDescription(
-      f0,
-      f1,
-      f2,
-      f3,
-      f4
-    )
-  }
+  given codec: rt.SchemaCodec[GlobalTableDescription] = rt.ShapeCodec.struct[GlobalTableDescription](schema)
 }

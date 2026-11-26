@@ -14,28 +14,5 @@ object RemovePermissionRequest {
     rt.MemberDef("Label", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: RemovePermissionRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = RemovePermissionRequest.schema.members
-      s.writeString(ms(0), value.queueUrl)
-      s.writeString(ms(1), value.label)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): RemovePermissionRequest = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(RemovePermissionRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    RemovePermissionRequest(
-      f0.getOrElse(""),
-      f1.getOrElse("")
-    )
-  }
+  given codec: rt.SchemaCodec[RemovePermissionRequest] = rt.ShapeCodec.struct[RemovePermissionRequest](schema)
 }

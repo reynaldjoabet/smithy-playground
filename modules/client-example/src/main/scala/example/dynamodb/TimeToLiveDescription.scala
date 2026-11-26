@@ -15,28 +15,5 @@ object TimeToLiveDescription {
     rt.MemberDef("AttributeName", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TimeToLiveDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = TimeToLiveDescription.schema.members
-      value.timeToLiveStatus.foreach(x => s.writeString(ms(0), x.value))
-      value.attributeName.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TimeToLiveDescription = {
-    var f0: scala.Option[TimeToLiveStatus] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(TimeToLiveDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(TimeToLiveStatus.fromValue(mr.readString(m)))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    TimeToLiveDescription(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[TimeToLiveDescription] = rt.ShapeCodec.struct[TimeToLiveDescription](schema)
 }

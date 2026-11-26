@@ -14,7 +14,10 @@ enum OutputTypeEnum(val value: java.lang.String) derives CanEqual {
 object OutputTypeEnum {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "OutputTypeEnum"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[OutputTypeEnum] = scala.collection.immutable.List(ERROR, CONDITION_CHECK_FAILURE)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[OutputTypeEnum] = rt.ShapeCodec.enumValues[OutputTypeEnum]
 
   def fromValue(value: java.lang.String): OutputTypeEnum = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[OutputTypeEnum] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

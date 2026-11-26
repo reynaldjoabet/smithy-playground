@@ -14,28 +14,5 @@ object Day {
     rt.MemberDef("copy", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: Day): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = Day.schema.members
-      value.date.foreach(x => s.writeTimestamp(ms(0), x))
-      value.copy_.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): Day = {
-    var f0: scala.Option[java.time.Instant] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(Day.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readTimestamp(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    Day(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[Day] = rt.ShapeCodec.struct[Day](schema)
 }

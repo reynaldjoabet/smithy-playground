@@ -14,7 +14,10 @@ enum MultiRegionConsistency(val value: java.lang.String) derives CanEqual {
 object MultiRegionConsistency {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.dynamodb", "MultiRegionConsistency"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[MultiRegionConsistency] = scala.collection.immutable.List(EVENTUAL, STRONG)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[MultiRegionConsistency] = rt.ShapeCodec.enumValues[MultiRegionConsistency]
 
   def fromValue(value: java.lang.String): MultiRegionConsistency = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[MultiRegionConsistency] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

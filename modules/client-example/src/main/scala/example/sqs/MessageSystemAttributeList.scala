@@ -9,17 +9,4 @@ object MessageSystemAttributeList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "MessageSystemAttributeList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => MessageSystemAttributeName.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: MessageSystemAttributeList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = MessageSystemAttributeList.schema.members(0)
-      value.foreach(x => lw.writeString(m, x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): MessageSystemAttributeList = {
-      val m = MessageSystemAttributeList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[MessageSystemAttributeName]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(MessageSystemAttributeName.fromValue(er.readString(m))): scala.Unit))
-    b.result()
-  }
 }

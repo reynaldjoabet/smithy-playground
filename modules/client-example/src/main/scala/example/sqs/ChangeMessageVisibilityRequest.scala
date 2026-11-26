@@ -16,32 +16,5 @@ object ChangeMessageVisibilityRequest {
     rt.MemberDef("VisibilityTimeout", () => rt.Prelude.Integer, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ChangeMessageVisibilityRequest): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = ChangeMessageVisibilityRequest.schema.members
-      s.writeString(ms(0), value.queueUrl)
-      s.writeString(ms(1), value.receiptHandle)
-      s.writeInteger(ms(2), value.visibilityTimeout)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ChangeMessageVisibilityRequest = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    var f2: scala.Option[scala.Int] = scala.None
-    r.readStruct(ChangeMessageVisibilityRequest.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case 2 => f2 = scala.Some(mr.readInteger(m))
-          case _ => ()
-        }
-      }
-    }
-    ChangeMessageVisibilityRequest(
-      f0.getOrElse(""),
-      f1.getOrElse(""),
-      f2.getOrElse(0)
-    )
-  }
+  given codec: rt.SchemaCodec[ChangeMessageVisibilityRequest] = rt.ShapeCodec.struct[ChangeMessageVisibilityRequest](schema)
 }

@@ -9,17 +9,4 @@ object ReplicaGlobalSecondaryIndexSettingsDescriptionList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "ReplicaGlobalSecondaryIndexSettingsDescriptionList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => ReplicaGlobalSecondaryIndexSettingsDescription.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ReplicaGlobalSecondaryIndexSettingsDescriptionList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = ReplicaGlobalSecondaryIndexSettingsDescriptionList.schema.members(0)
-      value.foreach(x => ReplicaGlobalSecondaryIndexSettingsDescription.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ReplicaGlobalSecondaryIndexSettingsDescriptionList = {
-      val m = ReplicaGlobalSecondaryIndexSettingsDescriptionList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[ReplicaGlobalSecondaryIndexSettingsDescription]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(ReplicaGlobalSecondaryIndexSettingsDescription.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

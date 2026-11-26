@@ -9,17 +9,4 @@ object ItemCollectionMetricsMultiple {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "ItemCollectionMetricsMultiple"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => ItemCollectionMetrics.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ItemCollectionMetricsMultiple): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = ItemCollectionMetricsMultiple.schema.members(0)
-      value.foreach(x => ItemCollectionMetrics.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ItemCollectionMetricsMultiple = {
-      val m = ItemCollectionMetricsMultiple.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[ItemCollectionMetrics]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(ItemCollectionMetrics.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

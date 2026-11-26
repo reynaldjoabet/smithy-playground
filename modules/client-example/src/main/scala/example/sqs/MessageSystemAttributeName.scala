@@ -22,7 +22,10 @@ enum MessageSystemAttributeName(val value: java.lang.String) derives CanEqual {
 object MessageSystemAttributeName {
   lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.sqs", "MessageSystemAttributeName"), rt.ShapeType.Enum)
 
-  lazy val knownValues: scala.collection.immutable.List[MessageSystemAttributeName] = scala.collection.immutable.List(All, SenderId, SentTimestamp, ApproximateReceiveCount, ApproximateFirstReceiveTimestamp, SequenceNumber, MessageDeduplicationId, MessageGroupId, AWSTraceHeader, DeadLetterQueueSourceArn)
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[MessageSystemAttributeName] = rt.ShapeCodec.enumValues[MessageSystemAttributeName]
 
   def fromValue(value: java.lang.String): MessageSystemAttributeName = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[MessageSystemAttributeName] = rt.ShapeCodec.stringEnum(fromValue, _.value)
 }

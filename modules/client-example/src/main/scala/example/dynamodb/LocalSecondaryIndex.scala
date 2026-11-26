@@ -17,32 +17,5 @@ object LocalSecondaryIndex {
     rt.MemberDef("Projection", () => Projection.schema, rt.Traits("smithy.api#required" -> ""))
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: LocalSecondaryIndex): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = LocalSecondaryIndex.schema.members
-      s.writeString(ms(0), value.indexName)
-      KeySchema.write(s, ms(1), value.keySchema)
-      Projection.write(s, ms(2), value.projection)
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): LocalSecondaryIndex = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[KeySchema] = scala.None
-    var f2: scala.Option[Projection] = scala.None
-    r.readStruct(LocalSecondaryIndex.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(KeySchema.read(mr, m))
-          case 2 => f2 = scala.Some(Projection.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    LocalSecondaryIndex(
-      f0.getOrElse(""),
-      f1.getOrElse(scala.Nil),
-      f2.getOrElse(throw new rt.SerializationException("Missing required member LocalSecondaryIndex.Projection"))
-    )
-  }
+  given codec: rt.SchemaCodec[LocalSecondaryIndex] = rt.ShapeCodec.struct[LocalSecondaryIndex](schema)
 }

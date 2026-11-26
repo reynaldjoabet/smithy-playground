@@ -17,32 +17,5 @@ object IncrementalExportSpecification {
     rt.MemberDef("ExportViewType", () => ExportViewType.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: IncrementalExportSpecification): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = IncrementalExportSpecification.schema.members
-      value.exportFromTime.foreach(x => s.writeTimestamp(ms(0), x))
-      value.exportToTime.foreach(x => s.writeTimestamp(ms(1), x))
-      value.exportViewType.foreach(x => s.writeString(ms(2), x.value))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): IncrementalExportSpecification = {
-    var f0: scala.Option[java.time.Instant] = scala.None
-    var f1: scala.Option[java.time.Instant] = scala.None
-    var f2: scala.Option[ExportViewType] = scala.None
-    r.readStruct(IncrementalExportSpecification.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readTimestamp(m))
-          case 1 => f1 = scala.Some(mr.readTimestamp(m))
-          case 2 => f2 = scala.Some(ExportViewType.fromValue(mr.readString(m)))
-          case _ => ()
-        }
-      }
-    }
-    IncrementalExportSpecification(
-      f0,
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[IncrementalExportSpecification] = rt.ShapeCodec.struct[IncrementalExportSpecification](schema)
 }

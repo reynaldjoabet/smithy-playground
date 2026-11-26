@@ -9,17 +9,4 @@ object ReplicaSettingsDescriptionList {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "ReplicaSettingsDescriptionList"), rt.ShapeType.List, rt.Traits.empty)(
     rt.MemberDef("member", () => ReplicaSettingsDescription.schema, rt.Traits.empty)
   )
-
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: ReplicaSettingsDescriptionList): scala.Unit =
-    w.writeList(schema, value.size) { lw =>
-      val m = ReplicaSettingsDescriptionList.schema.members(0)
-      value.foreach(x => ReplicaSettingsDescription.write(lw, m, x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): ReplicaSettingsDescriptionList = {
-      val m = ReplicaSettingsDescriptionList.schema.members(0)
-    val b = scala.collection.immutable.List.newBuilder[ReplicaSettingsDescription]
-    r.readList(schema)(er => if (!er.isNull) (b.addOne(ReplicaSettingsDescription.read(er, m)): scala.Unit))
-    b.result()
-  }
 }

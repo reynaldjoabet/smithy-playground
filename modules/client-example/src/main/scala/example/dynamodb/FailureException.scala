@@ -15,28 +15,5 @@ object FailureException {
     rt.MemberDef("ExceptionDescription", () => rt.Prelude.String, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: FailureException): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = FailureException.schema.members
-      value.exceptionName.foreach(x => s.writeString(ms(0), x))
-      value.exceptionDescription.foreach(x => s.writeString(ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): FailureException = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[java.lang.String] = scala.None
-    r.readStruct(FailureException.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(mr.readString(m))
-          case _ => ()
-        }
-      }
-    }
-    FailureException(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[FailureException] = rt.ShapeCodec.struct[FailureException](schema)
 }

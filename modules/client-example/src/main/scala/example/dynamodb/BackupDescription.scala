@@ -17,32 +17,5 @@ object BackupDescription {
     rt.MemberDef("SourceTableFeatureDetails", () => SourceTableFeatureDetails.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: BackupDescription): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = BackupDescription.schema.members
-      value.backupDetails.foreach(x => BackupDetails.write(s, ms(0), x))
-      value.sourceTableDetails.foreach(x => SourceTableDetails.write(s, ms(1), x))
-      value.sourceTableFeatureDetails.foreach(x => SourceTableFeatureDetails.write(s, ms(2), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): BackupDescription = {
-    var f0: scala.Option[BackupDetails] = scala.None
-    var f1: scala.Option[SourceTableDetails] = scala.None
-    var f2: scala.Option[SourceTableFeatureDetails] = scala.None
-    r.readStruct(BackupDescription.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(BackupDetails.read(mr, m))
-          case 1 => f1 = scala.Some(SourceTableDetails.read(mr, m))
-          case 2 => f2 = scala.Some(SourceTableFeatureDetails.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    BackupDescription(
-      f0,
-      f1,
-      f2
-    )
-  }
+  given codec: rt.SchemaCodec[BackupDescription] = rt.ShapeCodec.struct[BackupDescription](schema)
 }

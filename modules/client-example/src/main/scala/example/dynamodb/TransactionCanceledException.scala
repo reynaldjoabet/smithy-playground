@@ -15,28 +15,5 @@ object TransactionCanceledException {
     rt.MemberDef("CancellationReasons", () => CancellationReasonList.schema, rt.Traits.empty)
   )
 
-  def write(w: rt.ShapeWriter, schema: rt.Schema, value: TransactionCanceledException): scala.Unit =
-    w.writeStruct(schema) { s =>
-      val ms = TransactionCanceledException.schema.members
-      value.message.foreach(x => s.writeString(ms(0), x))
-      value.cancellationReasons.foreach(x => CancellationReasonList.write(s, ms(1), x))
-    }
-
-  def read(r: rt.ShapeReader, schema: rt.Schema): TransactionCanceledException = {
-    var f0: scala.Option[java.lang.String] = scala.None
-    var f1: scala.Option[CancellationReasonList] = scala.None
-    r.readStruct(TransactionCanceledException.schema) { (m, mr) =>
-      if (!mr.isNull) {
-        m.memberIndex match {
-          case 0 => f0 = scala.Some(mr.readString(m))
-          case 1 => f1 = scala.Some(CancellationReasonList.read(mr, m))
-          case _ => ()
-        }
-      }
-    }
-    TransactionCanceledException(
-      f0,
-      f1
-    )
-  }
+  given codec: rt.SchemaCodec[TransactionCanceledException] = rt.ShapeCodec.struct[TransactionCanceledException](schema)
 }
