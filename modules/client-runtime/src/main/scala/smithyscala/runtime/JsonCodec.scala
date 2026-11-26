@@ -10,11 +10,10 @@ import java.util.concurrent.ConcurrentHashMap
 
 import scala.jdk.CollectionConverters.*
 
-import com.fasterxml.jackson.core.JsonFactory
-import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.node.NullNode
+import tools.jackson.core.JacksonException
+import tools.jackson.core.JsonGenerator
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.json.JsonMapper
 
 /**
   * How a protocol wants JSON written.
@@ -28,13 +27,12 @@ final case class JsonSettings(useJsonName: Boolean, useTimestampFormat: Boolean)
 
 /** The JSON codec: knows the format, nothing about HTTP. */
 final class JsonCodec(val settings: JsonSettings) {
-  private val factory = new JsonFactory()
-  private val mapper  = new ObjectMapper(factory)
+  private val mapper    = JsonMapper.builder().build()
   private val nameIndex = new ConcurrentHashMap[Schema, Map[String, Schema]]()
 
   def serialize(write: ShapeWriter => Unit): Array[Byte] = {
     val out = new ByteArrayOutputStream()
-    val gen = factory.createGenerator(out)
+    val gen = mapper.createGenerator(out)
     try write(new JsonShapeWriter(gen, this, inStruct = false))
     finally gen.close()
     out.toByteArray
@@ -48,7 +46,7 @@ final class JsonCodec(val settings: JsonSettings) {
     if (bytes.isEmpty) mapper.createObjectNode()
     else
       try mapper.readTree(bytes)
-      catch { case e: java.io.IOException => throw new SerializationException("Invalid JSON body", e) }
+      catch { case e: JacksonException => throw new SerializationException("Invalid JSON body", e) }
 
   def reader(node: JsonNode): ShapeReader = new JsonShapeReader(node, this)
 
@@ -84,77 +82,77 @@ private final class JsonShapeWriter(gen: JsonGenerator, codec: JsonCodec, inStru
 
   /** In a structure every value is a member, so its field name comes first. */
   private def name(schema: Schema): Unit =
-    if (inStruct) gen.writeFieldName(codec.fieldName(schema))
+    if (inStruct) gen.writeName(codec.fieldName(schema)): Unit
 
   def writeStruct(schema: Schema)(members: ShapeWriter => Unit): Unit = {
-    name(schema); gen.writeStartObject(); members(structWriter); gen.writeEndObject()
+    name(schema); (gen.writeStartObject(): Unit); members(structWriter); (gen.writeEndObject(): Unit)
   }
 
   def writeList(schema: Schema, size: Int)(elements: ShapeWriter => Unit): Unit = {
-    name(schema); gen.writeStartArray(); elements(valueWriter); gen.writeEndArray()
+    name(schema); (gen.writeStartArray(): Unit); elements(valueWriter); (gen.writeEndArray(): Unit)
   }
 
   def writeMap(schema: Schema, size: Int)(entries: MapWriter => Unit): Unit = {
     name(schema)
-    gen.writeStartObject()
+    (gen.writeStartObject(): Unit)
     entries(new MapWriter {
       def writeEntry(key: String)(value: ShapeWriter => Unit): Unit = {
-        gen.writeFieldName(key); value(valueWriter)
+        (gen.writeName(key): Unit); value(valueWriter)
       }
     })
-    gen.writeEndObject()
+    (gen.writeEndObject(): Unit)
   }
 
-  def writeBoolean(schema: Schema, value: Boolean): Unit = { name(schema); gen.writeBoolean(value) }
-  def writeByte(schema: Schema, value: Byte): Unit       = { name(schema); gen.writeNumber(value.toInt) }
-  def writeShort(schema: Schema, value: Short): Unit     = { name(schema); gen.writeNumber(value.toInt) }
-  def writeInteger(schema: Schema, value: Int): Unit     = { name(schema); gen.writeNumber(value) }
-  def writeLong(schema: Schema, value: Long): Unit       = { name(schema); gen.writeNumber(value) }
+  def writeBoolean(schema: Schema, value: Boolean): Unit = { name(schema); (gen.writeBoolean(value): Unit) }
+  def writeByte(schema: Schema, value: Byte): Unit       = { name(schema); (gen.writeNumber(value.toInt): Unit) }
+  def writeShort(schema: Schema, value: Short): Unit     = { name(schema); (gen.writeNumber(value.toInt): Unit) }
+  def writeInteger(schema: Schema, value: Int): Unit     = { name(schema); (gen.writeNumber(value): Unit) }
+  def writeLong(schema: Schema, value: Long): Unit       = { name(schema); (gen.writeNumber(value): Unit) }
 
   def writeFloat(schema: Schema, value: Float): Unit = writeDouble(schema, value.toDouble)
 
   def writeDouble(schema: Schema, value: Double): Unit = {
     name(schema)
     // Smithy's JSON protocols send non-finite numbers as strings.
-    if (value.isNaN) gen.writeString("NaN")
-    else if (value.isPosInfinity) gen.writeString("Infinity")
-    else if (value.isNegInfinity) gen.writeString("-Infinity")
-    else gen.writeNumber(value)
+    if (value.isNaN) (gen.writeString("NaN"): Unit)
+    else if (value.isPosInfinity) (gen.writeString("Infinity"): Unit)
+    else if (value.isNegInfinity) (gen.writeString("-Infinity"): Unit)
+    else (gen.writeNumber(value): Unit)
   }
 
-  def writeBigInteger(schema: Schema, value: BigInt): Unit = { name(schema); gen.writeNumber(value.bigInteger) }
+  def writeBigInteger(schema: Schema, value: BigInt): Unit = { name(schema); (gen.writeNumber(value.bigInteger): Unit) }
   def writeBigDecimal(schema: Schema, value: BigDecimal): Unit = {
-    name(schema); gen.writeNumber(value.bigDecimal.toPlainString)
+    name(schema); (gen.writeNumber(value.bigDecimal.toPlainString): Unit)
   }
-  def writeString(schema: Schema, value: String): Unit = { name(schema); gen.writeString(value) }
+  def writeString(schema: Schema, value: String): Unit = { name(schema); (gen.writeString(value): Unit) }
   def writeBlob(schema: Schema, value: Blob): Unit = {
-    name(schema); gen.writeString(Base64.getEncoder.encodeToString(value.toArray))
+    name(schema); (gen.writeString(Base64.getEncoder.encodeToString(value.toArray)): Unit)
   }
 
   def writeTimestamp(schema: Schema, value: Instant): Unit = {
     name(schema)
     codec.timestampFormat(schema) match {
-      case "date-time" => gen.writeString(DateTimeFormatter.ISO_INSTANT.format(value))
-      case "http-date" => gen.writeString(JsonCodec.HttpDate.format(value))
-      case _           => gen.writeNumber(JsonCodec.epochSeconds(value))
+      case "date-time" => (gen.writeString(DateTimeFormatter.ISO_INSTANT.format(value)): Unit)
+      case "http-date" => (gen.writeString(JsonCodec.HttpDate.format(value)): Unit)
+      case _           => (gen.writeNumber(JsonCodec.epochSeconds(value)): Unit)
     }
   }
 
   def writeDocument(schema: Schema, value: Document): Unit = { name(schema); writeDoc(value) }
 
   private def writeDoc(value: Document): Unit = value match {
-    case Document.DNull        => gen.writeNull()
-    case Document.DBoolean(b)  => gen.writeBoolean(b)
-    case Document.DNumber(n)   => gen.writeNumber(n.bigDecimal)
-    case Document.DString(s)   => gen.writeString(s)
-    case Document.DArray(vs)   => gen.writeStartArray(); vs.foreach(writeDoc); gen.writeEndArray()
+    case Document.DNull        => (gen.writeNull(): Unit)
+    case Document.DBoolean(b)  => (gen.writeBoolean(b): Unit)
+    case Document.DNumber(n)   => (gen.writeNumber(n.bigDecimal): Unit)
+    case Document.DString(s)   => (gen.writeString(s): Unit)
+    case Document.DArray(vs)   => (gen.writeStartArray(): Unit); vs.foreach(writeDoc); (gen.writeEndArray(): Unit)
     case Document.DObject(fs) =>
-      gen.writeStartObject()
-      fs.foreach { (k, v) => gen.writeFieldName(k); writeDoc(v) }
-      gen.writeEndObject()
+      (gen.writeStartObject(): Unit)
+      fs.foreach { (k, v) => (gen.writeName(k): Unit); writeDoc(v) }
+      (gen.writeEndObject(): Unit)
   }
 
-  def writeNull(schema: Schema): Unit = { name(schema); gen.writeNull() }
+  def writeNull(schema: Schema): Unit = { name(schema); (gen.writeNull(): Unit) }
 }
 
 private final class JsonShapeReader(node: JsonNode, codec: JsonCodec) extends ShapeReader {
@@ -178,7 +176,7 @@ private final class JsonShapeReader(node: JsonNode, codec: JsonCodec) extends Sh
 
   def readList(schema: Schema)(onElement: ShapeReader => Unit): Unit = {
     if (!node.isArray) fail(schema, "an array")
-    node.elements().asScala.foreach(e => onElement(new JsonShapeReader(e, codec)))
+    node.values().asScala.foreach(e => onElement(new JsonShapeReader(e, codec)))
   }
 
   def readMap(schema: Schema)(onEntry: (String, ShapeReader) => Unit): Unit = {
@@ -197,7 +195,7 @@ private final class JsonShapeReader(node: JsonNode, codec: JsonCodec) extends Sh
 
   def readDouble(schema: Schema): Double =
     if (node.isNumber) node.doubleValue
-    else if (node.isTextual) node.textValue match {
+    else if (node.isString) node.stringValue match {
       case "NaN"       => Double.NaN
       case "Infinity"  => Double.PositiveInfinity
       case "-Infinity" => Double.NegativeInfinity
@@ -208,7 +206,7 @@ private final class JsonShapeReader(node: JsonNode, codec: JsonCodec) extends Sh
   def readBigInteger(schema: Schema): BigInt = BigInt(integral(schema).bigIntegerValue)
   def readBigDecimal(schema: Schema): BigDecimal =
     if (node.isNumber) BigDecimal(node.decimalValue) else fail(schema, "a number")
-  def readString(schema: Schema): String = if (node.isTextual) node.textValue else fail(schema, "a string")
+  def readString(schema: Schema): String = if (node.isString) node.stringValue else fail(schema, "a string")
 
   def readBlob(schema: Schema): Blob =
     try Blob(Base64.getDecoder.decode(readString(schema)))
@@ -216,8 +214,8 @@ private final class JsonShapeReader(node: JsonNode, codec: JsonCodec) extends Sh
 
   def readTimestamp(schema: Schema): Instant =
     if (node.isNumber) JsonCodec.fromEpochSeconds(node.decimalValue)
-    else if (node.isTextual) {
-      val text = node.textValue
+    else if (node.isString) {
+      val text = node.stringValue
       try {
         if (codec.timestampFormat(schema) == "http-date") Instant.from(JsonCodec.HttpDate.parse(text))
         else java.time.OffsetDateTime.parse(text).toInstant
@@ -233,11 +231,7 @@ private final class JsonShapeReader(node: JsonNode, codec: JsonCodec) extends Sh
     if ((n eq null) || n.isNull || n.isMissingNode) Document.DNull
     else if (n.isBoolean) Document.DBoolean(n.booleanValue)
     else if (n.isNumber) Document.DNumber(BigDecimal(n.decimalValue))
-    else if (n.isTextual) Document.DString(n.textValue)
-    else if (n.isArray) Document.DArray(n.elements().asScala.map(toDocument).toList)
+    else if (n.isString) Document.DString(n.stringValue)
+    else if (n.isArray) Document.DArray(n.values().asScala.map(toDocument).toList)
     else Document.DObject(n.properties().asScala.map(e => e.getKey -> toDocument(e.getValue)).toMap)
-}
-
-private[runtime] object JsonNodes {
-  val Null: JsonNode = NullNode.getInstance()
 }

@@ -128,7 +128,7 @@ class GeneratedClientSpec extends munit.FunSuite {
     DynamoDBClient(config(s)).transactWriteItems(
       TransactWriteItemsInput(List(TransactWriteItem(put = Some(Put(Map("pk" -> AttributeValue.S("a")), "t")))))
     ): Unit
-    val token = s.requests.head.json.path("ClientRequestToken").asText("")
+    val token = s.requests.head.json.path("ClientRequestToken").asString("")
     assert(token.matches("[0-9a-f-]{36}"), token)
   }
 }

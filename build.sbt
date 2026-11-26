@@ -84,16 +84,16 @@ lazy val root = rootProject
 // A Smithy client generator for Scala 3 (see docs/smithy/scala-client.md)
 // ---------------------------------------------------------------------------------------------
 
-// The runtime that generated clients run on: schemas, the JSON codec, protocols, SigV4,
-// the HTTP transport and the retry pipeline.
+// The runtime that generated clients run on: schemas, the JSON codec (Jackson 3), protocols,
+// SigV4, the HTTP transport and the retry pipeline.
 lazy val clientRuntime = project
   .in(file("modules/client-runtime"))
   .settings(
     name                := "smithy-scala-client-runtime",
     libraryDependencies ++= Seq(
-      "com.fasterxml.jackson.core" % "jackson-core"     % "2.23.0",
-      "com.fasterxml.jackson.core" % "jackson-databind" % "2.23.0",
-      munit                        % Test
+      "tools.jackson.core" % "jackson-core"     % "3.3.0",
+      "tools.jackson.core" % "jackson-databind" % "3.3.0",
+      munit                % Test
     )
   )
 

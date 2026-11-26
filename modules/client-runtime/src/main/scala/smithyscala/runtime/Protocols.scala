@@ -2,7 +2,7 @@ package smithyscala.runtime
 
 import java.net.URI
 
-import com.fasterxml.jackson.databind.JsonNode
+import tools.jackson.databind.JsonNode
 
 /**
   * A protocol turns an operation call into an HTTP request, and an HTTP response into the output or
@@ -50,7 +50,7 @@ abstract class JsonRpcProtocolBase(service: ServiceInfo, settings: JsonSettings)
     val error = operation.errors.find(code) match {
       case Some(t) => t.read(codec.reader(tree))
       case None =>
-        val message = Seq("message", "Message").map(tree.path).find(_.isTextual).map(_.textValue).getOrElse("")
+        val message = Seq("message", "Message").map(tree.path).find(_.isString).map(_.stringValue).getOrElse("")
         new UnknownServiceException(ShapeId.parse(code).name, message, response.status)
     }
     error.attach(ErrorMetadata(ShapeId.parse(code).name, response.status, requestId, response.headers))
@@ -58,7 +58,7 @@ abstract class JsonRpcProtocolBase(service: ServiceInfo, settings: JsonSettings)
   }
 
   protected def text(node: JsonNode, field: String): Option[String] =
-    Option(node.get(field)).filter(_.isTextual).map(_.textValue)
+    Option(node.get(field)).filter(_.isString).map(_.stringValue)
 }
 
 /**

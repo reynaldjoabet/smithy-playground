@@ -7,8 +7,8 @@ import java.util.concurrent.ConcurrentLinkedQueue
 
 import scala.jdk.CollectionConverters.*
 
-import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.ObjectMapper
+import tools.jackson.databind.JsonNode
+import tools.jackson.databind.json.JsonMapper
 import com.sun.net.httpserver.HttpServer
 
 /** A local HTTP server that records requests and answers with canned responses, in order. */
@@ -50,6 +50,6 @@ final class FakeAwsServer extends AutoCloseable {
 }
 
 object FakeAwsServer {
-  val mapper = new ObjectMapper()
+  val mapper: JsonMapper = JsonMapper.builder().build()
   def json(s: String): JsonNode = mapper.readTree(s)
 }
