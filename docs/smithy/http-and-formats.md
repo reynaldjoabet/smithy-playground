@@ -5,6 +5,7 @@ The other pages assume you know how HTTP, JSON and an RPC protocol such as `awsJ
 In short:
 - **HTTP** moves a request and a response between two programs.
 - **JSON** (or XML, CBOR, Protobuf) is how values are written as bytes inside them.
+- **A schema** such as a Smithy model or a `.proto` file says which values are valid in the first place.
 - **A protocol** such as `awsJson1_0`, `restJson1` or JSON-RPC 2.0 is the agreement on how an operation call maps onto HTTP and a data format.
 
 ## What HTTP is
@@ -20,6 +21,50 @@ HTTP (HyperText Transfer Protocol) is a request/response protocol. A client send
 HTTP gives these parts their meaning ([RFC 9110](https://www.rfc-editor.org/rfc/rfc9110)). It doesn't say what the body contains. A `Content-Type` header names the body's format, and the two sides must agree on it.
 
 HTTP is also **stateless**: each request stands alone, and the server keeps nothing between requests unless something such as a cookie or a token carries it along.
+
+## What HTTP leaves out
+
+HTTP defines how a client and a server exchange requests and responses, and what the method, target, status code and headers mean. It leaves two big things to other specifications: what the body looks like, and who may do what.
+
+### What's in the body
+
+To HTTP, a body is just bytes. `Content-Type` names their format, but HTTP defines none of the formats. JSON, XML, CBOR and the rest are each specified elsewhere, and a higher-level protocol picks one and says how values are laid out in it (see [Data formats](#data-formats) and [Protocols](#protocols-putting-a-call-on-http)).
+
+To see why that matters, compare HTTP with protocols that build their kind of resource into the protocol itself:
+
+| Protocol | What it knows about | Its commands | Example |
+|---|---|---|---|
+| FTP ([RFC 959](https://www.rfc-editor.org/rfc/rfc959)) | files and directories | `RETR`, `STOR`, `LIST`, `CWD`, and a transfer type (`TYPE A` for text, `TYPE I` for binary) | `RETR reports/2026-11.csv` |
+| SMTP ([RFC 5321](https://www.rfc-editor.org/rfc/rfc5321)) | mail messages, senders and recipients | `MAIL FROM`, `RCPT TO`, `DATA`; the message itself follows the header/body format of [RFC 5322](https://www.rfc-editor.org/rfc/rfc5322) | `RCPT TO:<ops@example.com>` |
+| [PostgreSQL wire protocol](https://www.postgresql.org/docs/current/protocol.html) | SQL queries, rows and typed columns | `Query`, `Parse`/`Bind`/`Execute`; replies `RowDescription` (column names and type OIDs) and `DataRow` | a `Query` message carrying `SELECT * FROM transfers` |
+
+Each of these can only move its one kind of thing, and both sides already agree on what a file, a message or a row is.
+
+HTTP has one kind of thing, a **resource** named by a URI, and says nothing about what is behind it. These four requests look alike on the wire, but the servers do entirely different things:
+
+```http
+# 1. Static file on disk (Nginx serving a Swagger file)
+GET /docs/openapi.json HTTP/1.1
+
+# 2. In-memory JVM state (a ConcurrentHashMap or ZIO Ref inside your service)
+GET /v1/rate-limits/client_123 HTTP/1.1
+
+# 3. Database row + ledger state transition (PostgreSQL ACID transaction)
+POST /v1/transfers HTTP/1.1
+
+# 4. Proxy / orchestrator calling a third-party clearing rail (e.g., PAPSS / SWIFT)
+POST /v1/fx-quotes HTTP/1.1
+```
+
+The client can't tell which is which, and doesn't need to. That generality is what lets HTTP carry every AWS API. It is also why HTTP can't say anything about the body: the meaning of a request lives in an agreement on top of HTTP.
+
+### Who may do what
+
+HTTP has an **authentication** framework ([RFC 9110, section 11](https://www.rfc-editor.org/rfc/rfc9110#section-11)). A server answers `401 Unauthorized` with a `WWW-Authenticate` header naming a scheme, and the client sends credentials in an `Authorization` header. The `Basic` scheme ([RFC 7617](https://www.rfc-editor.org/rfc/rfc7617)) sends a user name and password, base64-encoded: readable by anyone who sees the request, so it is only safe over TLS.
+
+HTTP defines nothing about **authorization**: which caller may run which operation on which resource. A server can refuse with `403 Forbidden`, but making the decision is up to the application. (Despite its name, `401` means "I don't know who you are"; `403` means "I know, and the answer is no".) Other specifications fill the gap:
+- **OAuth 2.0** ([RFC 6749](https://www.rfc-editor.org/rfc/rfc6749)): an authorization server issues an access token, limited to some scopes. The client sends it as `Authorization: Bearer <token>` ([RFC 6750](https://www.rfc-editor.org/rfc/rfc6750)), and the server holding the resource checks the token before acting. OpenID Connect adds the user's identity on top.
+- **AWS SigV4 and IAM**: the request is signed with the caller's keys ([the real request below](#one-real-request-taken-apart) shows one), and IAM policies then decide whether that identity may call that action on that resource.
 
 ## The layers
 
@@ -204,6 +249,24 @@ In the layer diagram above, WebSocket sits beside HTTP, not inside it:
 
 Smithy's own streaming doesn't use WebSockets. Event streams (`@streaming` unions) travel as `application/vnd.amazon.eventstream` frames in a long-running HTTP request: HTTP/2, or chunked HTTP/1.1. AWS does offer WebSockets as a product, through API Gateway v2's WebSocket APIs ([apigatewayv2.md](../aws-emulator/apigatewayv2.md)). A backend pushes a message to a connected client with the `apigatewaymanagementapi` service's `PostToConnection`, which is itself an ordinary signed HTTP call. The WebSocket exists only between API Gateway and the end client.
 
+## Format, schema and protocol: three separate jobs
+
+People often say "JSON", "Smithy" or "gRPC" as if they were alternatives. They answer different questions, and a real API picks one of each:
+
+| Job | Answers | Examples | Paper analogy |
+|---|---|---|---|
+| **Data format** (serialization, wire format) | How do runtime values become bytes (text or binary) to store or send? Numbers, strings, lists, maps. | JSON, CBOR, XML, MessagePack, the Protobuf wire format | The language and alphabet the form is written in |
+| **Schema / IDL** (Interface Definition Language) | Which shapes are valid: field names, types, which fields are required, allowed ranges, which operations exist? | Smithy, OpenAPI, JSON Schema, Protobuf `.proto` files, XSD | The blueprint: what a correctly filled-in form looks like |
+| **RPC / API protocol** | How is a remote action called: where the operation name goes, how a response is matched to its request, how typed errors come back? | `awsJson1_0`, `restJson1`, `rpcv2Json`, JSON-RPC 2.0, gRPC | The routing rules: which office the form goes to and how the reply comes back |
+
+The filled-in form you actually post is a **message**: one value, written in a data format, shaped by a schema, sent according to a protocol.
+
+Some names cover more than one job, which is where the confusion comes from:
+- **Protobuf** is both a schema language (`.proto` files) and a binary data format. gRPC is the protocol that usually carries it.
+- **Smithy** is a schema language. Its protocol traits (`@awsJson1_0`, `@rpcv2Json`, ...) pick a protocol, and the protocol picks the data format.
+- **OpenAPI** is a schema for REST APIs. REST over HTTP is the protocol it describes; JSON is usually the format.
+- **JSON Schema** validates JSON documents, but says nothing about how they are sent.
+
 ## Data formats
 
 A data format turns values into bytes and back. It is only that: it has no idea of requests, operations or errors.
@@ -301,6 +364,57 @@ Two patterns show up:
 - **REST** uses HTTP's own vocabulary (methods, paths, status codes) to say what happens. Generic tools such as caches and proxies understand it, but each operation needs mapping rules.
 - **RPC** treats HTTP as a pipe for "call this operation with these arguments". It's simpler to generate, and all operations look alike. JSON-RPC goes furthest: it doesn't need HTTP at all.
 
+### Where the line between HTTP and JSON falls
+
+Each protocol draws the line between HTTP and the body in a different place. Here is one call, reading the balance of account `acc_123`, moving from "HTTP does most of the work" to "the body does all of it".
+
+**JSON on its own** is only a data format. `{"balance": 4200, "currency": "MUR"}` knows nothing about networks, URLs, methods or errors. When it travels over HTTP, HTTP carries the bytes and `Content-Type: application/json` tells the receiver to run a JSON parser on the body. Everything else comes from the protocol.
+
+**REST** uses HTTP itself as the application protocol. The verb and the resource URL say what happens, and the status code says how it went.
+
+```http
+GET /accounts/acc_123/balance HTTP/1.1
+Accept: application/json
+```
+
+- Action and target: split between the verb and the URL (`GET /accounts/acc_123`, `DELETE /accounts/acc_123`).
+- Errors: plain HTTP status codes (`404 Not Found`, `422 Unprocessable Entity`).
+- Body: plain JSON for the resource's state. There is no request body here at all.
+
+**`rpcv2Json`** keeps RPC routing in HTTP, so the body stays clean.
+
+```http
+POST /service/LedgerService/operation/GetBalance HTTP/1.1
+Content-Type: application/json
+Smithy-Protocol: rpc-v2-json
+
+{"accountId": "acc_123"}
+```
+
+- Action and target: the URL path names the service and operation, and the `Smithy-Protocol` header names the protocol.
+- Errors: `4xx`/`5xx` status codes, with `__type` in the JSON body naming the error shape.
+- Body: only the operation's input.
+- Coupling: it can't run without HTTP, because the operation name lives in the URL path.
+
+**JSON-RPC 2.0** treats HTTP as a dumb byte pipe. Routing and errors are repeated inside the JSON, so the exact same message works over WebSockets or stdio.
+
+```http
+POST /rpc HTTP/1.1
+Content-Type: application/json
+
+{"jsonrpc": "2.0", "id": 1, "method": "GetBalance", "params": {"accountId": "acc_123"}}
+```
+
+- Action and target: always one endpoint (`POST /rpc`), with `"method"` in the body.
+- Errors: almost always `200 OK` at the HTTP layer, with the failure in the body: `"error": {"code": -32601, "message": "..."}`.
+- Body: an envelope carrying the version, `id`, method and params.
+
+| | Operation | Input | Error signal | Works without HTTP |
+|---|---|---|---|---|
+| REST | verb + URL | URL (and body for writes) | HTTP status | no |
+| `rpcv2Json` | URL path + `Smithy-Protocol` header | body | HTTP status + `__type` | no |
+| JSON-RPC 2.0 | `"method"` in the body | `"params"` in the body | `"error"` in the body | yes |
+
 ## Where Smithy fits
 
 A Smithy model describes operations and shapes independently of all this. A **protocol trait** on the service, such as `@awsJson1_0`, `@restJson1` or `@rpcv2Json`, selects one set of the rules above. Each runtime then splits the work:
@@ -310,6 +424,59 @@ A Smithy model describes operations and shapes independently of all this. A **pr
 - **The transport** sends it.
 
 So one model can be served over different protocols, and one codec can serve several protocols. `JsonCodec` is shared by `awsJson1_0`, `restJson1` and `rpcv2Json`.
+
+### Traits fill in what HTTP leaves open
+
+Smithy adds protocol-level meaning with annotations, which it calls **traits**. A trait is attached to a shape (a service, an operation, a member) and says something the shape alone doesn't: how it travels, how it's authenticated, how it fails. Here is the transfers call from [What HTTP leaves out](#what-http-leaves-out), modelled for `restJson1`:
+
+```smithy
+$version: "2"
+namespace example.payments
+
+use aws.protocols#restJson1
+
+@restJson1
+@httpBearerAuth
+service Payments {
+    operations: [CreateTransfer]
+}
+
+@http(method: "POST", uri: "/v1/transfers", code: 201)
+operation CreateTransfer {
+    input := {
+        @httpHeader("Idempotency-Key")
+        @idempotencyToken
+        idempotencyKey: String
+
+        @required
+        amount: Long
+
+        @required
+        currency: String
+    }
+    output := {
+        @required
+        transferId: String
+    }
+    errors: [InsufficientFunds]
+}
+
+@error("client")
+@httpError(422)
+structure InsufficientFunds {
+    message: String
+}
+```
+
+| What HTTP leaves open | Traits that answer it |
+|---|---|
+| The body's format, and how an operation maps onto HTTP | a protocol trait: `@restJson1`, `@awsJson1_0`, `@rpcv2Json`, `@rpcv2Cbor`, `@restXml` |
+| Which method and path, and where each input goes | `@http`, `@httpLabel`, `@httpQuery`, `@httpHeader`, `@httpPayload` (used by REST protocols; RPC protocols ignore them) |
+| Which status code means which error | `@error`, `@httpError` |
+| Whether a retry is safe | `@readonly`, `@idempotent`, `@idempotencyToken` |
+| How the caller proves who they are | `@httpBasicAuth`, `@httpBearerAuth`, `@httpApiKeyAuth`, `@aws.auth#sigv4`; `@auth` sets their order per service or operation, `@optionalAuth` allows anonymous calls |
+
+Authorization stays outside the model, as it does in HTTP. Smithy has no OAuth trait: `@httpBearerAuth` says "send a bearer token", and how the client got the token, and what the server decides when it sees it, are up to them.
 
 ## Further reading
 
