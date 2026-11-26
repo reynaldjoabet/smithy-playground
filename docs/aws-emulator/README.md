@@ -95,3 +95,22 @@ To run AWS Emulator in a container:
    ```
 
 The emulator then serves HTTPS on `https://127.0.0.1:9297` with a self-signed certificate. The emulator uses a single account, `000000000000`. The Dockerfile downloads the `aarch64` package; on an x86_64 host, change `aarch64` to `x86_64` in its download URL.
+
+## Recapturing the pages
+
+The requests and responses on these pages come from [scripts/recapture-emulator-docs.py](../../scripts/recapture-emulator-docs.py). It sends every documented request again, in page order, and replaces each block with what went over the wire: every request header as sent and every response header as received. It needs only Python 3 and a running emulator.
+
+Walkthrough steps reuse ids that earlier steps returned. The script learns how each id changed by comparing the page's old response with the new one, and uses the new values in later requests. So run it against the pages as they are in git, on an emulator that has just started:
+
+```sh
+docker restart <container>                                # start from an empty emulator
+scripts/recapture-emulator-docs.py                        # report what differs, without writing
+scripts/recapture-emulator-docs.py --write --emulator-version 1.0.629
+```
+
+The report lists every exchange whose status or error code differs from the page:
+
+- **A walkthrough difference** usually means a step needs attention. A newer emulator may refuse a value the walkthrough used (add an entry to `OVERRIDES` in the script), or a step may need a particular redacted value (`STEP_SECRETS`).
+- **A reference difference** is the emulator's behaviour changing. With `--write`, the script updates that operation's explanation line, the page's counts and the *Implemented as of* markers.
+
+Prose around a walkthrough step that changed has to be updated by hand.
