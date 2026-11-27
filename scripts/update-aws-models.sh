@@ -30,6 +30,7 @@ SERVICES=(
     "identitystore:identitystore"
     # Certificates & key storage
     "acm:acm"
+    "kms:kms"
     "cloudhsm:cloudhsm"
     "cloudhsm-v2:cloudhsm-v2"
     # Databases

@@ -13,14 +13,17 @@ import javax.net.ssl.TrustManagerFactory
 
 import smithy.scala.runtime.*
 
+import example.cognitoidp.*
 import example.dynamodb.*
+import example.secretsmanager.*
 import example.sqs.*
 
 /**
-  * Runs the generated SQS and DynamoDB clients against a local AWS Emulator and prints every
-  * HTTP exchange with all its headers. The access key id and signatures are redacted.
+  * Runs the generated clients against a local AWS Emulator and prints every HTTP exchange with all
+  * its headers. The access key id and signatures are redacted.
   *
-  * Run with: sbt --client "clientExample/runMain example.EmulatorDemo"
+  * Run with: sbt --client "clientExample/runMain example.EmulatorDemo [sqs] [dynamodb] [secretsmanager] [cognito]"
+  * With no service named it runs SQS and DynamoDB. (KMS has no emulator to run against.)
   */
 object EmulatorDemo {
   private val emulatorDir: Path = Paths.get(sys.props("user.home"), ".aws", "emulator", "9297")
@@ -37,8 +40,77 @@ object EmulatorDemo {
       transport = JavaHttpTransport(sslContext = Some(trusting(emulatorDir.resolve("ca.pem")))),
       interceptors = List(WireLog)
     )
-    sqs(SQSClient(config))
-    dynamodb(DynamoDBClient(config))
+    val named = args.filterNot(_.startsWith("--")).toSet
+    val run   = if (named.isEmpty) Set("sqs", "dynamodb") else named
+    if (run("sqs")) sqs(SQSClient(config))
+    if (run("dynamodb")) dynamodb(DynamoDBClient(config))
+    if (run("secretsmanager")) secretsManager(SecretsManagerClient(config))
+    if (run("cognito")) cognito(CognitoIdentityProviderClient(config))
+  }
+
+  // -------------------------------------------------------------------------------------------- Secrets Manager
+
+  private def secretsManager(client: SecretsManagerClient): Unit = {
+    // A fresh name each run: the emulator keeps a deleted secret "marked for deletion", so a fixed name would clash.
+    val name = s"scala-client-demo/db-password-${System.currentTimeMillis}"
+
+    section("Secrets Manager: CreateSecret (ClientRequestToken filled in by @idempotencyToken)")
+    val created = client.createSecret(CreateSecretRequest(name, description = Some("demo"), secretString = Some("s3cr3t")))
+    println(s"-> arn = ${created.arn.getOrElse("?")}, versionId = ${created.versionId.getOrElse("?")}")
+
+    section("Secrets Manager: GetSecretValue")
+    val value = client.getSecretValue(GetSecretValueRequest(name))
+    println(s"-> secretString = ${value.secretString.getOrElse("?")}, createdDate = ${value.createdDate.getOrElse("?")}")
+
+    section("Secrets Manager: ListSecrets (paginator)")
+    val names = client.listSecretsPaginator(ListSecretsRequest()).flatMap(_.secretList.getOrElse(Nil)).flatMap(_.name).toList
+    println(s"-> found = ${names.contains(name)} (${names.size} secrets listed)")
+
+    section("Secrets Manager: DeleteSecret")
+    client.deleteSecret(DeleteSecretRequest(name, forceDeleteWithoutRecovery = Some(true))): Unit
+
+    section("Secrets Manager: GetSecretValue on the deleted secret (modelled error)")
+    // AWS answers ResourceNotFoundException once a forced delete completes; the emulator answers
+    // InvalidRequestException ("marked for deletion"). Both are modelled errors of GetSecretValue.
+    try client.getSecretValue(GetSecretValueRequest(name)): Unit
+    catch {
+      case e: (example.secretsmanager.ResourceNotFoundException | example.secretsmanager.InvalidRequestException) =>
+        println(s"-> threw ${e.getClass.getSimpleName}: ${e.getMessage}")
+    }
+  }
+
+  // -------------------------------------------------------------------------------------------- Cognito
+
+  private def cognito(client: CognitoIdentityProviderClient): Unit = {
+    section("Cognito: CreateUserPool")
+    val poolId = client.createUserPool(CreateUserPoolRequest("scala-client-demo")).userPool.flatMap(_.id).getOrElse(sys.error("no pool id"))
+    println(s"-> userPool.id = $poolId")
+
+    section("Cognito: AdminCreateUser")
+    val user = client.adminCreateUser(
+      AdminCreateUserRequest(
+        poolId,
+        "ada",
+        userAttributes = Some(List(AttributeType("email", Some("ada@example.com")))),
+        messageAction = Some(MessageActionType.SUPPRESS)
+      )
+    )
+    println(s"-> user = ${user.user.flatMap(_.username).getOrElse("?")}, status = ${user.user.flatMap(_.userStatus).getOrElse("?")}")
+
+    section("Cognito: AdminCreateUser again (modelled error)")
+    try client.adminCreateUser(AdminCreateUserRequest(poolId, "ada", messageAction = Some(MessageActionType.SUPPRESS))): Unit
+    catch { case e: UsernameExistsException => println(s"-> threw ${e.getClass.getSimpleName}: ${e.getMessage}") }
+
+    section("Cognito: ListUserPools (paginator)")
+    val pools = client.listUserPoolsPaginator(ListUserPoolsRequest(maxResults = 10)).flatMap(_.userPools.getOrElse(Nil)).flatMap(_.name).toList
+    println(s"-> pools = $pools")
+
+    section("Cognito: DeleteUserPool")
+    client.deleteUserPool(DeleteUserPoolRequest(poolId))
+
+    section("Cognito: DescribeUserPool on the deleted pool (modelled error)")
+    try client.describeUserPool(DescribeUserPoolRequest(poolId)): Unit
+    catch { case e: example.cognitoidp.ResourceNotFoundException => println(s"-> threw ${e.getClass.getSimpleName}: ${e.getMessage}") }
   }
 
   // -------------------------------------------------------------------------------------------- SQS

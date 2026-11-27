@@ -14,6 +14,10 @@ generate() { # <model file> <service shape id> <scala package> [output dir] [--d
 
 generate "$models/sqs/sqs.json"                          'com.amazonaws.sqs#AmazonSQS'              example.sqs
 generate "$models/dynamodb/dynamodb.json"                'com.amazonaws.dynamodb#DynamoDB_20120810' example.dynamodb
+generate "$models/kms/kms.json"                          'com.amazonaws.kms#TrentService'          example.kms
+generate "$models/secrets-manager/secrets-manager.json"  'com.amazonaws.secretsmanager#secretsmanager' example.secretsmanager
+generate "$models/cognito-identity-provider/cognito-identity-provider.json" \
+  'com.amazonaws.cognitoidentityprovider#AWSCognitoIdentityProviderService' example.cognitoidp
 generate "$root/modules/client-example/model/weather.smithy" 'example.weather#Weather'              example.weather
 
 # Copies with the runtime's Mirror derivation, for client-example's ParitySpec.

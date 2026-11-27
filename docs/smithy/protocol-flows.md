@@ -32,7 +32,7 @@ In every diagram, steps 1-4, 6, 8, 11 and 13 are the same. Model loading, schema
 
 ## `awsJson1_0` and `awsJson1_1`: SQS `SendMessage`
 
-Every step exists. This is the path the [generated SQS and DynamoDB clients](scala-client.md) take, and what [GeneratedClientSpec](../../modules/client-example/src/test/scala/example/GeneratedClientSpec.scala) and the emulator demo exercise. `awsJson1_1` differs only in its `Content-Type` (`application/x-amz-json-1.1`).
+Every step exists. This is the path the [generated SQS and DynamoDB clients](scala-client.md) take, and what [GeneratedClientSpec](../../modules/client-example/src/test/scala/example/GeneratedClientSpec.scala) and the emulator demo exercise. `awsJson1_1` differs only in its `Content-Type` (`application/x-amz-json-1.1`); the generated KMS, Secrets Manager and Cognito Identity Provider clients use it, and `EmulatorDemo` runs the last two against the emulator.
 
 ```text
 BUILD TIME
