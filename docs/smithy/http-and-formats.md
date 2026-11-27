@@ -415,6 +415,233 @@ Content-Type: application/json
 | `rpcv2Json` | URL path + `Smithy-Protocol` header | body | HTTP status + `__type` | no |
 | JSON-RPC 2.0 | `"method"` in the body | `"params"` in the body | `"error"` in the body | yes |
 
+## HTTP and REST
+
+"HTTP" and "REST" are often used as if they meant the same thing. They don't, but they were designed side by side, which is why they fit so well.
+
+### REST is a style; HTTP is a protocol
+
+- **HTTP** is a concrete protocol with a specification ([RFC 9110](https://www.rfc-editor.org/rfc/rfc9110) for its semantics): methods, status codes, headers, caching rules. Anything that sends `GET /path HTTP/1.1` is using HTTP.
+- **REST** (Representational State Transfer) is an *architectural style*: a set of constraints for building distributed systems. Roy Fielding described it in his 2000 dissertation as the architecture of the Web, while he was also an author of the HTTP/1.1 specification. REST says how a system should behave; HTTP is the protocol most often used to build one.
+
+So you can use HTTP without REST. `awsJson1_0`, `rpcv2Json` and JSON-RPC all run over HTTP and ignore most of what makes it RESTful. A "REST API" is one that uses HTTP's own features (URLs, methods, status codes, headers) as the application's vocabulary, instead of tunnelling calls through it.
+
+### How each REST idea maps onto HTTP
+
+| REST constraint or idea | What it means | The HTTP feature that delivers it |
+|---|---|---|
+| **Resources with identifiers** | Every thing the API exposes has its own address | URLs: `/2015-03-31/functions/my-fn` |
+| **Representations** | A client never touches the resource itself, only a representation of its state | The body, labelled by `Content-Type` (`application/json`, `application/xml`) |
+| **Content negotiation** | The client says which representations it can handle | `Accept`, `Accept-Language`, `Accept-Encoding` |
+| **Uniform interface** | The same small set of operations works on every resource | The methods: `GET`, `PUT`, `POST`, `DELETE`, `PATCH`, `HEAD` |
+| **Self-descriptive messages** | A message says what happened without outside knowledge | Status codes (`201 Created`, `404 Not Found`, `409 Conflict`) and headers (`Location`, `Content-Length`) |
+| **Stateless** | Each request carries everything needed to handle it; no server-side session between requests | Credentials on every request (`Authorization`), no connection-bound state |
+| **Cacheable** | Responses say whether and how long they can be reused | `Cache-Control`, `ETag`, `Last-Modified`, conditional requests, `304 Not Modified` |
+| **Layered system** | Intermediaries can sit between client and server without either knowing | Proxies, gateways and CDNs that understand methods, status codes and cache headers |
+| **Hypermedia** | Responses link to what the client can do next | `Link` headers, or links inside the body. Rarely used in practice (see below). |
+
+The payoff of following the style is that generic infrastructure understands your API without being told:
+- A CDN can cache a `GET` that returns `Cache-Control: max-age=60`.
+- A proxy can retry an idempotent `PUT` after a dropped connection.
+- A browser can follow a `Location` header.
+
+None of that works for `POST / {"action": "..."}`, because to the infrastructure every call looks the same.
+
+### What the methods promise
+
+RFC 9110 gives each method properties that clients and intermediaries rely on:
+
+| Method | Safe (no intended change) | Idempotent (repeating has the same effect) | Cacheable | Typical use |
+|---|---|---|---|---|
+| `GET` | yes | yes | yes | Read a resource |
+| `HEAD` | yes | yes | yes | Read only the headers (does it exist, how big, what `ETag`) |
+| `OPTIONS` | yes | yes | no | Ask what's allowed; CORS preflight |
+| `PUT` | no | yes | no | Create or replace a resource at a known URL |
+| `DELETE` | no | yes | no | Remove a resource |
+| `POST` | no | **no** | rarely | Create in a collection, or run an action |
+| `PATCH` ([RFC 5789](https://www.rfc-editor.org/rfc/rfc5789)) | no | **no** | no | Change part of a resource |
+
+**Idempotent** is about the *effect*, not the response. Deleting a Lambda function twice leaves the same state: it's gone. The second call answers `404`, but nothing new happened. That's what makes a retry safe after a timeout, when you don't know whether the first call arrived. `POST` has no such promise, so retrying it can create a second resource. That's the gap that idempotency keys fill (`Idempotency-Key`, and Smithy's `@idempotencyToken`).
+
+Smithy models the same promises as traits on operations, independent of the protocol:
+- **`@readonly`** is the counterpart of a safe method.
+- **`@idempotent`** is the counterpart of an idempotent one.
+
+Real models don't always line up with the HTTP method. Lambda's `CreateFunction` is a `POST` but carries `@idempotent`. S3's `GetObject` is a `GET` without `@readonly`. Smithy tooling reads the traits, so the traits are what to trust.
+
+### "REST API" in practice
+
+Few APIs follow every constraint. A common way to describe how far one goes is Leonard Richardson's maturity model:
+
+| Level | What the API uses | Examples |
+|---|---|---|
+| 0 | One URL, one method; the action is in the body or a header | `awsJson1_0` (`POST /` with `X-Amz-Target: AmazonSQS.SendMessage`), JSON-RPC 2.0 (`POST /rpc` with `"method"` in the body), SOAP |
+| 1 | Separate URLs, but still one method | `rpcv2Json` looks like this (`POST /service/Weather/operation/GetForecast`), though its URLs name operations rather than resources |
+| 2 | Resources, the HTTP methods, and status codes | `restJson1` and `restXml`: Lambda, S3, API Gateway. Most APIs called "REST" are here. |
+| 3 | Level 2, plus hypermedia: responses link to the next possible actions | Rare. Smithy doesn't model it, and AWS doesn't use it. |
+
+So "REST API" usually means level 2: resource URLs, the right methods, meaningful status codes, and JSON or XML bodies.
+
+### Using HTTP without being RESTful
+
+You can use HTTP without being RESTful, as awsJson, rpcv2Json and JSON-RPC do. They use HTTP only to carry messages. They keep a few REST constraints and drop the ones that make an API RESTful:
+
+| REST constraint | `awsJson1_0` | `rpcv2Json` | JSON-RPC 2.0 |
+|---|---|---|---|
+| **Resources with their own URLs** | No: every call goes to `POST /` | No: URLs name operations (`/service/Weather/operation/GetForecast`), not things | No: every call goes to one URL (`POST /rpc`) |
+| **Methods mean something** | No: always `POST`, even for reads | No: always `POST` | No: always `POST` |
+| **Status codes describe the result** | Partly: `200` or `4xx`/`5xx`, with the error shape named in `__type` or `X-Amzn-Errortype` | Partly: `4xx`/`5xx`, with `__type` in the body | No: usually `200` even for errors; the failure is in `"error"` in the body |
+| **Cacheable** | No: `POST` responses aren't cached | No | No |
+| **Stateless** | Yes: each request is signed and self-contained | Yes | Yes |
+| **Layered system** | Yes: proxies and load balancers pass the traffic through | Yes | Yes |
+
+What that looks like on the wire. Reading a DynamoDB item is a read, but the protocol still sends it as a `POST` to `/`:
+
+```http
+POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+X-Amz-Target: DynamoDB_20120810.GetItem
+
+{"TableName":"orders","Key":{"id":{"S":"o-1"}}}
+```
+
+A RESTful design would put the same read in the method and the URL:
+
+```http
+GET /tables/orders/items/o-1 HTTP/1.1
+```
+
+For DynamoDB's request, HTTP infrastructure sees only "a `POST` to `/`":
+- **No caching:** a CDN won't cache it, because `POST` responses aren't cacheable by default.
+- **No automatic retries:** a proxy won't retry it on its own, because `POST` isn't idempotent. That's why AWS SDKs decide retries themselves, from the error type and Smithy traits.
+- **No per-operation routing:** a load balancer or WAF can't route or rate-limit by operation using the path alone. The operation is in a header (`X-Amz-Target`) or, for JSON-RPC, inside the body.
+
+That isn't a mistake. It's the RPC trade-off:
+- **For:** one rule covers every operation, so generators and runtimes stay small, and operations that are actions rather than resources fit naturally (`SendMessage`, `GetItem`, `TransactWriteItems`). JSON-RPC takes this furthest: it doesn't need HTTP at all, so the same message works over WebSockets or stdio.
+- **Against:** you lose what HTTP's own vocabulary gives you for free.
+
+### REST in Smithy: two real AWS services
+
+A REST protocol trait (`@restJson1`, `@restXml`) tells generators to honour the HTTP binding traits. They map each operation and member onto parts of the HTTP message:
+
+| Trait | Where it puts things | Applies to |
+|---|---|---|
+| `@http(method, uri, code)` | The method, a URI pattern, and the success status code | Operation |
+| `@httpLabel` | A `{label}` segment of the path | Input member |
+| `@httpQuery("name")`, `@httpQueryParams` | A query-string parameter, or a map of them | Input member |
+| `@httpHeader("Name")`, `@httpPrefixHeaders("x-amz-meta-")` | A header, or a map of headers sharing a prefix | Input and output members |
+| `@httpPayload` | The member *is* the whole body (a blob, a string, or one structure) | Input and output members |
+| `@httpResponseCode` | The status code, read into an output member | Output member |
+| `@httpError(404)` | The status code for an error | Error structure |
+| (no binding trait) | Goes into the JSON or XML body with the other unbound members | Any member |
+
+**Lambda (`restJson1`).** Functions are resources under `/2015-03-31/functions`, and the model's `@http` traits use the methods the way REST intends:
+
+| Operation | `@http` in the model | Smithy trait |
+|---|---|---|
+| `CreateFunction` | `POST /2015-03-31/functions`, code `201` | `@idempotent` |
+| `GetFunction` | `GET /2015-03-31/functions/{FunctionName}`, code `200` | `@readonly` |
+| `UpdateFunctionCode` | `PUT /2015-03-31/functions/{FunctionName}/code`, code `200` | |
+| `DeleteFunction` | `DELETE /2015-03-31/functions/{FunctionName}` | `@idempotent` |
+| `Invoke` | `POST /2015-03-31/functions/{FunctionName}/invocations`, code `200` | |
+
+`GetFunction`'s input has `FunctionName` with `@httpLabel` and `Qualifier` with `@httpQuery("Qualifier")`. A call becomes:
+
+```http
+GET /2015-03-31/functions/my-fn?Qualifier=PROD HTTP/1.1
+Host: lambda.us-east-1.amazonaws.com
+Authorization: AWS4-HMAC-SHA256 Credential=…, SignedHeaders=…, Signature=…
+```
+
+There's no request body, because every input member is bound to the URL. If the function doesn't exist, the answer is a status code from the model, `@httpError(404)` on `ResourceNotFoundException`. The error shape is named in the `X-Amzn-ErrorType` header, and its members are in the JSON body (the body below is illustrative):
+
+```http
+HTTP/1.1 404 Not Found
+Content-Type: application/json
+X-Amzn-ErrorType: ResourceNotFoundException
+
+{"message":"Function not found: …"}
+```
+
+`Invoke` is an action, not a resource. Lambda models it as a `POST` to a sub-resource, `/invocations`, which is the usual REST compromise for verbs that don't fit `GET`, `PUT` or `DELETE`.
+
+**S3 (`restXml`).** Objects are resources at `/{Bucket}/{Key+}`. The `+` makes `Key` a *greedy* label: it may contain `/`, so `photos/2026/cat.jpg` is one key. `GetObject` binds almost everything to HTTP itself:
+
+| Member of `GetObject` | Binding |
+|---|---|
+| `Bucket`, `Key` (input) | `@httpLabel`: the path |
+| `VersionId` (input) | `@httpQuery("versionId")` |
+| `Range` (input) | `@httpHeader("Range")`: fetch part of the object |
+| `IfNoneMatch`, `IfMatch` (input) | `@httpHeader("If-None-Match")`, `@httpHeader("If-Match")`: conditional requests |
+| `Body` (output) | `@httpPayload`: the object's bytes *are* the response body |
+| `ETag`, `ContentType`, `LastModified` (output) | `@httpHeader("ETag")`, `@httpHeader("Content-Type")`, `@httpHeader("Last-Modified")` |
+
+The URI pattern in the model is `GET /{Bucket}/{Key+}?x-id=GetObject`. The `?x-id=GetObject` is a literal query parameter that every `GetObject` request carries. `PutObject` is `PUT` on the same path, `DeleteObject` is `DELETE` (code `204`), and `HeadObject` is `HEAD`.
+
+S3 also shows REST's caching and concurrency features through ordinary headers:
+
+```http
+GET /my-bucket/photos/2026/cat.jpg?x-id=GetObject HTTP/1.1
+If-None-Match: "9b2cf535f27731c974343645a3985328"
+
+HTTP/1.1 304 Not Modified
+ETag: "9b2cf535f27731c974343645a3985328"
+```
+
+- **Caching:** the object hasn't changed since the client's copy, so no body is sent. A client or CDN reuses what it has.
+- **Optimistic concurrency:** `If-Match` with an `ETag` makes a write succeed only if the object is still the version the client read. Otherwise the server answers `412 Precondition Failed`.
+
+No body format is involved in either case: it's all HTTP.
+
+### Compared with the RPC protocols this repo implements
+
+The same kind of call, "send to this queue", in SQS's RPC protocol:
+
+```http
+POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+X-Amz-Target: AmazonSQS.SendMessage
+
+{"QueueUrl":"https://sqs.us-east-1.amazonaws.com/123456789012/orders","MessageBody":"hello"}
+```
+
+| | RPC (`awsJson1_0`, as here) | REST (`restJson1`, `restXml`) |
+|---|---|---|
+| Operation | `X-Amz-Target` header | Method + URI pattern from `@http` |
+| Which queue or function | A member in the JSON body | A path label (`@httpLabel`) |
+| Options | Members in the body | Query parameters and headers |
+| Success | Always `200` | `200`, `201`, `204` …, from `@http(code)` |
+| Errors | `4xx`/`5xx`, with `__type` in the body naming the shape | `@httpError` status code, with the shape named in a header or the body |
+| Caching, conditional requests | No (every call is a `POST`) | Yes, with ordinary HTTP headers |
+| Generator and runtime work | Small: one rule for every operation | More: every member's binding must be honoured |
+
+That last row is why this repo's runtime supports only RPC protocols so far. A `restJson1` client would need:
+- **Request URIs:** expanding the URI template, with label escaping and greedy labels.
+- **Query and headers:** writing query parameters and headers, with their own formats for timestamps and lists.
+- **Bodies:** putting only the *unbound* members in the JSON body, or the `@httpPayload` member on its own.
+- **Responses:** reading response headers and status codes back into output members.
+- **Errors:** mapping status codes to errors.
+
+Smithy's `HttpBindingIndex` answers "where does this member go" for all of it (see [Knowledge indexes](scala-client.md#knowledge-indexes)). The JSON codec itself wouldn't change: it still writes whatever ends up in the body.
+
+### Trade-offs
+
+REST gives:
+- **Infrastructure support:** caching, conditional requests, and retries by intermediaries, all through standard headers.
+- **Readable URLs** that tools and people can explore.
+- **Bodies that can be anything:** raw bytes, as S3 shows.
+
+It costs:
+- **A mapping decision for every operation:** method, path, which member goes where.
+- **Awkward fits for actions:** Lambda's `POST …/invocations`, SQS's `SendMessage`.
+- **More rules for generators and runtimes** to get right: escaping, greedy labels, header formats.
+
+RPC protocols make the opposite trade:
+- **For:** every operation looks the same, so generation and the runtime are simpler.
+- **Against:** HTTP infrastructure sees only opaque `POST`s.
+
+AWS uses both: REST for resource-shaped services like S3, Lambda and API Gateway, and RPC for action-shaped ones like SQS, DynamoDB and Kinesis.
+
 ## Where Smithy fits
 
 A Smithy model describes operations and shapes independently of all this. A **protocol trait** on the service, such as `@awsJson1_0`, `@restJson1` or `@rpcv2Json`, selects one set of the rules above. Each runtime then splits the work:
