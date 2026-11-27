@@ -1,5 +1,5 @@
 
-$version: "2.0"
+$version: "2.1"
 namespace unison.jurisdiction
 
 /// Declares which legal jurisdictions an operation or resource applies to,

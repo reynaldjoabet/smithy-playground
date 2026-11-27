@@ -1,5 +1,5 @@
 
-$version: "2.0"
+$version: "2.1"
 namespace unison.encryption
 /// Marks a member as requiring field-level encryption at rest and in transit.
 /// Code generators produce serializers that automatically encrypt/decrypt

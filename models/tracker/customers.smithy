@@ -1,4 +1,4 @@
-$version: "2.0"
+$version: "2.1"
 namespace unison.tracker.customers
 use unison.tracker.shipments#CustomerId
 use unison.tracker.shipments#Address

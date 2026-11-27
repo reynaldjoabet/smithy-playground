@@ -1,4 +1,4 @@
-$version: "2.0"
+$version: "2.1"
 namespace unison.temporal
 /// Enforces that mutations are only allowed within an open pay period.
 /// After the period is locked, writes are rejected at the middleware layer.

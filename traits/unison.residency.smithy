@@ -1,4 +1,4 @@
-$version: "2.0"
+$version: "2.1"
 namespace unison.residency
 
 /// Marks a resource or operation as subject to data residency rules.

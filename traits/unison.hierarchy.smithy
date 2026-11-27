@@ -1,4 +1,4 @@
-$version: "2.0"
+$version: "2.1"
 namespace unison.hierarchy
 
 /// Declares how an operation interacts with the organizational hierarchy.

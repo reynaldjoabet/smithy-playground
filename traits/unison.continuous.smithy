@@ -1,4 +1,4 @@
-$version: "2.0"
+$version: "2.1"
 namespace unison.continuous
 
 /// Marks an operation as a trigger for Unison's continuous calculation engine.

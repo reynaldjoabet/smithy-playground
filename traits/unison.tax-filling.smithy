@@ -1,4 +1,4 @@
-$version: "2.0"
+$version: "2.1"
 namespace unison.jurisdiction
 use unison.temporal#payPeriodBound
 use unison.operations#auditable

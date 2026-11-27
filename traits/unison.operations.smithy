@@ -1,4 +1,4 @@
-$version: "2.0"
+$version: "2.1"
 namespace unison.operations
 
 /// Marks an operation as requiring audit trail logging.

@@ -1,4 +1,4 @@
-$version: "2"
+$version: "2.1"
 namespace unison.tracker.shipments
 
 resource Shipment {

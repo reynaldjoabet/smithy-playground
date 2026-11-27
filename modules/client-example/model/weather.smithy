@@ -1,6 +1,6 @@
 // A small rpcv2Json service that exercises what SQS and DynamoDB don't: int enums,
 // defaults, sparse lists, Unit union members, renamed fields and a retryable error.
-$version: "2"
+$version: "2.1"
 namespace example.weather
 
 use smithy.protocols#rpcv2Json

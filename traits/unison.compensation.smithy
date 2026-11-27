@@ -1,4 +1,4 @@
-$version: "2.0"
+$version: "2.1"
 
 namespace unison.compensation
 use unison.auth#requiredPermissions
