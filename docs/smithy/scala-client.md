@@ -6,8 +6,8 @@ This playground includes a small Smithy client generator for Scala 3, built the 
 
 | sbt project | Directory | What it is |
 |---|---|---|
-| `clientRuntime` | [modules/client-runtime](../../modules/client-runtime) | The runtime generated code runs on. Depends only on Jackson 3 (`tools.jackson.core`). |
-| `clientCodegen` | [modules/client-codegen](../../modules/client-codegen) | The generator. Reads a model with the Smithy Java libraries and writes Scala sources. Also a smithy-build plugin. |
+| `clientRuntime` | [modules/client-runtime](../../modules/client-runtime) | The runtime generated code runs on. Depends on Jackson 3 (`tools.jackson.core`) for Smithy JSON, plus ZIO Blocks and Apache Avro for the [extra formats](#other-formats-through-zio-blocks). |
+| `clientCodegen` | [modules/client-codegen](../../modules/client-codegen) | The generator, in package `smithy.scala.codegen`. Reads a model with the Smithy Java libraries and writes Scala sources. Also a smithy-build plugin, `scala-client-codegen` (`ScalaClientCodegenPlugin`). `scala-server-codegen` (`ScalaServerCodegenPlugin`) is registered too, but only as a stub that fails with "not implemented yet". |
 | `clientBench` | [modules/bench](../../modules/bench) | JMH benchmarks (sbt-jmh): Jackson's `JsonCodec` against the ZIO Blocks codecs ([results](#speed-jackson-against-zio-blocks)). |
 | `clientExample` | [modules/client-example](../../modules/client-example) | Generated SQS (`awsJson1_0`), DynamoDB (`awsJson1_0`) and Weather (`rpcv2Json`) clients, with codecs derived by Hearth (the default), and tests that run them against a local HTTP server. Its tests also hold Mirror-derived copies of the DynamoDB and Weather clients (`example.mirror.*`). |
 | `clientHearth` | [modules/hearth](../../modules/hearth) | The [Hearth derivation](#the-hearth-derivation-the-default) that generated code uses by default. |
@@ -18,7 +18,7 @@ Like aws-sdk-go-v2, the generated code is written into the source tree rather th
 scripts/generate-scala-clients.sh
 ```
 
-The script runs `sbt --client "clientCodegen/runMain smithyscala.codegen.Main <model> <service id> <package> <output dir>"` once per service. Each run replaces the package directory it writes.
+The script runs `sbt --client "clientCodegen/runMain smithy.scala.codegen.Main <model> <service id> <package> <output dir>"` once per service. Each run replaces the package directory it writes.
 
 ## Each layer, and where it lives
 
@@ -200,7 +200,7 @@ The example clients are generated from these files:
 | DynamoDB | `src/main/resources/models/dynamodb/dynamodb.json` | Smithy JSON AST |
 | Weather | `modules/client-example/model/weather.smithy` | Smithy IDL 2.0 |
 
-The generator never parses those files itself. [Main.loadModel](../../modules/client-codegen/src/main/scala/smithyscala/codegen/Main.scala) hands the file to Smithy's own Java `ModelAssembler`:
+The generator never parses those files itself. [Main.loadModel](../../modules/client-codegen/src/main/scala/smithy/scala/codegen/Main.scala) hands the file to Smithy's own Java `ModelAssembler`:
 
 ```scala
 Model.assembler(getClass.getClassLoader)
@@ -415,7 +415,7 @@ The runtime's own derivation is the `Mirror` one above. [modules/hearth](../../m
 The generator picks one with its `derivation` setting:
 
 ```sh
-sbt --client "clientCodegen/runMain smithyscala.codegen.Main --derivation=mirror <model> <service id> <package> <output dir>"
+sbt --client "clientCodegen/runMain smithy.scala.codegen.Main --derivation=mirror <model> <service id> <package> <output dir>"
 ```
 
 In smithy-build, add `"derivation": "mirror"` to the `scala-client-codegen` plugin settings. The default is `hearth`, and the generated code differs only in what its `given codec`s and `knownValues` call:
@@ -559,7 +559,7 @@ To talk to the [AWS Emulator](../aws-emulator/README.md), pass `transport = Java
 |---|---|
 | [SigV4Spec](../../modules/client-runtime/src/test/scala/smithyscala/runtime/SigV4Spec.scala) | Signatures from the AWS SigV4 test suite (`get-vanilla`, `post-vanilla`, `get-vanilla-query-order-key`) and session tokens. |
 | [JsonCodecSpec](../../modules/client-runtime/src/test/scala/smithyscala/runtime/JsonCodecSpec.scala) | `@jsonName` and `@timestampFormat` per protocol settings, `NaN`, base64 blobs, skipping unknown fields. |
-| [ScalaClientGeneratorSpec](../../modules/client-codegen/src/test/scala/smithyscala/codegen/ScalaClientGeneratorSpec.scala) | Generator output for a small model, rejection of unsupported protocols, and a run through `SmithyBuild` as a plugin. |
+| [ScalaClientGeneratorSpec](../../modules/client-codegen/src/test/scala/smithy/scala/codegen/ScalaClientGeneratorSpec.scala) | Generator output for a small model, rejection of unsupported protocols, and a run through `SmithyBuild` as a plugin. |
 | [HearthDerivationSpec](../../modules/hearth/src/test/scala/smithyscala/hearth/HearthDerivationSpec.scala) | The Hearth derivation: a user-provided codec wins, a recursive case class derives as is, and an unsupported type reports every reason in one error. |
 | [ParitySpec](../../modules/client-example/src/test/scala/example/ParitySpec.scala) | Both derivations on the same generated types (the default Hearth clients and their Mirror copies) write the same JSON and read each other's. |
 | [DerivationSpec](../../modules/client-example/src/test/scala/example/DerivationSpec.scala) | The derived codecs on the generated clients: default values, error correction, enum values, union ordinals, recursive round-trips, and the compile error from `TypeRegistry.of`. |

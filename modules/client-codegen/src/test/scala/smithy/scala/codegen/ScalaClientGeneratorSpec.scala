@@ -1,4 +1,4 @@
-package smithyscala.codegen
+package smithy.scala.codegen
 
 import java.nio.file.Files
 
@@ -173,5 +173,18 @@ class ScalaClientGeneratorSpec extends munit.FunSuite {
     val result = new SmithyBuild().config(config).model(model).build()
     val written = result.allArtifacts().iterator().asScala.map(_.getFileName.toString).toSet
     assert(written.contains("WeatherClient.scala"), written)
+  }
+
+  test("both plugins are registered with ServiceLoader; the server one is a stub") {
+    val names = java.util.ServiceLoader.load(classOf[software.amazon.smithy.build.SmithyBuildPlugin], getClass.getClassLoader)
+      .iterator().asScala.map(_.getName).toSet
+    assert(Set("scala-client-codegen", "scala-server-codegen").subsetOf(names), names)
+    val config = SmithyBuildConfig.builder()
+      .version("1.0")
+      .outputDirectory(Files.createTempDirectory("scala-server-codegen").toString)
+      .plugins(Map[String, software.amazon.smithy.model.node.ObjectNode]("scala-server-codegen" -> Node.objectNode()).asJava)
+      .build()
+    val e = intercept[Throwable](new SmithyBuild().config(config).model(model).build())
+    assert(e.getMessage.contains("server generation is not implemented yet"), e.getMessage)
   }
 }

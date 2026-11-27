@@ -1,4 +1,4 @@
-package smithyscala.codegen
+package smithy.scala.codegen
 
 /** Turning Smithy names into safe Scala identifiers and literals. */
 object Naming {

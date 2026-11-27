@@ -9,7 +9,7 @@ out="$root/modules/client-example/src/main/scala"
 models="$root/src/main/resources/models"
 
 generate() { # <model file> <service shape id> <scala package> [output dir] [--derivation=...]
-  sbt --client "clientCodegen/runMain smithyscala.codegen.Main ${5:-} $1 $2 $3 ${4:-$out}"
+  sbt --client "clientCodegen/runMain smithy.scala.codegen.Main ${5:-} $1 $2 $3 ${4:-$out}"
 }
 
 generate "$models/sqs/sqs.json"                          'com.amazonaws.sqs#AmazonSQS'              example.sqs

@@ -1,4 +1,4 @@
-package smithyscala.codegen
+package smithy.scala.codegen
 
 import java.nio.file.Files
 import java.nio.file.Path
@@ -8,6 +8,7 @@ import scala.jdk.CollectionConverters.*
 
 import software.amazon.smithy.build.FileManifest
 import software.amazon.smithy.build.PluginContext
+import software.amazon.smithy.build.SmithyBuildException
 import software.amazon.smithy.build.SmithyBuildPlugin
 import software.amazon.smithy.model.Model
 import software.amazon.smithy.model.loader.ModelAssembler
@@ -84,4 +85,18 @@ final class ScalaClientCodegenPlugin extends SmithyBuildPlugin {
       manifest.writeFile(rel, src): Unit
     }
   }
+}
+
+/**
+  * Placeholder for a Scala server generator, registered as `scala-server-codegen` so smithy-build finds
+  * it next to the client plugin. There is no server generator yet: running it fails with a clear error
+  * instead of smithy-build reporting an unknown plugin.
+  */
+final class ScalaServerCodegenPlugin extends SmithyBuildPlugin {
+  override def getName: String = "scala-server-codegen"
+
+  override def execute(context: PluginContext): Unit =
+    throw new SmithyBuildException(
+      "scala-server-codegen: server generation is not implemented yet; use scala-client-codegen for clients"
+    )
 }
