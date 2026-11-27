@@ -126,3 +126,4 @@ Read them in order the first time:
 10. [Adding a protocol: JSON-RPC 2.0](new-protocol-json-rpc.md): the easy case, a new protocol on the existing JSON codec, compared with `awsJson1_0` and `rpcv2Json`.
 11. [A Scala client generator](scala-client.md): the playground's own Scala 3 generator and runtime, layer by layer, with generated SQS, DynamoDB and `rpcv2Json` clients and their tests.
 12. [Schemas in Scala](schema.md): what Tapir, ZIO Schema, ZIO Blocks and smithy4s mean by a schema, read from their source, how each is used in production, and how they relate to this repo's runtime schema.
+13. [One call through each protocol](protocol-flows.md): a diagram per protocol (awsJson, rpcv2Json, rpcv2Cbor, restJson1, restXml, awsQuery, ec2Query, and JSON-RPC 2.0) following one real operation through the generator and runtime, showing which steps work today and which are missing.

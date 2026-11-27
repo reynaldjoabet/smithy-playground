@@ -267,6 +267,153 @@ Some names cover more than one job, which is where the confusion comes from:
 - **OpenAPI** is a schema for REST APIs. REST over HTTP is the protocol it describes; JSON is usually the format.
 - **JSON Schema** validates JSON documents, but says nothing about how they are sent.
 
+### Protocols are not wire formats
+
+`restJson1`, `restXml`, `awsQuery` and JSON-RPC 2.0 are all in the same category, but it isn't wire formats: they're **protocols**. A wire format is one ingredient a protocol picks, and a transport is another:
+
+```text
+transport      HTTP/1.1, HTTP/2, WebSocket, stdio      moves bytes
+wire format    JSON, XML, CBOR, form, Protobuf          what the bytes mean as data
+protocol       restJson1, awsQuery, JSON-RPC 2.0, …     how a call maps onto the two above
+```
+
+Most Smithy protocol names pack two choices into one word: a style (REST or RPC) and a format. Splitting them makes the differences clear:
+
+| Protocol | Style | Request format | Response format | Transport | Where the operation goes |
+|---|---|---|---|---|---|
+| `restJson1` | REST | JSON | JSON | HTTP (required) | Method + URL (`@http`) |
+| `restXml` | REST | XML | XML | HTTP (required) | Method + URL (`@http`) |
+| `awsJson1_0` / `1_1` | RPC | JSON | JSON | HTTP (required) | `X-Amz-Target` header |
+| `rpcv2Json` | RPC | JSON | JSON | HTTP (required) | URL path |
+| `rpcv2Cbor` | RPC | CBOR | CBOR | HTTP (required) | URL path |
+| `awsQuery` | RPC | form-urlencoded | XML | HTTP (required) | `Action=` in the body |
+| `ec2Query` | RPC | form-urlencoded | XML | HTTP (required) | `Action=` in the body |
+| JSON-RPC 2.0 | RPC | JSON | JSON | **Any** (HTTP, WebSocket, stdio) | `"method"` in the body |
+| gRPC | RPC | Protobuf | Protobuf | HTTP/2 (required) | URL path |
+
+So two protocols can share a wire format and still differ completely. `restJson1`, `awsJson1_0`, `rpcv2Json` and JSON-RPC 2.0 all use JSON, and in this repo they'd all share `JsonCodec`. They differ in where the operation name goes, where the inputs go, and how errors come back. Equally, one style can use different formats: `rpcv2Json` and `rpcv2Cbor` route identically and differ only in the bytes.
+
+The "format" column describes the *body*. In the REST protocols, much of a message isn't in the body at all: path labels, query parameters and headers have their own text rules, and an `@httpPayload` blob is raw bytes. Lambda's `Invoke` is a `restJson1` operation for which the protocol writes no JSON at all (see [REST in Smithy](#rest-in-smithy-two-real-aws-services)).
+
+JSON-RPC 2.0 is the one protocol here that isn't bound to HTTP. The others use HTTP's paths, headers or status codes, so they can't run without it. JSON-RPC puts everything (method, id, params, errors) inside the JSON envelope, so HTTP is only one possible transport.
+
+[One call through each protocol](protocol-flows.md) follows a real operation through this repo for each of them.
+
+### RPC and REST are styles, not protocols
+
+RPC and REST are both styles: two ways of modelling how a client talks to a server. Neither is a protocol. The protocols in the table above are concrete rulebooks, each implementing one style:
+
+```text
+style          RPC, REST (also: messaging, GraphQL, …)    how you think about the interaction
+protocol       awsJson1_0, restJson1, JSON-RPC 2.0, gRPC   the concrete rules for one style
+wire format    JSON, XML, CBOR, form, Protobuf             what the bytes mean
+transport      HTTP/1.1, HTTP/2, WebSocket, stdio          moves the bytes
+```
+
+The core difference is what the API is built around, and who carries the meaning of a call.
+- **RPC** is built around operations: "call `GetForecast` with these arguments". HTTP is mostly a pipe, and the meaning travels in the payload.
+- **REST** is built around resources: "`GET` the forecast at `/forecasts/Oslo`". HTTP itself carries the meaning: the method says what to do, the URL says to what, and the status code says how it went.
+
+Everything else follows from that. Here's the same call both ways, from this repo's Weather model:
+
+```http
+RPC   POST /service/Weather/operation/GetForecast      {"city":"Oslo","units":"METRIC"}
+REST  GET  /forecasts/Oslo?units=METRIC
+```
+
+| | RPC (Remote Procedure Call) | REST (Representational State Transfer) |
+|---|---|---|
+| Core idea | Call a named procedure with arguments, as if it were local | Act on resources through a small, uniform set of operations |
+| What the API is made of | **Verbs**: `SendMessage`, `GetForecast`, `CreateUser` | **Nouns**: `/functions/my-fn`, `/my-bucket/cat.jpg`, plus `GET`, `PUT`, `DELETE` |
+| Where it comes from | A long-standing idea, usually traced to Birrell and Nelson's 1984 paper "Implementing Remote Procedure Calls" | Defined precisely, as a set of constraints, in Roy Fielding's 2000 dissertation |
+| How strict | Loose: any "call this by name" design qualifies | Strict in theory (statelessness, cacheability, uniform interface, hypermedia); "REST API" usually means the looser level 2 |
+| Relationship to HTTP | HTTP is optional; it's often just a pipe | Designed alongside HTTP; uses its methods, status codes and caching |
+| Concrete protocols | JSON-RPC 2.0, gRPC, `awsJson1_0`, `rpcv2Json`, `rpcv2Cbor`, `awsQuery`, `ec2Query`, XML-RPC, SOAP, Thrift, Java RMI | `restJson1`, `restXml`, most "REST APIs" described by OpenAPI |
+
+Three nuances:
+- **There are other styles too.** Messaging and event-driven designs (queues, pub/sub, as with SQS and SNS themselves) and GraphQL (one endpoint, with the client describing the data it wants) fit neither style neatly.
+- **The line blurs in practice.** Most "REST APIs" have RPC-shaped endpoints for things that aren't resources, such as Lambda's `POST /functions/{name}/invocations`. Some RPC protocols borrow REST features: `rpcv2Json` puts the operation in the URL path and uses HTTP status codes for errors.
+- **Smithy itself is RPC-shaped at heart.** A model is a set of named **operations** with input, output and errors, which is the RPC view. The protocol trait decides how they travel:
+  - with an RPC protocol (`@awsJson1_0`), each operation becomes a call by name;
+  - with a REST protocol (`@restJson1`), the `@http` bindings project each operation onto a method and a resource URL.
+
+  Smithy also has `resource` shapes, with identifiers and lifecycle operations (create, read, update, delete, list), for modelling in a REST-friendly way.
+
+So "REST or RPC" is a design decision about how the API is shaped. "Which protocol" is the concrete rulebook you pick, and the protocol then fixes the wire format and the transport.
+
+### Other styles over HTTP
+
+REST and RPC are the two big styles, but HTTP carries others too:
+
+| Style | Core idea | How it uses HTTP | Example request |
+|---|---|---|---|
+| **GraphQL** | The client describes exactly the data it wants, in a query language; one schema covers the whole API | One endpoint, usually `POST /graphql`; errors usually come back in an `errors` array with status `200` | `POST /graphql` `{"query":"{ user(id: 1) { name orders { total } } }"}` |
+| **Event-driven: webhooks** | The *server* calls the *client* when something happens; client and server swap roles | Plain `POST` requests to a URL the client registered, usually signed with an HMAC header | Stripe `POST https://you.example/hooks` `{"type":"payment_intent.succeeded",…}` |
+| **Streaming: Server-Sent Events** | One long response that the server keeps writing events into | `Content-Type: text/event-stream`, lines of `data: …`, over a single `GET` | LLM APIs streaming tokens, live dashboards |
+| **Streaming: long polling** | The client asks, and the server holds the request open until there's news | An ordinary request that the server answers late | SQS `ReceiveMessage` with `WaitTimeSeconds=20` is RPC with long polling |
+| **Bidirectional: WebSockets** | Both sides send messages whenever they like | Starts as HTTP (`Upgrade: websocket`, `101 Switching Protocols`), then leaves HTTP (see [WebSockets](#websockets)) | Chat, multiplayer, API Gateway WebSocket APIs |
+| **Messaging over HTTP** | Events or messages with a standard envelope, delivered over HTTP | CloudEvents' HTTP binding puts event metadata in `ce-*` headers | `POST /events` with `ce-type: com.example.order.created` |
+
+### Variants of RPC over HTTP
+
+These are all RPC, differing in envelope and format:
+
+| Protocol | What's distinctive |
+|---|---|
+| **SOAP** | An XML envelope with a large standards family (WS-Security, WS-Addressing), described by WSDL. Still common in banking, telecom and government. |
+| **XML-RPC** | JSON-RPC's XML predecessor: `<methodCall><methodName>…`. |
+| **JSON-RPC 2.0** | A JSON envelope; independent of transport. |
+| **gRPC / gRPC-Web** | Protobuf over HTTP/2 with trailers. gRPC-Web adapts it for browsers. |
+| **Connect** | gRPC-compatible, but also works as plain `POST` with JSON over HTTP/1.1, so you can call it with `curl`. |
+| **tRPC** | TypeScript-only RPC: the client's types come straight from the server's code. |
+| **Smithy's `awsJson`, `rpcv2Json` and `rpcv2Cbor`** | The protocols this repo implements or plans (see [One call through each protocol](protocol-flows.md)). |
+
+### What REST, GraphQL and WebSocket add to HTTP
+
+HTTP provides the mechanisms: methods, status codes, headers, caching rules, content negotiation and connection handling. What it doesn't tell you is how to design an API with them, or what to do when request and response isn't enough. That's what each of these brings:
+- **REST** is a discipline for using HTTP's own vocabulary consistently.
+- **GraphQL** adds a capability HTTP doesn't have.
+- **WebSocket** adds a different kind of connection.
+
+| | What it adds on top of HTTP | What it gives up |
+|---|---|---|
+| **HTTP alone** | Mechanisms: methods with defined meanings, status codes, headers, caching, content negotiation | No opinion on URLs, bodies, how to model data, or how to push to the client |
+| **REST** | **Rules for using those mechanisms consistently**: every thing is a resource with a URL; methods mean what they say (`GET` reads, `PUT` replaces, `DELETE` removes); status codes say what happened; responses say how long they can be cached. It adds constraints, not new machinery. | Each operation needs a mapping decision. Actions that aren't resources fit awkwardly. Clients often need several requests and get fixed response shapes. |
+| **GraphQL** | **A typed schema and a query language**: the client chooses exactly which fields it wants and follows relationships in one request; the schema can be explored by introspection; subscriptions give live updates. | Most of HTTP's meaning: everything is usually one `POST /graphql`, errors come back with `200`, and HTTP caching stops working without extra conventions such as persisted queries over `GET`. The server must also guard against expensive queries. |
+| **WebSocket** | **A different connection**: full-duplex and long-lived, with the server able to send at any time and low overhead per message. It uses HTTP only to open (`Upgrade: websocket`, then `101 Switching Protocols`), then switches to its own framing ([RFC 6455](https://www.rfc-editor.org/rfc/rfc6455)). | All of HTTP's meaning once connected: no methods, no status codes, no caching, no per-message headers. You must define your own message protocol on top, often JSON-RPC, GraphQL subscriptions or STOMP. |
+
+The same task in each style: show user 1's name and the totals of their last three orders, and update the page when a new order arrives.
+
+**REST:** two requests, each returning a fixed shape, and no push:
+
+```http
+GET /users/1                  → {"id":1,"name":"Ada","email":"…","address":{…}, …}
+GET /users/1/orders?limit=3   → [{"id":91,"total":42.0,"items":[…], …}, …]
+```
+
+To notice new orders you poll, or add webhooks, SSE or a WebSocket. In exchange, both `GET`s can be cached by the browser or a CDN, and retried safely.
+
+**GraphQL:** one request that returns exactly the fields asked for:
+
+```http
+POST /graphql
+{"query":"{ user(id: 1) { name orders(last: 3) { total } } }"}
+
+→ {"data":{"user":{"name":"Ada","orders":[{"total":42.0},{"total":17.5},{"total":8.0}]}}}
+```
+
+New orders come through a subscription, usually carried over a WebSocket. That request can't be cached by HTTP, and if `user` 1 didn't exist you'd likely still get `200`, with an `errors` array.
+
+**WebSocket:** one connection, messages both ways, in a format you define:
+
+```text
+→ {"jsonrpc":"2.0","id":1,"method":"getUser","params":{"id":1}}
+← {"jsonrpc":"2.0","id":1,"result":{"name":"Ada","orders":[…]}}
+← {"jsonrpc":"2.0","method":"orderCreated","params":{"userId":1,"total":99.0}}   (pushed by the server)
+```
+
+The client gets new orders immediately. But nothing between client and server understands those messages, and reconnection, ordering and authentication are yours to design.
+
 ## Data formats
 
 A data format turns values into bytes and back. It is only that: it has no idea of requests, operations or errors.
@@ -482,6 +629,89 @@ Few APIs follow every constraint. A common way to describe how far one goes is L
 
 So "REST API" usually means level 2: resource URLs, the right methods, meaningful status codes, and JSON or XML bodies.
 
+### What HTTP looks like when an API isn't RESTful
+
+An API that isn't RESTful still uses HTTP, but it ignores HTTP's own meanings and puts them somewhere else. These are the recognisable signs, each with its RESTful counterpart, using a generic "users" API.
+
+**1. The action is in the URL or the body, not in the method**
+
+```http
+POST /api                {"action":"getUser","id":42}        ← one endpoint, action in the body
+POST /getUser            {"id":42}                           ← action as the URL ("URL-RPC")
+GET  /user.php?op=delete&id=42                               ← action in the query string
+```
+
+The RESTful version is `GET /users/42`, or `DELETE /users/42` to remove the user. The URL names the thing, and the method names what to do with it.
+
+**2. Everything is `POST`, even reads**
+
+```http
+POST /users/search       {"name":"Ada"}
+```
+
+RESTful: `GET /users?name=Ada`. What's lost: a `POST` can't be cached, bookmarked or shared as a link, and a proxy or client won't retry it automatically.
+
+**3. `GET` changes things**
+
+```http
+GET /users/42/delete
+GET /unsubscribe?email=ada@example.com
+```
+
+RESTful: `DELETE /users/42`, or a `POST` from a form. This one isn't only unRESTful, it's dangerous. Link prefetchers, crawlers and security scanners follow `GET` links freely, because `GET` promises to be safe.
+
+**4. The status code doesn't say what happened**
+
+```http
+HTTP/1.1 200 OK
+
+{"success":false,"error":"User not found"}
+```
+
+RESTful: `404 Not Found`, ideally with a problem body ([RFC 9457](https://www.rfc-editor.org/rfc/rfc9457)). What's lost: monitoring, load balancers, retry logic and client libraries all read the status code. Here they see success and have to parse the body to learn otherwise.
+
+**5. The server keeps conversation state**
+
+```http
+POST /search        {"name":"A"}        ← server stores the results in your session
+GET  /search/next                       ← "next" only means something in that session
+```
+
+RESTful: each request carries what it needs, for example `GET /users?name=A&cursor=eyJpZCI6NDJ9`. What's lost: a request can't go to any server, survive a restart, or be retried in isolation, so scaling needs sticky sessions.
+
+**6. Messages don't describe themselves**
+
+```http
+POST /api
+Content-Type: text/plain
+
+42|Ada|ada@example.com
+```
+
+RESTful: an accurate `Content-Type` such as `application/json`, standard headers, and responses that say whether they can be cached. What's lost: nothing between the two ends can interpret the message.
+
+**7. HTTP features are re-implemented in the body**
+
+```json
+{"method":"PUT","resource":"/users/42","version":3,"auth":"…","data":{…}}
+```
+
+This is SOAP-style tunnelling, or `X-HTTP-Method-Override: DELETE` on a `POST`. RESTful: use the real method, `If-Match: "3"` for the version check, and `Authorization` for credentials.
+
+These patterns are real, not hypothetical. The `POST /api` examples above are composites made up to show the shape, but each pattern has well-known users:
+
+| Pattern | Real examples | Still done? |
+|---|---|---|
+| **One endpoint, action in the body** | SOAP (the operation in the XML envelope), XML-RPC, JSON-RPC: Bitcoin Core's and Ethereum's JSON-RPC (`POST` with `"method":"eth_getBalance"`). AWS's own `awsQuery` (`Action=CreateUser`) and `awsJson` (`X-Amz-Target`). | Yes, deliberately: it's RPC by design |
+| **Action in the URL ("URL-RPC")** | Slack's Web API: `POST https://slack.com/api/chat.postMessage`, `/api/users.info`. Telegram's Bot API: `/bot<token>/sendMessage`. | Yes, common and documented |
+| **`200` with the error in the body** | Slack again: failures come back as HTTP `200` with `{"ok":false,"error":"channel_not_found"}`. GraphQL usually returns `200` with an `errors` array. JSON-RPC over HTTP returns `200` with an `"error"` object. | Yes. It's a choice, but it confuses generic HTTP monitoring. |
+| **Everything is `POST`, even reads** | GraphQL; DynamoDB `GetItem`; SOAP; Elasticsearch's `_search`, which accepts `POST` because search queries are large JSON bodies. | Yes, often for a reason: query bodies too big for a URL |
+| **`GET` that changes things** | In 2005 Google Web Accelerator prefetched links on pages, and apps that deleted things through plain `GET` links (37signals' apps among them) lost data. Email "unsubscribe" links did the same, which is why [RFC 8058](https://www.rfc-editor.org/rfc/rfc8058) defines one-click unsubscribe as a `POST`. | Considered a bug today; still found in old apps |
+
+Sources:
+- Slack's `ok`/`error` response format: [Using the Slack Web API](https://api.slack.com/web) and the [`chat.postMessage` reference](https://docs.slack.dev/reference/methods/chat.postMessage/).
+- The 2005 incident: 37signals' [contemporary write-up](https://signalvnoise.com/archives2/google_web_accelerator_hey_not_so_fast_an_alert_for_web_app_designers) and the [Google Web Accelerator](https://en.wikipedia.org/wiki/Google_Web_Accelerator) article.
+
 ### Using HTTP without being RESTful
 
 You can use HTTP without being RESTful, as awsJson, rpcv2Json and JSON-RPC do. They use HTTP only to carry messages. They keep a few REST constraints and drop the ones that make an API RESTful:
@@ -519,6 +749,138 @@ For DynamoDB's request, HTTP infrastructure sees only "a `POST` to `/`":
 That isn't a mistake. It's the RPC trade-off:
 - **For:** one rule covers every operation, so generators and runtimes stay small, and operations that are actions rather than resources fit naturally (`SendMessage`, `GetItem`, `TransactWriteItems`). JSON-RPC takes this furthest: it doesn't need HTTP at all, so the same message works over WebSockets or stdio.
 - **Against:** you lose what HTTP's own vocabulary gives you for free.
+
+### This repo's requests next to RESTful ones
+
+Three of this repo's real operations, as the generated clients send them today, each next to what a RESTful version would look like. The "ours" requests are the ones the tests in `GeneratedClientSpec` assert.
+
+#### 1. Weather `GetForecast` (ours: `rpcv2Json`)
+
+**Ours**: the operation is in the path, everything goes as `POST`, and the input is in the body:
+
+```http
+POST /service/Weather/operation/GetForecast HTTP/1.1
+Smithy-Protocol: rpc-v2-json
+Content-Type: application/json
+Accept: application/json
+
+{"city":"Oslo","units":"METRIC","detail":1}
+```
+
+Errors come back as a status code plus `__type` in the body:
+
+```http
+HTTP/1.1 500 Internal Server Error
+
+{"__type":"example.weather#Busy","message":"later"}
+```
+
+**RESTful**: the same model with `@restJson1` and HTTP bindings:
+
+```smithy
+@restJson1
+service Weather { version: "2026-11-26", operations: [GetForecast, Ping] }
+
+@readonly
+@http(method: "GET", uri: "/forecasts/{city}")
+@paginated(inputToken: "token", outputToken: "next", items: "days", pageSize: "size")
+operation GetForecast {
+    input := {
+        @required @httpLabel city: String
+        @httpQuery("size")   size: Integer
+        @httpQuery("token")  token: String
+        @httpQuery("units")  units: Units = "METRIC"
+        @httpQuery("detail") detail: Detail = 1
+    }
+    output := { days: Days, next: String, @required type: Kind }
+    errors: [Busy]
+}
+
+@error("server") @retryable(throttling: true) @httpError(503)
+structure Busy { message: String }
+```
+
+Now the city is a resource in the URL, the options go in the query string, and there's no request body:
+
+```http
+GET /forecasts/Oslo?units=METRIC&detail=1 HTTP/1.1
+Accept: application/json
+```
+
+The error status comes from `@httpError(503)`:
+
+```http
+HTTP/1.1 503 Service Unavailable
+X-Amzn-ErrorType: Busy
+
+{"message":"later"}
+```
+
+#### 2. SQS `SendMessage` (ours: `awsJson1_0`)
+
+**Ours**: always `POST /`, with the operation named in a header and the queue identified inside the body:
+
+```http
+POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+X-Amz-Target: AmazonSQS.SendMessage
+
+{"QueueUrl":"https://sqs.us-east-1.amazonaws.com/123456789012/orders","MessageBody":"hello","DelaySeconds":5}
+```
+
+**RESTful** (SQS doesn't offer this; it's what the design would look like). The queue is the resource, and sending creates a message in its `messages` collection:
+
+```http
+POST /queues/orders/messages HTTP/1.1
+Content-Type: application/json
+
+{"MessageBody":"hello","DelaySeconds":5}
+
+HTTP/1.1 201 Created
+Location: /queues/orders/messages/5fea7756-0ea4-451a-a703-a558b933e274
+```
+
+#### 3. DynamoDB `GetItem` (ours: `awsJson1_0`)
+
+**Ours**: a read, but still a `POST`:
+
+```http
+POST / HTTP/1.1
+Content-Type: application/x-amz-json-1.0
+X-Amz-Target: DynamoDB_20120810.GetItem
+
+{"TableName":"orders","Key":{"id":{"S":"o-1"}}}
+```
+
+If the item doesn't exist, DynamoDB answers `200` with no `Item` in the body. Not found isn't an error in this RPC design.
+
+**RESTful** (again, not something DynamoDB offers):
+
+```http
+GET /tables/orders/items/o-1 HTTP/1.1
+
+HTTP/1.1 404 Not Found
+```
+
+The status code itself says the item isn't there, and a found item could carry `ETag` and `Cache-Control`.
+
+#### What differs
+
+| | Ours (`awsJson1_0`, `rpcv2Json`) | RESTful (`restJson1`) |
+|---|---|---|
+| Method | Always `POST` | `GET`, `PUT`, `POST`, `DELETE`, by meaning (`@http`) |
+| URL | `/`, or `/service/X/operation/Y` | A resource: `/forecasts/Oslo`, `/queues/orders/messages` |
+| Operation name | `X-Amz-Target` header, or the path | Implied by method + URL |
+| Inputs | All in the JSON body | Path, query, headers or body, per member binding |
+| Success | `200` | `200`, `201 Created` + `Location`, `204`… |
+| Not found | `200` with nothing in the body (DynamoDB), or a modelled error | `404` |
+| Errors | Status + `__type` / `X-Amzn-Errortype` naming the shape | Status from `@httpError` + `X-Amzn-ErrorType` |
+| Caching | None (`POST`) | `GET` responses cacheable by browsers and CDNs |
+| Safe to retry automatically | Only via traits (`@idempotent`, `@readonly`) | Also by method: `GET`, `PUT`, `DELETE` are idempotent |
+| Trying it by hand | Needs the right headers and body | `curl https://…/forecasts/Oslo` |
+| Model | No HTTP traits | `@http`, `@httpLabel`, `@httpQuery`, `@httpError` on every operation |
+
+Moving to the RESTful version would change two layers in this repo. The model gains its HTTP traits, and the runtime gains a `RestJson1Protocol` that reads them through `HttpBindingIndex`. The protocol puts `city` in the path, `units` and `detail` in the query, and the remaining members in the JSON body. The generated case classes, schemas, Hearth codecs and `JsonCodec` stay exactly as they are. [The `restJson1` diagram](protocol-flows.md#restjson1-lambda-getfunction) shows the missing steps.
 
 ### REST in Smithy: two real AWS services
 
@@ -623,6 +985,269 @@ That last row is why this repo's runtime supports only RPC protocols so far. A `
 - **Errors:** mapping status codes to errors.
 
 Smithy's `HttpBindingIndex` answers "where does this member go" for all of it (see [Knowledge indexes](scala-client.md#knowledge-indexes)). The JSON codec itself wouldn't change: it still writes whatever ends up in the body.
+
+### A third style: `awsQuery` (STS, IAM and Elastic Load Balancing v2)
+
+Some of AWS's oldest services use neither REST nor JSON RPC, but `awsQuery`. STS, IAM, Elastic Load Balancing v2, SNS, CloudFormation and RDS are among them. It's RPC like `awsJson1_0`: every call goes to `POST /`, which makes it level 0 on Richardson's scale. But the request is an HTML-form-style body and the response is XML.
+
+The models declare it like any other protocol, with an XML namespace for the responses:
+
+| Service | Shape ID | `version` | Protocol traits |
+|---|---|---|---|
+| STS | `com.amazonaws.sts#AWSSecurityTokenServiceV20110615` | `2011-06-15` | `@awsQuery`, `@xmlNamespace(uri: "https://sts.amazonaws.com/doc/2011-06-15/")` |
+| IAM | `com.amazonaws.iam#AWSIdentityManagementV20100508` | `2010-05-08` | `@awsQuery`, `@xmlNamespace(uri: "https://iam.amazonaws.com/doc/2010-05-08/")` |
+| Elastic Load Balancing v2 | `com.amazonaws.elasticloadbalancingv2#ElasticLoadBalancing_v10` | `2015-12-01` | `@awsQuery`, `@xmlNamespace(uri: "http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/")` |
+
+The exchanges below are real, captured from the AWS emulator (see [STS](../aws-emulator/sts.md), [IAM](../aws-emulator/iam.md) and [Elastic Load Balancing v2](../aws-emulator/elastic-load-balancing-v2.md)). Request bodies are one line on the wire; they're broken at each `&` here to make them readable. `Content-Length: 43` below is exactly `Action=GetCallerIdentity&Version=2011-06-15`.
+
+#### STS `GetCallerIdentity`: the simplest call
+
+The input has no members and the output has three:
+
+```json
+"com.amazonaws.sts#GetCallerIdentityResponse": {
+  "type": "structure",
+  "members": {
+    "UserId":  { "target": "com.amazonaws.sts#userIdType" },
+    "Account": { "target": "com.amazonaws.sts#accountType" },
+    "Arn":     { "target": "com.amazonaws.sts#arnType" }
+  },
+  "traits": { "smithy.api#output": {} }
+}
+```
+
+The request carries only the operation's name and the API version:
+
+```http
+POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+X-Amz-Date: 20261126T183052Z
+Content-Length: 43
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/sts/aws4_request, SignedHeaders=content-length;content-type;host;x-amz-date, Signature=<signature>
+
+Action=GetCallerIdentity
+&Version=2011-06-15
+```
+
+The response wraps the output members twice: `<GetCallerIdentityResponse>` for the whole message, then `<GetCallerIdentityResult>` for the output. Request metadata goes in a sibling element:
+
+```http
+HTTP/1.1 200 OK
+content-type: text/xml
+
+<GetCallerIdentityResponse xmlns="https://sts.amazonaws.com/doc/2011-06-15/">
+  <GetCallerIdentityResult>
+    <UserId>AIDAH5I7GEMO7ADXNFAZU</UserId>
+    <Account>000000000000</Account>
+    <Arn>arn:aws:iam::000000000000:user/emulator</Arn>
+  </GetCallerIdentityResult>
+  <ResponseMetadata>
+    <RequestId>fdf8c6b8-9c78-4950-9f16-a948176fadde</RequestId>
+  </ResponseMetadata>
+</GetCallerIdentityResponse>
+```
+
+#### IAM `CreateUser`: a list of structures, and an error
+
+The input has a required name and a list of `Tag` structures:
+
+```json
+"com.amazonaws.iam#CreateUserRequest": {
+  "type": "structure",
+  "members": {
+    "Path":                { "target": "com.amazonaws.iam#pathType" },
+    "UserName":            { "target": "com.amazonaws.iam#userNameType", "traits": { "smithy.api#required": {} } },
+    "PermissionsBoundary": { "target": "com.amazonaws.iam#arnType" },
+    "Tags":                { "target": "com.amazonaws.iam#tagListType" }
+  },
+  "traits": { "smithy.api#input": {} }
+},
+"com.amazonaws.iam#tagListType": { "type": "list", "member": { "target": "com.amazonaws.iam#Tag" } },
+"com.amazonaws.iam#Tag": {
+  "type": "structure",
+  "members": {
+    "Key":   { "target": "com.amazonaws.iam#tagKeyType",   "traits": { "smithy.api#required": {} } },
+    "Value": { "target": "com.amazonaws.iam#tagValueType", "traits": { "smithy.api#required": {} } }
+  }
+}
+```
+
+A form body is flat, so nesting is spelled out in the keys. List element *n* (counting from 1) is `Tags.member.n`, and a structure's fields follow with a `.`:
+
+```http
+POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded; charset=utf-8
+Authorization: AWS4-HMAC-SHA256 Credential=<access-key-id>/20261126/us-east-1/iam/aws4_request, …
+
+Action=CreateUser
+&Version=2010-05-08
+&UserName=docs-demo-user
+&Tags.member.1.Key=team
+&Tags.member.1.Value=docs
+```
+
+The response follows the same `…Response` / `…Result` pattern. A list comes back as `<member>` elements:
+
+```xml
+<CreateUserResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
+  <CreateUserResult>
+    <User xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
+      <Path>/</Path>
+      <UserName>docs-demo-user</UserName>
+      <UserId>AIDABGXEQES5NRCCJJWAN</UserId>
+      <Arn>arn:aws:iam::000000000000:user/docs-demo-user</Arn>
+      <CreateDate>2026-11-26T18:30:05.49Z</CreateDate>
+      <Tags>
+        <member>
+          <Key>team</Key>
+          <Value>docs</Value>
+        </member>
+      </Tags>
+    </User>
+  </CreateUserResult>
+  <ResponseMetadata>
+    <RequestId>ae14c80b-631e-43a3-9629-db98e193ce4c</RequestId>
+  </ResponseMetadata>
+</CreateUserResponse>
+```
+
+Errors carry their own trait. `@awsQueryError` gives the code that goes on the wire, which differs from the shape's name, and the status code:
+
+```json
+"com.amazonaws.iam#DeleteConflictException": {
+  "type": "structure",
+  "members": { "message": { "target": "com.amazonaws.iam#deleteConflictMessage" } },
+  "traits": {
+    "aws.protocols#awsQueryError": { "code": "DeleteConflict", "httpResponseCode": 409 },
+    "smithy.api#error": "client",
+    "smithy.api#httpError": 409
+  }
+}
+```
+
+Deleting a user that still has policies attached gets exactly that, in a fixed `<ErrorResponse>` envelope. `Type` is `Sender` for client errors:
+
+```http
+HTTP/1.1 409 Conflict
+content-type: text/xml
+x-amzn-requestid: e633372b-a70f-4010-8d50-2b4aa660deac
+
+<ErrorResponse xmlns="https://iam.amazonaws.com/doc/2010-05-08/">
+  <Error>
+    <Type>Sender</Type>
+    <Code>DeleteConflict</Code>
+    <Message>Cannot delete entity, must detach all policies first.</Message>
+  </Error>
+  <RequestId>e633372b-a70f-4010-8d50-2b4aa660deac</RequestId>
+</ErrorResponse>
+```
+
+A client finds the error shape by matching `<Code>` against the `@awsQueryError` codes, not against shape names: `DeleteConflict` is `DeleteConflictException`.
+
+#### Elastic Load Balancing v2 `CreateLoadBalancer`: lists of strings, enums, nested lists back
+
+In the input, `Subnets` is a list of strings, and `Scheme` and `Type` are enums:
+
+```json
+"com.amazonaws.elasticloadbalancingv2#CreateLoadBalancerInput": {
+  "type": "structure",
+  "members": {
+    "Name":           { "target": "…#LoadBalancerName", "traits": { "smithy.api#clientOptional": {}, "smithy.api#required": {} } },
+    "Subnets":        { "target": "…#Subnets" },
+    "SubnetMappings": { "target": "…#SubnetMappings" },
+    "SecurityGroups": { "target": "…#SecurityGroups" },
+    "Scheme":         { "target": "…#LoadBalancerSchemeEnum" },
+    "Tags":           { "target": "…#TagList" },
+    "Type":           { "target": "…#LoadBalancerTypeEnum" },
+    "IpAddressType":  { "target": "…#IpAddressType" },
+    ...
+  }
+},
+"com.amazonaws.elasticloadbalancingv2#Subnets": { "type": "list", "member": { "target": "…#SubnetId" } }
+```
+
+`Name` is `@required` but also `@clientOptional`, so this repo's generator would make it an `Option` (see [Optional members, and `NullableIndex`](scala-client.md#optional-members-and-nullableindex)). A list of strings is `Subnets.member.n=value`, and an enum is its string value:
+
+```http
+Action=CreateLoadBalancer
+&Version=2015-12-01
+&Name=docs-demo-alb
+&Subnets.member.1=subnet-00000000000000007
+&Subnets.member.2=subnet-00000000000000009
+&Scheme=internet-facing
+&Type=application
+```
+
+The response nests lists of structures inside lists of structures, each as `<member>` elements (shortened):
+
+```xml
+<CreateLoadBalancerResponse xmlns="http://elasticloadbalancing.amazonaws.com/doc/2015-12-01/">
+  <CreateLoadBalancerResult>
+    <LoadBalancers>
+      <member>
+        <LoadBalancerArn>arn:aws:elasticloadbalancing:us-east-1:000000000000:loadbalancer/app/docs-demo-alb/a3fa9733f0c6283b</LoadBalancerArn>
+        <CreatedTime>2026-11-26T18:33:21.918857Z</CreatedTime>
+        <LoadBalancerName>docs-demo-alb</LoadBalancerName>
+        <Scheme>internet-facing</Scheme>
+        <State>
+          <Code>provisioning</Code>
+        </State>
+        <Type>application</Type>
+        <AvailabilityZones>
+          <member>
+            <ZoneName>us-east-1a</ZoneName>
+            <SubnetId>subnet-00000000000000007</SubnetId>
+          </member>
+          <member>
+            <ZoneName>us-east-1b</ZoneName>
+            <SubnetId>subnet-00000000000000009</SubnetId>
+          </member>
+        </AvailabilityZones>
+        <SecurityGroups>
+          <member>sg-00000000000000013</member>
+        </SecurityGroups>
+      </member>
+    </LoadBalancers>
+  </CreateLoadBalancerResult>
+  <ResponseMetadata>
+    <RequestId>5fec2c36-81e7-48af-b103-2e1c21c7ed26</RequestId>
+  </ResponseMetadata>
+</CreateLoadBalancerResponse>
+```
+
+#### The `awsQuery` rules, from these examples
+
+| Part | Rule | Seen in |
+|---|---|---|
+| Method and path | Always `POST /`; the operation is never in the URL | All three |
+| Operation | `Action=<OperationName>` in the body | `Action=CreateUser` |
+| Version | `Version=<service version>` in the body | `Version=2010-05-08` |
+| Request format | `application/x-www-form-urlencoded`: flat `key=value` pairs | All three |
+| Nested structure | Keys joined with `.` | `Tags.member.1.Key=team` |
+| List element | `<Name>.member.<n>`, counting from 1 (`@xmlFlattened` drops the `member`) | `Subnets.member.2=…` |
+| Enum | Its string value | `Scheme=internet-facing` |
+| Success | `<Op>Response` › `<Op>Result` › output members, plus `<ResponseMetadata><RequestId>` | `<CreateUserResult>` |
+| List in a response | `<member>` elements | `<Tags><member>…</member></Tags>` |
+| Error | `<ErrorResponse><Error><Type/><Code/><Message/></Error><RequestId/>`; status and `<Code>` from `@awsQueryError` | `409`, `DeleteConflict` |
+
+`ec2Query` is a close cousin. It uses the same form bodies, but EC2 renames members with `@ec2QueryName`, numbers lists without `.member`, and uses a different XML envelope (see the [EC2 page](../aws-emulator/ec2.md)).
+
+This is also where SQS came from. SQS moved from `awsQuery` to `awsJson1_0`, which is why its model still carries `@xmlName`, `@xmlFlattened` and `@awsQueryError`, and why its service has the `@awsQueryCompatible` trait.
+
+#### Can this repo generate clients for them?
+
+Not yet. Running the generator on the STS, IAM or Elastic Load Balancing v2 model stops with:
+
+```text
+…: no supported protocol (supported: awsJson1_0, awsJson1_1, rpcv2Json; the service has: aws.protocols#awsQuery)
+```
+
+The model side is ready: the generator reads these models fine, and [the traits it keeps](scala-client.md#which-traits-the-generator-keeps) now come from `awsQuery`'s `@protocolDefinition`, so `@xmlName`, `@xmlFlattened`, `@xmlNamespace` and `@awsQueryError` would reach the schemas automatically. What's missing is in the runtime:
+- **`FormUrlCodec`:** turn `ShapeWriter` calls into `Action`, `Version` and the dotted `member.n` keys.
+- **`XmlCodec`:** read `<Op>Result`, `<member>` lists, namespaces and the `<ErrorResponse>` envelope.
+- **A query protocol class:** `POST /` with a form body, mapping errors by their `@awsQueryError` code.
+
+[One call through each protocol](protocol-flows.md#awsquery-iam-createuser) shows this as a step-by-step diagram, next to every other protocol. `FormUrlCodec` and `XmlCodec` are already placeholders in [codecs/](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/codecs), and the protocol would sit next to `AwsJsonProtocol`. The shape codecs, Hearth derivation and schemas wouldn't change.
 
 ### Trade-offs
 
