@@ -24,15 +24,15 @@ The script runs `sbt --client "clientCodegen/runMain smithy.scala.codegen.Main <
 
 | Layer | File | What it does here |
 |---|---|---|
-| Schemas | [Schema.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Schema.scala) | `Schema` carries a shape's id, type, members and runtime traits. A member is a schema too; its target is a thunk, so recursive shapes such as DynamoDB's `AttributeValue` work. |
-| Serde interfaces | [Serde.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Serde.scala) | `ShapeWriter` and `ShapeReader`: format-neutral calls such as `writeString(memberSchema, value)`. Nothing above the codec sees a format. |
-| Shape codecs | [ShapeCodec.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/ShapeCodec.scala), [Defaults.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Defaults.scala) | `ShapeCodec[A]` walks one Scala type with those calls. Primitives, `Option`, `List` and `Map` are givens; structures, unions and enum values are derived at compile time (see [below](#scala-3-features-in-use)). |
-| Codec | [codecs/](../../modules/client-runtime/src/main/scala/smithyscala/runtime/codecs) | [JsonCodec.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/codecs/JsonCodec.scala) is the implemented one: `JsonSettings` says whether to honour `@jsonName` and `@timestampFormat`, because protocols differ on that. `XmlCodec`, `FormUrlCodec`, `CborCodec` and `ProtobufCodec` are placeholders behind the same `Codec` trait. Each documents the traits and rules it would follow, and fails with `CodecNotImplemented` if used. ZIO Blocks' own JSON, MessagePack, Avro, YAML and Thrift go through ZIO Blocks ([below](#other-formats-through-zio-blocks)). |
-| Protocols | [Protocols.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Protocols.scala) | `AwsJsonProtocol` (`X-Amz-Target`, `application/x-amz-json-1.0`) and `RpcV2JsonProtocol` (`/service/<S>/operation/<O>`, `Smithy-Protocol: rpc-v2-json`). Both share the error handling: find the code, look it up in the `TypeRegistry`, let the codec fill the error. |
-| Errors | [Operation.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Operation.scala) | `ServiceException` (generated errors extend it), `UnknownServiceException`, `TypeRegistry.of[E1 *: E2 *: EmptyTuple]`, and `Operation.of[I, O]`, which bundles one operation's codecs, errors and auth schemes. |
-| Auth | [Auth.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Auth.scala) | `CredentialsProvider` (the identity resolver) and `SigV4`, checked against cases from the AWS SigV4 test suite. |
-| Transport | [Http.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Http.scala) | `HttpTransport`, with `JavaHttpTransport` on `java.net.http`. It can take an `SSLContext`, for example one that trusts the AWS Emulator's certificate. |
-| Pipeline | [Pipeline.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Pipeline.scala) | `ClientPipeline.invoke`: resolve the endpoint and serialize once, then per attempt run interceptors, sign, send and deserialize, inside the retry loop. Also `RetryStrategy`, `Interceptor` and `Paginator`. |
+| Schemas | [Schema.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/Schema.scala) | `Schema` carries a shape's id, type, members and runtime traits. A member is a schema too; its target is a thunk, so recursive shapes such as DynamoDB's `AttributeValue` work. |
+| Serde interfaces | [Serde.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/Serde.scala) | `ShapeWriter` and `ShapeReader`: format-neutral calls such as `writeString(memberSchema, value)`. Nothing above the codec sees a format. |
+| Shape codecs | [ShapeCodec.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/ShapeCodec.scala), [Defaults.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/Defaults.scala) | `ShapeCodec[A]` walks one Scala type with those calls. Primitives, `Option`, `List` and `Map` are givens; structures, unions and enum values are derived at compile time (see [below](#scala-3-features-in-use)). |
+| Codec | [codecs/](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/codecs) | [JsonCodec.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/codecs/JsonCodec.scala) is the implemented one: `JsonSettings` says whether to honour `@jsonName` and `@timestampFormat`, because protocols differ on that. `XmlCodec`, `FormUrlCodec`, `CborCodec` and `ProtobufCodec` are placeholders behind the same `Codec` trait. Each documents the traits and rules it would follow, and fails with `CodecNotImplemented` if used. ZIO Blocks' own JSON, MessagePack, Avro, YAML and Thrift go through ZIO Blocks ([below](#other-formats-through-zio-blocks)). |
+| Protocols | [Protocols.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/Protocols.scala) | `AwsJsonProtocol` (`X-Amz-Target`, `application/x-amz-json-1.0`) and `RpcV2JsonProtocol` (`/service/<S>/operation/<O>`, `Smithy-Protocol: rpc-v2-json`). Both share the error handling: find the code, look it up in the `TypeRegistry`, let the codec fill the error. |
+| Errors | [Operation.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/Operation.scala) | `ServiceException` (generated errors extend it), `UnknownServiceException`, `TypeRegistry.of[E1 *: E2 *: EmptyTuple]`, and `Operation.of[I, O]`, which bundles one operation's codecs, errors and auth schemes. |
+| Auth | [Auth.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/Auth.scala) | `CredentialsProvider` (the identity resolver) and `SigV4`, checked against cases from the AWS SigV4 test suite. |
+| Transport | [Http.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/Http.scala) | `HttpTransport`, with `JavaHttpTransport` on `java.net.http`. It can take an `SSLContext`, for example one that trusts the AWS Emulator's certificate. |
+| Pipeline | [Pipeline.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/Pipeline.scala) | `ClientPipeline.invoke`: resolve the endpoint and serialize once, then per attempt run interceptors, sign, send and deserialize, inside the retry loop. Also `RetryStrategy`, `Interceptor` and `Paginator`. |
 
 The protocol is chosen from the service's protocol trait when the client is generated, and the same generated shapes would work with any other JSON protocol. Adding `restJson1` would mean a new class in `Protocols.scala` that reads the HTTP binding traits; the generator would only need to add those traits to the runtime traits it copies into schemas.
 
@@ -42,9 +42,9 @@ The schema doesn't convert anything. In this design the schema only describes; t
 
 | Part | Role | In this repo |
 |---|---|---|
-| **Schema** | Data about a shape: its id, type, members (name and position) and the traits that matter at runtime. It contains no conversion logic. | `Schema`, `MemberDef`, `Traits` in [Schema.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Schema.scala) |
+| **Schema** | Data about a shape: its id, type, members (name and position) and the traits that matter at runtime. It contains no conversion logic. | `Schema`, `MemberDef`, `Traits` in [Schema.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/Schema.scala) |
 | **Shape codec** (derived or generated) | Walks a Scala value and says *what* to write: "member `QueueName` is the string `orders`". It calls a format-neutral writer and knows no format. | `ShapeCodec[A]` / `SchemaCodec[A]`, from the `Mirror` derivation or Hearth's `HearthCodec.derived` |
-| **Format codec** | Decides *how* that becomes bytes: quotes, field names, number and timestamp encoding, base64 for blobs. | `JsonCodec` (`JsonShapeWriter`, `JsonShapeReader`) in [JsonCodec.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/codecs/JsonCodec.scala) |
+| **Format codec** | Decides *how* that becomes bytes: quotes, field names, number and timestamp encoding, base64 for blobs. | `JsonCodec` (`JsonShapeWriter`, `JsonShapeReader`) in [JsonCodec.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/codecs/JsonCodec.scala) |
 
 One write, step by step:
 
@@ -70,9 +70,423 @@ The payoff is that one schema serves several formats. An XML codec reading the s
 
 So the schema is the map, the shape codec walks the value along it, and the format codec writes the bytes. [The protocol stack](protocol-stack.md#what-each-part-does) has the full table of who does what, including the protocol (where things go in HTTP) and the transport.
 
+### One value, end to end
+
+Our runtime `Schema` is the source description, Hearth writes the code that connects it to the Scala classes, and an Avro schema or JSON Schema is a format-specific description derived from it. Here's one value going through all of them:
+
+```scala
+GetForecastOutput(next = Some("t"), `type` = Kind.Rain(3))
+```
+
+**1. Our `Schema`: the shape as plain data.** The generator copies the part of the Smithy model the runtime needs into each type's companion:
+
+```scala
+object GetForecastOutput {
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("example.weather", "GetForecastOutput"), rt.ShapeType.Structure, ...)(
+    rt.MemberDef("days", () => Days.schema),
+    rt.MemberDef("next", () => rt.Prelude.String),
+    rt.MemberDef("type", () => Kind.schema, rt.Traits("smithy.api#required" -> ""))
+  )
+  given codec: rt.SchemaCodec[GetForecastOutput] = smithy.scala.hearth.HearthCodec.derived[GetForecastOutput](schema)
+}
+// Kind.schema: a Union with members sunny (0, Unit) and rain (1, Integer)
+```
+
+It says the shape has members `days`, `next` and `type`, in that order, with their types and a few traits. It contains no code: it can't read `value.next` or build a `GetForecastOutput`. It's the Smithy model, carried into the runtime.
+
+**2. Hearth: the code that connects the schema to the Scala class.** `HearthCodec.derived` is a macro. At compile time it looks at the case class, pairs each field with its member schema, and writes code that does roughly this:
+
+```scala
+w.writeStruct(schema) { s =>
+  value.days.foreach(d => writeDays(s, schema.members(0), d))   // None: nothing written
+  value.next.foreach(n => s.writeString(schema.members(1), n))  // "member next is the string t"
+  value.`type` match {                                          // Scala case → Smithy union member
+    case Kind.Rain(x) => s.writeStruct(schema.members(2)) { u => u.writeInteger(Kind.schema.members(1), x) }
+    ...
+  }
+}
+```
+
+So Hearth knows the Scala side: field getters, the constructor, `Option`, defaults, which enum case is which union member. It knows no format. Its output is a series of calls like "write this member with this value", each carrying the member's schema. Reading is the same in reverse: the reader says "here's member `next`", and the generated code puts it in the constructor.
+
+**3. The format codec: uses the schema to decide the bytes.** The format codec receives those calls and reads the member schema to decide how each value looks.
+
+JSON (`JsonCodec`) uses the member's *name* (or `@jsonName`):
+
+```json
+{"next":"t","type":{"rain":3}}
+```
+
+Avro (`AvroSchemaCodec`) ignores names and uses each member's *position* and the union's branch index:
+
+```text
+00        days: null branch (absent)
+02        next: present
+02 74     "t" (length 1, then the byte 't')
+02        type: present
+02        union branch 1 = rain
+06        3
+```
+
+Seven bytes, because the reader already knows the layout: days, then next, then type.
+
+**4. Avro schema and JSON Schema: descriptions for other tools.** The Avro reader can only decode those 7 bytes if it has the layout. That's what an Avro schema is, and `AvroSchemas.of` builds one from our `Schema` (shortened):
+
+```json
+{ "type": "record", "name": "GetForecastOutput", "namespace": "example.weather",
+  "fields": [
+    { "name": "days", "type": ["null", {"type": "array", ...}], "default": null },
+    { "name": "next", "type": ["null", "string"], "default": null },
+    { "name": "type", "type": ["null", { "type": "record", "name": "Kind",
+        "fields": [{ "name": "member", "type": [ {"name": "Kind_sunny", ...}, {"name": "Kind_rain", "fields": [{"name": "value", "type": "int"}]} ] }] }],
+      "default": null } ] }
+```
+
+Our codec doesn't need this file to write or read, because it reads our `Schema` directly. It exists for other Avro tools, such as a schema registry, Kafka consumers or Spark, so they can read the same bytes.
+
+A JSON Schema would play the same role for the JSON output: a description others use to validate or document `{"next":"t","type":{"rain":3}}`. This repo doesn't generate one. It could be derived the same way:
+- from the runtime `Schema`, like `AvroSchemas.of`;
+- or straight from the Smithy model with Smithy's own JSON Schema and OpenAPI converters.
+
+Who knows what:
+
+| Piece | Knows | Doesn't know | When |
+|---|---|---|---|
+| Smithy model | Everything: shapes, traits, operations | Scala, bytes | Build time |
+| Our `Schema` | Member names, order, types, a few traits | How to get or build Scala values; any format | Runtime data |
+| Hearth codec | The Scala class: getters, constructor, `Option`, enum cases | Any format | Generated at compile time, runs at runtime |
+| Format codec (`JsonCodec`, `AvroSchemaCodec`) | One format's rules | The Scala class | Runtime |
+| Avro schema, JSON Schema | One format's layout, for other tools | Scala | Derived from our `Schema` or from the model |
+
+### Three AWS examples
+
+The same four parts, on real SQS and DynamoDB shapes. The JSON is what the awsJson1_0 codec writes, as SQS and DynamoDB expect, and the Avro bytes come from `AvroSchemaCodec`.
+
+Keep one picture in mind for each:
+- the **model** says what exists;
+- the **schema** is the runtime copy of that;
+- **Hearth** links the schema to the Scala class;
+- the **format codec** turns it into bytes.
+
+#### SQS `SendMessage`: names, required vs optional, nested structures
+
+**Model** ([sqs.json](../../src/main/resources/models/sqs/sqs.json), documentation removed):
+
+```json
+"com.amazonaws.sqs#SendMessage": {
+  "type": "operation",
+  "input":  { "target": "com.amazonaws.sqs#SendMessageRequest" },
+  "output": { "target": "com.amazonaws.sqs#SendMessageResult" },
+  "errors": [ InvalidAddress, InvalidMessageContents, InvalidSecurity, KmsAccessDenied, KmsDisabled,
+              KmsInvalidKeyUsage, KmsInvalidState, KmsNotFound, KmsOptInRequired, KmsThrottled,
+              QueueDoesNotExist, RequestThrottled, UnsupportedOperation ]
+},
+"com.amazonaws.sqs#SendMessageRequest": {
+  "type": "structure",
+  "members": {
+    "QueueUrl":                { "target": "com.amazonaws.sqs#String", "traits": { "smithy.api#required": {} } },
+    "MessageBody":             { "target": "com.amazonaws.sqs#String", "traits": { "smithy.api#required": {} } },
+    "DelaySeconds":            { "target": "com.amazonaws.sqs#NullableInteger" },
+    "MessageAttributes":       { "target": "com.amazonaws.sqs#MessageBodyAttributeMap",
+                                 "traits": { "smithy.api#xmlFlattened": {}, "smithy.api#xmlName": "MessageAttribute" } },
+    "MessageSystemAttributes": { "target": "com.amazonaws.sqs#MessageBodySystemAttributeMap",
+                                 "traits": { "smithy.api#xmlFlattened": {}, "smithy.api#xmlName": "MessageSystemAttribute" } },
+    "MessageDeduplicationId":  { "target": "com.amazonaws.sqs#String" },
+    "MessageGroupId":          { "target": "com.amazonaws.sqs#String" }
+  },
+  "traits": { "smithy.api#input": {} }
+},
+"com.amazonaws.sqs#MessageBodyAttributeMap": {
+  "type": "map",
+  "key":   { "target": "com.amazonaws.sqs#String",                "traits": { "smithy.api#xmlName": "Name" } },
+  "value": { "target": "com.amazonaws.sqs#MessageAttributeValue", "traits": { "smithy.api#xmlName": "Value" } }
+},
+"com.amazonaws.sqs#MessageAttributeValue": {
+  "type": "structure",
+  "members": {
+    "StringValue":      { "target": "com.amazonaws.sqs#String" },
+    "BinaryValue":      { "target": "com.amazonaws.sqs#Binary" },
+    "StringListValues": { "target": "com.amazonaws.sqs#StringList", "traits": { "smithy.api#xmlFlattened": {}, "smithy.api#xmlName": "StringListValue" } },
+    "BinaryListValues": { "target": "com.amazonaws.sqs#BinaryList", "traits": { "smithy.api#xmlFlattened": {}, "smithy.api#xmlName": "BinaryListValue" } },
+    "DataType":         { "target": "com.amazonaws.sqs#String", "traits": { "smithy.api#required": {} } }
+  }
+}
+```
+
+`members` is an object keyed by member name, not an array, because member names are unique within a shape. Smithy's loader keeps the keys in file order, and the generator lays out fields and `MemberDef`s in that order. JSON doesn't care about that order, but `AvroSchemaCodec`, which writes by position, does.
+
+**What the generator writes**: one file per shape. The `rt` prefix is `import smithy.scala.{runtime as rt}`.
+
+[SendMessageRequest.scala](../../modules/client-example/src/main/scala/example/sqs/SendMessageRequest.scala): a structure, so it gets a case class, a schema and a Hearth codec.
+
+```scala
+// Generated by smithy.scala.codegen from com.amazonaws.sqs#AmazonSQS. Do not edit.
+package example.sqs
+
+import smithy.scala.{runtime as rt}
+
+final case class SendMessageRequest(
+    queueUrl: java.lang.String,
+    messageBody: java.lang.String,
+    delaySeconds: scala.Option[scala.Int] = scala.None,
+    messageAttributes: scala.Option[MessageBodyAttributeMap] = scala.None,
+    messageSystemAttributes: scala.Option[MessageBodySystemAttributeMap] = scala.None,
+    messageDeduplicationId: scala.Option[java.lang.String] = scala.None,
+    messageGroupId: scala.Option[java.lang.String] = scala.None
+)
+
+object SendMessageRequest {
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "SendMessageRequest"), rt.ShapeType.Structure, rt.Traits.empty)(
+    rt.MemberDef("QueueUrl", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> "")),
+    rt.MemberDef("MessageBody", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> "")),
+    rt.MemberDef("DelaySeconds", () => rt.Prelude.Integer, rt.Traits.empty),
+    rt.MemberDef("MessageAttributes", () => MessageBodyAttributeMap.schema, rt.Traits.empty),
+    rt.MemberDef("MessageSystemAttributes", () => MessageBodySystemAttributeMap.schema, rt.Traits.empty),
+    rt.MemberDef("MessageDeduplicationId", () => rt.Prelude.String, rt.Traits.empty),
+    rt.MemberDef("MessageGroupId", () => rt.Prelude.String, rt.Traits.empty)
+  )
+
+  given codec: rt.SchemaCodec[SendMessageRequest] = smithy.scala.hearth.HearthCodec.derived[SendMessageRequest](schema)
+}
+```
+
+[MessageBodyAttributeMap.scala](../../modules/client-example/src/main/scala/example/sqs/MessageBodyAttributeMap.scala): a map, so it gets a type alias and a schema with `key` and `value` members. It has no codec of its own: the runtime's generic `Map` codec reads the value schema from the member.
+
+```scala
+type MessageBodyAttributeMap = scala.collection.immutable.Map[java.lang.String, MessageAttributeValue]
+
+object MessageBodyAttributeMap {
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "MessageBodyAttributeMap"), rt.ShapeType.Map, rt.Traits.empty)(
+    rt.MemberDef("key", () => rt.Prelude.String, rt.Traits.empty),
+    rt.MemberDef("value", () => MessageAttributeValue.schema, rt.Traits.empty)
+  )
+}
+```
+
+[MessageAttributeValue.scala](../../modules/client-example/src/main/scala/example/sqs/MessageAttributeValue.scala): a structure again. Its one required member, `dataType`, comes last in the model, so it's the last constructor parameter.
+
+```scala
+/** The user-specified message attribute value. */
+final case class MessageAttributeValue(
+    stringValue: scala.Option[java.lang.String] = scala.None,
+    binaryValue: scala.Option[rt.Blob] = scala.None,
+    stringListValues: scala.Option[StringList] = scala.None,
+    binaryListValues: scala.Option[BinaryList] = scala.None,
+    dataType: java.lang.String
+)
+
+object MessageAttributeValue {
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "MessageAttributeValue"), rt.ShapeType.Structure, rt.Traits.empty)(
+    rt.MemberDef("StringValue", () => rt.Prelude.String, rt.Traits.empty),
+    rt.MemberDef("BinaryValue", () => rt.Prelude.Blob, rt.Traits.empty),
+    rt.MemberDef("StringListValues", () => StringList.schema, rt.Traits.empty),
+    rt.MemberDef("BinaryListValues", () => BinaryList.schema, rt.Traits.empty),
+    rt.MemberDef("DataType", () => rt.Prelude.String, rt.Traits("smithy.api#required" -> ""))
+  )
+
+  given codec: rt.SchemaCodec[MessageAttributeValue] = smithy.scala.hearth.HearthCodec.derived[MessageAttributeValue](schema)
+}
+```
+
+[StringList.scala](../../modules/client-example/src/main/scala/example/sqs/StringList.scala) and [BinaryList.scala](../../modules/client-example/src/main/scala/example/sqs/BinaryList.scala): lists, so each gets a type alias and a schema with one `member`.
+
+```scala
+type StringList = scala.collection.immutable.List[java.lang.String]
+object StringList {
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "StringList"), rt.ShapeType.List, rt.Traits.empty)(
+    rt.MemberDef("member", () => rt.Prelude.String, rt.Traits.empty)
+  )
+}
+
+type BinaryList = scala.collection.immutable.List[rt.Blob]
+object BinaryList {
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "BinaryList"), rt.ShapeType.List, rt.Traits.empty)(
+    rt.MemberDef("member", () => rt.Prelude.Blob, rt.Traits.empty)
+  )
+}
+```
+
+[MessageBodySystemAttributeMap.scala](../../modules/client-example/src/main/scala/example/sqs/MessageBodySystemAttributeMap.scala): a map whose key is an **enum**.
+
+```scala
+type MessageBodySystemAttributeMap = scala.collection.immutable.Map[java.lang.String, MessageSystemAttributeValue]
+
+object MessageBodySystemAttributeMap {
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "MessageBodySystemAttributeMap"), rt.ShapeType.Map, rt.Traits.empty)(
+    rt.MemberDef("key", () => MessageSystemAttributeNameForSends.schema, rt.Traits.empty),
+    rt.MemberDef("value", () => MessageSystemAttributeValue.schema, rt.Traits.empty)
+  )
+}
+```
+
+[MessageSystemAttributeNameForSends.scala](../../modules/client-example/src/main/scala/example/sqs/MessageSystemAttributeNameForSends.scala): an enum, which is open. It gets a simple schema, a codec that maps strings in and out, and `UnknownValue` for values added later.
+
+```scala
+enum MessageSystemAttributeNameForSends(val value: java.lang.String) derives CanEqual {
+  case AWSTraceHeader extends MessageSystemAttributeNameForSends("AWSTraceHeader")
+
+  /** A value this client doesn't know (added to the model later). */
+  case UnknownValue(raw: java.lang.String) extends MessageSystemAttributeNameForSends(raw)
+}
+
+object MessageSystemAttributeNameForSends {
+  lazy val schema: rt.Schema = rt.Schema.simple(rt.ShapeId("com.amazonaws.sqs", "MessageSystemAttributeNameForSends"), rt.ShapeType.Enum)
+
+  /** The known values, found from the enum's Mirror at compile time. */
+  lazy val knownValues: scala.collection.immutable.List[MessageSystemAttributeNameForSends] = smithy.scala.hearth.HearthCodec.enumValues[MessageSystemAttributeNameForSends]
+
+  def fromValue(value: java.lang.String): MessageSystemAttributeNameForSends = knownValues.find(_.value == value).getOrElse(UnknownValue(value))
+
+  given codec: rt.ShapeCodec[MessageSystemAttributeNameForSends] = rt.ShapeCodec.stringEnum(fromValue, _.value)
+}
+```
+
+[MessageSystemAttributeValue.scala](../../modules/client-example/src/main/scala/example/sqs/MessageSystemAttributeValue.scala) has the same five members as `MessageAttributeValue`, under its own name and shape id.
+
+**How the client uses them** ([SQSClient.scala](../../modules/client-example/src/main/scala/example/sqs/SQSClient.scala)):
+
+```scala
+trait SQSClient {
+  def sendMessage(input: SendMessageRequest): SendMessageResult
+  ...
+}
+
+object Operations {
+  lazy val SendMessage: rt.Operation[SendMessageRequest, SendMessageResult] =
+    rt.Operation.of[SendMessageRequest, SendMessageResult](
+      rt.ShapeId("com.amazonaws.sqs", "SendMessage"),
+      rt.TypeRegistry.of[InvalidAddress *: InvalidMessageContents *: InvalidSecurity *: KmsAccessDenied *: KmsDisabled *:
+                         KmsInvalidKeyUsage *: KmsInvalidState *: KmsNotFound *: KmsOptInRequired *: KmsThrottled *:
+                         QueueDoesNotExist *: RequestThrottled *: UnsupportedOperation *: EmptyTuple],
+      List("aws.auth#sigv4"))
+}
+
+def sendMessage(input: SendMessageRequest): SendMessageResult = pipeline.invoke(Operations.SendMessage, input)
+```
+
+`Operation.of` finds the `given codec` for `SendMessageRequest` and `SendMessageResult`. When you call `sendMessage`:
+1. The awsJson protocol calls `SendMessageRequest.codec.write`, which is the Hearth code.
+2. That code walks the case class and calls `JsonCodec` once per member, passing its schema.
+3. `JsonCodec` writes `"QueueUrl":…`, and so on, recursing into the map and `MessageAttributeValue`.
+4. The request is signed with SigV4 and sent.
+5. The response comes back the same way in reverse. An error is matched against the `TypeRegistry`.
+
+**Where each model detail ends up:**
+
+| In the model | In the generated code |
+|---|---|
+| Member names (`QueueUrl`) | The schema (`MemberDef("QueueUrl", …)`); the Scala field is `queueUrl` |
+| `@required` | A plain field (not `Option`), and a `"smithy.api#required"` trait in the schema |
+| No `@required` | `Option[…] = None` |
+| `@xmlFlattened`, `@xmlName` | Dropped. Only the XML protocols read them. |
+| `@input` on `SendMessageRequest` | Ignored. Smithy's `CLIENT` nullability mode would make every member optional here; this generator keeps `@required` members required (see [Optional members, and `NullableIndex`](#optional-members-and-nullableindex)). |
+| `NullableInteger`, `Binary` | `Prelude.Integer` / `Int`, `Prelude.Blob` / `rt.Blob` |
+| Map and list shapes | A type alias plus a schema; the runtime's generic codecs handle them |
+| Enum shapes | A Scala `enum` with `UnknownValue`, and a string codec |
+| The operation's errors | A `TypeRegistry` built at compile time |
+
+The class and the schema carry different names. The Scala field is `queueUrl`, the member is `QueueUrl`. The schema holds the name that goes on the wire.
+
+The generator also dropped traits the runtime never reads. `@xmlFlattened` and `@xmlName` are only used by the XML protocols, so they aren't in the schema.
+
+**Hearth** pairs field 0 (`queueUrl`) with member 0 (`QueueUrl`), field 1 with member 1, and so on. It writes code that calls `writeString(member 0, value.queueUrl)`, skips `delaySeconds` when it's `None`, and calls the nested `MessageAttributeValue` codec for each map entry.
+
+**JSON codec**: takes the name from each member schema:
+
+```json
+{"QueueUrl":"http://localhost:4566/000000000000/orders","MessageBody":"hello","DelaySeconds":5,
+ "MessageAttributes":{"trace":{"StringValue":"abc","DataType":"String"}}}
+```
+
+**Avro codec**: the same calls, but it uses each member's position instead of its name. The result is 80 bytes with no field names in them; 41 of those bytes are the queue URL.
+
+#### DynamoDB `PutItem`: a union, and recursion
+
+**Model**: `AttributeValue` is a **union**. Exactly one member is set: `S`, `N`, `B`, `SS`, `NS`, `BS`, `M`, `L`, `NULL` or `BOOL`. `M` and `L` contain `AttributeValue`s again, so the type is recursive.
+
+**What the generator writes**: a Scala `enum`, one case per member, plus a case for members added later:
+
+```scala
+enum AttributeValue {
+  case S(value: String)
+  case N(value: String)
+  ...
+  case M(value: Map[String, AttributeValue])   // recursive
+  case L(value: List[AttributeValue])          // recursive
+  ...
+  case UnknownMember(name: String)
+}
+```
+
+**Hearth** generates a `match`. `AttributeValue.L(xs)` becomes "write the union, member 7 (`L`), as a list", and each element goes back into the same codec, which is how recursion works.
+
+**JSON codec**: a union is an object with exactly one key, the member's name:
+
+```json
+{"TableName":"orders","Item":{"id":{"S":"o-1"},"qty":{"N":"2"},"tags":{"L":[{"S":"new"}]}}}
+```
+
+**Avro codec**: 48 bytes. A union is written as its member's **index** (`S` = 0, `N` = 1, `L` = 7) followed by the value:
+
+```text
+02 0c "orders"            TableName: present, then the 6-byte string
+02 06                     Item: present, a map of 3 entries
+04 "id"  00 06 "o-1"      key "id"; branch 0 (S); the string "o-1"
+06 "qty" 02 02 "2"        key "qty"; branch 1 (N); the string "2"
+08 "tags" 0e 02 00 06 "new" 00
+                          key "tags"; branch 7 (L); a list of 1: branch 0 (S), "new"; end of list
+00                        end of map
+00 × 9                    the 9 optional members of PutItemInput that weren't set: null
+```
+
+The JSON and Avro outputs come from the same Hearth calls. Only the format codec differs: JSON writes `"S"` where Avro writes `00`.
+
+#### DynamoDB `DescribeTable`: reading a response
+
+The response from DynamoDB, including a field this client doesn't know about:
+
+```json
+{"Table":{"TableName":"orders","TableStatus":"ACTIVE","CreationDateTime":1795771800.25,"ItemCount":42,"BrandNewField":true}}
+```
+
+**JSON codec (reader)** walks the object. For each key it looks the member up in the schema:
+- `TableName`: a string member, so it's passed on as a string.
+- `CreationDateTime`: the schema says `Timestamp`, so the number is read as epoch seconds and becomes an `Instant`. That decision belongs to the format codec: awsJson uses epoch seconds.
+- `BrandNewField`: no such member in the schema, so it's skipped. Old clients keep working when AWS adds fields.
+
+**Hearth (reading side)** collects the values it's handed into local variables, fills the missing members with `None` or their defaults, and calls the constructor:
+
+```scala
+DescribeTableOutput(Some(TableDescription(tableName = Some("orders"), tableStatus = Some(ACTIVE),
+  creationDateTime = Some(2026-11-27T09:30:00.250Z), itemCount = Some(42), /* rest */ None ...)))
+```
+
+If AWS later sends a status this client has never seen:
+
+```json
+{"Table":{"TableName":"orders","TableStatus":"SOME_NEW_STATUS"}}
+```
+
+you get `tableStatus = Some(TableStatus.UnknownValue("SOME_NEW_STATUS"))` instead of an error. Smithy enums are open, and the generated enum and its codec are built for that.
+
+#### What each example shows
+
+| | Schema provides | Hearth provides | Format codec provides |
+|---|---|---|---|
+| SQS `SendMessage` | Wire names (`QueueUrl`), member order, `@required` | Field ↔ member pairing, `Option` handling | `"QueueUrl":` in JSON, a position in Avro |
+| DynamoDB `PutItem` | `shapeType = Union`, member index of `L` | `match` from enum case to member, recursion | `{"L":[…]}` in JSON, `0e` in Avro |
+| DynamoDB `DescribeTable` | `Timestamp`, which keys are members | Constructor call, `None` for missing, `UnknownValue` | Epoch seconds → `Instant`, skipping unknown keys |
+
+**In one sentence:**
+- the **schema** says what the AWS shape looks like;
+- **Hearth** knows how to take apart and build *your Scala class* for that shape;
+- the **format codec** decides how it looks in *one format*.
+
+Swapping JSON for Avro changes only the last part. Changing the model regenerates the first two.
+
 ### Other formats through ZIO Blocks
 
-[ZIO Blocks](https://github.com/zio/zio-blocks) has a codec for many formats. Its codecs work from a ZIO Blocks `Schema[A]`, which our generated types don't have. They also have a codec for its `DynamicValue`, a generic tree of records, variants, sequences, maps and primitives. The bridge in [codecs/](../../modules/client-runtime/src/main/scala/smithyscala/runtime/codecs) uses that codec:
+[ZIO Blocks](https://github.com/zio/zio-blocks) has a codec for many formats. Its codecs work from a ZIO Blocks `Schema[A]`, which our generated types don't have. They also have a codec for its `DynamicValue`, a generic tree of records, variants, sequences, maps and primitives. The bridge in [codecs/](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/codecs) uses that codec:
 
 ```scala
 // the generated shape codec, unchanged, writes into a DynamicValueWriter:
@@ -82,7 +496,7 @@ val value: DynamicValue = codec.toDynamicValue(w => c.write(w, c.schema, table))
 ZSchema[DynamicValue].derive(MessagePackFormat).encode(value)
 ```
 
-Reading runs the other way: the format decodes a `DynamicValue`, and a `DynamicValueReader` feeds it to the generated codec as `ShapeReader` calls. Nothing in the generator or the derivations changes. A new format is about ten lines in [ZioBlocksCodecs.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/codecs/ZioBlocksCodecs.scala).
+Reading runs the other way: the format decodes a `DynamicValue`, and a `DynamicValueReader` feeds it to the generated codec as `ShapeReader` calls. Nothing in the generator or the derivations changes. A new format is about ten lines in [ZioBlocksCodecs.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/codecs/ZioBlocksCodecs.scala).
 
 | Codec | Media type | Module | State on ZIO Blocks 0.0.56 |
 |---|---|---|---|
@@ -99,7 +513,7 @@ These are left out:
 - **CSV:** it doesn't support `DynamicValue` at all.
 - **Protobuf:** ZIO Blocks has no Protobuf module. `ProtobufCodec` stays a placeholder.
 
-The mapping is in [DynamicValueBridge.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/codecs/DynamicValueBridge.scala):
+The mapping is in [DynamicValueBridge.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/codecs/DynamicValueBridge.scala):
 - Structures become `Record`s keyed by member name.
 - Unions become `Variant`s.
 - Maps become `Map`s with string keys.
@@ -116,7 +530,7 @@ None of these codecs is used by a Smithy protocol. `ZioBlocksJsonCodec` writes J
 
 Avro bytes don't describe themselves, even less than Protobuf. Fields have no names and no numbers; they are written one after another in schema order, and a reader always needs the writer's schema. `AvroCodec` round-trips only because ZIO Blocks always uses the same schema, the one for its generic `DynamicValue` tree, so every message spells out its field names and node kinds. Other Avro tools (a schema registry, Kafka consumers, Spark, Avro files) see that generic tree, not a `TableDescription`.
 
-[AvroSchemaCodec.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/codecs/AvroSchemaCodec.scala) writes Avro for the shape itself, with Apache Avro 1.12's `BinaryEncoder` and `BinaryDecoder` and no bridge. `AvroSchemas.of(schema)` derives the Avro schema from our runtime `Schema`, so the generator doesn't change:
+[AvroSchemaCodec.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/codecs/AvroSchemaCodec.scala) writes Avro for the shape itself, with Apache Avro 1.12's `BinaryEncoder` and `BinaryDecoder` and no bridge. `AvroSchemas.of(schema)` derives the Avro schema from our runtime `Schema`, so the generator doesn't change:
 
 | Smithy | Avro |
 |---|---|
@@ -138,7 +552,7 @@ Three of those choices need explaining:
 
 Writer and reader must use the same schema, which means the same model version. Reading data written with an older schema would need Avro's schema resolution (`ResolvingDecoder` with the writer's schema), and this codec doesn't do that. To hand the schema to other tools, print it: `AvroSchemas.of(TableDescription.schema).toString(true)` gives the `.avsc` JSON.
 
-Encoded sizes in bytes, from `clientBench/runMain smithyscala.bench.Sizes`:
+Encoded sizes in bytes, from `clientBench/runMain smithy.scala.bench.Sizes`:
 
 | Format | Small (`GetForecastOutput`) | Large (`Put`, 50 attributes) |
 |---|---|---|
@@ -184,7 +598,7 @@ It's the fastest codec here in all four columns. It reads about twice as fast as
 
 The ±0.50 margin on its small write (0.60) means only "about as fast as Jackson" is safe to say there.
 
-These numbers come from one JMH run on an Apple M1 with JDK 25: 3 warmup and 5 measured iterations of 1 second, in one fork. That's enough to rank the codecs but not to separate close results; Avro's write figures have a wide margin (±1.9 µs on 1.35). The benchmarks are in [CodecBench.scala](../../modules/bench/src/main/scala/smithyscala/bench/CodecBench.scala): `ForecastBench` and `PutBench` per format, and `BridgeBench` for the bridge alone. Run them with:
+These numbers come from one JMH run on an Apple M1 with JDK 25: 3 warmup and 5 measured iterations of 1 second, in one fork. That's enough to rank the codecs but not to separate close results; Avro's write figures have a wide margin (±1.9 µs on 1.35). The benchmarks are in [CodecBench.scala](../../modules/bench/src/main/scala/smithy/scala/bench/CodecBench.scala): `ForecastBench` and `PutBench` per format, and `BridgeBench` for the bridge alone. Run them with:
 
 ```
 sbt --client "clientBench/Jmh/run -i 5 -wi 3 -f 1"
@@ -268,10 +682,10 @@ For each shape in the service closure ([Walker](https://github.com/smithy-lang/s
 
 | Smithy | Scala |
 |---|---|
-| `structure` | a `final case class`. `@required` members are plain types, `@default` members get the default value, everything else is an `Option` defaulting to `None`. The companion has `schema` and `given codec = smithyscala.hearth.HearthCodec.derived[X](schema)` (`rt.ShapeCodec.struct[X](schema)` with `--derivation=mirror`): no serialization code. |
+| `structure` | a `final case class`. `@required` members are plain types, `@default` members get the default value, everything else is an `Option` defaulting to `None`. The companion has `schema` and `given codec = smithy.scala.hearth.HearthCodec.derived[X](schema)` (`rt.ShapeCodec.struct[X](schema)` with `--derivation=mirror`): no serialization code. |
 | `@error` structure | the same, extending `rt.ServiceException`; `@retryable` overrides `smithyRetryable` (and `smithyThrottling`). |
-| `union` | an `enum` with one case per member, in member order (no fields for `Unit` members), plus `UnknownMember(name)` last. The companion has `schema` and `given codec = smithyscala.hearth.HearthCodec.derived[X](schema)` (`rt.ShapeCodec.union[X](schema)` with `--derivation=mirror`). |
-| `enum`, `intEnum` | an `enum` with a `value`, plus `UnknownValue(raw)`. `knownValues` is `smithyscala.hearth.HearthCodec.enumValues[X]` (`rt.ShapeCodec.enumValues[X]` with `--derivation=mirror`), `fromValue` looks a value up, and the codec is built from the two. |
+| `union` | an `enum` with one case per member, in member order (no fields for `Unit` members), plus `UnknownMember(name)` last. The companion has `schema` and `given codec = smithy.scala.hearth.HearthCodec.derived[X](schema)` (`rt.ShapeCodec.union[X](schema)` with `--derivation=mirror`). |
+| `enum`, `intEnum` | an `enum` with a `value`, plus `UnknownValue(raw)`. `knownValues` is `smithy.scala.hearth.HearthCodec.enumValues[X]` (`rt.ShapeCodec.enumValues[X]` with `--derivation=mirror`), `fromValue` looks a value up, and the codec is built from the two. |
 | `list`, `map` | a type alias to `List` or `Map[String, _]` (elements are `Option` when `@sparse`), and a companion with just `schema`. The runtime's generic `List` and `Map` codecs read the element schema from the member. |
 | `service` | `<SdkId>Client`: a trait with a method per operation and a `<operation>Paginator` per `@paginated` operation, a companion with `ServiceInfo`, one `rt.Operation.of[I, O](id, rt.TypeRegistry.of[...], auth)` per operation, and `apply(config)`. |
 
@@ -313,7 +727,7 @@ The table is the summary; each feature has a section after it saying why it was 
 given codec: rt.SchemaCodec[GetForecastInput] = rt.ShapeCodec.struct[GetForecastInput](schema)
 ```
 
-The serialization logic now exists once, in [ShapeCodec.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/ShapeCodec.scala), where it's tested directly. If a field type has no codec, compiling the generated file fails, rather than the call failing at runtime.
+The serialization logic now exists once, in [ShapeCodec.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/ShapeCodec.scala), where it's tested directly. If a field type has no codec, compiling the generated file fails, rather than the call failing at runtime.
 
 ### Sum mirrors for unions
 
@@ -335,7 +749,7 @@ The serialization logic now exists once, in [ShapeCodec.scala](../../modules/cli
 
 **Why.** A `@default` member is a case-class parameter with a default. When it was missing from a response, the old `read` method used a copy of that default, which the generator wrote a second time. `Mirror` exposes field types and names, but not defaults, so derivation alone couldn't do this.
 
-**How.** [Defaults.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Defaults.scala) is a `scala.quoted` macro. It finds the constructor parameters flagged `HasDefault` and calls the companion's synthetic default getters, giving a `Map` from field index to default value.
+**How.** [Defaults.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/Defaults.scala) is a `scala.quoted` macro. It finds the constructor parameters flagged `HasDefault` and calls the companion's synthetic default getters, giving a `Map` from field index to default value.
 
 **What it changed.** Each default exists in one place, the case-class parameter list. The test reads `{"city":"Oslo"}` and gets `units = METRIC, detail = LOW`. It also checks `Defaults.of` directly.
 
@@ -422,9 +836,9 @@ In smithy-build, add `"derivation": "mirror"` to the `scala-client-codegen` plug
 
 | | `mirror` | `hearth` (default) |
 |---|---|---|
-| Structures | `rt.ShapeCodec.struct[X](schema)` | `smithyscala.hearth.HearthCodec.derived[X](schema)` |
-| Unions | `rt.ShapeCodec.union[X](schema)` | `smithyscala.hearth.HearthCodec.derived[X](schema)` |
-| Enum values | `rt.ShapeCodec.enumValues[X]` | `smithyscala.hearth.HearthCodec.enumValues[X]` |
+| Structures | `rt.ShapeCodec.struct[X](schema)` | `smithy.scala.hearth.HearthCodec.derived[X](schema)` |
+| Unions | `rt.ShapeCodec.union[X](schema)` | `smithy.scala.hearth.HearthCodec.derived[X](schema)` |
+| Enum values | `rt.ShapeCodec.enumValues[X]` | `smithy.scala.hearth.HearthCodec.enumValues[X]` |
 | Dependencies | the runtime only | Hearth 0.4.5 and its Cross Quotes compiler plugin |
 | Writing a field | `productElement(i)` on a `ShapeCodec[Any]` (boxing, casts) | a direct call, such as `w.writeString(member, value.name)` |
 | Reading a structure | an `Array[Any]`, then `Tuple.fromArray` | one typed `var` per field, then the constructor |
@@ -432,7 +846,7 @@ In smithy-build, add `"derivation": "mirror"` to the `scala-client-codegen` plug
 | Recursion | implicit search, by-name givens, runtime thunks | one helper `def` per type, declared before its body |
 | Overriding a field type | not possible | a codec in implicit scope wins |
 | A type it can't handle | the first missing given, from inside an inline expansion | every failure, each with its reasons, and a hint about logging |
-| Derivation log | none | `import smithyscala.hearth.debug.logDerivation`, or `-Xmacro-settings:smithyscala.hearth.logDerivation=true` |
+| Derivation log | none | `import smithy.scala.hearth.debug.logDerivation`, or `-Xmacro-settings:smithy.scala.hearth.logDerivation=true` |
 
 `scripts/generate-scala-clients.sh` also generates Mirror-derived copies of the DynamoDB and Weather clients (packages `example.mirror.*`) into `clientExample`'s tests. [ParitySpec](../../modules/client-example/src/test/scala/example/ParitySpec.scala) checks that both derivations write the same JSON and read each other's, for:
 - recursive `AttributeValue` items;
@@ -450,7 +864,7 @@ In smithy-build, add `"derivation": "mirror"` to the `scala-client-codegen` plug
 - A type with no codec failed with a bare "no given instance" error from deep inside an inline expansion.
 - Nothing could override how one field type was written.
 
-**In short.** Generated code still has one line per type, `given codec = smithyscala.hearth.HearthCodec.derived[X](schema)`. The macro behind it works like this:
+**In short.** Generated code still has one line per type, `given codec = smithy.scala.hearth.HearthCodec.derived[X](schema)`. The macro behind it works like this:
 
 - **It walks the type itself.** For each type it tries, in order:
   1. a codec someone provides;
@@ -469,7 +883,7 @@ In smithy-build, add `"derivation": "mirror"` to the `scala-client-codegen` plug
 
 The details:
 
-[HearthCodecMacrosImpl.scala](../../modules/hearth/src/main/scala/smithyscala/hearth/internal/HearthCodecMacrosImpl.scala) is one Hearth macro, a Scala 3 adapter over shared logic, written with Hearth's Cross Quotes (`Expr.quote` / `Expr.splice`):
+[HearthCodecMacrosImpl.scala](../../modules/hearth/src/main/scala/smithy/scala/hearth/internal/HearthCodecMacrosImpl.scala) is one Hearth macro, a Scala 3 adapter over shared logic, written with Hearth's Cross Quotes (`Expr.quote` / `Expr.splice`):
 
 - **It walks the type itself.** For each type it tries rules in order:
   1. a codec someone provides (`Expr.summonImplicitIgnoring`);
@@ -485,21 +899,21 @@ The details:
 - **Reading builds no temporary collections.** It declares one typed `var` per field (`ValDefs.createVar`), runs a single `readStruct`, and calls the constructor with `if (seen) value else <missing>`.
 - **Missing members.** A missing member gets, in order: its default value (Hearth reads the case class's default getters from `Parameter.defaultValue`); `None`; an empty collection; a simple type's zero; a provided codec's `absent`; or a `SerializationException` naming it.
 - **Errors are typed and collected.** Fields and cases are derived with `parTraverse`, so every failure is reported in one compile error. The error is a small ADT, rendered once by `runToExprOrFail`, with a hint about logging.
-- **The log is opt-in.** It's switched on by `import smithyscala.hearth.debug.logDerivation` or `-Xmacro-settings:smithyscala.hearth.logDerivation=true`.
+- **The log is opt-in.** It's switched on by `import smithy.scala.hearth.debug.logDerivation` or `-Xmacro-settings:smithy.scala.hearth.logDerivation=true`.
 - **Instances come from a factory.** They're built through `HearthCodec.instance(schema, write, read, absent)` from lambdas, not one anonymous class per type.
 
 `HearthCodec.enumValues[E]` is a second, small macro on the same base. It lists an enum's singleton cases (`Expr.singletonOf`), which is every value but `UnknownValue(raw)`.
 
 **What it changed.**
 
-- **Generated code is still one line per type:** `given codec: rt.SchemaCodec[X] = smithyscala.hearth.HearthCodec.derived[X](schema)`. Default values need no separate macro.
+- **Generated code is still one line per type:** `given codec: rt.SchemaCodec[X] = smithy.scala.hearth.HearthCodec.derived[X](schema)`. Default values need no separate macro.
 - **Writes and reads are direct calls**, with no `productElement`, no `Array[Any]` and no casts.
-- **Users can override a field type.** [HearthDerivationSpec](../../modules/hearth/src/test/scala/smithyscala/hearth/HearthDerivationSpec.scala) gives `Celsius` its own codec (written as `"21.5C"`), and the derived `Reading` codec uses it.
+- **Users can override a field type.** [HearthDerivationSpec](../../modules/hearth/src/test/scala/smithy/scala/hearth/HearthDerivationSpec.scala) gives `Celsius` its own codec (written as `"21.5C"`), and the derived `Reading` codec uses it.
 - **Recursive case classes need nothing special.** `case class Tree(name: String, children: List[Tree])` derives as is, and round-trips.
 - **Errors arrive all at once**, each with its reason:
 
   ```text
-  HearthCodec.derived failed for smithyscala.hearth.HearthDerivationSpec.Unsupported:
+  HearthCodec.derived failed for smithy.scala.hearth.HearthDerivationSpec.Unsupported:
   scala.collection.immutable.Map[scala.Int, java.lang.String]: Smithy maps have String keys, but this one has scala.Int
   No rule could derive a codec for java.util.UUID:
     - not a provided ShapeCodec: none in implicit scope
@@ -508,16 +922,16 @@ The details:
     - not a list or a map: not a collection
     - not a structure: java.util.UUID is not a case class
     - not a union: java.util.UUID is not sealed, not an enumeration, and not a union type
-  See how it was derived with: import smithyscala.hearth.debug.logDerivation, or the scalac option -Xmacro-settings:smithyscala.hearth.logDerivation=true
+  See how it was derived with: import smithy.scala.hearth.debug.logDerivation, or the scalac option -Xmacro-settings:smithy.scala.hearth.logDerivation=true
   ```
 
 - **The log shows every decision**, for example:
 
   ```text
-  ├ field temperature: smithyscala.hearth.HearthDerivationSpec.Celsius:
-  │ └ write smithyscala.hearth.HearthDerivationSpec.Celsius:
-  │   ├ [Info]  Using the provided smithyscala.runtime.ShapeCodec[smithyscala.hearth.HearthDerivationSpec.Celsius]
-  │   └ [Info]  smithyscala.hearth.HearthDerivationSpec.Celsius: handled as a provided ShapeCodec
+  ├ field temperature: smithy.scala.hearth.HearthDerivationSpec.Celsius:
+  │ └ write smithy.scala.hearth.HearthDerivationSpec.Celsius:
+  │   ├ [Info]  Using the provided smithy.scala.runtime.ShapeCodec[smithy.scala.hearth.HearthDerivationSpec.Celsius]
+  │   └ [Info]  smithy.scala.hearth.HearthDerivationSpec.Celsius: handled as a provided ShapeCodec
   ```
 
 - **Methods stay small.** Of 17,081 methods in the compiled SQS and DynamoDB companions, none exceeds the 8,000-byte limit above which HotSpot won't JIT-compile a method. The largest, `TableDescription`'s read helper, is 1,260 bytes.
@@ -532,7 +946,7 @@ The details:
 
 ```scala
 import java.net.URI
-import smithyscala.runtime.*
+import smithy.scala.runtime.*
 import example.sqs.*
 
 val sqs = SQSClient(
@@ -557,10 +971,10 @@ To talk to the [AWS Emulator](../aws-emulator/README.md), pass `transport = Java
 
 | Test | What it checks |
 |---|---|
-| [SigV4Spec](../../modules/client-runtime/src/test/scala/smithyscala/runtime/SigV4Spec.scala) | Signatures from the AWS SigV4 test suite (`get-vanilla`, `post-vanilla`, `get-vanilla-query-order-key`) and session tokens. |
-| [JsonCodecSpec](../../modules/client-runtime/src/test/scala/smithyscala/runtime/JsonCodecSpec.scala) | `@jsonName` and `@timestampFormat` per protocol settings, `NaN`, base64 blobs, skipping unknown fields. |
+| [SigV4Spec](../../modules/client-runtime/src/test/scala/smithy/scala/runtime/SigV4Spec.scala) | Signatures from the AWS SigV4 test suite (`get-vanilla`, `post-vanilla`, `get-vanilla-query-order-key`) and session tokens. |
+| [JsonCodecSpec](../../modules/client-runtime/src/test/scala/smithy/scala/runtime/JsonCodecSpec.scala) | `@jsonName` and `@timestampFormat` per protocol settings, `NaN`, base64 blobs, skipping unknown fields. |
 | [ScalaClientGeneratorSpec](../../modules/client-codegen/src/test/scala/smithy/scala/codegen/ScalaClientGeneratorSpec.scala) | Generator output for a small model, rejection of unsupported protocols, and a run through `SmithyBuild` as a plugin. |
-| [HearthDerivationSpec](../../modules/hearth/src/test/scala/smithyscala/hearth/HearthDerivationSpec.scala) | The Hearth derivation: a user-provided codec wins, a recursive case class derives as is, and an unsupported type reports every reason in one error. |
+| [HearthDerivationSpec](../../modules/hearth/src/test/scala/smithy/scala/hearth/HearthDerivationSpec.scala) | The Hearth derivation: a user-provided codec wins, a recursive case class derives as is, and an unsupported type reports every reason in one error. |
 | [ParitySpec](../../modules/client-example/src/test/scala/example/ParitySpec.scala) | Both derivations on the same generated types (the default Hearth clients and their Mirror copies) write the same JSON and read each other's. |
 | [DerivationSpec](../../modules/client-example/src/test/scala/example/DerivationSpec.scala) | The derived codecs on the generated clients: default values, error correction, enum values, union ordinals, recursive round-trips, and the compile error from `TypeRegistry.of`. |
 | [AvroSchemaCodecSpec](../../modules/client-example/src/test/scala/example/AvroSchemaCodecSpec.scala) | Avro for the shape: round-trips (recursive unions, `@sparse` nulls, microsecond timestamps), the derived Avro schema, Apache Avro's `GenericDatumReader` reading our bytes and our reader reading `GenericDatumWriter` output, and sizes against the other codecs. |
