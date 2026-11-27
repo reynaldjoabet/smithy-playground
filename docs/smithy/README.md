@@ -125,3 +125,4 @@ Read them in order the first time:
 9. [Adding a protocol: Protobuf over gRPC](new-protocol-protobuf.md): a worked design for a new binary protocol: a protocol trait, Smithy's `@idx` field numbers, a Protobuf codec, gRPC framing and trailers, and errors.
 10. [Adding a protocol: JSON-RPC 2.0](new-protocol-json-rpc.md): the easy case, a new protocol on the existing JSON codec, compared with `awsJson1_0` and `rpcv2Json`.
 11. [A Scala client generator](scala-client.md): the playground's own Scala 3 generator and runtime, layer by layer, with generated SQS, DynamoDB and `rpcv2Json` clients and their tests.
+12. [Schemas in Scala](schema.md): what Tapir, ZIO Schema, ZIO Blocks and smithy4s mean by a schema, read from their source, how each is used in production, and how they relate to this repo's runtime schema.
