@@ -8,6 +8,7 @@ This playground includes a small Smithy client generator for Scala 3, built the 
 |---|---|---|
 | `clientRuntime` | [modules/client-runtime](../../modules/client-runtime) | The runtime generated code runs on. Depends only on Jackson 3 (`tools.jackson.core`). |
 | `clientCodegen` | [modules/client-codegen](../../modules/client-codegen) | The generator. Reads a model with the Smithy Java libraries and writes Scala sources. Also a smithy-build plugin. |
+| `clientBench` | [modules/bench](../../modules/bench) | JMH benchmarks (sbt-jmh): Jackson's `JsonCodec` against the ZIO Blocks codecs ([results](#speed-jackson-against-zio-blocks)). |
 | `clientExample` | [modules/client-example](../../modules/client-example) | Generated SQS (`awsJson1_0`), DynamoDB (`awsJson1_0`) and Weather (`rpcv2Json`) clients, with codecs derived by Hearth (the default), and tests that run them against a local HTTP server. Its tests also hold Mirror-derived copies of the DynamoDB and Weather clients (`example.mirror.*`). |
 | `clientHearth` | [modules/hearth](../../modules/hearth) | The [Hearth derivation](#the-hearth-derivation-the-default) that generated code uses by default. |
 
@@ -26,7 +27,7 @@ The script runs `sbt --client "clientCodegen/runMain smithyscala.codegen.Main <m
 | Schemas | [Schema.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Schema.scala) | `Schema` carries a shape's id, type, members and runtime traits. A member is a schema too; its target is a thunk, so recursive shapes such as DynamoDB's `AttributeValue` work. |
 | Serde interfaces | [Serde.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Serde.scala) | `ShapeWriter` and `ShapeReader`: format-neutral calls such as `writeString(memberSchema, value)`. Nothing above the codec sees a format. |
 | Shape codecs | [ShapeCodec.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/ShapeCodec.scala), [Defaults.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Defaults.scala) | `ShapeCodec[A]` walks one Scala type with those calls. Primitives, `Option`, `List` and `Map` are givens; structures, unions and enum values are derived at compile time (see [below](#scala-3-features-in-use)). |
-| Codec | [codecs/](../../modules/client-runtime/src/main/scala/smithyscala/runtime/codecs) | [JsonCodec.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/codecs/JsonCodec.scala) is the implemented one: `JsonSettings` says whether to honour `@jsonName` and `@timestampFormat`, because protocols differ on that. `XmlCodec`, `FormUrlCodec`, `CborCodec` and `ProtobufCodec` are placeholders behind the same `Codec` trait. Each documents the traits and rules it would follow, and fails with `CodecNotImplemented` if used. |
+| Codec | [codecs/](../../modules/client-runtime/src/main/scala/smithyscala/runtime/codecs) | [JsonCodec.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/codecs/JsonCodec.scala) is the implemented one: `JsonSettings` says whether to honour `@jsonName` and `@timestampFormat`, because protocols differ on that. `XmlCodec`, `FormUrlCodec`, `CborCodec` and `ProtobufCodec` are placeholders behind the same `Codec` trait. Each documents the traits and rules it would follow, and fails with `CodecNotImplemented` if used. ZIO Blocks' own JSON, MessagePack, Avro, YAML and Thrift go through ZIO Blocks ([below](#other-formats-through-zio-blocks)). |
 | Protocols | [Protocols.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Protocols.scala) | `AwsJsonProtocol` (`X-Amz-Target`, `application/x-amz-json-1.0`) and `RpcV2JsonProtocol` (`/service/<S>/operation/<O>`, `Smithy-Protocol: rpc-v2-json`). Both share the error handling: find the code, look it up in the `TypeRegistry`, let the codec fill the error. |
 | Errors | [Operation.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Operation.scala) | `ServiceException` (generated errors extend it), `UnknownServiceException`, `TypeRegistry.of[E1 *: E2 *: EmptyTuple]`, and `Operation.of[I, O]`, which bundles one operation's codecs, errors and auth schemes. |
 | Auth | [Auth.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/Auth.scala) | `CredentialsProvider` (the identity resolver) and `SigV4`, checked against cases from the AWS SigV4 test suite. |
@@ -69,6 +70,126 @@ The payoff is that one schema serves several formats. An XML codec reading the s
 
 So the schema is the map, the shape codec walks the value along it, and the format codec writes the bytes. [The protocol stack](protocol-stack.md#what-each-part-does) has the full table of who does what, including the protocol (where things go in HTTP) and the transport.
 
+### Other formats through ZIO Blocks
+
+[ZIO Blocks](https://github.com/zio/zio-blocks) has a codec for many formats. Its codecs work from a ZIO Blocks `Schema[A]`, which our generated types don't have. They also have a codec for its `DynamicValue`, a generic tree of records, variants, sequences, maps and primitives. The bridge in [codecs/](../../modules/client-runtime/src/main/scala/smithyscala/runtime/codecs) uses that codec:
+
+```scala
+// the generated shape codec, unchanged, writes into a DynamicValueWriter:
+val value: DynamicValue = codec.toDynamicValue(w => c.write(w, c.schema, table))
+// Record(TableName -> "orders", CreationDateTime -> "2026-11-27T09:30:00.250Z", ...)
+// then the ZIO Blocks format writes the bytes:
+ZSchema[DynamicValue].derive(MessagePackFormat).encode(value)
+```
+
+Reading runs the other way: the format decodes a `DynamicValue`, and a `DynamicValueReader` feeds it to the generated codec as `ShapeReader` calls. Nothing in the generator or the derivations changes. A new format is about ten lines in [ZioBlocksCodecs.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/codecs/ZioBlocksCodecs.scala).
+
+| Codec | Media type | Module | State on ZIO Blocks 0.0.56 |
+|---|---|---|---|
+| `ZioBlocksJsonCodec` | `application/json` | `zio-blocks-schema` (JSON is built in) | Round-trips. Plain JSON from ZIO Blocks' writer: no `@jsonName`, no `@timestampFormat`, no `"NaN"` strings. |
+| `MessagePackCodec` | `application/msgpack` | `zio-blocks-schema-messagepack` | Round-trips. |
+| `AvroCodec` | `application/avro` | `zio-blocks-schema-avro` | Round-trips. The bytes follow ZIO Blocks' fixed Avro schema for `DynamicValue`, not a schema made from the Smithy shape: see [`AvroSchemaCodec`](#avro-for-the-shape-avroschemacodec) for that. |
+| `YamlCodec` | `application/yaml` | `zio-blocks-schema-yaml` | Round-trips. Its reader ignores quotes and re-types every scalar, so the string `"007"` is written quoted but comes back as `"7"`. |
+| `ThriftCodec` | `application/thrift` | `zio-blocks-schema-thrift` | Writes only. ZIO Blocks can't decode a `DynamicValue` from Thrift without a schema. |
+
+These are left out:
+
+- **XML:** ZIO Blocks' XML codec writes a `DynamicValue` but can't read one. Its element names wouldn't follow `@xmlName`, `@xmlFlattened` or `@xmlAttribute` anyway. Smithy's `restXml` needs the `XmlCodec` placeholder, implemented against those traits.
+- **BSON:** its `DynamicValue` codec is "not yet implemented" in 0.0.56.
+- **CSV:** it doesn't support `DynamicValue` at all.
+- **Protobuf:** ZIO Blocks has no Protobuf module. `ProtobufCodec` stays a placeholder.
+
+The mapping is in [DynamicValueBridge.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/codecs/DynamicValueBridge.scala):
+- Structures become `Record`s keyed by member name.
+- Unions become `Variant`s.
+- Maps become `Map`s with string keys.
+- Blobs become base64 strings, because `DynamicValue` has no bytes.
+- Timestamps become ISO-8601 strings. `PrimitiveValue.Instant` comes back from YAML as the text `Instant(...)`.
+
+The reader is lenient because formats don't keep everything:
+- MessagePack writes a variant as `{_case, _value}` and reads every integer back as `Long`.
+- YAML reads a variant back as a one-entry record.
+
+None of these codecs is used by a Smithy protocol. `ZioBlocksJsonCodec` writes JSON too, but the protocols stay on `JsonCodec`, because Smithy's JSON rules (`@jsonName`, `@timestampFormat`, `"NaN"` as a string) aren't ZIO Blocks' rules.
+
+### Avro for the shape: `AvroSchemaCodec`
+
+Avro bytes don't describe themselves, even less than Protobuf. Fields have no names and no numbers; they are written one after another in schema order, and a reader always needs the writer's schema. `AvroCodec` round-trips only because ZIO Blocks always uses the same schema, the one for its generic `DynamicValue` tree, so every message spells out its field names and node kinds. Other Avro tools (a schema registry, Kafka consumers, Spark, Avro files) see that generic tree, not a `TableDescription`.
+
+[AvroSchemaCodec.scala](../../modules/client-runtime/src/main/scala/smithyscala/runtime/codecs/AvroSchemaCodec.scala) writes Avro for the shape itself, with Apache Avro 1.12's `BinaryEncoder` and `BinaryDecoder` and no bridge. `AvroSchemas.of(schema)` derives the Avro schema from our runtime `Schema`, so the generator doesn't change:
+
+| Smithy | Avro |
+|---|---|
+| structure | `record` named after the shape; every field `["null", T]` with default `null` |
+| union | `record` with one field `member`: a union of `<Union>_<member>` records with one field `value` |
+| list, map | `array`, `map` (`["null", T]` items when `@sparse`) |
+| byte, short, integer, intEnum | `int` |
+| long, float, double, boolean | the same names |
+| string, enum | `string`. Smithy enums are open, and an Avro `enum` would reject a new value. |
+| bigInteger, bigDecimal | `string`. Avro's `decimal` needs a fixed scale, and Smithy has none. |
+| blob | `bytes` |
+| timestamp | `long`, logical type `timestamp-micros` |
+| document | `string` holding JSON |
+
+Three of those choices need explaining:
+- **Every member is nullable,** even `@required` ones. The writer never has to invent a value, and a schema with an added member can still read old data.
+- **Unions are wrapped in a record** because Avro unions have no name. A recursive union like DynamoDB's `AttributeValue` (`M` holds a map of `AttributeValue`) needs a name to refer back to.
+- **Writing streams, with no intermediate tree.** Avro has no tags, so the writer fills in a `null` branch for every member the shape codec skips. That only works because both derivations write members in member order; the writer fails if they don't. Reading is the same in reverse: the shape codec must read every member it's handed.
+
+Writer and reader must use the same schema, which means the same model version. Reading data written with an older schema would need Avro's schema resolution (`ResolvingDecoder` with the writer's schema), and this codec doesn't do that. To hand the schema to other tools, print it: `AvroSchemas.of(TableDescription.schema).toString(true)` gives the `.avsc` JSON.
+
+Encoded sizes in bytes, from `clientBench/runMain smithyscala.bench.Sizes`:
+
+| Format | Small (`GetForecastOutput`) | Large (`Put`, 50 attributes) |
+|---|---|---|
+| **Avro, shape schema (`AvroSchemaCodec`)** | **68** | **1203** |
+| Avro, ZIO Blocks `DynamicValue` (`AvroCodec`) | 174 | 1938 |
+| Jackson JSON | 152 | 2259 |
+| ZIO Blocks JSON | 188 | 2259 |
+| MessagePack | 161 | 2994 |
+| Thrift | 156 | 2221 |
+| YAML | 184 | 2741 |
+
+ZIO Blocks JSON is 36 bytes larger than Jackson on the small payload. Its three timestamps are ISO strings (`"2026-11-28T00:00:00Z"`), where Jackson writes epoch seconds (`1795737600`). On `Put`, which has no timestamps, the two are the same size.
+
+### Speed: Jackson against ZIO Blocks
+
+Jackson is faster for writing. For reading it wins on small payloads but not on large ones: on the 50-attribute DynamoDB item, ZIO Blocks JSON reads about 12% faster. Times are in microseconds per operation; lower is better.
+
+| Format | Small read | Small write | Large read | Large write |
+|---|---|---|---|---|
+| **Jackson `JsonCodec`** | **1.36** | **0.77** | 19.2 | **5.9** |
+| ZIO Blocks JSON | 2.86 | 0.92 | **16.8** | 9.6 |
+| MessagePack | 2.77 | 0.88 | 23.5 | 9.7 |
+| Avro | 2.98 | 1.35 | 19.5 | 10.8 |
+| YAML | 13.0 | 1.48 | 101.0 | 20.0 |
+
+The small payload is a Weather `GetForecastOutput`. The large one is a DynamoDB `Put` with 50 attributes: strings, numbers, blobs, and nested lists and maps.
+
+- **Writing:** Jackson streams straight from the shape codec to bytes. Each ZIO Blocks codec first builds a `DynamicValue` tree, and on the large item that step alone takes 5.5 µs, more than half of their 9.6 µs. Their own encoders are fast; the bridge's extra tree is the cost.
+- **Reading:** our Jackson reader doesn't stream either. It parses the body into a Jackson `JsonNode` tree with `readTree` and then walks it. ZIO Blocks' JSON parser builds its tree faster: about 8.5 µs of its 16.8, the other 8.3 being our reader walking the `DynamicValue`. A streaming Jackson reader would likely win here too, but our error handling reads `__type` from the tree, so that change isn't free.
+- **Between the ZIO Blocks formats:** JSON, MessagePack and Avro are close; MessagePack's binary format gives no speed advantage through the bridge. YAML is 5–7 times slower than the others for reading.
+
+`AvroSchemaCodec` against Jackson and the ZIO Blocks Avro codec, from a separate run with two forks (same units):
+
+| Format | Small read | Small write | Large read | Large write |
+|---|---|---|---|---|
+| **Avro, shape schema (`AvroSchemaCodec`)** | **0.31** | **0.60** | **9.7** | **4.3** |
+| Jackson `JsonCodec` | 1.21 | 0.74 | 19.9 | 6.0 |
+| Avro, ZIO Blocks `DynamicValue` (`AvroCodec`) | 2.85 | 0.96 | 20.2 | 10.4 |
+
+It's the fastest codec here in all four columns. It reads about twice as fast as Jackson on the large item and four times as fast on the small one, and writes 20–30% faster. There are two reasons:
+- **It streams both ways.** There's no `JsonNode` or `DynamicValue` tree on either side.
+- **Avro has nothing to parse.** There are no field names to match and no quotes or escapes to scan, only varints and length-prefixed strings in a known order.
+
+The ±0.50 margin on its small write (0.60) means only "about as fast as Jackson" is safe to say there.
+
+These numbers come from one JMH run on an Apple M1 with JDK 25: 3 warmup and 5 measured iterations of 1 second, in one fork. That's enough to rank the codecs but not to separate close results; Avro's write figures have a wide margin (±1.9 µs on 1.35). The benchmarks are in [CodecBench.scala](../../modules/bench/src/main/scala/smithyscala/bench/CodecBench.scala): `ForecastBench` and `PutBench` per format, and `BridgeBench` for the bridge alone. Run them with:
+
+```
+sbt --client "clientBench/Jmh/run -i 5 -wi 3 -f 1"
+```
+
 ## How the generator reads the model
 
 The example clients are generated from these files:
@@ -97,6 +218,45 @@ So the format doesn't matter. The assembler:
 - returns one semantic `Model`.
 
 The generator works only on that model's shapes, traits and indexes (`Walker`, `OperationIndex`, `ServiceIndex`, `PaginatedIndex`). The same path serves the smithy-build plugin (`scala-client-codegen`). There, smithy-build assembles the model and passes it in through `PluginContext`.
+
+### Knowledge indexes
+
+The assembled `Model` is already a resolved shape graph, not a raw AST:
+- shape ids are absolute;
+- the prelude is loaded;
+- mixins are applied: their members and traits are copied into each shape that uses them.
+
+What the model doesn't hold are answers that need a walk across the graph. "Which operations can this service reach?" is one; "Which errors can this operation return?" is another. Knowledge indexes in `software.amazon.smithy.model.knowledge` precompute those answers. Each implements `KnowledgeIndex`, and `X.of(model)` builds it once per `Model` and caches it there (`Model.getKnowledge`). Calling `of` again is cheap, and every plugin or generator sharing the model shares the index.
+
+| Index | What it answers | Used here |
+|---|---|---|
+| `TopDownIndex` | `getContainedOperations` / `getContainedResources`: every operation and resource reachable from a service, including operations bound to resources nested inside resources. | Yes: the list of client methods. |
+| `OperationIndex` | `getInputShape` / `getOutputShape` (the resolved structures) and `getErrors(operation)`. `getErrors(service, operation)` adds the errors declared on the service. It also answers the reverse question: `getInputBindings`, `getOutputBindings` and `getErrorBindings` give the operations that use a structure. | Yes: input, output and the error registry (`getErrors(service, op)`). |
+| `ServiceIndex` | `getProtocols`: the service's traits that are marked `@protocolDefinition`. `getAuthSchemes`: the ones marked `@authDefinition`. `getEffectiveAuthSchemes(service, op)`: what actually applies to one operation once `@auth` and `@optionalAuth` are taken into account. It does **not** resolve errors; that's `OperationIndex`. | Yes: picking the protocol, and each operation's auth schemes. |
+| `PaginatedIndex` | `getPaginationInfo(service, op)`: an operation's `@paginated` trait merged with the service's defaults, with the members resolved and their paths followed. | Yes: generated paginators. |
+| `HttpBindingIndex` | Request and response bindings (`@httpLabel`, `@httpQuery`, `@httpHeader`, `@httpPrefixHeaders`, `@httpPayload`, body). Also the success status code, request and response content types, whether there is a body, and the timestamp format to use for each location. | No: needed for `restJson1` and `restXml`. |
+| `NullableIndex` | `isMemberNullable(member, mode)`: whether *generated code* should treat a member as optional. This is about the type in the generated code, not the wire. It takes `@required`, `@default`, `@clientOptional` and `@input` into account, depending on the `CheckMode`. | No (see below). |
+| `EventStreamIndex`, `BottomUpIndex`, `IdentifierBindingIndex`, `PropertyBindingIndex` | Event stream members; the path from a shape up to its services; resource identifier and property bindings. | No. |
+
+`Walker` isn't an index. It's in `software.amazon.smithy.model.neighbor`. It walks a shape's closure, and the generator uses it to find every shape to write.
+
+#### Optional members, and `NullableIndex`
+
+The generator decides `Option[A]`, a Scala default or a plain required field with its own rule:
+- `@required` without `@clientOptional` gives a required field;
+- otherwise a non-null `@default` gives a default value;
+- otherwise the field is an `Option`.
+
+That rule is `NullableIndex`'s `SERVER` mode plus `@clientOptional`, and it isn't any built-in mode. It differs from `CLIENT` (what `isMemberNullable(member)` uses) in one place: `CLIENT` makes **every** member of an `@input` structure optional. In the Weather model `input := { @required city: String }` applies `@input`, so under `CLIENT` the generated `GetForecastInput` would take `city: Option[String]`.
+
+`CLIENT` lets a service drop `@required` from an input member later without breaking generated clients. The cost is that callers lose compile-time checks on inputs; this generator keeps the checks. The `CheckMode`s:
+
+| Mode | Optional when |
+|---|---|
+| `SERVER` | no `@required`, and no non-null `@default` |
+| `CLIENT` | as `SERVER`, or the member has `@clientOptional`, or its structure has `@input` |
+| `CLIENT_CAREFUL` | as `CLIENT`, or the member targets a structure or union (those can never gain a `@default`) |
+| `CLIENT_ZERO_VALUE_V1`, `CLIENT_ZERO_VALUE_V1_NO_INPUT` | Unstable. Only Smithy 1.0-style zero-value defaults count, for generators that predate IDL 2.0. |
 
 `ALLOW_UNKNOWN_TRAITS` is set so that an AWS model using a trait whose definition jar isn't on the generator's classpath still loads. Those traits don't affect the generated code.
 
@@ -403,6 +563,8 @@ To talk to the [AWS Emulator](../aws-emulator/README.md), pass `transport = Java
 | [HearthDerivationSpec](../../modules/hearth/src/test/scala/smithyscala/hearth/HearthDerivationSpec.scala) | The Hearth derivation: a user-provided codec wins, a recursive case class derives as is, and an unsupported type reports every reason in one error. |
 | [ParitySpec](../../modules/client-example/src/test/scala/example/ParitySpec.scala) | Both derivations on the same generated types (the default Hearth clients and their Mirror copies) write the same JSON and read each other's. |
 | [DerivationSpec](../../modules/client-example/src/test/scala/example/DerivationSpec.scala) | The derived codecs on the generated clients: default values, error correction, enum values, union ordinals, recursive round-trips, and the compile error from `TypeRegistry.of`. |
+| [AvroSchemaCodecSpec](../../modules/client-example/src/test/scala/example/AvroSchemaCodecSpec.scala) | Avro for the shape: round-trips (recursive unions, `@sparse` nulls, microsecond timestamps), the derived Avro schema, Apache Avro's `GenericDatumReader` reading our bytes and our reader reading `GenericDatumWriter` output, and sizes against the other codecs. |
+| [FormatBridgeSpec](../../modules/client-example/src/test/scala/example/FormatBridgeSpec.scala) | Generated DynamoDB and Weather shapes written as ZIO Blocks JSON, MessagePack, Avro and YAML and read back. Also checks the JSON text, Thrift writing only, and the `DynamicValue` shape. |
 | [GeneratedClientSpec](../../modules/client-example/src/test/scala/example/GeneratedClientSpec.scala) | The generated SQS, DynamoDB and Weather clients against a local server: wire format, signing, modelled and unknown errors, retries, paginators, recursive unions, idempotency tokens, `rpcv2Json` paths and Unit input. |
 
 Run them all with `sbt --client "clientRuntime/test; clientCodegen/test; clientExample/test; clientHearth/test"`.

@@ -15,6 +15,19 @@ package codecs
   * | [[CborCodec]]    | CBOR (RFC 8949)            | rpcv2Cbor                                       | not implemented |
   * | [[ProtobufCodec]]| Protocol Buffers           | the gRPC design in docs/smithy/new-protocol-protobuf.md | not implemented |
   *
+  * Formats no Smithy protocol uses come from ZIO Blocks, through a `DynamicValue` (see [[DynamicValueCodec]]):
+  *
+  * | Codec                  | Format      | State                                                |
+  * |------------------------|-------------|------------------------------------------------------|
+  * | [[ZioBlocksJsonCodec]] | JSON        | round-trips; plain JSON, no Smithy JSON rules        |
+  * | [[MessagePackCodec]]   | MessagePack | round-trips                                          |
+  * | [[AvroCodec]]          | Avro        | round-trips                                          |
+  * | [[YamlCodec]]          | YAML        | round-trips; reading re-types scalars ("007" -> "7") |
+  * | [[ThriftCodec]]        | Thrift      | writes only                                          |
+  *
+  * [[AvroSchemaCodec]] is Avro for the shape itself, without the bridge: it streams with Apache Avro's encoder,
+  * in the layout [[AvroSchemas.of]] derives from our schema, so other Avro tools can read it.
+  *
   * The unimplemented ones describe what they would read from the schema and fail with
   * [[CodecNotImplemented]] if used.
   */

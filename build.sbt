@@ -83,7 +83,6 @@ val zioBlocks = Seq(
   "dev.zio" %% "zio-blocks-schema-thrift"      % zioBlocksVersion,
   "dev.zio" %% "zio-blocks-schema-bson"        % zioBlocksVersion,
   "dev.zio" %% "zio-blocks-schema-messagepack" % zioBlocksVersion,
-  "dev.zio" %% "zio-blocks-schema-toon"        % zioBlocksVersion,
   "dev.zio" %% "zio-blocks-schema-csv"         % zioBlocksVersion,
   "dev.zio" %% "zio-blocks-schema-xml"         % zioBlocksVersion,
   "dev.zio" %% "zio-blocks-schema-yaml"        % zioBlocksVersion
@@ -109,7 +108,18 @@ lazy val clientRuntime = project
     libraryDependencies ++= Seq(
       "tools.jackson.core" % "jackson-core"     % "3.3.0",
       "tools.jackson.core" % "jackson-databind" % "3.3.0",
-      munit                % Test
+      // The format bridge in runtime/codecs: our shape codecs write a ZIO Blocks DynamicValue, and
+      // these modules turn it into bytes. zio-blocks-schema brings ZIO Blocks' own JSON; Smithy's JSON
+      // protocols stay on Jackson (JsonCodec).
+      "dev.zio" %% "zio-blocks-schema"             % zioBlocksVersion,
+      "dev.zio" %% "zio-blocks-chunk"              % zioBlocksVersion, // Chunk, in DynamicValueBridge
+      "dev.zio" %% "zio-blocks-schema-messagepack" % zioBlocksVersion,
+      "dev.zio" %% "zio-blocks-schema-avro"        % zioBlocksVersion,
+      "dev.zio" %% "zio-blocks-schema-yaml"        % zioBlocksVersion,
+      "dev.zio" %% "zio-blocks-schema-thrift"      % zioBlocksVersion,
+      // AvroSchemaCodec: Avro for the shape itself, with an Avro schema made from our Schema.
+      "org.apache.avro" % "avro" % "1.12.2",
+      munit             % Test
     )
   )
 
@@ -157,4 +167,15 @@ lazy val clientHearth = project
       compilerPlugin("com.kubuszok" % "hearth-cross-quotes_3" % hearthVersion),
       munit % Test
     )
+  )
+
+// JMH benchmarks for the format codecs: Jackson's JsonCodec against the ZIO Blocks bridge.
+// Run with: sbt --client "clientBench/Jmh/run -i 5 -wi 3 -f 1"
+lazy val clientBench = project
+  .in(file("modules/bench"))
+  .dependsOn(clientExample)
+  .enablePlugins(JmhPlugin)
+  .settings(
+    name           := "smithy-scala-client-bench",
+    publish / skip := true
   )
