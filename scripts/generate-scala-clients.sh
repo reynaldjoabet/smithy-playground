@@ -19,6 +19,7 @@ generate "$models/secrets-manager/secrets-manager.json"  'com.amazonaws.secretsm
 generate "$models/cognito-identity-provider/cognito-identity-provider.json" \
   'com.amazonaws.cognitoidentityprovider#AWSCognitoIdentityProviderService' example.cognitoidp
 generate "$root/modules/client-example/model/weather.smithy" 'example.weather#Weather'              example.weather
+generate "$root/modules/client-example/model/notes.smithy"   'example.notes#Notes'                  example.notes
 
 # Copies with the runtime's Mirror derivation, for client-example's ParitySpec.
 mirror="$root/modules/client-example/src/test/scala"

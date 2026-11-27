@@ -230,4 +230,41 @@ class ScalaClientGeneratorSpec extends munit.FunSuite {
     val gone = out("gen/q/Gone.scala")
     assert(gone.contains("\"smithy.api#error\" -> \"client\"") && !gone.contains("httpError"), gone)
   }
+
+  test("IDL 2.1: inline collections become plain List / Map types; member indexes load as @idx") {
+    val idl21 =
+      """$version: "2.1"
+        |namespace example.notes
+        |
+        |use smithy.protocols#rpcv2Json
+        |
+        |@rpcv2Json
+        |service Notes {
+        |    version: "2026-11-27"
+        |    operations: [AddNote]
+        |}
+        |
+        |operation AddNote {
+        |    input := {
+        |        @required
+        |        1. title: String
+        |        2. tags: [String]
+        |        3. scores: {String: Integer}
+        |    }
+        |    output := { 1. id: String }
+        |}
+        |""".stripMargin
+    val m   = Model.assembler().discoverModels().addUnparsedModel("notes.smithy", idl21).assemble().unwrap()
+    val out = ScalaClientGenerator.generate(m, ShapeId.from("example.notes#Notes"), "gen.notes")
+    // The assembler's synthetic shapes get no file of their own.
+    assertEquals(out.keySet.map(_.stripPrefix("gen/notes/")), Set("AddNoteInput.scala", "AddNoteOutput.scala", "NotesClient.scala"))
+    val input = out("gen/notes/AddNoteInput.scala")
+    assert(input.contains("tags: scala.Option[scala.collection.immutable.List[java.lang.String]] = scala.None"), input)
+    assert(input.contains("scores: scala.Option[scala.collection.immutable.Map[java.lang.String, scala.Int]] = scala.None"), input)
+    // Their schema is inline, keeping the synthetic shape id.
+    assert(input.contains("rt.ShapeId(\"example.notes\", \"_SyntheticListOf__String\"), rt.ShapeType.List"), input)
+    // `1. title` is @smithy.protocols#idx(1) in the model.
+    val title = m.expectShape(ShapeId.from("example.notes#AddNoteInput$title"))
+    assertEquals(title.findTrait(ShapeId.from("smithy.protocols#idx")).map(_.toNode.expectNumberNode.getValue.intValue).orElse(-1), 1)
+  }
 }

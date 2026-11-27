@@ -52,6 +52,13 @@ class DerivationSpec extends munit.FunSuite {
     assertEquals(read[AttributeValue](write[AttributeValue](v)), v)
   }
 
+  test("IDL 2.1 inline collections: plain List / Map fields, inline schemas, JSON round-trip") {
+    val in = example.notes.AddNoteInput("groceries", tags = Some(List("food", "weekly")), scores = Some(Map("urgency" -> 3)))
+    val json = write(in)
+    assertEquals(json, """{"title":"groceries","tags":["food","weekly"],"scores":{"urgency":3}}""")
+    assertEquals(read[example.notes.AddNoteInput](json), in)
+  }
+
   test("TypeRegistry.of rejects a type that isn't a ServiceException at compile time") {
     val errors = compileErrors("smithy.scala.runtime.TypeRegistry.of[java.lang.String *: EmptyTuple]")
     assert(errors.contains("every error type must extend ServiceException"), errors)

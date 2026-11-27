@@ -74,6 +74,8 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String, 
 
   private val List_ = "scala.collection.immutable.List"
   private val Map_  = "scala.collection.immutable.Map"
+  // Defined before `shapes`, which reads it while the class initializes.
+  private val SyntheticTraitId = ShapeId.from("smithy.api#synthetic")
 
   // ----------------------------------------------------------------------------------------------- shapes
 
@@ -86,6 +88,7 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String, 
     .asScala
     .toList
     .filter(s => !Prelude.isPreludeShape(s.getId))
+    .filterNot(isInlineCollection)
     .filter {
       case _: StructureShape | _: UnionShape | _: EnumShape | _: IntEnumShape | _: ListShape | _: MapShape => true
       case _                                                                                              => false
@@ -101,6 +104,14 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String, 
 
   private def typeName(id: ShapeId): String = service.getContextualName(model.expectShape(id))
 
+  /**
+    * A list or map written inline in IDL 2.1 (`tags: [String]`, `scores: {String: Integer}`). The
+    * assembler turns it into a shape named `_SyntheticListOf__String` and marks it `@synthetic`. It
+    * gets no file of its own: members use the plain `List` / `Map` type, with the schema inline.
+    */
+  private def isInlineCollection(s: Shape): Boolean =
+    (s.isListShape || s.isMapShape) && s.hasTrait(SyntheticTraitId)
+
   private def shapeIdExpr(id: ShapeId): String = s"rt.ShapeId(${lit(id.getNamespace)}, ${lit(id.getName)})"
 
   // ----------------------------------------------------------------------------------------------- types
@@ -110,6 +121,7 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String, 
     case EnumK(name: String)
     case IntEnumK(name: String)
     case Aggregate(name: String)
+    case InlineCollection(scalaType: String, schema: String)
     case UnitK
   }
 
@@ -132,6 +144,7 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String, 
         case _: BlobShape       => Kind.Simple("Blob", "rt.Blob", "Blob")
         case _: TimestampShape  => Kind.Simple("Timestamp", "java.time.Instant", "Timestamp")
         case _: DocumentShape   => Kind.Simple("Document", "rt.Document", "Document")
+        case s if isInlineCollection(s) => Kind.InlineCollection(collectionType(s), inlineSchema(s))
         case s                  => Kind.Aggregate(typeName(s.getId))
       }
 
@@ -140,6 +153,7 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String, 
     case Kind.EnumK(n)        => n
     case Kind.IntEnumK(n)     => n
     case Kind.Aggregate(n)    => n
+    case Kind.InlineCollection(t, _) => t
     case Kind.UnitK           => "scala.Unit"
   }
 
@@ -220,6 +234,7 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String, 
     val (schemaExpr, extra) = kind(m.getTarget) match {
       case Kind.Simple(_, _, prelude) => (s"rt.Prelude.$prelude", runtimeTraits(target))
       case Kind.UnitK                 => ("rt.Prelude.Unit", Nil)
+      case Kind.InlineCollection(_, schema) => (schema, Nil)
       case _                          => (s"${typeName(m.getTarget)}.schema", Nil)
     }
     val traits = extra ++ runtimeTraits(m)
@@ -353,17 +368,28 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String, 
   // Lists and maps need no codec of their own: the runtime's generic List and Map givens read
   // the element schema from the member schema they're given.
 
-  private def list(l: ListShape): String = {
-    val target = l.getMember.getTarget
-    val elem   = if (l.hasTrait(classOf[SparseTrait])) s"scala.Option[${scalaType(target)}]" else scalaType(target)
-    doc(l, "") + s"type ${typeName(l.getId)} = $List_[$elem]\n\nobject ${typeName(l.getId)} {\n" + schemaVal(l, "List") + "}\n"
+  private def list(l: ListShape): String =
+    doc(l, "") + s"type ${typeName(l.getId)} = ${collectionType(l)}\n\nobject ${typeName(l.getId)} {\n" + schemaVal(l, "List") + "}\n"
+
+  private def map(mp: MapShape): String =
+    doc(mp, "") + s"type ${typeName(mp.getId)} = ${collectionType(mp)}\n\nobject ${typeName(mp.getId)} {\n" +
+      schemaVal(mp, "Map") + "}\n"
+
+  /** `List[A]` or `Map[String, A]`, with `Option` elements when `@sparse`. */
+  private def collectionType(s: Shape): String = {
+    def elem(target: ShapeId) = if (s.hasTrait(classOf[SparseTrait])) s"scala.Option[${scalaType(target)}]" else scalaType(target)
+    s match {
+      case l: ListShape => s"$List_[${elem(l.getMember.getTarget)}]"
+      case m: MapShape  => s"$Map_[java.lang.String, ${elem(m.getValue.getTarget)}]"
+      case other        => throw new IllegalStateException(s"not a collection: ${other.getId}")
+    }
   }
 
-  private def map(mp: MapShape): String = {
-    val target = mp.getValue.getTarget
-    val v      = if (mp.hasTrait(classOf[SparseTrait])) s"scala.Option[${scalaType(target)}]" else scalaType(target)
-    doc(mp, "") + s"type ${typeName(mp.getId)} = $Map_[java.lang.String, $v]\n\nobject ${typeName(mp.getId)} {\n" +
-      schemaVal(mp, "Map") + "}\n"
+  /** The schema of an inline collection, as one expression: the same shape the named form's `schema` would hold. */
+  private def inlineSchema(s: Shape): String = {
+    val shapeType = if (s.isListShape) "List" else "Map"
+    s"rt.Schema.aggregate(${shapeIdExpr(s.getId)}, rt.ShapeType.$shapeType, ${traitsExpr(runtimeTraits(s))})(" +
+      s.members().asScala.toList.map(memberDef).mkString(", ") + ")"
   }
 
   // ----------------------------------------------------------------------------------------------- client

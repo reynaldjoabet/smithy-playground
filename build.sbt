@@ -21,7 +21,7 @@ ThisBuild / scalacOptions := Seq(
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-val smithyVersion = "1.74.0"
+val smithyVersion = "1.75.1"
 
 val commonDependencies: Seq[ModuleID] = Seq(
   "com.fasterxml.jackson.core"    % "jackson-databind"     % "2.23.0",
