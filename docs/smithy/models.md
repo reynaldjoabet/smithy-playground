@@ -110,6 +110,316 @@ And an error:
 
 `@error("client")` makes it an exception type in Java and an error struct in Go. The protocol's error deserializer reads the error code from the response (for awsJson, the `__type` field or the `X-Amzn-Errortype` header) and maps it to this shape.
 
+## How the JSON AST is laid out
+
+A JSON AST file has three top-level keys:
+
+```json
+{
+  "smithy": "2.0",
+  "metadata": { ... },
+  "shapes": {
+    "com.amazonaws.sqs#AmazonSQS":          { "type": "service", ... },
+    "com.amazonaws.sqs#SendMessage":        { "type": "operation", ... },
+    "com.amazonaws.sqs#SendMessageRequest": { "type": "structure", ... },
+    ...
+  }
+}
+```
+
+The whole format follows two rules:
+
+| What it is | How it's written | Examples |
+|---|---|---|
+| Something **defined here**, with a name that must be unique | An **object keyed by that name** | `shapes` (by shape ID), `members` (by member name), `traits` (by trait ID) |
+| A **reference** to a shape defined elsewhere | `{ "target": "<shape ID>" }`, and an **array** of those when there are several | A member's `target`, an operation's `input`, `output` and `errors`, a service's `operations` |
+
+### Why `members` is an object, not an array
+
+Member names must be unique within a shape, so the member name is the key:
+
+```json
+"members": {
+  "QueueUrl":    { "target": "com.amazonaws.sqs#String", "traits": { "smithy.api#required": {} } },
+  "MessageBody": { "target": "com.amazonaws.sqs#String", "traits": { "smithy.api#required": {} } }
+}
+```
+
+An array of objects would need the name repeated inside each entry:
+
+```json
+"members": [
+  { "name": "QueueUrl",    "target": "com.amazonaws.sqs#String", "traits": { "smithy.api#required": {} } },
+  { "name": "MessageBody", "target": "com.amazonaws.sqs#String", "traits": { "smithy.api#required": {} } }
+]
+```
+
+With an array, nothing in JSON stops two entries named `QueueUrl`, so that check would have to move into validation. Keying by name has two other benefits:
+- **Every member is directly addressable.** Tools can look up `members.QueueUrl`, or use a JSON Pointer such as `/shapes/com.amazonaws.sqs#SendMessageRequest/members/QueueUrl`.
+- **It mirrors the IDL,** where members are written as `name: Target` pairs.
+
+References are different. `"errors": [ { "target": "…#QueueDoesNotExist" }, … ]` has no name of its own to key by: each entry *is* the shape ID. So references are lists.
+
+### The catch: member order
+
+JSON's spec (RFC 8259) treats an object as unordered. But member order matters in Smithy:
+- It's the order Smithy's tooling keeps when it loads, prints and converts a model.
+- Code generators lay out constructor parameters and fields in that order.
+
+Smithy's model loader keeps keys in the order they appear in the file, and so does every mainstream JSON parser, so in practice the order survives. It's a guarantee from the tooling, though, not from JSON itself.
+
+### Every kind of shape, JSON and IDL side by side
+
+All examples are from the SQS and DynamoDB models in this repo, with `smithy.api#documentation` removed. The IDL spells out the same model in Smithy's own syntax.
+
+**A structure** (`SendMessageRequest`, complete). Members are an object; the `@input` trait marks it as an operation's input:
+
+```json
+"com.amazonaws.sqs#SendMessageRequest": {
+  "type": "structure",
+  "members": {
+    "QueueUrl":                { "target": "com.amazonaws.sqs#String", "traits": { "smithy.api#required": {} } },
+    "MessageBody":             { "target": "com.amazonaws.sqs#String", "traits": { "smithy.api#required": {} } },
+    "DelaySeconds":            { "target": "com.amazonaws.sqs#NullableInteger", "traits": {} },
+    "MessageAttributes":       { "target": "com.amazonaws.sqs#MessageBodyAttributeMap",
+                                 "traits": { "smithy.api#xmlFlattened": {}, "smithy.api#xmlName": "MessageAttribute" } },
+    "MessageSystemAttributes": { "target": "com.amazonaws.sqs#MessageBodySystemAttributeMap",
+                                 "traits": { "smithy.api#xmlFlattened": {}, "smithy.api#xmlName": "MessageSystemAttribute" } },
+    "MessageDeduplicationId":  { "target": "com.amazonaws.sqs#String", "traits": {} },
+    "MessageGroupId":          { "target": "com.amazonaws.sqs#String", "traits": {} }
+  },
+  "traits": { "smithy.api#input": {} }
+}
+```
+
+```smithy
+@input
+structure SendMessageRequest {
+    @required
+    QueueUrl: String
+
+    @required
+    MessageBody: String
+
+    DelaySeconds: NullableInteger
+
+    @xmlFlattened
+    @xmlName("MessageAttribute")
+    MessageAttributes: MessageBodyAttributeMap
+
+    @xmlFlattened
+    @xmlName("MessageSystemAttribute")
+    MessageSystemAttributes: MessageBodySystemAttributeMap
+
+    MessageDeduplicationId: String
+
+    MessageGroupId: String
+}
+```
+
+**An error** (`QueueDoesNotExist`) is a structure with `@error`:
+
+```json
+"com.amazonaws.sqs#QueueDoesNotExist": {
+  "type": "structure",
+  "members": {
+    "message": { "target": "com.amazonaws.sqs#ExceptionMessage" }
+  },
+  "traits": {
+    "aws.protocols#awsQueryError": { "code": "AWS.SimpleQueueService.NonExistentQueue", "httpResponseCode": 400 },
+    "smithy.api#error": "client",
+    "smithy.api#httpError": 400
+  }
+}
+```
+
+```smithy
+@awsQueryError(code: "AWS.SimpleQueueService.NonExistentQueue", httpResponseCode: 400)
+@error("client")
+@httpError(400)
+structure QueueDoesNotExist {
+    message: ExceptionMessage
+}
+```
+
+**A union** (DynamoDB's `AttributeValue`, complete). It has the same `members` object as a structure, but exactly one member is set at a time. `M` and `L` point to shapes that contain `AttributeValue` again, so it's recursive:
+
+```json
+"com.amazonaws.dynamodb#AttributeValue": {
+  "type": "union",
+  "members": {
+    "S":    { "target": "com.amazonaws.dynamodb#StringAttributeValue" },
+    "N":    { "target": "com.amazonaws.dynamodb#NumberAttributeValue" },
+    "B":    { "target": "com.amazonaws.dynamodb#BinaryAttributeValue" },
+    "SS":   { "target": "com.amazonaws.dynamodb#StringSetAttributeValue" },
+    "NS":   { "target": "com.amazonaws.dynamodb#NumberSetAttributeValue" },
+    "BS":   { "target": "com.amazonaws.dynamodb#BinarySetAttributeValue" },
+    "M":    { "target": "com.amazonaws.dynamodb#MapAttributeValue" },
+    "L":    { "target": "com.amazonaws.dynamodb#ListAttributeValue" },
+    "NULL": { "target": "com.amazonaws.dynamodb#NullAttributeValue" },
+    "BOOL": { "target": "com.amazonaws.dynamodb#BooleanAttributeValue" }
+  }
+}
+```
+
+```smithy
+union AttributeValue {
+    S: StringAttributeValue
+    N: NumberAttributeValue
+    B: BinaryAttributeValue
+    SS: StringSetAttributeValue
+    NS: NumberSetAttributeValue
+    BS: BinarySetAttributeValue
+    M: MapAttributeValue
+    L: ListAttributeValue
+    NULL: NullAttributeValue
+    BOOL: BooleanAttributeValue
+}
+```
+
+**An enum** (`MessageSystemAttributeNameForSends`, complete). Enum members are keyed by name too. Each targets `smithy.api#Unit` and carries its wire value in `@enumValue`. The IDL can leave the value out when it equals the name; these AWS files write it anyway:
+
+```json
+"com.amazonaws.sqs#MessageSystemAttributeNameForSends": {
+  "type": "enum",
+  "members": {
+    "AWSTraceHeader": { "target": "smithy.api#Unit", "traits": { "smithy.api#enumValue": "AWSTraceHeader" } }
+  }
+}
+```
+
+```smithy
+enum MessageSystemAttributeNameForSends {
+    AWSTraceHeader
+}
+```
+
+**A list and a map** have fixed member names, so there is no `members` object. A list has one `member`; a map has `key` and `value`. They can still carry traits:
+
+```json
+"com.amazonaws.sqs#StringList": {
+  "type": "list",
+  "member": { "target": "com.amazonaws.sqs#String", "traits": { "smithy.api#xmlName": "StringListValue" } }
+},
+"com.amazonaws.sqs#MessageBodyAttributeMap": {
+  "type": "map",
+  "key":   { "target": "com.amazonaws.sqs#String",                "traits": { "smithy.api#xmlName": "Name" } },
+  "value": { "target": "com.amazonaws.sqs#MessageAttributeValue", "traits": { "smithy.api#xmlName": "Value" } }
+},
+"com.amazonaws.dynamodb#ListAttributeValue": {
+  "type": "list",
+  "member": { "target": "com.amazonaws.dynamodb#AttributeValue" }
+}
+```
+
+```smithy
+list StringList {
+    @xmlName("StringListValue")
+    member: String
+}
+
+map MessageBodyAttributeMap {
+    @xmlName("Name")
+    key: String
+
+    @xmlName("Value")
+    value: MessageAttributeValue
+}
+
+list ListAttributeValue {
+    member: AttributeValue
+}
+```
+
+**Simple shapes** are just a type. SQS declares its own `String`, `Binary` and `NullableInteger` instead of using the prelude's:
+
+```json
+"com.amazonaws.sqs#String":          { "type": "string" },
+"com.amazonaws.sqs#Binary":          { "type": "blob" },
+"com.amazonaws.sqs#NullableInteger": { "type": "integer" }
+```
+
+```smithy
+string String
+blob Binary
+integer NullableInteger
+```
+
+**An operation** (`SendMessage`, complete). It's all references: `input` and `output` are single `target`s, and `errors` is an array of them:
+
+```json
+"com.amazonaws.sqs#SendMessage": {
+  "type": "operation",
+  "input":  { "target": "com.amazonaws.sqs#SendMessageRequest" },
+  "output": { "target": "com.amazonaws.sqs#SendMessageResult" },
+  "errors": [
+    { "target": "com.amazonaws.sqs#InvalidAddress" },
+    { "target": "com.amazonaws.sqs#InvalidMessageContents" },
+    { "target": "com.amazonaws.sqs#InvalidSecurity" },
+    { "target": "com.amazonaws.sqs#KmsAccessDenied" },
+    { "target": "com.amazonaws.sqs#KmsDisabled" },
+    { "target": "com.amazonaws.sqs#KmsInvalidKeyUsage" },
+    { "target": "com.amazonaws.sqs#KmsInvalidState" },
+    { "target": "com.amazonaws.sqs#KmsNotFound" },
+    { "target": "com.amazonaws.sqs#KmsOptInRequired" },
+    { "target": "com.amazonaws.sqs#KmsThrottled" },
+    { "target": "com.amazonaws.sqs#QueueDoesNotExist" },
+    { "target": "com.amazonaws.sqs#RequestThrottled" },
+    { "target": "com.amazonaws.sqs#UnsupportedOperation" }
+  ]
+}
+```
+
+```smithy
+operation SendMessage {
+    input: SendMessageRequest
+    output: SendMessageResult
+    errors: [
+        InvalidAddress, InvalidMessageContents, InvalidSecurity, KmsAccessDenied, KmsDisabled,
+        KmsInvalidKeyUsage, KmsInvalidState, KmsNotFound, KmsOptInRequired, KmsThrottled,
+        QueueDoesNotExist, RequestThrottled, UnsupportedOperation
+    ]
+}
+```
+
+**A service** lists its operations the same way, as references. The [SQS example above](#a-real-example-sqs) shows its traits:
+
+```json
+"com.amazonaws.sqs#AmazonSQS": {
+  "type": "service",
+  "version": "2012-11-05",
+  "operations": [
+    { "target": "com.amazonaws.sqs#AddPermission" },
+    { "target": "com.amazonaws.sqs#CancelMessageMoveTask" },
+    { "target": "com.amazonaws.sqs#ChangeMessageVisibility" },
+    ...
+  ],
+  "traits": { ... }
+}
+```
+
+### Why the order matters in this repo
+
+The Scala generator ([scala-client.md](scala-client.md)) takes member order straight from the `members` object. `SendMessageRequest`'s case class fields and its `MemberDef`s come out in file order, `QueueUrl` first and `MessageGroupId` last:
+
+```scala
+final case class SendMessageRequest(
+    queueUrl: java.lang.String,                                         // "QueueUrl", member 0
+    messageBody: java.lang.String,                                      // "MessageBody", member 1
+    delaySeconds: scala.Option[scala.Int] = scala.None,                 // "DelaySeconds", member 2
+    messageAttributes: scala.Option[MessageBodyAttributeMap] = scala.None,
+    messageSystemAttributes: scala.Option[MessageBodySystemAttributeMap] = scala.None,
+    messageDeduplicationId: scala.Option[java.lang.String] = scala.None,
+    messageGroupId: scala.Option[java.lang.String] = scala.None         // "MessageGroupId", member 6
+)
+```
+
+What depends on that order:
+- **The Hearth codecs** pair the case class's field *i* with member *i* of the schema.
+- **JSON doesn't care.** `JsonCodec` writes each member's name and reads by name, so reordering members changes nothing on the wire.
+- **Avro does.** `AvroSchemaCodec` writes members by position, with no names. Reordering members in the model changes the Avro layout, and bytes written before the change no longer decode. To evolve a shape that's stored as Avro, add new members at the end.
+- **The generated API changes too.** Constructor parameters move, so callers that pass arguments by position break. Callers that pass them by name don't.
+
 ## Traits that SDKs depend on
 
 Beyond protocol and auth, these traits are what make a generated client more than a typed HTTP wrapper:
