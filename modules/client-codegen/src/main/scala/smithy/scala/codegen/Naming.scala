@@ -11,14 +11,18 @@ object Naming {
     "inline", "opaque", "open", "transparent", "using", "_"
   )
 
-  /** Members a case class (or an exception) already has, so a field can't use the name. */
+  /** Members a case class (or an exception) already has, or its companion defines, so a field can't use the name. */
   private val caseClassMembers = Set(
     "copy", "equals", "hashCode", "toString", "productArity", "productElement", "productPrefix",
     "productIterator", "productElementName", "productElementNames", "canEqual", "getClass", "wait", "notify",
     "notifyAll", "clone", "finalize", "eq", "ne", "synchronized", "asInstanceOf", "isInstanceOf",
     "getMessage", "getCause", "getStackTrace", "fillInStackTrace", "initCause", "printStackTrace",
     "getLocalizedMessage", "addSuppressed", "getSuppressed", "setStackTrace", "smithyShapeId", "smithyFault",
-    "smithyMetadata", "smithyRetryable", "smithyThrottling", "attach"
+    "smithyMetadata", "smithyRetryable", "smithyThrottling", "attach",
+    // Members of every generated companion. A field may legally share a companion member's name, but Hearth's
+    // case-class parsing then resolves the field to the companion's member (Cognito's CreateUserPoolRequest has a
+    // `Schema` member), so these get the `_` suffix too.
+    "schema", "codec"
   )
 
   def escape(name: String): String = if (keywords.contains(name)) s"`$name`" else name
