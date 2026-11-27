@@ -1,7 +1,7 @@
 package example
 
-import smithyscala.runtime.*
-import smithyscala.runtime.codecs.*
+import smithy.scala.runtime.*
+import smithy.scala.runtime.codecs.*
 
 import java.io.ByteArrayOutputStream
 import java.time.Instant

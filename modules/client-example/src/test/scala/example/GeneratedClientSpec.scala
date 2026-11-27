@@ -2,7 +2,7 @@ package example
 
 import java.time.Instant
 
-import smithyscala.runtime.*
+import smithy.scala.runtime.*
 
 import example.dynamodb.AttributeValue
 import example.dynamodb.DynamoDBClient

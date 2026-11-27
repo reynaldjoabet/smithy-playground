@@ -1,10 +1,10 @@
 package example
 
-import smithyscala.runtime.codecs.*
+import smithy.scala.runtime.codecs.*
 
 import java.nio.charset.StandardCharsets.UTF_8
 
-import smithyscala.runtime.*
+import smithy.scala.runtime.*
 
 import example.dynamodb.AttributeValue
 import example.weather.*
@@ -53,7 +53,7 @@ class DerivationSpec extends munit.FunSuite {
   }
 
   test("TypeRegistry.of rejects a type that isn't a ServiceException at compile time") {
-    val errors = compileErrors("smithyscala.runtime.TypeRegistry.of[java.lang.String *: EmptyTuple]")
+    val errors = compileErrors("smithy.scala.runtime.TypeRegistry.of[java.lang.String *: EmptyTuple]")
     assert(errors.contains("every error type must extend ServiceException"), errors)
     assert(TypeRegistry.of[Busy *: EmptyTuple].find("example.weather#Busy").isDefined)
   }

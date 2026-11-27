@@ -1,7 +1,7 @@
 package example
 
-import smithyscala.runtime.*
-import smithyscala.runtime.codecs.*
+import smithy.scala.runtime.*
+import smithy.scala.runtime.codecs.*
 
 import java.nio.charset.StandardCharsets.UTF_8
 import java.time.Instant

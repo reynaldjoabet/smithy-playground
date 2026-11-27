@@ -11,7 +11,7 @@ import java.security.cert.CertificateFactory
 import javax.net.ssl.SSLContext
 import javax.net.ssl.TrustManagerFactory
 
-import smithyscala.runtime.*
+import smithy.scala.runtime.*
 
 import example.dynamodb.*
 import example.sqs.*

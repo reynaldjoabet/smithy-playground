@@ -134,9 +134,9 @@ class ScalaClientGeneratorSpec extends munit.FunSuite {
   }
 
   test("codecs are derived, not generated") {
-    assert(src("GetForecastInput").contains("given codec: rt.SchemaCodec[GetForecastInput] = smithyscala.hearth.HearthCodec.derived[GetForecastInput](schema)"))
-    assert(src("Kind").contains("given codec: rt.SchemaCodec[Kind] = smithyscala.hearth.HearthCodec.derived[Kind](schema)"))
-    assert(src("Units").contains("lazy val knownValues: scala.collection.immutable.List[Units] = smithyscala.hearth.HearthCodec.enumValues[Units]"))
+    assert(src("GetForecastInput").contains("given codec: rt.SchemaCodec[GetForecastInput] = smithy.scala.hearth.HearthCodec.derived[GetForecastInput](schema)"))
+    assert(src("Kind").contains("given codec: rt.SchemaCodec[Kind] = smithy.scala.hearth.HearthCodec.derived[Kind](schema)"))
+    assert(src("Units").contains("lazy val knownValues: scala.collection.immutable.List[Units] = smithy.scala.hearth.HearthCodec.enumValues[Units]"))
     assert(src("Detail").contains("rt.ShapeCodec.intEnum(fromValue, _.value)"))
     assert(!src("Days").contains("def write"))
     assert(src("WeatherClient").contains("rt.TypeRegistry.of[Busy *: EmptyTuple]"))

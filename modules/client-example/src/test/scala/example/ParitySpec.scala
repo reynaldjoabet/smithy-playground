@@ -1,10 +1,10 @@
 package example
 
-import smithyscala.runtime.codecs.*
+import smithy.scala.runtime.codecs.*
 
 import java.nio.charset.StandardCharsets.UTF_8
 
-import smithyscala.runtime.*
+import smithy.scala.runtime.*
 
 /**
   * The two derivations side by side on the same generated types: `example.*` uses Hearth (the generator's default),
