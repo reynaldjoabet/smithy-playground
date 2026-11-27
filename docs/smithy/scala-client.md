@@ -378,7 +378,7 @@ def sendMessage(input: SendMessageRequest): SendMessageResult = pipeline.invoke(
 | Member names (`QueueUrl`) | The schema (`MemberDef("QueueUrl", …)`); the Scala field is `queueUrl` |
 | `@required` | A plain field (not `Option`), and a `"smithy.api#required"` trait in the schema |
 | No `@required` | `Option[…] = None` |
-| `@xmlFlattened`, `@xmlName` | Dropped. Only the XML protocols read them. |
+| `@xmlFlattened`, `@xmlName` | Dropped. Only the XML protocols read them (see [Which traits the generator keeps](#which-traits-the-generator-keeps)). |
 | `@input` on `SendMessageRequest` | Ignored. Smithy's `CLIENT` nullability mode would make every member optional here; this generator keeps `@required` members required (see [Optional members, and `NullableIndex`](#optional-members-and-nullableindex)). |
 | `NullableInteger`, `Binary` | `Prelude.Integer` / `Int`, `Prelude.Blob` / `rt.Blob` |
 | Map and list shapes | A type alias plus a schema; the runtime's generic codecs handle them |
@@ -675,6 +675,80 @@ That rule is `NullableIndex`'s `SERVER` mode plus `@clientOptional`, and it isn'
 `ALLOW_UNKNOWN_TRAITS` is set so that an AWS model using a trait whose definition jar isn't on the generator's classpath still loads. Those traits don't affect the generated code.
 
 The root project's older `src/main/scala/SmithyToScalaCodegen.scala` works the other way: it reads a `model.json` with Jackson, field by field. That approach has no access to trait semantics, the prelude or the service closure.
+
+### Which traits the generator keeps
+
+A model carries far more traits than a client needs at run time: documentation, examples, endpoint rules, and wire traits for protocols the service doesn't use. SQS's `SendMessageRequest` still has `@xmlName` and `@xmlFlattened` from when it spoke awsQuery. The generated schema keeps only what the runtime reads, so the question is how to know which traits those are.
+
+The model itself says which traits a protocol honours. Every protocol trait is declared with `@protocolDefinition(traits: [...])`, and that list names the traits the protocol reads. These are the actual definitions in smithy-aws-traits 1.74.0 and smithy-protocol-traits 1.74.0:
+
+| Protocol | Traits it honours |
+|---|---|
+| `awsJson1_0`, `awsJson1_1` | `timestampFormat`, `cors`, `endpoint`, `hostLabel` |
+| `rpcv2Json`, `rpcv2Cbor` | `cors`, `endpoint`, `hostLabel`, `httpError`, `requestCompression` |
+| `restJson1` | the awsJson ones, plus `http`, `httpError`, `httpHeader`, `httpLabel`, `httpPayload`, `httpPrefixHeaders`, `httpQuery`, `httpQueryParams`, `httpResponseCode`, `httpChecksum`, `httpChecksumRequired`, **`jsonName`** |
+| `restXml` | the same HTTP bindings, plus **`xmlAttribute`, `xmlFlattened`, `xmlName`, `xmlNamespace`** |
+| `awsQuery` | the awsJson ones, plus `awsQueryError` and the four `xml*` traits |
+| `ec2Query` | the awsJson ones, plus `ec2QueryName` and the four `xml*` traits |
+
+For example, `awsJson1_0` is declared like this in `aws.protocols.smithy`:
+
+```smithy
+@protocolDefinition(
+    traits: [timestampFormat, cors, endpoint, hostLabel]
+)
+@trait(selector: "service")
+structure awsJson1_0 with [HttpConfiguration] {}
+```
+
+That list explains several choices in this runtime:
+- **`@xmlName` and `@xmlFlattened` aren't on awsJson's list,** so an SQS client ignores them.
+- **`@jsonName` isn't on awsJson's list either,** so awsJson writes plain member names. That's why `AwsJsonProtocol` uses `JsonSettings(useJsonName = false, …)`. `restJson1` lists it and would honour it.
+- **`@timestampFormat` is on awsJson's list but not on rpcv2Json's.** That's why awsJson honours it and rpcv2Json always writes epoch seconds.
+
+The list only covers protocol-specific traits. Some traits are part of the model's meaning, and every client needs them whatever the protocol: `@required`, `@default`, `@sparse`, `@error`, `@retryable`, `@idempotencyToken` and `@paginated`. So the full rule is:
+
+```text
+traits to keep = core semantic traits
+               ∪ the traits in the service's protocol's @protocolDefinition(traits: [...])
+```
+
+The generator used to keep a hand-written list: `jsonName`, `timestampFormat`, `required`, `sparse`, `error`, `httpError`, `retryable` and `idempotencyToken`. It was right for the three protocols supported here, but hard-coded rather than read from the model. It kept `@jsonName` for awsJson services even though `JsonSettings` then ignored it.
+
+It now computes the list from the model, in [ScalaClientGenerator.scala](../../modules/client-codegen/src/main/scala/smithy/scala/codegen/ScalaClientGenerator.scala):
+
+```scala
+private val coreTraits: List[ShapeId] =
+  List(RequiredTrait.ID, SparseTrait.ID, ErrorTrait.ID, RetryableTrait.ID, IdempotencyTokenTrait.ID)
+
+private val protocolTraits: List[ShapeId] =
+  serviceIndex.getProtocols(service).keySet.asScala.toList.sortBy(_.toString).flatMap { protocol =>
+    model.getShape(protocol).toScala.flatMap(_.getTrait(classOf[ProtocolDefinitionTrait]).toScala)
+      .fold(List.empty[ShapeId])(_.getTraits.asScala.toList)
+  }
+
+private val keptTraits: List[ShapeId] = (coreTraits ++ protocolTraits).distinct
+
+private def runtimeTraits(s: Shape): List[(String, String)] =
+  keptTraits.flatMap(id => s.findTrait(id).toScala.map(t => id.toString -> traitValue(t)))
+```
+
+Then adding `restXml` support would bring in `@xmlName` and `@xmlFlattened` automatically, and an awsJson client would no longer carry `@jsonName`.
+
+How the pieces work:
+- **Finding the protocol:** `ServiceIndex.getProtocols` finds the service's protocol traits, such as `aws.protocols#awsJson1_0`.
+- **Reading its list:** each protocol trait's own shape carries `ProtocolDefinitionTrait`, and its `getTraits` is the list in the table above.
+- **Writing values:** `traitValue` turns each kept trait into the string the runtime's `Traits` map stores. A string trait gives its value, `@httpError(404)` gives `"404"`, an annotation trait such as `@required` gives `""`, and `@retryable(throttling: true)` gives `"throttling"`.
+- **Core traits:** `@default` and `@paginated` aren't in the core list, because the generator uses them itself, for Scala default values and paginators, rather than passing them to the runtime.
+
+What changed in the generated example clients (30 files):
+
+| Client | Protocol | Change |
+|---|---|---|
+| SQS, DynamoDB | `awsJson1_0` | `@httpError` is no longer copied onto error structures; awsJson doesn't list it, and the runtime never read it. `@timestampFormat` stays. |
+| Weather | `rpcv2Json` | `@timestampFormat` is no longer copied onto `Day.date`; rpcv2Json doesn't list it and always writes epoch seconds. |
+
+A [generator test](../../modules/client-codegen/src/test/scala/smithy/scala/codegen/ScalaClientGeneratorSpec.scala) checks this on a small awsJson1_0 model: `timestampFormat`, `required` and `error` are kept, while `jsonName`, `xmlName` and `httpError` are dropped.
 
 ## What the generator writes
 

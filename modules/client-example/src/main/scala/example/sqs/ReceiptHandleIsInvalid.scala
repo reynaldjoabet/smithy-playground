@@ -9,7 +9,7 @@ final case class ReceiptHandleIsInvalid(
 ) extends rt.ServiceException(rt.ShapeId("com.amazonaws.sqs", "ReceiptHandleIsInvalid"), message.orNull, "client")
 
 object ReceiptHandleIsInvalid {
-  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "ReceiptHandleIsInvalid"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client", "smithy.api#httpError" -> "404"))(
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "ReceiptHandleIsInvalid"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client"))(
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 

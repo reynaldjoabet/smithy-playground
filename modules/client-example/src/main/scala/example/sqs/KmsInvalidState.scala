@@ -9,7 +9,7 @@ final case class KmsInvalidState(
 ) extends rt.ServiceException(rt.ShapeId("com.amazonaws.sqs", "KmsInvalidState"), message.orNull, "client")
 
 object KmsInvalidState {
-  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "KmsInvalidState"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client", "smithy.api#httpError" -> "400"))(
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "KmsInvalidState"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client"))(
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 

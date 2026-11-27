@@ -9,7 +9,7 @@ final case class KmsNotFound(
 ) extends rt.ServiceException(rt.ShapeId("com.amazonaws.sqs", "KmsNotFound"), message.orNull, "client")
 
 object KmsNotFound {
-  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "KmsNotFound"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client", "smithy.api#httpError" -> "400"))(
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "KmsNotFound"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client"))(
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 

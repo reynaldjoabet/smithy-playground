@@ -9,7 +9,7 @@ final case class InvalidBatchEntryId(
 ) extends rt.ServiceException(rt.ShapeId("com.amazonaws.sqs", "InvalidBatchEntryId"), message.orNull, "client")
 
 object InvalidBatchEntryId {
-  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "InvalidBatchEntryId"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client", "smithy.api#httpError" -> "400"))(
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "InvalidBatchEntryId"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client"))(
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 

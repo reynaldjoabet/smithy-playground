@@ -174,18 +174,41 @@ private final class Generator(model: Model, service: ServiceShape, pkg: String, 
 
   // ----------------------------------------------------------------------------------------------- traits
 
-  /** The traits the runtime reads: everything else stays in the model. */
+  /**
+    * The traits a client needs whatever the protocol: they're part of the model's meaning, not of one
+    * wire format. `@default` and `@paginated` aren't here because the generator uses them itself
+    * (Scala default values, paginators) rather than passing them to the runtime.
+    */
+  private val coreTraits: List[ShapeId] =
+    List(RequiredTrait.ID, SparseTrait.ID, ErrorTrait.ID, RetryableTrait.ID, IdempotencyTokenTrait.ID)
+
+  /**
+    * The traits the service's protocol honours, as its `@protocolDefinition(traits: [...])` lists them:
+    * `timestampFormat` for awsJson, `jsonName` for restJson1, the `xml*` traits for restXml, and so on.
+    */
+  private val protocolTraits: List[ShapeId] =
+    serviceIndex.getProtocols(service).keySet.asScala.toList.sortBy(_.toString).flatMap { protocol =>
+      model.getShape(protocol).toScala.flatMap(_.getTrait(classOf[ProtocolDefinitionTrait]).toScala)
+        .fold(List.empty[ShapeId])(_.getTraits.asScala.toList)
+    }
+
+  /** Traits copied into generated schemas, in the order they're written. Everything else stays in the model. */
+  private val keptTraits: List[ShapeId] = (coreTraits ++ protocolTraits).distinct
+
   private def runtimeTraits(s: Shape): List[(String, String)] =
-    List(
-      s.getTrait(classOf[JsonNameTrait]).toScala.map(t => "smithy.api#jsonName" -> t.getValue),
-      s.getTrait(classOf[TimestampFormatTrait]).toScala.map(t => "smithy.api#timestampFormat" -> t.getValue),
-      s.getTrait(classOf[RequiredTrait]).toScala.map(_ => "smithy.api#required" -> ""),
-      s.getTrait(classOf[SparseTrait]).toScala.map(_ => "smithy.api#sparse" -> ""),
-      s.getTrait(classOf[ErrorTrait]).toScala.map(t => "smithy.api#error" -> t.getValue),
-      s.getTrait(classOf[HttpErrorTrait]).toScala.map(t => "smithy.api#httpError" -> t.getCode.toString),
-      s.getTrait(classOf[RetryableTrait]).toScala.map(t => "smithy.api#retryable" -> (if (t.getThrottling) "throttling" else "")),
-      s.getTrait(classOf[IdempotencyTokenTrait]).toScala.map(_ => "smithy.api#idempotencyToken" -> "")
-    ).flatten
+    keptTraits.flatMap(id => s.findTrait(id).toScala.map(t => id.toString -> traitValue(t)))
+
+  /** A trait's value as the runtime's `Traits` stores it: a string, `""` for annotation traits. */
+  private def traitValue(t: Trait): String = t match {
+    case r: RetryableTrait => if (r.getThrottling) "throttling" else ""
+    case _ =>
+      val node = t.toNode
+      if (node.isStringNode) node.expectStringNode.getValue
+      else if (node.isNumberNode) node.expectNumberNode.getValue.toString
+      else if (node.isBooleanNode) node.expectBooleanNode.getValue.toString
+      else if (node.isObjectNode && node.expectObjectNode.isEmpty) ""
+      else Node.printJson(node)
+  }
 
   private def traitsExpr(traits: List[(String, String)]): String =
     if (traits.isEmpty) "rt.Traits.empty"

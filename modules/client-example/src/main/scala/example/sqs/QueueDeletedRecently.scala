@@ -9,7 +9,7 @@ final case class QueueDeletedRecently(
 ) extends rt.ServiceException(rt.ShapeId("com.amazonaws.sqs", "QueueDeletedRecently"), message.orNull, "client")
 
 object QueueDeletedRecently {
-  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "QueueDeletedRecently"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client", "smithy.api#httpError" -> "400"))(
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "QueueDeletedRecently"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client"))(
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 

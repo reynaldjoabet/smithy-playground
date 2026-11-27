@@ -9,7 +9,7 @@ final case class OverLimit(
 ) extends rt.ServiceException(rt.ShapeId("com.amazonaws.sqs", "OverLimit"), message.orNull, "client")
 
 object OverLimit {
-  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "OverLimit"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client", "smithy.api#httpError" -> "403"))(
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "OverLimit"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client"))(
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 

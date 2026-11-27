@@ -106,7 +106,8 @@ class ScalaClientGeneratorSpec extends munit.FunSuite {
   }
 
   test("runtime traits are carried in the schema") {
-    assert(src("Day").contains("rt.Traits(\"smithy.api#timestampFormat\" -> \"date-time\")"))
+    // rpcv2Json's @protocolDefinition doesn't list timestampFormat: it always uses epoch seconds.
+    assert(!src("Day").contains("timestampFormat"), src("Day"))
     assert(src("Days").contains("rt.Traits(\"smithy.api#sparse\" -> \"\")"))
     assert(src("Busy").contains("\"smithy.api#retryable\" -> \"throttling\""))
   }
@@ -186,5 +187,47 @@ class ScalaClientGeneratorSpec extends munit.FunSuite {
       .build()
     val e = intercept[Throwable](new SmithyBuild().config(config).model(model).build())
     assert(e.getMessage.contains("server generation is not implemented yet"), e.getMessage)
+  }
+
+  test("kept traits follow the protocol's @protocolDefinition: awsJson keeps timestampFormat, drops jsonName and xmlName") {
+    val awsIdl =
+      """$version: "2"
+        |namespace example.q
+        |
+        |use aws.protocols#awsJson1_0
+        |
+        |@awsJson1_0
+        |service Q {
+        |    version: "2026-11-27"
+        |    operations: [Send]
+        |}
+        |
+        |operation Send {
+        |    input := {
+        |        @required
+        |        @jsonName("queue_url")
+        |        @xmlName("Url")
+        |        QueueUrl: String
+        |        @timestampFormat("date-time")
+        |        At: Timestamp
+        |    }
+        |    errors: [Gone]
+        |}
+        |
+        |@error("client")
+        |@httpError(404)
+        |structure Gone {
+        |    message: String
+        |}
+        |""".stripMargin
+    val awsModel = Model.assembler().discoverModels().addUnparsedModel("q.smithy", awsIdl).assemble().unwrap()
+    val out      = ScalaClientGenerator.generate(awsModel, ShapeId.from("example.q#Q"), "gen.q")
+    val input    = out("gen/q/SendInput.scala")
+    assert(input.contains("rt.MemberDef(\"QueueUrl\", () => rt.Prelude.String, rt.Traits(\"smithy.api#required\" -> \"\"))"), input)
+    assert(input.contains("rt.Traits(\"smithy.api#timestampFormat\" -> \"date-time\")"), input)
+    assert(!input.contains("jsonName") && !input.contains("xmlName"), input)
+    // httpError isn't in awsJson's list; error is a core trait.
+    val gone = out("gen/q/Gone.scala")
+    assert(gone.contains("\"smithy.api#error\" -> \"client\"") && !gone.contains("httpError"), gone)
   }
 }

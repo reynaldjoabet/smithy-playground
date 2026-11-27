@@ -9,7 +9,7 @@ final case class InvalidAddress(
 ) extends rt.ServiceException(rt.ShapeId("com.amazonaws.sqs", "InvalidAddress"), message.orNull, "client")
 
 object InvalidAddress {
-  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "InvalidAddress"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client", "smithy.api#httpError" -> "404"))(
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "InvalidAddress"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client"))(
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 

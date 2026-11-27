@@ -8,7 +8,7 @@ final case class InvalidEndpointException(
 ) extends rt.ServiceException(rt.ShapeId("com.amazonaws.dynamodb", "InvalidEndpointException"), message.orNull, "client")
 
 object InvalidEndpointException {
-  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "InvalidEndpointException"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client", "smithy.api#httpError" -> "421"))(
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.dynamodb", "InvalidEndpointException"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client"))(
     rt.MemberDef("Message", () => rt.Prelude.String, rt.Traits.empty)
   )
 

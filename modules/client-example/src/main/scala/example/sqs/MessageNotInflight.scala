@@ -7,7 +7,7 @@ import smithy.scala.{runtime as rt}
 final case class MessageNotInflight() extends rt.ServiceException(rt.ShapeId("com.amazonaws.sqs", "MessageNotInflight"), null, "client")
 
 object MessageNotInflight {
-  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "MessageNotInflight"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client", "smithy.api#httpError" -> "400"))()
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "MessageNotInflight"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client"))()
 
   given codec: rt.SchemaCodec[MessageNotInflight] = smithy.scala.hearth.HearthCodec.derived[MessageNotInflight](schema)
 }

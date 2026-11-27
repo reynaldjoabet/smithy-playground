@@ -9,7 +9,7 @@ final case class ResourceNotFoundException(
 ) extends rt.ServiceException(rt.ShapeId("com.amazonaws.sqs", "ResourceNotFoundException"), message.orNull, "client")
 
 object ResourceNotFoundException {
-  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "ResourceNotFoundException"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client", "smithy.api#httpError" -> "404"))(
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "ResourceNotFoundException"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client"))(
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 

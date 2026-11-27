@@ -9,7 +9,7 @@ final case class KmsOptInRequired(
 ) extends rt.ServiceException(rt.ShapeId("com.amazonaws.sqs", "KmsOptInRequired"), message.orNull, "client")
 
 object KmsOptInRequired {
-  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "KmsOptInRequired"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client", "smithy.api#httpError" -> "403"))(
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "KmsOptInRequired"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client"))(
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 

@@ -10,7 +10,7 @@ final case class Day(
 
 object Day {
   lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("example.weather", "Day"), rt.ShapeType.Structure, rt.Traits.empty)(
-    rt.MemberDef("date", () => rt.Prelude.Timestamp, rt.Traits("smithy.api#timestampFormat" -> "date-time")),
+    rt.MemberDef("date", () => rt.Prelude.Timestamp, rt.Traits.empty),
     rt.MemberDef("copy", () => rt.Prelude.String, rt.Traits.empty)
   )
 

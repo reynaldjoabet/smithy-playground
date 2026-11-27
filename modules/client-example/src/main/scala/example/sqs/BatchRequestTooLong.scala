@@ -9,7 +9,7 @@ final case class BatchRequestTooLong(
 ) extends rt.ServiceException(rt.ShapeId("com.amazonaws.sqs", "BatchRequestTooLong"), message.orNull, "client")
 
 object BatchRequestTooLong {
-  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "BatchRequestTooLong"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client", "smithy.api#httpError" -> "400"))(
+  lazy val schema: rt.Schema = rt.Schema.aggregate(rt.ShapeId("com.amazonaws.sqs", "BatchRequestTooLong"), rt.ShapeType.Structure, rt.Traits("smithy.api#error" -> "client"))(
     rt.MemberDef("message", () => rt.Prelude.String, rt.Traits.empty)
   )
 
