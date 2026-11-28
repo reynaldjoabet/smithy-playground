@@ -598,7 +598,7 @@ The protocol is a trait on the service, so the same shapes can be served in diff
 |---|---|---|
 | Partners, the web, mobile apps | `restJson1` | Resource URLs, HTTP methods and status codes ([REST in practice](http-and-formats.md#rest-api-in-practice)); converts to OpenAPI for the partner portal and for API Gateway |
 | Your own services | `rpcv2Cbor` | Binary CBOR: smaller and faster to parse, with exact `bigDecimal` and binary blobs |
-| Events (Kafka, webhooks) | No protocol: the shapes alone | Generate JSON Schema (the `smithy-jsonschema` library) or Avro ([AvroSchemaCodec](scala-client.md#avro-for-the-shape-avroschemacodec)) for the schema registry |
+| Events (Kafka, webhooks) | No protocol: the shapes alone | Export a [JSON Schema](json-schema.md) or an [Avro schema](avro-schema.md) for the schema registry, with this repo's `EventSchemas` |
 
 The payments service above converts to OpenAPI with the `openapi` plugin of `smithy-build.json`, with paths `/payments`, `/payments/{paymentId}` and `/payments/{paymentId}/refunds`:
 
