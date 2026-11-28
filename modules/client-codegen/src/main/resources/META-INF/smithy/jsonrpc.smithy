@@ -8,7 +8,8 @@
 //     traits, so the definition needs only Smithy's core traits: nothing here implements them, and without
 //     alloy-core on the classpath (as in the VS Code Smithy language server) the definition fails to load.
 // Listed in this directory's manifest, so ModelLoader (discoverModels) finds it on the classpath, and models
-// can use jsonrpc#jsonRpc without importing a file.
+// can use jsonrpc#jsonRpc without importing a file. jsonrpclib's three validators are ported to Scala in
+// smithy.scala.codegen.jsonrpc (JsonRpcValidators.scala) and registered in META-INF/services.
 $version: "2.1"
 
 namespace jsonrpc

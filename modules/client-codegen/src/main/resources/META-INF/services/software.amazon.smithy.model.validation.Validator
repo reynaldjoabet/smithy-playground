@@ -1,0 +1,3 @@
+smithy.scala.codegen.jsonrpc.JsonNotificationOutputValidator
+smithy.scala.codegen.jsonrpc.UniqueJsonRpcMethodNamesValidator
+smithy.scala.codegen.jsonrpc.JsonRpcOperationValidator

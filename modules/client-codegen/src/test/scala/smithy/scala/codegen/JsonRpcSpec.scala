@@ -2,6 +2,8 @@ package smithy.scala.codegen
 
 import java.nio.file.{Files, Path}
 
+import scala.jdk.CollectionConverters.*
+
 import software.amazon.smithy.model.shapes.ShapeId
 import software.amazon.smithy.model.traits.ProtocolDefinitionTrait
 
@@ -65,6 +67,35 @@ class JsonRpcSpec extends munit.FunSuite {
     val nested = service + "\nstructure Wrapper {\n    @required\n    @jsonRpcPayload\n    inner: HoverParams\n}\n"
     val e      = intercept[Exception](ModelLoader.load(model(nested)))
     assert(e.getMessage.contains("jsonRpcPayload.OnlyTopLevel"), e.getMessage)
+  }
+
+  // The validators ported from jsonrpclib (smithy.scala.codegen.jsonrpc), found through META-INF/services.
+
+  private def errors(body: String): String = intercept[Exception](ModelLoader.load(model(body))).getMessage
+
+  test("validators: a valid service raises none of their events") {
+    val m      = software.amazon.smithy.model.Model.assembler(getClass.getClassLoader).discoverModels(getClass.getClassLoader)
+      .addImport(model(service)).assemble()
+    val ids    = m.getValidationEvents.asScala.map(_.getId).toSet
+    assert(!ids.exists(_.contains("JsonRpc")) && !ids.contains("JsonNotificationOutput"), ids.toString)
+  }
+
+  test("validators: a notification can't have output (JsonNotificationOutput)") {
+    val e = errors(service.replace("operation Exit {}", "operation Exit {\n    output := {\n        code: Integer\n    }\n}"))
+    assert(e.contains("JsonNotificationOutput"), e)
+    assert(e.contains("Operation marked as @jsonRpcNotification must not return anything, but found `example.lsp#ExitOutput`."), e)
+  }
+
+  test("validators: every operation of a @jsonRpc service needs a method name (JsonRpcOperation)") {
+    val e = errors(service.replace("@jsonRpcNotification(\"exit\")\n", ""))
+    assert(e.contains("JsonRpcOperation"), e)
+    assert(e.contains("example.lsp#Exit: Operation is part of service `example.lsp#Lsp` marked with @jsonRpc but is missing"), e)
+  }
+
+  test("validators: method names are unique within a service (UniqueJsonRpcMethodNames)") {
+    val e = errors(service.replace("@jsonRpcNotification(\"exit\")", "@jsonRpcNotification(\"textDocument/hover\")"))
+    assert(e.contains("UniqueJsonRpcMethodNames"), e)
+    assert(e.contains("Duplicate JSON-RPC method name `textDocument/hover` in service `example.lsp#Lsp`. It is used by: example.lsp#Exit, example.lsp#Hover"), e)
   }
 
   test("the client generator doesn't implement jsonRpc yet, and says so") {

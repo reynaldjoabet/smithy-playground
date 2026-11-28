@@ -208,7 +208,17 @@ structure HoverParams {
 }
 ```
 
-[JsonRpcSpec](../../modules/client-codegen/src/test/scala/smithy/scala/codegen/JsonRpcSpec.scala) checks that a model like this loads strictly, that an operation marked both a request and a notification is rejected, that `@jsonRpcPayload` on a nested member is rejected, and that this repo's client generator, which doesn't implement JSON-RPC yet, says so by naming `jsonrpc#jsonRpc` in its error.
+jsonrpclib also ships three validators, written in Java. This repo ports them to Scala, with the same event ids and messages, in [JsonRpcValidators.scala](../../modules/client-codegen/src/main/scala/smithy/scala/codegen/jsonrpc/JsonRpcValidators.scala), registered in `META-INF/services/software.amazon.smithy.model.validation.Validator`. So the repo has no jsonrpclib dependency:
+
+| Event id | Rule |
+|---|---|
+| `JsonNotificationOutput` | A `@jsonRpcNotification` operation has no output: a notification gets no response |
+| `JsonRpcOperation` | Every operation of a `@jsonRpc` service has `@jsonRpcRequest` or `@jsonRpcNotification`, so it has a method name |
+| `UniqueJsonRpcMethodNames` | No two operations of one service share a method name |
+
+They run wherever `clientCodegen` is on the classpath: sbt, the tests, and smithy-build with the plugin. The VS Code Smithy language server doesn't run them, because it only loads the jars listed in `smithy-build.json`; the rules that are written in the model itself (the request/notification conflict, `@jsonRpcPayload`'s trait validator) work there too.
+
+[JsonRpcSpec](../../modules/client-codegen/src/test/scala/smithy/scala/codegen/JsonRpcSpec.scala) checks that a model like this loads strictly with none of the validators' events, that each validator rejects what it should (a notification with output, an operation with no method name, two operations with one name), that an operation marked both a request and a notification is rejected, that `@jsonRpcPayload` on a nested member is rejected, and that this repo's client generator, which doesn't implement JSON-RPC yet, says so by naming `jsonrpc#jsonRpc` in its error.
 
 ## Step 2: the codec
 
