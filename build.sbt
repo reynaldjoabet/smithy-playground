@@ -123,13 +123,17 @@ lazy val clientRuntime = project
     )
   )
 
-// The generator: reads a Smithy model and writes Scala sources for one service.
+// The generator: reads a Smithy model and writes Scala sources for one service. It also exports JSON and
+// Avro schemas for event shapes (EventSchemas), which is why it depends on the runtime: the Avro schema
+// is the runtime's own AvroSchemas mapping, so it can't drift from what AvroSchemaCodec writes.
 lazy val clientCodegen = project
   .in(file("modules/client-codegen"))
+  .dependsOn(clientRuntime)
   .settings(
     name                 := "smithy-scala-client-codegen",
     libraryDependencies ++= Seq(
       "software.amazon.smithy" % "smithy-model"           % smithyVersion,
+      "software.amazon.smithy" % "smithy-jsonschema"      % smithyVersion,
       "software.amazon.smithy" % "smithy-build"           % smithyVersion,
       "software.amazon.smithy" % "smithy-aws-traits"      % smithyVersion,
       "software.amazon.smithy" % "smithy-aws-iam-traits"  % smithyVersion,
@@ -146,10 +150,14 @@ lazy val clientCodegen = project
 // its tests check that both derivations agree.
 lazy val clientExample = project
   .in(file("modules/client-example"))
-  .dependsOn(clientRuntime, clientHearth)
+  .dependsOn(clientRuntime, clientHearth, clientCodegen % Test)
   .settings(
-    name                := "smithy-scala-client-example",
-    libraryDependencies += munit % Test
+    name := "smithy-scala-client-example",
+    libraryDependencies ++= Seq(
+      munit % Test,
+      // EventSchemasSpec validates real JsonCodec output against the exported JSON Schema.
+      "com.networknt" % "json-schema-validator" % "3.0.9" % Test
+    )
   )
 
 // The codec derivation generated code uses by default, built on Hearth (https://github.com/kubuszok/hearth).
