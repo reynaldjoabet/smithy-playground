@@ -1017,6 +1017,28 @@ The details:
 - **Captured variables.** The read side's per-field `var`s are captured by the `readStruct` callback, so Scala boxes each in a small `ObjectRef` or `BooleanRef` per call. Nothing here measures throughput.
 - **Expansion time.** Each derivation runs in Hearth's `MIO` with a 30-second timeout. In two clean builds, the 544 Hearth-derived example files compiled in 19 and 11 seconds; the `Mirror` version took 42 in the earlier measurement.
 
+### Alternatives to Hearth
+
+Hearth's main selling point is writing a macro once and having it work on both Scala 2.13 and Scala 3. This repo is Scala 3 only, so it gets little from that. What it does use Hearth for is turning a case class into calls to `ShapeWriter` and `ShapeReader`, and there are several other ways to do that:
+
+| Option | How it works | Good | Less good |
+|---|---|---|---|
+| **Codecs written by the generator** | `ScalaClientGenerator` writes each `SchemaCodec` out in full, member by member, as plain code | No macros and no derivation dependency. Should compile fast (nothing to expand), you can step through it in the debugger, and errors point at real lines. [smithy4s](https://disneystreaming.github.io/smithy4s/) does this: it writes every schema out explicitly. | The generator gets bigger, and the generated files are longer |
+| **Scala 3 `Mirror` + `inline`** | What `--derivation=mirror` already does ([above](#mirror-derivation-for-structures)) | No dependency, standard Scala 3 | Generic inline code compiles slowly on huge services such as DynamoDB and Cognito (42 s against Hearth's 11–19 s, see [Costs of the Hearth derivation](#costs-of-the-hearth-derivation)). Defaults need a separate macro, and errors are poor. |
+| **Raw `scala.quoted` macros** | A hand-written macro using `Quotes` and the reflection API | Full control, generates the tightest code, Scala 3 only | The most code to write and maintain, and the reflection API is low-level. Hearth is largely a friendlier layer over this. |
+| **[Magnolia](https://github.com/softwaremill/magnolia)** (SoftwareMill) | You write `join` (for case classes) and `split` (for sealed types), and it derives a type class | Mature and widely used. Gives you annotations, default values and type names. A good fit for a `SchemaCodec[A]` type class. | Builds the codec at runtime through its own abstractions, so it's a bit slower than a direct macro |
+| **[shapeless-3](https://github.com/typelevel/shapeless-3)** (Typelevel) | Generic programming over `Mirror`, as used by [kittens](https://github.com/typelevel/kittens) | Fits the FP/Typelevel style | Steep learning curve; for this job it's `Mirror` with more ceremony |
+| **ZIO Blocks `Schema.derived`** | Derive a ZIO Blocks schema for each shape and use its format codecs directly | One derivation covers every format | We'd lose control of the wire format: Smithy's JSON rules (`@jsonName`, how timestamps and unions are written, sparse lists) would have to fit their model. Their Thrift and XML codecs also can't read a `DynamicValue` back ([Other formats through ZIO Blocks](#other-formats-through-zio-blocks)). |
+| **[jsoniter-scala](https://github.com/plokhotnyuk/jsoniter-scala) macros** | A compile-time JSON codec for each type | The fastest JSON on the JVM | JSON only, so it doesn't fit the format-neutral `ShapeWriter` design |
+
+**Which fits this project:**
+
+1. **Long term: codecs written by the generator.** The generator already knows every member, trait and protocol rule, so the macro only rebuilds information the generator threw away. Writing the codecs out removes the Hearth dependency and its compiler plugin, and should compile faster on the big AWS services (not measured yet).
+2. **Keep `Mirror`** as the no-dependency fallback. It already exists, and [ParitySpec](../../modules/client-example/src/test/scala/example/ParitySpec.scala) checks it against Hearth.
+3. **Magnolia** only for a hand-written type class over user-defined types outside generated code.
+
+ZIO Blocks derivation and jsoniter-scala are better used as *format* codecs underneath our own shape codec, which is how the [format bridge](#other-formats-through-zio-blocks) already works, than as the shape codec itself.
+
 ## Using a generated client
 
 ```scala
