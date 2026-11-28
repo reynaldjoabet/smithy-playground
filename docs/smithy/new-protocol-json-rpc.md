@@ -1,6 +1,6 @@
 # Adding a protocol: JSON-RPC 2.0
 
-[JSON-RPC 2.0](https://www.jsonrpc.org/specification) is one of the most widely used RPC formats: the Language Server Protocol, the Model Context Protocol and Ethereum nodes all speak it. This page walks through adding it to the Smithy stack as a new protocol. Like the [Protobuf over gRPC page](new-protocol-protobuf.md), it's a design exercise built on the real extension points, not a protocol any Smithy runtime ships.
+[JSON-RPC 2.0](https://www.jsonrpc.org/specification) is one of the most widely used RPC formats: the Language Server Protocol, the Model Context Protocol and Ethereum nodes all speak it. This page walks through adding it to the Smithy stack as a new protocol. Like the [Protobuf over gRPC page](new-protocol-protobuf.md), it's a design exercise built on the real extension points. A real definition exists too, from the jsonrpclib library; it's in this repo, and [compared below](#a-real-definition-jsonrpclib).
 
 It's the easy case. JSON-RPC bodies are JSON, and every runtime already has a JSON codec. Only the **protocol** is new: the envelope around the body, where the operation name goes, and how errors come back.
 
@@ -147,6 +147,68 @@ structure ItemNotFound {
 ```
 
 Both models on these pages validate with Smithy 1.75.1.
+
+### A real definition: jsonrpclib
+
+[jsonrpclib](https://github.com/neandertech/jsonrpclib) is a Scala JSON-RPC library with a Smithy protocol of its own, used with smithy4s (`jsonrpclib-smithy4s`). Its definition is in this repo at [jsonrpc.smithy](../../modules/client-codegen/src/main/resources/META-INF/smithy/jsonrpc.smithy). It's listed in the directory's `manifest`, so every model the generator loads can use `jsonrpc#jsonRpc` without importing a file. Three things differ from the original: the namespace is `jsonrpc` rather than `jsonrpclib`; `$version` is 2.1 like the repo's other models; and the four `alloy#` traits are dropped from the protocol's list. Models written for jsonrpclib-smithy4s say `use jsonrpclib#...`, so they need those lines changed to load here, and models written here need the reverse to work with jsonrpclib-smithy4s.
+
+The alloy traits describe JSON shapes that Smithy's core traits can't, and that APIs designed outside Smithy use a lot:
+
+| Trait | What it lets a model say | Example |
+|---|---|---|
+| `alloy#uuidFormat` | This string is a UUID, so generated code uses a UUID type | `"requestId": "3f2a…"` |
+| `alloy#discriminated` | A union is a flat object with a tag field | `{"kind": "markdown", "value": "…"}` instead of `{"markdown": {…}}` |
+| `alloy#untagged` | A union with no tag; the reader tries each branch | LSP's `string \| MarkupContent` |
+| `alloy#nullable` | An explicit `null` differs from a missing member | LSP's `"result": null` |
+
+Nothing in this repo implements them (`JsonCodec` writes unions only as `{"member": …}`, and has no explicit nulls), and listing them in the protocol makes the definition depend on `alloy-core`. Without it on the classpath, the definition fails to load, as it did in the VS Code Smithy language server: `Shape ID 'alloy#uuidFormat' was not found in the model`. So this copy drops them. Add them back, with `alloy-core`, to model an API such as LSP or MCP whose JSON uses those shapes.
+
+It makes different choices from the design above:
+
+| | The design on this page (`jsonRpc2`) | jsonrpclib (`jsonrpc#jsonRpc` here) |
+|---|---|---|
+| Method name | The operation's name (`GetItem`) | Given on each operation: `@jsonRpcRequest("textDocument/hover")`. Real JSON-RPC APIs use names like that, which aren't valid Smithy identifiers. |
+| Notifications (no `id`, no response) | Not modelled | `@jsonRpcNotification("exit")`; an operation can't be both (the two traits conflict) |
+| `params` | The whole input structure | The input structure, or one member bound with `@jsonRpcPayload`, like `@httpPayload`. Its own trait validator allows that only on a top-level input, output or error member. |
+| Error codes | `@jsonRpcErrorCode` on each error | No error-code trait |
+| Traits the protocol keeps | `httpError`, `jsonRpcErrorCode`, `jsonName` | Its three traits, `jsonName`, `timestampFormat` and the constraint traits. The original also lists alloy's `uuidFormat`, `discriminated`, `nullable` and `untagged`; this repo's copy drops them (see above). |
+
+The notification and per-operation method name are what a protocol like the Language Server Protocol needs: an LSP model is written like this:
+
+```smithy
+use jsonrpc#jsonRpc
+use jsonrpc#jsonRpcNotification
+use jsonrpc#jsonRpcPayload
+use jsonrpc#jsonRpcRequest
+
+@jsonRpc
+service Lsp {
+    operations: [Hover, Exit]
+}
+
+@jsonRpcRequest("textDocument/hover")
+operation Hover {
+    input := {
+        @required
+        @jsonRpcPayload
+        params: HoverParams
+    }
+    output := {
+        contents: String
+    }
+}
+
+@jsonRpcNotification("exit")
+operation Exit {}
+
+structure HoverParams {
+    @required
+    uri: String
+    line: Integer
+}
+```
+
+[JsonRpcSpec](../../modules/client-codegen/src/test/scala/smithy/scala/codegen/JsonRpcSpec.scala) checks that a model like this loads strictly, that an operation marked both a request and a notification is rejected, that `@jsonRpcPayload` on a nested member is rejected, and that this repo's client generator, which doesn't implement JSON-RPC yet, says so by naming `jsonrpc#jsonRpc` in its error.
 
 ## Step 2: the codec
 
