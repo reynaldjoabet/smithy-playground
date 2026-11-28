@@ -269,6 +269,13 @@ Some names cover more than one job, which is where the confusion comes from:
 
 ### Protocols are not wire formats
 
+**What Smithy means by a protocol.** In Smithy, a protocol is a named set of rules for how clients and servers communicate over the wire. It covers both the transport (such as HTTP) and the serialization format (such as JSON, XML or CBOR). Smithy models themselves are protocol-agnostic: the shapes, operations and errors describe the API's interface, and a protocol trait on the service says how that interface is put on the wire. Because the two are separate, one model can support several protocols, and generators in many languages can produce clients and servers that agree on the bytes.
+
+In practice:
+- **A protocol is a trait.** Each one is defined as a trait marked `@protocolDefinition`, such as `@aws.protocols#restJson1` or `@smithy.protocols#rpcv2Cbor`, and a service applies one or more of them. A generator picks a protocol it supports from that list.
+- **The interface doesn't change.** The same `CreatePayment` operation, with the same input, output and errors, can be served as `restJson1` to partners and `rpcv2Cbor` between internal services ([Building a fintech on Smithy](fintech.md#7-one-model-several-protocols)).
+- **Some traits only mean something to one protocol.** `@http` and `@httpHeader` bind members to parts of an HTTP request for the REST protocols, `@jsonName` renames a member in `restJson1`, and `@xmlName` does so in `restXml`. Other protocols ignore them, which is how this repo's generator decides which traits to keep ([Which traits the generator keeps](scala-client.md#which-traits-the-generator-keeps)).
+
 `restJson1`, `restXml`, `awsQuery` and JSON-RPC 2.0 are all in the same category, but it isn't wire formats: they're **protocols**. A wire format is one ingredient a protocol picks, and a transport is another:
 
 ```text
