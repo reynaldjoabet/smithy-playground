@@ -629,6 +629,44 @@ Few APIs follow every constraint. A common way to describe how far one goes is L
 
 So "REST API" usually means level 2: resource URLs, the right methods, meaningful status codes, and JSON or XML bodies.
 
+### "Supports HTTP but not REST": three AWS mix-ups
+
+A claim like "the Application Load Balancer doesn't support REST, only HTTP" sounds as if REST were something infrastructure could switch on. It isn't: HTTP is the protocol, and REST is a style you can follow on top of it ([Using HTTP without being RESTful](#using-http-without-being-restful)). A load balancer can't "support REST" or not, because REST isn't something it can see. The claim usually mixes up one of three things.
+
+**1. The load balancer handles HTTP, and REST is irrelevant to it.** An Application Load Balancer (ALB) works at layer 7, the HTTP level. It reads each request and routes it by host, path, method, headers or query string, and it handles HTTP/1.1, HTTP/2, gRPC and WebSocket. It doesn't know or care whether the API behind it is RESTful:
+
+```text
+GET  /orders/42                                ─┐
+POST /     X-Amz-Target: AmazonSQS.SendMessage ─┼─► ALB matches host, path, method, headers ─► target
+POST /rpc  {"jsonrpc":"2.0", ...}              ─┘
+```
+
+All three reach the ALB as HTTP requests, whether they come from a RESTful API (level 2), awsJson or JSON-RPC (both level 0). The real contrast is with the Network Load Balancer (NLB), which works at layer 4 (TCP/UDP) and doesn't read HTTP at all.
+
+**2. The API that manages load balancers is not RESTful.** The Elastic Load Balancing v2 control plane (`CreateLoadBalancer`, `DescribeTargetGroups` and so on) uses `awsQuery`, a form-encoded RPC protocol:
+
+```http
+POST / HTTP/1.1
+Content-Type: application/x-www-form-urlencoded
+
+Action=CreateLoadBalancer&Version=2015-12-01&Name=my-alb&Subnets.member.1=subnet-a
+```
+
+Every call is a `POST /`, and the operation name travels in the body, not in the URL and method. That's plain HTTP, but not REST, so "ELB uses HTTP, not REST" is true of its management API. See [A third style: `awsQuery`](#a-third-style-awsquery-sts-iam-and-elastic-load-balancing-v2) for the full request and response.
+
+**3. "REST" and "HTTP" are API Gateway product names.** API Gateway sells two products, called *REST API* and *HTTP API*:
+
+| | REST API (v1) | HTTP API (v2) |
+|---|---|---|
+| What it is | The older product, with more features | The newer one: cheaper, faster, fewer features |
+| Extras | API keys, usage plans, request validation, caching, AWS WAF, edge-optimized endpoints | Built-in JWT authorizers, simpler setup |
+| Can you build a RESTful API on it? | Yes | Yes |
+| Can you build an RPC-style one? | Yes | Yes |
+
+Both serve APIs over HTTP, and both can host a RESTful design or an RPC one. The names label feature sets, not architectural styles.
+
+In all three cases everything runs over HTTP. REST describes how an API designs its URLs and uses the methods, and no AWS product checks or enforces it.
+
 ### What HTTP looks like when an API isn't RESTful
 
 An API that isn't RESTful still uses HTTP, but it ignores HTTP's own meanings and puts them somewhere else. These are the recognisable signs, each with its RESTful counterpart, using a generic "users" API.
