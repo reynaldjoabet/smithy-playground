@@ -208,7 +208,7 @@ structure HoverParams {
 }
 ```
 
-jsonrpclib also ships three validators, written in Java. This repo ports them to Scala, with the same event ids and messages, in [JsonRpcValidators.scala](../../modules/client-codegen/src/main/scala/smithy/scala/codegen/jsonrpc/JsonRpcValidators.scala), registered in `META-INF/services/software.amazon.smithy.model.validation.Validator`. So the repo has no jsonrpclib dependency:
+jsonrpclib also ships three validators, written in Java. This repo ports them to Scala, with the same event ids and messages, in [smithy.scala.codegen.jsonrpc](../../modules/client-codegen/src/main/scala/smithy/scala/codegen/jsonrpc), one file per validator as in jsonrpclib, registered in `META-INF/services/software.amazon.smithy.model.validation.Validator`. So the repo has no jsonrpclib dependency:
 
 | Event id | Rule |
 |---|---|
