@@ -614,16 +614,18 @@ The example clients are generated from these files:
 | DynamoDB | `src/main/resources/models/dynamodb/dynamodb.json` | Smithy JSON AST |
 | Weather | `modules/client-example/model/weather.smithy` | Smithy IDL 2.0 |
 
-The generator never parses those files itself. [Main.loadModel](../../modules/client-codegen/src/main/scala/smithy/scala/codegen/Main.scala) hands the file to Smithy's own Java `ModelAssembler`:
+The generator never parses those files itself. [ModelLoader.load](../../modules/client-codegen/src/main/scala/smithy/scala/codegen/ModelLoader.scala) hands the file to Smithy's own Java `ModelAssembler`:
 
 ```scala
 Model.assembler(getClass.getClassLoader)
   .discoverModels(getClass.getClassLoader)                 // prelude + trait definitions from the jars
-  .putProperty(ModelAssembler.ALLOW_UNKNOWN_TRAITS, true)
-  .addImport(path)                                         // .json or .smithy
+  .putProperty(ModelAssembler.ALLOW_UNKNOWN_TRAITS, allowUnknownTraits)
+  .addImport(path)                                         // .json or .smithy, a file or a directory
   .assemble()
   .unwrap()                                                // fails on validation errors
 ```
+
+`Main` loads with `allowUnknownTraits = true`, because AWS models apply traits the generator has no definitions for. `EventSchemas` uses the default, `false`, so a misspelled trait in your own model (`@sensitve`) fails to load instead of being silently ignored.
 
 So the format doesn't matter. The assembler:
 - accepts JSON AST and IDL alike;

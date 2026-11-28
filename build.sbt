@@ -141,6 +141,10 @@ lazy val clientCodegen = project
       "software.amazon.smithy" % "smithy-rules-engine"    % smithyVersion,
       "software.amazon.smithy" % "smithy-waiters"         % smithyVersion,
       "software.amazon.smithy" % "smithy-protocol-traits" % smithyVersion,
+      // smithy.test#smokeTests and aws.test#AwsVendorParams, which AWS models use: without them the models
+      // load only with unknown traits allowed.
+      "software.amazon.smithy" % "smithy-smoke-test-traits"    % smithyVersion,
+      "software.amazon.smithy" % "smithy-aws-smoke-test-model" % smithyVersion,
       munit                    % Test
     )
   )

@@ -10,8 +10,6 @@ import software.amazon.smithy.build.FileManifest
 import software.amazon.smithy.build.PluginContext
 import software.amazon.smithy.build.SmithyBuildException
 import software.amazon.smithy.build.SmithyBuildPlugin
-import software.amazon.smithy.model.Model
-import software.amazon.smithy.model.loader.ModelAssembler
 import software.amazon.smithy.model.shapes.ShapeId
 
 /**
@@ -31,7 +29,8 @@ object Main {
 
   private def run(args: Array[String], derivation: Derivation): Unit = args match {
     case Array(modelPath, service, pkg, outDir) =>
-      val model = loadModel(Paths.get(modelPath))
+      // AWS models apply traits the generator has no definitions for, so unknown traits are allowed.
+      val model = ModelLoader.load(Paths.get(modelPath), allowUnknownTraits = true)
       val files = ScalaClientGenerator.generate(model, ShapeId.from(service), pkg, derivation)
       val root  = Paths.get(outDir)
       deleteRecursively(root.resolve(pkg.replace('.', '/')))
@@ -45,15 +44,6 @@ object Main {
       System.err.println("usage: Main [--derivation=hearth|mirror] <model> <service shape id> <scala package> <output dir>")
       sys.exit(2)
   }
-
-  def loadModel(path: Path): Model =
-    Model
-      .assembler(getClass.getClassLoader)
-      .discoverModels(getClass.getClassLoader)
-      .putProperty(ModelAssembler.ALLOW_UNKNOWN_TRAITS, true)
-      .addImport(path)
-      .assemble()
-      .unwrap()
 
   private def deleteRecursively(dir: Path): Unit =
     if (Files.exists(dir)) {

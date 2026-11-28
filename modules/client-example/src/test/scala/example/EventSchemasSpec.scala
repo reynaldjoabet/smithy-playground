@@ -1,6 +1,6 @@
 package example
 
-import smithy.scala.codegen.{EventSchemas, Main}
+import smithy.scala.codegen.{EventSchemas, ModelLoader}
 import smithy.scala.runtime.*
 import smithy.scala.runtime.codecs.*
 
@@ -30,8 +30,8 @@ class EventSchemasSpec extends munit.FunSuite {
   private val root: Path =
     Iterator.iterate(Paths.get(sys.props("user.dir")).toAbsolutePath)(_.getParent).find(p => Files.exists(p.resolve("build.sbt"))).get
 
-  private lazy val weather: Model  = Main.loadModel(root.resolve("modules/client-example/model/weather.smithy"))
-  private lazy val dynamodb: Model = Main.loadModel(root.resolve("src/main/resources/models/dynamodb/dynamodb.json"))
+  private lazy val weather: Model  = ModelLoader.load(root.resolve("modules/client-example/model/weather.smithy"))
+  private lazy val dynamodb: Model = ModelLoader.load(root.resolve("src/main/resources/models/dynamodb/dynamodb.json"))
 
   // Weather is an rpcv2Json service and DynamoDB an awsJson1_0 one: each codec as its protocol sets it up.
   private val rpcJson = new JsonCodec(EventSchemas.rpcv2Json)
@@ -123,6 +123,14 @@ class EventSchemasSpec extends munit.FunSuite {
     assert(jsonErrors(dynamodb, table, """{"ItemCount":10.5}""", EventSchemas.awsJson).nonEmpty, "a long is an integer")
     // Smithy enums are open, but the converter writes a closed JSON Schema enum: a new value fails.
     assert(jsonErrors(dynamodb, table, """{"TableStatus":"NOT_A_STATUS"}""", EventSchemas.awsJson).nonEmpty)
+  }
+
+  test("ModelLoader rejects a misspelled trait unless unknown traits are allowed") {
+    val file = Files.createTempFile("typo", ".smithy")
+    Files.writeString(file, "$version: \"2\"\nnamespace example.typo\n\n@sensitve\nstring Iban\n"): Unit
+    val error = intercept[Exception](ModelLoader.load(file))
+    assert(error.getMessage.contains("Unable to resolve trait `example.typo#sensitve`"), error.getMessage)
+    ModelLoader.load(file, allowUnknownTraits = true): Unit
   }
 
   test("EventSchemas.write writes a .schema.json and an .avsc per shape") {

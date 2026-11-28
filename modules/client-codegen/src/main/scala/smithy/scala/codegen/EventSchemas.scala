@@ -106,7 +106,7 @@ object EventSchemas {
     case modelPath :: outDir :: rest if rest.exists(!_.startsWith("--")) =>
       val settings = if (rest.contains("--json=awsJson")) awsJson else rpcv2Json
       val ids      = rest.filterNot(_.startsWith("--")).map(SmithyId.from)
-      val written  = write(Main.loadModel(Paths.get(modelPath)), Paths.get(outDir), ids, settings)
+      val written  = write(ModelLoader.load(Paths.get(modelPath)), Paths.get(outDir), ids, settings)
       written.foreach(p => println(s"wrote $p"))
     case _ =>
       System.err.println("usage: EventSchemas <model file or directory> <output dir> [--json=awsJson] <shape id>...")

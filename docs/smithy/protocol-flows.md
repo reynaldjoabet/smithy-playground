@@ -4,7 +4,7 @@ This page follows one real operation through this repo's generator and runtime, 
 
 | Step | Piece | Where it lives |
 |---|---|---|
-| 1-4 | Load the model, walk the service closure, keep the runtime traits, write one file per shape | [client-codegen](../../modules/client-codegen) (`Main.loadModel`, `ScalaClientGenerator`) |
+| 1-4 | Load the model, walk the service closure, keep the runtime traits, write one file per shape | [client-codegen](../../modules/client-codegen) (`ModelLoader.load`, `ScalaClientGenerator`) |
 | 5 | Write the client file, which names the protocol | `ScalaClientGenerator.protocolExpr` |
 | 6 | The call pipeline: endpoint, retries, order of steps | [Pipeline.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/Pipeline.scala) |
 | 7 | The protocol: method, path, headers, where each member goes | [Protocols.scala](../../modules/client-runtime/src/main/scala/smithy/scala/runtime/Protocols.scala) |
